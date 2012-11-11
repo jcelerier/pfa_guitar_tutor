@@ -1,0 +1,75 @@
+\usepackage{listings}
+\usepackage[utf8]{inputenc}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{verbatim}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage{listings}
+\usepackage[T1]{fontenc}
+%\usepackage{ccaption}
+\usepackage{amssymb}
+%\usepackage{bbm}
+\usepackage{fancyhdr}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\makeatletter
+\def\clap#1{\hbox to 0pt{\hss #1\hss}}
+\def\ligne#1{
+  \hbox to \hsize{
+    \vbox{\centering #1}}}
+\def\haut#1#2#3{
+  \hbox to \hsize{
+    \rlap{\vtop{\raggedright #1}}
+    \hss    \clap{\vtop{\centering #2}}
+    \hss
+    \llap{\vtop{\raggedleft #3}}}}
+\def\bas#1#2#3{
+  \hbox to \hsize{
+    \rlap{\vbox{\raggedright #1}}
+    \hss
+    \clap{\vbox{\centering #2}}
+    \hss
+    \llap{\vbox{\raggedleft #3}}}}
+\def\maketitle{
+  \thispagestyle{empty}\vbox to \vsize{
+    \haut{}{\@entete}{}
+    \vfill
+    \vspace{5mm}
+    \ligne{\Large \@author}
+    \vspace{1cm}
+    \vfill
+    \vfill
+    \bas{}{\@date}{}
+    }
+  \cleardoublepage
+  }
+\def\entete#1{\def\@entete{#1}}
+\def\author#1{\def\@author{#1}}
+\def\date#1{\def\@date{#1}}
+\fancyhead[R]{}
+
+\makeatletter
+\renewcommand{\thechapter}{\Roman{chapter}}
+\def\@makechapterhead#1{
+  \vspace*{50\p@}
+  {\parindent \z@ \raggedright \normalfont
+    \interlinepenalty\@M
+    \ifnum \c@secnumdepth >\m@ne
+        \Huge\bfseries \thechapter\quad
+    \fi
+    \Huge \bfseries #1\par\nobreak
+    \vskip 40\p@
+  }}
+
+\def\@makeschapterhead#1{
+  \vspace*{50\p@}
+  {\parindent \z@ \raggedright
+    \normalfont
+    \interlinepenalty\@M
+    \Huge \bfseries  #1\par\nobreak
+    \vskip 40\p@
+  }}
+\makeatother

@@ -1,0 +1,98 @@
+
+%\documentclass[a4paper,12pt]{article}
+\documentclass[a4]{report}
+
+\include{preambule}
+\addtolength{\hoffset}{-2cm}
+\addtolength{\textwidth}{3cm} 
+\setlength{\headsep}{0.70cm}
+%%%%%%%%%%%%% Java Listings %%%%%%%%%%%%%
+\definecolor{jbackground}{rgb}{0.75,0.75,0.75}
+%\lstset{language=C, backgroundcolor=\color{jbackground}}
+
+%%%%%%%%%%%%%%%% Variables %%%%%%%%%%%%%%%%
+\def\titre{PFA - GUITAR TUTOR}
+%\def\titregauche{PFA}
+%\def\titredroite{Rapport final}
+\def\filiere{informatique}
+\def\annee{$2^{\`eme}$}  % $1^{ere}$, $2^{eme}$ ou $3^{eme}$
+%\def\anneescolaire{2011/2012}
+\def\numeroequipe{}
+\def\equipe{David BOUST\\Sébastien DUBOUCHEZ\\Taha ELHATIMI\\Fabien FLEUREY\\Emmanuel JULIEN\\Alexia MENAND\\ Nicolas RETRAIN\\Charaf-Eddine SHITIT}
+\def\encadrant{David JANIN} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%\pagestyle{fancy} \lhead{\textsc{\titregauche}} 
+%\rfoot{\textit{Ann\'ee \anneescolaire}}\rhead{\textsc{\titredroite}}\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+\begin{document}
+
+\begin{titlepage}
+
+\begin{center}
+
+
+% Upper part of the page
+\begin{center}
+\rotatebox{0}{\scalebox{1}[1]{\includegraphics[width=4cm]{logo}}}
+\end{center}
+~\\
+~\\
+~\\
+\textsc{\LARGE ENSEIRB-MATMECA}\\[1cm]
+
+\textsc{\Large {Fili\`ere \filiere, \annee ann\'ee}}\\[0.5cm]
+
+% Title
+\HRule \\[0.4cm]
+{ \huge \bfseries \titre}\\[0.4cm]
+
+\HRule \\[1.5cm]
+
+% Author and supervisor
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Auteurs:}\\
+\equipe
+\end{flushleft}
+\end{minipage}
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{Encadrant:} \\
+\encadrant
+\end{flushright}
+\end{minipage}
+
+\vfill
+
+% Bottom of the page
+{\large \today}
+
+\end{center}
+
+\end{titlepage}
+
+\tableofcontents{}
+\newpage
+
+\include{introduction}
+
+\include{installation}
+
+\include{player}
+
+\include{editeur}
+
+\include{genieLog}
+
+\include{conclusion}
+
+%\include{annexes}
+
+
+\end{document}
