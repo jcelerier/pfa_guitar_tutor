@@ -23,8 +23,8 @@
 #include<pthread.h>
 
 
-#include"chords_grid/CaseItem.h"
-#include"chords_grid/ChordTableWidget.h"
+#include"../chords_grid/CaseItem.h"
+#include"../chords_grid/ChordTableWidget.h"
 
 
 class accordTime{
