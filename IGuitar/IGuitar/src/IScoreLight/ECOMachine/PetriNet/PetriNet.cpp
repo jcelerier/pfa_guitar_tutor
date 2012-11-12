@@ -52,6 +52,7 @@ knowledge of the CeCILL-C license and that you accept its terms.
 #include <iostream>
 #include <algorithm>
 
+#include <unistd.h>
 using namespace std;
 
 PetriNet::PetriNet(unsigned int nbColors)

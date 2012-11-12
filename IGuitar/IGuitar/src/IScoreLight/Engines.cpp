@@ -52,6 +52,7 @@ knowledge of the CeCILL-C license and that you accept its terms.
 
 #include "EnginesPrivate/EnginesPrivate.hpp"
 #include "StoryLine/StoryLine.hpp"
+#include <unistd.h>
 
 using namespace std;
 
