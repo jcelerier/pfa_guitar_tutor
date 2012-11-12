@@ -1,3 +1,5 @@
+#Projet: GridEditor
+
 SOURCES += \
     CaseItem.cpp \
     ChordTableWidget.cpp \

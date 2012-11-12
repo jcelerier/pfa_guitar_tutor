@@ -50,7 +50,7 @@ void GridEditor::build_chord_tree()
 {
     chord_tree = new QTreeWidget();
     chord_tree->setFixedWidth(200);
-    chord_tree->setHeaderLabel("Chord choice");
+    chord_tree->setHeaderLabel(tr("Chord choice"));
     chord_tree->setDisabled(true);
     chord_tree->addTopLevelItem(build_chord("C"));
     chord_tree->addTopLevelItem(build_chord("C#"));
@@ -74,20 +74,20 @@ void GridEditor::build_chord_tree()
 QFrame* GridEditor::build_frame()
 {
     QVBoxLayout* top_frame_lay = new QVBoxLayout();
-    new_button = new QPushButton("New");
+    new_button = new QPushButton(tr("New"));
     top_frame_lay->addWidget(new_button);
-    rename_button = new QPushButton("Rename");
+    rename_button = new QPushButton(tr("Rename"));
     top_frame_lay->addWidget(rename_button);
-    open_button = new QPushButton("Open");
+    open_button = new QPushButton(tr("Open"));
     top_frame_lay->addWidget(open_button);
-    export_button = new QPushButton("Save");
+    export_button = new QPushButton(tr("Save"));
     top_frame_lay->addWidget(export_button);
     QVBoxLayout* bottom_frame_lay = new QVBoxLayout();
-    copy_down_button = new QPushButton("Copy down");
+    copy_down_button = new QPushButton(tr("Copy down"));
     bottom_frame_lay->addWidget(copy_down_button);
-    add_row_button = new QPushButton("Insert row");
+    add_row_button = new QPushButton(tr("Insert row"));
     bottom_frame_lay->addWidget(add_row_button);
-    delete_row_button = new QPushButton("Delete row");
+    delete_row_button = new QPushButton(tr("Delete row"));
     bottom_frame_lay->addWidget(delete_row_button);
     QVBoxLayout* frame_lay = new QVBoxLayout();
     frame_lay->addLayout(top_frame_lay);
@@ -183,14 +183,14 @@ void GridEditor::export_xml()
         QString name;
         do
         {
-            name = QInputDialog::getText(this, "Grid name", "Name the current grid to save it.\n\n Name:", QLineEdit::Normal, "", &ok);
+            name = QInputDialog::getText(this, tr("Grid name"), tr("Name the current grid to save it.\n\n Name:"), QLineEdit::Normal, "", &ok);
             if (!ok)
                 return;
             if (name.isEmpty())
             {
                 QMessageBox mb;
-                mb.setWindowTitle("Warning");
-                mb.setText("You have to enter a name to continue.");
+                mb.setWindowTitle(tr("Warning"));
+                mb.setText(tr("You have to enter a name to continue."));
                 mb.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
                 int return_value = mb.exec();
                 if (return_value == QMessageBox::Cancel)
@@ -202,8 +202,8 @@ void GridEditor::export_xml()
     }
     grid->to_xml(grid->get_name() + ".xgrid");
     QMessageBox mb;
-    mb.setWindowTitle("Grid saved");
-    mb.setText("The chords grid is saved at ./" + grid->get_name() + ".xgrid");
+    mb.setWindowTitle(tr("Grid saved"));
+    mb.setText(tr("The chords grid is saved at ./") + grid->get_name() + ".xgrid");
     mb.setStandardButtons(QMessageBox::Ok);
     mb.exec();
 }
@@ -213,9 +213,9 @@ void GridEditor::new_grid()
     bool ok;
     QString mess;
     if (grid->rowCount() == 0)
-        mess = "Column number:";
+        mess = tr("Column number:");
     else
-        mess = "Warning:\nUnsaved modifications on current grid will be lost.\n\nColumn number:";
+        mess = tr("Warning:\nUnsaved modifications on current grid will be lost.\n\nColumn number:");
     int column = QInputDialog::getInt(this, tr("New grid"), tr(mess.toAscii()), 4, 1, 64, 1, &ok);
     if (!ok)
         return;
@@ -236,7 +236,7 @@ void GridEditor::new_grid()
 void GridEditor::rename()
 {
     bool ok;
-    QString name = QInputDialog::getText(this, "Grid name", "Name:", QLineEdit::Normal, "", &ok);
+    QString name = QInputDialog::getText(this, tr("Grid name"), tr("Name:"), QLineEdit::Normal, "", &ok);
     if (!ok || name.isEmpty())
         return;
     title->setText(name);
