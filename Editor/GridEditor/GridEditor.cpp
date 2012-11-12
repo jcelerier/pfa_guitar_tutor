@@ -9,9 +9,7 @@ Last change on 08/05/12
 /**
  *
  */
-
-GridEditor::GridEditor() : QWidget()
-{
+GridEditor::GridEditor() : QWidget() {
     /*Initialisation de la fenêtre*/
 
     QDesktopWidget desktop; //Permet de récupérer des informations sur l'écran de l'utilisateur
@@ -47,8 +45,7 @@ GridEditor::GridEditor() : QWidget()
     connect(rename_button, SIGNAL(clicked()), this, SLOT(rename()));
 }
 
-GridEditor::~GridEditor()
-{
+GridEditor::~GridEditor() {
     delete grid;
     delete chord_tree;
     delete open_button;
@@ -59,8 +56,10 @@ GridEditor::~GridEditor()
     delete layout;
 }
 
-void GridEditor::build_chord_tree()
-{
+/**
+ * Création de la liste d'accords permettant le choix à l'utilisateur lors de la saisi d'une grille
+ */
+void GridEditor::build_chord_tree() {
     chord_tree = new QTreeWidget();
     chord_tree->setFixedWidth(200);
     chord_tree->setHeaderLabel(tr("Chord choice"));
@@ -87,13 +86,12 @@ void GridEditor::build_chord_tree()
     chord_tree->addTopLevelItem(build_chord("B"));   
 }
 
+
 /**
  * Création du bloc d'options de l'éditeur.
- * \return Le bloc d'options créé
+ * \return Le bloc d'options créé.
  */
-
-QFrame* GridEditor::build_frame()
-{
+QFrame* GridEditor::build_frame() {
     QVBoxLayout* frame_lay = new QVBoxLayout(); //Layout du bloc d'options
     QVBoxLayout* top_frame_lay = new QVBoxLayout(); //Boutons du haut (!)
     QVBoxLayout* bottom_frame_lay = new QVBoxLayout(); //Boutons du bas (!)
@@ -144,22 +142,29 @@ QFrame* GridEditor::build_frame()
     return principal_frame;
 }
 
-QTreeWidgetItem* GridEditor::build_chord(const QString base_name)
-{
+/**
+ * @brief GridEditor::build_chord
+ * @param base_name Tonalité à rajouter à la liste des accords.
+ * @return L'élément à rajouter à la liste des accords.
+ *
+ * Cette fonction crée un objet contenant les différentes possibilités d'accords à partir d'une tonalité donnée: mineur, majeur,...
+ */
+QTreeWidgetItem* GridEditor::build_chord(const QString base_name) {
     QTreeWidgetItem* item = new QTreeWidgetItem();
     item->setText(0, base_name);
+    //TODO: Si je vous dis que cette partie est à optimiser avec une boucle for 1->6 et un tableau de QTreeWidgetItem, vous me croyez?
     QTreeWidgetItem* children1 = new QTreeWidgetItem();
     QTreeWidgetItem* children2 = new QTreeWidgetItem();
     QTreeWidgetItem* children3 = new QTreeWidgetItem();
     QTreeWidgetItem* children4 = new QTreeWidgetItem();
     QTreeWidgetItem* children5 = new QTreeWidgetItem();
     QTreeWidgetItem* children6 = new QTreeWidgetItem();
-    children1->setText(0, base_name);
-    children2->setText(0, base_name + "m");
-    children3->setText(0, base_name + "aug");
-    children4->setText(0, base_name + "dim");
-    children5->setText(0, base_name + "sus4");
-    children6->setText(0, base_name + "sus2");
+    children1->setText(0, base_name); //Majeur
+    children2->setText(0, base_name + "m"); //Mineur
+    children3->setText(0, base_name + "aug"); //Augmenté
+    children4->setText(0, base_name + "dim"); //Diminué
+    children5->setText(0, base_name + "sus4"); //sus4
+    children6->setText(0, base_name + "sus2"); //sus2
     item->addChild(children1);
     item->addChild(children2);
     item->addChild(children3);
@@ -169,26 +174,22 @@ QTreeWidgetItem* GridEditor::build_chord(const QString base_name)
     return item;
 }
 
-void GridEditor::change_state()
-{
+void GridEditor::change_state() {
     if (grid->is_selection_empty() && chord_tree->isEnabled())
         chord_tree->setEnabled(false);
     else if(!grid->is_selection_empty() && !chord_tree->isEnabled())
         chord_tree->setEnabled(true);
-    if (grid->is_row_selected() && !delete_row_button->isEnabled())
-    {
+    if (grid->is_row_selected() && !delete_row_button->isEnabled()) {
         delete_row_button->setEnabled(true);
         copy_down_button->setEnabled(true);
     }
-    else if (!grid->is_row_selected() && delete_row_button->isEnabled())
-    {
+    else if (!grid->is_row_selected() && delete_row_button->isEnabled()) {
         delete_row_button->setEnabled(false);
         copy_down_button->setEnabled(false);
     }
 }
 
-void GridEditor::import_xml()
-{
+void GridEditor::import_xml() {
     QString xgrid_file = QFileDialog::getOpenFileName(this, tr("Open chords grid"), ".", tr("xgrid Files (*.xgrid)"));
     if (xgrid_file.isNull())
         return;
@@ -206,19 +207,15 @@ void GridEditor::import_xml()
     connect(delete_row_button, SIGNAL(clicked()), grid, SLOT(delete_selected_row()));
 }
 
-void GridEditor::export_xml()
-{
-    if (grid->get_name().isEmpty())
-    {
+void GridEditor::export_xml() {
+    if (grid->get_name().isEmpty()) {
         bool ok;
         QString name;
-        do
-        {
+        do {
             name = QInputDialog::getText(this, tr("Grid name"), tr("Name the current grid to save it.\n\n Name:"), QLineEdit::Normal, "", &ok);
             if (!ok)
                 return;
-            if (name.isEmpty())
-            {
+            if (name.isEmpty()) {
                 QMessageBox mb;
                 mb.setWindowTitle(tr("Warning"));
                 mb.setText(tr("You have to enter a name to continue."));
@@ -239,8 +236,7 @@ void GridEditor::export_xml()
     mb.exec();
 }
 
-void GridEditor::new_grid()
-{
+void GridEditor::new_grid() {
     bool ok;
     QString mess;
     if (grid->rowCount() == 0)
@@ -264,8 +260,7 @@ void GridEditor::new_grid()
     connect(delete_row_button, SIGNAL(clicked()), grid, SLOT(delete_selected_row()));
 }
 
-void GridEditor::rename()
-{
+void GridEditor::rename() {
     bool ok;
     QString name = QInputDialog::getText(this, tr("Grid name"), tr("Name:"), QLineEdit::Normal, "", &ok);
     if (!ok || name.isEmpty())
