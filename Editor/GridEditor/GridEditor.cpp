@@ -6,26 +6,39 @@ Last change on 08/05/12
 
 #include "GridEditor.h"
 
+/**
+ *
+ */
+
 GridEditor::GridEditor() : QWidget()
 {
-    QDesktopWidget desktop;
-    this->setBaseSize(3*desktop.width()/4, 3*desktop.height()/4);
-    QFrame* frame = build_frame();
-    build_chord_tree();
+    /*Initialisation de la fenêtre*/
+
+    QDesktopWidget desktop; //Permet de récupérer des informations sur l'écran de l'utilisateur
+    this->setBaseSize(3*desktop.width()/4, 3*desktop.height()/4); //Taille de la fenêtre
+
+    /*Mise en place du layout*/
+    QFrame* frame = build_frame(); //Barre d'options
+    build_chord_tree(); //Initialisation de chord_tree
+    grid = new ChordTableWidget(); //Fenere d'accords
+
     layout = new QGridLayout();
-    grid = new ChordTableWidget();
-    layout->addWidget(chord_tree, 0, 0);
-    layout->addWidget(grid, 0, 1);
-    layout->addWidget(frame, 0, 2);
+    layout->addWidget(chord_tree, 0, 0); //Liste des accords en haut-gauche
+    layout->addWidget(grid, 0, 1); //Fenêtre d'accords en haut-milieu
+    layout->addWidget(frame, 0, 2); //Barre d'options en haut-droite
     this->setLayout(layout);
-    export_button->setEnabled(false);
+
+    /*Désactivation des options au démarrage*/
+    save_button->setEnabled(false);
     delete_row_button->setEnabled(false);
     copy_down_button->setEnabled(false);
     add_row_button->setEnabled(false);
     rename_button->setEnabled(false);
+
+    /*Connexions signaux-slots pour les boutons du panneau d'options et*/
     connect(chord_tree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
     connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(change_state()));
-    connect(export_button, SIGNAL(clicked()), this, SLOT(export_xml()));
+    connect(save_button, SIGNAL(clicked()), this, SLOT(export_xml()));
     connect(open_button, SIGNAL(clicked()), this, SLOT(import_xml()));
     connect(add_row_button, SIGNAL(clicked()), grid, SLOT(insert_row()));
     connect(copy_down_button, SIGNAL(clicked()), grid, SLOT(copy_down_rows()));
@@ -39,7 +52,7 @@ GridEditor::~GridEditor()
     delete grid;
     delete chord_tree;
     delete open_button;
-    delete export_button;
+    delete save_button;
     delete add_row_button;
     delete copy_down_button;
     delete delete_row_button;
@@ -51,7 +64,10 @@ void GridEditor::build_chord_tree()
     chord_tree = new QTreeWidget();
     chord_tree->setFixedWidth(200);
     chord_tree->setHeaderLabel(tr("Chord choice"));
-    chord_tree->setDisabled(true);
+    chord_tree->setDisabled(true); //Désactivé par défaut tant que new_button n'a pas été déclenché
+
+    /*Ajout des cordes*/
+    //TODO: une optimisation est évidente... Mettre les accords dans un enum par exemple, puis boucler dessus
     chord_tree->addTopLevelItem(build_chord("C"));
     chord_tree->addTopLevelItem(build_chord("C#"));
     chord_tree->addTopLevelItem(build_chord("Db"));
@@ -71,45 +87,60 @@ void GridEditor::build_chord_tree()
     chord_tree->addTopLevelItem(build_chord("B"));   
 }
 
+/**
+ * Création du bloc d'options de l'éditeur.
+ * \return Le bloc d'options créé
+ */
+
 QFrame* GridEditor::build_frame()
 {
-    QVBoxLayout* top_frame_lay = new QVBoxLayout();
+    QVBoxLayout* frame_lay = new QVBoxLayout(); //Layout du bloc d'options
+    QVBoxLayout* top_frame_lay = new QVBoxLayout(); //Boutons du haut (!)
+    QVBoxLayout* bottom_frame_lay = new QVBoxLayout(); //Boutons du bas (!)
+
     new_button = new QPushButton(tr("New"));
-    top_frame_lay->addWidget(new_button);
     rename_button = new QPushButton(tr("Rename"));
-    top_frame_lay->addWidget(rename_button);
     open_button = new QPushButton(tr("Open"));
-    top_frame_lay->addWidget(open_button);
-    export_button = new QPushButton(tr("Save"));
-    top_frame_lay->addWidget(export_button);
-    QVBoxLayout* bottom_frame_lay = new QVBoxLayout();
+    save_button = new QPushButton(tr("Save"));
     copy_down_button = new QPushButton(tr("Copy down"));
-    bottom_frame_lay->addWidget(copy_down_button);
-    add_row_button = new QPushButton(tr("Insert row"));
-    bottom_frame_lay->addWidget(add_row_button);
+    add_row_button = new QPushButton(tr("Add row"));
     delete_row_button = new QPushButton(tr("Delete row"));
+
+    top_frame_lay->addWidget(new_button);
+    top_frame_lay->addWidget(rename_button);
+    top_frame_lay->addWidget(open_button);
+    top_frame_lay->addWidget(save_button);
+    //Les boutons sont sur deux layouts différents, je ne sais pas pourquoi. Autant insérer un séparateur.
+    bottom_frame_lay->addWidget(copy_down_button);
+    bottom_frame_lay->addWidget(add_row_button);
     bottom_frame_lay->addWidget(delete_row_button);
-    QVBoxLayout* frame_lay = new QVBoxLayout();
-    frame_lay->addLayout(top_frame_lay);
+
+    frame_lay->addLayout(top_frame_lay); //Regroupement des deux layouts dans le principal
     frame_lay->addLayout(bottom_frame_lay);
-    QFrame* frame = new QFrame();
+
+    QFrame* frame = new QFrame(); //Bordure autour du bloc
     frame->setFrameStyle(QFrame::Box);
     frame->setLayout(frame_lay);
-    QVBoxLayout* principal_frame_lay = new QVBoxLayout();
+
+    QVBoxLayout* principal_frame_lay = new QVBoxLayout(); //Ensemble du bloc
+    //TODO: Cette partie ne sert à rien puisqu'il n'y a pas de titre à la fenêtre...
     title = new QLabel();
     title->setFixedHeight(30);
     title->setAlignment(Qt::AlignHCenter);
     QFont title_font;
     title_font.setPointSize(14);
     title_font.setBold(true);
-    title->setFont(title_font);
+    title->setFont(title_font); //Je rappelle que le titre est vide (sic)...
     principal_frame_lay->addWidget(title);
+    //End TODO
     principal_frame_lay->addWidget(frame);
-    QFrame* principal_frame = new QFrame();
+
+    QFrame* principal_frame = new QFrame(); //Et encore un conteneur pour la route
     principal_frame->setFrameStyle(QFrame::NoFrame);
     principal_frame->setLineWidth(0);
     principal_frame->setFrameStyle(QFrame::Box);
     principal_frame->setLayout(principal_frame_lay);
+
     return principal_frame;
 }
 
@@ -165,7 +196,7 @@ void GridEditor::import_xml()
     grid = new ChordTableWidget(xgrid_file);
     layout->addWidget(grid, 0, 1);
     title->setText(grid->get_name());
-    export_button->setEnabled(true);
+    save_button->setEnabled(true);
     add_row_button->setEnabled(true);
     rename_button->setEnabled(true);
     connect(chord_tree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
@@ -223,7 +254,7 @@ void GridEditor::new_grid()
     grid = new ChordTableWidget(column + 1, 10);
     layout->addWidget(grid, 0, 1);
     title->clear();
-    export_button->setEnabled(true);
+    save_button->setEnabled(true);
     add_row_button->setEnabled(true);
     rename_button->setEnabled(true);
     connect(chord_tree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
