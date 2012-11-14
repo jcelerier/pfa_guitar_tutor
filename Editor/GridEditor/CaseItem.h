@@ -26,4 +26,4 @@ public:
     CaseItem* clone() const;
 };
 
-#endif // CHORDWIDGET_H
+#endif // CASEITEM_H

@@ -6,6 +6,7 @@
 #include <QTimer>
 
 #include <fstream>
+#include <unistd.h>
 
 extern "C" {
 #include "chordfft/chord_fft.h"

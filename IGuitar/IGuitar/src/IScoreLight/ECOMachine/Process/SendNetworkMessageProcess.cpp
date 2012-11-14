@@ -54,6 +54,7 @@ knowledge of the CeCILL-C license and that you accept its terms.
 #include <iterator>
 #include <sys/time.h>
 
+#include <unistd.h>
 //#define DEBUG_OSC
 
 SendNetworkMessageProcess::SendNetworkMessageProcess(unsigned int id)

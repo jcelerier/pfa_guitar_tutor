@@ -4,6 +4,7 @@
 #include <QApplication>
 #include <QTimer>
 #include <QKeyEvent>
+#include<GL/glu.h>
 
 OpenGLWidget::OpenGLWidget( int timerInterval, QWidget *parent ) : QGLWidget( parent )
 {

@@ -3,6 +3,7 @@
 #include <QFrame>
 #include <QHBoxLayout>
 #include <QTimer>
+#include <unistd.h>
 
 MainWindow::~MainWindow()
 {
@@ -11,7 +12,7 @@ MainWindow::~MainWindow()
 
 MainWindow::MainWindow()
 : QWidget()
-{  
+{
 	m_mustPlay = false;
 	m_mustStop = false;
 	m_playMuted = false;

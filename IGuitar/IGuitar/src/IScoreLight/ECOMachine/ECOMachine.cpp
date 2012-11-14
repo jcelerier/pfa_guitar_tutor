@@ -52,6 +52,7 @@ knowledge of the CeCILL-C license and that you accept its terms.
 
 #include "ChangeTempo.hpp"
 #include "PetriNet/PetriNet.hpp"
+#include <unistd.h>
 
 using namespace std;
 
