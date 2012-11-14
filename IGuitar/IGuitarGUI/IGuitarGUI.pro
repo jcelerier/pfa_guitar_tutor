@@ -8,7 +8,7 @@ DEPENDPATH += .
 INCLUDEPATH += . ../IGuitar/src
 QMAKE_LIBDIR += ../IGuitar/Release
 QT += opengl
-LIBS += -lIGuitar -lsndfile -lportaudio
+LIBS += -lIGuitar -lsndfile -lportaudio -lGLU -lGL -lglut
 
 # Input
 HEADERS += MainWindow.hpp OpenGLWidget.h RenderArea.hpp GuitarWindow.h \

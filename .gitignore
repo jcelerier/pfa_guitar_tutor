@@ -43,3 +43,7 @@ Thumbs.db
 ### Trucs specifiques au projet
 *.wav
 *.pro.user
+IGuitar/IGuitarGUI/IGuitarGUI
+IGuitar/IGuitarGUI/Tracks/
+IGuitar/PlayAnalysisGUI/PlayAnalysisGUI
+IGuitar/PlayAnalysisGUI/Tracks/
