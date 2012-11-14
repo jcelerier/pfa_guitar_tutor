@@ -41,4 +41,4 @@ public slots:
     void copy_down_rows();
 };
 
-#endif // CHORDTABLEWIDGET
+#endif // CHORDTABLEWIDGET_H

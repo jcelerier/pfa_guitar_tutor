@@ -30,10 +30,9 @@ class GridEditor : public QWidget
     ChordTableWidget* grid;
     QTreeWidget* chord_tree;
     QLabel* title;
-    //QFrame* frame;
     QPushButton* new_button;
     QPushButton* open_button;
-    QPushButton* export_button;
+    QPushButton* save_button;
     QPushButton* add_row_button;
     QPushButton* copy_down_button;
     QPushButton* delete_row_button;
