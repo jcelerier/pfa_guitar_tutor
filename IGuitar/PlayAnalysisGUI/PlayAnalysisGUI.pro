@@ -10,7 +10,7 @@ DEPENDPATH += .
 INCLUDEPATH += . ../IGuitar/src
 QMAKE_LIBDIR += ../IGuitar/Release
 QT += opengl
-LIBS +=  -lsndfile -lportaudio -lIGuitar
+LIBS +=  -lsndfile -lportaudio -lIGuitar -lGL -lglut -lGLU
 
 # Input
 HEADERS += MainWindow.hpp OpenGLWidget.h RenderArea.hpp ./chordfft/chord_fft.h ./chordfft/chordcor_fft.h ./chordfft/ehpcp_fft.h ./chordfft/fft.h ./chordfft/filter_fft.h ./chordfft/median_fft.h
