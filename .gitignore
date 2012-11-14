@@ -6,7 +6,9 @@
 *.exe
 *.o
 *.so
-
+*.a
+*.d
+moc_*
 # Packages #
 ############
 # it's better to unpack these files and commit the raw source
