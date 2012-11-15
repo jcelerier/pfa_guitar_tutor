@@ -9,137 +9,58 @@ Last change on 08/05/12
 /**
  *
  */
-GridEditor::GridEditor() : QWidget() {
-    /*Initialisation de la fenêtre*/
+GridEditor::GridEditor() {
+    setWindowTitle("GridEditor");
+    resize(800, 600); //Taille de la fenêtre
 
-    QDesktopWidget desktop; //Permet de récupérer des informations sur l'écran de l'utilisateur
-    this->setBaseSize(3*desktop.width()/4, 3*desktop.height()/4); //Taille de la fenêtre
-
-    /*Mise en place du layout*/
-    QFrame* frame = build_frame(); //Barre d'options
-    build_chord_tree(); //Initialisation de chord_tree
-    grid = new ChordTableWidget(); //Fenere d'accords
-
-    layout = new QGridLayout();
-    layout->addWidget(chord_tree, 0, 0); //Liste des accords en haut-gauche
-    layout->addWidget(grid, 0, 1); //Fenêtre d'accords en haut-milieu
-    layout->addWidget(frame, 0, 2); //Barre d'options en haut-droite
-    this->setLayout(layout);
-
-    /*Désactivation des options au démarrage*/
-    save_button->setEnabled(false);
-    delete_row_button->setEnabled(false);
-    copy_down_button->setEnabled(false);
-    add_row_button->setEnabled(false);
-    rename_button->setEnabled(false);
-
-    /*Connexions signaux-slots pour les boutons du panneau d'options et*/
-    connect(chord_tree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
-    connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(change_state()));
-    connect(save_button, SIGNAL(clicked()), this, SLOT(export_xml()));
-    connect(open_button, SIGNAL(clicked()), this, SLOT(import_xml()));
-    connect(add_row_button, SIGNAL(clicked()), grid, SLOT(insert_row()));
-    connect(copy_down_button, SIGNAL(clicked()), grid, SLOT(copy_down_rows()));
-    connect(delete_row_button, SIGNAL(clicked()), grid, SLOT(delete_selected_row()));
-    connect(new_button, SIGNAL(clicked()), this, SLOT(new_grid()));
-    connect(rename_button, SIGNAL(clicked()), this, SLOT(rename()));
+    createMenu();
+    createActions();
+    setActionsToMenu();
+    createToolbar();
+    createCentralWidget();
+    setCentralWidget(centralArea);
+    connectActionToSlot();
 }
 
 GridEditor::~GridEditor() {
     delete grid;
-    delete chord_tree;
-    delete open_button;
-    delete save_button;
-    delete add_row_button;
-    delete copy_down_button;
-    delete delete_row_button;
+    delete chordTree;
+    delete openAction;
+    delete saveAction;
+    delete addRowAction;
+    delete copyDownAction;
+    delete deleteRowAction;
     delete layout;
 }
 
 /**
  * Création de la liste d'accords permettant le choix à l'utilisateur lors de la saisi d'une grille
  */
-void GridEditor::build_chord_tree() {
-    chord_tree = new QTreeWidget();
-    chord_tree->setFixedWidth(200);
-    chord_tree->setHeaderLabel(tr("Chord choice"));
-    chord_tree->setDisabled(true); //Désactivé par défaut tant que new_button n'a pas été déclenché
+void GridEditor::buildChordTree() {
+    chordTree = new QTreeWidget();
+    chordTree->setFixedWidth(200);
+    chordTree->setHeaderLabel(tr("Chord choice"));
+    chordTree->setDisabled(true); //Désactivé par défaut tant que new_button n'a pas été déclenché
 
     /*Ajout des cordes*/
     //TODO: une optimisation est évidente... Mettre les accords dans un enum par exemple, puis boucler dessus
-    chord_tree->addTopLevelItem(build_chord("C"));
-    chord_tree->addTopLevelItem(build_chord("C#"));
-    chord_tree->addTopLevelItem(build_chord("Db"));
-    chord_tree->addTopLevelItem(build_chord("D"));
-    chord_tree->addTopLevelItem(build_chord("D#"));
-    chord_tree->addTopLevelItem(build_chord("Eb"));
-    chord_tree->addTopLevelItem(build_chord("E"));
-    chord_tree->addTopLevelItem(build_chord("F"));
-    chord_tree->addTopLevelItem(build_chord("F#"));
-    chord_tree->addTopLevelItem(build_chord("Gb"));
-    chord_tree->addTopLevelItem(build_chord("G"));
-    chord_tree->addTopLevelItem(build_chord("G#"));
-    chord_tree->addTopLevelItem(build_chord("Ab"));
-    chord_tree->addTopLevelItem(build_chord("A"));
-    chord_tree->addTopLevelItem(build_chord("A#"));
-    chord_tree->addTopLevelItem(build_chord("Bb"));
-    chord_tree->addTopLevelItem(build_chord("B"));   
-}
-
-
-/**
- * Création du bloc d'options de l'éditeur.
- * \return Le bloc d'options créé.
- */
-QFrame* GridEditor::build_frame() {
-    QVBoxLayout* frame_lay = new QVBoxLayout(); //Layout du bloc d'options
-    QVBoxLayout* top_frame_lay = new QVBoxLayout(); //Boutons du haut (!)
-    QVBoxLayout* bottom_frame_lay = new QVBoxLayout(); //Boutons du bas (!)
-
-    new_button = new QPushButton(tr("New"));
-    rename_button = new QPushButton(tr("Rename"));
-    open_button = new QPushButton(tr("Open"));
-    save_button = new QPushButton(tr("Save"));
-    copy_down_button = new QPushButton(tr("Copy down"));
-    add_row_button = new QPushButton(tr("Add row"));
-    delete_row_button = new QPushButton(tr("Delete row"));
-
-    top_frame_lay->addWidget(new_button);
-    top_frame_lay->addWidget(rename_button);
-    top_frame_lay->addWidget(open_button);
-    top_frame_lay->addWidget(save_button);
-    //Les boutons sont sur deux layouts différents, je ne sais pas pourquoi. Autant insérer un séparateur.
-    bottom_frame_lay->addWidget(copy_down_button);
-    bottom_frame_lay->addWidget(add_row_button);
-    bottom_frame_lay->addWidget(delete_row_button);
-
-    frame_lay->addLayout(top_frame_lay); //Regroupement des deux layouts dans le principal
-    frame_lay->addLayout(bottom_frame_lay);
-
-    QFrame* frame = new QFrame(); //Bordure autour du bloc
-    frame->setFrameStyle(QFrame::Box);
-    frame->setLayout(frame_lay);
-
-    QVBoxLayout* principal_frame_lay = new QVBoxLayout(); //Ensemble du bloc
-    //TODO: Cette partie ne sert à rien puisqu'il n'y a pas de titre à la fenêtre...
-    title = new QLabel();
-    title->setFixedHeight(30);
-    title->setAlignment(Qt::AlignHCenter);
-    QFont title_font;
-    title_font.setPointSize(14);
-    title_font.setBold(true);
-    title->setFont(title_font); //Je rappelle que le titre est vide (sic)...
-    principal_frame_lay->addWidget(title);
-    //End TODO
-    principal_frame_lay->addWidget(frame);
-
-    QFrame* principal_frame = new QFrame(); //Et encore un conteneur pour la route
-    principal_frame->setFrameStyle(QFrame::NoFrame);
-    principal_frame->setLineWidth(0);
-    principal_frame->setFrameStyle(QFrame::Box);
-    principal_frame->setLayout(principal_frame_lay);
-
-    return principal_frame;
+    chordTree->addTopLevelItem(buildChord("C"));
+    chordTree->addTopLevelItem(buildChord("C#"));
+    chordTree->addTopLevelItem(buildChord("Db"));
+    chordTree->addTopLevelItem(buildChord("D"));
+    chordTree->addTopLevelItem(buildChord("D#"));
+    chordTree->addTopLevelItem(buildChord("Eb"));
+    chordTree->addTopLevelItem(buildChord("E"));
+    chordTree->addTopLevelItem(buildChord("F"));
+    chordTree->addTopLevelItem(buildChord("F#"));
+    chordTree->addTopLevelItem(buildChord("Gb"));
+    chordTree->addTopLevelItem(buildChord("G"));
+    chordTree->addTopLevelItem(buildChord("G#"));
+    chordTree->addTopLevelItem(buildChord("Ab"));
+    chordTree->addTopLevelItem(buildChord("A"));
+    chordTree->addTopLevelItem(buildChord("A#"));
+    chordTree->addTopLevelItem(buildChord("Bb"));
+    chordTree->addTopLevelItem(buildChord("B"));
 }
 
 /**
@@ -149,7 +70,7 @@ QFrame* GridEditor::build_frame() {
  *
  * Cette fonction crée un objet contenant les différentes possibilités d'accords à partir d'une tonalité donnée: mineur, majeur,...
  */
-QTreeWidgetItem* GridEditor::build_chord(const QString base_name) {
+QTreeWidgetItem* GridEditor::buildChord(const QString base_name) {
     QTreeWidgetItem* item = new QTreeWidgetItem();
     item->setText(0, base_name);
     //TODO: Si je vous dis que cette partie est à optimiser avec une boucle for 1->6 et un tableau de QTreeWidgetItem, vous me croyez?
@@ -174,22 +95,22 @@ QTreeWidgetItem* GridEditor::build_chord(const QString base_name) {
     return item;
 }
 
-void GridEditor::change_state() {
-    if (grid->is_selection_empty() && chord_tree->isEnabled())
-        chord_tree->setEnabled(false);
-    else if(!grid->is_selection_empty() && !chord_tree->isEnabled())
-        chord_tree->setEnabled(true);
-    if (grid->is_row_selected() && !delete_row_button->isEnabled()) {
-        delete_row_button->setEnabled(true);
-        copy_down_button->setEnabled(true);
+void GridEditor::changeState() {
+    if (grid->is_selection_empty() && chordTree->isEnabled())
+        chordTree->setEnabled(false);
+    else if(!grid->is_selection_empty() && !chordTree->isEnabled())
+        chordTree->setEnabled(true);
+    if (grid->is_row_selected() && !deleteRowAction->isEnabled()) {
+        deleteRowAction->setEnabled(true);
+        copyDownAction->setEnabled(true);
     }
-    else if (!grid->is_row_selected() && delete_row_button->isEnabled()) {
-        delete_row_button->setEnabled(false);
-        copy_down_button->setEnabled(false);
+    else if (!grid->is_row_selected() && deleteRowAction->isEnabled()) {
+        deleteRowAction->setEnabled(false);
+        copyDownAction->setEnabled(false);
     }
 }
 
-void GridEditor::import_xml() {
+void GridEditor::importXml() {
     QString xgrid_file = QFileDialog::getOpenFileName(this, tr("Open chords grid"), ".", tr("xgrid Files (*.xgrid)"));
     if (xgrid_file.isNull())
         return;
@@ -197,18 +118,18 @@ void GridEditor::import_xml() {
     grid = new ChordTableWidget(xgrid_file);
     layout->addWidget(grid, 0, 1);
     title->setText(grid->get_name());
-    save_button->setEnabled(true);
-    add_row_button->setEnabled(true);
-    rename_button->setEnabled(true);
-    connect(chord_tree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
-    connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(change_state()));
-    connect(add_row_button, SIGNAL(clicked()), grid, SLOT(insert_row()));
-    connect(copy_down_button, SIGNAL(clicked()), grid, SLOT(copy_down_rows()));
-    connect(delete_row_button, SIGNAL(clicked()), grid, SLOT(delete_selected_row()));
+    saveAction->setEnabled(true);
+    addRowAction->setEnabled(true);
+    renameAction->setEnabled(true);
+    connect(chordTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
+    connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
+    connect(addRowAction, SIGNAL(triggered()), grid, SLOT(insert_row()));
+    connect(copyDownAction, SIGNAL(triggered()), grid, SLOT(copy_down_rows()));
+    connect(deleteRowAction, SIGNAL(triggered()), grid, SLOT(delete_selected_row()));
 }
 
-void GridEditor::export_xml() {
-    if (grid->get_name().isEmpty()) {
+void GridEditor::exportXml() {
+    //if (grid->get_name().isEmpty()) {
         bool ok;
         QString name;
         do {
@@ -225,18 +146,17 @@ void GridEditor::export_xml() {
                     return;
             }
         } while (name.isEmpty());
-        grid->set_name(name);
-        title->setText(name);
-    }
-    grid->to_xml(grid->get_name() + ".xgrid");
+        //grid->set_name(name);
+    //}
+    //grid->to_xml(name + ".xgrid");
     QMessageBox mb;
     mb.setWindowTitle(tr("Grid saved"));
-    mb.setText(tr("The chords grid is saved at ./") + grid->get_name() + ".xgrid");
+    mb.setText(tr("The chords grid is saved at ./") + name + ".xgrid");
     mb.setStandardButtons(QMessageBox::Ok);
     mb.exec();
 }
 
-void GridEditor::new_grid() {
+void GridEditor::newGrid() {
     bool ok;
     QString mess;
     if (grid->rowCount() == 0)
@@ -246,18 +166,16 @@ void GridEditor::new_grid() {
     int column = QInputDialog::getInt(this, tr("New grid"), tr(mess.toAscii()), 4, 1, 64, 1, &ok);
     if (!ok)
         return;
-    delete grid;
     grid = new ChordTableWidget(column + 1, 10);
     layout->addWidget(grid, 0, 1);
-    title->clear();
-    save_button->setEnabled(true);
-    add_row_button->setEnabled(true);
-    rename_button->setEnabled(true);
-    connect(chord_tree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
-    connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(change_state()));
-    connect(add_row_button, SIGNAL(clicked()), grid, SLOT(insert_row()));
-    connect(copy_down_button, SIGNAL(clicked()), grid, SLOT(copy_down_rows()));
-    connect(delete_row_button, SIGNAL(clicked()), grid, SLOT(delete_selected_row()));
+    saveAction->setEnabled(true);
+    addRowAction->setEnabled(true);
+    renameAction->setEnabled(true);
+    connect(chordTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
+    connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
+    connect(addRowAction, SIGNAL(triggered()), grid, SLOT(insert_row()));
+    connect(copyDownAction, SIGNAL(triggered()), grid, SLOT(copy_down_rows()));
+    connect(deleteRowAction, SIGNAL(triggered()), grid, SLOT(delete_selected_row()));
 }
 
 void GridEditor::rename() {
@@ -268,3 +186,111 @@ void GridEditor::rename() {
     title->setText(name);
     grid->set_name(name);
 }
+
+/**
+ * @brief GridEditor::createMenu
+ *
+ * Crée le menu principal.
+ */
+void GridEditor::createMenu() {
+    fileMenu = menuBar()->addMenu(tr("&File"));
+    editMenu  = menuBar()->addMenu(tr("&Edit"));
+    optionMenu = menuBar()->addMenu(tr("&Options"));
+    aboutMenu = menuBar()->addMenu(tr("&About"));
+}
+
+/**
+ * @brief GridEditor::createActions
+ *
+ * Crée les actions qui serviront dans le menu et dans la barre d'outils.
+ */
+void GridEditor::createActions(){
+    quitAction = new QAction(tr("&Quit"), this);
+    aboutAction = new QAction(tr("About"), this);
+    newAction = new QAction(tr("&New"), this);
+    saveAction = new QAction(tr("&Save"), this);
+    openAction = new QAction(tr("&Open"), this);
+    addRowAction = new QAction(tr("Add row"), this);
+    deleteRowAction = new QAction(tr("Delete row"), this);
+    copyDownAction = new QAction(tr("&Copy down"), this);
+    renameAction = new QAction(tr("Rename"), this);
+
+    quitAction->setIcon(QIcon("icons/quit.png"));
+    aboutAction->setIcon(QIcon("icons/about.png"));
+    newAction->setIcon(QIcon("icons/new.png"));
+    saveAction->setIcon(QIcon("icons/save.png"));
+    openAction->setIcon(QIcon("icons/open.png"));
+    addRowAction->setIcon(QIcon("icons/addrow.png"));
+    deleteRowAction->setIcon(QIcon("icons/deleterow.png"));
+
+    saveAction->setEnabled(false);
+    deleteRowAction->setEnabled(false);
+    copyDownAction->setEnabled(false);
+    addRowAction->setEnabled(false);
+    renameAction->setEnabled(false);
+}
+
+/**
+ * @brief GridEditor::setActionsToMenu
+ *
+ * Ajoute les actions au menu.
+ */
+void GridEditor::setActionsToMenu() {
+    fileMenu->addAction(newAction);
+    fileMenu->addAction(openAction);
+    fileMenu->addAction(saveAction);
+    fileMenu->addSeparator();
+    fileMenu->addAction(quitAction);
+    editMenu->addAction(addRowAction);
+    editMenu->addAction(deleteRowAction);
+    editMenu->addAction(copyDownAction);
+    aboutMenu->addAction(aboutAction);
+}
+
+/**
+ * @brief GridEditor::createToolbar
+ *
+ * Crée la barre d'outil principale et y ajoute les actions.
+ */
+void GridEditor::createToolbar() {
+    toolBar = new QToolBar(tr("Tool bar"));
+    addToolBar(Qt::RightToolBarArea, toolBar);
+    toolBar->addAction(newAction);
+    toolBar->addAction(openAction);
+    toolBar->addAction(saveAction);
+    toolBar->addSeparator();
+    toolBar->addAction(addRowAction);
+    toolBar->addAction(deleteRowAction);
+}
+
+void GridEditor::createCentralWidget() {
+    centralArea = new QWidget();
+
+    /*Mise en place du layout*/
+    buildChordTree(); //Initialisation de chord_tree
+    grid = new ChordTableWidget(); //Fenere d'accords
+
+    layout = new QGridLayout();
+    layout->addWidget(chordTree, 0, 0); //Liste des accords en haut-gauche
+    layout->addWidget(grid, 0, 1); //Fenêtre d'accords en haut-milieu
+    centralArea->setLayout(layout);
+}
+
+/**
+ * @brief GridEditor::connectActionToSlot
+ *
+ * Défini les relations entre signaux et slots pour la fenêtre principale.
+ */
+void GridEditor::connectActionToSlot(){
+    connect(chordTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
+    connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
+    connect(saveAction, SIGNAL(triggered()), this, SLOT(exportXml()));
+    connect(openAction, SIGNAL(triggered()), this, SLOT(importXml()));
+    connect(addRowAction, SIGNAL(triggered()), grid, SLOT(insert_row()));
+    connect(copyDownAction, SIGNAL(triggered()), grid, SLOT(copy_down_rows()));
+    connect(deleteRowAction, SIGNAL(triggered()), grid, SLOT(delete_selected_row()));
+    connect(newAction, SIGNAL(triggered()), this, SLOT(newGrid()));
+    connect(renameAction, SIGNAL(triggered()), this, SLOT(rename()));
+}
+
+

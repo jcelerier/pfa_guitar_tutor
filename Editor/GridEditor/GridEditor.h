@@ -7,7 +7,7 @@ Last change on 08/05/12
 #ifndef GRIDEDITOR_H
 #define GRIDEDITOR_H
 
-#include <QWidget>
+#include <QMainWindow>
 #include <iostream>
 #include <QDesktopWidget>
 #include <QGridLayout>
@@ -19,41 +19,54 @@ Last change on 08/05/12
 #include <QMessageBox>
 #include <QInputDialog>
 #include <QFileDialog>
+#include <QWidget>
+#include <QMenu>
+#include <QMenuBar>
+#include <QToolBar>
 #include "ChordTableWidget.h"
 #include "CaseItem.h"
 
-class GridEditor : public QWidget
+class GridEditor : public QMainWindow
 {
     Q_OBJECT
 
+    QWidget* centralArea;
     QGridLayout* layout;
     ChordTableWidget* grid;
-    QTreeWidget* chord_tree;
+    QTreeWidget* chordTree;
     QLabel* title;
-    QPushButton* new_button;
-    QPushButton* open_button;
-    QPushButton* save_button;
-    QPushButton* add_row_button;
-    QPushButton* copy_down_button;
-    QPushButton* delete_row_button;
-    QPushButton* rename_button;
+
+    QMenu *fileMenu, *editMenu, *optionMenu, *aboutMenu;
+    QToolBar *toolBar;
+    QAction *quitAction, *aboutAction, *newAction, *saveAction,
+            *openAction, *addRowAction, *deleteRowAction,
+            *copyDownAction, *renameAction;
+
+    QPushButton *newButton, *openButton, *saveButton, *addRowButton,
+                *copyDownButton, *deleteRowButton, *renameButton;
+
 
 public:
     GridEditor();
     ~GridEditor();
 
 private:
-    QFrame* build_frame();
-    void build_chord_tree();
-    QTreeWidgetItem* build_chord(const QString base_name);
+    void createMenu();
+    void createActions();
+    void setActionsToMenu();
+    void createToolbar();
+    void createCentralWidget();
+    void connectActionToSlot();
+    void buildChordTree();
+    QTreeWidgetItem* buildChord(const QString base_name);
 
 signals:
 
 public slots:
-    void change_state();
-    void import_xml();
-    void export_xml();
-    void new_grid();
+    void changeState();
+    void importXml();
+    void exportXml();
+    void newGrid();
     void rename();
 };
 
