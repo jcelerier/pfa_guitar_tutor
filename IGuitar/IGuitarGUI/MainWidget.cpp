@@ -45,12 +45,6 @@ void MainWidget::stopScore()
 void
 MainWidget::buildGUI()
 {
-
-
-
-
-
-
 	createActions();
 
 	QGridLayout *topLayout = new QGridLayout;
@@ -58,9 +52,6 @@ MainWidget::buildGUI()
 
 	m_renderAreas.loadChordImages(CHORDS_IMAGES_LOCATION);
 	setLayout(topLayout);
-
-	//widLayout->setLayout(topLayout);
-	//setCentralWidget(widLayout);
 }
 
 

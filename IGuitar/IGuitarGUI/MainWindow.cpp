@@ -3,6 +3,8 @@
 #include <QWidget>
 #include <QMenuBar>
 #include <QComboBox>
+#include <QApplication>
+
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent)
 {
@@ -13,12 +15,12 @@ void
 MainWindow::createMenus()
 {
 	menuFichier = menuBar()->addMenu("&Fichier");
-	//QAction *actionQuitter = menuFichier->addAction("&Quitter");
+	QAction *actionQuitter = menuFichier->addAction("&Quitter");
 	menuOptions = menuBar()->addMenu("&Edition");
-
 	QAction *openAudioConfiguration = menuOptions->addAction("Options Audio");
+
 	connect(openAudioConfiguration, SIGNAL(triggered()), audioConfPanel, SLOT(swapShowDialogModeless()));
-	//	connect(actionQuitter, SIGNAL(triggered()), qApp, SLOT(quit()));
+	connect(actionQuitter, SIGNAL(triggered()), qApp, SLOT(quit()));
 }
 
 void
@@ -47,6 +49,7 @@ MainWindow::buildGUI()
 	setPalette(p);
 
 	audioConfPanel = new AudioConfiguration;
+	audioConfPanel->init();
 
 	setWindowTitle(tr("IGuitar"));
 	setMinimumSize(800, 600);
@@ -58,4 +61,9 @@ MainWindow::buildGUI()
 	topLayout->addWidget(&m_mainWidget, 0, 0);
 	widLayout->setLayout(topLayout);
 	setCentralWidget(widLayout);
+
+
 }
+
+
+

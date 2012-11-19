@@ -110,5 +110,58 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>AudioConfiguration</receiver>
+   <slot>acceptData()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>330</x>
+     <y>140</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>inputBox</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>AudioConfiguration</receiver>
+   <slot>setInput(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>140</x>
+     <y>90</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>outputBox</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>AudioConfiguration</receiver>
+   <slot>setOutput(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>140</x>
+     <y>190</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <slots>
+  <slot>acceptData()</slot>
+  <slot>setInput(QString)</slot>
+  <slot>setOutput(QString)</slot>
+ </slots>
 </ui>

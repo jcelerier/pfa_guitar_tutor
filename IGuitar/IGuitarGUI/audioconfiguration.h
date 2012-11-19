@@ -4,8 +4,6 @@
 #include <QDialog>
 #include <QList>
 #include <string>
-#include "ScoreManager.h"
-#include "MusicManager.h"
 
 namespace Ui {
 class AudioConfiguration;
@@ -17,24 +15,26 @@ class AudioConfiguration : public QDialog
 		
 	public:
 		explicit AudioConfiguration(QWidget *parent = 0);
-		void init(ScoreManager * scoreManager);
+		void init(void);
+		void sendOutputVect(std::vector<std::string> &outputVect );
+		void sendInputVect(std::vector<std::string> &inputVect );
 		~AudioConfiguration();
 
 		
 	private:
 		Ui::AudioConfiguration *ui;
 
-		std::string chosenInput;
-		std::string chosenOutput;
+		QString chosenInput;
+		QString chosenOutput;
 
+		QString tmpInput;
+		QString tmpOutput;
 
 	public slots:
-		void swapShowDialogModeless()
-		{
-			// Si elle est deja affichee, on cache la boite de dialogue sinon on l'affiche
-
-			setVisible(!isVisible());
-		}
+		void swapShowDialogModeless();
+		void setInput(QString input);
+		void setOutput(QString output);
+		void acceptData();
 
 };
 
