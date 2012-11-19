@@ -26,7 +26,7 @@ void AudioConfiguration::init(ScoreManager * scoreManager)
 	manager->sendInputVect(InputVect);
 	QList <QString> inputList;
 
-	for(int i = 0; i < OutputVect.size(); i++)
+	for(unsigned int i = 0; i < OutputVect.size(); i++)
 	{
 		outputList.append(QString(OutputVect[i].c_str()));
 	}

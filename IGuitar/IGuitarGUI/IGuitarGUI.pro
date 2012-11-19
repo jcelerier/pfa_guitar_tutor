@@ -9,17 +9,21 @@ INCLUDEPATH += . ../IGuitar/src
 QMAKE_LIBDIR += ../IGuitar/Release
 QT += opengl
 LIBS += -lIGuitar -lsndfile -lportaudio -lGLU -lGL -lglut
-
+CXXFLAGS += -g
 # Input
-HEADERS += MainWindow.hpp OpenGLWidget.h RenderArea.hpp GuitarWindow.h \
+HEADERS += OpenGLWidget.h RenderArea.hpp GuitarWindow.h \
     selectsong.hpp \
     getfilename.hpp \
     audioconfiguration.h \
-    MusicManager.h
-SOURCES += main.cpp MainWindow.cpp OpenGLWidget.cpp RenderArea.cpp GuitarWindow.cpp \
+    MusicManager.h \
+    MainWidget.hpp \
+    MainWindow.hpp
+SOURCES += main.cpp OpenGLWidget.cpp RenderArea.cpp GuitarWindow.cpp \
     selectsong.cpp \
     getfilename.cpp \
-    audioconfiguration.cpp
+    audioconfiguration.cpp \
+    MainWidget.cpp \
+    MainWindow.cpp
 
 FORMS += \
     audioconfiguration.ui

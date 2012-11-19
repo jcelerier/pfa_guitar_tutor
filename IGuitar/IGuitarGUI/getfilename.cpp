@@ -25,7 +25,7 @@ int GetFileName::getdir(QString dir, QStringList &files)
         }
         // eviter la repetition de deux fichier portant le meme nom (mais pas la meme extension
         if (j != 0){
-            j == 0;
+			j = 0;
             break;
         }
         // si le fichier n'a pas encore ete ajoute, on le rajoute a la liste
