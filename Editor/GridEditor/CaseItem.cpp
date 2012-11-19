@@ -16,7 +16,7 @@ Last change on 14/04/12
 CaseItem::CaseItem() :  QTableWidgetItem(), color(new QColor()) {
     color->setRgb(255, 255, 255);
     this->setBackgroundColor(color->toRgb());
-    this->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    this->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
     this->setTextAlignment(Qt::AlignCenter);
 }
 

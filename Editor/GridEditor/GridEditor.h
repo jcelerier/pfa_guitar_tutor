@@ -42,10 +42,6 @@ class GridEditor : public QMainWindow
             *openAction, *addRowAction, *deleteRowAction,
             *copyDownAction, *renameAction;
 
-    QPushButton *newButton, *openButton, *saveButton, *addRowButton,
-                *copyDownButton, *deleteRowButton, *renameButton;
-
-
 public:
     GridEditor();
     ~GridEditor();
