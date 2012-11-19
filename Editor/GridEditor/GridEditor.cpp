@@ -70,28 +70,17 @@ void GridEditor::buildChordTree() {
  *
  * Cette fonction crée un objet contenant les différentes possibilités d'accords à partir d'une tonalité donnée: mineur, majeur,...
  */
-QTreeWidgetItem* GridEditor::buildChord(const QString base_name) {
+QTreeWidgetItem* GridEditor::buildChord(const QString tonality) {
     QTreeWidgetItem* item = new QTreeWidgetItem();
-    item->setText(0, base_name);
-    //TODO: Si je vous dis que cette partie est à optimiser avec une boucle for 1->6 et un tableau de QTreeWidgetItem, vous me croyez?
-    QTreeWidgetItem* children1 = new QTreeWidgetItem();
-    QTreeWidgetItem* children2 = new QTreeWidgetItem();
-    QTreeWidgetItem* children3 = new QTreeWidgetItem();
-    QTreeWidgetItem* children4 = new QTreeWidgetItem();
-    QTreeWidgetItem* children5 = new QTreeWidgetItem();
-    QTreeWidgetItem* children6 = new QTreeWidgetItem();
-    children1->setText(0, base_name); //Majeur
-    children2->setText(0, base_name + "m"); //Mineur
-    children3->setText(0, base_name + "aug"); //Augmenté
-    children4->setText(0, base_name + "dim"); //Diminué
-    children5->setText(0, base_name + "sus4"); //sus4
-    children6->setText(0, base_name + "sus2"); //sus2
-    item->addChild(children1);
-    item->addChild(children2);
-    item->addChild(children3);
-    item->addChild(children4);
-    item->addChild(children5);
-    item->addChild(children6);
+    item->setText(0, tonality);
+
+    QTreeWidgetItem* children[6];
+    QString tuning[6] = {"", "m", "aug", "dim", "sus4", "sus2"};
+    for(int i=0; i<6; i++) {
+        children[i] = new QTreeWidgetItem();
+        children[i]->setText(0, tonality + tuning[i]);
+        item->addChild(children[i]);
+    }
     return item;
 }
 
@@ -110,6 +99,12 @@ void GridEditor::changeState() {
     }
 }
 
+/**
+ * @brief GridEditor::importXml
+ *
+ * Chargement d'une grille pré-enregistrée.
+ */
+
 void GridEditor::importXml() {
     QString xgrid_file = QFileDialog::getOpenFileName(this, tr("Open chords grid"), ".", tr("xgrid Files (*.xgrid)"));
     if (xgrid_file.isNull())
@@ -127,6 +122,12 @@ void GridEditor::importXml() {
     connect(copyDownAction, SIGNAL(triggered()), grid, SLOT(copy_down_rows()));
     connect(deleteRowAction, SIGNAL(triggered()), grid, SLOT(delete_selected_row()));
 }
+
+/**
+ * @brief GridEditor::exportXml
+ *
+ * Récupération de la grille éditée pour exportation.
+ */
 
 void GridEditor::exportXml() {
     //if (grid->get_name().isEmpty()) {
@@ -148,13 +149,19 @@ void GridEditor::exportXml() {
         } while (name.isEmpty());
         //grid->set_name(name);
     //}
-    //grid->to_xml(name + ".xgrid");
+    grid->to_xml(name + ".xgrid");
     QMessageBox mb;
     mb.setWindowTitle(tr("Grid saved"));
     mb.setText(tr("The chords grid is saved at ./") + name + ".xgrid");
     mb.setStandardButtons(QMessageBox::Ok);
     mb.exec();
 }
+
+/**
+ * @brief GridEditor::newGrid
+ *
+ * Mise en place d'une nouvelle grille dans le widget central.
+ */
 
 void GridEditor::newGrid() {
     bool ok;
@@ -178,6 +185,11 @@ void GridEditor::newGrid() {
     connect(deleteRowAction, SIGNAL(triggered()), grid, SLOT(delete_selected_row()));
 }
 
+/**
+ * @brief GridEditor::rename
+ *
+ * Action pour renommer un fichier xgrid.
+ */
 void GridEditor::rename() {
     bool ok;
     QString name = QInputDialog::getText(this, tr("Grid name"), tr("Name:"), QLineEdit::Normal, "", &ok);
@@ -263,6 +275,11 @@ void GridEditor::createToolbar() {
     toolBar->addAction(deleteRowAction);
 }
 
+/**
+ * @brief GridEditor::createCentralWidget
+ *
+ * Création du widget principale de la fenêtre.
+ */
 void GridEditor::createCentralWidget() {
     centralArea = new QWidget();
 
@@ -291,6 +308,7 @@ void GridEditor::connectActionToSlot(){
     connect(deleteRowAction, SIGNAL(triggered()), grid, SLOT(delete_selected_row()));
     connect(newAction, SIGNAL(triggered()), this, SLOT(newGrid()));
     connect(renameAction, SIGNAL(triggered()), this, SLOT(rename()));
+    connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
 }
 
 

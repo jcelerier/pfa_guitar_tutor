@@ -7,22 +7,8 @@ Last change on 08/05/12
 #ifndef GRIDEDITOR_H
 #define GRIDEDITOR_H
 
-#include <QMainWindow>
-#include <iostream>
-#include <QDesktopWidget>
-#include <QGridLayout>
-#include <QLabel>
-#include <QListWidget>
-#include <QTreeWidget>
-#include <QFrame>
-#include <QPushButton>
-#include <QMessageBox>
-#include <QInputDialog>
-#include <QFileDialog>
-#include <QWidget>
-#include <QMenu>
-#include <QMenuBar>
-#include <QToolBar>
+#include <QCoreApplication>
+#include <QtGui>
 #include "ChordTableWidget.h"
 #include "CaseItem.h"
 
@@ -54,7 +40,7 @@ private:
     void createCentralWidget();
     void connectActionToSlot();
     void buildChordTree();
-    QTreeWidgetItem* buildChord(const QString base_name);
+    QTreeWidgetItem* buildChord(const QString tonality);
 
 signals:
 
