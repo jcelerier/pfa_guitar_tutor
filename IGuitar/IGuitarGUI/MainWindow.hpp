@@ -11,13 +11,13 @@
 #include <ScoreManager.h>
 
 #include "RenderArea.hpp"
-
+#include "audioconfiguration.h"
 #define PERCENT_OF_CORRECT_NOTES_TO_GO_TO_NEXT_PART 50.0
 #define CHORDS_IMAGES_LOCATION "./chordsImg"
 
 class QTimer;
 
-class MainWindow : public QWidget{
+class MainWindow : public QMainWindow {
 
   Q_OBJECT
 
@@ -49,7 +49,6 @@ protected slots:
 
   void initListeners();
 
- private:
   ScoreManager* m_scoreManager;
 
   RenderArea m_renderAreas;
@@ -58,6 +57,9 @@ protected slots:
   bool m_mustStop;
   bool m_playMuted;
 
+  QMenu *menuFichier;
+  QMenu *menuOptions;
+  AudioConfiguration *audioConfPanel;
   QTimer *m_timer;
   OpenGLWidget* m_openGLWidget;
 };

@@ -360,3 +360,11 @@ std::string ScoreManager::getCurrentPart() const
 }
 
 
+MusicManager* ScoreManager::getMusicManager(void)
+{
+	return m_musicManager;
+}
+void ScoreManager::setMusicManager(MusicManager * musicManager)
+{
+	m_musicManager = musicManager;
+}

@@ -4,6 +4,7 @@
 #include <QHBoxLayout>
 #include <QTimer>
 #include <unistd.h>
+#include <QMenuBar>
 
 MainWindow::~MainWindow()
 {
@@ -11,7 +12,7 @@ MainWindow::~MainWindow()
 }
 
 MainWindow::MainWindow()
-: QWidget()
+: QMainWindow()
 {
 	m_mustPlay = false;
 	m_mustStop = false;
@@ -20,8 +21,6 @@ MainWindow::MainWindow()
 	m_scoreManager = NULL;
 
 	buildGUI();
-
-
 }
 
 void MainWindow::playScore(bool mute)
@@ -46,14 +45,18 @@ void MainWindow::stopScore()
 void
 MainWindow::buildGUI()
 {
+	QWidget *widLayout = new QWidget;
+	audioConfPanel = new AudioConfiguration;
+
 	setWindowTitle(tr("IGuitar"));
 
-	setMinimumSize(1024, 768);
+	setMinimumSize(800, 600);
 
 	// Set background colour to black
 	QPalette p(palette());
 	p.setColor(QPalette::Background, Qt::black);
 	setPalette(p);
+
 
 	createActions();
 	createMenus();
@@ -64,7 +67,8 @@ MainWindow::buildGUI()
 	topLayout->addWidget(&m_renderAreas, 0, 0);
 
 	m_renderAreas.loadChordImages(CHORDS_IMAGES_LOCATION);
-	setLayout(topLayout);
+	widLayout->setLayout(topLayout);
+	setCentralWidget(widLayout);
 }
 
 
@@ -104,7 +108,8 @@ void MainWindow::timeOut()
 		MusicManager* musicManager = new MusicManager(multiTracksMap, muteTracks);
 		m_scoreManager = new ScoreManager(musicManager);
 
-                m_scoreManager->loadScore("Tracks/BeatlesDayInTheLife/Guitar.txt");
+
+		m_scoreManager->loadScore("Tracks/BeatlesDayInTheLife/Guitar.txt");
                 // lancement de la chanson...
                 //m_scoreManager->loadScore(ui->comboBox->currentText());
 		m_scoreManager->run();
@@ -114,6 +119,8 @@ void MainWindow::timeOut()
 		m_scoreManager->setNextPart("[VERSE1]");
 
 		m_renderAreas.changeButtonMode(false);
+
+
 	}
 
 	if (m_scoreManager != NULL) {
@@ -173,7 +180,13 @@ void MainWindow::timeOutSlot()
 void
 MainWindow::createMenus()
 {
+	menuFichier = menuBar()->addMenu("&Fichier");
+	//QAction *actionQuitter = menuFichier->addAction("&Quitter");
+	menuOptions = menuBar()->addMenu("&Edition");
 
+	QAction *openAudioConfiguration = menuOptions->addAction("Options Audio");
+	connect(openAudioConfiguration, SIGNAL(triggered()), audioConfPanel, SLOT(swapShowDialogModeless()));
+	//	connect(actionQuitter, SIGNAL(triggered()), qApp, SLOT(quit()));
 }
 
 void

@@ -10,7 +10,7 @@ int main(int argc, char *argv[]){
   mainWindow->show();
   //GuitarWindow* gWindow = new GuitarWindow();
   //gWindow->show();
-  QString path = "./Tracks/BeatlesDayInTheLife/";
+  //QString path = "./Tracks/BeatlesDayInTheLife/";
   //SelectSong* sSong = new SelectSong(path);
   //sSong->show();
   return app.exec();

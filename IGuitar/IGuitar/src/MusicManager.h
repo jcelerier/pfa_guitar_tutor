@@ -15,6 +15,7 @@
 
 #include "MultiTracks.h"
 #include "portaudio/portaudio.h"
+#include <vector>
 
 extern "C" {
 #include "chord/chord.h"
@@ -78,6 +79,9 @@ public:
     void fillBufferWithLastInputValues(double* buffer, unsigned int size);
 
     void saveRecordedData(std::string fileName);
+
+    void sendOutputVect(std::vector<std::string> &outputVect );
+    void sendInputVect(std::vector<std::string> &inputVect );
 
 private:
     bool m_isRunning;

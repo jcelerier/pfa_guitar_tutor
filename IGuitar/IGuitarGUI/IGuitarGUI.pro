@@ -13,7 +13,13 @@ LIBS += -lIGuitar -lsndfile -lportaudio -lGLU -lGL -lglut
 # Input
 HEADERS += MainWindow.hpp OpenGLWidget.h RenderArea.hpp GuitarWindow.h \
     selectsong.hpp \
-    getfilename.hpp
+    getfilename.hpp \
+    audioconfiguration.h \
+    MusicManager.h
 SOURCES += main.cpp MainWindow.cpp OpenGLWidget.cpp RenderArea.cpp GuitarWindow.cpp \
     selectsong.cpp \
-    getfilename.cpp
+    getfilename.cpp \
+    audioconfiguration.cpp
+
+FORMS += \
+    audioconfiguration.ui
