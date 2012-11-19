@@ -11,6 +11,7 @@ Last change on 08/05/12
 #include <QtGui>
 #include "ChordTableWidget.h"
 #include "CaseItem.h"
+#include "EditionSelector.h"
 
 class GridEditor : public QMainWindow
 {
@@ -27,6 +28,7 @@ class GridEditor : public QMainWindow
     QAction *quitAction, *aboutAction, *newAction, *saveAction,
             *openAction, *addRowAction, *deleteRowAction,
             *copyDownAction, *renameAction;
+    EditionSelector *editionSelector;
 
 public:
     GridEditor();

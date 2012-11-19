@@ -12,14 +12,18 @@ Last change on 08/05/12
 GridEditor::GridEditor() {
     setWindowTitle("GridEditor");
     resize(800, 600); //Taille de la fenêtre
-
     createMenu();
     createActions();
     setActionsToMenu();
     createToolbar();
+
     createCentralWidget();
     setCentralWidget(centralArea);
     connectActionToSlot();
+
+    //Demande au client de choisir entre les deux types d'édition
+    editionSelector = new EditionSelector();
+    editionSelector->show();
 }
 
 GridEditor::~GridEditor() {
