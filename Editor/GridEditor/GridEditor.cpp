@@ -22,7 +22,7 @@ GridEditor::GridEditor() {
     connectActionToSlot();
 
     //Demande au client de choisir entre les deux types d'édition
-    EditionSelector* editionSelector = new EditionSelector(this);
+    editionSelector = new EditionSelector(this);
     editionSelector->setWindowModality(Qt::ApplicationModal);
     editionSelector->show();
     connect(editionSelector, SIGNAL(newEditor(int)), this, SLOT(newEditor(int)));
@@ -39,56 +39,7 @@ GridEditor::~GridEditor() {
     delete layout;
 }
 
-/**
- * Création de la liste d'accords permettant le choix à l'utilisateur lors de la saisi d'une grille
- */
-void GridEditor::buildChordTree() {
-    chordTree = new QTreeWidget();
-    chordTree->setFixedWidth(200);
-    chordTree->setHeaderLabel(tr("Chord choice"));
-    chordTree->setDisabled(true); //Désactivé par défaut tant que new_button n'a pas été déclenché
 
-    /*Ajout des cordes*/
-    //TODO: une optimisation est évidente... Mettre les accords dans un enum par exemple, puis boucler dessus
-    chordTree->addTopLevelItem(buildChord("C"));
-    chordTree->addTopLevelItem(buildChord("C#"));
-    chordTree->addTopLevelItem(buildChord("Db"));
-    chordTree->addTopLevelItem(buildChord("D"));
-    chordTree->addTopLevelItem(buildChord("D#"));
-    chordTree->addTopLevelItem(buildChord("Eb"));
-    chordTree->addTopLevelItem(buildChord("E"));
-    chordTree->addTopLevelItem(buildChord("F"));
-    chordTree->addTopLevelItem(buildChord("F#"));
-    chordTree->addTopLevelItem(buildChord("Gb"));
-    chordTree->addTopLevelItem(buildChord("G"));
-    chordTree->addTopLevelItem(buildChord("G#"));
-    chordTree->addTopLevelItem(buildChord("Ab"));
-    chordTree->addTopLevelItem(buildChord("A"));
-    chordTree->addTopLevelItem(buildChord("A#"));
-    chordTree->addTopLevelItem(buildChord("Bb"));
-    chordTree->addTopLevelItem(buildChord("B"));
-}
-
-/**
- * @brief GridEditor::build_chord
- * @param base_name Tonalité à rajouter à la liste des accords.
- * @return L'élément à rajouter à la liste des accords.
- *
- * Cette fonction crée un objet contenant les différentes possibilités d'accords à partir d'une tonalité donnée: mineur, majeur,...
- */
-QTreeWidgetItem* GridEditor::buildChord(const QString tonality) {
-    QTreeWidgetItem* item = new QTreeWidgetItem();
-    item->setText(0, tonality);
-
-    QTreeWidgetItem* children[6];
-    QString tuning[6] = {"", "m", "aug", "dim", "sus4", "sus2"};
-    for(int i=0; i<6; i++) {
-        children[i] = new QTreeWidgetItem();
-        children[i]->setText(0, tonality + tuning[i]);
-        item->addChild(children[i]);
-    }
-    return item;
-}
 
 void GridEditor::changeState() {
     if (grid->is_selection_empty() && chordTree->isEnabled())
@@ -218,6 +169,7 @@ void GridEditor::newEditor(int type)
         QMessageBox::information(this, tr("So sorry..."), tr("This function has not been implemented yet, but come back soon!"));
     else if(type == MANUAL_EDITOR)
         newGrid();
+    delete editionSelector;
 }
 
 /**
@@ -305,7 +257,7 @@ void GridEditor::createCentralWidget() {
     centralArea = new QWidget();
 
     /*Mise en place du layout*/
-    buildChordTree(); //Initialisation de chord_tree
+    chordTree = new ChordTree(); //Initialisation de chord_tree
     grid = new ChordTableWidget(); //Fenere d'accords
 
     layout = new QGridLayout();

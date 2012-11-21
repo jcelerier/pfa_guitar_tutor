@@ -12,6 +12,7 @@ Last change on 08/05/12
 #include "ChordTableWidget.h"
 #include "CaseItem.h"
 #include "EditionSelector.h"
+#include "ChordTree.h"
 
 class GridEditor : public QMainWindow
 {
@@ -20,7 +21,7 @@ class GridEditor : public QMainWindow
     QWidget* centralArea;
     QGridLayout* layout;
     ChordTableWidget* grid;
-    QTreeWidget* chordTree;
+    ChordTree* chordTree;
     QLabel* title;
 
     QMenu *fileMenu, *editMenu, *optionMenu, *aboutMenu;
@@ -28,6 +29,7 @@ class GridEditor : public QMainWindow
     QAction *quitAction, *aboutAction, *newAction, *saveAction,
             *openAction, *addRowAction, *deleteRowAction,
             *copyDownAction, *renameAction;
+    EditionSelector *editionSelector;
 
 public:
     GridEditor();

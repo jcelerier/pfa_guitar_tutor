@@ -3,7 +3,6 @@
 
 #include <QWidget>
 #include <QtGui>
-#include "GridEditor.h"
 
 #define ASSISTED_EDITOR 0
 #define MANUAL_EDITOR 1
