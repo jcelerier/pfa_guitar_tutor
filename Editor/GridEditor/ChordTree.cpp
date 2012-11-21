@@ -7,11 +7,12 @@ ChordTree::ChordTree() :
     setHeaderLabel(tr("Chord choice"));
     setDisabled(true); //Désactivé par défaut tant que new_button n'a pas été déclenché
 
-    /*Ajout des cordes*/
-    //TODO: tonalities est à prendre de la bibliothèque
-    QString tonalities[17] = {"C", "C#", "Db", "D", "D#", "Eb", "E", "F", "F#", "Gb", "G", "G#", "Ab", "A", "A#", "Bb", "B"};
-    for(int i=0; i<17; i++)
+    /*Ajout des tonalités*/
+    Tonalities* tmp = new Tonalities();
+    QStringList tonalities = tmp->getTonalitiesStringList();
+    for(int i=0; i<tmp->getTonalitiesNumber(); i++)
         addTopLevelItem(buildChordItem(tonalities[i]));
+    delete tmp;
 }
 
 /**
@@ -26,13 +27,15 @@ QTreeWidgetItem* ChordTree::buildChordItem(const QString tonality) {
     item->setText(0, tonality);
 
     QTreeWidgetItem* children[6];
-    //TODO: tuning est à prendre de la bibliothèque
-    QString tuning[6] = {"", "m", "aug", "dim", "sus4", "sus2"};
-    for(int i=0; i<6; i++) {
+
+    Tuning* tmp = new Tuning();
+    QStringList tuning = tmp->getTuningStringList();
+    for(int i=0; i<tmp->getTuningNumber(); i++) {
         children[i] = new QTreeWidgetItem();
         children[i]->setText(0, tonality + tuning[i]);
         item->addChild(children[i]);
     }
+    delete tmp;
     return item;
 }
 

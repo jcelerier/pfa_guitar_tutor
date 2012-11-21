@@ -25,19 +25,141 @@ GridEditor::GridEditor() {
     editionSelector = new EditionSelector(this);
     editionSelector->setWindowModality(Qt::ApplicationModal);
     editionSelector->show();
+
+    //Redirection vers la fonction affichant l'éditeur sélectionné
     connect(editionSelector, SIGNAL(newEditor(int)), this, SLOT(newEditor(int)));
 }
 
 GridEditor::~GridEditor() {
     delete grid;
     delete chordTree;
-    delete openAction;
-    delete saveAction;
-    delete addRowAction;
-    delete copyDownAction;
-    delete deleteRowAction;
     delete layout;
+    delete fileMenu; delete editMenu; delete optionMenu; delete aboutMenu;
+    delete toolBar;
+    delete openAction; delete saveAction; delete addRowAction; delete copyDownAction; delete deleteRowAction;
+        delete quitAction; delete aboutAction; delete newAction; delete renameAction;
+    delete centralArea;
 }
+
+//---------------------------------------------------
+//-----------------------Début création de la fenêtre
+//---------------------------------------------------
+
+/**
+ * @brief GridEditor::createMenu
+ *
+ * Crée le menu principal.
+ */
+void GridEditor::createMenu() {
+    fileMenu = menuBar()->addMenu(tr("&File"));
+    editMenu  = menuBar()->addMenu(tr("&Edit"));
+    optionMenu = menuBar()->addMenu(tr("&Options"));
+    aboutMenu = menuBar()->addMenu(tr("&About"));
+}
+
+/**
+ * @brief GridEditor::createActions
+ *
+ * Crée les actions qui serviront dans le menu et dans la barre d'outils.
+ */
+void GridEditor::createActions(){
+    quitAction = new QAction(tr("&Quit"), this);
+    aboutAction = new QAction(tr("About"), this);
+    newAction = new QAction(tr("&New"), this);
+    saveAction = new QAction(tr("&Save"), this);
+    openAction = new QAction(tr("&Open"), this);
+    addRowAction = new QAction(tr("Add row"), this);
+    deleteRowAction = new QAction(tr("Delete row"), this);
+    copyDownAction = new QAction(tr("&Copy down"), this);
+    renameAction = new QAction(tr("Rename"), this);
+
+    quitAction->setIcon(QIcon("icons/quit.png"));
+    aboutAction->setIcon(QIcon("icons/about.png"));
+    newAction->setIcon(QIcon("icons/new.png"));
+    saveAction->setIcon(QIcon("icons/save.png"));
+    openAction->setIcon(QIcon("icons/open.png"));
+    addRowAction->setIcon(QIcon("icons/addrow.png"));
+    deleteRowAction->setIcon(QIcon("icons/deleterow.png"));
+
+    saveAction->setEnabled(false);
+    deleteRowAction->setEnabled(false);
+    copyDownAction->setEnabled(false);
+    addRowAction->setEnabled(false);
+    renameAction->setEnabled(false);
+}
+
+/**
+ * @brief GridEditor::setActionsToMenu
+ *
+ * Ajoute les actions au menu.
+ */
+void GridEditor::setActionsToMenu() {
+    fileMenu->addAction(newAction);
+    fileMenu->addAction(openAction);
+    fileMenu->addAction(saveAction);
+    fileMenu->addSeparator();
+    fileMenu->addAction(quitAction);
+    editMenu->addAction(addRowAction);
+    editMenu->addAction(deleteRowAction);
+    editMenu->addAction(copyDownAction);
+    aboutMenu->addAction(aboutAction);
+}
+
+/**
+ * @brief GridEditor::createToolbar
+ *
+ * Crée la barre d'outil principale et y ajoute les actions.
+ */
+void GridEditor::createToolbar() {
+    toolBar = new QToolBar(tr("Tool bar"));
+    addToolBar(Qt::RightToolBarArea, toolBar);
+    toolBar->addAction(newAction);
+    toolBar->addAction(openAction);
+    toolBar->addAction(saveAction);
+    toolBar->addSeparator();
+    toolBar->addAction(addRowAction);
+    toolBar->addAction(deleteRowAction);
+}
+
+/**
+ * @brief GridEditor::createCentralWidget
+ *
+ * Création du widget principale de la fenêtre.
+ */
+void GridEditor::createCentralWidget() {
+    centralArea = new QWidget();
+
+    /*Mise en place du layout*/
+    chordTree = new ChordTree(); //Initialisation de chord_tree
+    grid = new ChordTableWidget(); //Fenere d'accords
+
+    layout = new QGridLayout();
+    layout->addWidget(chordTree, 0, 0); //Liste des accords en haut-gauche
+    layout->addWidget(grid, 0, 1); //Fenêtre d'accords en haut-milieu
+    centralArea->setLayout(layout);
+}
+
+/**
+ * @brief GridEditor::connectActionToSlot
+ *
+ * Défini les relations entre signaux et slots pour la fenêtre principale.
+ */
+void GridEditor::connectActionToSlot(){
+    connect(chordTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
+    connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
+    connect(saveAction, SIGNAL(triggered()), this, SLOT(exportXml()));
+    connect(openAction, SIGNAL(triggered()), this, SLOT(importXml()));
+    connect(addRowAction, SIGNAL(triggered()), grid, SLOT(insert_row()));
+    connect(copyDownAction, SIGNAL(triggered()), grid, SLOT(copy_down_rows()));
+    connect(deleteRowAction, SIGNAL(triggered()), grid, SLOT(delete_selected_row()));
+    connect(newAction, SIGNAL(triggered()), this, SLOT(newGrid()));
+    connect(renameAction, SIGNAL(triggered()), this, SLOT(rename()));
+    connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
+}
+
+//---------------------------------------------------
+//-------------------------Fin création de la fenêtre
+//---------------------------------------------------
 
 
 
@@ -172,116 +294,5 @@ void GridEditor::newEditor(int type)
     delete editionSelector;
 }
 
-/**
- * @brief GridEditor::createMenu
- *
- * Crée le menu principal.
- */
-void GridEditor::createMenu() {
-    fileMenu = menuBar()->addMenu(tr("&File"));
-    editMenu  = menuBar()->addMenu(tr("&Edit"));
-    optionMenu = menuBar()->addMenu(tr("&Options"));
-    aboutMenu = menuBar()->addMenu(tr("&About"));
-}
-
-/**
- * @brief GridEditor::createActions
- *
- * Crée les actions qui serviront dans le menu et dans la barre d'outils.
- */
-void GridEditor::createActions(){
-    quitAction = new QAction(tr("&Quit"), this);
-    aboutAction = new QAction(tr("About"), this);
-    newAction = new QAction(tr("&New"), this);
-    saveAction = new QAction(tr("&Save"), this);
-    openAction = new QAction(tr("&Open"), this);
-    addRowAction = new QAction(tr("Add row"), this);
-    deleteRowAction = new QAction(tr("Delete row"), this);
-    copyDownAction = new QAction(tr("&Copy down"), this);
-    renameAction = new QAction(tr("Rename"), this);
-
-    quitAction->setIcon(QIcon("icons/quit.png"));
-    aboutAction->setIcon(QIcon("icons/about.png"));
-    newAction->setIcon(QIcon("icons/new.png"));
-    saveAction->setIcon(QIcon("icons/save.png"));
-    openAction->setIcon(QIcon("icons/open.png"));
-    addRowAction->setIcon(QIcon("icons/addrow.png"));
-    deleteRowAction->setIcon(QIcon("icons/deleterow.png"));
-
-    saveAction->setEnabled(false);
-    deleteRowAction->setEnabled(false);
-    copyDownAction->setEnabled(false);
-    addRowAction->setEnabled(false);
-    renameAction->setEnabled(false);
-}
-
-/**
- * @brief GridEditor::setActionsToMenu
- *
- * Ajoute les actions au menu.
- */
-void GridEditor::setActionsToMenu() {
-    fileMenu->addAction(newAction);
-    fileMenu->addAction(openAction);
-    fileMenu->addAction(saveAction);
-    fileMenu->addSeparator();
-    fileMenu->addAction(quitAction);
-    editMenu->addAction(addRowAction);
-    editMenu->addAction(deleteRowAction);
-    editMenu->addAction(copyDownAction);
-    aboutMenu->addAction(aboutAction);
-}
-
-/**
- * @brief GridEditor::createToolbar
- *
- * Crée la barre d'outil principale et y ajoute les actions.
- */
-void GridEditor::createToolbar() {
-    toolBar = new QToolBar(tr("Tool bar"));
-    addToolBar(Qt::RightToolBarArea, toolBar);
-    toolBar->addAction(newAction);
-    toolBar->addAction(openAction);
-    toolBar->addAction(saveAction);
-    toolBar->addSeparator();
-    toolBar->addAction(addRowAction);
-    toolBar->addAction(deleteRowAction);
-}
-
-/**
- * @brief GridEditor::createCentralWidget
- *
- * Création du widget principale de la fenêtre.
- */
-void GridEditor::createCentralWidget() {
-    centralArea = new QWidget();
-
-    /*Mise en place du layout*/
-    chordTree = new ChordTree(); //Initialisation de chord_tree
-    grid = new ChordTableWidget(); //Fenere d'accords
-
-    layout = new QGridLayout();
-    layout->addWidget(chordTree, 0, 0); //Liste des accords en haut-gauche
-    layout->addWidget(grid, 0, 1); //Fenêtre d'accords en haut-milieu
-    centralArea->setLayout(layout);
-}
-
-/**
- * @brief GridEditor::connectActionToSlot
- *
- * Défini les relations entre signaux et slots pour la fenêtre principale.
- */
-void GridEditor::connectActionToSlot(){
-    connect(chordTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
-    connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
-    connect(saveAction, SIGNAL(triggered()), this, SLOT(exportXml()));
-    connect(openAction, SIGNAL(triggered()), this, SLOT(importXml()));
-    connect(addRowAction, SIGNAL(triggered()), grid, SLOT(insert_row()));
-    connect(copyDownAction, SIGNAL(triggered()), grid, SLOT(copy_down_rows()));
-    connect(deleteRowAction, SIGNAL(triggered()), grid, SLOT(delete_selected_row()));
-    connect(newAction, SIGNAL(triggered()), this, SLOT(newGrid()));
-    connect(renameAction, SIGNAL(triggered()), this, SLOT(rename()));
-    connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
-}
 
 

@@ -2,6 +2,10 @@
 #define CHORDTREE_H
 
 #include <QTreeWidget>
+#include "GuitarTutorAPI_global.h"
+#include "GuitarTutorAPI.h"
+#include "Tonalities.h"
+#include "Tuning.h"
 
 class ChordTree : public QTreeWidget
 {
