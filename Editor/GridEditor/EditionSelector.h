@@ -3,6 +3,10 @@
 
 #include <QWidget>
 #include <QtGui>
+#include "GridEditor.h"
+
+#define ASSISTED_EDITOR 0
+#define MANUAL_EDITOR 1
 
 class EditionSelector : public QWidget
 {
@@ -10,9 +14,11 @@ class EditionSelector : public QWidget
 public:
     explicit EditionSelector(QWidget *parent = 0);
     
-signals:
-    
 public slots:
+    void newAssistedEditor();
+    void newManualEditor();
+signals:
+    void newEditor(int);
     
 };
 

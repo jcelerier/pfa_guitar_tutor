@@ -22,8 +22,10 @@ GridEditor::GridEditor() {
     connectActionToSlot();
 
     //Demande au client de choisir entre les deux types d'édition
-    editionSelector = new EditionSelector();
+    EditionSelector* editionSelector = new EditionSelector(this);
+    editionSelector->setWindowModality(Qt::ApplicationModal);
     editionSelector->show();
+    connect(editionSelector, SIGNAL(newEditor(int)), this, SLOT(newEditor(int)));
 }
 
 GridEditor::~GridEditor() {
@@ -201,6 +203,21 @@ void GridEditor::rename() {
         return;
     title->setText(name);
     grid->set_name(name);
+}
+
+/**
+ * @brief GridEditor::newEditor
+ * @param type Type d'éditeur à créer
+ *
+ * Demande la création de l'éditeur demandé (utilisé depuis l'assistant).
+ */
+
+void GridEditor::newEditor(int type)
+{
+    if(type == ASSISTED_EDITOR)
+        QMessageBox::information(this, tr("So sorry..."), tr("This function has not been implemented yet, but come back soon!"));
+    else if(type == MANUAL_EDITOR)
+        newGrid();
 }
 
 /**

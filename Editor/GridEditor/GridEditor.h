@@ -28,7 +28,6 @@ class GridEditor : public QMainWindow
     QAction *quitAction, *aboutAction, *newAction, *saveAction,
             *openAction, *addRowAction, *deleteRowAction,
             *copyDownAction, *renameAction;
-    EditionSelector *editionSelector;
 
 public:
     GridEditor();
@@ -52,6 +51,7 @@ public slots:
     void exportXml();
     void newGrid();
     void rename();
+    void newEditor(int);
 };
 
 #endif // GRIDEDITOR_H
