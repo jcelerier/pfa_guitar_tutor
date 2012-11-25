@@ -8,6 +8,7 @@ class GUITARTUTORAPISHARED_EXPORT Tonalities
 {
     QStringList tonalitiesStringList;
     int tonalitiesNumber;
+
 public:
     Tonalities();
     QStringList getTonalitiesStringList();

@@ -15,13 +15,17 @@ DEFINES += GUITARTUTORAPI_LIBRARY
 SOURCES += \
     Tonalities.cpp \
     GuitarTutorAPI.cpp \
-    Tuning.cpp
+    Tuning.cpp \
+    Chord.cpp \
+    Tonality.cpp
 
 HEADERS +=\
         GuitarTutorAPI_global.h \
     Tonalities.h \
     GuitarTutorAPI.h \
-    Tuning.h
+    Tuning.h \
+    Chord.h \
+    Tonality.h
 
 symbian {
     MMP_RULES += EXPORTUNFROZEN
