@@ -4,8 +4,8 @@ HEADERS += \
     mainwindow.h \
     createwindow.h \
     player.h \
-    ../chords_grid/ChordTableWidget.h \
-    ../chords_grid/CaseItem.h \
+    ../GridEditor/ChordTableWidget.h \
+    ../GridEditor/CaseItem.h \
     visualisationthread.h
 
 SOURCES += \
@@ -15,8 +15,8 @@ SOURCES += \
     mainwindow.cpp \
     createwindow.cpp \
     player.cpp \
-    ../chords_grid/ChordTableWidget.cpp \
-    ../chords_grid/CaseItem.cpp \
+    ../GridEditor/ChordTableWidget.cpp \
+    ../GridEditor/CaseItem.cpp \
     visualisationthread.cpp
 
     

@@ -29,7 +29,7 @@ void CreateWindow::exportDataToFile(){
     char *son = new char [player->nom_fichier.toStdString().size() + 1];
     strcpy (son,((player->nom_fichier.toStdString()).substr(0,player->nom_fichier.toStdString().size()-4)).c_str());
     std::ofstream fichier(son,std::ios::out | std::ios::trunc);
-    for(int i = 0;i<player->tempo.size();i++)
+    for(int i = 0;i<(player->tempo.size());i++)
         fichier << player->tempo[i].duration << std::endl;
     std::cout << "Data exported" << std::endl;
     fichier.close();

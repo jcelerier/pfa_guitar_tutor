@@ -3,8 +3,8 @@
 
 #include<QApplication>
 #include"player.h"
-#include"../chords_grid/CaseItem.h"
-#include"../chords_grid/ChordTableWidget.h"
+#include"../GridEditor/CaseItem.h"
+#include"../GridEditor/ChordTableWidget.h"
 
 
 
