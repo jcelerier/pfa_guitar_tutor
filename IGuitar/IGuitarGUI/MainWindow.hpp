@@ -1,65 +1,30 @@
-#ifndef MAINWINDOW_HPP
-#define MAINWINDOW_HPP
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QString>
+#include "audioconfiguration.h"
+#include "MainWidget.hpp"
 
+class MainWindow : public QMainWindow
+{
+		Q_OBJECT
+	public:
+		explicit MainWindow(QWidget *parent = 0);
+		void buildGUI();
+	signals:
+		
+	public slots:
 
-#include "OpenGLWidget.h"
-#include <MultiTracks.h>
-#include <MusicManager.h>
-#include <ScoreManager.h>
+	private:
+		void createMenus();
+		void createToolBars();
+		void createDockWindows();
+		QMenu *menuFichier;
+		QMenu *menuOptions;
+		AudioConfiguration *audioConfPanel;
 
-#include "RenderArea.hpp"
-
-#define PERCENT_OF_CORRECT_NOTES_TO_GO_TO_NEXT_PART 50.0
-#define CHORDS_IMAGES_LOCATION "./chordsImg"
-
-class QTimer;
-
-class MainWindow : public QWidget{
-
-  Q_OBJECT
-
- public:
-  
-  ~MainWindow();
-  MainWindow();
-  
-  void playScore(bool mute);
-  void stopScore();
-
-
-
-//private slots:
- protected:
-	virtual void timeOut();
-
-protected slots:
-	virtual void timeOutSlot();
-  
-  
- private:
-  
-  void buildGUI();
-  void createActions();
-  void createMenus();
-  void createToolBars();
-  void createDockWindows();
-
-  void initListeners();
-
- private:
-  ScoreManager* m_scoreManager;
-
-  RenderArea m_renderAreas;
-
-  bool m_mustPlay;
-  bool m_mustStop;
-  bool m_playMuted;
-
-  QTimer *m_timer;
-  OpenGLWidget* m_openGLWidget;
+		MainWidget m_mainWidget;
+		
 };
 
-#endif /* MAINWINDOW_HPP */
+#endif // MAINWINDOW_H

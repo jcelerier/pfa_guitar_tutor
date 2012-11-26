@@ -77,12 +77,16 @@ public:
 
     void stop();
 
+    MusicManager* getMusicManager(void);
+    void setMusicManager(MusicManager * musicManager);
+
 private:
 	MusicManager* m_musicManager;
 	Engines* m_iscoreEngine;
 	std::string m_currentNote;
 	unsigned int m_currentNoteId;
 	std::string m_currentInputChord;
+
 
 
 	bool m_isAScoreToRun;

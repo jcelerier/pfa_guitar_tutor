@@ -5,8 +5,8 @@
  *      Author: raphael
  */
 
-#ifndef MUSICMANAGER_H_
-#define MUSICMANAGER_H_
+#ifndef MusicManager_H_
+#define MusicManager_H_
 
 #include <map>
 #include <string>
@@ -15,6 +15,7 @@
 
 #include "MultiTracks.h"
 #include "portaudio/portaudio.h"
+#include <vector>
 
 extern "C" {
 #include "chord/chord.h"
@@ -70,7 +71,7 @@ public:
     MultiTracks *getMultiTracks() const;
     void* goToInMs(int millisecPos);
 
-	friend void* musicManagerMainFunction(void* threadArg);
+	friend void* MusicManagerMainFunction(void* threadArg);
 
 	bool isStarted();
     std::string getCurrentChord() const;
@@ -79,11 +80,14 @@ public:
 
     void saveRecordedData(std::string fileName);
 
+    void sendOutputVect(std::vector<std::string> &outputVect );
+    void sendInputVect(std::vector<std::string> &inputVect );
+
 private:
     bool m_isRunning;
     bool m_mustStop;
     std::map<std::string,std::string> m_tracksName;
-    pthread_t m_musicManagerThread;
+	pthread_t m_MusicManagerThread;
     MultiTracks *m_multiTracks;
     PaStreamParameters m_inputParameters;
 	PaStreamParameters m_outputParameters;
@@ -104,4 +108,4 @@ private:
 
 };
 
-#endif /* MUSICMANAGER_H_ */
+#endif /* MusicManager_H_ */
