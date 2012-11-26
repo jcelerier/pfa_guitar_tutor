@@ -60,3 +60,4 @@ protected slots:
 };
 
 #endif /* MAINWINDOW_HPP */
+

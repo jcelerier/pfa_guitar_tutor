@@ -7,7 +7,6 @@
 
 #include "MusicManager.h"
 
-
 MusicManager::MusicManager(std::map<std::string, std::string> & tracks, std::vector<std::string>& muteTracks)
 :m_isRunning(false), m_mustStop(false), m_tracksName(tracks)
 {
@@ -468,29 +467,4 @@ void MusicManager::setMustStop(bool m_mustStop)
 	this->m_mustStop = m_mustStop;
 }
 
-void MusicManager::sendOutputVect(std::vector<std::string> &outputVect )
-{
-	int numDevices = Pa_GetDeviceCount();
-	const PaDeviceInfo *deviceInfo;
-	int i;
-	for( i=0; i<numDevices; i++ )
-	{
-		deviceInfo = Pa_GetDeviceInfo( i );
-		if (deviceInfo->maxOutputChannels > 0)
-			outputVect.push_back(deviceInfo->name);
-	}
-}
-
-void MusicManager::sendInputVect(std::vector<std::string> &inputVect )
-{
-	int numDevices = Pa_GetDeviceCount();
-	const PaDeviceInfo *deviceInfo;
-	int i;
-	for( i=0; i<numDevices; i++ )
-	{
-		deviceInfo = Pa_GetDeviceInfo( i );
-		if (deviceInfo->maxInputChannels > 0)
-			inputVect.push_back(deviceInfo->name);
-	}
-}
 
