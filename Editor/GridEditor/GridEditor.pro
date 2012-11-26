@@ -13,7 +13,8 @@ HEADERS += \
     ChordTableWidget.h \
     GridEditor.h \
     EditionSelector.h \
-    ChordTree.h
+    ChordTree.h \
+    Enrichment.h
 
 QT += xml
 

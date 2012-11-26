@@ -1,5 +1,5 @@
 #include "ChordTree.h"
-
+#include <QDebug>
 ChordTree::ChordTree() :
     QTreeWidget()
 {
@@ -23,14 +23,17 @@ ChordTree::ChordTree() :
  * Cette fonction crée un objet contenant les différentes possibilités d'accords à partir d'une tonalité donnée: mineur, majeur,...
  */
 QTreeWidgetItem* ChordTree::buildChordItem(const QString tonality) {
+
+    Enrichment* tmp = new Enrichment();
+    QStringList& tuning = tmp->getEnrichmentStringList();
     QTreeWidgetItem* item = new QTreeWidgetItem();
     item->setText(0, tonality);
 
-    QTreeWidgetItem* children[6];
+    QTreeWidgetItem* children[tuning.size()];
 
-    Tuning* tmp = new Tuning();
-    QStringList tuning = tmp->getTuningStringList();
-    for(int i=0; i<tmp->getTuningNumber(); i++) {
+
+    for(int i=0; i<tuning.size(); i++)
+    {
         children[i] = new QTreeWidgetItem();
         children[i]->setText(0, tonality + tuning[i]);
         item->addChild(children[i]);

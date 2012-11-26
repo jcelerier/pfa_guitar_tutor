@@ -1,17 +1,19 @@
 #include "Enrichment.h"
 #include <QVector>
+#include <QDebug>
+
 /*
 Enrichment::Enrichment()
 {
 	enrichmentStringList = (QStringList() << "" << "m" << "aug" << "dim" << "sus4" << "sus2");
 	enrichmentQuantity = enrichmentStringList.size();
-}
+}*/
 
-QStringList Enrichment::getTuningStringList()
+QStringList& Enrichment::getEnrichmentStringList()
 {
-	return enrichmentStringList;
+        return m_stringEquivs;
 }
-
+/*
 int Enrichment::getEnrichmentQuantity()
 {
 	return enrichmentQuantity;
@@ -58,17 +60,8 @@ Enrichment::Enrichment(const QStringList& enrichList)
 
 void Enrichment::initStringEquivs()
 {
-	m_stringEquivs.append("M");
-	m_stringEquivs.append("m");
-	m_stringEquivs.append("+");
-	m_stringEquivs.append("-");
-	m_stringEquivs.append("sus2");
-	m_stringEquivs.append("sus4");
-	m_stringEquivs.append("b5");
-	m_stringEquivs.append("6");
-	m_stringEquivs.append("7");
-	m_stringEquivs.append("9");
-	m_stringEquivs.append("11");
+    m_stringEquivs << "M" <<"m"<<"+"<<"-"<<"sus2"<<"sus4"<<"b5" << "6" << "7" << "9" << "11" << "13";
+
 }
 
 // à approfondir. Ex: pas de C#Mmsus2sus4776b5... cf site sur le wiki

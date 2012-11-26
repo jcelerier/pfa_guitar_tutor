@@ -5,7 +5,7 @@
 #include "GuitarTutorAPI_global.h"
 #include "GuitarTutorAPI.h"
 #include "Tonalities.h"
-#include "Tuning.h"
+#include "Enrichment.h"
 
 class ChordTree : public QTreeWidget
 {
