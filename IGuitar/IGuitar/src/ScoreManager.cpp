@@ -359,12 +359,3 @@ std::string ScoreManager::getCurrentPart() const
 	return m_currentPart;
 }
 
-
-MusicManager* ScoreManager::getMusicManager(void)
-{
-	return m_musicManager;
-}
-void ScoreManager::setMusicManager(MusicManager * musicManager)
-{
-	m_musicManager = musicManager;
-}
