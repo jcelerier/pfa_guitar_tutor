@@ -11,19 +11,20 @@ QT += opengl
 LIBS += -lIGuitar -lsndfile -lportaudio -lGLU -lGL -lglut
 CXXFLAGS += -g
 # Input
-HEADERS += OpenGLWidget.h RenderArea.hpp GuitarWindow.h \
-    selectsong.hpp \
+HEADERS += OpenGLWidget.h RenderArea.hpp \
     getfilename.hpp \
     audioconfiguration.h \
     MusicManager.h \
     MainWidget.hpp \
-    MainWindow.hpp
-SOURCES += main.cpp OpenGLWidget.cpp RenderArea.cpp GuitarWindow.cpp \
-    selectsong.cpp \
+    MainWindow.hpp \
+    SongSelection.hpp
+SOURCES += main.cpp OpenGLWidget.cpp RenderArea.cpp \
     getfilename.cpp \
     audioconfiguration.cpp \
     MainWidget.cpp \
-    MainWindow.cpp
+    MainWindow.cpp \
+    SongSelection.cpp
 
 FORMS += \
-    audioconfiguration.ui
+    audioconfiguration.ui \
+    SongSelection.ui

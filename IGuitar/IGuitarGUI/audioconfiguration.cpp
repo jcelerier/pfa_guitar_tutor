@@ -35,7 +35,7 @@ void AudioConfiguration::init(void)
 	QStringList * outputStringList = new QStringList(outputList);
 	ui->outputBox->addItems(*outputStringList);
 
-	for(int i = 0; i < InputVect.size(); i++)
+	for(unsigned int i = 0; i < InputVect.size(); i++)
 	{
 		inputList.append(QString(InputVect[i].c_str()));
 	}

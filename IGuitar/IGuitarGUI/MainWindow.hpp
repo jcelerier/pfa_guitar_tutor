@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "audioconfiguration.h"
 #include "MainWidget.hpp"
+#include "SongSelection.hpp"
 
 class MainWindow : public QMainWindow
 {
@@ -22,7 +23,7 @@ class MainWindow : public QMainWindow
 		QMenu *menuFichier;
 		QMenu *menuOptions;
 		AudioConfiguration *audioConfPanel;
-
+		SongSelection *songSelectionPanel;
 		MainWidget m_mainWidget;
 		
 };

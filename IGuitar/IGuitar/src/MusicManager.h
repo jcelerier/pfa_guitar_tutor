@@ -70,11 +70,8 @@ public:
     MultiTracks *getMultiTracks() const;
     void* goToInMs(int millisecPos);
 
-<<<<<<< HEAD
     friend void* MusicManagerMainFunction(void* threadArg);
-=======
-	friend void* musicManagerMainFunction(void* threadArg);
->>>>>>> ad09e4877ce6fbd73db2ffae396d323345b90235
+//	friend void* musicManagerMainFunction(void* threadArg);
 
     bool isStarted();
     std::string getCurrentChord() const;
@@ -87,11 +84,8 @@ private:
     bool m_isRunning;
     bool m_mustStop;
     std::map<std::string,std::string> m_tracksName;
-<<<<<<< HEAD
     pthread_t m_MusicManagerThread;
-=======
-    pthread_t m_musicManagerThread;
->>>>>>> ad09e4877ce6fbd73db2ffae396d323345b90235
+//    pthread_t m_musicManagerThread;
     MultiTracks *m_multiTracks;
     PaStreamParameters m_inputParameters;
     PaStreamParameters m_outputParameters;

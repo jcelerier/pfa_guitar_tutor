@@ -46,18 +46,3 @@ const QStringList GetFileName::getFileName(QString &path)
     return *files;
 }
 
-// methode qui etait utile dans une premiere version, mais qui n'est finalement pas utilisee
-
-int GetFileName::split(vector<string>& vecteur, string chaine, char separateur)
-{
-    vecteur.clear();
-    string::size_type stTemp = chaine.find(separateur);
-    while(stTemp != string::npos)
-    {
-        vecteur.push_back(chaine.substr(0, stTemp));
-        chaine = chaine.substr(stTemp + 1);
-        stTemp = chaine.find(separateur);
-    }
-    vecteur.push_back(chaine);
-    return vecteur.size();
-}

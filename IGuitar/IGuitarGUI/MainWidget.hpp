@@ -18,45 +18,38 @@ class QTimer;
 
 class MainWidget : public QWidget {
 
-  Q_OBJECT
+		Q_OBJECT
 
- public:
-  
-  ~MainWidget();
-  MainWidget();
-  
-  void playScore(bool mute);
-  void stopScore();
+	public:
 
+		~MainWidget();
+		MainWidget();
 
+		void playScore(bool mute);
+		void stopScore();
+		//private slots:
+	protected:
+		virtual void timeOut();
 
-//private slots:
- protected:
-	virtual void timeOut();
-
-protected slots:
-	virtual void timeOutSlot();
-  
-  
- private:
-  
-  void buildGUI();
-  void createActions();
+	protected slots:
+		virtual void timeOutSlot();
 
 
-  void initListeners();
+	private:
 
-  ScoreManager* m_scoreManager;
+		void buildGUI();
+		void createActions();
+		void initListeners();
 
-  RenderArea m_renderAreas;
+		ScoreManager* m_scoreManager;
+		RenderArea m_renderAreas;
 
-  bool m_mustPlay;
-  bool m_mustStop;
-  bool m_playMuted;
+		bool m_mustPlay;
+		bool m_mustStop;
+		bool m_playMuted;
 
-
-  QTimer *m_timer;
-  OpenGLWidget* m_openGLWidget;
+		QTimer *m_timer;
+		OpenGLWidget* m_openGLWidget;
 };
 
 #endif /* MAINWINDOW_HPP */
