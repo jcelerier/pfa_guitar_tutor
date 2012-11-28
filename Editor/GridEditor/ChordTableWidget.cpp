@@ -8,6 +8,7 @@ Last change on 08/05/12
 #include <QtXml/QDomDocument>
 #include <QFile>
 #include <QTextStream>
+#include <QtGui>
 #include "CaseItem.h"
 #include "ChordTableWidget.h"
 
@@ -137,6 +138,9 @@ bool ChordTableWidget::is_row_selected() {
     return true;
 }
 
+
+
+
 QList<QList<int>*> ChordTableWidget::rows_selected() {
     QList<QList<int>*> range_rows;
     QList<QTableWidgetSelectionRange> ranges = selectedRanges();
@@ -184,24 +188,6 @@ QList<int> ChordTableWidget::expand_list(QList<QList<int>*> list) {
     return result;
 }
 
-void ChordTableWidget::insert_row() {
-    if (is_row_selected()) {
-        QList<int> rows = expand_list(rows_selected());
-        for (QList<int>::Iterator it = rows.begin() ; it != rows.end() ; it ++)
-            insert_row(*it);
-    }
-    else
-        insert_row(this->rowCount());
-}
-
-void ChordTableWidget::delete_selected_row() {
-    if (is_row_selected()) {
-        QList<int> rows = expand_list(rows_selected());
-        qSort(rows.begin(), rows.end(), qGreater<int>());
-        for (QList<int>::Iterator it = rows.begin() ; it != rows.end() ; it ++)
-            this->removeRow(*it);
-    }
-}
 
 void ChordTableWidget::copy_down_rows() {
     if (is_row_selected()) {
@@ -215,5 +201,123 @@ void ChordTableWidget::copy_down_rows() {
                     this->setItem((**it).last() + count, c, this->item(*i, c)->clone());
             }
         }
+    }
+}
+
+//------------------------------
+//
+// AJOUT / SUPPRESSION DE LIGNES
+//
+//------------------------------
+
+/*
+    Fonction d'ajout de ligne.
+    TODO : insérer SOIT après la case sélectionnée (si une seule case sélectionnée),
+    SOIT à la fin du fichier
+
+*/
+
+void ChordTableWidget::insert_row() {
+    if (is_row_selected()) {
+        QList<int> rows = expand_list(rows_selected());
+        for (QList<int>::Iterator it = rows.begin() ; it != rows.end() ; it ++)
+            insert_row(*it);
+    }
+    else
+        insert_row(this->rowCount());
+}
+
+/* Fonction de suppression des lignes dont les cases sélectionnées sont membres */
+
+void ChordTableWidget::delete_selected_row() {
+
+    QList<QTableWidgetItem*> listItems = selectedItems();
+
+    if(listItems.count() == 1) {
+        removeRow(listItems.first()->row());
+    }
+
+    else if(listItems.count() > 1) {
+
+        QString listRow;
+        listRow.append("Etes-vous certain de vouloir supprimer les lignes ");
+
+        for(QList<QTableWidgetItem*>::Iterator i = listItems.begin(); i != listItems.end() ; i++) {
+            listRow.append(QString::number((**i).row()+1));
+            listRow.append(" ");
+        }
+
+        listRow.append("?");
+
+        int answer = QMessageBox::question(this, "Suppression de lignes", listRow, QMessageBox::Yes | QMessageBox::No);
+
+        if(answer == QMessageBox::Yes) {
+
+            for(QList<QTableWidgetItem*>::Iterator i = listItems.begin(); i != listItems.end() ; i++) {
+                        if(rowCount() > 1) {
+                            removeRow((**i).row());
+                        }
+            }
+
+        }
+
+    }
+
+}
+
+//------------------------------
+//
+// AJOUT / SUPPRESSION DE COLONNES
+//
+//------------------------------
+
+/* Fonction de suppression de colonnes dont les cases sélectionnées sont membres */
+
+void ChordTableWidget::delete_selected_column() {
+
+        QList<QTableWidgetItem*> listItems = selectedItems();
+
+        if(listItems.count() == 1) {
+            removeColumn(listItems.first()->column());
+        }
+
+        else if(listItems.count() > 1) {
+
+            QString listColumn;
+            listColumn.append("Etes-vous certain de vouloir supprimer les colonnes ");
+
+            for(QList<QTableWidgetItem*>::Iterator i = listItems.begin(); i != listItems.end() ; i++) {
+                listColumn.append(QString::number((**i).column()+1));
+                listColumn.append(" ");
+            }
+
+            listColumn.append("?");
+
+            int answer = QMessageBox::question(this, "Suppression de colonnes", listColumn, QMessageBox::Yes | QMessageBox::No);
+
+            if(answer == QMessageBox::Yes) {
+
+                for(QList<QTableWidgetItem*>::Iterator i = listItems.begin(); i != listItems.end() ; i++) {
+                            if(columnCount() > 1) {
+                                removeColumn((**i).column());
+                            }
+                }
+
+            }
+
+        }
+
+}
+
+
+/* TODO : insérer la colonne APRES la case sélectionnée, si une seule case sélectionnée */
+
+void ChordTableWidget::insert_column() {
+
+    insertColumn(columnCount()-1);
+
+    for (int c = 0 ; c < this->rowCount(); c ++) {
+        this->setItem(c, columnCount()-2, new CaseItem());
+        this->setColumnWidth(c, 60);
     }
 }

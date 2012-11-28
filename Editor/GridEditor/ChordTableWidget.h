@@ -37,6 +37,8 @@ private:
 public slots:
     void fill_selection(QTreeWidgetItem* chord, int column);
     void insert_row();
+    void insert_column();
+    void delete_selected_column();
     void delete_selected_row();
     void copy_down_rows();
 };
