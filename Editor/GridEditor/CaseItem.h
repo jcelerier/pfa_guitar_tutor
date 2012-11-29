@@ -19,7 +19,7 @@ public:
     CaseItem();
     CaseItem(const QTableWidgetItem& item);
     ~CaseItem();
-    void set_color(int r, int, int g, int b);
+    void set_color(int r, int g, int b, int);
     void set_chord(QString cw);
     QColor* get_color() const;
     QString get_chord() const;

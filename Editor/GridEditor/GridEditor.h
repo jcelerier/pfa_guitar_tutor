@@ -28,7 +28,8 @@ class GridEditor : public QMainWindow
     QToolBar *toolBar;
     QAction *quitAction, *aboutAction, *newAction, *saveAction,
             *openAction, *addRowAction, *deleteRowAction,
-            *copyDownAction, *renameAction;
+            *copyDownAction, *renameAction, *addColumnAction,
+            *deleteColumnAction;
     EditionSelector *editionSelector;
 
 public:

@@ -70,6 +70,8 @@ void GridEditor::createActions(){
     openAction = new QAction(tr("&Open"), this);
     addRowAction = new QAction(tr("Add row"), this);
     deleteRowAction = new QAction(tr("Delete row"), this);
+    addColumnAction = new QAction(tr("Add column"), this);
+    deleteColumnAction = new QAction(tr("Delete column"), this);
     copyDownAction = new QAction(tr("&Copy down"), this);
     renameAction = new QAction(tr("Rename"), this);
 
@@ -80,11 +82,15 @@ void GridEditor::createActions(){
     openAction->setIcon(QIcon("icons/open.png"));
     addRowAction->setIcon(QIcon("icons/addrow.png"));
     deleteRowAction->setIcon(QIcon("icons/deleterow.png"));
+    addColumnAction->setIcon(QIcon("icons/addrow.png"));
+    deleteColumnAction->setIcon(QIcon("icons/deleterow.png"));
 
     saveAction->setEnabled(false);
+    /*
     deleteRowAction->setEnabled(false);
     copyDownAction->setEnabled(false);
     addRowAction->setEnabled(false);
+    */
     renameAction->setEnabled(false);
 }
 
@@ -101,6 +107,8 @@ void GridEditor::setActionsToMenu() {
     fileMenu->addAction(quitAction);
     editMenu->addAction(addRowAction);
     editMenu->addAction(deleteRowAction);
+    editMenu->addAction(addColumnAction);
+    editMenu->addAction(deleteColumnAction);
     editMenu->addAction(copyDownAction);
     aboutMenu->addAction(aboutAction);
 }
@@ -119,6 +127,8 @@ void GridEditor::createToolbar() {
     toolBar->addSeparator();
     toolBar->addAction(addRowAction);
     toolBar->addAction(deleteRowAction);
+    toolBar->addAction(addColumnAction);
+    toolBar->addAction(deleteColumnAction);
 }
 
 /**
@@ -150,6 +160,8 @@ void GridEditor::connectActionToSlot(){
     connect(saveAction, SIGNAL(triggered()), this, SLOT(exportXml()));
     connect(openAction, SIGNAL(triggered()), this, SLOT(importXml()));
     connect(addRowAction, SIGNAL(triggered()), grid, SLOT(insert_row()));
+    connect(addColumnAction, SIGNAL(triggered()), grid, SLOT(insert_column()));
+    connect(deleteColumnAction, SIGNAL(triggered()), grid, SLOT(delete_selected_column()));
     connect(copyDownAction, SIGNAL(triggered()), grid, SLOT(copy_down_rows()));
     connect(deleteRowAction, SIGNAL(triggered()), grid, SLOT(delete_selected_row()));
     connect(newAction, SIGNAL(triggered()), this, SLOT(newGrid()));
@@ -168,6 +180,8 @@ void GridEditor::changeState() {
         chordTree->setEnabled(false);
     else if(!grid->is_selection_empty() && !chordTree->isEnabled())
         chordTree->setEnabled(true);
+
+    /*
     if (grid->is_row_selected() && !deleteRowAction->isEnabled()) {
         deleteRowAction->setEnabled(true);
         copyDownAction->setEnabled(true);
@@ -176,6 +190,7 @@ void GridEditor::changeState() {
         deleteRowAction->setEnabled(false);
         copyDownAction->setEnabled(false);
     }
+    */
 }
 
 /**
@@ -194,12 +209,15 @@ void GridEditor::importXml() {
     title->setText(grid->get_name());
     saveAction->setEnabled(true);
     addRowAction->setEnabled(true);
+    addColumnAction->setEnabled(true);
     renameAction->setEnabled(true);
     connect(chordTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
     connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
     connect(addRowAction, SIGNAL(triggered()), grid, SLOT(insert_row()));
     connect(copyDownAction, SIGNAL(triggered()), grid, SLOT(copy_down_rows()));
     connect(deleteRowAction, SIGNAL(triggered()), grid, SLOT(delete_selected_row()));
+    connect(addColumnAction, SIGNAL(triggered()), grid, SLOT(insert_column()));
+    connect(deleteColumnAction, SIGNAL(triggered()), grid, SLOT(delete_selected_column()));
 }
 
 /**
@@ -256,12 +274,15 @@ void GridEditor::newGrid() {
     layout->addWidget(grid, 0, 1);
     saveAction->setEnabled(true);
     addRowAction->setEnabled(true);
+    addColumnAction->setEnabled(true);
     renameAction->setEnabled(true);
     connect(chordTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
     connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
     connect(addRowAction, SIGNAL(triggered()), grid, SLOT(insert_row()));
     connect(copyDownAction, SIGNAL(triggered()), grid, SLOT(copy_down_rows()));
     connect(deleteRowAction, SIGNAL(triggered()), grid, SLOT(delete_selected_row()));
+    connect(deleteColumnAction, SIGNAL(triggered()), grid, SLOT(delete_selected_column()));
+    connect(addColumnAction, SIGNAL(triggered()), grid, SLOT(insert_column()));
 }
 
 /**
