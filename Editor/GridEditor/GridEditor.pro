@@ -14,7 +14,6 @@ HEADERS += \
     GridEditor.h \
     EditionSelector.h \
     ChordTree.h \
-    Enrichment.h
 
 QT += xml
 
