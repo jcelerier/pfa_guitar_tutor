@@ -6,6 +6,7 @@
 #include <QSortFilterProxyModel>
 #include <QTreeView>
 #include <QRegExp>
+#include "Configuration.h"
 #include <QGridLayout>
 
 namespace Ui {
@@ -17,22 +18,29 @@ class SongSelection : public QDialog
 	Q_OBJECT
 
 	public:
-		explicit SongSelection(QWidget *parent = 0);
+		explicit SongSelection(Configuration &conf, QWidget *parent = 0);
 		~SongSelection();
-		void init(QWidget *parent = 0);
+		void init();
 
 		void showView(QGridLayout*& layout);
+
+
+	public slots:
+		void swapShowDialogModeless();
+		void setSongName(QModelIndex index);
+		void acceptData();
+
 
 	private:
 		Ui::SongSelection *ui;
 		QTreeView * fileSystemView;
 		QFileSystemModel * fileSystemModel;
 		QSortFilterProxyModel *proxyModel;
-		QString songName;
 
-	public slots:
-		void swapShowDialogModeless();
-		void acceptData();
+		Configuration& m_conf;
+
+		QString tmpSongName;
+
 };
 
 #endif // SELECTSONG_H

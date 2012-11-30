@@ -3,8 +3,6 @@
 
 #include <QString>
 
-
-#include "OpenGLWidget.h"
 #include <MultiTracks.h>
 #include <MusicManager.h>
 #include <ScoreManager.h>
@@ -27,16 +25,15 @@ class MainWidget : public QWidget {
 
 		void playScore(bool mute);
 		void stopScore();
-		//private slots:
+
+
 	protected:
 		virtual void timeOut();
 
 	protected slots:
 		virtual void timeOutSlot();
 
-
 	private:
-
 		void buildGUI();
 		void createActions();
 		void initListeners();
@@ -49,7 +46,6 @@ class MainWidget : public QWidget {
 		bool m_playMuted;
 
 		QTimer *m_timer;
-		OpenGLWidget* m_openGLWidget;
 };
 
 #endif /* MAINWINDOW_HPP */

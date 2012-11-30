@@ -6,19 +6,19 @@
 #include "../IGuitar/src/MusicManager.h"
 #include "../IGuitar/src/ScoreManager.h"
 #include <iostream>
+#include "Configuration.h"
 
-AudioConfiguration::AudioConfiguration(QWidget *parent) :
+AudioConfiguration::AudioConfiguration(Configuration& conf, QWidget *parent) :
 	QDialog(parent),
-	ui(new Ui::AudioConfiguration)
+	ui(new Ui::AudioConfiguration), m_conf(conf)
 {
 	ui->setupUi(this);
 }
 
-void AudioConfiguration::init(void)
+void AudioConfiguration::init()
 {
 	std::vector <std::string> OutputVect;
 	QList <QString> outputList;
-
 
 	std::vector <std::string> InputVect;
 	QList <QString> inputList;
@@ -84,14 +84,15 @@ void AudioConfiguration::swapShowDialogModeless()
 
 void AudioConfiguration::setInput(QString input)
 {
-	tmpInput = input.mid(0);
+	m_tmpInput = input.mid(0);
 }
 void AudioConfiguration::setOutput(QString output)
 {
-	tmpOutput = output.mid(0);
+	m_tmpOutput = output.mid(0);
 }
+
 void AudioConfiguration::acceptData()
 {
-	chosenInput = tmpInput.mid(0);
-	chosenOutput = tmpOutput.mid(0);
+	m_conf.setAudioInput(m_tmpInput);
+	m_conf.setAudioOutput(m_tmpOutput);
 }

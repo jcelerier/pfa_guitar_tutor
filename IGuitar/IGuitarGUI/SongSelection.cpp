@@ -1,21 +1,23 @@
 #include "ui_SongSelection.h"
 #include "SongSelection.hpp"
 
-
 #include <QFileSystemModel>
 #include <QSortFilterProxyModel>
 #include <QTreeView>
 #include <QGridLayout>
 
+#include <QDebug>
+#include "Configuration.h"
 
 void SongSelection::showView(QGridLayout*& layout)
 {
 	layout->addWidget(fileSystemView, 0, 0);
 }
 
-SongSelection::SongSelection(QWidget *parent) :
+SongSelection::SongSelection(Configuration& conf, QWidget *parent) :
 	QDialog(parent),
-	ui(new Ui::SongSelection)
+	ui(new Ui::SongSelection),
+	m_conf(conf)
 {
 	ui->setupUi(this);
 }
@@ -25,15 +27,10 @@ SongSelection::~SongSelection()
 
 }
 
-void SongSelection::acceptData()
+void SongSelection::init()
 {
 
 
-}
-
-void SongSelection::init(QWidget *parent)
-{
-	//fileSystemView = new QTreeView;
 	fileSystemModel = new QFileSystemModel;
 	proxyModel = new QSortFilterProxyModel;
 
@@ -44,6 +41,11 @@ void SongSelection::init(QWidget *parent)
 	proxyModel->setFilterRegExp("Folder|xml");
 	ui->fileSystemView->setModel(proxyModel);
 
+	//on n'affiche que le nom.
+	ui->fileSystemView->hideColumn(1);
+	ui->fileSystemView->hideColumn(2);
+	ui->fileSystemView->hideColumn(3);
+
 
 	// Fix the TreeView on the Root Path of the Model
 	ui->fileSystemView->setRootIndex(proxyModel->mapFromSource(rootModelIndex));
@@ -53,4 +55,17 @@ void SongSelection::swapShowDialogModeless()
 {
 	// Si elle est deja affichee, on cache la boite de dialogue sinon on l'affiche
 	setVisible(!isVisible());
+}
+
+void SongSelection::setSongName(QModelIndex index)
+{
+	tmpSongName = fileSystemModel->fileName(index); //filePath bug, donc il faut que les xml soient à la racine...
+
+	//QFileInfo finfo =  fileSystemModel->fileInfo(index);
+	//qDebug() <<  fileSystemModel->isDir(index);
+}
+
+void SongSelection::acceptData()
+{
+	m_conf.setSongName(tmpSongName);
 }

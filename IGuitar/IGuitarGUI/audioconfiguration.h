@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QList>
+#include "Configuration.h"
 #include <string>
 
 namespace Ui {
@@ -14,21 +15,11 @@ class AudioConfiguration : public QDialog
 		Q_OBJECT
 		
 	public:
-		explicit AudioConfiguration(QWidget *parent = 0);
-		void init(void);
+		explicit AudioConfiguration(Configuration &conf, QWidget *parent = 0);
+		void init();
 		void sendOutputVect(std::vector<std::string> &outputVect );
 		void sendInputVect(std::vector<std::string> &inputVect );
 		~AudioConfiguration();
-
-		
-	private:
-		Ui::AudioConfiguration *ui;
-
-		QString chosenInput;
-		QString chosenOutput;
-
-		QString tmpInput;
-		QString tmpOutput;
 
 	public slots:
 		void swapShowDialogModeless();
@@ -36,6 +27,13 @@ class AudioConfiguration : public QDialog
 		void setOutput(QString output);
 		void acceptData();
 
+	private:
+		Ui::AudioConfiguration *ui;
+
+		Configuration& m_conf;
+
+		QString m_tmpInput;
+		QString m_tmpOutput;
 };
 
 #endif // AUDIOCONFIGURATION_H

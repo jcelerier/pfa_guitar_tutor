@@ -41,8 +41,8 @@ extern "C" {
 
 typedef struct
 {
-    static const unsigned short NB_CROSSFADE_FRAMES = 256;
-    float			  		 	crossFadeCurrentValue;
+	static const unsigned short NB_CROSSFADE_FRAMES = 256;
+	float			  		 	crossFadeCurrentValue;
     unsigned int    	      	frameIndex;  /* Index into sample array. */
     unsigned int    	      	crossFadeframeIndex;  /* Index into sample array. */
     unsigned int          		maxFrameIndex;
@@ -54,26 +54,25 @@ soundData;
 
 class MusicManager {
 public:
-    MusicManager(std::map<std::string, std::string> & tracks, std::vector<std::string>& muteTracks);
+	MusicManager(std::map<std::string, std::string> & tracks, std::vector<std::string>& muteTracks);
 
-    MusicManager(unsigned int timeToRecord);
+	MusicManager(unsigned int timeToRecord);
 
-    virtual ~MusicManager();
+	virtual ~MusicManager();
 
-    void run();
-    void stop();
-    void start();
+	void run();
+	void stop();
+	void start();
 
-    bool isRunning() const;
+	bool isRunning() const;
     void setMustStop(bool m_mustStop);
 
     MultiTracks *getMultiTracks() const;
     void* goToInMs(int millisecPos);
 
-    friend void* MusicManagerMainFunction(void* threadArg);
-//	friend void* musicManagerMainFunction(void* threadArg);
+	friend void* musicManagerMainFunction(void* threadArg);
 
-    bool isStarted();
+	bool isStarted();
     std::string getCurrentChord() const;
 
     void fillBufferWithLastInputValues(double* buffer, unsigned int size);
@@ -84,25 +83,24 @@ private:
     bool m_isRunning;
     bool m_mustStop;
     std::map<std::string,std::string> m_tracksName;
-    pthread_t m_MusicManagerThread;
-//    pthread_t m_musicManagerThread;
+    pthread_t m_musicManagerThread;
     MultiTracks *m_multiTracks;
     PaStreamParameters m_inputParameters;
-    PaStreamParameters m_outputParameters;
-    PaStream* m_playStream;
-    PaStream* m_inputStream;
-    PaError m_err;
-    soundData m_playData;
-    soundData m_recordData;
+	PaStreamParameters m_outputParameters;
+	PaStream* m_playStream;
+	PaStream* m_inputStream;
+	PaError m_err;
+	soundData m_playData;
+	soundData m_recordData;
 
-    std::string m_currentChord;
+	std::string m_currentChord;
 
-    void* initAudioDevice();
-    void* initAudioInput();
-    void* initAudioOutput();
-    void* terminateAudioDevice();
+	void* initAudioDevice();
+	void* initAudioInput();
+	void* initAudioOutput();
+	void* terminateAudioDevice();
 
-    void* changeFrameIndex(int newFrameIndex);
+	void* changeFrameIndex(int newFrameIndex);
 
 };
 

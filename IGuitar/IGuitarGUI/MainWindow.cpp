@@ -54,11 +54,11 @@ MainWindow::buildGUI()
 	p.setColor(QPalette::Background, Qt::black);
 	setPalette(p);
 
-	audioConfPanel = new AudioConfiguration;
+	audioConfPanel = new AudioConfiguration(m_conf);
 	audioConfPanel->init();
 
-	songSelectionPanel = new SongSelection;
-	songSelectionPanel->init(0);
+			songSelectionPanel = new SongSelection(m_conf);
+	songSelectionPanel->init();
 
 	setWindowTitle(tr("IGuitar"));
 	setMinimumSize(800, 600);

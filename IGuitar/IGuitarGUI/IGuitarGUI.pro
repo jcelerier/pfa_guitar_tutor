@@ -7,23 +7,25 @@ TARGET =
 DEPENDPATH += . 
 INCLUDEPATH += . ../IGuitar/src
 QMAKE_LIBDIR += ../IGuitar/Release
-QT += opengl
-LIBS += -lIGuitar -lsndfile -lportaudio -lGLU -lGL -lglut
+LIBS += -lIGuitar -lsndfile -lportaudio
 CXXFLAGS += -g
+
 # Input
-HEADERS += OpenGLWidget.h RenderArea.hpp \
+HEADERS += RenderArea.hpp \
     getfilename.hpp \
     audioconfiguration.h \
     MusicManager.h \
     MainWidget.hpp \
     MainWindow.hpp \
-    SongSelection.hpp
-SOURCES += main.cpp OpenGLWidget.cpp RenderArea.cpp \
+    SongSelection.hpp \
+    Configuration.h
+SOURCES += main.cpp RenderArea.cpp \
     getfilename.cpp \
     audioconfiguration.cpp \
     MainWidget.cpp \
     MainWindow.cpp \
-    SongSelection.cpp
+    SongSelection.cpp \
+    Configuration.cpp
 
 FORMS += \
     audioconfiguration.ui \
