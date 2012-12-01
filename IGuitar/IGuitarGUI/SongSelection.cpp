@@ -29,8 +29,6 @@ SongSelection::~SongSelection()
 
 void SongSelection::init()
 {
-
-
 	fileSystemModel = new QFileSystemModel;
 	proxyModel = new QSortFilterProxyModel;
 
@@ -46,8 +44,7 @@ void SongSelection::init()
 	ui->fileSystemView->hideColumn(2);
 	ui->fileSystemView->hideColumn(3);
 
-
-	// Fix the TreeView on the Root Path of the Model
+	// On utilise le modèle filtré pour afficher.
 	ui->fileSystemView->setRootIndex(proxyModel->mapFromSource(rootModelIndex));
 }
 
@@ -59,10 +56,8 @@ void SongSelection::swapShowDialogModeless()
 
 void SongSelection::setSongName(QModelIndex index)
 {
-	tmpSongName = fileSystemModel->fileName(index); //filePath bug, donc il faut que les xml soient à la racine...
-
-	//QFileInfo finfo =  fileSystemModel->fileInfo(index);
-	//qDebug() <<  fileSystemModel->isDir(index);
+	QModelIndex index2 = proxyModel->mapToSource(index);
+	tmpSongName = fileSystemModel->filePath(index2); //filePath bug, donc il faut que les xml soient à la racine...
 }
 
 void SongSelection::acceptData()
