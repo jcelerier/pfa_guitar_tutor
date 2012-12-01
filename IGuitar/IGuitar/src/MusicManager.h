@@ -65,7 +65,7 @@ public:
 	void start();
 
 	bool isRunning() const;
-    void setMustStop(bool m_mustStop);
+	void setMustStop(bool mustStop);
 
     MultiTracks *getMultiTracks() const;
     void* goToInMs(int millisecPos);
