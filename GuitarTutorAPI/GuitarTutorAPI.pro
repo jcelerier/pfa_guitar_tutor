@@ -16,14 +16,16 @@ SOURCES += \
     GuitarTutorAPI.cpp \
     Chord.cpp \
     Tonality.cpp \
-    Enrichment.cpp
+    Enrichment.cpp \
+    Tests/TestChord.cpp
 
 HEADERS +=\
         GuitarTutorAPI_global.h \
     GuitarTutorAPI.h \
     Chord.h \
     Tonality.h \
-    Enrichment.h
+    Enrichment.h \
+    Tests/TestChord.h
 
 symbian {
     MMP_RULES += EXPORTUNFROZEN

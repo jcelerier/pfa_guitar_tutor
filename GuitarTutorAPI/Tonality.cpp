@@ -16,14 +16,14 @@ Tonality::Tonality(const e_Note& note, const e_Alteration& alteration /*=UNALTER
 {
 	m_baseNote = note;
 	m_alteration = alteration;
-	m_noteRegExp = QRegExp("^([A-G]|[a-g]){1}(b#)?");
+    m_noteRegExp = QRegExp("^([A-G]|[a-g]){1}(b#)?");
 }
 
 Tonality::Tonality(const QString& note, const QString& alteration /*="UNALTERED"*/)
 {
 	m_baseNote = extractBaseNoteFromStr(note);
 	m_alteration = extractAlterationFromStr(alteration);
-	m_noteRegExp = QRegExp("^([A-G]|[a-g]){1}(b#)?");
+    m_noteRegExp = QRegExp("^([A-G]|[a-g]){1}(b#)?");
 }
 
 
@@ -43,17 +43,11 @@ QString Tonality::toString()
 	note[0]= m_baseNote + 65;
 
 	if(m_alteration == SHARP)
-	{
 		note[1] = '#';
-	}
 	else if(m_alteration == FLAT)
-	{
 		note[1] = 'b';
-	}
 	else
-	{
 		note.resize(1);
-	}
 
 	return note;
 }
@@ -67,6 +61,7 @@ e_Alteration Tonality::getAlteration()
 {
 	return m_alteration;
 }
+
 void Tonality::setBaseNote(const QString& note)
 {
 	m_baseNote = extractBaseNoteFromStr(note);

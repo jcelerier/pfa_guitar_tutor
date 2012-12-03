@@ -33,7 +33,7 @@ class GUITARTUTORAPISHARED_EXPORT Tonality
 		void setAlteration(const e_Alteration& alteration);
 
 	private:
-		QRegExp m_noteRegExp;
+        QRegExp m_noteRegExp;
 		e_Note m_baseNote;
 		e_Alteration m_alteration;
 };
