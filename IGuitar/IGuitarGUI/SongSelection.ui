@@ -74,5 +74,41 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>SongSelection</receiver>
+   <slot>acceptData()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>330</x>
+     <y>140</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>fileSystemView</sender>
+   <signal>clicked(QModelIndex)</signal>
+   <receiver>SongSelection</receiver>
+   <slot>setSongName(QModelIndex)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>145</x>
+     <y>150</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <slots>
+  <slot>acceptData()</slot>
+  <slot>setSongName(QModelIndex)</slot>
+ </slots>
 </ui>

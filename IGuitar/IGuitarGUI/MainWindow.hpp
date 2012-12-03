@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "audioconfiguration.h"
 #include "MainWidget.hpp"
+#include "Configuration.h"
 #include "SongSelection.hpp"
 
 class MainWindow : public QMainWindow
@@ -12,6 +13,7 @@ class MainWindow : public QMainWindow
 	public:
 		explicit MainWindow(QWidget *parent = 0);
 		void buildGUI();
+
 	signals:
 		
 	public slots:
@@ -25,6 +27,8 @@ class MainWindow : public QMainWindow
 		AudioConfiguration *audioConfPanel;
 		SongSelection *songSelectionPanel;
 		MainWidget m_mainWidget;
+
+		Configuration m_conf;
 		
 };
 

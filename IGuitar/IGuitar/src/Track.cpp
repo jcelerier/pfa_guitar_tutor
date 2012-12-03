@@ -82,20 +82,8 @@ int Track::load() {
 	//frames number
 	m_framesCount = (long)(sfInfo.frames);
 
-
-
 	m_buffer = new float[m_framesCount * m_channelsCount];
 
-//	float cf[m_channelsCount];
-//	//read the files into the m_buffers
-//	for(int i=0;i<m_framesCount;++i)
-//	{
-//		sf_readf_float(sndFile,cf,1);
-//		for(int j=0;j<m_channelsCount;++j)
-//		{
-//			m_buffer[(m_channelsCount * i) + j] = cf[j];
-//		}
-//	}
 
 	int nbFrameToRead = 1000;
 	float cf[m_channelsCount * nbFrameToRead];
@@ -113,18 +101,6 @@ int Track::load() {
 	std::cout << m_channelsCount << " channel(s)" << std::endl;
 	std::cout << m_framesCount << " frames" << std::endl;
 
-
-//
-//	for (int i = 0; i < framesCount; i++) {
-//		for (int j = 0; j < channelsCount; j++) {
-//
-//		}
-//	}
-
-	//set channels and framescount
-	//m_channelsNb=channelsCount;
-	//m_framesNb=framesCount;
-
 	//close the file
 	if(sf_close(sndFile))
 		return -1;
@@ -141,5 +117,3 @@ void Track::setMuteState(bool isMute)
 {
 	m_isMute = isMute;
 }
-
-
