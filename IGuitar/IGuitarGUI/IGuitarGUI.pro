@@ -19,6 +19,7 @@ HEADERS += RenderArea.hpp \
     MainWindow.hpp \
     SongSelection.hpp \
     Configuration.h
+
 SOURCES += main.cpp RenderArea.cpp \
     getfilename.cpp \
     audioconfiguration.cpp \

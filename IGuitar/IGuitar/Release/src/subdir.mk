@@ -2,27 +2,24 @@
 # Automatically-generated file. Do not edit!
 ################################################################################
 
-# Add inputs and outputs from these tool invocations to the build variables 
+# Add inputs and outputs from these tool invocations to the build variables
 CPP_SRCS += \
-../src/IGuitar.cpp \
 ../src/MultiTracks.cpp \
 ../src/MusicManager.cpp \
 ../src/ScoreManager.cpp \
-../src/Track.cpp 
+../src/Track.cpp
 
 OBJS += \
-./src/IGuitar.o \
 ./src/MultiTracks.o \
 ./src/MusicManager.o \
 ./src/ScoreManager.o \
-./src/Track.o 
+./src/Track.o
 
 CPP_DEPS += \
-./src/IGuitar.d \
 ./src/MultiTracks.d \
 ./src/MusicManager.d \
 ./src/ScoreManager.d \
-./src/Track.d 
+./src/Track.d
 
 
 # Each subdirectory must supply rules for building sources it contributes

@@ -13,7 +13,7 @@ void Configuration::setSongName(QString songName)
 
 QString Configuration::getSongName()
 {
-
+	return m_currentSongName;
 }
 
 void Configuration::setAudioInput(QString audioInput)
@@ -22,7 +22,7 @@ void Configuration::setAudioInput(QString audioInput)
 }
 QString Configuration::getAudioInput()
 {
-
+	return m_audioInput;
 }
 
 void Configuration::setAudioOutput(QString audioOutput)
@@ -32,5 +32,5 @@ void Configuration::setAudioOutput(QString audioOutput)
 
 QString Configuration::setAudioOutput()
 {
-
+	return m_audioOutput;
 }
