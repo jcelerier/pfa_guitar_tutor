@@ -9,7 +9,7 @@
 
 enum e_Enrichment { MAJ, MIN, AUG, DIM, SUS2, SUS4, B5,  SIX, SEPT, NEUF, ONZE, TREIZE};
 #define NUM_ENRICHMENTS 12
-class Enrichment : public QList<e_Enrichment>
+class GUITARTUTORAPISHARED_EXPORT Enrichment : public QList<e_Enrichment>
 {
 	public:
 		Enrichment();

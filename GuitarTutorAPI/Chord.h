@@ -3,9 +3,10 @@
 
 #include "Enrichment.h"
 #include "Tonality.h"
+#include "GuitarTutorAPI_global.h"
 
 // Fichier source de la classe Chord, représentant un accord.
-class Chord
+class GUITARTUTORAPISHARED_EXPORT Chord
 {
 	public:
 		Chord(const QString& chord);

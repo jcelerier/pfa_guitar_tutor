@@ -3,13 +3,14 @@
 
 #include <QString>
 #include <QRegExp>
+#include "GuitarTutorAPI_global.h"
 
 // Fichier source de la classe Tonality, qui représente une note.
 
 enum e_Note { A, B, C, D, E, F, G }; //possibilité d'en faire des classes? pas très utile amha
 enum e_Alteration { UNALTERED, SHARP, FLAT };
 
-class Tonality
+class GUITARTUTORAPISHARED_EXPORT Tonality
 {
 	public:
 		Tonality();
