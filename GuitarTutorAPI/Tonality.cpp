@@ -12,29 +12,14 @@ Tonality::Tonality(Tonality& t)
 	m_alteration = t.getAlteration();
 }
 
-Tonality::Tonality(const QString& note)
-{
-	m_baseNote = extractBaseNoteFromStr(note);
-	m_alteration = extractAlterationFromStr(note);
-	m_noteRegExp = QRegExp("^([A-G]|[a-g]){1}(b#)?");
-}
-
-
-Tonality::Tonality(const e_Note &note)
-{
-	m_baseNote = note;
-	m_alteration = UNALTERED;
-	m_noteRegExp = QRegExp("^([A-G]|[a-g]){1}(b#)?");
-}
-
-Tonality::Tonality(const e_Note& note, const e_Alteration& alteration)
+Tonality::Tonality(const e_Note& note, const e_Alteration& alteration /*=UNALTERED*/)
 {
 	m_baseNote = note;
 	m_alteration = alteration;
 	m_noteRegExp = QRegExp("^([A-G]|[a-g]){1}(b#)?");
 }
 
-Tonality::Tonality(const QString& note, const QString& alteration)
+Tonality::Tonality(const QString& note, const QString& alteration /*="UNALTERED"*/)
 {
 	m_baseNote = extractBaseNoteFromStr(note);
 	m_alteration = extractAlterationFromStr(alteration);
@@ -104,21 +89,17 @@ void Tonality::setAlteration(const e_Alteration& alteration)
 
 e_Note Tonality::extractBaseNoteFromStr(const QString& str)
 {
-	return (e_Note) (str.at(0).toAscii() - 65);
+    return (e_Note) (str[0].toAscii() - 65);
 }
 
 e_Alteration Tonality::extractAlterationFromStr(const QString& str)
 {
 	if(str.size() > 1)
 	{
-		if(str.at(1) == 'b')
-		{
+        if(str[1] == 'b')
 			return FLAT;
-		}
-		else if(str.at(1) == '#')
-		{
+        else if(str[1] == '#')
 			return SHARP;
-		}
 	}
 
 	return UNALTERED;

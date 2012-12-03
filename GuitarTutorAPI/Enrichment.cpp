@@ -2,66 +2,59 @@
 #include <QVector>
 #include <QDebug>
 
-/*
+
 Enrichment::Enrichment()
 {
-	enrichmentStringList = (QStringList() << "" << "m" << "aug" << "dim" << "sus4" << "sus2");
-	enrichmentQuantity = enrichmentStringList.size();
-}*/
+    initStringEquivs();
+}
+
+Enrichment::Enrichment(Enrichment &enrich)  : QList<e_Enrichment>(enrich)
+{
+    initStringEquivs();
+/* est-ce nécessaire ?
+    while(!enrich.isEmpty())
+    {
+        append(enrich.takeFirst());
+    }*/
+}
+
+Enrichment::Enrichment(const QString& enrich)
+{
+    initStringEquivs();
+    Enrichment tmp;
+    tmp = extractEnrichmentsFromStr(enrich);
+
+    while(!tmp.isEmpty())
+    {
+        append(tmp.takeFirst());
+    }
+}
+
+Enrichment::Enrichment(const QStringList& enrichList)
+{
+    QString e;
+    Enrichment ebis;
+
+    initStringEquivs();
+    foreach(e, enrichList)
+        for(int i = 0; i < (ebis = extractEnrichmentsFromStr(e)).size(); i++ ) //aurait été plus propre avec un deuxième foreach
+            append(ebis[i]); //attention si la liste est mal formée
+}
 
 QStringList& Enrichment::getEnrichmentStringList()
 {
         return m_stringEquivs;
 }
-/*
-int Enrichment::getEnrichmentQuantity()
-{
-	return enrichmentQuantity;
-}
-*/
 
-Enrichment::Enrichment()
-{
-	initStringEquivs();
-}
 
-Enrichment::Enrichment(Enrichment &enrich)  : QList<e_Enrichment>(enrich)
-{
-	initStringEquivs();
-/* est-ce nécessaire ?
-	while(!enrich.isEmpty())
-	{
-		append(enrich.takeFirst());
-	}*/
-}
-
-Enrichment::Enrichment(const QString& enrich)
-{
-	initStringEquivs();
-	Enrichment tmp;
-	tmp = Enrichment::extractEnrichmentsFromStr(enrich);
-
-	while(!tmp.isEmpty())
-	{
-		append(tmp.takeFirst());
-	}
-}
-
-Enrichment::Enrichment(const QStringList& enrichList)
-{
-	QString e;
-	Enrichment ebis;
-
-	initStringEquivs();
-	foreach(e, enrichList)
-		for(int i = 0; i < (ebis = extractEnrichmentsFromStr(e)).size(); i++ ) //aurait été plus propre avec un deuxième foreach
-			append(ebis[i]); //attention si la liste est mal formée
-}
-
+/**
+ * @brief Enrichment::initStringEquivs
+ *
+ * Initialisation de la variable m_stringEquivs
+ */
 void Enrichment::initStringEquivs()
 {
     m_stringEquivs << "M" <<"m"<<"+"<<"-"<<"sus2"<<"sus4"<<"b5" << "6" << "7" << "9" << "11" << "13";
-
 }
 
 // à approfondir. Ex: pas de C#Mmsus2sus4776b5... cf site sur le wiki

@@ -5,7 +5,6 @@
 #include <QRegExp>
 #include "GuitarTutorAPI_global.h"
 
-// Fichier source de la classe Tonality, qui représente une note.
 
 enum e_Note { A, B, C, D, E, F, G }; //possibilité d'en faire des classes? pas très utile amha
 enum e_Alteration { UNALTERED, SHARP, FLAT };
@@ -15,10 +14,8 @@ class GUITARTUTORAPISHARED_EXPORT Tonality
 	public:
 		Tonality();
 		Tonality(Tonality &t);
-		Tonality(const QString& note, const QString& alteration);
-		Tonality(const QString& note);
-		Tonality(const e_Note& note);
-		Tonality(const e_Note& note, const e_Alteration& alteration);
+        Tonality(const QString& note, const QString& alteration = "UNALTERED");
+        Tonality(const e_Note& note, const e_Alteration& alteration = UNALTERED);
 
 		bool isValid();
 		bool isValid(const QString& tonality);
