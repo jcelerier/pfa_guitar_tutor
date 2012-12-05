@@ -1,8 +1,14 @@
 #ifndef GETFILENAME_HPP
 #define GETFILENAME_HPP
 
-#include <sys/types.h>
+
 #include <dirent.h>
+
+#ifndef WIN32
+#include <sys/types.h>
+#endif
+
+
 #include <errno.h>
 #include <vector>
 #include <QString>

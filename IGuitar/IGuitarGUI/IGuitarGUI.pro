@@ -18,7 +18,8 @@ HEADERS += RenderArea.hpp \
     MainWidget.hpp \
     MainWindow.hpp \
     SongSelection.hpp \
-    Configuration.h
+    Configuration.h \
+    usleep.h
 
 SOURCES += main.cpp RenderArea.cpp \
     getfilename.cpp \
@@ -26,7 +27,8 @@ SOURCES += main.cpp RenderArea.cpp \
     MainWidget.cpp \
     MainWindow.cpp \
     SongSelection.cpp \
-    Configuration.cpp
+    Configuration.cpp \
+    usleep.cpp
 
 FORMS += \
     audioconfiguration.ui \

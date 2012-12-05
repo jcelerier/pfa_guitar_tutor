@@ -3,7 +3,12 @@
 #include <QFrame>
 #include <QHBoxLayout>
 #include <QTimer>
+
+#ifndef WIN32
 #include <unistd.h>
+#else
+#include <usleep.h>
+#endif
 
 
 MainWidget::~MainWidget()
