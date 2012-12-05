@@ -1,0 +1,8 @@
+#include <QtCore/qglobal.h>
+
+#if defined(GUITARTUTORAPI_LIBRARY)
+#  define GUITARTUTORAPISHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define GUITARTUTORAPISHARED_EXPORT Q_DECL_IMPORT
+#endif
+
