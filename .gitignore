@@ -50,3 +50,7 @@ IGuitar/IGuitarGUI/Tracks/
 IGuitar/PlayAnalysisGUI/PlayAnalysisGUI
 IGuitar/PlayAnalysisGUI/Tracks/
 *-build-*
+Makefile*
+Makefile
+*.Debug
+*.Release
