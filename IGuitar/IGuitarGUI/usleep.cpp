@@ -1,7 +1,7 @@
 #include "usleep.h"
-#include <Windows.h>
+//#include <Windows.h>
 
-void usleep(int waitTime)
+/*void usleep(int waitTime)
 {
 	__int64 time1 = 0, time2 = 0, freq = 0;
 
@@ -11,4 +11,4 @@ void usleep(int waitTime)
 	{
 		QueryPerformanceCounter((LARGE_INTEGER *) &time2);
 	} while( (time2-time1) < waitTime);
-}
+}*/
