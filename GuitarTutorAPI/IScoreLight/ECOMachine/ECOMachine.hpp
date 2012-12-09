@@ -59,7 +59,7 @@ knowledge of the CeCILL-C license and that you accept its terms.
 #include <string>
 
 //#include "../Editor/CSP/XMLInclude.hpp"
-
+#include <boost/thread.hpp>
 #define EVENT_NAME "event"
 
 /*!
@@ -286,7 +286,7 @@ private:
 
 	std::map<Transition*, TriggerPointInformations> m_transitionToTriggerPointInformations;
 
-	pthread_t m_thread;
+	boost::thread * m_thread;
 
 	bool m_isPaused;
 

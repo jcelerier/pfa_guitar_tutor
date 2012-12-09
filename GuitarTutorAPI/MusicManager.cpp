@@ -6,6 +6,7 @@
  */
 
 #include "MusicManager.h"
+#include <boost/thread.hpp>
 static int recordCallback( const void *inputBuffer, void *outputBuffer,
 						   unsigned long framesPerBuffer,
 						   const PaStreamCallbackTimeInfo* timeInfo,
@@ -349,7 +350,8 @@ void MusicManager::saveRecordedData(std::string fileName)
  */
 void MusicManager::run()
 {
-	pthread_create(&m_musicManagerThread, NULL, musicManagerMainFunction, this);
+	m_musicManagerThread = new boost::thread(&musicManagerMainFunction, this);
+//	pthread_create(&m_musicManagerThread, NULL, musicManagerMainFunction, this);
 }
 
 /**

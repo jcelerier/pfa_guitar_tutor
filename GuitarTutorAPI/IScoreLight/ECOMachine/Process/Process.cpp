@@ -47,6 +47,7 @@ knowledge of the CeCILL-C license and that you accept its terms.
 
 #include <iostream>
 #include <sstream>
+#include <boost/thread.hpp>
 
 
 void* processMainFunction(void* threadArg)
@@ -111,7 +112,8 @@ void ECOProcess::nextStep(unsigned int step)
 
 void ECOProcess::run()
 {
-	pthread_create(&m_thread, NULL, processMainFunction, this);
+	m_thread = new boost::thread(&processMainFunction, this);
+	//pthread_create(&m_thread, NULL, processMainFunction, this);
 }
 
 void ECOProcess::setTimeOffsetInMs(unsigned int time)

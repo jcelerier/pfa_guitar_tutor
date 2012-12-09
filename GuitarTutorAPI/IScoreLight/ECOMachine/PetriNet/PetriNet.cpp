@@ -53,6 +53,7 @@ knowledge of the CeCILL-C license and that you accept its terms.
 #include <algorithm>
 
 #include <unistd.h>
+#include <boost/thread.hpp>
 using namespace std;
 
 PetriNet::PetriNet(unsigned int nbColors)
@@ -286,7 +287,8 @@ void PetriNet::launch()
 
 	m_isRunning = true;
 	m_mustStop = false;
-	pthread_create(&m_thread, NULL, mainThreadFunction, this);
+	m_thread = new boost::thread(&mainThreadFunction, this);
+	//pthread_create(&m_thread, NULL, mainThreadFunction, this);
 }
 
 unsigned int PetriNet::getCurrentTimeInMs()

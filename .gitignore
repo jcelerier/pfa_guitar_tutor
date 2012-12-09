@@ -54,3 +54,6 @@ Makefile*
 Makefile
 *.Debug
 *.Release
+*Makefile
+*Makefile*
+IGuitar/IGuitarGUI/Makefile

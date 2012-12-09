@@ -37,4 +37,4 @@ DEPENDPATH += $$PWD/../../GuitarTutorAPI
 win32: PRE_TARGETDEPS += $$PWD/../../GuitarTutorAPI/IGuitar.lib
 else:unix:!symbian: PRE_TARGETDEPS += $$PWD/../../GuitarTutorAPI/libIGuitar.a
 
-LIBS += -lsndfile -lportaudio
+LIBS += -lsndfile -lportaudio -lboost_thread-mt

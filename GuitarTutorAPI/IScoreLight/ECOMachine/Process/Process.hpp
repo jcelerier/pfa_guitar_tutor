@@ -48,7 +48,7 @@ knowledge of the CeCILL-C license and that you accept its terms.
 #define PROCESS_TYPE_NETWORK_MESSAGE_TO_SEND "networkMessageToSend"
 
 #include <string>
-#include <pthread.h>
+#include <boost/thread.hpp>
 
 //#include "../../Editor/CSP/XMLInclude.hpp"
 
@@ -105,7 +105,7 @@ protected :
 	ECOProcess::state m_state;
 
 private:
-	pthread_t m_thread;
+	boost::thread* m_thread;
 
 };
 

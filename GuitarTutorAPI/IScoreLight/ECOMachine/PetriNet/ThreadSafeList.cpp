@@ -43,39 +43,40 @@ knowledge of the CeCILL-C license and that you accept its terms.
  */
 
 #include "ThreadSafeList.hpp"
+#include <boost/thread.hpp>
 
 ThreadSafeList::ThreadSafeList()
 {
-	m_mutex = new pthread_mutex_t();
-	pthread_mutex_init(m_mutex, NULL);
+	m_mutex = new boost::mutex();
+//	pthread_mutex_init(m_mutex, NULL);
 }
 
 ThreadSafeList::~ThreadSafeList()
 {
-	pthread_mutex_destroy(m_mutex);
+//	pthread_mutex_destroy(m_mutex);
 	delete m_mutex;
 }
 
 std::list<std::string> ThreadSafeList::getList()
 {
-	pthread_mutex_lock(m_mutex);
+	m_mutex->lock();
 	std::list<std::string> tempList = m_list;
-	pthread_mutex_unlock(m_mutex);
+	m_mutex->unlock();
 
 	return tempList;
 }
 
 void ThreadSafeList::push_back(std::string elementToAdd)
 {
-	pthread_mutex_lock(m_mutex);
+	m_mutex->lock();
 	m_list.push_back(elementToAdd);
-	pthread_mutex_unlock(m_mutex);
+	m_mutex->unlock();
 }
 
 void ThreadSafeList::clear()
 {
-	pthread_mutex_lock(m_mutex);
+	m_mutex->lock();
 	m_list.clear();
-	pthread_mutex_unlock(m_mutex);
+	m_mutex->unlock();
 }
 

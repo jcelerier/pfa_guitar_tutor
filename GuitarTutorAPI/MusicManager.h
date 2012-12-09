@@ -10,7 +10,7 @@
 
 #include <map>
 #include <string>
-#include <pthread.h>
+#include <boost/thread.hpp>
 #include <sndfile.h>
 
 #include "MultiTracks.h"
@@ -83,7 +83,7 @@ private:
     bool m_isRunning;
     bool m_mustStop;
     std::map<std::string,std::string> m_tracksName;
-    pthread_t m_musicManagerThread;
+	boost::thread * m_musicManagerThread;
     MultiTracks *m_multiTracks;
     PaStreamParameters m_inputParameters;
 	PaStreamParameters m_outputParameters;
