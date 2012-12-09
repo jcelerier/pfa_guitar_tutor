@@ -6,13 +6,13 @@ Chord::Chord(const QString& chord)
 	m_enrichment = extractEnrichmentFromStr(chord);
 }
 
-Chord::Chord(Chord& chord)
+Chord::Chord(const Chord& chord)
 {
 	m_tonality = chord.getTonality();
 	m_enrichment = chord.getEnrichment();
 }
 
-Chord::Chord(Tonality &tonality, Enrichment &enrichment)
+Chord::Chord(const Tonality& tonality, const Enrichment& enrichment)
 {
 	m_tonality = Tonality(tonality);
 	m_enrichment = Enrichment(enrichment);
@@ -37,12 +37,12 @@ QString Chord::toString()
 	return chord;
 }
 
-Enrichment Chord::getEnrichment()
+const Enrichment& Chord::getEnrichment() const
 {
 	return m_enrichment;
 }
 
-Tonality Chord::getTonality()
+const Tonality& Chord::getTonality() const
 {
 	return m_tonality;
 }
@@ -67,7 +67,7 @@ void Chord::setEnrichment(const QString& enrichment)
 	m_enrichment = Enrichment(enrichment);
 }
 
-Tonality Chord::extractTonalityFromStr(const QString& str)
+Tonality& Chord::extractTonalityFromStr(const QString& str)
 {
 	Tonality tone;
     //On prend la sous-chaine de 2 ou 1 caractères correspondant à une tonalité valide
@@ -79,7 +79,7 @@ Tonality Chord::extractTonalityFromStr(const QString& str)
 	return tone;
 }
 
-Enrichment Chord::extractEnrichmentFromStr(const QString& str)
+Enrichment& Chord::extractEnrichmentFromStr(const QString& str)
 {
 	Enrichment enrich;
 	if(str.at(1) == 'b' || str.at(1) == '#')

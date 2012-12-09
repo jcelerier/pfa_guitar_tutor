@@ -6,7 +6,7 @@ Tonality::Tonality()
 	m_alteration = UNALTERED;
 }
 
-Tonality::Tonality(Tonality& t)
+Tonality::Tonality(const Tonality& t)
 {
 	m_baseNote = t.getBaseNote();
 	m_alteration = t.getAlteration();
@@ -52,12 +52,12 @@ QString Tonality::toString()
 	return note;
 }
 
-e_Note Tonality::getBaseNote()
+const e_Note& Tonality::getBaseNote() const
 {
 	return m_baseNote;
 }
 
-e_Alteration Tonality::getAlteration()
+const e_Alteration& Tonality::getAlteration() const
 {
 	return m_alteration;
 }

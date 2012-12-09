@@ -8,7 +8,7 @@ Enrichment::Enrichment()
     initStringEquivs();
 }
 
-Enrichment::Enrichment(Enrichment &enrich)  : QList<e_Enrichment>(enrich)
+Enrichment::Enrichment(const Enrichment &enrich)  : QList<e_Enrichment>(enrich)
 {
     initStringEquivs();
 /* est-ce nécessaire ?
