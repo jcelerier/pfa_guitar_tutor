@@ -6,7 +6,7 @@
  *
  * Construitun accord à partir d'une chaîne de caractères.
  */
-Chord::Chord(const QString& chord)
+Chord::Chord(const QString chord)
 {
 	m_tonality = extractTonalityFromStr(chord);
 	m_enrichment = extractEnrichmentFromStr(chord);

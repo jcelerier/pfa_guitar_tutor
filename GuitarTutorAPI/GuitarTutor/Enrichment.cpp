@@ -18,7 +18,7 @@ Enrichment::Enrichment()
  *
  * Constructeur par recopie.
  */
-Enrichment::Enrichment(Enrichment &enrich)  : QList<e_Enrichment>(enrich)
+Enrichment::Enrichment(const Enrichment& enrich)  : QList<e_Enrichment>(enrich)
 {
     initStringEquivs();
 /* est-ce nécessaire ?
@@ -34,7 +34,7 @@ Enrichment::Enrichment(Enrichment &enrich)  : QList<e_Enrichment>(enrich)
  *
  * Crée un enrichissement à partir d'une chaîne de caractères.
  */
-Enrichment::Enrichment(const QString& enrich)
+Enrichment::Enrichment(const QString enrich)
 {
     initStringEquivs();
     Enrichment tmp;
@@ -52,7 +52,7 @@ Enrichment::Enrichment(const QString& enrich)
  *
  * Crée un enrichissement à partir d'une liste de chaîne de caractères.
  */
-Enrichment::Enrichment(const QStringList& enrichList)
+Enrichment::Enrichment(const QStringList enrichList)
 {
     QString e;
     Enrichment ebis;

@@ -11,7 +11,7 @@
 class GUITARTUTORAPISHARED_EXPORT Chord
 {
 	public:
-		Chord(const QString& chord);
+        Chord(const QString chord);
 		Chord(Chord& chord);
         Chord(Tonality& tonality, Enrichment& enrichment);
 

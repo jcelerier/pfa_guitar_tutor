@@ -30,7 +30,7 @@ Tonality::Tonality(Tonality& t)
  *
  * Construit une tonalité à partir d'une note et d'une altération.
  */
-Tonality::Tonality(const e_Note& note, const e_Alteration& alteration /*=UNALTERED*/)
+Tonality::Tonality(const e_Note note, const e_Alteration alteration /*=UNALTERED*/)
 {
 	m_baseNote = note;
 	m_alteration = alteration;
@@ -44,7 +44,7 @@ Tonality::Tonality(const e_Note& note, const e_Alteration& alteration /*=UNALTER
  *
  * Construit une tonalité à partir d'une note et d'une altération sous forme de chaînes de caractères.
  */
-Tonality::Tonality(const QString& note, const QString& alteration /*="UNALTERED"*/)
+Tonality::Tonality(const QString note, const QString alteration /*="UNALTERED"*/)
 {
 	m_baseNote = extractBaseNoteFromStr(note);
 	m_alteration = extractAlterationFromStr(alteration);
@@ -69,7 +69,7 @@ bool Tonality::isValid()
  *
  * Indique si une tonalité est valide ou non.
  */
-bool Tonality::isValid(const QString& tonality)
+bool Tonality::isValid(const QString tonality)
 {
 	return tonality.size() <= 2 && tonality.contains(m_noteRegExp);
 }
@@ -123,7 +123,7 @@ e_Alteration Tonality::getAlteration()
  *
  * Modifie la fondamentale de la tonalité.
  */
-void Tonality::setBaseNote(const QString& note)
+void Tonality::setBaseNote(const QString note)
 {
 	m_baseNote = extractBaseNoteFromStr(note);
 }
@@ -134,7 +134,7 @@ void Tonality::setBaseNote(const QString& note)
  *
  * Modifie la fondamentale de la tonalité.
  */
-void Tonality::setBaseNote(const e_Note& note)
+void Tonality::setBaseNote(const e_Note note)
 {
 	m_baseNote = note;
 }
@@ -145,7 +145,7 @@ void Tonality::setBaseNote(const e_Note& note)
  *
  * Modifie l'altération de la tonalité.
  */
-void Tonality::setAlteration(const QString& alteration)
+void Tonality::setAlteration(const QString alteration)
 {
 	m_alteration = extractAlterationFromStr(alteration);
 }
@@ -156,7 +156,7 @@ void Tonality::setAlteration(const QString& alteration)
  *
  * Modifie l'altération de la tonalité.
  */
-void Tonality::setAlteration(const e_Alteration& alteration)
+void Tonality::setAlteration(const e_Alteration alteration)
 {
 	m_alteration = alteration;
 }
@@ -168,7 +168,7 @@ void Tonality::setAlteration(const e_Alteration& alteration)
  *
  * Renvoit la note extraite d'une chaîne de caractères.
  */
-e_Note Tonality::extractBaseNoteFromStr(const QString& str)
+e_Note Tonality::extractBaseNoteFromStr(const QString str)
 {
     return (e_Note) (str[0].toAscii() - 65);
 }
@@ -180,7 +180,7 @@ e_Note Tonality::extractBaseNoteFromStr(const QString& str)
  *
  * Renvoit l'altération extraite d'une chaîne de caractères.
  */
-e_Alteration Tonality::extractAlterationFromStr(const QString& str)
+e_Alteration Tonality::extractAlterationFromStr(const QString str)
 {
 	if(str.size() > 1)
 	{
