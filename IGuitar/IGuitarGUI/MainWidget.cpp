@@ -4,11 +4,8 @@
 #include <QHBoxLayout>
 #include <QTimer>
 
-#ifndef WIN32
+
 #include <unistd.h>
-#else
-#include <usleep.h>
-#endif
 
 /**
   *@brief MainWidget::~MainWidget
