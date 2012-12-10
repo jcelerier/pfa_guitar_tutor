@@ -7,6 +7,9 @@
 
 #define NUM_TONALITIES 7
 
+/**
+ * @brief Objet représentant la liste des différentes tonalités possibles
+ */
 class GUITARTUTORAPISHARED_EXPORT Tonalities
 {
     QStringList tonalitiesStringList;

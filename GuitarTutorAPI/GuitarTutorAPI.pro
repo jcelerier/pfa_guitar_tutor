@@ -6,6 +6,19 @@ TEMPLATE = lib
 TARGET = IGuitar
 CONFIG += staticlib
 
+win32 {
+CONFIG += rtti
+DEPENDPATH +=  . \
+              ../libsndfile/lib \
+              ../boost/lib \
+              ../portaudio/lib
+
+INCLUDEPATH += . \
+               ../libsndfile/include \
+               ../boost/include
+
+}
+
 DEPENDPATH += . \
               chord \
               GuitarTutor \
@@ -154,4 +167,8 @@ SOURCES += MultiTracks.cpp \
            IScoreLight/Editor/CSP/CSPLinearConstraint.cpp \
            IScoreLight/Editor/CSP/TriggerPoint.cpp
 
+macx: QMAKE_CFLAGS_X86_64 += -mmacosx-version-min=10.7
+macx: QMAKE_CXXFLAGS_X86_64 = $$QMAKE_CFLAGS_X86_64
+
 LIBS += -lsndfile
+win32: LIBS += -lportaudio
