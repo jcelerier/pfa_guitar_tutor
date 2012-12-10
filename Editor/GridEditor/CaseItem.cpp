@@ -5,7 +5,7 @@ Last change on 14/04/12
 */
 
 /**
- * Gestion les cases de la grille d'édition
+ *
  */
 
 #include "CaseItem.h"

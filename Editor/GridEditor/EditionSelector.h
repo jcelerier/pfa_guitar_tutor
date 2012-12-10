@@ -7,6 +7,11 @@
 #define ASSISTED_EDITOR 0
 #define MANUAL_EDITOR 1
 
+/**
+ * @brief The EditionSelector class
+ *
+ * Fenêtre d'assistant de sélection d'éditeur.
+ */
 class EditionSelector : public QWidget
 {
     Q_OBJECT
