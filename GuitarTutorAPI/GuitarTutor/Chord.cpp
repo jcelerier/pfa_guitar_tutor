@@ -12,9 +12,6 @@ Chord::Chord(const QString chord)
 	m_enrichment = extractEnrichmentFromStr(chord);
 }
 
-<<<<<<< HEAD
-Chord::Chord(const Chord& chord)
-=======
 /**
  * @brief Chord::Chord
  * @param chord Accord
@@ -22,15 +19,11 @@ Chord::Chord(const Chord& chord)
  * Constructeur par recopie.
  */
 Chord::Chord(Chord& chord)
->>>>>>> 6aaf7988d503c4bdd6a0436129cc7c9b332bdfcd
 {
 	m_tonality = chord.getTonality();
 	m_enrichment = chord.getEnrichment();
 }
 
-<<<<<<< HEAD
-Chord::Chord(const Tonality& tonality, const Enrichment& enrichment)
-=======
 /**
  * @brief Chord::Chord
  * @param tonality Tonalité
@@ -39,7 +32,6 @@ Chord::Chord(const Tonality& tonality, const Enrichment& enrichment)
  * Construit un accord à partir d'une tonalité et d'un enrichissement.
  */
 Chord::Chord(Tonality &tonality, Enrichment &enrichment)
->>>>>>> 6aaf7988d503c4bdd6a0436129cc7c9b332bdfcd
 {
 	m_tonality = Tonality(tonality);
 	m_enrichment = Enrichment(enrichment);
@@ -83,9 +75,6 @@ QString Chord::toString()
 	return chord;
 }
 
-<<<<<<< HEAD
-const Enrichment& Chord::getEnrichment() const
-=======
 /**
  * @brief Chord::getEnrichment
  * @return L'enrichissement de l'accord.
@@ -93,14 +82,10 @@ const Enrichment& Chord::getEnrichment() const
  * Extrait l'enrichissement de l'accord.
  */
 Enrichment Chord::getEnrichment()
->>>>>>> 6aaf7988d503c4bdd6a0436129cc7c9b332bdfcd
 {
 	return m_enrichment;
 }
 
-<<<<<<< HEAD
-const Tonality& Chord::getTonality() const
-=======
 /**
  * @brief Chord::getTonality
  * @return La tonalité de l'accord.
@@ -108,7 +93,6 @@ const Tonality& Chord::getTonality() const
  * Extrait la tonalité de l'accord.
  */
 Tonality Chord::getTonality()
->>>>>>> 6aaf7988d503c4bdd6a0436129cc7c9b332bdfcd
 {
 	return m_tonality;
 }
@@ -157,9 +141,6 @@ void Chord::setEnrichment(const QString& enrichment)
 	m_enrichment = Enrichment(enrichment);
 }
 
-<<<<<<< HEAD
-Tonality& Chord::extractTonalityFromStr(const QString& str)
-=======
 /**
  * @brief Chord::extractTonalityFromStr
  * @param str Tonalité ou accord
@@ -168,7 +149,6 @@ Tonality& Chord::extractTonalityFromStr(const QString& str)
  * Extrait la tonalité d'une tonalité ou d'un accord sous forme de chaîne de caractères.
  */
 Tonality Chord::extractTonalityFromStr(const QString& str)
->>>>>>> 6aaf7988d503c4bdd6a0436129cc7c9b332bdfcd
 {
 	Tonality tone;
     //On prend la sous-chaine de 2 ou 1 caractères correspondant à une tonalité valide
@@ -180,9 +160,6 @@ Tonality Chord::extractTonalityFromStr(const QString& str)
 	return tone;
 }
 
-<<<<<<< HEAD
-Enrichment& Chord::extractEnrichmentFromStr(const QString& str)
-=======
 /**
  * @brief Chord::extractEnrichmentFromStr
  * @param str Accord
@@ -191,7 +168,6 @@ Enrichment& Chord::extractEnrichmentFromStr(const QString& str)
  * Extrait l'enrichissement d'un accord sous forme de chaîne de caractères.
  */
 Enrichment Chord::extractEnrichmentFromStr(const QString& str)
->>>>>>> 6aaf7988d503c4bdd6a0436129cc7c9b332bdfcd
 {
 	Enrichment enrich;
 	if(str.at(1) == 'b' || str.at(1) == '#')

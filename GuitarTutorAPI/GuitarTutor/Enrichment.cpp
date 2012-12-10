@@ -12,9 +12,6 @@ Enrichment::Enrichment()
     initStringEquivs();
 }
 
-<<<<<<< HEAD
-Enrichment::Enrichment(const Enrichment &enrich)  : QList<e_Enrichment>(enrich)
-=======
 /**
  * @brief Enrichment::Enrichment
  * @param enrich Enrichissement
@@ -22,7 +19,6 @@ Enrichment::Enrichment(const Enrichment &enrich)  : QList<e_Enrichment>(enrich)
  * Constructeur par recopie.
  */
 Enrichment::Enrichment(const Enrichment& enrich)  : QList<e_Enrichment>(enrich)
->>>>>>> 6aaf7988d503c4bdd6a0436129cc7c9b332bdfcd
 {
     initStringEquivs();
 /* est-ce nécessaire ?

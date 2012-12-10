@@ -21,17 +21,10 @@ class GUITARTUTORAPISHARED_EXPORT Enrichment : public QList<e_Enrichment>
 {
 	public:
 		Enrichment();
-<<<<<<< HEAD
-		Enrichment(const Enrichment &enrich);
-		Enrichment(const QString& enrich);
-		Enrichment(const QStringList& enrichList);
-        Enrichment(const e_Enrichment& enrich);
-=======
         Enrichment(const Enrichment &enrich);
         Enrichment(const QString enrich);
         Enrichment(const QStringList enrichList);
         Enrichment(const e_Enrichment enrich);
->>>>>>> 6aaf7988d503c4bdd6a0436129cc7c9b332bdfcd
 
 		bool isValid();
 		bool isValid(const QString& enrichment);

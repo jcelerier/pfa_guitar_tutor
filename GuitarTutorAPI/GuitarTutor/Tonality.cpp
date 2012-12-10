@@ -11,9 +11,6 @@ Tonality::Tonality()
 	m_alteration = UNALTERED;
 }
 
-<<<<<<< HEAD
-Tonality::Tonality(const Tonality& t)
-=======
 /**
  * @brief Tonality::Tonality
  * @param t Tonalité
@@ -21,7 +18,6 @@ Tonality::Tonality(const Tonality& t)
  * Constructeur par recopie.
  */
 Tonality::Tonality(Tonality& t)
->>>>>>> 6aaf7988d503c4bdd6a0436129cc7c9b332bdfcd
 {
 	m_baseNote = t.getBaseNote();
 	m_alteration = t.getAlteration();
@@ -99,9 +95,6 @@ QString Tonality::toString()
 	return note;
 }
 
-<<<<<<< HEAD
-const e_Note& Tonality::getBaseNote() const
-=======
 /**
  * @brief Tonality::getBaseNote
  * @return La fondamentale.
@@ -109,14 +102,10 @@ const e_Note& Tonality::getBaseNote() const
  * Renvoit la note fondamentale de la tonalité.
  */
 e_Note Tonality::getBaseNote()
->>>>>>> 6aaf7988d503c4bdd6a0436129cc7c9b332bdfcd
 {
 	return m_baseNote;
 }
 
-<<<<<<< HEAD
-const e_Alteration& Tonality::getAlteration() const
-=======
 /**
  * @brief Tonality::getAlteration
  * @return L'altération.
@@ -124,7 +113,6 @@ const e_Alteration& Tonality::getAlteration() const
  * Renvoit l'altération de la tonalité.
  */
 e_Alteration Tonality::getAlteration()
->>>>>>> 6aaf7988d503c4bdd6a0436129cc7c9b332bdfcd
 {
 	return m_alteration;
 }
