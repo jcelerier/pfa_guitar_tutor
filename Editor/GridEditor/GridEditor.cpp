@@ -149,10 +149,13 @@ void GridEditor::createCentralWidget() {
     /*Mise en place du layout*/
     chordTree = new ChordTree(); //Initialisation de chord_tree
     grid = new ChordTableWidget(); //Fenere d'accords
+    player = new SimpleMusicPlayer();
 
     layout = new QGridLayout();
     layout->addWidget(chordTree, 0, 0); //Liste des accords en haut-gauche
     layout->addWidget(grid, 0, 1); //Fenêtre d'accords en haut-milieu
+    layout->addWidget(player, 1, 1);
+
     centralArea->setLayout(layout);
 }
 
@@ -277,6 +280,7 @@ void GridEditor::newGrid() {
     int column = QInputDialog::getInt(this, tr("New grid"), tr(mess.toAscii()), 4, 1, 64, 1, &ok);
     if (!ok)
         return;
+    delete grid;
     grid = new ChordTableWidget(column + 1, 10);
     layout->addWidget(grid, 0, 1);
     saveAction->setEnabled(true);

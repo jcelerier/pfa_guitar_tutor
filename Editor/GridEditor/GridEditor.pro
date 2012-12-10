@@ -10,7 +10,8 @@ SOURCES += \
     GridEditor.cpp \
     TestMain.cpp \
     EditionSelector.cpp \
-    ChordTree.cpp
+    ChordTree.cpp \
+    SimpleMusicPlayer.cpp
 
 HEADERS += \
     CaseItem.h \
@@ -18,8 +19,12 @@ HEADERS += \
     GridEditor.h \
     EditionSelector.h \
     ChordTree.h \
+    SimpleMusicPlayer.h
 
-QT += core gui xml
+QT += core \
+      gui \
+      xml \
+      phonon
 
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../GuitarTutorAPI/release/ -lIGuitar
@@ -27,7 +32,9 @@ else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../GuitarTutorAPI/de
 else:symbian: LIBS += -lIGuitar
 else:unix: LIBS += -L$$PWD/../../GuitarTutorAPI/ -lIGuitar
 
-INCLUDEPATH += $$PWD/../../GuitarTutorAPI
+LIBS += -lfmodex64-4.44.00
+
+INCLUDEPATH += $$PWD/../../GuitarTutorAPI $$PWD/../../GuitarTutorAPI/GuitarTutor
 DEPENDPATH += $$PWD/../../GuitarTutorAPI
 
 #win32:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../GuitarTutorAPI/release/IGuitar.lib

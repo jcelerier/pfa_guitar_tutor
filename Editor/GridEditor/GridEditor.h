@@ -13,6 +13,7 @@ Last change on 08/05/12
 #include "CaseItem.h"
 #include "EditionSelector.h"
 #include "ChordTree.h"
+#include "SimpleMusicPlayer.h"
 
 /**
  * @brief Fenêtre principale de l'éditeur
@@ -25,6 +26,7 @@ class GridEditor : public QMainWindow
     QGridLayout* layout;
     ChordTableWidget* grid;
     ChordTree* chordTree;
+    SimpleMusicPlayer* player;
     QLabel* title;
 
     QMenu *fileMenu, *editMenu, *optionMenu, *aboutMenu;
