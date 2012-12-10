@@ -12,10 +12,22 @@ Last change on 08/05/12
 #include "CaseItem.h"
 #include "ChordTableWidget.h"
 
+/**
+ * @brief ChordTableWidget::ChordTableWidget
+ *
+ * Initialise la grille d'accords.
+ */
 ChordTableWidget::ChordTableWidget() : QTableWidget(), name(new QString("")) {
     this->setEnabled(false);
 }
 
+/**
+ * @brief ChordTableWidget::ChordTableWidget
+ * @param column Nombre de colonnes
+ * @param row Nombre de lignes
+ *
+ * Initialise la grille d'accords à une taille donnée.
+ */
 ChordTableWidget::ChordTableWidget(int column, int row) {
     ChordTableWidget();
     this->setColumnCount(column);
@@ -35,6 +47,12 @@ ChordTableWidget::ChordTableWidget(int column, int row) {
     this->setEnabled(true);
 }
 
+/**
+ * @brief ChordTableWidget::ChordTableWidget
+ * @param xgrid_file Chemin vers un fichier de sauvegarde
+ *
+ * Crée une grille d'accords à partir d'un fichier de sauvegarde.
+ */
 ChordTableWidget::ChordTableWidget(QString xgrid_file) {
     ChordTableWidget();
     open_grid(xgrid_file);
@@ -42,14 +60,32 @@ ChordTableWidget::ChordTableWidget(QString xgrid_file) {
     this->setEnabled(true);
 }
 
+/**
+ * @brief ChordTableWidget::get_name
+ * @return Le nom de la grille courante
+ *
+ * Retourne le nom de la grille d'accords courante.
+ */
 QString ChordTableWidget::get_name() const {
     return *name;
 }
 
+/**
+ * @brief ChordTableWidget::set_name
+ * @param name Nom de la grille courante
+ *
+ * Attribue un nom à la grille d'accords courante.
+ */
 void ChordTableWidget::set_name(QString name) {
     *(this->name) = name;
 }
 
+/**
+ * @brief ChordTableWidget::open_grid
+ * @param xgrid_file Chemin vers un fichier de sauvegarde
+ *
+ * Initialise la grille d'accords courante à partir d'un fichier de sauvegarde.
+ */
 void ChordTableWidget::open_grid(QString xgrid_file) {
     QDomDocument doc("XGRID");
     QFile xml_doc(xgrid_file);
@@ -83,6 +119,12 @@ void ChordTableWidget::open_grid(QString xgrid_file) {
     }
 }
 
+/**
+ * @brief ChordTableWidget::to_xml
+ * @param xml_file Chemin vers un fichier de sauvegarde
+ *
+ * Conversion de la grille d'accords courante en format XML pour sauvegarde dans le fichier donné.
+ */
 void ChordTableWidget::to_xml(QString xml_file) {
     QDomDocument doc("XGRID");
     QDomElement chord_grid = doc.createElement(tr("chord_grid"));
@@ -122,12 +164,24 @@ void ChordTableWidget::to_xml(QString xml_file) {
     file.close();
 }
 
+/**
+ * @brief ChordTableWidget::is_selection_empty
+ * @return Vrai si et seulement si aucune case de la grille courante n'est sélectionnée
+ *
+ * Indique si une ou plusieurs cases de la grille d'accords sont actuellement sélectionnées.
+ */
 bool ChordTableWidget::is_selection_empty() {
     if (this->selectedIndexes().isEmpty())
         return true;
     return false;
 }
 
+/**
+ * @brief ChordTableWidget::is_row_selected
+ * @return Vrai si et seulement si une ligne entière est sélectionnée.
+ *
+ * Indique si une ligne de la grille d'accords est actuellement sélectionnée.
+ */
 bool ChordTableWidget::is_row_selected() {
     QList<QTableWidgetSelectionRange> ranges = selectedRanges();
     if (ranges.isEmpty())
@@ -138,9 +192,12 @@ bool ChordTableWidget::is_row_selected() {
     return true;
 }
 
-
-
-
+/**
+ * @brief ChordTableWidget::rows_selected
+ * @return La liste des lignes sélectionnées.
+ *
+ * Donne la liste des lignes actuellement sélectionnées dans la grille.
+ */
 QList<QList<int>*> ChordTableWidget::rows_selected() {
     QList<QList<int>*> range_rows;
     QList<QTableWidgetSelectionRange> ranges = selectedRanges();
@@ -155,6 +212,13 @@ QList<QList<int>*> ChordTableWidget::rows_selected() {
     return range_rows;
 }
 
+/**
+ * @brief ChordTableWidget::insert_row
+ * @param pos Position dans la grille des lignes à insérer
+ * @param num Nombre de lignes à insérer
+ *
+ * Insère une ou plusieurs nouvelles lignes dans la grille à une position donnée.
+ */
 void ChordTableWidget::insert_row(int pos, int num) {
     for (int i = 0 ; i < num ; i ++) {
         this->insertRow(pos);
@@ -167,6 +231,30 @@ void ChordTableWidget::insert_row(int pos, int num) {
     }
 }
 
+/**
+ * @brief ChordTableWidget::insert_row
+ *
+ * Insère une nouvelle ligne dans la grille.
+ * @todo insérer SOIT après la case sélectionnée (si une seule case sélectionnée), SOIT à la fin du fichier
+ */
+void ChordTableWidget::insert_row() {
+    if (is_row_selected()) {
+        QList<int> rows = expand_list(rows_selected());
+        for (QList<int>::Iterator it = rows.begin() ; it != rows.end() ; it ++)
+            insert_row(*it);
+    }
+    else
+        insert_row(this->rowCount());
+}
+
+/**
+ * @brief ChordTableWidget::fill_selection
+ * @param chord Accord
+ * @param column Colonne
+ *
+ * Rempli la sélection courante avec l'accord donné.
+ * @todo Ce code me semble bien compliqué pour ce qu'il fait...
+ */
 void ChordTableWidget::fill_selection(QTreeWidgetItem* chord, int column) {
     if (chord->childCount() == 0) {
         QModelIndexList index_list = this->selectedIndexes();
@@ -181,6 +269,13 @@ void ChordTableWidget::fill_selection(QTreeWidgetItem* chord, int column) {
     }
 }
 
+/**
+ * @brief ChordTableWidget::expand_list
+ * @param list Liste
+ * @return La liste modifiée
+ *
+ * @todo Comprendre à quoi sert cette fonction
+ */
 QList<int> ChordTableWidget::expand_list(QList<QList<int>*> list) {
     QList<int> result;
     for (QList<QList<int>*>::Iterator it = list.begin() ; it != list.end() ; it ++)
@@ -188,7 +283,11 @@ QList<int> ChordTableWidget::expand_list(QList<QList<int>*> list) {
     return result;
 }
 
-
+/**
+ * @brief ChordTableWidget::copy_down_rows
+ *
+ * Copie les lignes actuellement sélectionnées et les insère dans la grille.
+ */
 void ChordTableWidget::copy_down_rows() {
     if (is_row_selected()) {
         QList<QList<int>*> ranges = rows_selected();
@@ -204,31 +303,11 @@ void ChordTableWidget::copy_down_rows() {
     }
 }
 
-//------------------------------
-//
-// AJOUT / SUPPRESSION DE LIGNES
-//
-//------------------------------
-
-/*
-    Fonction d'ajout de ligne.
-    TODO : insérer SOIT après la case sélectionnée (si une seule case sélectionnée),
-    SOIT à la fin du fichier
-
-*/
-
-void ChordTableWidget::insert_row() {
-    if (is_row_selected()) {
-        QList<int> rows = expand_list(rows_selected());
-        for (QList<int>::Iterator it = rows.begin() ; it != rows.end() ; it ++)
-            insert_row(*it);
-    }
-    else
-        insert_row(this->rowCount());
-}
-
-/* Fonction de suppression des lignes dont les cases sélectionnées sont membres */
-
+/**
+ * @brief ChordTableWidget::delete_selected_row
+ *
+ * Supprime les lignes dont les cases sélectionnées sont membres.
+ */
 void ChordTableWidget::delete_selected_row() {
 
     QList<QTableWidgetItem*> listItems = selectedItems();
@@ -236,9 +315,7 @@ void ChordTableWidget::delete_selected_row() {
     if(listItems.count() == 1) {
         removeRow(listItems.first()->row());
     }
-
     else if(listItems.count() > 1) {
-
         QString listRow;
         listRow.append("Etes-vous certain de vouloir supprimer les lignes ");
 
@@ -246,72 +323,60 @@ void ChordTableWidget::delete_selected_row() {
             listRow.append(QString::number((**i).row()+1));
             listRow.append(" ");
         }
-
         listRow.append("?");
 
         int answer = QMessageBox::question(this, "Suppression de lignes", listRow, QMessageBox::Yes | QMessageBox::No);
 
         if(answer == QMessageBox::Yes) {
-
             for(QList<QTableWidgetItem*>::Iterator i = listItems.begin(); i != listItems.end() ; i++) {
-                        if(rowCount() > 1) {
-                            removeRow((**i).row());
-                        }
+                if(rowCount() > 1) {
+                    removeRow((**i).row());
+                }
             }
-
         }
-
     }
-
 }
 
-//------------------------------
-//
-// AJOUT / SUPPRESSION DE COLONNES
-//
-//------------------------------
-
-/* Fonction de suppression de colonnes dont les cases sélectionnées sont membres */
-
+/**
+ * @brief ChordTableWidget::delete_selected_column
+ *
+ * Supprime les colonnes dont les cases sélectionnées sont membres.
+ */
 void ChordTableWidget::delete_selected_column() {
 
-        QList<QTableWidgetItem*> listItems = selectedItems();
+    QList<QTableWidgetItem*> listItems = selectedItems();
 
-        if(listItems.count() == 1) {
-            removeColumn(listItems.first()->column());
+    if(listItems.count() == 1) {
+        removeColumn(listItems.first()->column());
+    }
+    else if(listItems.count() > 1) {
+        QString listColumn;
+        listColumn.append("Etes-vous certain de vouloir supprimer les colonnes ");
+
+        for(QList<QTableWidgetItem*>::Iterator i = listItems.begin(); i != listItems.end() ; i++) {
+            listColumn.append(QString::number((**i).column()+1));
+            listColumn.append(" ");
         }
+        listColumn.append("?");
 
-        else if(listItems.count() > 1) {
-
-            QString listColumn;
-            listColumn.append("Etes-vous certain de vouloir supprimer les colonnes ");
+        int answer = QMessageBox::question(this, "Suppression de colonnes", listColumn, QMessageBox::Yes | QMessageBox::No);
+        if(answer == QMessageBox::Yes) {
 
             for(QList<QTableWidgetItem*>::Iterator i = listItems.begin(); i != listItems.end() ; i++) {
-                listColumn.append(QString::number((**i).column()+1));
-                listColumn.append(" ");
-            }
-
-            listColumn.append("?");
-
-            int answer = QMessageBox::question(this, "Suppression de colonnes", listColumn, QMessageBox::Yes | QMessageBox::No);
-
-            if(answer == QMessageBox::Yes) {
-
-                for(QList<QTableWidgetItem*>::Iterator i = listItems.begin(); i != listItems.end() ; i++) {
-                            if(columnCount() > 1) {
-                                removeColumn((**i).column());
-                            }
+                if(columnCount() > 1) {
+                    removeColumn((**i).column());
                 }
-
             }
-
         }
-
+    }
 }
 
-
-/* TODO : insérer la colonne APRES la case sélectionnée, si une seule case sélectionnée */
-
+/**
+ * @brief ChordTableWidget::insert_column
+ *
+ * Insère une nouvelle colonne dans la grille.
+ * @todo insérer la colonne APRES la case sélectionnée, si une seule case sélectionnée
+ */
 void ChordTableWidget::insert_column() {
 
     insertColumn(columnCount()-1);

@@ -7,6 +7,9 @@
 #include "Tonalities.h"
 #include "Enrichment.h"
 
+/**
+ * @brief Arbre de sélection d'accords
+ */
 class ChordTree : public QTreeWidget
 {
     Q_OBJECT

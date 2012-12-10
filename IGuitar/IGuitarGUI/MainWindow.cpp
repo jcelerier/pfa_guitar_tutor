@@ -57,7 +57,7 @@ MainWindow::buildGUI()
 	audioConfPanel = new AudioConfiguration(m_conf);
 	audioConfPanel->init();
 
-			songSelectionPanel = new SongSelection(m_conf);
+	songSelectionPanel = new SongSelection(m_conf);
 	songSelectionPanel->init();
 
 	setWindowTitle(tr("IGuitar"));

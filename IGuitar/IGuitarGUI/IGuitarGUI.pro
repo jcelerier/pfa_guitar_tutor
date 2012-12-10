@@ -5,28 +5,36 @@
 TEMPLATE = app
 TARGET = 
 DEPENDPATH += . 
-INCLUDEPATH += . ../IGuitar/src
-QMAKE_LIBDIR += ../IGuitar/Release
-LIBS += -lIGuitar -lsndfile -lportaudio
-CXXFLAGS += -g
 
 # Input
 HEADERS += RenderArea.hpp \
     getfilename.hpp \
     audioconfiguration.h \
-    MusicManager.h \
     MainWidget.hpp \
     MainWindow.hpp \
     SongSelection.hpp \
-    Configuration.h
+    Configuration.h \
+    usleep.h
+
 SOURCES += main.cpp RenderArea.cpp \
     getfilename.cpp \
     audioconfiguration.cpp \
     MainWidget.cpp \
     MainWindow.cpp \
     SongSelection.cpp \
-    Configuration.cpp
+    Configuration.cpp \
+    usleep.cpp
 
 FORMS += \
     audioconfiguration.ui \
     SongSelection.ui
+
+unix:!symbian|win32: LIBS += -L$$PWD/../../GuitarTutorAPI/ -lIGuitar
+
+INCLUDEPATH += $$PWD/../../GuitarTutorAPI
+DEPENDPATH += $$PWD/../../GuitarTutorAPI
+
+win32: PRE_TARGETDEPS += $$PWD/../../GuitarTutorAPI/IGuitar.lib
+else:unix:!symbian: PRE_TARGETDEPS += $$PWD/../../GuitarTutorAPI/libIGuitar.a
+
+LIBS += -lsndfile -lportaudio

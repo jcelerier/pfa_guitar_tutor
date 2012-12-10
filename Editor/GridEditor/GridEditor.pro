@@ -1,5 +1,9 @@
 #Projet: GridEditor
 
+TEMPLATE = app
+TARGET =
+DEPENDPATH += .
+
 SOURCES += \
     CaseItem.cpp \
     ChordTableWidget.cpp \
@@ -15,17 +19,17 @@ HEADERS += \
     EditionSelector.h \
     ChordTree.h \
 
-QT += xml
+QT += core gui xml
 
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../GuitarTutorAPI/release/ -lGuitarTutorAPI
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../GuitarTutorAPI/debug/ -lGuitarTutorAPI
-else:symbian: LIBS += -lGuitarTutorAPI
-else:unix: LIBS += -L$$PWD/../../GuitarTutorAPI/ -lGuitarTutorAPI
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../GuitarTutorAPI/release/ -lIGuitar
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../GuitarTutorAPI/debug/ -lIGuitar
+else:symbian: LIBS += -lIGuitar
+else:unix: LIBS += -L$$PWD/../../GuitarTutorAPI/ -lIGuitar
 
 INCLUDEPATH += $$PWD/../../GuitarTutorAPI
 DEPENDPATH += $$PWD/../../GuitarTutorAPI
 
-win32:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../GuitarTutorAPI/release/GuitarTutorAPI.lib
-else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../GuitarTutorAPI/debug/GuitarTutorAPI.lib
-else:unix:!symbian: PRE_TARGETDEPS += $$PWD/../../GuitarTutorAPI/libGuitarTutorAPI.a
+#win32:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../GuitarTutorAPI/release/IGuitar.lib
+#else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../GuitarTutorAPI/debug/IGuitar.lib
+#else:unix:!symbian: PRE_TARGETDEPS += $$PWD/../../GuitarTutorAPI/libIGuitar.a
