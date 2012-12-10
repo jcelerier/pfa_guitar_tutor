@@ -7,12 +7,24 @@
 #include "SongSelection.hpp"
 #include <QApplication>
 
+
+/**
+ * @brief MainWindow::MainWindow
+ *
+ *@param parent
+ *
+ *Construit la fenêtre principale.
+ */
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent)
 {
 	buildGUI();
 }
-
+/**
+ * @brief MainWindow::CreateMenus
+ *
+ * Créer les menus Fichier et Edition de la fenêtre principale.
+ */
 void
 MainWindow::createMenus()
 {
@@ -28,6 +40,7 @@ MainWindow::createMenus()
 	connect(actionQuitter, SIGNAL(triggered()), qApp, SLOT(quit()));
 }
 
+
 void
 MainWindow::createToolBars()
 {
@@ -40,10 +53,16 @@ MainWindow::createDockWindows()
 
 }
 
-
+/**
+ *
+ *@brief MainWindow::buildGUI
+ *
+ *Créer le contenu de la fenêtre principale
+ */
 void
 MainWindow::buildGUI()
 {
+
 	QWidget * widLayout = new QWidget;
 
 	QGridLayout *topLayout = new QGridLayout;
@@ -64,8 +83,9 @@ MainWindow::buildGUI()
 	setMinimumSize(800, 600);
 
 	createMenus();
-	createToolBars();
-	createDockWindows();
+    /*ne servent à rien pour l'instant
+    createToolBars();
+    createDockWindows();*/
 
 	topLayout->addWidget(&m_mainWidget, 0, 0);
 //	ssong.showView(topLayout);

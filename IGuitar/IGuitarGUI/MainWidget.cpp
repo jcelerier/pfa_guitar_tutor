@@ -10,12 +10,21 @@
 #include <usleep.h>
 #endif
 
-
+/**
+  *@brief MainWidget::~MainWidget
+  *
+  *Destructeur par défaut
+  */
 MainWidget::~MainWidget()
 {
 
 }
 
+/**
+  * @brief MainWidget::MainWidget
+  *
+  * Constructeur
+  */
 MainWidget::MainWidget()
 	: QWidget()
 {
@@ -28,6 +37,13 @@ MainWidget::MainWidget()
 	buildGUI();
 }
 
+/**
+  * @brief MainWidget::playScore
+  *
+  * @param mute
+  *
+  */
+
 void MainWidget::playScore(bool mute)
 {
 
@@ -35,11 +51,21 @@ void MainWidget::playScore(bool mute)
 	m_mustPlay = true;
 
 }
-
+/**
+  * @brief MainWidget::stopScore
+  *
+  *
+  */
 void MainWidget::stopScore()
 {
 	m_mustStop = true;
 }
+
+/**
+  * @brief MainWidget::buildGuI
+  *
+  * Construit le widget principal
+  */
 
 void
 MainWidget::buildGUI()
