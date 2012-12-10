@@ -5,10 +5,18 @@
 #include <QRegExp>
 #include "GuitarTutorAPI_global.h"
 
-
+/**
+ * @brief Liste des fondamentales possibles.
+ */
 enum e_Note { A, B, C, D, E, F, G }; //possibilité d'en faire des classes? pas très utile amha
+/**
+ * @brief Liste des altérations possibles.
+ */
 enum e_Alteration { UNALTERED, SHARP, FLAT };
 
+/**
+ * @brief Objet représentant une tonalité sous forme d'une note fondamentale et d'une altération.
+ */
 class GUITARTUTORAPISHARED_EXPORT Tonality
 {
 	public:

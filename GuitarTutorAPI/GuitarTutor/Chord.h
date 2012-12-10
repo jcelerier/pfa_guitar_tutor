@@ -5,8 +5,9 @@
 #include "Tonality.h"
 #include "GuitarTutorAPI_global.h"
 
-// Fichier source de la classe Chord, représentant un accord
-
+/**
+ * @brief Représente un accord sous forme d'une tonalité et d'un enrichissement
+ */
 class GUITARTUTORAPISHARED_EXPORT Chord
 {
 	public:

@@ -8,9 +8,7 @@
 #define MANUAL_EDITOR 1
 
 /**
- * @brief The EditionSelector class
- *
- * Fenêtre d'assistant de sélection d'éditeur.
+ * @brief Fenêtre d'assistant de sélection d'éditeur
  */
 class EditionSelector : public QWidget
 {

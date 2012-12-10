@@ -9,9 +9,14 @@
 
 #define NUM_ENRICHMENTS 12
 
-
+/**
+ * @brief Enumération des composantes possibles d'un enrichissement
+ */
 enum e_Enrichment { MAJ, MIN, AUG, DIM, SUS2, SUS4, B5,  SIX, SEPT, NEUF, ONZE, TREIZE};
 
+/**
+ * @brief Objet enrichissement pour définir la forme d'un accord
+ */
 class GUITARTUTORAPISHARED_EXPORT Enrichment : public QList<e_Enrichment>
 {
 	public:

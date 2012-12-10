@@ -8,9 +8,7 @@
 #include "Enrichment.h"
 
 /**
- * @brief The ChordTree class
- *
- * Arbre de sélection d'accords.
+ * @brief Arbre de sélection d'accords
  */
 class ChordTree : public QTreeWidget
 {
