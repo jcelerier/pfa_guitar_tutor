@@ -8,11 +8,26 @@
 #include "Track.h"
 #include <vector>
 
+/**
+ *
+ * @brief Track::Track
+ *
+ * Constructeur par défaut
+ */
 Track::Track()
 {
 
 }
 
+
+/**
+ *
+ * @brief Track::Track
+ *
+ * @param fileName
+ *
+ * Constructeur de Track: prend en paramètre le nom du fichier, le met à jour dans Track, m_isMute reçoi false. Ensuite, charge le fichier.
+ */
 Track::Track(std::string fileName) {
 	m_fileName = fileName;
 	m_isMute = false;
@@ -20,6 +35,15 @@ Track::Track(std::string fileName) {
 	load();
 }
 
+
+/**
+ *
+ * @brief Track::Track
+ *
+ * @param silenceTrackTimeInMs
+ *
+ * Constructeur de Track.
+ */
 Track::Track(unsigned int silenceTrackTimeInMs)
 {
 	m_channelsCount = NUM_CHANNELS;
@@ -38,26 +62,59 @@ Track::~Track()
 	//delete[] m_buffer;
 }
 
+/**
+ *
+ *@brief Track::getBuffer
+ *
+ *Retourne le buffer de Track
+ */
 float *Track::getBuffer() const
 {
 	return m_buffer;
 }
 
+/**
+ *
+ *@brief Track::getChannelsCount
+ *
+ *Retourne m_channelsCount de Track
+ */
 int Track::getChannelsCount() const
 {
 	return m_channelsCount;
 }
+/**
+ *
+ *@brief Track::getFramesCount
+ *
+ *Retourne m_framesCount de Track
+ */
 
 int Track::getFramesCount() const
 {
 	return m_framesCount;
 }
 
+/**
+ *
+ *@brief Track::setFramesCount
+ *
+ *@param m_framesCount
+ *
+ *Met à jour le champ m_framesCount avec la valeur passée en paramètre
+ */
 void Track::setFramesCount(int m_framesCount)
 {
 	this->m_framesCount = m_framesCount;
 }
 
+/**
+ *
+ *@brief Track::load
+ *
+ *
+ *Charge le fichier
+ */
 int Track::load()
 {
 	//get the file
@@ -105,11 +162,24 @@ int Track::load()
 	return 0;
 }
 
+/**
+ *@brief Track::isMute
+ *
+ *
+ *Retourne m_isMute de Track
+ */
 bool Track::isMute() const
 {
 	return m_isMute;
 }
 
+/**
+ *@brief Track::setMuteState
+ *
+ *@param isMute
+ *
+ *Met à jour le champ m_isMute avec la valeur passée en paramètre.
+ */
 void Track::setMuteState(bool isMute)
 {
 	m_isMute = isMute;

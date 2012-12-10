@@ -6,6 +6,7 @@
  */
 
 #include "MusicManager.h"
+
 static int recordCallback( const void *inputBuffer, void *outputBuffer,
 						   unsigned long framesPerBuffer,
 						   const PaStreamCallbackTimeInfo* timeInfo,
