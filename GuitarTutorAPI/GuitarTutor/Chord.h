@@ -5,14 +5,21 @@
 #include "Tonality.h"
 #include "GuitarTutorAPI_global.h"
 
-// Fichier source de la classe Chord, représentant un accord
-
+/**
+ * @brief Représente un accord sous forme d'une tonalité et d'un enrichissement
+ */
 class GUITARTUTORAPISHARED_EXPORT Chord
 {
 	public:
+<<<<<<< HEAD
 		Chord(const QString& chord);
 		Chord(const Chord &chord);
 		Chord(const Tonality &tonality, const Enrichment &enrichment);
+=======
+        Chord(const QString chord);
+		Chord(Chord& chord);
+        Chord(Tonality& tonality, Enrichment& enrichment);
+>>>>>>> 6aaf7988d503c4bdd6a0436129cc7c9b332bdfcd
 
 		bool isValid();
 		bool isValid(const QString& chord);

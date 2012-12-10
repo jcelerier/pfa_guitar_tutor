@@ -12,6 +12,9 @@ Last change on 08/05/12
 #include <QTableWidget>
 #include "CaseItem.h"
 
+/**
+ * @brief Grille d'accords
+ */
 class ChordTableWidget : public QTableWidget
 {
     Q_OBJECT

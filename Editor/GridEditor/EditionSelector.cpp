@@ -1,5 +1,11 @@
 #include "EditionSelector.h"
 
+/**
+ * @brief EditionSelector::EditionSelector
+ * @param parent Fenêtre parente
+ *
+ * Crée la fenêtre d'invite de sélection d'éditeur.
+ */
 EditionSelector::EditionSelector(QWidget *parent) :
     QWidget(parent)
 {

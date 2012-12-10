@@ -14,6 +14,9 @@ Last change on 08/05/12
 #include "EditionSelector.h"
 #include "ChordTree.h"
 
+/**
+ * @brief Fenêtre principale de l'éditeur
+ */
 class GridEditor : public QMainWindow
 {
     Q_OBJECT

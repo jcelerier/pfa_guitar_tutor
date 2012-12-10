@@ -11,6 +11,9 @@ Last change on 14/04/12
 #include <QSize>
 #include <QTableWidgetItem>
 
+/**
+ * @brief Case d'une grille d'accords
+ */
 class CaseItem : public QTableWidgetItem
 {
     QColor* color;
