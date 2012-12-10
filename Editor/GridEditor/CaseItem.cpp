@@ -11,7 +11,9 @@ Last change on 14/04/12
 #include "CaseItem.h"
 
 /**
- * Création initiale des cases de la grille
+ * @brief CaseItem::CaseItem
+ *
+ * Constructeur des cases de la grille.
  */
 CaseItem::CaseItem() :  QTableWidgetItem(), color(new QColor()) {
     color->setRgb(255, 255, 255);
@@ -20,6 +22,12 @@ CaseItem::CaseItem() :  QTableWidgetItem(), color(new QColor()) {
     this->setTextAlignment(Qt::AlignCenter);
 }
 
+/**
+ * @brief CaseItem::CaseItem
+ * @param item
+ *
+ * Constructeur surchargé.
+ */
 CaseItem::CaseItem(const QTableWidgetItem& item) : QTableWidgetItem(item), color(new QColor(item.background().color()))
 {}
 

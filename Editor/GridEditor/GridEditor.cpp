@@ -7,7 +7,9 @@ Last change on 08/05/12
 #include "GridEditor.h"
 
 /**
+ * @brief GridEditor::GridEditor
  *
+ * Constructeur de la grille d'accords.
  */
 GridEditor::GridEditor() {
     setWindowTitle("GridEditor");
@@ -30,6 +32,11 @@ GridEditor::GridEditor() {
     connect(editionSelector, SIGNAL(newEditor(int)), this, SLOT(newEditor(int)));
 }
 
+/**
+ * @brief GridEditor::~GridEditor
+ *
+ * Destructeur de la grille d'accords.
+ */
 GridEditor::~GridEditor() {
     delete grid;
     delete chordTree;
@@ -173,8 +180,11 @@ void GridEditor::connectActionToSlot(){
 //-------------------------Fin création de la fenêtre
 //---------------------------------------------------
 
-
-
+/**
+ * @brief GridEditor::changeState
+ *
+ * Gère l'activation des différents outils dans la fenêtre selon les évènements.
+ */
 void GridEditor::changeState() {
     if (grid->is_selection_empty() && chordTree->isEnabled())
         chordTree->setEnabled(false);
@@ -198,7 +208,6 @@ void GridEditor::changeState() {
  *
  * Chargement d'une grille pré-enregistrée.
  */
-
 void GridEditor::importXml() {
     QString xgrid_file = QFileDialog::getOpenFileName(this, tr("Open chords grid"), ".", tr("xgrid Files (*.xgrid)"));
     if (xgrid_file.isNull())
@@ -225,7 +234,6 @@ void GridEditor::importXml() {
  *
  * Récupération de la grille éditée pour exportation.
  */
-
 void GridEditor::exportXml() {
     //if (grid->get_name().isEmpty()) {
         bool ok;
@@ -259,7 +267,6 @@ void GridEditor::exportXml() {
  *
  * Mise en place d'une nouvelle grille dans le widget central.
  */
-
 void GridEditor::newGrid() {
     bool ok;
     QString mess;
@@ -305,7 +312,6 @@ void GridEditor::rename() {
  *
  * Demande la création de l'éditeur demandé (utilisé depuis l'assistant).
  */
-
 void GridEditor::newEditor(int type)
 {
     if(type == ASSISTED_EDITOR)
@@ -314,6 +320,4 @@ void GridEditor::newEditor(int type)
         newGrid();
     delete editionSelector;
 }
-
-
 
