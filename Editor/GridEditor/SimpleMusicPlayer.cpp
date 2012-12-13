@@ -8,8 +8,6 @@
 SimpleMusicPlayer::SimpleMusicPlayer()
 {
     layout = new QGridLayout();
-    QGridLayout *internLayout = new QGridLayout();
-    browseButton = new QPushButton(tr("Browse"));
     playButton = new QToolButton();
     pauseButton = new QToolButton();
     stopButton = new QToolButton();
@@ -21,17 +19,14 @@ SimpleMusicPlayer::SimpleMusicPlayer()
     pauseButton->setIcon(QIcon("icons/pause.png"));
     stopButton->setIcon(QIcon("icons/stop.png"));
 
-    internLayout->addWidget(slideBar, 0, 0, 1, 7);
-    internLayout->addWidget(playButton, 1, 0);
-    internLayout->addWidget(pauseButton, 1, 1);
-    internLayout->addWidget(stopButton, 1, 2);
-    internLayout->addWidget(timerLabel, 1, 6);
-    layout->addLayout(internLayout, 0, 0, 1, 3);
-    layout->addWidget(browseButton, 0, 3);
+    layout->addWidget(slideBar, 0, 0, 1, 7);
+    layout->addWidget(playButton, 1, 0);
+    layout->addWidget(pauseButton, 1, 1);
+    layout->addWidget(stopButton, 1, 2);
+    layout->addWidget(timerLabel, 1, 6);
 
     setLayout(layout);
 
-    connect(browseButton, SIGNAL(released()), this, SLOT(browseFile()));
     connect(playButton, SIGNAL(released()), this, SLOT(play()));
     connect(pauseButton, SIGNAL(released()), this, SLOT(pause()));
     connect(stopButton, SIGNAL(released()), this, SLOT(stop()));
@@ -51,7 +46,6 @@ SimpleMusicPlayer::SimpleMusicPlayer()
 SimpleMusicPlayer::~SimpleMusicPlayer()
 {
     delete slideBar;
-    delete browseButton;
     delete layout;
     delete pauseButton;
     delete playButton;
@@ -62,22 +56,34 @@ SimpleMusicPlayer::~SimpleMusicPlayer()
 }
 
 /**
- * @brief SimpleMusicPlayer::browseFile
+ * @brief SimpleMusicPlayer::getSong
+ * @return Le chemin vers le fichier audio courant.
  *
- * Demande de sélection d'un fichier audio sur le disque dur de l'utilisateur.
+ * Retourne le chemin vers le fichier audio courant.
  */
-void SimpleMusicPlayer::browseFile()
+QString SimpleMusicPlayer::getSong()
 {
-    QString tmp = QFileDialog::getOpenFileName(this, tr("Open a file"), QString(), tr("Music (*.mp3 *.ogg *.wma *.wav)"));
-    if(tmp != "") {
-        if(!player->setSong(tmp)) {
-            QMessageBox::information(this, tr("So sorry..."), tr("There was an error while trying to play the file..."));
-            return;
-        }
-        songLength = player->getTotalLength();
-        refreshTimerLabel();
-        slideBar->setRange(0, songLength);
+    return player->getSong();
+}
+
+
+/**
+ * @brief SimpleMusicPlayer::setAudioFile
+ * @param file Chemin vers le fichier audio.
+ * @return Vrai si et seulement si le fichier audio a été ouvert correctement.
+ *
+ * Ouvre un nouveau fichier audio pour la lecture.
+ */
+bool SimpleMusicPlayer::setAudioFile(QString file)
+{
+    if(!player->setSong(file)) {
+        QMessageBox::information(this, tr("So sorry..."), tr("There was an error while trying to play the file..."));
+        return false;
     }
+    songLength = player->getTotalLength();
+    refreshTimerLabel();
+    slideBar->setRange(0, songLength);
+    return true;
 }
 
 /**
@@ -92,7 +98,7 @@ void SimpleMusicPlayer::play()
         timer->start(REFRESH_DELAY);
     }
     else
-        browseFile();
+        emit browseAudioFile();
 }
 
 /**
@@ -120,6 +126,7 @@ void SimpleMusicPlayer::stop()
         timer->stop();
         slideBar->setSliderPosition(0);
         refreshTimerLabel();
+        emit audioFileDeleted();
     }
 }
 

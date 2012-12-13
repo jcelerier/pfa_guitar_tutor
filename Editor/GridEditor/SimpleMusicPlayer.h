@@ -16,7 +16,6 @@ class SimpleMusicPlayer : public QWidget
 
 private:
     QGridLayout* layout;
-    QPushButton* browseButton;
     QToolButton* stopButton;
     QToolButton* pauseButton;
     QToolButton* playButton;
@@ -31,14 +30,18 @@ private:
 public:
     SimpleMusicPlayer();
     ~SimpleMusicPlayer();
+    QString getSong();
+    bool setAudioFile(QString file);
 public slots:
-    void browseFile();
     void play();
     void pause();
     void stop();
     void refreshTimerLabel();
     void updateSlideBar();
     void changePosition(int);
+signals:
+    void browseAudioFile();
+    void audioFileDeleted();
 };
 
 #endif // SIMPLEMUSICPLAYER_H
