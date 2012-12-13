@@ -21,6 +21,8 @@ HEADERS += \
     ChordTree.h \
     SimpleMusicPlayer.h
 
+TRANSLATIONS = GridEditor_fr.ts
+
 QT += core \
       gui \
       xml \

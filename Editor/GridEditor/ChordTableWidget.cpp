@@ -94,9 +94,9 @@ void ChordTableWidget::open_grid(QString xgrid_file) {
     doc.setContent(&xml_doc);
     xml_doc.close();
     QDomElement chord_grid = doc.documentElement();
-    this->setColumnCount(chord_grid.attribute(tr("columns_number")).toInt());
-    insert_row(this->rowCount(), chord_grid.attribute(tr("lines_number")).toInt() - this->rowCount());
-    this->set_name(chord_grid.attribute(tr("name")));
+    this->setColumnCount(chord_grid.attribute("columns_number").toInt());
+    insert_row(this->rowCount(), chord_grid.attribute("lines_number").toInt() - this->rowCount());
+    this->set_name(chord_grid.attribute("name"));
     QDomNode line_node = chord_grid.firstChild();
     for (int row = 0 ; !line_node.isNull() ; line_node = line_node.nextSibling(), row ++) {
         QDomElement line = line_node.toElement();
@@ -104,7 +104,7 @@ void ChordTableWidget::open_grid(QString xgrid_file) {
         for (int column = 0 ; !case_node.nextSibling().isNull() ; case_node = case_node.nextSibling(), column ++) {
             QDomElement case_e = case_node.toElement();
             CaseItem* item = (CaseItem*) this->takeItem(row, column);
-            item->set_chord(case_e.firstChild().toElement().attribute(tr("name")));
+            item->set_chord(case_e.firstChild().toElement().attribute("name"));
             int r = -1, g = -1, b = -1, a = -1;
             r = case_e.lastChild().toElement().attribute("R").toInt();
             g = case_e.lastChild().toElement().attribute("G").toInt();
@@ -127,22 +127,22 @@ void ChordTableWidget::open_grid(QString xgrid_file) {
  */
 void ChordTableWidget::to_xml(QString xml_file) {
     QDomDocument doc("XGRID");
-    QDomElement chord_grid = doc.createElement(tr("chord_grid"));
-    chord_grid.setAttribute(tr("name"), this->get_name());
-    chord_grid.setAttribute(tr("lines_number"), this->rowCount());
-    chord_grid.setAttribute(tr("columns_number"), this->columnCount());
+    QDomElement chord_grid = doc.createElement("chord_grid");
+    chord_grid.setAttribute("name", this->get_name());
+    chord_grid.setAttribute("lines_number", this->rowCount());
+    chord_grid.setAttribute("columns_number", this->columnCount());
     doc.appendChild(chord_grid);
     int red = -1, g = -1, b = -1, a = -1;
     for (int r = 0 ; r < this->rowCount() ; r++) {
-        QDomElement line = doc.createElement(tr("line"));
+        QDomElement line = doc.createElement("line");
         line.setAttribute("id", r);
         for (int c = 0 ; c < this->columnCount() - 1 ; c ++) {
-            QDomElement case_node = doc.createElement(tr("case"));
-            case_node.setAttribute(tr("id"), c);
-            QDomElement chord = doc.createElement(tr("chord"));
-            chord.setAttribute(tr("name"), this->item(r, c)->text());
+            QDomElement case_node = doc.createElement("case");
+            case_node.setAttribute("id", c);
+            QDomElement chord = doc.createElement("chord");
+            chord.setAttribute("name", this->item(r, c)->text());
             case_node.appendChild(chord);
-            QDomElement color = doc.createElement(tr("color"));
+            QDomElement color = doc.createElement("color");
             ((CaseItem*) this->item(r, c))->get_color()->getRgb(&red, &g, &b, &a);
             color.setAttribute("G", g);
             color.setAttribute("R", red);
@@ -151,7 +151,7 @@ void ChordTableWidget::to_xml(QString xml_file) {
             case_node.appendChild(color);
             line.appendChild(case_node);
         }
-        QDomElement annotation = doc.createElement(tr("annotation"));
+        QDomElement annotation = doc.createElement("annotation");
         QDomText content = doc.createTextNode(this->item(r, this->columnCount() - 1)->text());
         annotation.appendChild(content);
         line.appendChild(annotation);
@@ -317,7 +317,7 @@ void ChordTableWidget::delete_selected_row() {
     }
     else if(listItems.count() > 1) {
         QString listRow;
-        listRow.append("Etes-vous certain de vouloir supprimer les lignes ");
+        listRow.append(tr("Are you sure you want to delete lines "));
 
         for(QList<QTableWidgetItem*>::Iterator i = listItems.begin(); i != listItems.end() ; i++) {
             listRow.append(QString::number((**i).row()+1));
@@ -325,7 +325,7 @@ void ChordTableWidget::delete_selected_row() {
         }
         listRow.append("?");
 
-        int answer = QMessageBox::question(this, "Suppression de lignes", listRow, QMessageBox::Yes | QMessageBox::No);
+        int answer = QMessageBox::question(this, tr("Deleting lines"), listRow, QMessageBox::Yes | QMessageBox::No);
 
         if(answer == QMessageBox::Yes) {
             for(QList<QTableWidgetItem*>::Iterator i = listItems.begin(); i != listItems.end() ; i++) {
@@ -351,7 +351,7 @@ void ChordTableWidget::delete_selected_column() {
     }
     else if(listItems.count() > 1) {
         QString listColumn;
-        listColumn.append("Etes-vous certain de vouloir supprimer les colonnes ");
+        listColumn.append(tr("Are you sure you want to delete columns "));
 
         for(QList<QTableWidgetItem*>::Iterator i = listItems.begin(); i != listItems.end() ; i++) {
             listColumn.append(QString::number((**i).column()+1));
@@ -359,7 +359,7 @@ void ChordTableWidget::delete_selected_column() {
         }
         listColumn.append("?");
 
-        int answer = QMessageBox::question(this, "Suppression de colonnes", listColumn, QMessageBox::Yes | QMessageBox::No);
+        int answer = QMessageBox::question(this, tr("Deleting columns"), listColumn, QMessageBox::Yes | QMessageBox::No);
         if(answer == QMessageBox::Yes) {
 
             for(QList<QTableWidgetItem*>::Iterator i = listItems.begin(); i != listItems.end() ; i++) {
