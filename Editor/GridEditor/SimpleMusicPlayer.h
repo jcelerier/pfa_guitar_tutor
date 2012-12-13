@@ -3,7 +3,9 @@
 
 
 #include <QtGui>
-#include <fmodex/fmod.h>
+#include <MusicPlayer.h>
+
+#define REFRESH_DELAY 200
 
 class SimpleMusicPlayer : public QWidget
 {
@@ -16,20 +18,24 @@ private:
     QToolButton* pauseButton;
     QToolButton* playButton;
     QSlider* slideBar;
-    QString fileName;
+    QLabel* timerLabel;
+    QTimer* timer;
 
-    FMOD_SYSTEM *system;
-    FMOD_SOUND *music;
+    MusicPlayer* player;
+    unsigned int songLength;
+    unsigned int currentPosition;
 
 public:
     SimpleMusicPlayer();
     ~SimpleMusicPlayer();
-
 public slots:
     void browseFile();
     void play();
     void pause();
     void stop();
+    void refreshTimerLabel();
+    void updateSlideBar();
+    void changePosition(int);
 };
 
 #endif // SIMPLEMUSICPLAYER_H
