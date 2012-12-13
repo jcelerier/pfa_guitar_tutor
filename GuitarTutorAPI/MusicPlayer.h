@@ -4,6 +4,9 @@
 #include <fmodex/fmod.h>
 #include <QString>
 
+/**
+ * @brief Classe générant les fonctions de base d'un lecteur audio
+ */
 class MusicPlayer
 {
     bool state;

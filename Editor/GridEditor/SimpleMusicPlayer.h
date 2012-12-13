@@ -7,6 +7,9 @@
 
 #define REFRESH_DELAY 200
 
+/**
+ * @brief Classe générant l'interface graphique d'un lecteur audio simple
+ */
 class SimpleMusicPlayer : public QWidget
 {
     Q_OBJECT

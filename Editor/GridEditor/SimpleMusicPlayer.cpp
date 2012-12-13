@@ -1,5 +1,10 @@
 #include "SimpleMusicPlayer.h"
 
+/**
+ * @brief SimpleMusicPlayer::SimpleMusicPlayer
+ *
+ * Construit l'interface du lecteur audio.
+ */
 SimpleMusicPlayer::SimpleMusicPlayer()
 {
     layout = new QGridLayout();
@@ -40,6 +45,9 @@ SimpleMusicPlayer::SimpleMusicPlayer()
     refreshTimerLabel();
 }
 
+/**
+ * @brief SimpleMusicPlayer::~SimpleMusicPlayer
+ */
 SimpleMusicPlayer::~SimpleMusicPlayer()
 {
     delete slideBar;
@@ -53,6 +61,11 @@ SimpleMusicPlayer::~SimpleMusicPlayer()
     delete timer;
 }
 
+/**
+ * @brief SimpleMusicPlayer::browseFile
+ *
+ * Demande de sélection d'un fichier audio sur le disque dur de l'utilisateur.
+ */
 void SimpleMusicPlayer::browseFile()
 {
     QString tmp = QFileDialog::getOpenFileName(this, tr("Open a file"), QString(), tr("Music (*.mp3 *.ogg *.wma *.wav)"));
@@ -67,6 +80,11 @@ void SimpleMusicPlayer::browseFile()
     }
 }
 
+/**
+ * @brief SimpleMusicPlayer::play
+ *
+ * Lecture du fichier audio choisi.
+ */
 void SimpleMusicPlayer::play()
 {
     if(player->getState()) {
@@ -77,12 +95,22 @@ void SimpleMusicPlayer::play()
         browseFile();
 }
 
+/**
+ * @brief SimpleMusicPlayer::pause
+ *
+ * Mise en pause de la lecture.
+ */
 void SimpleMusicPlayer::pause()
 {
     if(player->getState())
         player->pause();
 }
 
+/**
+ * @brief SimpleMusicPlayer::stop
+ *
+ * Arrêt de la lecture.
+ */
 void SimpleMusicPlayer::stop()
 {
     if(player->getState()) {
@@ -95,6 +123,11 @@ void SimpleMusicPlayer::stop()
     }
 }
 
+/**
+ * @brief SimpleMusicPlayer::refreshTimerLabel
+ *
+ * Rafraîchissement de l'affichage du chronomètre du lecteur.
+ */
 void SimpleMusicPlayer::refreshTimerLabel()
 {
     QString tmp1, tmp2;
@@ -124,6 +157,11 @@ void SimpleMusicPlayer::refreshTimerLabel()
         timerLabel->setText(QString(timerLabel->text() + ".."));
 }
 
+/**
+ * @brief SimpleMusicPlayer::updateSlideBar
+ *
+ * Rafraîchissement de la barre de défilement.
+ */
 void SimpleMusicPlayer::updateSlideBar()
 {
     currentPosition = player->getPosition();
@@ -132,6 +170,12 @@ void SimpleMusicPlayer::updateSlideBar()
     timer->start(REFRESH_DELAY);
 }
 
+/**
+ * @brief SimpleMusicPlayer::changePosition
+ * @param position Nouvelle position exprimée en millisecondes
+ *
+ * Demande à aller à un temps précis dans le morceau courant.
+ */
 void SimpleMusicPlayer::changePosition(int position)
 {
     player->changePosition(position);

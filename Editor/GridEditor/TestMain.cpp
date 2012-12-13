@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 
     QTranslator translator;
-    translator.load(QString("GridEditor_fr"));
+    translator.load("GridEditor_fr");
     app.installTranslator(&translator);
 
     GridEditor win;

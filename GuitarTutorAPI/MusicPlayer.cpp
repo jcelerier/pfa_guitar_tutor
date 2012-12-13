@@ -1,6 +1,11 @@
 #include "MusicPlayer.h"
 #include <iostream>
 
+/**
+ * @brief MusicPlayer::MusicPlayer
+ *
+ * Constructeur par défaut.
+ */
 MusicPlayer::MusicPlayer()
 {
     FMOD_System_Create(&system);
@@ -8,6 +13,12 @@ MusicPlayer::MusicPlayer()
     state = false;
 }
 
+/**
+ * @brief MusicPlayer::MusicPlayer
+ * @param song Chemin vers un fichier audio
+ *
+ * Constructeur avec initialisation du fichier audio à jouer.
+ */
 MusicPlayer::MusicPlayer(QString song)
 {
     FMOD_System_Create(&system);
@@ -15,7 +26,9 @@ MusicPlayer::MusicPlayer(QString song)
     state = setSong(song);
 }
 
-
+/**
+ * @brief MusicPlayer::~MusicPlayer
+ */
 MusicPlayer::~MusicPlayer()
 {
     FMOD_Sound_Release(music);
@@ -23,6 +36,11 @@ MusicPlayer::~MusicPlayer()
     FMOD_System_Release(system);
 }
 
+/**
+ * @brief MusicPlayer::play
+ *
+ * Lecture du fichier audio.
+ */
 void MusicPlayer::play()
 {
     if(state) {
@@ -31,6 +49,11 @@ void MusicPlayer::play()
     }
 }
 
+/**
+ * @brief MusicPlayer::pause
+ *
+ * Mise en pause du fichier audio.
+ */
 void MusicPlayer::pause()
 {
     if(state) {
@@ -44,6 +67,11 @@ void MusicPlayer::pause()
     }
 }
 
+/**
+ * @brief MusicPlayer::stop
+ *
+ * Arrêt de la lecture du fichier audio.
+ */
 void MusicPlayer::stop()
 {
     if(state) {
@@ -52,6 +80,13 @@ void MusicPlayer::stop()
     }
 }
 
+/**
+ * @brief MusicPlayer::setSong
+ * @param song Chemin vers le fichier audio à lire
+ * @return Vrai si et seulement si le fichier audio a pu permettre l'initialisation du lecteur.
+ *
+ * Charge un morceau à jouer.
+ */
 bool MusicPlayer::setSong(QString song)
 {
     const char* tmp = song.toStdString().c_str();
@@ -66,16 +101,34 @@ bool MusicPlayer::setSong(QString song)
     return true;
 }
 
+/**
+ * @brief MusicPlayer::getSong
+ * @return Le chemin vers le fichier audio en cours de lecture.
+ *
+ * Retourne le chemin vers le fichier audio courant.
+ */
 QString MusicPlayer::getSong() const
 {
     return song;
 }
 
+/**
+ * @brief MusicPlayer::getState
+ * @return Vrai si et seulement si un fichier audio est actuellement attribué au lecteur.
+ *
+ * Indique si le lecteur est actuellement en cours de lecture.
+ */
 bool MusicPlayer::getState() const
 {
     return state;
 }
 
+/**
+ * @brief MusicPlayer::getPosition
+ * @return La position en millisecondes dans le morceau courant.
+ *
+ * Indique la position dans le morceau courant.
+ */
 unsigned int MusicPlayer::getPosition() const
 {
     if(state) {
@@ -86,6 +139,12 @@ unsigned int MusicPlayer::getPosition() const
     return 0;
 }
 
+/**
+ * @brief MusicPlayer::getTotalLength
+ * @return La durée totale du morceau en millisecondes, ou 0 en cas d'erreur.
+ *
+ * Indique la durée totale du morceau courant.
+ */
 unsigned int MusicPlayer::getTotalLength() const
 {
     if(state) {
@@ -96,6 +155,12 @@ unsigned int MusicPlayer::getTotalLength() const
     return 0;
 }
 
+/**
+ * @brief MusicPlayer::changePosition
+ * @param position Nouvelle position en millisecondes.
+ *
+ * Lit le morceau courant à partir de la nouvelle position.
+ */
 void MusicPlayer::changePosition(unsigned int position)
 {
     if(state)
