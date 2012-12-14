@@ -115,7 +115,8 @@ HEADERS += MultiTracks.h \
            IScoreLight/Editor/CSP/IllegalArgumentException.hpp \
            IScoreLight/Editor/CSP/InvalidFileFormatException.hpp \
            IScoreLight/Editor/CSP/OutOfBoundException.hpp \
-           IScoreLight/Editor/CSP/TriggerPoint.hpp
+           IScoreLight/Editor/CSP/TriggerPoint.hpp \
+           MusicPlayer.h
 SOURCES += MultiTracks.cpp \
            MusicManager.cpp \
            ScoreManager.cpp \
@@ -165,12 +166,15 @@ SOURCES += MultiTracks.cpp \
            IScoreLight/Editor/CSP/CSP.cpp \
            IScoreLight/Editor/CSP/CSPConstrainedVariable.cpp \
            IScoreLight/Editor/CSP/CSPLinearConstraint.cpp \
-           IScoreLight/Editor/CSP/TriggerPoint.cpp
+           IScoreLight/Editor/CSP/TriggerPoint.cpp \
+           MusicPlayer.cpp
 
 macx: QMAKE_CFLAGS_X86_64 += -mmacosx-version-min=10.7
 macx: QMAKE_CXXFLAGS_X86_64 = $$QMAKE_CFLAGS_X86_64
 
-LIBS += -lsndfile
+LIBS += -lsndfile -lfmodex64-4.44.00
+
 win32: LIBS += -lportaudio
 
 QMAKE_POST_LINK += mv libIGuitar.a ../libiguitar/
+

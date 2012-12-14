@@ -3,33 +3,45 @@
 
 
 #include <QtGui>
-#include <fmodex/fmod.h>
+#include <MusicPlayer.h>
 
+#define REFRESH_DELAY 200
+
+/**
+ * @brief Classe générant l'interface graphique d'un lecteur audio simple
+ */
 class SimpleMusicPlayer : public QWidget
 {
     Q_OBJECT
 
 private:
     QGridLayout* layout;
-    QPushButton* browseButton;
     QToolButton* stopButton;
     QToolButton* pauseButton;
     QToolButton* playButton;
     QSlider* slideBar;
-    QString fileName;
+    QLabel* timerLabel;
+    QTimer* timer;
 
-    FMOD_SYSTEM *system;
-    FMOD_SOUND *music;
+    MusicPlayer* player;
+    unsigned int songLength;
+    unsigned int currentPosition;
 
 public:
     SimpleMusicPlayer();
     ~SimpleMusicPlayer();
-
+    QString getSong();
+    bool setAudioFile(QString file);
 public slots:
-    void browseFile();
     void play();
     void pause();
     void stop();
+    void refreshTimerLabel();
+    void updateSlideBar();
+    void changePosition(int);
+signals:
+    void browseAudioFile();
+    void audioFileDeleted();
 };
 
 #endif // SIMPLEMUSICPLAYER_H

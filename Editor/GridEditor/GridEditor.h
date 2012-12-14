@@ -28,8 +28,9 @@ class GridEditor : public QMainWindow
     ChordTree* chordTree;
     SimpleMusicPlayer* player;
     QLabel* title;
-
+    QLineEdit* audioFile;
     QMenu *fileMenu, *editMenu, *optionMenu, *aboutMenu;
+    QPushButton *browseButton;
     QToolBar *toolBar;
     QAction *quitAction, *aboutAction, *newAction, *saveAction,
             *openAction, *addRowAction, *deleteRowAction,
@@ -40,7 +41,6 @@ class GridEditor : public QMainWindow
 public:
     GridEditor();
     ~GridEditor();
-
 private:
     void createMenu();
     void createActions();
@@ -54,12 +54,15 @@ private:
 signals:
 
 public slots:
+    void browseAudioFile();
     void changeState();
     void importXml();
     void exportXml();
     void newGrid();
     void rename();
     void newEditor(int);
+    void setAudioFile();
+    void resetAudioFile();
 };
 
 #endif // GRIDEDITOR_H

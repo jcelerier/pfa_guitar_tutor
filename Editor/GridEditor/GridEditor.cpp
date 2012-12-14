@@ -45,6 +45,8 @@ GridEditor::~GridEditor() {
     delete toolBar;
     delete openAction; delete saveAction; delete addRowAction; delete copyDownAction; delete deleteRowAction;
         delete quitAction; delete aboutAction; delete newAction; delete renameAction;
+    delete browseButton;
+    delete audioFile;
     delete centralArea;
 }
 
@@ -150,11 +152,18 @@ void GridEditor::createCentralWidget() {
     chordTree = new ChordTree(); //Initialisation de chord_tree
     grid = new ChordTableWidget(); //Fenere d'accords
     player = new SimpleMusicPlayer();
-
+    QLabel* label = new QLabel(tr("Audio file"));
+    audioFile = new QLineEdit();
+    audioFile->setReadOnly(true);
+    audioFile->setEnabled(false);
+    browseButton = new QPushButton(tr("Browse"));
     layout = new QGridLayout();
     layout->addWidget(chordTree, 0, 0); //Liste des accords en haut-gauche
-    layout->addWidget(grid, 0, 1); //Fenêtre d'accords en haut-milieu
-    layout->addWidget(player, 1, 1);
+    layout->addWidget(grid, 0, 1, 1, 4); //Fenêtre d'accords en haut-milieu
+    layout->addWidget(label, 1, 1);
+    layout->addWidget(audioFile, 1, 2);
+    layout->addWidget(browseButton, 1, 3);
+    layout->addWidget(player, 2, 1, 1, 3);
 
     centralArea->setLayout(layout);
 }
@@ -177,6 +186,9 @@ void GridEditor::connectActionToSlot(){
     connect(newAction, SIGNAL(triggered()), this, SLOT(newGrid()));
     connect(renameAction, SIGNAL(triggered()), this, SLOT(rename()));
     connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
+    connect(browseButton, SIGNAL(released()), this, SLOT(browseAudioFile()));
+    connect(player, SIGNAL(browseAudioFile()), this, SLOT(browseAudioFile()));
+    connect(player, SIGNAL(audioFileDeleted()), this, SLOT(resetAudioFile()));
 }
 
 //---------------------------------------------------
@@ -282,7 +294,7 @@ void GridEditor::newGrid() {
         return;
     delete grid;
     grid = new ChordTableWidget(column + 1, 10);
-    layout->addWidget(grid, 0, 1);
+    layout->addWidget(grid, 0, 1, 1, 4);
     saveAction->setEnabled(true);
     addRowAction->setEnabled(true);
     addColumnAction->setEnabled(true);
@@ -325,3 +337,38 @@ void GridEditor::newEditor(int type)
     delete editionSelector;
 }
 
+/**
+ * @brief GridEditor::setAudioFile
+ *
+ * Modifie l'affichage du fichier audio associé.
+ */
+void GridEditor::setAudioFile()
+{
+    audioFile->setEnabled(true);
+    audioFile->setText(player->getSong());
+}
+
+/**
+ * @brief GridEditor::resetAudioFile
+ *
+ * Réinitialise l'affichage du fichier audio associé.
+ */
+void GridEditor::resetAudioFile()
+{
+    audioFile->setText("");
+    audioFile->setEnabled(false);
+}
+
+/**
+ * @brief GridEditor::browseAudioFile
+ *
+ * Demande de sélection d'un fichier audio sur le disque dur de l'utilisateur.
+ */
+void GridEditor::browseAudioFile()
+{
+    QString tmp = QFileDialog::getOpenFileName(this, tr("Open a file"), QString(), tr("Music (*.mp3 *.ogg *.wma *.wav)"));
+    if(tmp != "") {
+        if(player->setAudioFile(tmp))
+            setAudioFile();
+    }
+}
