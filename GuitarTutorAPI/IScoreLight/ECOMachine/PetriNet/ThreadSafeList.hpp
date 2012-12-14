@@ -45,7 +45,7 @@ knowledge of the CeCILL-C license and that you accept its terms.
  * \date 2008-2009
  */
 
-#include <pthread.h>
+#include <boost/thread.hpp>
 #include <list>
 #include <string>
 
@@ -62,7 +62,7 @@ public:
 private:
 	std::list<std::string> m_list;
 
-	pthread_mutex_t* m_mutex;
+	boost::mutex* m_mutex;
 };
 
 #endif /*THREADSAFELIST_HPP_*/

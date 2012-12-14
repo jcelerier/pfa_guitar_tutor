@@ -21,19 +21,19 @@ class GUITARTUTORAPISHARED_EXPORT Tonality
 {
 	public:
 		Tonality();
-        Tonality(Tonality &t);
+		Tonality(const Tonality &t);
         Tonality(const QString note, const QString alteration = "UNALTERED");
         Tonality(const e_Note note, const e_Alteration alteration = UNALTERED);
 
-		bool isValid();
-        bool isValid(const QString tonality);
+		bool isValid() const;
+		bool isValid(const QString tonality) const;
 
         static e_Note extractBaseNoteFromStr(const QString str);
         static e_Alteration extractAlterationFromStr(const QString str);
 
 		QString toString();
-		e_Note getBaseNote();
-		e_Alteration getAlteration();
+		e_Note getBaseNote() const;
+		e_Alteration getAlteration() const;
 
         void setBaseNote(const QString note);
         void setBaseNote(const e_Note note);

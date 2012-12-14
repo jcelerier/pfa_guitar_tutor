@@ -26,10 +26,10 @@ class GUITARTUTORAPISHARED_EXPORT Enrichment : public QList<e_Enrichment>
         Enrichment(const QStringList enrichList);
         Enrichment(const e_Enrichment enrich);
 
-		bool isValid();
-		bool isValid(const QString& enrichment);
+		bool isValid() const;
+		bool isValid(const QString& enrichment) const;
 
-		Enrichment extractEnrichmentsFromStr(QString str);
+		const Enrichment& extractEnrichmentsFromStr(QString str) const;
 
 		QString toString();
         QStringList& getEnrichmentStringList();

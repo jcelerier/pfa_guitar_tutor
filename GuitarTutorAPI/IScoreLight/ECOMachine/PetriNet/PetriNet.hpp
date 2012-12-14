@@ -58,7 +58,9 @@ knowledge of the CeCILL-C license and that you accept its terms.
 #include <list>
 #include <queue>
 #include <string>
-#include <pthread.h>
+//#include <pthread.h>
+
+#include <boost/thread.hpp>
 
 #define STATIC_EVENT "event0"
 #define MY_MIN_STEP_TIME_IN_MS 100
@@ -395,7 +397,7 @@ private:
 	Place* m_startPlace;
 	Place* m_endPlace;
 
-	pthread_t m_thread;
+	boost::thread* m_thread;
 	bool m_mustStop;
 	bool m_isRunning;
 

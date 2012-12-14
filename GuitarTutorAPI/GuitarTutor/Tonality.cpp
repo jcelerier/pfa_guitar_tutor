@@ -17,7 +17,7 @@ Tonality::Tonality()
  *
  * Constructeur par recopie.
  */
-Tonality::Tonality(Tonality& t)
+Tonality::Tonality(const Tonality& t)
 {
 	m_baseNote = t.getBaseNote();
 	m_alteration = t.getAlteration();
@@ -57,7 +57,7 @@ Tonality::Tonality(const QString note, const QString alteration /*="UNALTERED"*/
  *
  * Indique si une tonalité est valide ou non.
  */
-bool Tonality::isValid()
+bool Tonality::isValid() const
 {
 	return (0 <= m_baseNote && m_baseNote <= 6 && 0 <= m_alteration && m_alteration <= 2);
 }
@@ -69,7 +69,7 @@ bool Tonality::isValid()
  *
  * Indique si une tonalité est valide ou non.
  */
-bool Tonality::isValid(const QString tonality)
+bool Tonality::isValid(const QString tonality) const
 {
 	return tonality.size() <= 2 && tonality.contains(m_noteRegExp);
 }
@@ -101,7 +101,7 @@ QString Tonality::toString()
  *
  * Renvoit la note fondamentale de la tonalité.
  */
-e_Note Tonality::getBaseNote()
+e_Note Tonality::getBaseNote() const
 {
 	return m_baseNote;
 }
@@ -112,7 +112,7 @@ e_Note Tonality::getBaseNote()
  *
  * Renvoit l'altération de la tonalité.
  */
-e_Alteration Tonality::getAlteration()
+e_Alteration Tonality::getAlteration() const
 {
 	return m_alteration;
 }

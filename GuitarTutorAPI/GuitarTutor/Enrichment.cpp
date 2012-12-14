@@ -89,7 +89,7 @@ void Enrichment::initStringEquivs()
  * Indique si un enrichissement est valide.
  * @todo à approfondir. Ex: pas de C#Mmsus2sus4776b5... cf site sur le wiki
  */
-bool Enrichment::isValid()
+bool Enrichment::isValid() const
 {
 	bool validity = false;
 	for(int i = 0; i < size(); i++)
@@ -105,7 +105,7 @@ bool Enrichment::isValid()
  *
  * Indique si un enrichissement provenant d'une chaîne de caractères est valide ou non.
  */
-bool Enrichment::isValid(const QString& enrichment)
+bool Enrichment::isValid(const QString& enrichment) const
 {
 	return Enrichment::extractEnrichmentsFromStr(enrichment).isValid();
 }
@@ -121,17 +121,20 @@ bool Enrichment::isValid(const QString& enrichment)
 // - on fait un tableau avec tous les enrichissements possibles.
 // - on les recherche tous, puis on rajoute celui avec la plus petite valeur (= le plus proche du début).
 // - on le cherche à nouveau (s'il y est deux fois, même si c'est invalide)
-Enrichment Enrichment::extractEnrichmentsFromStr(QString str)
+const Enrichment &Enrichment::extractEnrichmentsFromStr(QString str) const
 {
 	Enrichment e;
 	QVector<int> table(NUM_ENRICHMENTS, -1);
 	int minIndex = 0;
 	int minValue = 0;
 
-    while(str.size() > 0) {
-        for(int i = 0; i < NUM_ENRICHMENTS; i++) {
+	while(str.size() > 0)
+	{
+		for(int i = 0; i < NUM_ENRICHMENTS; i++)
+		{
 			table[i] = str.indexOf(m_stringEquivs[i]);
-            if(table[i] > -1 && table[i] < minValue) {
+			if(table[i] > -1 && table[i] < minValue)
+			{
 				minValue = table[i];
 				minIndex = i;
 			}

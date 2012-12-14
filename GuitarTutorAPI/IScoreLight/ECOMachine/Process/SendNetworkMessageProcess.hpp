@@ -45,7 +45,6 @@ knowledge of the CeCILL-C license and that you accept its terms.
  * \date 2008-2009
  */
 
-#include <pthread.h>
 
 #include <iostream>
 #include <string>

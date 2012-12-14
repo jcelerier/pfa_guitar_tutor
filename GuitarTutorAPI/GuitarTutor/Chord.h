@@ -12,18 +12,18 @@ class GUITARTUTORAPISHARED_EXPORT Chord
 {
 	public:
         Chord(const QString chord);
-		Chord(Chord& chord);
-        Chord(Tonality& tonality, Enrichment& enrichment);
+		Chord(const Chord &chord);
+		Chord(const Tonality& tonality, const Enrichment& enrichment);
 
-		bool isValid();
-		bool isValid(const QString& chord);
+		bool isValid() const;
+		bool isValid(const QString& chord) const;
 
 		QString toString();
-		Enrichment getEnrichment();
-		Tonality getTonality();
+		const Enrichment &getEnrichment() const;
+		const Tonality &getTonality() const;
 
-		Tonality extractTonalityFromStr(const QString& str);
-		Enrichment extractEnrichmentFromStr(const QString& str);
+		const Tonality extractTonalityFromStr(const QString& str) const;
+		const Enrichment extractEnrichmentFromStr(const QString& str) const;
 
 		void setTonality(Tonality &tone);
 		void setTonality(const QString& tone);

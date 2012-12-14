@@ -54,6 +54,8 @@ knowledge of the CeCILL-C license and that you accept its terms.
 #include "PetriNet/PetriNet.hpp"
 #include <unistd.h>
 
+#include <boost/thread.hpp>
+
 using namespace std;
 
 
@@ -611,8 +613,9 @@ bool ECOMachine::run()
 		if (m_petriNet->getPlaces().size() >= 1) {
 			m_isPaused = false;
 
-			pthread_create(&m_thread, NULL, ECOMachineMainFunction, this);
-			//pthread_create(&m_receiveThread, NULL, ECOMachineReceiveFunction, this);
+			m_thread = new boost::thread(&ECOMachineMainFunction, this);
+			//pthread_create(&m_thread, NULL, ECOMachineMainFunction, this);
+			// //pthread_create(&m_receiveThread, NULL, ECOMachineReceiveFunction, this);
 			//m_receiveOSCThread->run();
 
 			while(!isRunning())
