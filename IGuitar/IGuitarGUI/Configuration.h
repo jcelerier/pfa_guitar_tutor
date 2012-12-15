@@ -2,6 +2,7 @@
 #define CONFIGURATION_H
 
 #include <QString>
+#include <portaudio.h>
 class Configuration
 {
 	public:

@@ -14,7 +14,7 @@
 #include <sndfile.h>
 
 #include "MultiTracks.h"
-#include "portaudio/portaudio.h"
+#include <portaudio.h>
 
 extern "C" {
 #include "chord/chord.h"

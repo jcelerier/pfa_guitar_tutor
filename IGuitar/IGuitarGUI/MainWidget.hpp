@@ -3,9 +3,9 @@
 
 #include <QString>
 
-#include "../../GuitarTutorAPI/MultiTracks.h"
-#include "../../GuitarTutorAPI/MusicManager.h"
-#include "../../GuitarTutorAPI/ScoreManager.h"
+#include <MultiTracks.h>
+#include <MusicManager.h>
+#include <ScoreManager.h>
 
 #include "RenderArea.hpp"
 #include "audioconfiguration.h"
