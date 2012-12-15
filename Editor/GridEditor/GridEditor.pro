@@ -41,4 +41,5 @@ DEPENDPATH += $$PWD/../../GuitarTutorAPI
 #else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../GuitarTutorAPI/debug/IGuitar.lib
 #else:unix:!symbian: PRE_TARGETDEPS += $$PWD/../../GuitarTutorAPI/libIGuitar.a
 
-LIBS += -lfmodex64-4.44.00
+macx: LIBS += -lfmodex
+win32:unix: LIBS += -lfmodex64-4.44.00
