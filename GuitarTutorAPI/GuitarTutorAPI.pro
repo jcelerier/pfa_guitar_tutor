@@ -5,6 +5,7 @@
 TEMPLATE = lib
 TARGET = IGuitar
 CONFIG += staticlib
+QT += xml
 
 win32 {
 CONFIG += rtti
@@ -116,7 +117,11 @@ HEADERS += MultiTracks.h \
            IScoreLight/Editor/CSP/InvalidFileFormatException.hpp \
            IScoreLight/Editor/CSP/OutOfBoundException.hpp \
            IScoreLight/Editor/CSP/TriggerPoint.hpp \
-           MusicPlayer.h
+           MusicPlayer.h \
+    Track/TrackLoader.h \
+    Track/PartTrack.h \
+    Track/LogicalTrack.h \
+    Track/TrackChord.h
 SOURCES += MultiTracks.cpp \
            MusicManager.cpp \
            ScoreManager.cpp \
@@ -167,7 +172,10 @@ SOURCES += MultiTracks.cpp \
            IScoreLight/Editor/CSP/CSPConstrainedVariable.cpp \
            IScoreLight/Editor/CSP/CSPLinearConstraint.cpp \
            IScoreLight/Editor/CSP/TriggerPoint.cpp \
-           MusicPlayer.cpp
+           MusicPlayer.cpp \
+    Track/TrackLoader.cpp \
+    Track/PartTrack.cpp \
+    Track/LogicalTrack.cpp
 
 macx: QMAKE_CFLAGS_X86_64 += -mmacosx-version-min=10.7
 macx: QMAKE_CXXFLAGS_X86_64 = $$QMAKE_CFLAGS_X86_64
