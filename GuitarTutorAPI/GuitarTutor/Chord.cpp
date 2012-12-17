@@ -170,8 +170,8 @@ const Tonality Chord::extractTonalityFromStr(const QString& str) const
 const Enrichment Chord::extractEnrichmentFromStr(const QString& str) const
 {
 	Enrichment enrich;
-	if(str.at(1) == 'b' || str.at(1) == '#')
-		enrich = Enrichment(str.right(2));
+    if(str.at(1) == 'b' || str.at(1) == '#')
+        enrich = Enrichment(str.right(2));
 	else
 		enrich = Enrichment(str.right(1));
 

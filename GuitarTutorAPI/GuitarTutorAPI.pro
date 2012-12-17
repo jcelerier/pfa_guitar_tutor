@@ -175,14 +175,15 @@ SOURCES += MultiTracks.cpp \
            MusicPlayer.cpp \
     Track/TrackLoader.cpp \
     Track/PartTrack.cpp \
-    Track/LogicalTrack.cpp
+    Track/LogicalTrack.cpp \
+    Track/TrackChord.cpp
 
 macx: QMAKE_CFLAGS_X86_64 += -mmacosx-version-min=10.7
 macx: QMAKE_CXXFLAGS_X86_64 = $$QMAKE_CFLAGS_X86_64
 
 LIBS += -lsndfile -lboost -lportaudio
 macx: LIBS += -lfmodex
-win32:unix: LIBS += -lfmodex64-4.44.00
+win32|unix: LIBS += -lfmodex64-4.44.00
 
-QMAKE_POST_LINK += mv libIGuitar.a ../libiguitar/
+QMAKE_POST_LINK += cp libIGuitar.a ../libiguitar/
 
