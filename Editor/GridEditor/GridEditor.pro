@@ -25,8 +25,7 @@ TRANSLATIONS = GridEditor_fr.ts
 
 QT += core \
       gui \
-      xml \
-      phonon
+      xml
 
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../GuitarTutorAPI/release/ -lIGuitar
