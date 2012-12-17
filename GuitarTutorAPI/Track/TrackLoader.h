@@ -4,6 +4,7 @@
 #include <QString>
 #include <QList>
 #include <QtXml>
+
 #include "../GuitarTutor/Chord.h"
 #include "LogicalTrack.h"
 
