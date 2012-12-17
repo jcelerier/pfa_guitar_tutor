@@ -25,21 +25,15 @@ TRANSLATIONS = GridEditor_fr.ts
 
 QT += core \
       gui \
-      xml \
-      phonon
+      xml
 
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../GuitarTutorAPI/release/ -lIGuitar
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../GuitarTutorAPI/debug/ -lIGuitar
-else:symbian: LIBS += -lIGuitar
-else:unix: LIBS += -L$$PWD/../../GuitarTutorAPI/ -lIGuitar
+else:unix: LIBS += -L$$PWD/../../libiguitar/ -lIGuitar
 
 INCLUDEPATH += $$PWD/../../GuitarTutorAPI $$PWD/../../GuitarTutorAPI/GuitarTutor
-DEPENDPATH += $$PWD/../../GuitarTutorAPI
-
-#win32:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../GuitarTutorAPI/release/IGuitar.lib
-#else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../GuitarTutorAPI/debug/IGuitar.lib
-#else:unix:!symbian: PRE_TARGETDEPS += $$PWD/../../GuitarTutorAPI/libIGuitar.a
+DEPENDPATH += $$PWD/../../libiguitar
 
 macx: LIBS += -lfmodex
-win32:unix: LIBS += -lfmodex64-4.44.00
+win32|unix: LIBS += -lfmodex64-4.44.00
