@@ -32,7 +32,7 @@ QT += core \
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../GuitarTutorAPI/release/ -lIGuitar
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../GuitarTutorAPI/debug/ -lIGuitar
 else:symbian: LIBS += -lIGuitar
-else:unix: LIBS += -L$$PWD/../../GuitarTutorAPI/ -lIGuitar
+else:unix: LIBS += -L$$PWD/../../libiguitar/ -lIGuitar
 
 INCLUDEPATH += $$PWD/../../GuitarTutorAPI $$PWD/../../GuitarTutorAPI/GuitarTutor
 DEPENDPATH += $$PWD/../../GuitarTutorAPI
