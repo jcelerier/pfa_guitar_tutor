@@ -7,10 +7,13 @@ class AudioSync : public QWidget
 {
     Q_OBJECT
 
-    QLineEdit *beggining, *end, *bar;
+    QGridLayout* layout;
+    QTimeEdit *beggining, *end, *bar;
+    QToolButton* bbeggining, *bend, *bbar;
 public:
     AudioSync();
     ~AudioSync();
+    void activeButtons(bool active);
 };
 
 #endif // AUDIOSYNC_H

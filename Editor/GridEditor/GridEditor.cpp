@@ -161,11 +161,11 @@ void GridEditor::createCentralWidget() {
     layout = new QGridLayout();
     layout->addWidget(chordTree, 0, 0); //Liste des accords en haut-gauche
     layout->addWidget(grid, 0, 1, 1, 4); //Fenêtre d'accords en haut-milieu
-    layout->addWidget(audioSync, 1, 0);
+    layout->addWidget(audioSync, 1, 0, 3, 1);
     layout->addWidget(label, 1, 1);
     layout->addWidget(audioFile, 1, 2);
     layout->addWidget(browseButton, 1, 3);
-    layout->addWidget(player, 2, 1, 1, 3);
+    layout->addWidget(player, 2, 1, 3, 3);
 
     centralArea->setLayout(layout);
 }
@@ -231,7 +231,7 @@ void GridEditor::importXml() {
         return;
     delete grid;
     grid = new ChordTableWidget(xgrid_file);
-    layout->addWidget(grid, 0, 1);
+    layout->addWidget(grid, 0, 1, 1, 5);
     title->setText(grid->get_name());
     saveAction->setEnabled(true);
     addRowAction->setEnabled(true);
@@ -248,7 +248,7 @@ void GridEditor::importXml() {
 
 /**
  * @brief GridEditor::exportXml
- *
+ *2
  * Récupération de la grille éditée pour exportation.
  */
 void GridEditor::exportXml() {
@@ -296,7 +296,7 @@ void GridEditor::newGrid() {
         return;
     delete grid;
     grid = new ChordTableWidget(column + 1, 10);
-    layout->addWidget(grid, 0, 1, 1, 4);
+    layout->addWidget(grid, 0, 1, 1, 5);
     saveAction->setEnabled(true);
     addRowAction->setEnabled(true);
     addColumnAction->setEnabled(true);
@@ -348,6 +348,7 @@ void GridEditor::setAudioFile()
 {
     audioFile->setEnabled(true);
     audioFile->setText(player->getSong());
+    audioSync->activeButtons(true);
 }
 
 /**
@@ -359,6 +360,7 @@ void GridEditor::resetAudioFile()
 {
     audioFile->setText("");
     audioFile->setEnabled(false);
+    audioSync->activeButtons(false);
 }
 
 /**

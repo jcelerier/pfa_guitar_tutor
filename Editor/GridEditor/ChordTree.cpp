@@ -1,4 +1,4 @@
-#include "ChordTree.h"
+#include <ChordTree.h>
 #include <QDebug>
 
 /**
