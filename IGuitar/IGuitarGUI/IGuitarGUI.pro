@@ -46,14 +46,13 @@ INCLUDEPATH += $$PWD/../../GuitarTutorAPI
 DEPENDPATH += $$PWD/../../libiguitar
 
 win32: PRE_TARGETDEPS += $$PWD/../../libiguitar/IGuitar.lib
-else:unix:!symbian: PRE_TARGETDEPS += $$PWD/../../libiguitar/libIGuitar.a
+else:unix:!symbian PRE_TARGETDEPS += $$PWD/../../libiguitar/libIGuitar.a
 
 macx: QMAKE_CFLAGS_X86_64 += -mmacosx-version-min=10.7
 macx: QMAKE_CXXFLAGS_X86_64 = $$QMAKE_CFLAGS_X86_64
 
-unix {
-LIBS += -lsndfile -lportaudio -lboost_thread-mt
-}
+unix:macx: LIBS += -lsndfile -lportaudio -lboost_thread-mt
+macx: LIBS += -lboost_system-mt
 
 ## Partie sur les librairies :
 win32 {
@@ -85,4 +84,5 @@ DEPENDPATH += $$PWD/../../GuitarTutorAPI/portaudio
 PRE_TARGETDEPS += $$PWD/../../portaudio/lib/libportaudio.a
 }
 
-QMAKE_POST_LINK += mv IGuitarGUI ../../app/
+unix:win32: QMAKE_POST_LINK += mv IGuitarGUI ../../app/
+macx:  QMAKE_POST_LINK += mv IGuitarGUI.app ../../app/
