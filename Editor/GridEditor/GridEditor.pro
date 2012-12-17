@@ -11,7 +11,8 @@ SOURCES += \
     TestMain.cpp \
     EditionSelector.cpp \
     ChordTree.cpp \
-    SimpleMusicPlayer.cpp
+    SimpleMusicPlayer.cpp \
+    AudioSync.cpp
 
 HEADERS += \
     CaseItem.h \
@@ -19,7 +20,8 @@ HEADERS += \
     GridEditor.h \
     EditionSelector.h \
     ChordTree.h \
-    SimpleMusicPlayer.h
+    SimpleMusicPlayer.h \
+    AudioSync.h
 
 TRANSLATIONS = GridEditor_fr.ts
 
