@@ -100,11 +100,30 @@ QString LogicalTrack::GetAudioFileName() {
 
 }
 
+/**
+ * @brief LogicalTrack::AddPartTrackToList
+ * @param QString partName nom de la partie à rajouter
+ *
+ * Ajoute une PartTrack à la liste des PartTrack de la LogicalTrack
+ */
+
 PartTrack * LogicalTrack::AddPartTrackToList(QString partName) {
 
     PartTrack* newPartTrack = new PartTrack(partName);
     listPartTrack.append(newPartTrack);
 
     return newPartTrack;
+
+}
+
+/**
+ * @brief LogicalTrack::getListPartTrack
+ *
+ * Renvoie un pointeur sur la liste des PartTrack de la LogicalTrack
+ */
+
+QList<PartTrack*> LogicalTrack::getListPartTrack() {
+
+    return listPartTrack;
 
 }

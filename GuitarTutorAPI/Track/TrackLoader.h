@@ -17,7 +17,8 @@ public:
     ~TrackLoader();
 
     int ConvertLogicalTrackToXml(QString xmlFileName);
-    int ConvertXmlToLogicalTrack(QString xmlFileName);
+    LogicalTrack * ConvertXmlToLogicalTrack(QString xmlFileName);
+
     // int SaveEditorTrackInLogicalTrack(); => TODO en attente de la nouvelle vue éditeur
     // int SaveEditorTrackInXml(); => TODO en attente de la nouvelle vue éditeur
 
