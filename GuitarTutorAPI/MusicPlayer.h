@@ -3,6 +3,7 @@
 
 #include <fmodex/fmod.h>
 #include <QString>
+#include <QImage>
 
 /**
  * @brief Classe générant les fonctions de base d'un lecteur audio
@@ -26,7 +27,11 @@ public:
     bool getState() const;
     unsigned int getPosition() const;
     unsigned int getTotalLength() const;
+	unsigned int getTotalLengthInSamples() const;
     void changePosition(unsigned int position);
+
+	void getFullSpectrum(int **tab);
+
 };
 
 #endif // MUSICPLAYER_H

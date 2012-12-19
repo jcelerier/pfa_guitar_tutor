@@ -23,6 +23,9 @@ private:
     QLabel* timerLabel;
     QTimer* timer;
 
+	QImage* waveform;
+	QLabel *waveform_display;
+
     MusicPlayer* player;
     unsigned int songLength;
     unsigned int currentPosition;

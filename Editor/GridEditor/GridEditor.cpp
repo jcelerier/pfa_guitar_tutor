@@ -158,6 +158,8 @@ void GridEditor::createCentralWidget() {
     audioFile->setEnabled(false);
     browseButton = new QPushButton(tr("Browse"));
     layout = new QGridLayout();
+
+
     layout->addWidget(chordTree, 0, 0); //Liste des accords en haut-gauche
     layout->addWidget(grid, 0, 1, 1, 4); //Fenêtre d'accords en haut-milieu
     layout->addWidget(label, 1, 1);

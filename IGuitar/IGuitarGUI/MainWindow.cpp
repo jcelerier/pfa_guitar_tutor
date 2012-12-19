@@ -66,7 +66,6 @@ MainWindow::buildGUI()
 
 	QGridLayout *topLayout = new QGridLayout;
 
-
 	// Set background colour to black
 	QPalette p(palette());
 	p.setColor(QPalette::Background, Qt::black);

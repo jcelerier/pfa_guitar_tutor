@@ -1,5 +1,5 @@
 #include "SimpleMusicPlayer.h"
-
+#include <QDebug>
 /**
  * @brief SimpleMusicPlayer::SimpleMusicPlayer
  *
@@ -7,13 +7,20 @@
  */
 SimpleMusicPlayer::SimpleMusicPlayer()
 {
-    layout = new QGridLayout();
+
+	layout = new QGridLayout();
     playButton = new QToolButton();
     pauseButton = new QToolButton();
     stopButton = new QToolButton();
     slideBar = new QSlider(Qt::Horizontal);
     timerLabel = new QLabel("");
     timer = new QTimer();
+
+	waveform = new QImage(600, 50, QImage::Format_RGB32);
+
+	waveform_display = new QLabel();
+	waveform->fill(0);
+
 
     playButton->setIcon(QIcon("icons/play.png"));
     pauseButton->setIcon(QIcon("icons/pause.png"));
@@ -24,7 +31,7 @@ SimpleMusicPlayer::SimpleMusicPlayer()
     layout->addWidget(pauseButton, 1, 1);
     layout->addWidget(stopButton, 1, 2);
     layout->addWidget(timerLabel, 1, 6);
-
+	layout->addWidget(waveform_display, 2, 0, 1, 7);
     setLayout(layout);
 
     connect(playButton, SIGNAL(released()), this, SLOT(play()));
@@ -37,7 +44,7 @@ SimpleMusicPlayer::SimpleMusicPlayer()
 
     currentPosition = 0;
     songLength = 0;
-    refreshTimerLabel();
+	refreshTimerLabel();
 }
 
 /**
@@ -83,6 +90,25 @@ bool SimpleMusicPlayer::setAudioFile(QString file)
     songLength = player->getTotalLength();
     refreshTimerLabel();
     slideBar->setRange(0, songLength);
+
+
+	QColor vert = QColor(0, 255, 0);
+	int *table = new int[600];
+	player->getFullSpectrum(&table);
+
+	int height;
+
+	for(int i = 0; i < 600; i++)
+	{
+		height = abs(table[i] / (int) pow(2, 24));
+		for(int j = 25 - height; j < 25 + height; j++ )
+		{
+			waveform->setPixel(i, j, vert.rgb());
+		}
+	}
+	waveform_display->setPixmap(QPixmap::fromImage(*waveform));
+
+
     return true;
 }
 
@@ -94,7 +120,7 @@ bool SimpleMusicPlayer::setAudioFile(QString file)
 void SimpleMusicPlayer::play()
 {
     if(player->getState()) {
-        player->play();
+		player->play();
         timer->start(REFRESH_DELAY);
     }
     else

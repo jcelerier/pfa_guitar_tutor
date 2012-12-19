@@ -1,6 +1,7 @@
 #include "MusicPlayer.h"
+#include "fmodex/fmod_errors.h"
 #include <iostream>
-
+#include <QDebug>
 /**
  * @brief MusicPlayer::MusicPlayer
  *
@@ -44,8 +45,8 @@ MusicPlayer::~MusicPlayer()
 void MusicPlayer::play()
 {
     if(state) {
-        FMOD_System_PlaySound(system, FMOD_CHANNEL_FREE, music, 0, &channel);
-        FMOD_Channel_SetPaused(channel, 0);
+		FMOD_System_PlaySound(system, FMOD_CHANNEL_FREE, music, 0, &channel);
+		FMOD_Channel_SetPaused(channel, 0);
     }
 }
 
@@ -90,7 +91,7 @@ void MusicPlayer::stop()
 bool MusicPlayer::setSong(QString song)
 {
     const char* tmp = song.toStdString().c_str();
-    FMOD_RESULT result = FMOD_System_CreateSound(system, tmp, FMOD_SOFTWARE | FMOD_2D | FMOD_CREATESTREAM, 0, &music);
+	FMOD_RESULT result = FMOD_System_CreateSound(system, tmp, FMOD_SOFTWARE | FMOD_2D | FMOD_CREATESAMPLE, 0, &music);
 
     if (result != FMOD_OK) {
         state = false;
@@ -156,6 +157,22 @@ unsigned int MusicPlayer::getTotalLength() const
 }
 
 /**
+ * @brief MusicPlayer::getTotalLengthInSamples
+ * @return La durée totale du morceau en samples PCM, ou 0 en cas d'erreur.
+ *
+ * Indique le nombre de samples du fichier audio.
+ */
+unsigned int MusicPlayer::getTotalLengthInSamples() const
+{
+	if(state) {
+		unsigned int tmp = 0;
+		if(FMOD_Sound_GetLength(music, &tmp, FMOD_TIMEUNIT_PCM) == FMOD_OK)
+			return tmp;
+	}
+	return 0;
+}
+
+/**
  * @brief MusicPlayer::changePosition
  * @param position Nouvelle position en millisecondes.
  *
@@ -165,4 +182,44 @@ void MusicPlayer::changePosition(unsigned int position)
 {
     if(state)
         FMOD_Channel_SetPosition(channel, position, FMOD_TIMEUNIT_MS);
+}
+
+/**
+ * @brief MusicPlayer::getFullSpectrum
+ *
+ * Obtient un tableau qui contient les samples
+ */
+
+void MusicPlayer::getFullSpectrum(int ** tab)
+{
+	unsigned int size = getTotalLengthInSamples();
+
+	FMOD_RESULT result;
+	void * pointer1 = 0;
+	void * pointer2 = 0;
+	unsigned int length1;
+	unsigned int length2;
+	int mean = 0;
+	int tmp_tab[8];
+	for(unsigned int i = 0; i < 600; i++)
+	{
+		result = FMOD_Sound_Lock(music, i * 24523 , 32, &pointer1, &pointer2, &length1, &length2);
+
+		if(result != FMOD_OK){
+			qDebug() << "FMOD error!" << result << FMOD_ErrorString(result);
+		}
+
+		for(unsigned int j = 0; j < 8; j++)
+		{
+			tmp_tab[j] = *((int*) pointer1 + j);
+		}
+		for(unsigned int j = 0; j < 8; j++)
+		{
+			mean += tmp_tab[j];
+		}
+
+		(*tab)[i] = mean / 8;
+
+		FMOD_Sound_Unlock(music, pointer1, pointer2, length1, length2);
+	}
 }

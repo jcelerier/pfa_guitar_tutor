@@ -22,6 +22,7 @@ class GridEditor : public QMainWindow
 {
     Q_OBJECT
 
+
     QWidget* centralArea;
     QGridLayout* layout;
     ChordTableWidget* grid;
