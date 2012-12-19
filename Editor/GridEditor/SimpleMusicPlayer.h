@@ -34,6 +34,9 @@ public:
     ~SimpleMusicPlayer();
     QString getSong();
     bool setAudioFile(QString file);
+
+	void displayGraph();
+
 public slots:
     void play();
     void pause();

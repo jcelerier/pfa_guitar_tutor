@@ -91,25 +91,32 @@ bool SimpleMusicPlayer::setAudioFile(QString file)
     refreshTimerLabel();
     slideBar->setRange(0, songLength);
 
+	displayGraph();
+    return true;
+}
 
-	QColor vert = QColor(0, 255, 0);
-	int *table = new int[600];
+/**
+ * @brief SimpleMusicPlayer::displayGraph
+ *
+ * Affiche le sonogramme du morceau chargé.
+ */
+void SimpleMusicPlayer::displayGraph()
+{
+	int width = 600; //ne pas mettre plus
+	int *table = new int[width];
+	int height = 0;
 	player->getFullSpectrum(&table);
 
-	int height;
-
-	for(int i = 0; i < 600; i++)
+	for(int i = 0; i < width; i++)
 	{
 		height = abs(table[i] / (int) pow(2, 24));
 		for(int j = 25 - height; j < 25 + height; j++ )
 		{
-			waveform->setPixel(i, j, vert.rgb());
+			waveform->setPixel(i, j,  QColor(75, 200, 0).rgb());
 		}
 	}
+
 	waveform_display->setPixmap(QPixmap::fromImage(*waveform));
-
-
-    return true;
 }
 
 /**
