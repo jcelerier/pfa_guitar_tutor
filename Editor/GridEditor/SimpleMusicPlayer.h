@@ -1,7 +1,6 @@
 #ifndef SIMPLEMUSICPLAYER_H
 #define SIMPLEMUSICPLAYER_H
 
-
 #include <QtGui>
 #include <MusicPlayer.h>
 

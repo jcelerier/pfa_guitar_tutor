@@ -10,13 +10,12 @@ public:
 
     PartTrack();
     PartTrack(QString newPartName);
+    void AddChord(TrackChord c);
     ~PartTrack();
 
 private:
 
     QString partName;
-    QString annotation;
-    int repetition;
     QList<TrackChord*> listTrackChords;
 
 };

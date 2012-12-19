@@ -9,13 +9,17 @@ class TrackChord {
 public:
 
     TrackChord();
+    TrackChord(QString nom, int t, int rep);
     ~TrackChord();
+
+    void setRepetition(int newRepetition);
+    int getRepetition();
 
 private:
 
-    Chord CurrentChord;
-    int Time;
-    QString Annotation;
+    Chord * currentChord;
+    int time;
+    int repetition;
 
 };
 

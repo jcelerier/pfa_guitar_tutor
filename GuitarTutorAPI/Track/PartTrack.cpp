@@ -36,3 +36,15 @@ PartTrack::~PartTrack() {
 
 }
 
+/**
+ * @brief PartTrack::AddChord
+ *
+ * Fonction de d'ajout d'accord dans l'attribut listTrackChord
+ */
+
+
+void PartTrack::AddChord(TrackChord c) {
+
+    listTrackChords.append(&c);
+
+}

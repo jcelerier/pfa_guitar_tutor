@@ -14,6 +14,7 @@ Last change on 08/05/12
 #include "EditionSelector.h"
 #include "ChordTree.h"
 #include "SimpleMusicPlayer.h"
+#include "AudioSync.h"
 
 /**
  * @brief Fenêtre principale de l'éditeur
@@ -30,6 +31,7 @@ class GridEditor : public QMainWindow
     SimpleMusicPlayer* player;
     QLabel* title;
     QLineEdit* audioFile;
+    AudioSync* audioSync;
     QMenu *fileMenu, *editMenu, *optionMenu, *aboutMenu;
     QPushButton *browseButton;
     QToolBar *toolBar;

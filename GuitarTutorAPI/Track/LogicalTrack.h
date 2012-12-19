@@ -17,6 +17,7 @@ public:
     QString GetArtist();
     void SetAudioFileName(QString newAudioFileName);
     QString GetAudioFileName();
+    QList<PartTrack*> getListPartTrack();
 
     PartTrack * AddPartTrackToList(QString partName);
 
