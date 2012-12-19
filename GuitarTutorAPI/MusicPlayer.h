@@ -15,6 +15,8 @@ class MusicPlayer
     FMOD_SYSTEM *system;
     FMOD_SOUND *music;
     FMOD_CHANNEL *channel;
+
+	int *samples;
 public:
     MusicPlayer();
     MusicPlayer(QString);
@@ -30,7 +32,8 @@ public:
 	unsigned int getTotalLengthInSamples() const;
     void changePosition(unsigned int position);
 
-	void getFullSpectrum(int **tab);
+	void getFullSpectrum(int *tab, unsigned int size);
+	void initSamples();
 
 };
 

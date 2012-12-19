@@ -99,6 +99,8 @@ bool MusicPlayer::setSong(QString song)
     }
     this->song = song;
     state = true;
+
+	initSamples(); //charge le fichier dans le tableau
     return true;
 }
 
@@ -117,7 +119,7 @@ QString MusicPlayer::getSong() const
  * @brief MusicPlayer::getState
  * @return Vrai si et seulement si un fichier audio est actuellement attribué au lecteur.
  *
- * Indique si le lecteur est actuellement en cours de lecture.
+ * Indique si un fichier audio a été chargé dans le lecteur.
  */
 bool MusicPlayer::getState() const
 {
@@ -185,41 +187,86 @@ void MusicPlayer::changePosition(unsigned int position)
 }
 
 /**
- * @brief MusicPlayer::getFullSpectrum
- *
- * Obtient un tableau qui contient les samples
+ * @brief MusicPlayer::initSamples
+ * Charge le tableau représentant les samples en mémoire pour l'affichage
  */
 
-void MusicPlayer::getFullSpectrum(int ** tab)
+void MusicPlayer::initSamples()
 {
-	unsigned int size = getTotalLengthInSamples();
-
 	FMOD_RESULT result;
 	void * pointer1 = 0;
 	void * pointer2 = 0;
 	unsigned int length1;
 	unsigned int length2;
-	int mean = 0;
-	int tmp_tab[8];
-	for(unsigned int i = 0; i < 600; i++)
+	const unsigned int size =  getTotalLengthInSamples();
+
+	samples = new int[size];
+	result = FMOD_Sound_Lock(music, 0, size*4, &pointer1, &pointer2, &length1, &length2);
+
+	if(result != FMOD_OK)
 	{
-		result = FMOD_Sound_Lock(music, i * 24523 , 32, &pointer1, &pointer2, &length1, &length2);
+		qDebug() << "FMOD error!" << result << FMOD_ErrorString(result);
+	}
 
-		if(result != FMOD_OK){
-			qDebug() << "FMOD error!" << result << FMOD_ErrorString(result);
-		}
+	for(unsigned int i = 0; i < size; i++)
+	{
+		samples[i] = *((int*) pointer1 + i);
+	}
 
-		for(unsigned int j = 0; j < 8; j++)
+	FMOD_Sound_Unlock(music, pointer1, pointer2, length1, length2);
+
+}
+
+
+
+/**
+ * @brief MusicPlayer::getFullSpectrum
+ * @param tab Tableau ou on copie les données
+ * @param size Taille du tableau
+ * Obtient un tableau qui contient les samples nécessaires pour l'affichage graphique
+ */
+
+void MusicPlayer::getFullSpectrum(int * tab, unsigned int size)
+{
+	int max = 0;
+	const unsigned int file_size = getTotalLengthInSamples();
+	const unsigned int chunk_size = 32;
+	const unsigned int chunk_sep = file_size / size;
+
+	int med_tab[size];
+	for(unsigned int i = 0; i < size; i ++)
+	{
+		//algo moyenne, marche... moyennement.
+		/*
+		for(unsigned int j = 0; j < chunk_size; j++)
 		{
-			tmp_tab[j] = *((int*) pointer1 + j);
+			if(i*chunk_sep + j < getTotalLengthInSamples())
+			{
+				mean += samples[i*chunk_sep + j];
+			}
+
 		}
-		for(unsigned int j = 0; j < 8; j++)
+
+		med_tab[i] = mean / chunk_size;
+
+		mean = 0;*/
+
+		//algo max
+		for(unsigned int j = 0; j < chunk_size; j++)
 		{
-			mean += tmp_tab[j];
+			if(i*chunk_sep + j < file_size)
+			{
+				max = (samples[i*chunk_sep + j] < max)? max : samples[i*chunk_sep + j];
+			}
 		}
 
-		(*tab)[i] = mean / 8;
+		med_tab[i] = max / chunk_size;
 
-		FMOD_Sound_Unlock(music, pointer1, pointer2, length1, length2);
+		max = 0;
+	}
+
+	for(unsigned int i = 1; i < size-1; i++ )
+	{
+		tab[i] = (med_tab[i] + med_tab[i-1] + med_tab[i+1]) / 3;
 	}
 }

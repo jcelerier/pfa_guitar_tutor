@@ -16,11 +16,13 @@ SimpleMusicPlayer::SimpleMusicPlayer()
     timerLabel = new QLabel("");
     timer = new QTimer();
 
-	waveform = new QImage(600, 50, QImage::Format_RGB32);
-
 	waveform_display = new QLabel();
-	waveform->fill(0);
+	//permet de réduire la fenêtre:
+	waveform_display->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
 
+	QImage waveform(slideBar->width(), 50, QImage::Format_RGB32);
+	waveform.fill(0);
+	waveform_display->setPixmap(QPixmap::fromImage(waveform));
 
     playButton->setIcon(QIcon("icons/play.png"));
     pauseButton->setIcon(QIcon("icons/pause.png"));
@@ -62,6 +64,39 @@ SimpleMusicPlayer::~SimpleMusicPlayer()
     delete timer;
 }
 
+
+/**
+ * @brief SimpleMusicPlayer::resizeEvent
+ * @param event QResizeEvent reçu de l'évènement
+ *
+ * Actualise le graphe en cas de redimensionnement de la fenêtre.
+ */
+void SimpleMusicPlayer::resizeEvent(QResizeEvent * event)
+{
+	if(player->getState())
+	{
+		updateWaveform();
+	}
+}
+
+/**
+ * @brief SimpleMusicPlayer::updateWaveform
+ *
+ * Actualise le graphe.
+ */
+void SimpleMusicPlayer::updateWaveform()
+{
+	unsigned const int size = slideBar->width() - 1;
+	QImage waveform(size, 50, QImage::Format_RGB32);
+
+	waveform.fill(0);
+	for(int i = 0; i < size; i++)
+		waveform.setPixel(i, 24, QColor(75, 200, 0).rgb());
+	displayGraph(&waveform, size);
+
+	waveform_display->setPixmap(QPixmap::fromImage(waveform));
+}
+
 /**
  * @brief SimpleMusicPlayer::getSong
  * @return Le chemin vers le fichier audio courant.
@@ -91,7 +126,7 @@ bool SimpleMusicPlayer::setAudioFile(QString file)
     refreshTimerLabel();
     slideBar->setRange(0, songLength);
 
-	displayGraph();
+	updateWaveform();
     return true;
 }
 
@@ -100,23 +135,21 @@ bool SimpleMusicPlayer::setAudioFile(QString file)
  *
  * Affiche le sonogramme du morceau chargé.
  */
-void SimpleMusicPlayer::displayGraph()
+void SimpleMusicPlayer::displayGraph(QImage * waveform, unsigned int pixelWidth)
 {
-	int width = 600; //ne pas mettre plus
-	int *table = new int[width];
-	int height = 0;
-	player->getFullSpectrum(&table);
+	int *table = new int[pixelWidth];
+	unsigned int height = 0;
+	player->getFullSpectrum(table, pixelWidth);
 
-	for(int i = 0; i < width; i++)
+	for(int i = 0; i < pixelWidth ; i++)
 	{
-		height = abs(table[i] / (int) pow(2, 24));
-		for(int j = 25 - height; j < 25 + height; j++ )
+		//height = abs(table[i] / (int) pow(2, 23)); //moyenne
+		height = abs(table[i] / (int) pow(2, 19));//max
+		for(int j = 24 - height; j < 25 + height; j++)
 		{
-			waveform->setPixel(i, j,  QColor(75, 200, 0).rgb());
+			waveform->setPixel(i, j, QColor(75, 200, 0).rgb());
 		}
 	}
-
-	waveform_display->setPixmap(QPixmap::fromImage(*waveform));
 }
 
 /**

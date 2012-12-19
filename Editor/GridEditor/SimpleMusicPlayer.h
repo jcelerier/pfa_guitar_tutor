@@ -22,20 +22,23 @@ private:
     QLabel* timerLabel;
     QTimer* timer;
 
-	QImage* waveform;
 	QLabel *waveform_display;
 
     MusicPlayer* player;
+	MusicPlayer* graph;
     unsigned int songLength;
     unsigned int currentPosition;
+
+protected:
+	virtual void resizeEvent(QResizeEvent * event);
 
 public:
     SimpleMusicPlayer();
     ~SimpleMusicPlayer();
     QString getSong();
     bool setAudioFile(QString file);
-
-	void displayGraph();
+	void updateWaveform();
+	void displayGraph(QImage *waveform, unsigned int pixelWidth);
 
 public slots:
     void play();
