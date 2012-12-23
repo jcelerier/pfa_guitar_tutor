@@ -30,7 +30,7 @@ private:
     unsigned int currentPosition;
 
 protected:
-	virtual void resizeEvent(QResizeEvent * event);
+    virtual void resizeEvent(QResizeEvent * event);
 
 public:
     SimpleMusicPlayer();
@@ -39,6 +39,7 @@ public:
     bool setAudioFile(QString file);
 	void updateWaveform();
 	void displayGraph(QImage *waveform, unsigned int pixelWidth);
+    QTime getCurrentPosition();
 
 public slots:
     void play();

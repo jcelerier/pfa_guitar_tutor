@@ -90,7 +90,7 @@ void SimpleMusicPlayer::updateWaveform()
 	QImage waveform(size, 50, QImage::Format_RGB32);
 
 	waveform.fill(0);
-	for(int i = 0; i < size; i++)
+    for(unsigned int i = 0; i < size; i++)
 		waveform.setPixel(i, 24, QColor(75, 200, 0).rgb());
 	displayGraph(&waveform, size);
 
@@ -141,15 +141,22 @@ void SimpleMusicPlayer::displayGraph(QImage * waveform, unsigned int pixelWidth)
 	unsigned int height = 0;
 	player->getFullSpectrum(table, pixelWidth);
 
-	for(int i = 0; i < pixelWidth ; i++)
+    for(unsigned int i = 0; i < pixelWidth ; i++)
 	{
 		//height = abs(table[i] / (int) pow(2, 23)); //moyenne
 		height = abs(table[i] / (int) pow(2, 19));//max
-		for(int j = 24 - height; j < 25 + height; j++)
+        for(unsigned int j = 24 - height; j < 25 + height; j++)
 		{
 			waveform->setPixel(i, j, QColor(75, 200, 0).rgb());
 		}
-	}
+    }
+}
+
+QTime SimpleMusicPlayer::getCurrentPosition()
+{
+    unsigned int time = player->getPosition();
+    QTime t(time/(1000*60*60),time/(1000*60)%60, (time/1000)%60, time%1000);
+    return t;
 }
 
 /**

@@ -193,6 +193,7 @@ void GridEditor::connectActionToSlot(){
     connect(browseButton, SIGNAL(released()), this, SLOT(browseAudioFile()));
     connect(player, SIGNAL(browseAudioFile()), this, SLOT(browseAudioFile()));
     connect(player, SIGNAL(audioFileDeleted()), this, SLOT(resetAudioFile()));
+    connect(audioSync, SIGNAL(refreshTimer(int)), this, SLOT(refreshTimerAudioSync(int)));
 }
 
 //---------------------------------------------------
@@ -363,6 +364,21 @@ void GridEditor::resetAudioFile()
     audioFile->setText("");
     audioFile->setEnabled(false);
     audioSync->activeButtons(false);
+}
+
+void GridEditor::refreshTimerAudioSync(int i)
+{
+    switch(i) {
+    case TIMER_BEGGINING:
+        audioSync->setBegginingTimer(player->getCurrentPosition());
+        break;
+    case TIMER_END:
+        audioSync->setEndTimer(player->getCurrentPosition());
+        break;
+    case TIMER_BAR:
+        audioSync->setBarTimer(player->getCurrentPosition());
+        break;
+    }
 }
 
 /**

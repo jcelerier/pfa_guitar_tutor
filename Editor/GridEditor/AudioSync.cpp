@@ -39,6 +39,10 @@ AudioSync::AudioSync()
     layout->addWidget(bbar, 2, 2);
 
     setLayout(layout);
+
+    connect(bbeggining, SIGNAL(pressed()), this, SLOT(emitSignalTimer()));
+    connect(bend, SIGNAL(pressed()), this, SLOT(emitSignalTimer()));
+    connect(bbar, SIGNAL(pressed()), this, SLOT(emitSignalTimer()));
 }
 
 AudioSync::~AudioSync()
@@ -57,4 +61,29 @@ void AudioSync::activeButtons(bool active)
     beggining->setEnabled(active);
     end->setEnabled(active);
     bar->setEnabled(active);
+}
+
+void AudioSync::setBegginingTimer(const QTime t)
+{
+    beggining->setTime(t);
+}
+
+void AudioSync::setEndTimer(const QTime t)
+{
+    end->setTime(t);
+}
+
+void AudioSync::setBarTimer(const QTime t)
+{
+    bar->setTime(t);
+}
+
+void AudioSync::emitSignalTimer()
+{
+    if(bbeggining->isDown())
+        emit refreshTimer(TIMER_BEGGINING);
+    else if(bend->isDown())
+        emit refreshTimer(TIMER_END);
+    else if(bbar->isDown())
+        emit refreshTimer(TIMER_BAR);
 }

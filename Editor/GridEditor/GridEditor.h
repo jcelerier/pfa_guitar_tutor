@@ -66,6 +66,8 @@ public slots:
     void newEditor(int);
     void setAudioFile();
     void resetAudioFile();
+private slots:
+    void refreshTimerAudioSync(int);
 };
 
 #endif // GRIDEDITOR_H
