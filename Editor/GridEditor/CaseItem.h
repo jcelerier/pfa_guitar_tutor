@@ -17,16 +17,23 @@ Last change on 14/04/12
 class CaseItem : public QTableWidgetItem
 {
     QColor* color;
+	QString m_part;
 
-public:
-    CaseItem();
-    CaseItem(const QTableWidgetItem& item);
-    ~CaseItem();
-    void set_color(int r, int g, int b, int);
-    void set_chord(QString cw);
-    QColor* get_color() const;
-    QString get_chord() const;
-    CaseItem* clone() const;
+	public:
+		CaseItem();
+		CaseItem(const QTableWidgetItem& item);
+		~CaseItem();
+		void set_color(int r, int g, int b, int);
+		void set_chord(QString cw);
+		QColor* get_color() const;
+		QString get_chord() const;
+		CaseItem* clone() const;
+		void ShowContextMenu(const QPoint& pos);
+
+		QString& getPart();
+		void setPart(QString&);
+
+		bool isPartSet();
 };
 
 #endif // CASEITEM_H

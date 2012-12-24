@@ -9,16 +9,18 @@ Last change on 14/04/12
  */
 
 #include "CaseItem.h"
-
+#include <QMenu>
+#include <QMouseEvent>
 /**
  * @brief CaseItem::CaseItem
  *
  * Constructeur des cases de la grille.
  */
-CaseItem::CaseItem() :  QTableWidgetItem(), color(new QColor()) {
+CaseItem::CaseItem() :  QTableWidgetItem(), color(new QColor())
+{
     color->setRgb(255, 255, 255);
     this->setBackgroundColor(color->toRgb());
-    this->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+	this->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
     this->setTextAlignment(Qt::AlignCenter);
 }
 
@@ -26,10 +28,12 @@ CaseItem::CaseItem() :  QTableWidgetItem(), color(new QColor()) {
  * @brief CaseItem::CaseItem
  * @param item
  *
- * Constructeur surchargé.
+ * Constructeur surchagé (ressemble vaguement à une copie.)
  */
 CaseItem::CaseItem(const QTableWidgetItem& item) : QTableWidgetItem(item), color(new QColor(item.background().color()))
-{}
+{
+	this->text() = item.text();
+}
 
 CaseItem::~CaseItem() {
     delete color;
@@ -84,8 +88,25 @@ QString CaseItem::get_chord() const {
  * @return Une copie de la case courante.
  *
  * Permet de créer une copie de la case sélectionnée.
+ * question (jm): à quoi sert cette méthode si on a un constructeur par recopie ?
  */
-CaseItem* CaseItem::clone() const {
+CaseItem* CaseItem::clone() const
+{
     QTableWidgetItem* item = QTableWidgetItem::clone();
     return new CaseItem((const QTableWidgetItem&) *item);
+}
+
+QString& CaseItem::getPart()
+{
+	return m_part;
+}
+
+void CaseItem::setPart(QString& part)
+{
+	m_part = part;
+}
+
+bool CaseItem::isPartSet()
+{
+	return m_part.length() > 0;
 }

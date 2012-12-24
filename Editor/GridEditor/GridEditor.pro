@@ -12,7 +12,8 @@ SOURCES += \
     EditionSelector.cpp \
     ChordTree.cpp \
     SimpleMusicPlayer.cpp \
-    AudioSync.cpp
+    AudioSync.cpp \
+    PartSetter.cpp
 
 HEADERS += \
     CaseItem.h \
@@ -21,7 +22,8 @@ HEADERS += \
     EditionSelector.h \
     ChordTree.h \
     SimpleMusicPlayer.h \
-    AudioSync.h
+    AudioSync.h \
+    PartSetter.h
 
 TRANSLATIONS = GridEditor_fr.ts
 
@@ -40,3 +42,6 @@ DEPENDPATH += $$PWD/../../libiguitar
 
 macx: LIBS += -lfmodex
 win32|unix: LIBS += -lfmodex64-4.44.00
+
+FORMS += \
+    PartSetter.ui

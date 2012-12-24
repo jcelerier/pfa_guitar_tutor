@@ -11,6 +11,7 @@ Last change on 08/05/12
 #include <QTreeWidget>
 #include <QTableWidget>
 #include "CaseItem.h"
+#include "PartSetter.h"
 
 /**
  * @brief Grille d'accords
@@ -19,7 +20,17 @@ class ChordTableWidget : public QTableWidget
 {
     Q_OBJECT
 
-    QString* name;
+	QString* name;
+	QMenu* m_rightClickMenu;
+	CaseItem* m_currentItem;
+
+	QAction* m_addPart;
+	QAction* m_modifyPart;
+	QAction* m_removePart;
+
+	PartSetter* m_setPartDialog;
+protected:
+	//virtual void mousePressEvent( QMouseEvent* event );
 
 public:
     ChordTableWidget();
@@ -37,13 +48,21 @@ public:
 private:
     QList<int> expand_list(QList<QList<int>*> list);
 
+
 public slots:
+	void ShowContextMenu(const QPoint& pos);
+
     void fill_selection(QTreeWidgetItem* chord, int column);
     void insert_row();
     void insert_column();
     void delete_selected_column();
     void delete_selected_row();
     void copy_down_rows();
+
+	void setCasePart(QString &text);
+	void removeCasePart();
+
+	//void onClick(int row, int column);
 };
 
 #endif // CHORDTABLEWIDGET_H

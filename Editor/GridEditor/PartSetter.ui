@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PartSetter</class>
+ <widget class="QDialog" name="PartSetter">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>320</width>
+    <height>91</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QDialogButtonBox" name="buttonBox">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>10</y>
+     <width>81</width>
+     <height>221</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+   <property name="standardButtons">
+    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>121</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Nom de la partie</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>40</y>
+     <width>171</width>
+     <height>24</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>PartSetter</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>90</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>PartSetter</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>90</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lineEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>PartSetter</receiver>
+   <slot>setPart(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>105</x>
+     <y>51</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>159</x>
+     <y>45</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>setPart(QString)</slot>
+ </slots>
+</ui>
