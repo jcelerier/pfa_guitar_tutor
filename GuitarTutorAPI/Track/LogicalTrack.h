@@ -18,6 +18,7 @@ public:
     void SetAudioFileName(QString newAudioFileName);
     QString GetAudioFileName();
     QList<PartTrack*> getListPartTrack();
+    void setRep(int i);
 
     PartTrack * AddPartTrackToList(QString partName);
 
@@ -26,6 +27,7 @@ private:
     QString trackName;
     QString artist;
     QString audioFileName;
+    int rep;
 
     QList<PartTrack*> listPartTrack;
 

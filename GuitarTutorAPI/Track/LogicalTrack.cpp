@@ -5,7 +5,6 @@
  *
  * Constructeur par défaut de la classe LogicalTrack
  */
-
 LogicalTrack::LogicalTrack() {
 
 }
@@ -15,7 +14,6 @@ LogicalTrack::LogicalTrack() {
  *
  * Destructeur de la classe LogicalTrack
  */
-
 LogicalTrack::~LogicalTrack() {
 
     for(QList<PartTrack*>::Iterator i = listPartTrack.begin(); i != listPartTrack.end() ; i++)
@@ -28,7 +26,6 @@ LogicalTrack::~LogicalTrack() {
  *
  * Change la valeur de l'attribut TrackName de la classe LogicalTrack
  */
-
 void LogicalTrack::SetTrackName(QString newTrackName) {
 
     trackName = newTrackName;
@@ -40,7 +37,6 @@ void LogicalTrack::SetTrackName(QString newTrackName) {
  *
  * Renvoie la valeur de l'attribut TrackName de la classe LogicalTrack
  */
-
 QString LogicalTrack::GetTrackName() {
 
     return trackName;
@@ -53,8 +49,6 @@ QString LogicalTrack::GetTrackName() {
  *
  * Change la valeur de l'attribut Artist de la classe LogicalTrack
  */
-
-
 void LogicalTrack::SetArtist(QString newArtist) {
 
     artist = newArtist;
@@ -66,7 +60,6 @@ void LogicalTrack::SetArtist(QString newArtist) {
  *
  * Renvoie la valeur de l'attribut Artist de la classe LogicalTrack
  */
-
 QString LogicalTrack::GetArtist() {
 
     return artist;
@@ -79,8 +72,6 @@ QString LogicalTrack::GetArtist() {
  *
  * Change la valeur de l'attribut FileName de la classe LogicalTrack
  */
-
-
 void LogicalTrack::SetAudioFileName(QString newAudioFileName) {
 
     audioFileName = newAudioFileName;
@@ -92,8 +83,6 @@ void LogicalTrack::SetAudioFileName(QString newAudioFileName) {
  *
  * Renvoie la valeur de l'attribut AudioFileName de la classe LogicalTrack
  */
-
-
 QString LogicalTrack::GetAudioFileName() {
 
     return audioFileName;
@@ -106,7 +95,6 @@ QString LogicalTrack::GetAudioFileName() {
  *
  * Ajoute une PartTrack à la liste des PartTrack de la LogicalTrack
  */
-
 PartTrack * LogicalTrack::AddPartTrackToList(QString partName) {
 
     PartTrack* newPartTrack = new PartTrack(partName);
@@ -121,9 +109,20 @@ PartTrack * LogicalTrack::AddPartTrackToList(QString partName) {
  *
  * Renvoie un pointeur sur la liste des PartTrack de la LogicalTrack
  */
-
 QList<PartTrack*> LogicalTrack::getListPartTrack() {
 
     return listPartTrack;
 
+}
+
+/**
+ * @brief LogicalTrack::setRep
+ *
+ * Permet de changer la valeur du nombre de répétition. Si la valeur entrée n'est pas correcte, rep sera mis à -1.
+ */
+void LogicalTrack::setRep(int i){
+    if(i>=0)
+        rep = i;
+    else
+        rep = -1;
 }

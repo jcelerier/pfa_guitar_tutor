@@ -42,23 +42,35 @@ LogicalTrack * TrackLoader::ConvertXmlToLogicalTrack(QString xmlFileName) {
     QDomNode node = domElement.firstChild();
 
     // Inscription des datas dans la structure de piste LogicalTrack
-
+    QString buffer;
     while(!node.isNull()) {
         if(!domElement.isNull()) {
 
-            if (domElement.tagName() == "nom") {
-                currentTrack->SetTrackName(domElement.text());
+            if ((buffer = domElement.attribute("nom", 0)) != 0) {
+                currentTrack->SetTrackName(buffer);
+            }
+            else{
+                delete currentTrack;
+                return NULL;
             }
 
-            else if (domElement.tagName() == "artiste") {
-                currentTrack->SetArtist(domElement.text());
+            if ((buffer = domElement.attribute("artiste", 0)) != 0) {
+                currentTrack->SetArtist(buffer);
+            }
+            else{
+                delete currentTrack;
+                return NULL;
             }
 
-            else if (domElement.tagName() == "fichier") {
-                currentTrack->SetAudioFileName(domElement.text());
+            if ((buffer = domElement.attribute("fichier", 0)) != 0) {
+                currentTrack->SetAudioFileName(buffer);
+            }
+            else{
+                delete currentTrack;
+                return NULL;
             }
 
-            else if (domElement.tagName() == "partie") {
+            if (domElement.tagName() == "partie") {
 
                 if(domElement.attribute("nom",0) == 0) {
                     delete currentTrack;
@@ -66,7 +78,6 @@ LogicalTrack * TrackLoader::ConvertXmlToLogicalTrack(QString xmlFileName) {
                 }
 
                 PartTrack * currentPartTrack = currentTrack->AddPartTrackToList(domElement.attribute("nom",0));
-
 
 
                 QDomNode chordNode = node.firstChild();
