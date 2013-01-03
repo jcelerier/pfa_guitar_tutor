@@ -10,7 +10,7 @@ public:
 
     PartTrack();
     PartTrack(QString newPartName);
-    void AddChord(TrackChord c);
+    void AddChord(TrackChord * c);
     ~PartTrack();
 
 private:

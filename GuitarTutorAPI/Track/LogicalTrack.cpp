@@ -91,16 +91,13 @@ QString LogicalTrack::GetAudioFileName() {
 
 /**
  * @brief LogicalTrack::AddPartTrackToList
- * @param QString partName nom de la partie à rajouter
+ * @param newPartTrack : Partie de moreceau à rajouter
  *
  * Ajoute une PartTrack à la liste des PartTrack de la LogicalTrack
  */
-PartTrack * LogicalTrack::AddPartTrackToList(QString partName) {
+void LogicalTrack::AddPartTrackToList(PartTrack* newPartTrack) {
 
-    PartTrack* newPartTrack = new PartTrack(partName);
     listPartTrack.append(newPartTrack);
-
-    return newPartTrack;
 
 }
 
@@ -120,9 +117,9 @@ QList<PartTrack*> LogicalTrack::getListPartTrack() {
  *
  * Permet de changer la valeur du nombre de répétition. Si la valeur entrée n'est pas correcte, rep sera mis à -1.
  */
-void LogicalTrack::setRep(int i){
-    if(i>=0)
-        rep = i;
+void LogicalTrack::setMesure(int nb){
+    if(nb>=0)
+        mesure = nb;
     else
-        rep = -1;
+        mesure = -1;
 }

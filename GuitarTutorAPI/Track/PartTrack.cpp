@@ -43,8 +43,8 @@ PartTrack::~PartTrack() {
  */
 
 
-void PartTrack::AddChord(TrackChord c) {
+void PartTrack::AddChord(TrackChord * c) {
 
-    listTrackChords.append(&c);
+    listTrackChords.append(c);
 
 }

@@ -17,17 +17,16 @@ public:
     QString GetArtist();
     void SetAudioFileName(QString newAudioFileName);
     QString GetAudioFileName();
+    void setMesure(int nb);
     QList<PartTrack*> getListPartTrack();
-    void setRep(int i);
-
-    PartTrack * AddPartTrackToList(QString partName);
+    void AddPartTrackToList(PartTrack* newPartTrack);
 
 private:
 
     QString trackName;
     QString artist;
     QString audioFileName;
-    int rep;
+    int mesure;
 
     QList<PartTrack*> listPartTrack;
 

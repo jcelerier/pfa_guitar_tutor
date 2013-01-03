@@ -8,7 +8,6 @@ TrackChord::TrackChord(QString nom, int t, int rep) {
 
 time = t;
 repetition = rep;
-
 currentChord = new Chord(nom);
 
 }
