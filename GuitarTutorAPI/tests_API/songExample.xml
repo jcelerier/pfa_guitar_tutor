@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+ <morceau nom="NomDuMorceau" artiste="Artiste" casesMesure="2" fichier="Beatles.mp3">
+  <partie nom="refrain">
+   <accord temps="132000" nom="Cm" repetition="2"/>
+   <accord temps="158120" nom="F#m7b5"/>
+  </partie>
+  <partie nom="couplet">
+   <accord temps="1" nom="D" repetition="2"/>
+   <accord temps="1" nom="Dm" repetition="2"/>
+   <accord temps="158" nom="E" repetition="2"/>
+  </partie>
+ </morceau>
