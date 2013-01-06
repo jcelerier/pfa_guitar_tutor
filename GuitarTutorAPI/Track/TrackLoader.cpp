@@ -85,7 +85,7 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
 
         PartTrack * currentPartTrack = new PartTrack(n);
 
-        QString test_nom = currentPartTrack->getName();
+        QString test_nom = currentPartTrack->getPartName();
         qDebug() << test_nom;
 
 

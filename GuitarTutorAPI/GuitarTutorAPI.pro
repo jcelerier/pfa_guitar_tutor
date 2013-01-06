@@ -123,8 +123,6 @@ HEADERS += MultiTracks.h \
     Track/LogicalTrack.h \
     Track/TrackChord.h
 SOURCES += MultiTracks.cpp \
-           MusicManager.cpp \
-           ScoreManager.cpp \
            Track.cpp \
            chord/chord.c \
            chord/chordcor.c \
@@ -172,7 +170,6 @@ SOURCES += MultiTracks.cpp \
            IScoreLight/Editor/CSP/CSPConstrainedVariable.cpp \
            IScoreLight/Editor/CSP/CSPLinearConstraint.cpp \
            IScoreLight/Editor/CSP/TriggerPoint.cpp \
-           MusicPlayer.cpp \
     Track/TrackLoader.cpp \
     Track/PartTrack.cpp \
     Track/LogicalTrack.cpp \
