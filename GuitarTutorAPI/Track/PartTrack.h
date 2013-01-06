@@ -13,6 +13,7 @@ public:
     QString getPartName();
     QList<TrackChord*> getListTrackChords();
     void AddChord(TrackChord * c);
+    QString getName() const;
     ~PartTrack();
 
 private:

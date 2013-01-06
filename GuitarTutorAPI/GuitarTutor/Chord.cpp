@@ -9,7 +9,12 @@
 Chord::Chord(const QString chord)
 {
 	m_tonality = extractTonalityFromStr(chord);
-	m_enrichment = extractEnrichmentFromStr(chord);
+    m_enrichment = extractEnrichmentFromStr(chord);//attention : etonnament, ici, la fonction appelé ici n'est
+    //pas celle contenu dans Chord.cpp mais celle contenu dans Enrichment.cpp. j'ai constaté ça en
+    //débugant.
+    //Je ne sais pas encore laquelle des deux est la plus efficace mais j'ai corrigé celle appelé ici.
+    //Je ne suis pas sur que celle contenu dans chord.cpp marche. Il faudra les tester pour voir
+    //laquelle est la mieux.
 }
 
 /**

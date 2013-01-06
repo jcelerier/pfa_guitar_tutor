@@ -4,9 +4,9 @@ TrackChord::TrackChord()
 {
 }
 
-TrackChord::TrackChord(QString nom, int t, int rep) {
+TrackChord::TrackChord(QString nom, int d, int rep) {
 
-time = t;
+duration = d;
 repetition = rep;
 currentChord = new Chord(nom);
 

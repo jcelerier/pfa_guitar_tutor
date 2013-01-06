@@ -50,6 +50,12 @@ void PartTrack::AddChord(TrackChord * c) {
 
 }
 
+<<<<<<< HEAD
+QString PartTrack::getName() const{
+
+    return partName;
+}
+=======
 QString PartTrack::getPartName(){
     return partName;
 }
@@ -57,3 +63,4 @@ QString PartTrack::getPartName(){
 QList<TrackChord*> PartTrack::getListTrackChords(){
     return listTrackChords;
 }
+>>>>>>> cc378f87033f81e9fee2b178da2ffae6c35f81ae

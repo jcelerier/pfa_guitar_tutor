@@ -13,109 +13,121 @@ TrackLoader::~TrackLoader() {
 }
 
 /* Fonction de chargement d'un fichier-piste au format XML
-    @return NULL si le fichier spécifié n'existe pas,
+    @return false si le fichier spécifié n'existe pas,
     si le document XML ouvert ne peut être associé au QDomDocument,
     si le document XML n'est pas un fichier associé au projet
     @return un pointeur sur la LogicalTrack initialisée si le fichier a été correctement chargé
 */
-LogicalTrack * TrackLoader::ConvertXmlToLogicalTrack(QString xmlFileName) {
+bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* currentTrack) {
 
     QDomDocument *dom = new QDomDocument(xmlFileName); // Structure contenant le XML préalablement chargé
     QFile xmlDoc(xmlFileName); // Ouverture du fichier XML
 
     if(!xmlDoc.open(QIODevice::ReadOnly)) { // Erreur à l'ouverture du .xml ?
-        return NULL;
+        qDebug() << "Erreur ouverture XML ";
+        return false;
     }
 
     if (!dom->setContent(&xmlDoc)) { // Impossibilité de linker le fichier .xml ouvert au QDomDocument ?
         xmlDoc.close();
-        return NULL;
+        qDebug() << "erreur linkage .xml au QDomDocument ";
+        return false;
     }
 
     xmlDoc.close(); // Fermeture du document xml maintenant contenu dans un QDomDocument
 
     // On créé la structure de donnée de la piste logique
-
     currentTrack = new LogicalTrack();
 
     QDomElement root = dom->documentElement();
 
     // Inscription des datas dans la structure de piste LogicalTrack
 
-
-    QString n, a, f, m;//Pour stocker les information du morceaux
-    if(root.isNull()) {
+    QString n, a, f, m;//Pour stocker les information du morceaux : n = nom, a = artiste, f = fichier, m = nbr mesures
+    if(root.isNull()) { //Si le l'arborescence xml est vide
         delete currentTrack;
-        return NULL;
+        qDebug() << "Pas d'information xml" << endl;
+        return false;
     }
-        if (((n = root.attribute("nom", 0)) == 0) || ((a = root.attribute("artiste", 0)) == 0) || ((f = root.attribute("fichier", 0)) == 0) || ((m = root.attribute("casesMesure", 0)) == 0)) {
+
+    //Si des informations sur le morceau sont absentes.
+    if (((n = root.attribute("nom", 0)) == 0) || ((a = root.attribute("artiste", 0)) == 0) || ((f = root.attribute("fichier", 0)) == 0) || ((m = root.attribute("casesMesure", 0)) == 0)) {
+        delete currentTrack;
+        qDebug() << "Informations sur le morceau incorectes" << endl;
+        return false;
+    }
+
+    currentTrack->SetTrackName(n);
+
+    currentTrack->SetArtist(a);
+
+    currentTrack->SetAudioFileName(f);
+
+    if(m.toInt() <= 0){ // nbr de mesures incorrect(negatif ou nul)
+        delete currentTrack;
+        qDebug() << "Nbr de mesures incorrect" << endl;
+        return false;
+    }
+    currentTrack->setMesure(m.toInt());
+
+    QDomNode partNode = root.firstChild();
+
+    while(!partNode.isNull()) { //Chargement des infos sur les parties de morceau
+        //Convertie le noeud en QDomElement pour pouvoir utiliser les methodes tagName() et attribute()
+        QDomElement partElement = partNode.toElement();
+
+        //Si le noeud n'est pas une partie ou si il n'a pas d'attribut nom :
+        if (partElement.tagName() != "partie" || (n = partElement.attribute("nom",0)) == 0) {
             delete currentTrack;
-            return NULL;
+            qDebug() << "Le fils de la racine n'est pas une 'partie' ou il n'a pas d'attribut nom" << endl;
+            return false;
         }
 
-        currentTrack->SetTrackName(n);
+        PartTrack * currentPartTrack = new PartTrack(n);
 
-        currentTrack->SetArtist(a);
+        QString test_nom = currentPartTrack->getName();
+        qDebug() << test_nom;
 
-        currentTrack->SetAudioFileName(f);
 
-        if(m.toInt() <= 0){
-            delete currentTrack;
-            return NULL;
-        }
-        currentTrack->setMesure(m.toInt());
+        QDomNode chordNode = partElement.firstChild();
+        QString t1;
+        QString name;
+        QString repetition;
+        int rep, t2;
 
-        QDomNode partNode = root.firstChild();
+        while(!chordNode.isNull()) { //Chargement des infos sur les accords du morceau
+            QDomElement chordElement = chordNode.toElement();
 
-        while(!partNode.isNull()) {
-            //Convertie le noeud en QDomElement pour pouvoir
-            //utiliser les methodes tagName() et attribute()
-            QDomElement partElement = partNode.toElement();
-            //Si le noeud n'est pas une partie ou si il n'a pas d'attribut :
-            if (partElement.tagName() != "partie" || (n = partElement.attribute("nom",0)) == 0) {
+            //Vérification de la présence et de la validité des attributs de l'accord (nom, temps, nbr de répétition)
+            if((name = chordElement.attribute("nom", 0)) == 0 || (t1 = chordElement.attribute("temps", 0)) == 0) {
                 delete currentTrack;
-                return NULL;
+                qDebug() << "Si le nom ou le temps sont absent";
+                return false;
             }
 
-            PartTrack * currentPartTrack = new PartTrack(n);
+            if((t2 = t1.toInt()) <= 0) { //Si le temps rentré est illogique(<= 0)
+                delete currentTrack;
+                qDebug() << "Le temps rentré n'est pas correct";
+                return false;
+            }
 
-            QDomNode chordNode = partElement.firstChild();
-            QString t;
-            QString nom;
-            QString repetition;
+            //L'attribut répétion peut être absent. Attention répétition ne peut pas être nul(minimum = 1)
+            repetition = chordElement.attribute("repetition", 0);
+            if(repetition == 0){
+                rep = 1;
+            }
+            else if((rep = repetition.toInt()) <= 0) {
+                delete currentTrack;
+                return false;
+            }
+            TrackChord * c = new TrackChord(name, t2, rep);
+            currentPartTrack->AddChord(c);
+            qDebug() << "Valeur des caractéristiques :" << name << repetition << t1;
 
-            while(!chordNode.isNull()) {
-                QDomElement chordElement = chordNode.toElement();
-                //récupération des élements
-                if(!chordElement.isNull()) {
-                    if((nom = chordElement.attribute("nom", 0)) == 0 || (t = chordElement.attribute("temps", 0)) == 0) {
-                        delete currentTrack;
-                        return NULL;
-                    }
-
-                    int time;
-                    if((time = t.toInt()) <= 0) {
-                        delete currentTrack;
-                        return NULL;
-                    }
-
-                    //L'attribut répétion peut être absent. Attention répétition ne peut pas être nul(minimum = 1)
-                    int rep;
-                    QString repetition;
-                    if((repetition = chordElement.attribute("repetition", 0)) == 0)
-                        rep = 1;
-                    else if((rep = repetition.toInt()) <= 0) {
-                        delete currentTrack;
-                        return NULL;
-                    }
-                TrackChord * c = new TrackChord(nom,time,rep);
-                currentPartTrack->AddChord(c);
-
-            }//end if
             currentTrack->AddPartTrackToList(currentPartTrack);
             chordNode = chordNode.nextSibling();
         }//end while
         partNode = partNode.nextSibling();
-}//end while
-return currentTrack;
+    }//end while
+    return true;
 }

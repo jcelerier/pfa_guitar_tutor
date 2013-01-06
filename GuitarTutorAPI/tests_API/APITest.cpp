@@ -1,7 +1,7 @@
 #include <QString>
 #include <QtTest>
-#include "../../Track/LogicalTrack.h"
-#include "../../Track/TrackLoader.h"
+#include "../Track/LogicalTrack.h"
+#include "../Track/TrackLoader.h"
 
 class APITest : public QObject
 {
@@ -11,18 +11,25 @@ public:
     APITest();
     
 private Q_SLOTS:
-    void testCase1();
+    void testConvertXmlToLogical();
 };
 
 APITest::APITest()
 {
 }
 
-void APITest::testCase1()
+
+
+void APITest::testConvertXmlToLogical()
 {
-    LogicalTrack result = convertXmlToLogicalTrack("songExample.xml");
-    QVERIFY2(result != 0, "Failure");
-    cout << "la fonction de test à terminée" << endl;
+
+    LogicalTrack * piste = new LogicalTrack();
+    QString xmlFileName = "songExample.xml";
+    bool result = TrackLoader::convertXmlToLogicalTrack(xmlFileName, piste);
+    QVERIFY2(result, "Failure");
+    qDebug() << "la fonction de test à terminée" << endl;
+
+
 }
 
 QTEST_APPLESS_MAIN(APITest)

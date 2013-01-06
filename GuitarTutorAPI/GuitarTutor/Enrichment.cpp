@@ -1,6 +1,7 @@
 #include "Enrichment.h"
 #include <QVector>
 #include <QDebug>
+#include <iostream>
 
 /**
  * @brief Enrichment::Enrichment
@@ -121,29 +122,34 @@ bool Enrichment::isValid(const QString& enrichment) const
 // - on fait un tableau avec tous les enrichissements possibles.
 // - on les recherche tous, puis on rajoute celui avec la plus petite valeur (= le plus proche du début).
 // - on le cherche à nouveau (s'il y est deux fois, même si c'est invalide)
-const Enrichment &Enrichment::extractEnrichmentsFromStr(QString str) const
+const Enrichment Enrichment::extractEnrichmentsFromStr(QString str) const
 {
-	Enrichment e;
+    Enrichment e;
 	QVector<int> table(NUM_ENRICHMENTS, -1);
 	int minIndex = 0;
-	int minValue = 0;
+    int minValue = 12;
 
-	while(str.size() > 0)
-	{
-		for(int i = 0; i < NUM_ENRICHMENTS; i++)
-		{
-			table[i] = str.indexOf(m_stringEquivs[i]);
-			if(table[i] > -1 && table[i] < minValue)
-			{
-				minValue = table[i];
-				minIndex = i;
-			}
-		}
-		e.append((e_Enrichment) minIndex);
-		str.remove(m_stringEquivs[minIndex]);
-	}
+    while(str.size() > 0)
+    {
+        for(int i = 0; i < NUM_ENRICHMENTS; i++)
+        {
+            table[i] = str.indexOf(m_stringEquivs[i]);
 
-	return e;
+            if(table[i] > -1 && table[i] < minValue)
+            {
+                minValue = table[i];
+                minIndex = i;
+            }
+        }
+
+        e.append((e_Enrichment) minIndex);
+
+        QString index = m_stringEquivs[minIndex];
+        qDebug() << index;
+        str.remove(m_stringEquivs[minIndex]);
+    }
+
+    return e;
 }
 
 /**
@@ -154,8 +160,8 @@ const Enrichment &Enrichment::extractEnrichmentsFromStr(QString str) const
  */
 QString Enrichment::toString()
 {
-	QString str = "";
-	for(int i = 0; i < size(); i++)
+    QString str = "";
+    for(int i = 0; i < size(); i++)
 		str += m_stringEquivs[at(i)];
 
 	return str;
