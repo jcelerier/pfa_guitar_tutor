@@ -29,6 +29,7 @@ PartTrack::PartTrack(QString newPartName) {
  * Destructeur de la classe PartTrack
  */
 
+
 PartTrack::~PartTrack() {
 
     for(QList<TrackChord*>::Iterator i = listTrackChords.begin(); i != listTrackChords.end() ; i++)
@@ -47,4 +48,12 @@ void PartTrack::AddChord(TrackChord * c) {
 
     listTrackChords.append(c);
 
+}
+
+QString PartTrack::getPartName(){
+    return partName;
+}
+
+QList<TrackChord*> PartTrack::getListTrackChords(){
+    return listTrackChords;
 }

@@ -323,6 +323,71 @@ bool ScoreManager::loadScore(std::string fileName)
 	return true;
 }
 
+bool ScoreManager::loadScore(LogicalTrack* trackName){
+
+    NoteData currentNote;
+
+    unsigned int currentBoxId = NO_ID;
+
+    m_mainBoxId = m_iscoreEngine->addBox(0, 500000, ROOT_BOX_ID);
+    m_iscoreEngine->addCrossingCtrlPointCallback(this, crossAction);
+    m_iscoreEngine->addCrossingTrgPointCallback(this, triggerCallBack);
+
+    unsigned int mainTriggerPointIdEnd = m_iscoreEngine->addTriggerPoint(ROOT_BOX_ID);
+    m_iscoreEngine->setTriggerPointMessage(mainTriggerPointIdEnd, SCORE_END);
+    m_iscoreEngine->assignCtrlPointToTriggerPoint(mainTriggerPointIdEnd, m_mainBoxId, END_CONTROL_POINT_INDEX);
+
+    float currentRelativeStart = 0;
+    float currentAbsoluteStart = 0;
+
+    std::string previousPart = " ";
+
+    QList<PartTrack*>::iterator it1;
+
+    for(it1 = trackName->getListPartTrack().begin(); it1 != trackName->getListPartTrack().end(); ++it1){
+
+                    std::string current("");
+                    current.swap((*it1)->getPartName().toStdString ());
+
+                    if (currentAbsoluteStart != 0) {
+                        std::vector<unsigned int> movedBox;
+                        m_iscoreEngine->performBoxEditing(currentBoxId, 0, currentRelativeStart * 1000, movedBox);
+                    }
+
+                    currentRelativeStart = 0;
+                    currentBoxId = m_iscoreEngine->addBox(0, 400000, m_mainBoxId);
+
+                    m_partsBeginInMs[currentBoxId] = currentAbsoluteStart;
+
+                    unsigned int currentTriggerPointId = m_iscoreEngine->addTriggerPoint(m_mainBoxId);
+                    m_iscoreEngine->setTriggerPointMessage(currentTriggerPointId, current);
+                    m_iscoreEngine->assignCtrlPointToTriggerPoint(currentTriggerPointId, currentBoxId, BEGIN_CONTROL_POINT_INDEX);
+
+                    m_partNameToBoxId[current] = currentBoxId;
+
+                    if (previousPart != " ") {
+                        m_nextPartName[previousPart] = current;
+                        std::cout << previousPart << " " << current << std::endl;
+                    }
+
+                    previousPart = current;
+                    QList<TrackChord*>::iterator it2;
+                    for(it2 = *it1->getListTrackChords().begin(); it2 != *it1->getListTrackChords().end(); ++it2){
+                    std::istringstream currentStream(currentLine.data());
+                    currentStream >> currentNote.duration >> currentNote.name;
+
+                    m_scoreNotes[m_iscoreEngine->addBox(currentRelativeStart * 1000, currentNote.duration * 1000, currentBoxId)] = currentNote.name;
+
+                    currentRelativeStart += currentNote.duration;
+                    currentAbsoluteStart += currentNote.duration;
+                }
+            }
+    }
+    m_isAScoreToRun = true;
+
+    return true;
+}
+
 bool ScoreManager::isRunning()
 {
 	return m_musicManager->isRunning();
