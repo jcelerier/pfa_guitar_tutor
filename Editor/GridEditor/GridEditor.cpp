@@ -39,14 +39,14 @@ GridEditor::GridEditor() {
  */
 GridEditor::~GridEditor() {
     delete grid;
+	delete audioWindow;
     delete chordTree;
     delete layout;
     delete fileMenu; delete editMenu; delete optionMenu; delete aboutMenu;
     delete toolBar;
     delete openAction; delete saveAction; delete addRowAction; delete copyDownAction; delete deleteRowAction;
         delete quitAction; delete aboutAction; delete newAction; delete renameAction;
-    delete browseButton;
-    delete audioFile;
+
     delete centralArea;
 }
 
@@ -83,6 +83,7 @@ void GridEditor::createActions(){
     deleteColumnAction = new QAction(tr("Delete column"), this);
     copyDownAction = new QAction(tr("&Copy down"), this);
     renameAction = new QAction(tr("Rename"), this);
+	openAudioWindowAction = new QAction(tr("Audio"), this);
 
     quitAction->setIcon(QIcon("icons/quit.png"));
     aboutAction->setIcon(QIcon("icons/about.png"));
@@ -113,6 +114,7 @@ void GridEditor::setActionsToMenu() {
     fileMenu->addAction(openAction);
     fileMenu->addAction(saveAction);
     fileMenu->addSeparator();
+	fileMenu->addAction(openAudioWindowAction);
     fileMenu->addAction(quitAction);
     editMenu->addAction(addRowAction);
     editMenu->addAction(deleteRowAction);
@@ -151,24 +153,13 @@ void GridEditor::createCentralWidget() {
     /*Mise en place du layout*/
     chordTree = new ChordTree(); //Initialisation de chord_tree
     grid = new ChordTableWidget(); //Fenere d'accords
-    player = new SimpleMusicPlayer();
-    QLabel* label = new QLabel(tr("Audio file"));
-    audioFile = new QLineEdit();
-    audioFile->setReadOnly(true);
-    audioFile->setEnabled(false);
-    browseButton = new QPushButton(tr("Browse"));
-    audioSync = new AudioSync();
+
     layout = new QGridLayout();
 
+	audioWindow = new AudioWindow();
 
     layout->addWidget(chordTree, 0, 0); //Liste des accords en haut-gauche
-    layout->addWidget(grid, 0, 1, 1, 4); //Fenêtre d'accords en haut-milieu
-    layout->addWidget(audioSync, 1, 0, 3, 1);
-    layout->addWidget(label, 1, 1);
-    layout->addWidget(audioFile, 1, 2);
-    layout->addWidget(browseButton, 1, 3);
-    layout->addWidget(player, 2, 1, 3, 3);
-
+	layout->addWidget(grid, 0, 1, 1, 4); //Fenêtre d'accords en haut-milieu
     centralArea->setLayout(layout);
 }
 
@@ -180,8 +171,7 @@ void GridEditor::createCentralWidget() {
 void GridEditor::connectActionToSlot(){
     connect(chordTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
     connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
-    connect(saveAction, SIGNAL(triggered()), this, SLOT(exportXml()));
-    connect(openAction, SIGNAL(triggered()), this, SLOT(importXml()));
+
     connect(addRowAction, SIGNAL(triggered()), grid, SLOT(insert_row()));
     connect(addColumnAction, SIGNAL(triggered()), grid, SLOT(insert_column()));
     connect(deleteColumnAction, SIGNAL(triggered()), grid, SLOT(delete_selected_column()));
@@ -190,10 +180,8 @@ void GridEditor::connectActionToSlot(){
     connect(newAction, SIGNAL(triggered()), this, SLOT(newGrid()));
     connect(renameAction, SIGNAL(triggered()), this, SLOT(rename()));
     connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
-    connect(browseButton, SIGNAL(released()), this, SLOT(browseAudioFile()));
-    connect(player, SIGNAL(browseAudioFile()), this, SLOT(browseAudioFile()));
-    connect(player, SIGNAL(audioFileDeleted()), this, SLOT(resetAudioFile()));
-    connect(audioSync, SIGNAL(refreshTimer(int)), this, SLOT(refreshTimerAudioSync(int)));
+
+	connect(openAudioWindowAction, SIGNAL(triggered()), this, SLOT(openAudioWindow()));
 }
 
 //---------------------------------------------------
@@ -221,65 +209,6 @@ void GridEditor::changeState() {
         copyDownAction->setEnabled(false);
     }
     */
-}
-
-/**
- * @brief GridEditor::importXml
- *
- * Chargement d'une grille pré-enregistrée.
- */
-void GridEditor::importXml() {
-    QString xgrid_file = QFileDialog::getOpenFileName(this, tr("Open chords grid"), ".", tr("xgrid Files (*.xgrid)"));
-    if (xgrid_file.isNull())
-        return;
-    delete grid;
-    grid = new ChordTableWidget(xgrid_file);
-    layout->addWidget(grid, 0, 1, 1, 5);
-    title->setText(grid->get_name());
-    saveAction->setEnabled(true);
-    addRowAction->setEnabled(true);
-    addColumnAction->setEnabled(true);
-    renameAction->setEnabled(true);
-    connect(chordTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
-    connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
-    connect(addRowAction, SIGNAL(triggered()), grid, SLOT(insert_row()));
-    connect(copyDownAction, SIGNAL(triggered()), grid, SLOT(copy_down_rows()));
-    connect(deleteRowAction, SIGNAL(triggered()), grid, SLOT(delete_selected_row()));
-    connect(addColumnAction, SIGNAL(triggered()), grid, SLOT(insert_column()));
-    connect(deleteColumnAction, SIGNAL(triggered()), grid, SLOT(delete_selected_column()));
-}
-
-/**
- * @brief GridEditor::exportXml
- *2
- * Récupération de la grille éditée pour exportation.
- */
-void GridEditor::exportXml() {
-    //if (grid->get_name().isEmpty()) {
-        bool ok;
-        QString name;
-        do {
-            name = QInputDialog::getText(this, tr("Grid name"), tr("Name the current grid to save it.\n\n Name:"), QLineEdit::Normal, "", &ok);
-            if (!ok)
-                return;
-            if (name.isEmpty()) {
-                QMessageBox mb;
-                mb.setWindowTitle(tr("Warning"));
-                mb.setText(tr("You have to enter a name to continue."));
-                mb.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
-                int return_value = mb.exec();
-                if (return_value == QMessageBox::Cancel)
-                    return;
-            }
-        } while (name.isEmpty());
-        //grid->set_name(name);
-    //}
-    grid->to_xml(name + ".xgrid");
-    QMessageBox mb;
-    mb.setWindowTitle(tr("Grid saved"));
-    mb.setText(tr("The chords grid is saved at ./") + name + ".xgrid");
-    mb.setStandardButtons(QMessageBox::Ok);
-    mb.exec();
 }
 
 /**
@@ -313,19 +242,6 @@ void GridEditor::newGrid() {
     connect(addColumnAction, SIGNAL(triggered()), grid, SLOT(insert_column()));
 }
 
-/**
- * @brief GridEditor::rename
- *
- * Action pour renommer un fichier xgrid.
- */
-void GridEditor::rename() {
-    bool ok;
-    QString name = QInputDialog::getText(this, tr("Grid name"), tr("Name:"), QLineEdit::Normal, "", &ok);
-    if (!ok || name.isEmpty())
-        return;
-    title->setText(name);
-    grid->set_name(name);
-}
 
 /**
  * @brief GridEditor::newEditor
@@ -342,55 +258,8 @@ void GridEditor::newEditor(int type)
     delete editionSelector;
 }
 
-/**
- * @brief GridEditor::setAudioFile
- *
- * Modifie l'affichage du fichier audio associé.
- */
-void GridEditor::setAudioFile()
-{
-    audioFile->setEnabled(true);
-    audioFile->setText(player->getSong());
-    audioSync->activeButtons(true);
-}
 
-/**
- * @brief GridEditor::resetAudioFile
- *
- * Réinitialise l'affichage du fichier audio associé.
- */
-void GridEditor::resetAudioFile()
+void GridEditor::openAudioWindow()
 {
-    audioFile->setText("");
-    audioFile->setEnabled(false);
-    audioSync->activeButtons(false);
-}
-
-void GridEditor::refreshTimerAudioSync(int i)
-{
-    switch(i) {
-    case TIMER_BEGGINING:
-        audioSync->setBegginingTimer(player->getCurrentPosition());
-        break;
-    case TIMER_END:
-        audioSync->setEndTimer(player->getCurrentPosition());
-        break;
-    case TIMER_BAR:
-        audioSync->setBarTimer(player->getCurrentPosition());
-        break;
-    }
-}
-
-/**
- * @brief GridEditor::browseAudioFile
- *
- * Demande de sélection d'un fichier audio sur le disque dur de l'utilisateur.
- */
-void GridEditor::browseAudioFile()
-{
-    QString tmp = QFileDialog::getOpenFileName(this, tr("Open a file"), QString(), tr("Music (*.mp3 *.ogg *.wma *.wav)"));
-    if(tmp != "") {
-        if(player->setAudioFile(tmp))
-            setAudioFile();
-    }
+	audioWindow->show();
 }

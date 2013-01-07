@@ -15,7 +15,7 @@ Last change on 08/05/12
 #include "ChordTree.h"
 #include "SimpleMusicPlayer.h"
 #include "AudioSync.h"
-
+#include "AudioWindow.h"
 /**
  * @brief Fenêtre principale de l'éditeur
  */
@@ -23,22 +23,20 @@ class GridEditor : public QMainWindow
 {
     Q_OBJECT
 
+	AudioWindow* audioWindow;
 
     QWidget* centralArea;
     QGridLayout* layout;
     ChordTableWidget* grid;
     ChordTree* chordTree;
-    SimpleMusicPlayer* player;
-    QLabel* title;
-    QLineEdit* audioFile;
-    AudioSync* audioSync;
+
     QMenu *fileMenu, *editMenu, *optionMenu, *aboutMenu;
-    QPushButton *browseButton;
+
     QToolBar *toolBar;
     QAction *quitAction, *aboutAction, *newAction, *saveAction,
             *openAction, *addRowAction, *deleteRowAction,
             *copyDownAction, *renameAction, *addColumnAction,
-            *deleteColumnAction;
+			*deleteColumnAction, *openAudioWindowAction;
     EditionSelector *editionSelector;
 
 public:
@@ -57,17 +55,11 @@ private:
 signals:
 
 public slots:
-    void browseAudioFile();
-    void changeState();
-    void importXml();
-    void exportXml();
-    void newGrid();
-    void rename();
+	void changeState();
+	void newGrid();
     void newEditor(int);
-    void setAudioFile();
-    void resetAudioFile();
-private slots:
-    void refreshTimerAudioSync(int);
+
+	void openAudioWindow();
 };
 
 #endif // GRIDEDITOR_H

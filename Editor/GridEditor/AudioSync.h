@@ -12,7 +12,7 @@ class AudioSync : public QWidget
     Q_OBJECT
 
     QGridLayout* layout;
-    QTimeEdit *beggining, *end, *bar;
+    QTimeEdit *beginning, *end, *bar;
     QToolButton* bbeggining, *bend, *bbar;
 public:
     AudioSync();

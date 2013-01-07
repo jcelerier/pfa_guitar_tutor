@@ -3,11 +3,11 @@
 AudioSync::AudioSync()
 {
     layout = new QGridLayout();
-    beggining = new QTimeEdit();
+	beginning = new QTimeEdit();
     end = new QTimeEdit();
     bar = new QTimeEdit();
 
-    beggining->setDisplayFormat("m:ss:zzz");
+	beginning->setDisplayFormat("m:ss:zzz");
     end->setDisplayFormat("m:ss:zzz");
     bar->setDisplayFormat("m:ss:zzz");
 
@@ -22,14 +22,14 @@ AudioSync::AudioSync()
     bend->setIcon(QIcon("icons/timer.png"));
     bbar->setIcon(QIcon("icons/timer.png"));
 
-    beggining->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+	beginning->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     end->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     bar->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     activeButtons(false);
 
     layout->addWidget(lbeggining, 0, 0);
-    layout->addWidget(beggining, 0, 1);
+	layout->addWidget(beginning, 0, 1);
     layout->addWidget(bbeggining, 0, 2);
     layout->addWidget(lend, 1, 0);
     layout->addWidget(end, 1, 1);
@@ -47,7 +47,7 @@ AudioSync::AudioSync()
 
 AudioSync::~AudioSync()
 {
-    delete beggining;
+	delete beginning;
     delete end;
     delete bar;
     delete layout;
@@ -58,14 +58,14 @@ AudioSync::~AudioSync()
 
 void AudioSync::activeButtons(bool active)
 {
-    beggining->setEnabled(active);
+	beginning->setEnabled(active);
     end->setEnabled(active);
     bar->setEnabled(active);
 }
 
 void AudioSync::setBegginingTimer(const QTime t)
 {
-    beggining->setTime(t);
+	beginning->setTime(t);
 }
 
 void AudioSync::setEndTimer(const QTime t)

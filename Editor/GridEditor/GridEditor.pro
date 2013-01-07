@@ -13,7 +13,8 @@ SOURCES += \
     ChordTree.cpp \
     SimpleMusicPlayer.cpp \
     AudioSync.cpp \
-    PartSetter.cpp
+    PartSetter.cpp \
+    AudioWindow.cpp
 
 HEADERS += \
     CaseItem.h \
@@ -23,7 +24,8 @@ HEADERS += \
     ChordTree.h \
     SimpleMusicPlayer.h \
     AudioSync.h \
-    PartSetter.h
+    PartSetter.h \
+    AudioWindow.h
 
 TRANSLATIONS = GridEditor_fr.ts
 
