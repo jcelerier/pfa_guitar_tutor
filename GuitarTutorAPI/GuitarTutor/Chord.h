@@ -1,5 +1,5 @@
-#ifndef CHORD_H
-#define CHORD_H
+#ifndef CHORDD_H
+#define CHORDD_H
 
 #include <QtTest/QTest>
 #include "Enrichment.h"

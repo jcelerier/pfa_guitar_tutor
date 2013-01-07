@@ -124,6 +124,9 @@ HEADERS += MultiTracks.h \
     Track/TrackChord.h
 SOURCES += MultiTracks.cpp \
            Track.cpp \
+           MusicManager.cpp \
+           ScoreManager.cpp \
+           MusicPlayer.cpp \
            chord/chord.c \
            chord/chordcor.c \
            chord/ehpcp.c \
