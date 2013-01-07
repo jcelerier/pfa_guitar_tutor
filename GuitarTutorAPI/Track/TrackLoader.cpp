@@ -13,10 +13,14 @@ TrackLoader::~TrackLoader() {
 }
 
 /* Fonction de chargement d'un fichier-piste au format XML
-    @return false si le fichier spécifié n'existe pas,
+    @params xmlFileName : Chemin vers le fichier xml à parser
+    @params currentTrack : Pointeur vers un LogicalTrack. Les données de celui-ci seront
+    remplacé par les données du XML.
+    @return un booleen true si la fonction s'est correctement executé et false sinon.
+    return false si le fichier spécifié n'existe pas,
     si le document XML ouvert ne peut être associé au QDomDocument,
     si le document XML n'est pas un fichier associé au projet
-    @return un pointeur sur la LogicalTrack initialisée si le fichier a été correctement chargé
+
 */
 bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* currentTrack) {
 
@@ -36,9 +40,6 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
 
     xmlDoc.close(); // Fermeture du document xml maintenant contenu dans un QDomDocument
 
-    // On créé la structure de donnée de la piste logique
-    currentTrack = new LogicalTrack();
-
     QDomElement root = dom->documentElement();
 
     // Inscription des datas dans la structure de piste LogicalTrack
@@ -56,18 +57,18 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
         qCritical("Informations sur le morceau incorectes");
         return false;
     }
+    currentTrack->setTrackName(n);
 
-    currentTrack->SetTrackName(n);
+    currentTrack->setArtist(a);
 
-    currentTrack->SetArtist(a);
-
-    currentTrack->SetAudioFileName(f);
+    currentTrack->setAudioFileName(f);
 
     if(m.toInt() <= 0){ // nbr de mesures incorrect(negatif ou nul)
         delete currentTrack;
         qCritical("Nbr de mesures incorrect");
         return false;
     }
+
     currentTrack->setMesure(m.toInt());
 
     QDomNode partNode = root.firstChild();
@@ -120,8 +121,9 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
             TrackChord * c = new TrackChord(name, t2, rep);
             currentPartTrack->AddChord(c);
 
-            currentTrack->AddPartTrackToList(currentPartTrack);
+            currentTrack->addPartTrackToList(currentPartTrack);
             chordNode = chordNode.nextSibling();
+
         }//end while
         partNode = partNode.nextSibling();
     }//end while

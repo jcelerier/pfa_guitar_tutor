@@ -323,7 +323,7 @@ bool ScoreManager::loadScore(std::string fileName)
 	return true;
 }
 
-bool ScoreManager::loadScore(LogicalTrack* trackName){
+/*bool ScoreManager::loadScore(LogicalTrack* trackName){
 
     NoteData currentNote;
 
@@ -385,7 +385,7 @@ bool ScoreManager::loadScore(LogicalTrack* trackName){
     m_isAScoreToRun = true;
 
     return true;
-}
+}*/
 
 bool ScoreManager::isRunning()
 {

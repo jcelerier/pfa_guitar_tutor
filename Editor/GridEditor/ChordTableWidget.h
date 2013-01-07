@@ -24,9 +24,7 @@ class ChordTableWidget : public QTableWidget
 	QMenu* m_rightClickMenu;
 	CaseItem* m_currentItem;
 
-	QAction* m_addPart;
-	QAction* m_modifyPart;
-	QAction* m_removePart;
+    QAction* m_properties;
 
 	PartSetter* m_setPartDialog;
 protected:

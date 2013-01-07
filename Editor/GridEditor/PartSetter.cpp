@@ -1,11 +1,13 @@
 #include "PartSetter.h"
 #include "ui_PartSetter.h"
 #include "ChordTableWidget.h"
+
 PartSetter::PartSetter(QWidget *parent) :
 	QDialog(parent),
 	ui(new Ui::PartSetter)
 {
 	ui->setupUi(this);
+
 }
 
 PartSetter::~PartSetter()
@@ -25,11 +27,20 @@ void PartSetter::showDialogModal()
 //pour qu'il fasse un PartSetter::setPart(CaseItem::getPart(currentItem))
 void PartSetter::setPart(QString part)
 {
-	m_part = part;
+    m_part = part;
 }
 
 void PartSetter::accept()
 {
-	((ChordTableWidget*) parent())->setCasePart(m_part);
-	hide();
+    if(ui->isPart->isChecked())
+        ((ChordTableWidget*) parent())->setCasePart(m_part);
+    else
+        ((ChordTableWidget*) parent())->removeCasePart();
+    hide();
+}
+
+void PartSetter::setEnabledPartEdit(int state)
+{
+    ui->labelPartEdit->setEnabled(state);
+    ui->partEdit->setEnabled(state);
 }

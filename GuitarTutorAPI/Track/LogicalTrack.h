@@ -2,6 +2,7 @@
 #define LOGICALTRACK_H
 
 #include <QString>
+#include <QtTest>
 #include "PartTrack.h"
 
 class LogicalTrack {
@@ -11,15 +12,21 @@ public:
     LogicalTrack();
     ~LogicalTrack();
 
-    void SetTrackName(QString newTrackName);
-    QString GetTrackName();
-    void SetArtist(QString newArtist);
-    QString GetArtist();
-    void SetAudioFileName(QString newAudioFileName);
-    QString GetAudioFileName();
-    void setMesure(int nb);
+    void setTrackName(QString newTrackName);
+    QString getTrackName();
+
+    void setArtist(QString newArtist);
+    QString getArtist();
+
+    void setAudioFileName(QString newAudioFileName);
+    QString getAudioFileName();
+
     QList<PartTrack*> getListPartTrack();
-    void AddPartTrackToList(PartTrack* newPartTrack);
+
+    void setMesure(int nb);
+    int getMesure();
+
+    void addPartTrackToList(PartTrack* newPartTrack);
 
 private:
 

@@ -26,7 +26,7 @@ LogicalTrack::~LogicalTrack() {
  *
  * Change la valeur de l'attribut TrackName de la classe LogicalTrack
  */
-void LogicalTrack::SetTrackName(QString newTrackName) {
+void LogicalTrack::setTrackName(QString newTrackName) {
 
     trackName = newTrackName;
 
@@ -37,7 +37,7 @@ void LogicalTrack::SetTrackName(QString newTrackName) {
  *
  * Renvoie la valeur de l'attribut TrackName de la classe LogicalTrack
  */
-QString LogicalTrack::GetTrackName() {
+QString LogicalTrack::getTrackName() {
 
     return trackName;
 
@@ -49,7 +49,7 @@ QString LogicalTrack::GetTrackName() {
  *
  * Change la valeur de l'attribut Artist de la classe LogicalTrack
  */
-void LogicalTrack::SetArtist(QString newArtist) {
+void LogicalTrack::setArtist(QString newArtist) {
 
     artist = newArtist;
 
@@ -60,7 +60,7 @@ void LogicalTrack::SetArtist(QString newArtist) {
  *
  * Renvoie la valeur de l'attribut Artist de la classe LogicalTrack
  */
-QString LogicalTrack::GetArtist() {
+QString LogicalTrack::getArtist() {
 
     return artist;
 
@@ -72,7 +72,7 @@ QString LogicalTrack::GetArtist() {
  *
  * Change la valeur de l'attribut FileName de la classe LogicalTrack
  */
-void LogicalTrack::SetAudioFileName(QString newAudioFileName) {
+void LogicalTrack::setAudioFileName(QString newAudioFileName) {
 
     audioFileName = newAudioFileName;
 
@@ -83,7 +83,7 @@ void LogicalTrack::SetAudioFileName(QString newAudioFileName) {
  *
  * Renvoie la valeur de l'attribut AudioFileName de la classe LogicalTrack
  */
-QString LogicalTrack::GetAudioFileName() {
+QString LogicalTrack::getAudioFileName() {
 
     return audioFileName;
 
@@ -95,7 +95,7 @@ QString LogicalTrack::GetAudioFileName() {
  *
  * Ajoute une PartTrack à la liste des PartTrack de la LogicalTrack
  */
-void LogicalTrack::AddPartTrackToList(PartTrack* newPartTrack) {
+void LogicalTrack::addPartTrackToList(PartTrack* newPartTrack) {
 
     listPartTrack.append(newPartTrack);
 
@@ -118,8 +118,14 @@ QList<PartTrack*> LogicalTrack::getListPartTrack() {
  * Permet de changer la valeur du nombre de répétition. Si la valeur entrée n'est pas correcte, rep sera mis à -1.
  */
 void LogicalTrack::setMesure(int nb){
-    if(nb>=0)
+    if(nb>=0){
         mesure = nb;
+    }
     else
         mesure = -1;
+}
+
+int LogicalTrack::getMesure() {
+
+    return this->mesure;
 }
