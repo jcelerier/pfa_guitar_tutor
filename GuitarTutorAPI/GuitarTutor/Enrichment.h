@@ -3,7 +3,7 @@
 
 #include <QList>
 #include <QStringList>
-#include <QtTest>
+#include <QtTest/QTest>
 #include "GuitarTutorAPI_global.h"
 
 // Un accord peut avoir plusieurs enrichissements. Exemple : C#mM7 = C#, mineur, 7ième majeure
