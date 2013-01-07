@@ -173,7 +173,10 @@ SOURCES += MultiTracks.cpp \
     Track/TrackLoader.cpp \
     Track/PartTrack.cpp \
     Track/LogicalTrack.cpp \
-    Track/TrackChord.cpp
+    Track/TrackChord.cpp \
+    ScoreManager.cpp \
+    MusicPlayer.cpp \
+    MusicManager.cpp
 
 macx: QMAKE_CFLAGS_X86_64 += -mmacosx-version-min=10.7
 macx: QMAKE_CXXFLAGS_X86_64 = $$QMAKE_CFLAGS_X86_64

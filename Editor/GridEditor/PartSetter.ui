@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>320</width>
-    <height>91</height>
+    <width>450</width>
+    <height>161</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,10 +16,10 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>230</x>
-     <y>10</y>
-     <width>81</width>
-     <height>221</height>
+     <x>350</x>
+     <y>90</y>
+     <width>91</width>
+     <height>61</height>
     </rect>
    </property>
    <property name="orientation">
@@ -29,27 +29,87 @@
     <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QWidget" name="formLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>20</y>
-     <width>121</width>
-     <height>16</height>
+     <x>10</x>
+     <y>40</y>
+     <width>321</width>
+     <height>111</height>
     </rect>
+   </property>
+   <layout class="QFormLayout" name="formLayout">
+    <property name="fieldGrowthPolicy">
+     <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+    </property>
+    <item row="0" column="0">
+     <widget class="QCheckBox" name="isPart">
+      <property name="text">
+       <string>Début d'une nouvelle partie</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="labelPartEdit">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string>Nom de la partie</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLineEdit" name="partEdit">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>Début</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QTimeEdit" name="beggining"/>
+    </item>
+    <item row="2" column="0" colspan="2">
+     <spacer name="verticalSpacer">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>161</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+     <weight>75</weight>
+     <italic>false</italic>
+     <bold>true</bold>
+    </font>
    </property>
    <property name="text">
-    <string>Nom de la partie</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>40</y>
-     <width>171</width>
-     <height>24</height>
-    </rect>
+    <string>Propriété de la case</string>
    </property>
   </widget>
  </widget>
@@ -62,8 +122,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>368</x>
+     <y>150</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -78,8 +138,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>436</x>
+     <y>150</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -88,23 +148,40 @@
    </hints>
   </connection>
   <connection>
-   <sender>lineEdit</sender>
+   <sender>isPart</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>PartSetter</receiver>
+   <slot>setEnabledPartEdit(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>25</x>
+     <y>52</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>336</x>
+     <y>25</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>partEdit</sender>
    <signal>textChanged(QString)</signal>
    <receiver>PartSetter</receiver>
    <slot>setPart(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>105</x>
-     <y>51</y>
+     <x>305</x>
+     <y>79</y>
     </hint>
     <hint type="destinationlabel">
-     <x>159</x>
-     <y>45</y>
+     <x>151</x>
+     <y>126</y>
     </hint>
    </hints>
   </connection>
  </connections>
  <slots>
   <slot>setPart(QString)</slot>
+  <slot>setEnabledPartEdit(int)</slot>
  </slots>
 </ui>

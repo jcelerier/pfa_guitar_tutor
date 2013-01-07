@@ -58,13 +58,9 @@ ChordTableWidget::ChordTableWidget(int column, int row)
 		this, SLOT(ShowContextMenu(const QPoint&)));
 
 	//actions du menu
-	m_addPart = new QAction("Ajouter une partie", this);
-	m_modifyPart = new QAction("Modifier la partie", this);
-	m_removePart = new QAction("Supprimer la partie", this);
+    m_properties = new QAction(tr("Properties"), this);
 
-	connect(m_addPart, SIGNAL(triggered()), m_setPartDialog, SLOT(showDialogModal()));
-	connect(m_modifyPart, SIGNAL(triggered()), m_setPartDialog, SLOT(showDialogModal()));
-	connect(m_removePart, SIGNAL(triggered()), this, SLOT(removeCasePart()));
+    connect(m_properties, SIGNAL(triggered()), m_setPartDialog, SLOT(showDialogModal()));
 
 
 }
@@ -420,24 +416,24 @@ void ChordTableWidget::insert_column() {
  */
 void ChordTableWidget::ShowContextMenu(const QPoint& pos) // this is a slot
 {
-	m_rightClickMenu->clear();
-	QPoint globalPos = this->mapToGlobal(pos);
-	m_currentItem = (CaseItem*) this->itemAt(pos);
+    m_rightClickMenu->clear();
+    QPoint globalPos = this->mapToGlobal(pos);
+    m_currentItem = (CaseItem*) this->itemAt(pos);
+    if (m_currentItem->column() != this->columnCount() - 1) {
+        // une partie est déjà définie sur cette case
+        if(m_currentItem->isPartSet())
+        {
+            m_rightClickMenu->addAction(m_currentItem->getPart());
+            m_rightClickMenu->addSeparator();
+            m_rightClickMenu->addAction(m_properties);
+        }
+        else
+        {
+            m_rightClickMenu->addAction(m_properties);
+        }
 
-	// une partie est déjà définie sur cette case
-	if(m_currentItem->isPartSet())
-	{
-		m_rightClickMenu->addAction(m_currentItem->getPart());
-		m_rightClickMenu->addSeparator();
-		m_rightClickMenu->addAction(m_modifyPart);
-		m_rightClickMenu->addAction(m_removePart);
-	}
-	else
-	{
-		m_rightClickMenu->addAction(m_addPart);
-	}
-
-	m_rightClickMenu->exec(globalPos);
+        m_rightClickMenu->exec(globalPos);
+    }
 }
 
 /////// TODO:

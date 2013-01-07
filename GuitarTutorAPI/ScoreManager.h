@@ -10,7 +10,7 @@
 
 #include "IScoreLight/Includes/Engines.hpp"
 #include "MusicManager.h"
-#include "Track/LogicalTrack.h"
+//#include "Track/LogicalTrack.h"
 
 #include <string>
 #include <map>
@@ -53,7 +53,7 @@ public:
 	std::string getCurrentChord();
 
 	bool loadScore(std::string fileName);
-    bool loadScore(LogicalTrack* trackName);
+    //bool loadScore(LogicalTrack* trackName);
 
 	void run();
 
