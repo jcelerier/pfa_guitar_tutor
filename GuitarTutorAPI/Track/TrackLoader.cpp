@@ -24,13 +24,13 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
     QFile xmlDoc(xmlFileName); // Ouverture du fichier XML
 
     if(!xmlDoc.open(QIODevice::ReadOnly)) { // Erreur à l'ouverture du .xml ?
-        qDebug() << "Erreur ouverture XML ";
+        qCritical("Erreur ouverture XML");
         return false;
     }
 
     if (!dom->setContent(&xmlDoc)) { // Impossibilité de linker le fichier .xml ouvert au QDomDocument ?
         xmlDoc.close();
-        qDebug() << "erreur linkage .xml au QDomDocument ";
+        qCritical("erreur linkage .xml au QDomDocument");
         return false;
     }
 
@@ -46,14 +46,14 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
     QString n, a, f, m;//Pour stocker les information du morceaux : n = nom, a = artiste, f = fichier, m = nbr mesures
     if(root.isNull()) { //Si le l'arborescence xml est vide
         delete currentTrack;
-        qDebug() << "Pas d'information xml" << endl;
+        qCritical("Pas d'information xml");
         return false;
     }
 
     //Si des informations sur le morceau sont absentes.
     if (((n = root.attribute("nom", 0)) == 0) || ((a = root.attribute("artiste", 0)) == 0) || ((f = root.attribute("fichier", 0)) == 0) || ((m = root.attribute("casesMesure", 0)) == 0)) {
         delete currentTrack;
-        qDebug() << "Informations sur le morceau incorectes" << endl;
+        qCritical("Informations sur le morceau incorectes");
         return false;
     }
 
@@ -65,7 +65,7 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
 
     if(m.toInt() <= 0){ // nbr de mesures incorrect(negatif ou nul)
         delete currentTrack;
-        qDebug() << "Nbr de mesures incorrect" << endl;
+        qCritical("Nbr de mesures incorrect");
         return false;
     }
     currentTrack->setMesure(m.toInt());
@@ -79,15 +79,11 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
         //Si le noeud n'est pas une partie ou si il n'a pas d'attribut nom :
         if (partElement.tagName() != "partie" || (n = partElement.attribute("nom",0)) == 0) {
             delete currentTrack;
-            qDebug() << "Le fils de la racine n'est pas une 'partie' ou il n'a pas d'attribut nom" << endl;
+            qCritical("Le fils de la racine n'est pas une 'partie' ou il n'a pas d'attribut nom");
             return false;
         }
 
         PartTrack * currentPartTrack = new PartTrack(n);
-
-        QString test_nom = currentPartTrack->getPartName();
-        qDebug() << test_nom;
-
 
         QDomNode chordNode = partElement.firstChild();
         QString t1;
@@ -101,13 +97,13 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
             //Vérification de la présence et de la validité des attributs de l'accord (nom, temps, nbr de répétition)
             if((name = chordElement.attribute("nom", 0)) == 0 || (t1 = chordElement.attribute("temps", 0)) == 0) {
                 delete currentTrack;
-                qDebug() << "Si le nom ou le temps sont absent";
+                qCritical("Le nom ou le temps sont absent");
                 return false;
             }
 
             if((t2 = t1.toInt()) <= 0) { //Si le temps rentré est illogique(<= 0)
                 delete currentTrack;
-                qDebug() << "Le temps rentré n'est pas correct";
+                qCritical("Le temps rentré n'est pas correct");
                 return false;
             }
 
@@ -118,11 +114,11 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
             }
             else if((rep = repetition.toInt()) <= 0) {
                 delete currentTrack;
+                qCritical("La répétition est incorecte");
                 return false;
             }
             TrackChord * c = new TrackChord(name, t2, rep);
             currentPartTrack->AddChord(c);
-            qDebug() << "Valeur des caractéristiques :" << name << repetition << t1;
 
             currentTrack->AddPartTrackToList(currentPartTrack);
             chordNode = chordNode.nextSibling();

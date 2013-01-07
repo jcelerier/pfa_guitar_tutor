@@ -14,6 +14,9 @@ public:
 
     void setRepetition(int newRepetition);
     int getRepetition();
+    int getDuration();
+    Chord* getChord();
+
 
 private:
 

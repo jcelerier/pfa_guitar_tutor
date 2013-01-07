@@ -41,6 +41,15 @@ void TrackChord::setRepetition(int newRepetition) {
 int TrackChord::getRepetition() {
 
     return repetition;
+}
 
+int TrackChord::getDuration() {
+
+    return duration;
+}
+
+Chord* TrackChord::getChord(){
+
+    return currentChord;
 }
 

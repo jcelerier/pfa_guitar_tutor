@@ -22,13 +22,14 @@ APITest::APITest()
 
 void APITest::testConvertXmlToLogical()
 {
-
+    qDebug() << "test : convertXmlToLogicalTrack... ";
     LogicalTrack * piste = new LogicalTrack();
     QString xmlFileName = "songExample.xml";
     bool result = TrackLoader::convertXmlToLogicalTrack(xmlFileName, piste);
-    QVERIFY2(result, "Failure");
-    qDebug() << "la fonction de test à terminée" << endl;
+    QVERIFY2(result, "Failure : convertXmlToLogicalTrack");
 
+    QVERIFY2(piste->GetTrackName().compare(""), "Failure : convertXmlToLogicalTrack");
+    qDebug() << "ok";
 
 }
 

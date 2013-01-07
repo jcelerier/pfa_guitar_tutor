@@ -151,8 +151,6 @@ const Enrichment Enrichment::extractEnrichmentsFromStr(QString const str_enr) co
 
         e.append((e_Enrichment) minIndex);
 
-        QString index = m_stringEquivs[minIndex];
-        qDebug() << index;
         str.remove(m_stringEquivs[minIndex]);
     }
 

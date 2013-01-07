@@ -1,3 +1,5 @@
+<-- Attention le .xml utilisé par l'application lors de la compilation est dans le dossier :  -->
+
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
  <morceau nom="NomDuMorceau" artiste="Artiste" casesMesure="2" fichier="Beatles.mp3">
   <partie nom="refrain">
