@@ -1,7 +1,7 @@
 #ifndef CHORD_H
 #define CHORD_H
 
-#include <QtTest>
+#include <QtTest/QTest>
 #include "Enrichment.h"
 #include "Tonality.h"
 #include "GuitarTutorAPI_global.h"

@@ -1,6 +1,7 @@
 #include "Enrichment.h"
 #include <QVector>
-#include <QtTest>
+#include <QtTest/QTest>
+#include <QDebug>
 #include <iostream>
 
 /**
