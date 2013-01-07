@@ -10,7 +10,8 @@
 
 #include "IScoreLight/Includes/Engines.hpp"
 #include "MusicManager.h"
-#include "Track/LogicalTrack.h"
+#include "./Track/LogicalTrack.h"
+
 
 #include <string>
 #include <map>

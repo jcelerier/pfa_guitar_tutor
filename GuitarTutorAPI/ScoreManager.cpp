@@ -346,8 +346,7 @@ bool ScoreManager::loadScore(LogicalTrack* trackName){
 
     for(it1 = trackName->getListPartTrack().begin(); it1 != trackName->getListPartTrack().end(); ++it1){
 
-                    std::string current("");
-                    current.swap((*it1)->getPartName().toStdString ());
+                    std::string current((*it1)->getPartName().toStdString ());
 
                     if (currentAbsoluteStart != 0) {
                         std::vector<unsigned int> movedBox;
@@ -372,17 +371,17 @@ bool ScoreManager::loadScore(LogicalTrack* trackName){
 
                     previousPart = current;
                     QList<TrackChord*>::iterator it2;
-                    for(it2 = *it1->getListTrackChords().begin(); it2 != *it1->getListTrackChords().end(); ++it2){
-                    std::istringstream currentStream(currentLine.data());
-                    currentStream >> currentNote.duration >> currentNote.name;
+                    for(it2 = (*it1)->getListTrackChords().begin(); it2 != (*it1)->getListTrackChords().end(); ++it2){
 
-                    m_scoreNotes[m_iscoreEngine->addBox(currentRelativeStart * 1000, currentNote.duration * 1000, currentBoxId)] = currentNote.name;
+                        //std::istringstream currentStream(currentLine.data());
+                        //currentStream >> currentNote.duration >> currentNote.name;
 
-                    currentRelativeStart += currentNote.duration;
-                    currentAbsoluteStart += currentNote.duration;
+                        m_scoreNotes[m_iscoreEngine->addBox(currentRelativeStart * 1000, (*it2)->getDuration() * 1000, currentBoxId)] = currentNote.name;
+
+                        currentRelativeStart += currentNote.duration;
+                        currentAbsoluteStart += currentNote.duration;
                 }
             }
-    }
     m_isAScoreToRun = true;
 
     return true;
