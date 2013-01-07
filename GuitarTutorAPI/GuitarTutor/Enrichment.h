@@ -3,6 +3,7 @@
 
 #include <QList>
 #include <QStringList>
+#include <QtTest>
 #include "GuitarTutorAPI_global.h"
 
 // Un accord peut avoir plusieurs enrichissements. Exemple : C#mM7 = C#, mineur, 7ième majeure
@@ -29,7 +30,7 @@ class GUITARTUTORAPISHARED_EXPORT Enrichment : public QList<e_Enrichment>
 		bool isValid() const;
 		bool isValid(const QString& enrichment) const;
 
-        const Enrichment extractEnrichmentsFromStr(QString str) const;
+        const Enrichment extractEnrichmentsFromStr(QString const str_enr) const;
 
 		QString toString();
         QStringList& getEnrichmentStringList();

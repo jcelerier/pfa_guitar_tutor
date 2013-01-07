@@ -1,6 +1,6 @@
 #include "Enrichment.h"
 #include <QVector>
-#include <QDebug>
+#include <QtTest>
 #include <iostream>
 
 /**
@@ -122,12 +122,19 @@ bool Enrichment::isValid(const QString& enrichment) const
 // - on fait un tableau avec tous les enrichissements possibles.
 // - on les recherche tous, puis on rajoute celui avec la plus petite valeur (= le plus proche du début).
 // - on le cherche à nouveau (s'il y est deux fois, même si c'est invalide)
-const Enrichment Enrichment::extractEnrichmentsFromStr(QString str) const
+const Enrichment Enrichment::extractEnrichmentsFromStr(QString const str_enr) const
 {
-    Enrichment e;
 	QVector<int> table(NUM_ENRICHMENTS, -1);
 	int minIndex = 0;
     int minValue = 12;
+    Enrichment e = Enrichment();
+    QString str = str_enr;
+
+
+
+    if (str.size() < 2){
+        return e;
+    }
 
     while(str.size() > 0)
     {

@@ -1,6 +1,7 @@
 #ifndef CHORD_H
 #define CHORD_H
 
+#include <QtTest>
 #include "Enrichment.h"
 #include "Tonality.h"
 #include "GuitarTutorAPI_global.h"
@@ -22,8 +23,8 @@ class GUITARTUTORAPISHARED_EXPORT Chord
 		const Enrichment &getEnrichment() const;
 		const Tonality &getTonality() const;
 
-		const Tonality extractTonalityFromStr(const QString& str) const;
-		const Enrichment extractEnrichmentFromStr(const QString& str) const;
+        Tonality extractTonalityFromStr(const QString str) const;
+        Enrichment extractEnrichmentFromStr(const QString str) const;
 
 		void setTonality(Tonality &tone);
 		void setTonality(const QString& tone);
