@@ -10,6 +10,7 @@ Last change on 14/04/12
 #include <QColor>
 #include <QSize>
 #include <QTableWidgetItem>
+#include <QTime>
 
 /**
  * @brief Case d'une grille d'accords
@@ -18,6 +19,7 @@ class CaseItem : public QTableWidgetItem
 {
     QColor* color;
 	QString m_part;
+    QTime beginning;
 
 	public:
 		CaseItem();
@@ -34,6 +36,8 @@ class CaseItem : public QTableWidgetItem
 		void setPart(QString&);
 
 		bool isPartSet();
+        void setBeginning(QTime &t);
+        QTime getBeginning();
 };
 
 #endif // CASEITEM_H

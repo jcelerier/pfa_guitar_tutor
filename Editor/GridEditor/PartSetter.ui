@@ -74,7 +74,7 @@
      </widget>
     </item>
     <item row="3" column="1">
-     <widget class="QTimeEdit" name="beggining"/>
+     <widget class="QTimeEdit" name="beginning"/>
     </item>
     <item row="2" column="0" colspan="2">
      <spacer name="verticalSpacer">
@@ -163,25 +163,10 @@
     </hint>
    </hints>
   </connection>
-  <connection>
-   <sender>partEdit</sender>
-   <signal>textChanged(QString)</signal>
-   <receiver>PartSetter</receiver>
-   <slot>setPart(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>305</x>
-     <y>79</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>151</x>
-     <y>126</y>
-    </hint>
-   </hints>
-  </connection>
  </connections>
  <slots>
   <slot>setPart(QString)</slot>
   <slot>setEnabledPartEdit(int)</slot>
+  <slot>setBeginning(QTime)</slot>
  </slots>
 </ui>

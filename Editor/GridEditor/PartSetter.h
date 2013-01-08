@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QStringList>
+#include <QTime>
 
 namespace Ui {
 class PartSetter;
@@ -13,18 +14,19 @@ class PartSetter : public QDialog
 		Q_OBJECT
 		
 	public:
-		explicit PartSetter(QWidget *parent = 0);
+    explicit PartSetter(QWidget *parent = 0);
 		~PartSetter();
+    void setBeginning(const QTime &t);
+    void initPart(QString part);
+    void initBeginning(QTime t);
+    void showDialogModal();
+public slots:
 
-	public slots:
-		void showDialogModal();
-		void setPart(QString part);
 		void accept();
         void setEnabledPartEdit(int state);
 		
 	private:
 		Ui::PartSetter *ui;
-		QString m_part;
 };
 
 #endif // PARTSETTER_H

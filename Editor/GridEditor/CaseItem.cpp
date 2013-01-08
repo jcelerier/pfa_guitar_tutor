@@ -18,6 +18,8 @@ Last change on 14/04/12
  */
 CaseItem::CaseItem() :  QTableWidgetItem(), color(new QColor())
 {
+    beginning = QTime(0,0);
+    m_part = "";
     color->setRgb(255, 255, 255);
     this->setBackgroundColor(color->toRgb());
 	this->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
@@ -108,5 +110,16 @@ void CaseItem::setPart(QString& part)
 
 bool CaseItem::isPartSet()
 {
-	return m_part.length() > 0;
+    return m_part.length() > 0;
+}
+
+void CaseItem::setBeginning(QTime &t)
+{
+    beginning = t;
+}
+
+
+QTime CaseItem::getBeginning()
+{
+    return beginning;
 }

@@ -60,7 +60,7 @@ ChordTableWidget::ChordTableWidget(int column, int row)
 	//actions du menu
     m_properties = new QAction(tr("Properties"), this);
 
-    connect(m_properties, SIGNAL(triggered()), m_setPartDialog, SLOT(showDialogModal()));
+    connect(m_properties, SIGNAL(triggered()), this, SLOT(showProperties()));
 
 
 }
@@ -444,10 +444,15 @@ void ChordTableWidget::ShowContextMenu(const QPoint& pos) // this is a slot
  *
  * Slot appelé lorsqu'on définit une partie.
  */
-void ChordTableWidget::setCasePart(QString& text)
+void ChordTableWidget::setCasePart(QString text)
 {
 	m_currentItem->setBackgroundColor(Qt::lightGray);
 	m_currentItem->setPart(text);
+}
+
+void ChordTableWidget::setCaseBeginning(QTime t)
+{
+    m_currentItem->setBeginning(t);
 }
 
 /**
@@ -462,4 +467,11 @@ void ChordTableWidget::removeCasePart()
 	m_currentItem->setPart(text);
 
 	m_currentItem->setBackgroundColor(Qt::white);
+}
+
+void ChordTableWidget::showProperties()
+{
+    m_setPartDialog->initBeginning(m_currentItem->getBeginning());
+    m_setPartDialog->initPart(m_currentItem->getPart());
+    m_setPartDialog->showDialogModal();
 }

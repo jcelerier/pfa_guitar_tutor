@@ -49,6 +49,7 @@ private:
 
 public slots:
 	void ShowContextMenu(const QPoint& pos);
+    void showProperties();
 
     void fill_selection(QTreeWidgetItem* chord, int column);
     void insert_row();
@@ -57,7 +58,8 @@ public slots:
     void delete_selected_row();
     void copy_down_rows();
 
-	void setCasePart(QString &text);
+    void setCasePart(QString text);
+    void setCaseBeginning(QTime t);
 	void removeCasePart();
 
 	//void onClick(int row, int column);
