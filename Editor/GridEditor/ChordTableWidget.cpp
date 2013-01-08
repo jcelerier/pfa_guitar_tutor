@@ -475,3 +475,21 @@ void ChordTableWidget::showProperties()
     m_setPartDialog->initPart(m_currentItem->getPart());
     m_setPartDialog->showDialogModal();
 }
+
+bool ChordTableWidget::checkBeginningTimes()
+{
+    QTime t;
+    t = ((CaseItem*) item(0,0))->getBeginning();
+    for (int r = 0 ; r < this->rowCount() ; r++) {
+        for (int c = 0 ; c < this->columnCount() - 1 ; c ++) {
+            if(r==0)
+                continue;
+            if(((CaseItem*) item(r,c))->getBeginning() <= t) {
+                ((CaseItem*) item(r,c))->setBackgroundColor(QColor(255, 165, 0));
+                return false;
+            }
+            t = ((CaseItem*) item(r,c))->getBeginning();
+        }
+    }
+    return true;
+}

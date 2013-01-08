@@ -44,6 +44,7 @@ void PartSetter::accept()
         ((ChordTableWidget*) parent())->removeCasePart();
     ((ChordTableWidget*) parent())->setCaseBeginning(ui->beginning->time());
     hide();
+    ((ChordTableWidget*) parent())->checkBeginningTimes();
 }
 
 void PartSetter::setEnabledPartEdit(int state)
