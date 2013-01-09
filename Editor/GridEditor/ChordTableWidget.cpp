@@ -493,3 +493,5 @@ bool ChordTableWidget::checkBeginningTimes()
     }
     return true;
 }
+
+void ChordTableWidget::setTimeInfo(const QTime beginning, const QTime bar, const QTime end) { }
