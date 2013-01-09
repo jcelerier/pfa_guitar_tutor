@@ -479,17 +479,24 @@ void ChordTableWidget::showProperties()
 bool ChordTableWidget::checkBeginningTimes()
 {
     QTime t;
+    bool result = true;
     t = ((CaseItem*) item(0,0))->getBeginning();
     for (int r = 0 ; r < this->rowCount() ; r++) {
         for (int c = 0 ; c < this->columnCount() - 1 ; c ++) {
             if(r==0)
                 continue;
-            if(((CaseItem*) item(r,c))->getBeginning() <= t) {
+            if(((CaseItem*) item(r,c))->getBeginning() < t) {
                 ((CaseItem*) item(r,c))->setBackgroundColor(QColor(255, 165, 0));
-                return false;
+                result = false;
+            }
+            else {
+                if(((CaseItem*) item(r,c))->isPartSet())
+                    ((CaseItem*) item(r,c))->setBackgroundColor(Qt::lightGray);
+                else
+                    ((CaseItem*) item(r,c))->setBackgroundColor(Qt::white);
             }
             t = ((CaseItem*) item(r,c))->getBeginning();
         }
     }
-    return true;
+    return result;
 }
