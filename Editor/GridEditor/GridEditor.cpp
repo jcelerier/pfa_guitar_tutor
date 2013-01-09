@@ -30,6 +30,8 @@ GridEditor::GridEditor() {
 
     //Redirection vers la fonction affichant l'éditeur sélectionné
     connect(editionSelector, SIGNAL(newEditor(int)), this, SLOT(newEditor(int)));
+
+	connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
 }
 
 /**
@@ -154,6 +156,7 @@ void GridEditor::createCentralWidget() {
     chordTree = new ChordTree(); //Initialisation de chord_tree
     grid = new ChordTableWidget(); //Fenere d'accords
 
+
     layout = new QGridLayout();
 
 	audioWindow = new AudioWindow(this);
@@ -216,6 +219,7 @@ void GridEditor::changeState() {
  *
  * Mise en place d'une nouvelle grille dans le widget central.
  */
+// A FACTORISER DE TOUTE URGENCE AVEC LE CODE DU CONSTRUCTEUR !!
 void GridEditor::newGrid() {
     bool ok;
     QString mess;
@@ -240,6 +244,8 @@ void GridEditor::newGrid() {
     connect(deleteRowAction, SIGNAL(triggered()), grid, SLOT(delete_selected_row()));
     connect(deleteColumnAction, SIGNAL(triggered()), grid, SLOT(delete_selected_column()));
     connect(addColumnAction, SIGNAL(triggered()), grid, SLOT(insert_column()));
+
+	connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
 }
 
 
@@ -262,9 +268,4 @@ void GridEditor::newEditor(int type)
 void GridEditor::openAudioWindow()
 {
 	audioWindow->show();
-}
-#include <QDebug>
-void GridEditor::receiveTimeInfo(const QTime beginning, const QTime bar, const QTime end)
-{
-	qDebug() << beginning << endl << bar << endl << end;
 }

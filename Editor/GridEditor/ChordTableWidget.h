@@ -46,7 +46,6 @@ public:
 private:
     QList<int> expand_list(QList<QList<int>*> list);
 
-
 public slots:
 	void ShowContextMenu(const QPoint& pos);
     void showProperties();

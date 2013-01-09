@@ -60,9 +60,7 @@ ChordTableWidget::ChordTableWidget(int column, int row)
 	//actions du menu
     m_properties = new QAction(tr("Properties"), this);
 
-    connect(m_properties, SIGNAL(triggered()), this, SLOT(showProperties()));
-
-
+	connect(m_properties, SIGNAL(triggered()), this, SLOT(showProperties()));
 }
 
 /**
@@ -503,7 +501,7 @@ bool ChordTableWidget::checkBeginningTimes()
 
 void ChordTableWidget::setTimeInfo(const QTime beginning, const QTime bar, const QTime end)
 {
-    int rmax = rowCount(), cmax = columnCount();
+	int rmax = rowCount(), cmax = columnCount();
     for (int r = 0 ; r < rmax ; r++) {
         for (int c = 0 ; c < cmax - 1 ; c ++) {
             int ms = beginning.msec(), s = beginning.second(), m = beginning.minute(), h = beginning.hour();
@@ -517,5 +515,5 @@ void ChordTableWidget::setTimeInfo(const QTime beginning, const QTime bar, const
             ((CaseItem*) item(r,c))->setBeginning(QTime(h,m,s,ms));
         }
     }
-    checkBeginningTimes();
+	checkBeginningTimes();
 }

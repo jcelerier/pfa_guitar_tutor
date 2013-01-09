@@ -25,7 +25,7 @@ AudioWindow::AudioWindow(QWidget * parent)
 	connect(player, SIGNAL(audioFileDeleted()), this, SLOT(resetAudioFile()));
 	connect(audioSync, SIGNAL(refreshTimer(int)), this, SLOT(refreshTimerAudioSync(int)));
 
-	connect(audioSync, SIGNAL(sendTimer(QTime, QTime, QTime)), parent, SLOT(receiveTimeInfo(QTime, QTime, QTime)));
+	connect(audioSync, SIGNAL(sendTimer(QTime, QTime, QTime)), parent, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)));
 	this->setLayout(layout);
 
 
