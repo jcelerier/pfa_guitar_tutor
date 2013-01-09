@@ -20,7 +20,11 @@ PartTrack::PartTrack() {
 PartTrack::PartTrack(QString newPartName) {
 
     partName = newPartName;
+}
 
+PartTrack::PartTrack(QString newPartName, QList<TrackChord*> newListChords){
+    partName = newPartName;
+    listTrackChords = newListChords;
 }
 
 /**
@@ -54,6 +58,6 @@ QString PartTrack::getPartName(){
     return partName;
 }
 
-QList<TrackChord*> PartTrack::getListTrackChords(){
+QList<TrackChord*> PartTrack::getTrackChordsList(){
     return listTrackChords;
 }

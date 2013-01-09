@@ -10,12 +10,9 @@
 
 #include "IScoreLight/Includes/Engines.hpp"
 #include "MusicManager.h"
-<<<<<<< HEAD
-//#include "Track/LogicalTrack.h"
-=======
-#include "./Track/LogicalTrack.h"
 
->>>>>>> 45f2b03361c83ab8a51433a9ec82ff3b00cc5ed8
+#include "Track/LogicalTrack.h"
+//#include "./Track/LogicalTrack.h"
 
 #include <string>
 #include <map>

@@ -9,19 +9,21 @@ class TrackChord {
 public:
 
     TrackChord();
-    TrackChord(QString nom, int d, int rep);
+    TrackChord(QString nom, qreal d, int rep);
     ~TrackChord();
 
     void setRepetition(int newRepetition);
     int getRepetition();
-    int getDuration();
-    Chord* getChord();
 
+    qreal getDuration();
+    QString getChord();
+
+    QString toString();
 
 private:
 
     Chord * currentChord;
-    int duration;
+    qreal duration;
     int repetition;
 
 };

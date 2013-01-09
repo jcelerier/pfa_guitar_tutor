@@ -3,12 +3,13 @@
 
 #include <QString>
 #include <QRegExp>
+#include <QtTest/QTest>
 #include "GuitarTutorAPI_global.h"
 
 /**
  * @brief Liste des fondamentales possibles.
  */
-enum e_Note { A, B, C, D, E, F, G }; //possibilité d'en faire des classes? pas très utile amha
+enum e_Note { A, B, C, D, E, F, G };
 /**
  * @brief Liste des altérations possibles.
  */
@@ -22,7 +23,7 @@ class GUITARTUTORAPISHARED_EXPORT Tonality
 	public:
 		Tonality();
 		Tonality(const Tonality &t);
-        Tonality(const QString note, const QString alteration = "UNALTERED");
+        Tonality(const QString note);
         Tonality(const e_Note note, const e_Alteration alteration = UNALTERED);
 
 		bool isValid() const;
@@ -34,6 +35,7 @@ class GUITARTUTORAPISHARED_EXPORT Tonality
 		QString toString();
 		e_Note getBaseNote() const;
 		e_Alteration getAlteration() const;
+
 
         void setBaseNote(const QString note);
         void setBaseNote(const e_Note note);

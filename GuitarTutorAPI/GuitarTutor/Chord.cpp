@@ -6,16 +6,13 @@
  *
  * Construitun accord à partir d'une chaîne de caractères.
  */
-Chord::Chord(const QString chord)
+Chord::Chord(const QString& chord)
 {
 
     m_tonality = extractTonalityFromStr(chord);
-    m_enrichment = extractEnrichmentFromStr(chord);//attention : etonnament, ici, la fonction appelé ici n'est
-    //pas celle contenu dans Chord.cpp mais celle contenu dans Enrichment.cpp. j'ai constaté ça en
-    //débugant.
+    Enrichment test_enrichment(chord);
+    m_enrichment = test_enrichment; //Il existe deux algo différents pour cette fonction.
     //Je ne sais pas encore laquelle des deux est la plus efficace mais j'ai corrigé celle appelé ici.
-    //Je ne suis pas sur que celle contenu dans chord.cpp marche. Il faudra les tester pour voir
-    //laquelle est la mieux.
 }
 
 /**
@@ -157,7 +154,6 @@ void Chord::setEnrichment(const QString& enrichment)
  */
 Tonality Chord::extractTonalityFromStr(const QString str) const
 {
-
     Tonality tone;
     if(str.size() == 0){//Si on lui passe une chaine vide, elle renvoie nul
         qCritical("L'accord reçu est vide");
@@ -183,18 +179,22 @@ Tonality Chord::extractTonalityFromStr(const QString str) const
  *
  * Extrait l'enrichissement d'un accord sous forme de chaîne de caractères.
  */
-Enrichment Chord::extractEnrichmentFromStr(const QString str) const
+const Enrichment Chord::extractEnrichmentFromStr(QString const str_enr) const
 {
 
-    Enrichment e = Enrichment();
-    if(str.size() < 2){
-        return e;
-    }
-    else{
-        if(str.at(1) == 'b' || str.at(1) == '#')
-            e = Enrichment(str.right(2));
-        else
-            e = Enrichment(str.right(1));
-    }
+    //Ancienne version
+
+    //    Enrichment e = Enrichment();
+    //    if(str.size() < 2){
+    //        return e;
+    //    }
+    //    else{
+    //        if(str.at(1) == 'b' || str.at(1) == '#')
+    //            e = Enrichment(str.right(1));
+    //        else
+    //            e = Enrichment(str.right(1));
+    //    }
+    //    return e;
+    Enrichment e(str_enr);
     return e;
 }

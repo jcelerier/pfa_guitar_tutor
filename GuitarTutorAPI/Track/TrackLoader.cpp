@@ -2,25 +2,76 @@
 
 TrackLoader::TrackLoader() {
 
-
-
 }
 
 TrackLoader::~TrackLoader() {
 
-
-
 }
 
-/* Fonction de chargement d'un fichier-piste au format XML
-    @params xmlFileName : Chemin vers le fichier xml à parser
-    @params currentTrack : Pointeur vers un LogicalTrack. Les données de celui-ci seront
-    remplacé par les données du XML.
-    @return un booleen true si la fonction s'est correctement executé et false sinon.
-    return false si le fichier spécifié n'existe pas,
-    si le document XML ouvert ne peut être associé au QDomDocument,
-    si le document XML n'est pas un fichier associé au projet
 
+bool TrackLoader::convertLogicalTrackToXml(LogicalTrack* currentTrack) {
+    QString fname = currentTrack->getTrackName().append(".xml");
+    QFile file(fname);
+    QTextStream out;
+    QDomDocument doc;
+    QDomElement root = doc.createElement("morceau");
+    QDomElement newPart;
+    QDomElement newChord;
+
+    QList<TrackChord*> chordsList;
+    QList<TrackChord*>::iterator iChord;
+    //Initialisation de la racine morceau
+    doc.appendChild(root);
+    root.setAttribute("nom", currentTrack->getTrackName());
+    root.setAttribute("artiste", currentTrack->getArtist());
+    root.setAttribute("casesMesure", currentTrack->getMesure());
+    root.setAttribute("fichier", currentTrack->getAudioFileName());
+
+    //ajout des parties
+    QList<PartTrack*> partList = currentTrack->getPartTrackList();
+    QList<PartTrack*>::const_iterator iPart;
+    for(iPart = partList.begin(); iPart< partList.end(); ++iPart){
+        newPart = doc.createElement("partie");
+        root.appendChild(newPart);
+        newPart.setAttribute("nom", (*iPart)->getPartName());
+
+        //ajout des accords
+        chordsList = (*iPart)->getTrackChordsList();
+        for(iChord = chordsList.begin(); iChord < chordsList.end(); ++iChord){
+            newChord = doc.createElement("accord");
+            newChord.setAttribute("temps", (*iChord)->getDuration());
+            newChord.setAttribute("repetition", (*iChord)->getRepetition());
+            newChord.setAttribute("nom", (*iChord)->getChord());
+            newPart.appendChild(newChord);
+        }//fin ajout accord
+    }//fin ajout partie
+
+
+    //écriture dans le fichier
+    if(!file.open(QIODevice::WriteOnly)){//ouverture
+        qCritical("Impossible d'ouvrir le fichier %s", qPrintable(fname));
+        return false;
+    }
+    out.setDevice(&file);//mise en relation avec le flux "out"
+
+    //ajout de l'en-tête xml
+    QDomNode node = doc.createProcessingInstruction("xml", "version=\"1.0\"");
+    doc.insertBefore(node, doc.firstChild());
+
+    doc.save(out, 2);
+    return true;
+}
+
+
+/**
+ * Fonction de chargement d'un fichier-piste au format XML
+ *@params xmlFileName : Chemin vers le fichier xml à parser
+ *@params currentTrack : Pointeur vers un LogicalTrack. Les données de celui-ci seront
+ *remplacé par les données du XML.
+ *@return un booleen true si la fonction s'est correctement executé et false sinon.
+ *return false si le fichier spécifié n'existe pas,
+ *si le document XML ouvert ne peut être associé au QDomDocument,
+ *si le document XML n'est pas un fichier associé au projet
 */
 bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* currentTrack) {
 

@@ -1,8 +1,6 @@
 #include "Enrichment.h"
-#include <QVector>
-#include <QtTest/QTest>
-#include <QDebug>
-#include <iostream>
+
+QStringList Enrichment::listOfEnrichmentString = QStringList() <<"M"<<"m"<<"+"<<"-"<<"sus2"<<"sus4"<<"b5"<<"6"<<"7"<<"9"<<"11"<<"13";
 
 /**
  * @brief Enrichment::Enrichment
@@ -22,8 +20,8 @@ Enrichment::Enrichment()
  */
 Enrichment::Enrichment(const Enrichment& enrich)  : QList<e_Enrichment>(enrich)
 {
-    initStringEquivs();
-/* est-ce nécessaire ?
+    //   initStringEquivs();
+    /* est-ce nécessaire ?
     while(!enrich.isEmpty())
     {
         append(enrich.takeFirst());
@@ -36,16 +34,10 @@ Enrichment::Enrichment(const Enrichment& enrich)  : QList<e_Enrichment>(enrich)
  *
  * Crée un enrichissement à partir d'une chaîne de caractères.
  */
-Enrichment::Enrichment(const QString enrich)
+Enrichment::Enrichment(const QString &enrich)
 {
-    initStringEquivs();
-    Enrichment tmp;
-    tmp = extractEnrichmentsFromStr(enrich);
+    m_stringEquivs = extractEnrichmentsFromStr(enrich).getEnrichmentStringList();
 
-    while(!tmp.isEmpty())
-    {
-        append(tmp.takeFirst());
-    }
 }
 
 /**
@@ -58,20 +50,10 @@ Enrichment::Enrichment(const QStringList enrichList)
 {
     QString e;
     Enrichment ebis;
-
-    initStringEquivs();
+    //    initStringEquivs();
     foreach(e, enrichList)
         for(int i = 0; i < (ebis = extractEnrichmentsFromStr(e)).size(); i++ ) //aurait été plus propre avec un deuxième foreach
             append(ebis[i]); //attention si la liste est mal formée
-}
-
-/**
- * @brief Enrichment::getEnrichmentStringList
- * @return L'enrichissement sous forme de liste de chaînes de caractères.
- */
-QStringList& Enrichment::getEnrichmentStringList()
-{
-        return m_stringEquivs;
 }
 
 /**
@@ -80,9 +62,7 @@ QStringList& Enrichment::getEnrichmentStringList()
  * Initialisation de la variable m_stringEquivs
  */
 void Enrichment::initStringEquivs()
-{
-    m_stringEquivs << "M" <<"m"<<"+"<<"-"<<"sus2"<<"sus4"<<"b5" << "6" << "7" << "9" << "11" << "13";
-}
+{}
 
 /**
  * @brief Enrichment::isValid
@@ -93,11 +73,11 @@ void Enrichment::initStringEquivs()
  */
 bool Enrichment::isValid() const
 {
-	bool validity = false;
-	for(int i = 0; i < size(); i++)
-		validity = (0 <= at(i) && at(i) <= NUM_ENRICHMENTS);
+    bool validity = false;
+    for(int i = 0; i < size(); i++)
+        validity = (0 <= at(i) && at(i) <= NUM_ENRICHMENTS);
 
-	return validity;
+    return validity;
 }
 
 /**
@@ -109,9 +89,13 @@ bool Enrichment::isValid() const
  */
 bool Enrichment::isValid(const QString& enrichment) const
 {
-	return Enrichment::extractEnrichmentsFromStr(enrichment).isValid();
+    return extractEnrichmentsFromStr(enrichment).isValid();
 }
 
+
+bool Enrichment::isEmpty() const{
+    return m_stringEquivs.isEmpty();
+}
 /**
  * @brief Enrichment::extractEnrichmentsFromStr
  * @param str Chaîne de caractères à partir de laquelle faire l'extraction
@@ -122,40 +106,70 @@ bool Enrichment::isValid(const QString& enrichment) const
 // Algorithme:
 // - on fait un tableau avec tous les enrichissements possibles.
 // - on les recherche tous, puis on rajoute celui avec la plus petite valeur (= le plus proche du début).
-// - on le cherche à nouveau (s'il y est deux fois, même si c'est invalide)
-const Enrichment Enrichment::extractEnrichmentsFromStr(QString const str_enr) const
+// - on enlève la lettre correspondante dans la chaine de caractère puis on recommence jusqu'à ce qu'il n'y est plus d'enrichissement.
+// - on utilise une copie de la QString originale afin de respecter le const.
+const Enrichment Enrichment::extractEnrichmentsFromStr(QString const &str_enr) const
 {
-	QVector<int> table(NUM_ENRICHMENTS, -1);
-	int minIndex = 0;
-    int minValue = 12;
-    Enrichment e = Enrichment();
+    //    QVector<int> table(NUM_ENRICHMENTS, -1);
+    //    int minIndex = 0;
+    //    int minValue = 12;
+    Enrichment e;
     QString str = str_enr;
 
 
-
+    //Si la chaine n'a pas d'enrichissement il ne faut pas essayer d'accèder à des cases vides.
     if (str.size() < 2){
         return e;
     }
-
-    while(str.size() > 0)
-    {
-        for(int i = 0; i < NUM_ENRICHMENTS; i++)
-        {
-            table[i] = str.indexOf(m_stringEquivs[i]);
-
-            if(table[i] > -1 && table[i] < minValue)
-            {
-                minValue = table[i];
-                minIndex = i;
-            }
-        }
-
-        e.append((e_Enrichment) minIndex);
-
-        str.remove(m_stringEquivs[minIndex]);
+    else if(str.size() == 1 && (str.at(0) == '#' || str.at(0) == 'b')) {
+        return e;
     }
 
+    //On enlève les caractères faisant partie de la tonalité
+    str.remove(0,1);
+    if(str.at(0) == '#' || str.at(0) == 'b'){
+        str.remove(0,1);
+    }
+
+    for(int i = 0; i < NUM_ENRICHMENTS; i++){
+        if(str.contains(listOfEnrichmentString.at(i))){
+            e.addEnrichment(listOfEnrichmentString.at(i));
+        }
+    }
     return e;
+
+    //    while(str.size() > 0)
+    //    {
+
+    //        for(int i = 0; i /< NUM_ENRICHMENTS; i++)
+    //        {
+    //            table[i] = str.indexOf(listEnrich[i]);
+
+    //            if(table[i] > -1 && table[i] < minValue)
+    //            {
+    //                minValue = table[i];
+    //                minIndex = i;
+    //            }
+    //        }
+
+
+    //        e->addEnrichment((e_Enrichment) minIndex);
+
+    //        str.remove(listEnrich[minIndex]);
+    //    }
+}
+
+/**
+ * @brief Enrichment::getEnrichmentStringList
+ * @return L'enrichissement sous forme de liste de chaînes de caractères.
+ */
+const QStringList& Enrichment::getEnrichmentStringList() const
+{
+    return m_stringEquivs;
+}
+
+void Enrichment::addEnrichment(const QString &newEnrich){
+    m_stringEquivs.append(newEnrich);
 }
 
 /**
@@ -167,8 +181,10 @@ const Enrichment Enrichment::extractEnrichmentsFromStr(QString const str_enr) co
 QString Enrichment::toString()
 {
     QString str = "";
-    for(int i = 0; i < size(); i++)
-		str += m_stringEquivs[at(i)];
-
-	return str;
+    if(!(m_stringEquivs.isEmpty())){
+        for(int i = 0; i < m_stringEquivs.size(); i++){
+            str += m_stringEquivs.at(i);
+        }
+    }
+    return str;
 }

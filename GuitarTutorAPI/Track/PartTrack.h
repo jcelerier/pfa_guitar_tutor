@@ -10,8 +10,9 @@ public:
 
     PartTrack();
     PartTrack(QString newPartName);
+    PartTrack(QString newPartName, QList<TrackChord*> newListChords);
     QString getPartName();
-    QList<TrackChord*> getListTrackChords();
+    QList<TrackChord*> getTrackChordsList();
     void AddChord(TrackChord * c);
     ~PartTrack();
 

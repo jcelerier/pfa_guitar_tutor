@@ -9,6 +9,14 @@ LogicalTrack::LogicalTrack() {
 
 }
 
+LogicalTrack::LogicalTrack(QString newTrackName, QString newArtist, QString newAudoFileName, int newMesure, QList<PartTrack*> newList){
+    trackName = newTrackName;
+    artist = newArtist;
+    audioFileName = newAudoFileName;
+    mesure = newMesure;
+    listPartTrack = newList;
+}
+
 /**
  * @brief LogicalTrack::~LogicalTrack
  *
@@ -106,7 +114,7 @@ void LogicalTrack::addPartTrackToList(PartTrack* newPartTrack) {
  *
  * Renvoie un pointeur sur la liste des PartTrack de la LogicalTrack
  */
-QList<PartTrack*> LogicalTrack::getListPartTrack() {
+QList<PartTrack*> LogicalTrack::getPartTrackList() {
 
     return listPartTrack;
 

@@ -1,15 +1,15 @@
 #include "TrackChord.h"
+#include<QDebug>
 
 TrackChord::TrackChord()
 {
 }
 
-TrackChord::TrackChord(QString nom, int d, int rep) {
+TrackChord::TrackChord(QString nom, qreal d, int rep) {
 
-duration = d;
-repetition = rep;
-currentChord = new Chord(nom);
-
+    duration = d;
+    repetition = rep;
+    currentChord = new Chord(nom);
 }
 
 
@@ -23,12 +23,9 @@ TrackChord::~TrackChord() {
  *
  * Fonction de modification du champ repetition
  */
-
-
 void TrackChord::setRepetition(int newRepetition) {
 
     repetition = newRepetition;
-
 }
 
 /**
@@ -36,20 +33,32 @@ void TrackChord::setRepetition(int newRepetition) {
  *
  * Fonction de récupération du champ repetition
  */
-
-
 int TrackChord::getRepetition() {
 
     return repetition;
 }
 
-int TrackChord::getDuration() {
+
+qreal TrackChord::getDuration() {
 
     return duration;
 }
 
-Chord* TrackChord::getChord(){
-
-    return currentChord;
+/**
+ *Permet de Récupérer l'accord sous forme de QString.
+ *@return QString : accord
+ */
+QString TrackChord::getChord(){
+    return currentChord->toString();
 }
 
+QString TrackChord::toString(){
+
+    QString info = ("Accord = ");
+    info.append(currentChord->toString());
+    info.append(" Duration = ");
+    info.append(QString::number(duration, 'e'));
+    info.append(" repetition = ");
+    info.append(repetition);
+    return info;
+}
