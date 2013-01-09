@@ -60,9 +60,7 @@ ChordTableWidget::ChordTableWidget(int column, int row)
 	//actions du menu
     m_properties = new QAction(tr("Properties"), this);
 
-    connect(m_properties, SIGNAL(triggered()), this, SLOT(showProperties()));
-
-
+	connect(m_properties, SIGNAL(triggered()), this, SLOT(showProperties()));
 }
 
 /**
@@ -479,17 +477,43 @@ void ChordTableWidget::showProperties()
 bool ChordTableWidget::checkBeginningTimes()
 {
     QTime t;
+    bool result = true;
     t = ((CaseItem*) item(0,0))->getBeginning();
     for (int r = 0 ; r < this->rowCount() ; r++) {
         for (int c = 0 ; c < this->columnCount() - 1 ; c ++) {
             if(r==0)
                 continue;
-            if(((CaseItem*) item(r,c))->getBeginning() <= t) {
+            if(((CaseItem*) item(r,c))->getBeginning() < t) {
                 ((CaseItem*) item(r,c))->setBackgroundColor(QColor(255, 165, 0));
-                return false;
+                result = false;
+            }
+            else {
+                if(((CaseItem*) item(r,c))->isPartSet())
+                    ((CaseItem*) item(r,c))->setBackgroundColor(Qt::lightGray);
+                else
+                    ((CaseItem*) item(r,c))->setBackgroundColor(Qt::white);
             }
             t = ((CaseItem*) item(r,c))->getBeginning();
         }
     }
-    return true;
+    return result;
+}
+
+void ChordTableWidget::setTimeInfo(const QTime beginning, const QTime bar, const QTime end)
+{
+	int rmax = rowCount(), cmax = columnCount();
+    for (int r = 0 ; r < rmax ; r++) {
+        for (int c = 0 ; c < cmax - 1 ; c ++) {
+            int ms = beginning.msec(), s = beginning.second(), m = beginning.minute(), h = beginning.hour();
+            ms += bar.msec()*(r*cmax+c);
+            s  += ms/1000; ms = ms%1000;
+            s  += bar.second()*(r*cmax+c);
+            m  += s/60; s = s%60;
+            m  += bar.minute()*(r*cmax+c);
+            h  += m/60; m = m%60;
+            h  += bar.hour()*(r*cmax+c);
+            ((CaseItem*) item(r,c))->setBeginning(QTime(h,m,s,ms));
+        }
+    }
+	checkBeginningTimes();
 }

@@ -53,6 +53,7 @@ private:
     QTreeWidgetItem* buildChord(const QString tonality);
 
 signals:
+	void sendTimeToChordWidget(QTime, QTime, QTime);
 
 public slots:
 	void changeState();

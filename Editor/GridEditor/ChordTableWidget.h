@@ -46,7 +46,6 @@ public:
 private:
     QList<int> expand_list(QList<QList<int>*> list);
 
-
 public slots:
 	void ShowContextMenu(const QPoint& pos);
     void showProperties();
@@ -61,7 +60,9 @@ public slots:
     void setCasePart(QString text);
     void setCaseBeginning(QTime t);
 	void removeCasePart();
-    bool checkBeginningTimes();
+	bool checkBeginningTimes();
+
+	void setTimeInfo(const QTime beginning, const QTime bar, const QTime end);
 
 	//void onClick(int row, int column);
 };

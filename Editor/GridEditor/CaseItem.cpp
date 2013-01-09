@@ -113,7 +113,7 @@ bool CaseItem::isPartSet()
     return m_part.length() > 0;
 }
 
-void CaseItem::setBeginning(QTime &t)
+void CaseItem::setBeginning(QTime t)
 {
     beginning = t;
 }

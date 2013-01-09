@@ -11,12 +11,14 @@ AudioSync::AudioSync()
     end->setDisplayFormat("m:ss:zzz");
     bar->setDisplayFormat("m:ss:zzz");
 
-    QLabel* lbeggining = new QLabel(tr("Beggining"));
+    QLabel* lbeggining = new QLabel(tr("Beginning"));
     QLabel* lend = new QLabel(tr("End"));
     QLabel* lbar = new QLabel(tr("Bar"));
     bbeggining = new QToolButton();
     bend = new QToolButton();
     bbar = new QToolButton();
+
+    sendButton = new QPushButton(tr("Compute"));
 
     bbeggining->setIcon(QIcon("icons/timer.png"));
     bend->setIcon(QIcon("icons/timer.png"));
@@ -38,11 +40,14 @@ AudioSync::AudioSync()
     layout->addWidget(bar, 2, 1);
     layout->addWidget(bbar, 2, 2);
 
+	layout->addWidget(sendButton, 3, 0);
     setLayout(layout);
 
     connect(bbeggining, SIGNAL(pressed()), this, SLOT(emitSignalTimer()));
     connect(bend, SIGNAL(pressed()), this, SLOT(emitSignalTimer()));
     connect(bbar, SIGNAL(pressed()), this, SLOT(emitSignalTimer()));
+
+	connect(sendButton, SIGNAL(clicked()), this, SLOT(sendData()));
 }
 
 AudioSync::~AudioSync()
@@ -86,4 +91,9 @@ void AudioSync::emitSignalTimer()
         emit refreshTimer(TIMER_END);
     else if(bbar->isDown())
         emit refreshTimer(TIMER_BAR);
+}
+
+void AudioSync::sendData()
+{
+	emit sendTimer(beginning->time(), bar->time(), end->time());
 }
