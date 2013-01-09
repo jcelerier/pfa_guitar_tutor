@@ -501,4 +501,21 @@ bool ChordTableWidget::checkBeginningTimes()
     return result;
 }
 
-void ChordTableWidget::setTimeInfo(const QTime beginning, const QTime bar, const QTime end) { }
+void ChordTableWidget::setTimeInfo(const QTime beginning, const QTime bar, const QTime end)
+{
+    int rmax = rowCount(), cmax = columnCount();
+    for (int r = 0 ; r < rmax ; r++) {
+        for (int c = 0 ; c < cmax - 1 ; c ++) {
+            int ms = beginning.msec(), s = beginning.second(), m = beginning.minute(), h = beginning.hour();
+            ms += bar.msec()*(r*cmax+c);
+            s  += ms/1000; ms = ms%1000;
+            s  += bar.second()*(r*cmax+c);
+            m  += s/60; s = s%60;
+            m  += bar.minute()*(r*cmax+c);
+            h  += m/60; m = m%60;
+            h  += bar.hour()*(r*cmax+c);
+            ((CaseItem*) item(r,c))->setBeginning(QTime(h,m,s,ms));
+        }
+    }
+    checkBeginningTimes();
+}

@@ -11,14 +11,14 @@ AudioSync::AudioSync()
     end->setDisplayFormat("m:ss:zzz");
     bar->setDisplayFormat("m:ss:zzz");
 
-    QLabel* lbeggining = new QLabel(tr("Beggining"));
+    QLabel* lbeggining = new QLabel(tr("Beginning"));
     QLabel* lend = new QLabel(tr("End"));
     QLabel* lbar = new QLabel(tr("Bar"));
     bbeggining = new QToolButton();
     bend = new QToolButton();
     bbar = new QToolButton();
 
-	sendButton = new QPushButton("Calculer");
+    sendButton = new QPushButton(tr("Compute"));
 
     bbeggining->setIcon(QIcon("icons/timer.png"));
     bend->setIcon(QIcon("icons/timer.png"));

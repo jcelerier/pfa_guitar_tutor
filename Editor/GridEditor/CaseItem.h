@@ -36,7 +36,7 @@ class CaseItem : public QTableWidgetItem
 		void setPart(QString&);
 
 		bool isPartSet();
-        void setBeginning(QTime &t);
+        void setBeginning(QTime t);
         QTime getBeginning();
 };
 
