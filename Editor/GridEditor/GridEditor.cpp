@@ -156,7 +156,7 @@ void GridEditor::createCentralWidget() {
 
     layout = new QGridLayout();
 
-	audioWindow = new AudioWindow();
+	audioWindow = new AudioWindow(this);
 
     layout->addWidget(chordTree, 0, 0); //Liste des accords en haut-gauche
 	layout->addWidget(grid, 0, 1); //Fenêtre d'accords en haut-milieu
@@ -262,4 +262,9 @@ void GridEditor::newEditor(int type)
 void GridEditor::openAudioWindow()
 {
 	audioWindow->show();
+}
+#include <QDebug>
+void GridEditor::receiveTimeInfo(const QTime beginning, const QTime bar, const QTime end)
+{
+	qDebug() << beginning << endl << bar << endl << end;
 }

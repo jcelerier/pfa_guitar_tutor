@@ -18,6 +18,8 @@ AudioSync::AudioSync()
     bend = new QToolButton();
     bbar = new QToolButton();
 
+	sendButton = new QPushButton("Calculer");
+
     bbeggining->setIcon(QIcon("icons/timer.png"));
     bend->setIcon(QIcon("icons/timer.png"));
     bbar->setIcon(QIcon("icons/timer.png"));
@@ -38,11 +40,14 @@ AudioSync::AudioSync()
     layout->addWidget(bar, 2, 1);
     layout->addWidget(bbar, 2, 2);
 
+	layout->addWidget(sendButton, 3, 0);
     setLayout(layout);
 
     connect(bbeggining, SIGNAL(pressed()), this, SLOT(emitSignalTimer()));
     connect(bend, SIGNAL(pressed()), this, SLOT(emitSignalTimer()));
     connect(bbar, SIGNAL(pressed()), this, SLOT(emitSignalTimer()));
+
+	connect(sendButton, SIGNAL(clicked()), this, SLOT(sendData()));
 }
 
 AudioSync::~AudioSync()
@@ -86,4 +91,9 @@ void AudioSync::emitSignalTimer()
         emit refreshTimer(TIMER_END);
     else if(bbar->isDown())
         emit refreshTimer(TIMER_BAR);
+}
+
+void AudioSync::sendData()
+{
+	emit sendTimer(beginning->time(), bar->time(), end->time());
 }
