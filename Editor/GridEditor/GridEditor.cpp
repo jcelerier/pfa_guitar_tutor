@@ -159,7 +159,7 @@ void GridEditor::createCentralWidget() {
 	audioWindow = new AudioWindow();
 
     layout->addWidget(chordTree, 0, 0); //Liste des accords en haut-gauche
-	layout->addWidget(grid, 0, 1, 1, 4); //Fenêtre d'accords en haut-milieu
+	layout->addWidget(grid, 0, 1); //Fenêtre d'accords en haut-milieu
     centralArea->setLayout(layout);
 }
 
@@ -228,7 +228,7 @@ void GridEditor::newGrid() {
         return;
     delete grid;
     grid = new ChordTableWidget(column + 1, 10);
-    layout->addWidget(grid, 0, 1, 1, 5);
+	layout->addWidget(grid, 0, 1);
     saveAction->setEnabled(true);
     addRowAction->setEnabled(true);
     addColumnAction->setEnabled(true);

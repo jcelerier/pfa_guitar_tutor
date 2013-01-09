@@ -60,6 +60,7 @@ public slots:
     void newEditor(int);
 
 	void openAudioWindow();
+	void receiveTimeInfo(const QTime beginning, const QTime bar, const QTime end);
 };
 
 #endif // GRIDEDITOR_H
