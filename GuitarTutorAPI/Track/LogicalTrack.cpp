@@ -123,7 +123,7 @@ QList<PartTrack*> LogicalTrack::getPartTrackList() {
 /**
  * @brief LogicalTrack::setRep
  *
- * Permet de changer la valeur du nombre de répétition. Si la valeur entrée n'est pas correcte, rep sera mis à -1.
+ * Permet de changer la valeur du nombre d'accords dans une mesure. Si la valeur entrée n'est pas correcte, rep sera mis à -1.
  */
 void LogicalTrack::setMesure(int nb){
     if(nb>=0){

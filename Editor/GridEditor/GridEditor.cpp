@@ -280,7 +280,7 @@ void GridEditor::toXML()
 	track->setTrackName("test");
 	track->setArtist("badaboum");
 	track->setAudioFileName("machin.mp3");
-
+	track->setMesure(1);
 
 	TrackLoader::convertLogicalTrackToXml(track);
 }

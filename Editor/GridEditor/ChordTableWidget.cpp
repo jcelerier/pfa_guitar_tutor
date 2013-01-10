@@ -560,5 +560,6 @@ LogicalTrack* ChordTableWidget::getLogicalTrack()
 		}
 	}
 
+	track->setMesure(1);
 	return track;
 }
