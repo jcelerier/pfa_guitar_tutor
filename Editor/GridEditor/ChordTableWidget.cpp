@@ -12,6 +12,8 @@ Last change on 08/05/12
 #include "ChordTableWidget.h"
 #include "PartSetter.h"
 
+#include "../../GuitarTutorAPI/Track/LogicalTrack.h"
+
 /**
  * @brief ChordTableWidget::ChordTableWidget
  *
@@ -516,4 +518,47 @@ void ChordTableWidget::setTimeInfo(const QTime beginning, const QTime bar, const
         }
     }
 	checkBeginningTimes();
+}
+
+inline int TimeToMsec(QTime t)
+{
+	return t.minute() * 60000 + t.second() * 1000 + t.msec();
+}
+
+#include <QDebug>
+LogicalTrack* ChordTableWidget::getLogicalTrack()
+{
+
+	LogicalTrack* track = new LogicalTrack();
+	PartTrack* part = NULL;
+	CaseItem* currentCase = NULL;
+	TrackChord* currentChord = NULL;
+
+	for(int i = 0; i < this->rowCount() - 1; i++)
+	{
+		for(int j = 0; j < this->columnCount() - 1; j++) // -1 pour l'annotation
+		{
+			qDebug() << "here. i : " << i << ", j : " << j;
+			if((currentCase = (CaseItem*) this->item(i, j))->isPartSet())
+			{
+				// on stocke la partie précédente
+				if(part != NULL)
+					track->addPartTrackToList(part);
+
+				// on crée une nouvelle partie
+				part = new PartTrack(currentCase->getPart());
+
+				//on y ajoute l'accord de la case actuelle *//* calculer s'il y a des répétitions ---------------v
+				currentChord = new TrackChord(currentCase->get_chord(), TimeToMsec(currentCase->getBeginning()), 0);
+				part->AddChord(currentChord);
+			}
+			else
+			{
+				currentChord = new TrackChord(currentCase->get_chord(), TimeToMsec(currentCase->getBeginning()), 0);
+				part->AddChord(currentChord);
+			}
+		}
+	}
+
+	return track;
 }

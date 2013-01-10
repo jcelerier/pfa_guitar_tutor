@@ -5,7 +5,8 @@ Last change on 08/05/12
 */
 
 #include "GridEditor.h"
-
+#include "Track/TrackLoader.h"
+#include <QDebug>
 /**
  * @brief GridEditor::GridEditor
  *
@@ -184,6 +185,8 @@ void GridEditor::connectActionToSlot(){
     connect(renameAction, SIGNAL(triggered()), this, SLOT(rename()));
     connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
 
+	connect(saveAction, SIGNAL(triggered()), this, SLOT(toXML()));
+
 	connect(openAudioWindowAction, SIGNAL(triggered()), this, SLOT(openAudioWindow()));
 }
 
@@ -268,4 +271,16 @@ void GridEditor::newEditor(int type)
 void GridEditor::openAudioWindow()
 {
 	audioWindow->show();
+}
+
+void GridEditor::toXML()
+{
+	LogicalTrack* track = grid->getLogicalTrack();
+
+	track->setTrackName("test");
+	track->setArtist("badaboum");
+	track->setAudioFileName("machin.mp3");
+
+
+	TrackLoader::convertLogicalTrackToXml(track);
 }

@@ -31,7 +31,7 @@ ChordTree::ChordTree() :
 QTreeWidgetItem* ChordTree::buildChordItem(const QString tonality) {
 
     Enrichment* tmp = new Enrichment();
-    QStringList& tuning = tmp->getEnrichmentStringList();
+	QStringList tuning = tmp->getEnrichmentStringList();
     QTreeWidgetItem* item = new QTreeWidgetItem();
     item->setText(0, tonality);
 
