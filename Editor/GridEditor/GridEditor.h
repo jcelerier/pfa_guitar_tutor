@@ -61,6 +61,8 @@ public slots:
     void newEditor(int);
 
 	void openAudioWindow();
+
+	void toXML();
 };
 
 #endif // GRIDEDITOR_H

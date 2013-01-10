@@ -48,10 +48,9 @@ PartTrack::~PartTrack() {
  */
 
 
-void PartTrack::AddChord(TrackChord * c) {
-
+void PartTrack::AddChord(TrackChord * c)
+{
     listTrackChords.append(c);
-
 }
 
 QString PartTrack::getPartName(){

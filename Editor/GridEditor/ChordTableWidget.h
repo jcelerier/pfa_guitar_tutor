@@ -12,7 +12,7 @@ Last change on 08/05/12
 #include <QTableWidget>
 #include "CaseItem.h"
 #include "PartSetter.h"
-
+#include "Track/LogicalTrack.h"
 /**
  * @brief Grille d'accords
  */
@@ -42,6 +42,8 @@ public:
     bool is_row_selected();
     QList<QList<int>*> rows_selected();
     void insert_row(int position, int number = 1);
+
+	LogicalTrack* getLogicalTrack();
 
 private:
     QList<int> expand_list(QList<QList<int>*> list);
