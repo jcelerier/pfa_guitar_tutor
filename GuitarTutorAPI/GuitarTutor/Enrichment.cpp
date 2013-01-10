@@ -101,18 +101,12 @@ bool Enrichment::isEmpty() const{
  * @param str Chaîne de caractères à partir de laquelle faire l'extraction
  * @return L'enrichissement extrait.
  *
- * Extrait un enrichissement à partir d'une chaîne de caractères.
+ * Extrait un enrichissement à partir d'une chaîne de caractères. Attention la chaine Bm7sus2 retournera la liste
+ * "m" "sus2" "7"(l'ordre a changé). En effet, la liste retourné est toujours classé dans l'ordre :
+ * M,m,+,-,sus2,sus4, b5,6,7,9,11,13. Et ceux quelque soit l'ordre de la chaine initial.
  */
-// Algorithme:
-// - on fait un tableau avec tous les enrichissements possibles.
-// - on les recherche tous, puis on rajoute celui avec la plus petite valeur (= le plus proche du début).
-// - on enlève la lettre correspondante dans la chaine de caractère puis on recommence jusqu'à ce qu'il n'y est plus d'enrichissement.
-// - on utilise une copie de la QString originale afin de respecter le const.
 const Enrichment Enrichment::extractEnrichmentsFromStr(QString const &str_enr) const
 {
-    //    QVector<int> table(NUM_ENRICHMENTS, -1);
-    //    int minIndex = 0;
-    //    int minValue = 12;
     Enrichment e;
     QString str = str_enr;
 
@@ -131,32 +125,13 @@ const Enrichment Enrichment::extractEnrichmentsFromStr(QString const &str_enr) c
         str.remove(0,1);
     }
 
+    //On rajoute les enrichissement trouvés les un après les autres
     for(int i = 0; i < NUM_ENRICHMENTS; i++){
         if(str.contains(listOfEnrichmentString.at(i))){
             e.addEnrichment(listOfEnrichmentString.at(i));
         }
     }
     return e;
-
-    //    while(str.size() > 0)
-    //    {
-
-    //        for(int i = 0; i /< NUM_ENRICHMENTS; i++)
-    //        {
-    //            table[i] = str.indexOf(listEnrich[i]);
-
-    //            if(table[i] > -1 && table[i] < minValue)
-    //            {
-    //                minValue = table[i];
-    //                minIndex = i;
-    //            }
-    //        }
-
-
-    //        e->addEnrichment((e_Enrichment) minIndex);
-
-    //        str.remove(listEnrich[minIndex]);
-    //    }
 }
 
 /**

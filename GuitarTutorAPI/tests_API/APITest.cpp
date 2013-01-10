@@ -51,24 +51,33 @@ void APITest::testExtractEnrichmentsFromStr(){
     QVERIFY2(!(e5.getEnrichmentStringList().isEmpty()), "e5 : The result is empty");
     QVERIFY2(!e5.getEnrichmentStringList().at(0).compare("M"), "e5 : Chord not corresponding");
 
+    Enrichment e6("C#sus2");
+    QVERIFY2(!(e6.getEnrichmentStringList().isEmpty()), "e6 : The result is empty");
+    QVERIFY2(!e6.getEnrichmentStringList().at(0).compare("sus2"), "e6 : Chord not corresponding");
+
+    Enrichment e7("Ebm7sus2");
+    QVERIFY2(!(e7.getEnrichmentStringList().isEmpty()), "e7 : The result is empty");
+    QVERIFY2(!e7.getEnrichmentStringList().at(0).compare("m"), "e7 : Enrichment 1 not corresponding");
+    QVERIFY2(!e7.getEnrichmentStringList().at(1).compare("sus2"), "e7 : Enrichment 2 not corresponding");
+    QVERIFY2(!e7.getEnrichmentStringList().at(2).compare("7"), "e7 : Enrichment 3 not corresponding");
 }
 
-    void APITest::testExtractTonalityFromStr(){
-        Tonality e1("A");
-        QVERIFY2(!e1.toString().compare("A"), "e1 : tonality not corresponding");
+void APITest::testExtractTonalityFromStr(){
+    Tonality e1("A");
+    QVERIFY2(!e1.toString().compare("A"), "e1 : tonality not corresponding");
 
-        Tonality e2("B#");
-        Tonality e3("Bb");
-        QVERIFY2(e2.getBaseNote() == B, "e2 : tonality not corresponding");
-        QVERIFY2(e3.getBaseNote() == B, "e3 : tonality not corresponding");
-        QVERIFY2(e2.getAlteration() == SHARP, "e2 : tonality not corresponding");
-        QVERIFY2(e3.getAlteration() == FLAT, "e3 : tonality not corresponding");
+    Tonality e2("B#");
+    Tonality e3("Bb");
+    QVERIFY2(e2.getBaseNote() == B, "e2 : tonality not corresponding");
+    QVERIFY2(e3.getBaseNote() == B, "e3 : tonality not corresponding");
+    QVERIFY2(e2.getAlteration() == SHARP, "e2 : tonality not corresponding");
+    QVERIFY2(e3.getAlteration() == FLAT, "e3 : tonality not corresponding");
 
-        Tonality e4("C#m");
-        QVERIFY2(e4.getBaseNote() == C, "e4 : base note not corresponding");
-        QVERIFY2(e4.getAlteration() == SHARP, "e4 : Chord not corresponding");
+    Tonality e4("C#m");
+    QVERIFY2(e4.getBaseNote() == C, "e4 : base note not corresponding");
+    QVERIFY2(e4.getAlteration() == SHARP, "e4 : Chord not corresponding");
 
-    }
+}
 
 void APITest::testConvertXmlToLogical()
 {
