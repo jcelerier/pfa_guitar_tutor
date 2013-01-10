@@ -323,7 +323,7 @@ bool ScoreManager::loadScore(std::string fileName)
 	return true;
 }
 
-/*bool ScoreManager::loadScore(LogicalTrack* trackName){
+bool ScoreManager::loadScore(LogicalTrack* trackName){
 
     NoteData currentNote;
 
@@ -344,7 +344,7 @@ bool ScoreManager::loadScore(std::string fileName)
 
     QList<PartTrack*>::iterator it1;
 
-    for(it1 = trackName->getListPartTrack().begin(); it1 != trackName->getListPartTrack().end(); ++it1){
+    for(it1 = trackName->getPartTrackList().begin(); it1 != trackName->getPartTrackList().end(); ++it1){
 
                     std::string current((*it1)->getPartName().toStdString ());
 
@@ -371,12 +371,12 @@ bool ScoreManager::loadScore(std::string fileName)
 
                     previousPart = current;
                     QList<TrackChord*>::iterator it2;
-                    for(it2 = (*it1)->getListTrackChords().begin(); it2 != (*it1)->getListTrackChords().end(); ++it2){
+                    for(it2 = (*it1)->getTrackChordsList().begin(); it2 != (*it1)->getTrackChordsList().end(); ++it2){
 
-                        //std::istringstream currentStream(currentLine.data());
-                        //currentStream >> currentNote.duration >> currentNote.name;
+                        currentNote.duration = (*it2)->getDuration();
+                        currentNote.name = (*it2)->toString().toStdString();
 
-                        m_scoreNotes[m_iscoreEngine->addBox(currentRelativeStart * 1000, (*it2)->getDuration() * 1000, currentBoxId)] = currentNote.name;
+                        m_scoreNotes[m_iscoreEngine->addBox(currentRelativeStart * 1000, currentNote.duration * 1000, currentBoxId)] = currentNote.name;
 
                         currentRelativeStart += currentNote.duration;
                         currentAbsoluteStart += currentNote.duration;
@@ -385,7 +385,7 @@ bool ScoreManager::loadScore(std::string fileName)
     m_isAScoreToRun = true;
 
     return true;
-}*/
+}
 
 bool ScoreManager::isRunning()
 {

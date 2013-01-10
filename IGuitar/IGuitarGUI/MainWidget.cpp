@@ -105,13 +105,14 @@ void MainWidget::timeOut()
 			muteTracks.push_back("all");
 		}
 
-		multiTracksMap["all"] = "Tracks/BeatlesDayInTheLife/AllTracks.wav";
+        multiTracksMap["all"] = "Tracks/BeatlesDayInTheLife/AllTracks.wav";
 
 		MusicManager* musicManager = new MusicManager(multiTracksMap, muteTracks);
 		m_scoreManager = new ScoreManager(musicManager);
 
 
-		m_scoreManager->loadScore("Tracks/BeatlesDayInTheLife/Guitar.txt");
+        m_scoreManager->loadScore("Tracks/BeatlesDayInTheLife/Guitar.txt");
+
 
 		m_scoreManager->run();
 
