@@ -1,4 +1,5 @@
 #include "EditionSelector.h"
+#include "GridEditor.h"
 
 /**
  * @brief EditionSelector::EditionSelector
@@ -10,7 +11,7 @@ EditionSelector::EditionSelector(QWidget *parent) :
     QWidget(parent)
 {
     setWindowFlags(Qt::Dialog);
-    QLabel  *presentation = new QLabel(tr("Two edit modes are available, you just have to choose one to begin the adventure!"));
+    QLabel  *presentation = new QLabel(tr("What do you want to do today?"));
     QCheckBox *checkbox = new QCheckBox(tr("Show this screen at startup"), this);
     QTabWidget *tabs = new QTabWidget(this);
     QVBoxLayout *mainLayout = new QVBoxLayout();
@@ -61,7 +62,7 @@ EditionSelector::EditionSelector(QWidget *parent) :
 void EditionSelector::newAssistedEditor()
 {
     close();
-    emit newEditor(ASSISTED_EDITOR);
+    ((GridEditor*) parent())->newEditor(ASSISTED_EDITOR);
 }
 
 /**
@@ -72,7 +73,7 @@ void EditionSelector::newAssistedEditor()
 void EditionSelector::newManualEditor()
 {
     close();
-    emit newEditor(MANUAL_EDITOR);
+    ((GridEditor*) parent())->newEditor(MANUAL_EDITOR);
 }
 
 /**

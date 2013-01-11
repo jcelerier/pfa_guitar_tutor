@@ -455,7 +455,7 @@ void ChordTableWidget::setCasePart(QString text)
 
 void ChordTableWidget::setCaseBeginning(QTime t)
 {
-    m_currentItem->setBeginning(t);
+    m_currentItem->setBeginningTimer(t, true);
 }
 
 /**
@@ -486,7 +486,7 @@ bool ChordTableWidget::checkBeginningTimes()
     t = ((CaseItem*) item(0,0))->getBeginning();
     for (int r = 0 ; r < this->rowCount() ; r++) {
         for (int c = 0 ; c < this->columnCount() - 1 ; c ++) {
-            if(r==0)
+            if(r==0 && c == 0)
                 continue;
             if(((CaseItem*) item(r,c))->getBeginning() < t) {
                 ((CaseItem*) item(r,c))->setBackgroundColor(QColor(255, 165, 0));
@@ -504,20 +504,35 @@ bool ChordTableWidget::checkBeginningTimes()
     return result;
 }
 
+/**
+ * @brief ChordTableWidget::setTimeInfo
+ * @param beginning Début du premier accord dans le morceau
+ * @param bar Durée moyenne d'une case
+ * @param end Fin du dernier accord de la grille
+ *
+ * Initialise les informations de temps des cases de la grille.
+ */
 void ChordTableWidget::setTimeInfo(const QTime beginning, const QTime bar, const QTime end)
 {
 	int rmax = rowCount(), cmax = columnCount();
+    bool warningShown = false, modifyAllCases = false;
     for (int r = 0 ; r < rmax ; r++) {
         for (int c = 0 ; c < cmax - 1 ; c ++) {
-            int ms = beginning.msec(), s = beginning.second(), m = beginning.minute(), h = beginning.hour();
-            ms += bar.msec()*(r*cmax+c);
-            s  += ms/1000; ms = ms%1000;
-            s  += bar.second()*(r*cmax+c);
-            m  += s/60; s = s%60;
-            m  += bar.minute()*(r*cmax+c);
-            h  += m/60; m = m%60;
-            h  += bar.hour()*(r*cmax+c);
-            ((CaseItem*) item(r,c))->setBeginning(QTime(h,m,s,ms));
+            if(!warningShown && ((CaseItem*) item(r,c))->isTimerManuallySet()) {
+                modifyAllCases = (QMessageBox::question(this, tr("Before doing stupid things"), tr("Some timers have already been set manually. Do you want to reset them too?"), QMessageBox::Yes | QMessageBox::No)) == QMessageBox::Yes;
+                warningShown = true;
+            }
+            if(modifyAllCases || !((CaseItem*) item(r,c))->isTimerManuallySet()) {
+                int ms = beginning.msec(), s = beginning.second(), m = beginning.minute(), h = beginning.hour();
+                ms += bar.msec()*(r*cmax+c);
+                s  += ms/1000; ms = ms%1000;
+                s  += bar.second()*(r*cmax+c);
+                m  += s/60; s = s%60;
+                m  += bar.minute()*(r*cmax+c);
+                h  += m/60; m = m%60;
+                h  += bar.hour()*(r*cmax+c);
+                ((CaseItem*) item(r,c))->setBeginningTimer(QTime(h,m,s,ms));
+            }
         }
     }
 	checkBeginningTimes();
@@ -610,7 +625,7 @@ void ChordTableWidget::setLogicalTrack(LogicalTrack* track)
 			qDebug() << "accord" << currentCase->get_chord();
 
 			//la durée de l'accord
-			currentCase->setBeginning(MsecToTime(int((*iChord)->getDuration())));
+			currentCase->setBeginningTimer(MsecToTime(int((*iChord)->getDuration())));
 			qDebug() << "debut" << currentCase->getBeginning();
 
 			//case suivante

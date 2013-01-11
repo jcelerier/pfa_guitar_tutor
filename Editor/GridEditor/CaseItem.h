@@ -17,9 +17,10 @@ Last change on 14/04/12
  */
 class CaseItem : public QTableWidgetItem
 {
-    QColor* color;
+    QColor* m_color;
 	QString m_part;
-    QTime beginning;
+    QTime m_beginningTimer;
+    bool m_timerManuallySet;
 
 	public:
 		CaseItem();
@@ -33,11 +34,12 @@ class CaseItem : public QTableWidgetItem
 		void ShowContextMenu(const QPoint& pos);
 
 		QString& getPart();
-		void setPart(QString);
+        void setPart(QString);
 
 		bool isPartSet();
-        void setBeginning(QTime t);
+        void setBeginningTimer(QTime t, bool timerManuallySet = false);
         QTime getBeginning();
+        bool isTimerManuallySet();
 };
 
 #endif // CASEITEM_H

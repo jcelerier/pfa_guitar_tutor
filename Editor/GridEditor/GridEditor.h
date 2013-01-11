@@ -47,6 +47,7 @@ class GridEditor : public QMainWindow
 public:
     GridEditor();
     ~GridEditor();
+    void newEditor(int);
 
 private:
     void createMenu();
@@ -60,12 +61,11 @@ private:
 
 signals:
 	void sendTimeToChordWidget(QTime, QTime, QTime);
-	void play(int);
+    void play(int);
 
 public slots:
 	void changeState();
 	void newGrid();
-    void newEditor(int);
 
 	void openAudioWindow();
 	void openTrackProperties();

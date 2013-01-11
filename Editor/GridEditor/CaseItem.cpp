@@ -16,12 +16,13 @@ Last change on 14/04/12
  *
  * Constructeur des cases de la grille.
  */
-CaseItem::CaseItem() :  QTableWidgetItem(), color(new QColor())
+CaseItem::CaseItem() :  QTableWidgetItem(), m_color(new QColor())
 {
-    beginning = QTime(0,0);
+    m_beginningTimer = QTime(0,0);
     m_part = "";
-    color->setRgb(255, 255, 255);
-    this->setBackgroundColor(color->toRgb());
+    m_color->setRgb(255, 255, 255);
+    m_timerManuallySet = false;
+    this->setBackgroundColor(m_color->toRgb());
 	this->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
     this->setTextAlignment(Qt::AlignCenter);
 }
@@ -32,13 +33,13 @@ CaseItem::CaseItem() :  QTableWidgetItem(), color(new QColor())
  *
  * Constructeur surchagé (ressemble vaguement à une copie.)
  */
-CaseItem::CaseItem(const QTableWidgetItem& item) : QTableWidgetItem(item), color(new QColor(item.background().color()))
+CaseItem::CaseItem(const QTableWidgetItem& item) : QTableWidgetItem(item), m_color(new QColor(item.background().color()))
 {
 	this->text() = item.text();
 }
 
 CaseItem::~CaseItem() {
-    delete color;
+    delete m_color;
 }
 
 /**
@@ -51,8 +52,8 @@ CaseItem::~CaseItem() {
  * Configure la couleur de la case.
  */
 void CaseItem::set_color(int r, int g, int b, int a = 255) {
-    color->setRgb(r, g, b, a);
-    this->setBackgroundColor(color->toRgb());
+    m_color->setRgb(r, g, b, a);
+    this->setBackgroundColor(m_color->toRgb());
 }
 
 /**
@@ -62,7 +63,7 @@ void CaseItem::set_color(int r, int g, int b, int a = 255) {
  * Donne la couleur actuelle de la case. La couleur permet de déterminer l'état de la case.
  */
 QColor* CaseItem::get_color() const {
-    return color;
+    return m_color;
 }
 
 /**
@@ -113,13 +114,18 @@ bool CaseItem::isPartSet()
     return m_part.length() > 0;
 }
 
-void CaseItem::setBeginning(QTime t)
+void CaseItem::setBeginningTimer(QTime t, bool timerManuallySet)
 {
-    beginning = t;
+    m_beginningTimer = t;
+    m_timerManuallySet = timerManuallySet;
 }
-
 
 QTime CaseItem::getBeginning()
 {
-    return beginning;
+    return m_beginningTimer;
+}
+
+bool CaseItem::isTimerManuallySet()
+{
+    return m_timerManuallySet;
 }

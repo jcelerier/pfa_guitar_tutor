@@ -14,7 +14,7 @@ class EditionSelector : public QWidget
 {
     Q_OBJECT
 public:
-    explicit EditionSelector(QWidget *parent = 0);
+    explicit EditionSelector(QWidget *parent);
 private slots:
     void newAssistedEditor();
     void newManualEditor();

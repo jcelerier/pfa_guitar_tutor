@@ -39,8 +39,6 @@ GridEditor::GridEditor() {
         editionSelector->show();
         connect(editionSelector, SIGNAL(newEditor(int)), this, SLOT(newEditor(int)));
     }
-    else
-        newGrid();
 }
 
 /**
