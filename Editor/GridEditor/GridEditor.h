@@ -68,6 +68,7 @@ public slots:
 	void openTrackProperties();
 
 	void toXML();
+	void fromXML();
 };
 
 #endif // GRIDEDITOR_H

@@ -44,7 +44,7 @@ public:
     void insert_row(int position, int number = 1);
 
 	LogicalTrack* getLogicalTrack();
-
+	void setLogicalTrack(LogicalTrack* track);
 private:
     QList<int> expand_list(QList<QList<int>*> list);
 

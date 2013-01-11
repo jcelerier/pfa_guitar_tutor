@@ -27,8 +27,6 @@ AudioWindow::AudioWindow(QWidget * parent)
 
 	connect(audioSync, SIGNAL(sendTimer(QTime, QTime, QTime)), parent, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)));
 	this->setLayout(layout);
-
-
 }
 
 AudioWindow::~AudioWindow()
@@ -51,6 +49,11 @@ void AudioWindow::setAudioFile()
 	audioFile->setEnabled(true);
 	audioFile->setText(player->getSong());
 	audioSync->activeButtons(true);
+}
+
+void AudioWindow::setAudioFileName(QString file)
+{
+	player->setAudioFile(file);
 }
 
 /**

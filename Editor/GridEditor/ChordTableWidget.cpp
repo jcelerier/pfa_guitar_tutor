@@ -492,7 +492,7 @@ bool ChordTableWidget::checkBeginningTimes()
             else {
                 if(((CaseItem*) item(r,c))->isPartSet())
                     ((CaseItem*) item(r,c))->setBackgroundColor(Qt::lightGray);
-                else
+				else
                     ((CaseItem*) item(r,c))->setBackgroundColor(Qt::white);
             }
             t = ((CaseItem*) item(r,c))->getBeginning();
@@ -523,6 +523,14 @@ void ChordTableWidget::setTimeInfo(const QTime beginning, const QTime bar, const
 inline int TimeToMsec(QTime t)
 {
 	return t.minute() * 60000 + t.second() * 1000 + t.msec();
+}
+
+inline QTime MsecToTime(int t)
+{
+	int m = t / 60000;
+	int s = (t - m * 60000) / 1000;
+	int ms = t - m * 60000 - s * 1000;
+	return QTime(0, m, s, ms);
 }
 
 LogicalTrack* ChordTableWidget::getLogicalTrack()
@@ -560,4 +568,59 @@ LogicalTrack* ChordTableWidget::getLogicalTrack()
 	track->addPartTrackToList(part);
 
 	return track;
+}
+
+#include <QDebug>
+void ChordTableWidget::setLogicalTrack(LogicalTrack* track)
+{
+
+	CaseItem* currentCase = NULL;
+	QList<PartTrack*>::const_iterator iPart;
+	QList<TrackChord*>::const_iterator iChord;
+	QList<PartTrack*> partList = track->getPartTrackList();
+	qDebug() << partList.length(); // 36 ? wtf
+
+	QList<TrackChord*> chordsList;
+
+	int i=0, j=0; //ligne et colonne
+	int imax = this->rowCount();
+	int jmax = this->columnCount() - 2;
+
+	qDebug() << imax << jmax << "max";
+
+	currentCase = (CaseItem* )this->item(0, 0);
+	for(iPart = partList.begin(); iPart < partList.end(); ++iPart)
+	{
+		qDebug() << "nouvelle partie";
+
+		// on définit une partie sur la case actuelle
+		currentCase->setPart((*iPart)->getPartName());
+
+		// puis on remplit les accords de la partie
+		chordsList = (*iPart)->getTrackChordsList();
+		for(iChord = chordsList.begin(); iChord < chordsList.end() && i < imax; ++iChord)
+		{
+			qDebug() << i << j;
+
+			// on stocke le nom de l'accord
+			currentCase->set_chord((*iChord)->getChord());
+			qDebug() << "accord" << currentCase->get_chord();
+
+			//la durée de l'accord
+			currentCase->setBeginning(MsecToTime(int((*iChord)->getDuration())));
+			qDebug() << "debut" << currentCase->getBeginning();
+			//case suivante
+			if(j < jmax)
+			{
+				++j;
+			}
+			else
+			{
+				j = 0;
+				++i; //il faut qu'il y ait assez de lignes !!
+			}
+
+			currentCase = (CaseItem*) this->item(i, j);
+		}
+	}
 }

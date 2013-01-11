@@ -114,10 +114,9 @@ void LogicalTrack::addPartTrackToList(PartTrack* newPartTrack) {
  *
  * Renvoie un pointeur sur la liste des PartTrack de la LogicalTrack
  */
-QList<PartTrack*> LogicalTrack::getPartTrackList() {
-
+QList<PartTrack*>& LogicalTrack::getPartTrackList()
+{
     return listPartTrack;
-
 }
 
 /**

@@ -189,6 +189,7 @@ void GridEditor::connectActionToSlot(){
     connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
 
 	connect(saveAction, SIGNAL(triggered()), this, SLOT(toXML()));
+	connect(openAction, SIGNAL(triggered()), this, SLOT(fromXML()));
 
 	connect(openAudioWindowAction, SIGNAL(triggered()), this, SLOT(openAudioWindow()));
 	connect(openTrackPropertiesAction, SIGNAL(triggered()), this, SLOT(openTrackProperties()));
@@ -288,9 +289,24 @@ void GridEditor::toXML() //ça serait bien qu'on sélectionne le fichier ou on s
 	track->setArtist(trackProperties->getArtist());
 	track->setAudioFileName(audioWindow->getSong()); //vérifieer si chemin absolu
 	track->setMesure(1);
-	qDebug() << track->getPartTrackList().last()->getPartName();
 
 	TrackLoader::convertLogicalTrackToXml(track);
+}
+
+void GridEditor::fromXML() //ça serait bien qu'on sélectionne le fichier ou on sauve.
+{
+	LogicalTrack* track = new LogicalTrack;
+	TrackLoader::convertXmlToLogicalTrack("test.xml", track);
+
+	trackProperties->setTrack(track->getTrackName());
+	trackProperties->setArtist(track->getArtist());
+
+	audioWindow->setAudioFileName(track->getAudioFileName()); //vérifier si chemin absolu
+	audioWindow->setAudioFile();
+	// il faudra penser à recalculer le début, la fin et la durée de la première mesure pour les mettre
+	// dans audiowindow
+
+	grid->setLogicalTrack(track);
 }
 
 void GridEditor::openTrackProperties()

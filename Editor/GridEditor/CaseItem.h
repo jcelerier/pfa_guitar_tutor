@@ -33,7 +33,7 @@ class CaseItem : public QTableWidgetItem
 		void ShowContextMenu(const QPoint& pos);
 
 		QString& getPart();
-		void setPart(QString&);
+		void setPart(QString);
 
 		bool isPartSet();
         void setBeginning(QTime t);

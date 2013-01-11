@@ -29,3 +29,14 @@ QString TrackProperties::getTrack()
 {
 	return m_trackname;
 }
+
+
+void TrackProperties::setArtist(QString artist)
+{
+	m_artist = artist;
+}
+
+void TrackProperties::setTrack(QString track)
+{
+	m_trackname = track;
+}

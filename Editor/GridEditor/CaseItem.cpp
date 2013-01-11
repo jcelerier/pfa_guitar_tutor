@@ -103,7 +103,7 @@ QString& CaseItem::getPart()
 	return m_part;
 }
 
-void CaseItem::setPart(QString& part)
+void CaseItem::setPart(QString part)
 {
 	m_part = part;
 }

@@ -21,7 +21,7 @@ public:
     void setAudioFileName(QString newAudioFileName);
     QString getAudioFileName();
 
-    QList<PartTrack*> getPartTrackList();
+	QList<PartTrack *> &getPartTrackList();
 
     void setMesure(int nb);
     int getMesure();

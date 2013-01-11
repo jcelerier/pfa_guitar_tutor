@@ -16,6 +16,8 @@ class TrackProperties : public QDialog
 		~TrackProperties();
 		QString getArtist();
 		QString getTrack();
+		void setArtist(QString artist);
+		void setTrack(QString track);
 		
 	public slots:
 		void accept();
@@ -24,6 +26,7 @@ class TrackProperties : public QDialog
 		Ui::TrackProperties *ui;
 		QString m_trackname;
 		QString m_artist;
+
 };
 
 #endif // TRACKPROPERTIES_H
