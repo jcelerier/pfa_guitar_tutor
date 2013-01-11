@@ -1,6 +1,7 @@
 TEMPLATE = app
 TARGET =
 DEPENDPATH += .
+QT += xml
 
 win32 {
 DEPENDPATH += . \
