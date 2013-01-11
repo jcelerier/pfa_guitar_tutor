@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<morceau casesMesure="1" artiste="badaboum" nom="test" fichier="/home/doom/projets/pfa/pfa_guitar_tutor/Editor/GridEditor/AllTracks.wav">
+  <partie nom="Machin">
+    <accord  nom="E" temps="2517"/>
+    <accord  nom="E" temps="7935"/>
+    <accord  nom="E" temps="13353"/>
+    <accord  nom="E" temps="18771"/>
+    <accord  nom="E" temps="29607"/>
+    <accord  nom="E" temps="35025"/>
+    <accord  nom="E" temps="40443"/>
+    <accord  nom="E" temps="45861"/>
+    <accord  nom="E" temps="56697"/>
+    <accord  nom="G" temps="62115"/>
+    <accord  nom="G" temps="67533"/>
+    <accord  nom="E" temps="72951"/>
+    <accord  nom="E" temps="83787"/>
+    <accord  nom="G" temps="89205"/>
+  </partie>
+  <partie nom="Truc">
+    <accord  nom="G" temps="94623"/>
+    <accord  nom="E" temps="100041"/>
+    <accord  nom="E" temps="110877"/>
+    <accord  nom="G" temps="116295"/>
+    <accord  nom="G" temps="121713"/>
+    <accord  nom="E" temps="127131"/>
+    <accord  nom="E" temps="137967"/>
+    <accord  nom="G" temps="143385"/>
+    <accord  nom="G" temps="148803"/>
+    <accord  nom="E" temps="154221"/>
+    <accord  nom="Ab" temps="165057"/>
+    <accord  nom="Ab" temps="170475"/>
+    <accord  nom="Ab" temps="175893"/>
+    <accord  nom="Ab" temps="181311"/>
+    <accord  nom="Ab" temps="192147"/>
+    <accord  nom="Ab" temps="197565"/>
+    <accord  nom="Ab" temps="202983"/>
+    <accord  nom="Ab" temps="208401"/>
+    <accord  nom="Ab" temps="219237"/>
+    <accord  nom="Ab" temps="224655"/>
+    <accord  nom="Ab" temps="230073"/>
+    <accord  nom="Ab" temps="235491"/>
+  </partie>
+</morceau>
