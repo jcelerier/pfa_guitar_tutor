@@ -525,10 +525,8 @@ inline int TimeToMsec(QTime t)
 	return t.minute() * 60000 + t.second() * 1000 + t.msec();
 }
 
-#include <QDebug>
 LogicalTrack* ChordTableWidget::getLogicalTrack()
 {
-
 	LogicalTrack* track = new LogicalTrack();
 	PartTrack* part = NULL;
 	CaseItem* currentCase = NULL;
@@ -538,7 +536,6 @@ LogicalTrack* ChordTableWidget::getLogicalTrack()
 	{
 		for(int j = 0; j < this->columnCount() - 1; j++) // -1 pour l'annotation
 		{
-			qDebug() << "here. i : " << i << ", j : " << j;
 			if((currentCase = (CaseItem*) this->item(i, j))->isPartSet())
 			{
 				// on stocke la partie précédente
@@ -559,6 +556,8 @@ LogicalTrack* ChordTableWidget::getLogicalTrack()
 			}
 		}
 	}
+	// on ajoute la dernière partie
+	track->addPartTrackToList(part);
 
 	return track;
 }

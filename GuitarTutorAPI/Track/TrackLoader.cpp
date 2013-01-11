@@ -8,7 +8,7 @@ TrackLoader::~TrackLoader() {
 
 }
 
-
+#include <QDebug>
 bool TrackLoader::convertLogicalTrackToXml(LogicalTrack* currentTrack) {
     QString fname = currentTrack->getTrackName().append(".xml");
     QFile file(fname);
@@ -29,21 +29,27 @@ bool TrackLoader::convertLogicalTrackToXml(LogicalTrack* currentTrack) {
 
     //ajout des parties
     QList<PartTrack*> partList = currentTrack->getPartTrackList();
-    QList<PartTrack*>::const_iterator iPart;
-    for(iPart = partList.begin(); iPart< partList.end(); ++iPart){
+	QList<PartTrack*>::const_iterator iPart;
+
+	for(iPart = partList.begin(); iPart < partList.end(); ++iPart)
+	{
+		qDebug() << "partie" << (*iPart)->getPartName();
+
         newPart = doc.createElement("partie");
-        root.appendChild(newPart);
-        newPart.setAttribute("nom", (*iPart)->getPartName());
+		newPart.setAttribute("nom", (*iPart)->getPartName());
 
         //ajout des accords
         chordsList = (*iPart)->getTrackChordsList();
-        for(iChord = chordsList.begin(); iChord < chordsList.end(); ++iChord){
+		for(iChord = chordsList.begin(); iChord < chordsList.end(); ++iChord)
+		{
             newChord = doc.createElement("accord");
             newChord.setAttribute("temps", (*iChord)->getDuration());
             newChord.setAttribute("repetition", (*iChord)->getRepetition());
             newChord.setAttribute("nom", (*iChord)->getChord());
             newPart.appendChild(newChord);
         }//fin ajout accord
+
+		root.appendChild(newPart);
     }//fin ajout partie
 
 

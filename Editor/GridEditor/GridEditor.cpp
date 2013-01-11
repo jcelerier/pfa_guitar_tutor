@@ -273,6 +273,9 @@ void GridEditor::openAudioWindow()
 	audioWindow->show();
 }
 
+/*
+*/
+#include <QDebug>
 void GridEditor::toXML()
 {
 	LogicalTrack* track = grid->getLogicalTrack();
@@ -281,6 +284,6 @@ void GridEditor::toXML()
 	track->setArtist("badaboum");
 	track->setAudioFileName("machin.mp3");
 	track->setMesure(1);
-
+	qDebug() << track->getPartTrackList().last()->getPartName();
 	TrackLoader::convertLogicalTrackToXml(track);
 }
