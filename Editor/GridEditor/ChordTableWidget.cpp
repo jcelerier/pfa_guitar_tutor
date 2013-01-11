@@ -30,7 +30,7 @@ ChordTableWidget::ChordTableWidget() : QTableWidget(), name(new QString("")) {
  *
  * Initialise la grille d'accords à une taille donnée.
  */
-ChordTableWidget::ChordTableWidget(int column, int row)
+ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent)
 {
 	ChordTableWidget();
 	this->setColumnCount(column);
@@ -61,8 +61,11 @@ ChordTableWidget::ChordTableWidget(int column, int row)
 
 	//actions du menu
     m_properties = new QAction(tr("Properties"), this);
+	m_playFromHere = new QAction(tr("Play from here"), this);
 
 	connect(m_properties, SIGNAL(triggered()), this, SLOT(showProperties()));
+	connect(m_playFromHere, SIGNAL(triggered()), this, SLOT(playFromHere()));
+	connect(this, SIGNAL(play(int)), parent, SIGNAL(play(int)));
 }
 
 /**
@@ -431,7 +434,7 @@ void ChordTableWidget::ShowContextMenu(const QPoint& pos) // this is a slot
         {
             m_rightClickMenu->addAction(m_properties);
         }
-
+		m_rightClickMenu->addAction(m_playFromHere);
         m_rightClickMenu->exec(globalPos);
     }
 }
@@ -525,7 +528,7 @@ inline int TimeToMsec(QTime t)
 	return t.minute() * 60000 + t.second() * 1000 + t.msec();
 }
 
-inline QTime MsecToTime(int t)
+QTime MsecToTime(int t)
 {
 	int m = t / 60000;
 	int s = (t - m * 60000) / 1000;
@@ -609,6 +612,7 @@ void ChordTableWidget::setLogicalTrack(LogicalTrack* track)
 			//la durée de l'accord
 			currentCase->setBeginning(MsecToTime(int((*iChord)->getDuration())));
 			qDebug() << "debut" << currentCase->getBeginning();
+
 			//case suivante
 			if(j < jmax)
 			{
@@ -623,4 +627,9 @@ void ChordTableWidget::setLogicalTrack(LogicalTrack* track)
 			currentCase = (CaseItem*) this->item(i, j);
 		}
 	}
+}
+
+void ChordTableWidget::playFromHere()
+{
+	emit play(TimeToMsec(m_currentItem->getBeginning()));
 }

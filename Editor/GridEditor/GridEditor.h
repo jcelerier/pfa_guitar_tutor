@@ -58,6 +58,7 @@ private:
 
 signals:
 	void sendTimeToChordWidget(QTime, QTime, QTime);
+	void play(int);
 
 public slots:
 	void changeState();

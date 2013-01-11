@@ -34,6 +34,7 @@ GridEditor::GridEditor() {
     connect(editionSelector, SIGNAL(newEditor(int)), this, SLOT(newEditor(int)));
 
 	connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
+	connect(this, SIGNAL(play(int)), audioWindow, SLOT(playFrom(int)));
 }
 
 /**
@@ -239,7 +240,7 @@ void GridEditor::newGrid() {
     if (!ok)
         return;
     delete grid;
-    grid = new ChordTableWidget(column + 1, 10);
+	grid = new ChordTableWidget(column + 1, 10, this);
 	layout->addWidget(grid, 0, 1);
     saveAction->setEnabled(true);
     addRowAction->setEnabled(true);
@@ -281,14 +282,16 @@ void GridEditor::openAudioWindow()
 /*
 */
 #include <QDebug>
+// penser à faire en sorte que les propriétés de base du morceau soient obligatoires (nom, etc...)
 void GridEditor::toXML() //ça serait bien qu'on sélectionne le fichier ou on sauve.
 {
 	LogicalTrack* track = grid->getLogicalTrack();
 
 	track->setTrackName(trackProperties->getTrack());
 	track->setArtist(trackProperties->getArtist());
-	track->setAudioFileName(audioWindow->getSong()); //vérifieer si chemin absolu
-	track->setMesure(1);
+	track->setMesure(trackProperties->getBarSize());
+
+	track->setAudioFileName(audioWindow->getSong()); //vérifier si chemin absolu
 
 	TrackLoader::convertLogicalTrackToXml(track);
 }
@@ -296,13 +299,14 @@ void GridEditor::toXML() //ça serait bien qu'on sélectionne le fichier ou on s
 void GridEditor::fromXML() //ça serait bien qu'on sélectionne le fichier ou on sauve.
 {
 	LogicalTrack* track = new LogicalTrack;
-	TrackLoader::convertXmlToLogicalTrack("test.xml", track);
+	TrackLoader::convertXmlToLogicalTrack("test.xml", track); //tester la valeur de retour et afficher dialog si échec
 
 	trackProperties->setTrack(track->getTrackName());
 	trackProperties->setArtist(track->getArtist());
 
 	audioWindow->setAudioFileName(track->getAudioFileName()); //vérifier si chemin absolu
 	audioWindow->setAudioFile();
+
 	// il faudra penser à recalculer le début, la fin et la durée de la première mesure pour les mettre
 	// dans audiowindow
 

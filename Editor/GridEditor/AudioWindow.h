@@ -19,6 +19,7 @@ class AudioWindow : public QWidget
 		void browseAudioFile();
 		void setAudioFile();
 		void resetAudioFile();
+		void playFrom(int);
 
 	private slots:
 		void refreshTimerAudioSync(int);

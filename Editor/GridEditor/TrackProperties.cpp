@@ -17,6 +17,8 @@ void TrackProperties::accept()
 {
 	m_trackname = ui->t_trackname->text();
 	m_artist = ui->t_artist->text();
+	m_barsize = ui->t_barsize->value();
+
 	hide();
 }
 
@@ -30,6 +32,10 @@ QString TrackProperties::getTrack()
 	return m_trackname;
 }
 
+int TrackProperties::getBarSize()
+{
+	return m_barsize;
+}
 
 void TrackProperties::setArtist(QString artist)
 {
@@ -39,4 +45,9 @@ void TrackProperties::setArtist(QString artist)
 void TrackProperties::setTrack(QString track)
 {
 	m_trackname = track;
+}
+
+void TrackProperties::setBarSize(int barsize)
+{
+	m_barsize = barsize;
 }

@@ -101,3 +101,10 @@ QString AudioWindow::getSong()
 {
 	return player->getSong();
 }
+
+void AudioWindow::playFrom(int t)
+{
+
+	player->play();
+	player->changePosition( t);
+}

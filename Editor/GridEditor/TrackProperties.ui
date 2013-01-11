@@ -75,6 +75,29 @@
     <string>Artist</string>
    </property>
   </widget>
+  <widget class="QSpinBox" name="t_barsize">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>190</y>
+     <width>55</width>
+     <height>24</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>170</y>
+     <width>111</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Chords per bar</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections>

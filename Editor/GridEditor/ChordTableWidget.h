@@ -24,7 +24,7 @@ class ChordTableWidget : public QTableWidget
 	QMenu* m_rightClickMenu;
 	CaseItem* m_currentItem;
 
-    QAction* m_properties;
+	QAction* m_properties, *m_playFromHere;
 
 	PartSetter* m_setPartDialog;
 protected:
@@ -32,7 +32,7 @@ protected:
 
 public:
     ChordTableWidget();
-    ChordTableWidget(int column, int row);
+	ChordTableWidget(int column, int row, QWidget *parent);
     ChordTableWidget(QString xgrid_file);
     QString get_name() const;
     void set_name(QString name);
@@ -48,6 +48,8 @@ public:
 private:
     QList<int> expand_list(QList<QList<int>*> list);
 
+signals:
+	void play(int);
 public slots:
 	void ShowContextMenu(const QPoint& pos);
     void showProperties();
@@ -63,6 +65,8 @@ public slots:
     void setCaseBeginning(QTime t);
 	void removeCasePart();
 	bool checkBeginningTimes();
+
+	void playFromHere();
 
 	void setTimeInfo(const QTime beginning, const QTime bar, const QTime end);
 

@@ -258,4 +258,5 @@ void SimpleMusicPlayer::updateSlideBar()
 void SimpleMusicPlayer::changePosition(int position)
 {
     player->changePosition(position);
+	currentPosition = player->getPosition();
 }
