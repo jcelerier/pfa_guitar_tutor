@@ -11,6 +11,7 @@ EditionSelector::EditionSelector(QWidget *parent) :
 {
     setWindowFlags(Qt::Dialog);
     QLabel  *presentation = new QLabel(tr("Two edit modes are available, you just have to choose one to begin the adventure!"));
+    QCheckBox *checkbox = new QCheckBox(tr("Show this screen at startup"), this);
     QTabWidget *tabs = new QTabWidget(this);
     QVBoxLayout *mainLayout = new QVBoxLayout();
 
@@ -40,13 +41,16 @@ EditionSelector::EditionSelector(QWidget *parent) :
 
     tabs->addTab(pageManualEditor, tr("Manual Editor"));
     tabs->addTab(pageAssistedEditor, tr("Assisted Editor"));
+    checkbox->setCheckState(Qt::Checked);
 
     mainLayout->addWidget(presentation);
     mainLayout->addWidget(tabs);
+    mainLayout->addWidget(checkbox);
     setLayout(mainLayout);
 
     connect(buttonAssistedEditor, SIGNAL(clicked()), this, SLOT(newAssistedEditor()));
     connect(buttonManualEditor, SIGNAL(clicked()), this, SLOT(newManualEditor()));
+    connect(checkbox, SIGNAL(stateChanged(int)), this, SLOT(setShowOption(int)));
 }
 
 /**
@@ -69,4 +73,17 @@ void EditionSelector::newManualEditor()
 {
     close();
     emit newEditor(MANUAL_EDITOR);
+}
+
+/**
+ * @brief EditionSelector::setShowOption
+ * @param state 0 si et seulement si le sélectionneur d'éditeur ne doit pas s'afficher au démarrage.
+ *
+ * Sauvegarde s'il faut afficher ou non le sélectionneur d'éditeur au démarrage.
+ */
+void EditionSelector::setShowOption(int state)
+{
+    QSettings* settings = new QSettings("GuitarTutor", "GridEditor");
+    settings->setValue("ShowEditionSelector", state);
+    delete settings;
 }

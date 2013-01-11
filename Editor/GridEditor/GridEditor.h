@@ -25,6 +25,8 @@ class GridEditor : public QMainWindow
 {
     Q_OBJECT
 
+    QSettings* settings;
+
 	AudioWindow* audioWindow;
 	TrackProperties* trackProperties;
 

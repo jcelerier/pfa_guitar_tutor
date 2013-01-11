@@ -15,10 +15,10 @@ class EditionSelector : public QWidget
     Q_OBJECT
 public:
     explicit EditionSelector(QWidget *parent = 0);
-    
-public slots:
+private slots:
     void newAssistedEditor();
     void newManualEditor();
+    void setShowOption(int state);
 signals:
     void newEditor(int);
     

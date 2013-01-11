@@ -24,17 +24,23 @@ GridEditor::GridEditor() {
     setCentralWidget(centralArea);
     connectActionToSlot();
 
+    trackProperties = new TrackProperties(this);
+
+    connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
+    connect(this, SIGNAL(play(int)), audioWindow, SLOT(playFrom(int)));
+
+
+    settings = new QSettings("GuitarTutor", "GridEditor"); //Permet de retenir la configuration du logiciel
+
     //Demande au client de choisir entre les deux types d'édition
-    editionSelector = new EditionSelector(this);
-    editionSelector->setWindowModality(Qt::ApplicationModal);
-    editionSelector->show();
-
-	trackProperties = new TrackProperties(this);
-    //Redirection vers la fonction affichant l'éditeur sélectionné
-    connect(editionSelector, SIGNAL(newEditor(int)), this, SLOT(newEditor(int)));
-
-	connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
-	connect(this, SIGNAL(play(int)), audioWindow, SLOT(playFrom(int)));
+    if(!settings->contains("ShowEditionSelector") || settings->value("ShowEditionSelector").toBool() == true) {
+        editionSelector = new EditionSelector(this);
+        editionSelector->setWindowModality(Qt::ApplicationModal);
+        editionSelector->show();
+        connect(editionSelector, SIGNAL(newEditor(int)), this, SLOT(newEditor(int)));
+    }
+    else
+        newGrid();
 }
 
 /**
@@ -51,7 +57,7 @@ GridEditor::~GridEditor() {
     delete toolBar;
     delete openAction; delete saveAction; delete addRowAction; delete copyDownAction; delete deleteRowAction;
         delete quitAction; delete aboutAction; delete newAction; delete renameAction;
-
+    delete settings;
     delete centralArea;
 }
 
