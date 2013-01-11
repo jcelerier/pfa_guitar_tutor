@@ -94,3 +94,7 @@ void AudioWindow::browseAudioFile()
 	}
 }
 
+QString AudioWindow::getSong()
+{
+	return player->getSong();
+}

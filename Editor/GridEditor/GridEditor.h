@@ -16,6 +16,8 @@ Last change on 08/05/12
 #include "SimpleMusicPlayer.h"
 #include "AudioSync.h"
 #include "AudioWindow.h"
+#include "TrackProperties.h"
+
 /**
  * @brief Fenêtre principale de l'éditeur
  */
@@ -24,6 +26,7 @@ class GridEditor : public QMainWindow
     Q_OBJECT
 
 	AudioWindow* audioWindow;
+	TrackProperties* trackProperties;
 
     QWidget* centralArea;
     QGridLayout* layout;
@@ -36,12 +39,13 @@ class GridEditor : public QMainWindow
     QAction *quitAction, *aboutAction, *newAction, *saveAction,
             *openAction, *addRowAction, *deleteRowAction,
             *copyDownAction, *renameAction, *addColumnAction,
-			*deleteColumnAction, *openAudioWindowAction;
+			*deleteColumnAction, *openAudioWindowAction, *openTrackPropertiesAction;
     EditionSelector *editionSelector;
 
 public:
     GridEditor();
     ~GridEditor();
+
 private:
     void createMenu();
     void createActions();
@@ -61,6 +65,7 @@ public slots:
     void newEditor(int);
 
 	void openAudioWindow();
+	void openTrackProperties();
 
 	void toXML();
 };

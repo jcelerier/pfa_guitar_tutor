@@ -8,7 +8,6 @@ TrackLoader::~TrackLoader() {
 
 }
 
-#include <QDebug>
 bool TrackLoader::convertLogicalTrackToXml(LogicalTrack* currentTrack) {
     QString fname = currentTrack->getTrackName().append(".xml");
     QFile file(fname);
@@ -33,8 +32,6 @@ bool TrackLoader::convertLogicalTrackToXml(LogicalTrack* currentTrack) {
 
 	for(iPart = partList.begin(); iPart < partList.end(); ++iPart)
 	{
-		qDebug() << "partie" << (*iPart)->getPartName();
-
         newPart = doc.createElement("partie");
 		newPart.setAttribute("nom", (*iPart)->getPartName());
 

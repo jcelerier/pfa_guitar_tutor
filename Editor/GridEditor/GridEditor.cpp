@@ -29,6 +29,7 @@ GridEditor::GridEditor() {
     editionSelector->setWindowModality(Qt::ApplicationModal);
     editionSelector->show();
 
+	trackProperties = new TrackProperties(this);
     //Redirection vers la fonction affichant l'éditeur sélectionné
     connect(editionSelector, SIGNAL(newEditor(int)), this, SLOT(newEditor(int)));
 
@@ -87,6 +88,7 @@ void GridEditor::createActions(){
     copyDownAction = new QAction(tr("&Copy down"), this);
     renameAction = new QAction(tr("Rename"), this);
 	openAudioWindowAction = new QAction(tr("Audio"), this);
+	openTrackPropertiesAction = new QAction(tr("Properties"), this);
 
     quitAction->setIcon(QIcon("icons/quit.png"));
     aboutAction->setIcon(QIcon("icons/about.png"));
@@ -124,6 +126,7 @@ void GridEditor::setActionsToMenu() {
     editMenu->addAction(addColumnAction);
     editMenu->addAction(deleteColumnAction);
     editMenu->addAction(copyDownAction);
+	optionMenu->addAction(openTrackPropertiesAction);
     aboutMenu->addAction(aboutAction);
 }
 
@@ -188,6 +191,7 @@ void GridEditor::connectActionToSlot(){
 	connect(saveAction, SIGNAL(triggered()), this, SLOT(toXML()));
 
 	connect(openAudioWindowAction, SIGNAL(triggered()), this, SLOT(openAudioWindow()));
+	connect(openTrackPropertiesAction, SIGNAL(triggered()), this, SLOT(openTrackProperties()));
 }
 
 //---------------------------------------------------
@@ -276,14 +280,20 @@ void GridEditor::openAudioWindow()
 /*
 */
 #include <QDebug>
-void GridEditor::toXML()
+void GridEditor::toXML() //ça serait bien qu'on sélectionne le fichier ou on sauve.
 {
 	LogicalTrack* track = grid->getLogicalTrack();
 
-	track->setTrackName("test");
-	track->setArtist("badaboum");
-	track->setAudioFileName("machin.mp3");
+	track->setTrackName(trackProperties->getTrack());
+	track->setArtist(trackProperties->getArtist());
+	track->setAudioFileName(audioWindow->getSong()); //vérifieer si chemin absolu
 	track->setMesure(1);
 	qDebug() << track->getPartTrackList().last()->getPartName();
+
 	TrackLoader::convertLogicalTrackToXml(track);
+}
+
+void GridEditor::openTrackProperties()
+{
+	trackProperties->exec();
 }

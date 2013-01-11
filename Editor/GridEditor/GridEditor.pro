@@ -14,7 +14,8 @@ SOURCES += \
     SimpleMusicPlayer.cpp \
     AudioSync.cpp \
     PartSetter.cpp \
-    AudioWindow.cpp
+    AudioWindow.cpp \
+    TrackProperties.cpp
 
 HEADERS += \
     CaseItem.h \
@@ -25,7 +26,8 @@ HEADERS += \
     SimpleMusicPlayer.h \
     AudioSync.h \
     PartSetter.h \
-    AudioWindow.h
+    AudioWindow.h \
+    TrackProperties.h
 
 TRANSLATIONS = GridEditor_fr.ts
 
@@ -46,4 +48,5 @@ macx: LIBS += -lfmodex
 win32|unix: LIBS += -lfmodex64-4.44.00
 
 FORMS += \
-    PartSetter.ui
+    PartSetter.ui \
+    TrackProperties.ui

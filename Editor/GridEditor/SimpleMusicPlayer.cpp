@@ -7,7 +7,6 @@
  */
 SimpleMusicPlayer::SimpleMusicPlayer()
 {
-
 	layout = new QGridLayout();
     playButton = new QToolButton();
     pauseButton = new QToolButton();
