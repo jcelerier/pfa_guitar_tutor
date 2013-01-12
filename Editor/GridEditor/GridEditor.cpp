@@ -20,7 +20,8 @@ GridEditor::GridEditor()
 
 	status = statusBar();
 	statusInfo = new QLabel(statusText(), status);
-	status->addPermanentWidget(statusInfo);
+	status->addPermanentWidget(statusInfo, 1);
+	status->setSizeGripEnabled(false);
 
     setWindowTitle("GridEditor");
     resize(800, 600); //Taille de la fenêtre
@@ -376,19 +377,29 @@ void GridEditor::about()
     QMessageBox::information(this, tr("About GridEditor"), tr("Lorem ipsum dolor sit amet, consectetur adipiscing elit.")); //TODO
 }
 
+/**
+ * @brief GridEditor::statusText
+ * @return Texte à afficher dans la barre de status
+ *
+ * Renvoie le texte à afficher dans la barre de status (morceau, artiste).
+ */
 QString GridEditor::statusText()
 {
 	QString text = "Morceau: ";
 	text += trackProperties->getTrack();
-	text += ". Artiste:";
+	text += ". Artiste: ";
 	text += trackProperties->getArtist();
 	text += ".";
-	return text;
+	return (text == "Morceau: . Artiste: .")? "" : text; //cette ligne est quand même un peu sale... j'ai honte
 }
 
+
+/**
+ * @brief GridEditor::setStatusText
+ *
+ * Slot pour changer le texte du status.
+ */
 void GridEditor::setStatusText()
 {
-
 	statusInfo->setText(statusText());
-
 }
