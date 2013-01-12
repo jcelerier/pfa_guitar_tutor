@@ -20,8 +20,8 @@ TrackProperties::~TrackProperties()
  */
 void TrackProperties::accept()
 {
-	m_trackname = ui->t_trackname->text();
-	m_artist = ui->t_artist->text();
+	setTrack(ui->t_trackname->text());
+	setArtist(ui->t_artist->text());
 	m_barsize = ui->t_barsize->value();
 
 	done(QDialog::Accepted);
@@ -61,6 +61,7 @@ int TrackProperties::getBarSize()
 void TrackProperties::setArtist(QString artist)
 {
 	m_artist = artist;
+	emit artistChanged();
 }
 
 /**
@@ -70,6 +71,7 @@ void TrackProperties::setArtist(QString artist)
 void TrackProperties::setTrack(QString track)
 {
 	m_trackname = track;
+	emit trackChanged();
 }
 
 /**

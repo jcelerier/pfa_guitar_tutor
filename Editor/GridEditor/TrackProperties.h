@@ -24,6 +24,9 @@ class TrackProperties : public QDialog
 		
 	public slots:
 		void accept();
+	signals:
+		void trackChanged();
+		void artistChanged();
 
 	private:
 		Ui::TrackProperties *ui;

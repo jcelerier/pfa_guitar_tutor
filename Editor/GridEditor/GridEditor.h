@@ -46,12 +46,16 @@ class GridEditor : public QMainWindow
 			*deleteColumnAction, *openAudioWindowAction, *openTrackPropertiesAction;
     EditionSelector *editionSelector;
 
+	QStatusBar* status;
+	QLabel* statusInfo;
+
     bool isGridSet;
 
 public:
     GridEditor();
     ~GridEditor();
     void newEditor(int);
+	QString statusText();
 
 private:
     void createMenu();
@@ -73,6 +77,7 @@ public slots:
 	void toXML();
 	void fromXML();
     void about();
+	void setStatusText();
 };
 
 #endif // GRIDEDITOR_H

@@ -28,17 +28,15 @@ ChordTree::ChordTree() :
  *
  * Cette fonction crée un objet contenant les différentes possibilités d'accords à partir d'une tonalité donnée: mineur, majeur,...
  */
-#include <QDebug>
 QTreeWidgetItem* ChordTree::buildChordItem(const QString tonality) {
 
     Enrichment* tmp = new Enrichment();
 	QStringList tuning = tmp->getListOfEnrichmentStrings();
-	qDebug() << tuning;
+
     QTreeWidgetItem* item = new QTreeWidgetItem();
     item->setText(0, tonality);
 
     QTreeWidgetItem* children[tuning.size()];
-
 
     for(int i=0; i<tuning.size(); i++)
     {

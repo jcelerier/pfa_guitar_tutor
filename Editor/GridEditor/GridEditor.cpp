@@ -18,6 +18,10 @@ GridEditor::GridEditor()
 	trackProperties = new TrackProperties(this);
 	audioWindow = new AudioWindow(this);
 
+	status = statusBar();
+	statusInfo = new QLabel(statusText(), status);
+	status->addPermanentWidget(statusInfo);
+
     setWindowTitle("GridEditor");
     resize(800, 600); //Taille de la fenêtre
     createMenu();
@@ -28,8 +32,6 @@ GridEditor::GridEditor()
 	createCentralWidget();
     setCentralWidget(centralArea);
     connectActionToSlot();
-
-
 
     connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
     connect(this, SIGNAL(play(int)), audioWindow, SLOT(playFrom(int)));
@@ -43,8 +45,7 @@ GridEditor::GridEditor()
         editionSelector->setWindowModality(Qt::ApplicationModal);
         editionSelector->show();
         connect(editionSelector, SIGNAL(newEditor(int)), this, SLOT(newEditor(int)));
-    }
-
+	}
 }
 
 /**
@@ -201,6 +202,8 @@ void GridEditor::connectActionToSlot()
 	connect(openAction, SIGNAL(triggered()), this, SLOT(fromXML()));
     connect(openAudioWindowAction, SIGNAL(triggered()), audioWindow, SLOT(show()));
 	connect(openTrackPropertiesAction, SIGNAL(triggered()), trackProperties, SLOT(exec()));
+	connect(trackProperties, SIGNAL(trackChanged()), this, SLOT(setStatusText()));
+	connect(trackProperties, SIGNAL(artistChanged()), this, SLOT(setStatusText()));
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
 }
 
@@ -263,6 +266,7 @@ void GridEditor::newGrid()
 	}
 
 	newGridDialog = new NewGridDialog(this);
+
 	int accept = newGridDialog->exec();
 	if(accept == QDialog::Rejected)
 	{
@@ -291,6 +295,8 @@ void GridEditor::newGrid()
 		connect(addColumnAction, SIGNAL(triggered()), grid, SLOT(insert_column()));
 
 		connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
+
+
 
         isGridSet = true;
 	}
@@ -354,6 +360,7 @@ void GridEditor::fromXML() //ça serait bien qu'on sélectionne le fichier ou on
 
 	trackProperties->setTrack(track->getTrackName());
 	trackProperties->setArtist(track->getArtist());
+	status->showMessage(statusText());
 
 	audioWindow->setAudioFileName(track->getAudioFileName()); //vérifier si chemin absolu
 	audioWindow->setAudioFile();
@@ -367,4 +374,21 @@ void GridEditor::fromXML() //ça serait bien qu'on sélectionne le fichier ou on
 void GridEditor::about()
 {
     QMessageBox::information(this, tr("About GridEditor"), tr("Lorem ipsum dolor sit amet, consectetur adipiscing elit.")); //TODO
+}
+
+QString GridEditor::statusText()
+{
+	QString text = "Morceau: ";
+	text += trackProperties->getTrack();
+	text += ". Artiste:";
+	text += trackProperties->getArtist();
+	text += ".";
+	return text;
+}
+
+void GridEditor::setStatusText()
+{
+
+	statusInfo->setText(statusText());
+
 }

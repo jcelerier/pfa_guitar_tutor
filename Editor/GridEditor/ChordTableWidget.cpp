@@ -498,7 +498,6 @@ LogicalTrack* ChordTableWidget::getLogicalTrack()
 
 				// on crée une nouvelle partie
 				part = new PartTrack(currentCase->getPart());
-				//qDebug() << "nouvelle partie";
 
 				//on y ajoute l'accord de la case actuelle *//* calculer s'il y a des répétitions ---------------v
 				currentChord = new TrackChord(currentCase->get_chord(), TimeToMsec(currentCase->getBeginning()), 0);
@@ -564,7 +563,7 @@ void ChordTableWidget::setLogicalTrack(LogicalTrack* track)
 			else
 			{
 				j = 0;
-				++i; //il faut qu'il y ait assez de lignes !!
+				++i;
 			}
 
 			currentCase = (CaseItem*) this->item(i, j);
