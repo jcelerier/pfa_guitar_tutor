@@ -18,6 +18,7 @@ Last change on 08/05/12
 #include "AudioWindow.h"
 #include "TrackProperties.h"
 #include "NewGridDialog.h"
+#include "Track/TrackLoader.h"
 
 /**
  * @brief Fenêtre principale de l'éditeur

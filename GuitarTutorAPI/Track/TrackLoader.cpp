@@ -97,7 +97,6 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
     QDomElement root = dom->documentElement();
 
     // Inscription des datas dans la structure de piste LogicalTrack
-
     QString n, a, f, m;//Pour stocker les information du morceaux : n = nom, a = artiste, f = fichier, m = nbr mesures
     if(root.isNull()) { //Si le l'arborescence xml est vide
         delete currentTrack;
@@ -175,11 +174,13 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
             TrackChord * c = new TrackChord(name, t2, rep);
             currentPartTrack->AddChord(c);
 
-            currentTrack->addPartTrackToList(currentPartTrack);
             chordNode = chordNode.nextSibling();
 
         }//end while
+
+        currentTrack->addPartTrackToList(currentPartTrack);
         partNode = partNode.nextSibling();
+
     }//end while
     return true;
 }

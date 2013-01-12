@@ -5,7 +5,6 @@ Last change on 08/05/12
 */
 
 #include "GridEditor.h"
-#include "Track/TrackLoader.h"
 #include <QDebug>
 /**
  * @brief GridEditor::GridEditor

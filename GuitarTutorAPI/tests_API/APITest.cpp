@@ -90,6 +90,11 @@ void APITest::testConvertXmlToLogical()
     QVERIFY2((piste->getArtist().compare("Artiste") == 0), "Failure : convertXmlToLogicalTrack");
     QVERIFY2((piste->getAudioFileName().compare("Beatles.mp3") == 0), "Failure : convertXmlToLogicalTrack");
     QVERIFY2((piste->getMesure()) == 2, "Failure : convertXmlToLogicalTrack");
+
+    QList<PartTrack*> listeParties = piste->getPartTrackList();
+
+    TrackLoader::convertLogicalTrackToXml(piste, "reverse.xml");
+
 }
 
 void APITest::testConvertLogicalTrackToXml(){
@@ -120,7 +125,7 @@ void APITest::testConvertLogicalTrackToXml(){
 
     LogicalTrack* piste = new LogicalTrack("numb", "Linkin Park", "numb.xml", 2, partTracks);
 
-    bool result = TrackLoader::convertLogicalTrackToXml(piste);
+    bool result = TrackLoader::convertLogicalTrackToXml(piste, "numb.xml");
 
     QVERIFY2(result, "function failure");
 
