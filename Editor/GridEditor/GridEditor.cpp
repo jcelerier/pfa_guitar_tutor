@@ -14,7 +14,7 @@ Last change on 08/05/12
  */
 GridEditor::GridEditor()
 {
-	newGridDialog = 0;
+    isGridSet = false;
 	trackProperties = new TrackProperties(this);
 	audioWindow = new AudioWindow(this);
 
@@ -187,11 +187,8 @@ void GridEditor::createCentralWidget() {
  */
 void GridEditor::connectActionToSlot()
 {
-
-
     connect(chordTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
     connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
-
     connect(addRowAction, SIGNAL(triggered()), grid, SLOT(insert_row()));
     connect(addColumnAction, SIGNAL(triggered()), grid, SLOT(insert_column()));
     connect(deleteColumnAction, SIGNAL(triggered()), grid, SLOT(delete_selected_column()));
@@ -200,13 +197,11 @@ void GridEditor::connectActionToSlot()
     connect(newAction, SIGNAL(triggered()), this, SLOT(newGrid()));
     connect(renameAction, SIGNAL(triggered()), this, SLOT(rename()));
     connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
-
-
 	connect(saveAction, SIGNAL(triggered()), this, SLOT(toXML()));
 	connect(openAction, SIGNAL(triggered()), this, SLOT(fromXML()));
-
-	connect(openAudioWindowAction, SIGNAL(triggered()), audioWindow, SLOT(show()));
+    connect(openAudioWindowAction, SIGNAL(triggered()), audioWindow, SLOT(show()));
 	connect(openTrackPropertiesAction, SIGNAL(triggered()), trackProperties, SLOT(exec()));
+    connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
 }
 
 //---------------------------------------------------
@@ -243,10 +238,10 @@ void GridEditor::changeState() {
  */
 void GridEditor::newGrid()
 {
-	if (newGridDialog != 0)
+    if (isGridSet)
 	{
 		QMessageBox msgBox;
-		msgBox.setText(tr("The document has been modified."));
+        msgBox.setText(tr("The document has been modified"));
 		msgBox.setInformativeText(tr("Do you want to save your changes?"));
 		msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
 		msgBox.setDefaultButton(QMessageBox::Save);
@@ -257,7 +252,6 @@ void GridEditor::newGrid()
 				saveAction->activate(QAction::Trigger);
 				break;
 			case QMessageBox::Discard:
-				delete newGridDialog;
 				break;
 			case QMessageBox::Cancel:
 				return;
@@ -297,6 +291,8 @@ void GridEditor::newGrid()
 		connect(addColumnAction, SIGNAL(triggered()), grid, SLOT(insert_column()));
 
 		connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
+
+        isGridSet = true;
 	}
 }
 
@@ -365,5 +361,10 @@ void GridEditor::fromXML() //ça serait bien qu'on sélectionne le fichier ou on
 	// il faudra penser à recalculer le début, la fin et la durée de la première mesure pour les mettre
 	// dans audiowindow
 
-	grid->setLogicalTrack(track);
+    grid->setLogicalTrack(track);
+}
+
+void GridEditor::about()
+{
+    QMessageBox::information(this, tr("About GridEditor"), tr("Lorem ipsum dolor sit amet, consectetur adipiscing elit.")); //TODO
 }

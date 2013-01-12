@@ -46,6 +46,8 @@ class GridEditor : public QMainWindow
 			*deleteColumnAction, *openAudioWindowAction, *openTrackPropertiesAction;
     EditionSelector *editionSelector;
 
+    bool isGridSet;
+
 public:
     GridEditor();
     ~GridEditor();
@@ -68,9 +70,9 @@ signals:
 public slots:
 	void changeState();
 	void newGrid();
-
 	void toXML();
 	void fromXML();
+    void about();
 };
 
 #endif // GRIDEDITOR_H
