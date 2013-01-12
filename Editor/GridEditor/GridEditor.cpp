@@ -356,7 +356,10 @@ void GridEditor::toXML() //ça serait bien qu'on sélectionne le fichier ou on s
 void GridEditor::fromXML() //ça serait bien qu'on sélectionne le fichier ou on sauve.
 {
 	LogicalTrack* track = new LogicalTrack;
-	TrackLoader::convertXmlToLogicalTrack("test.xml", track); //tester la valeur de retour et afficher dialog si échec
+
+	QString file = QFileDialog::getOpenFileName(this, "Chargement", ".", tr("XML Files (*.xml)"), 0, QFileDialog::HideNameFilterDetails);
+
+	TrackLoader::convertXmlToLogicalTrack(file, track); //tester la valeur de retour et afficher dialog si échec
 
 	trackProperties->setTrack(track->getTrackName());
 	trackProperties->setArtist(track->getArtist());
