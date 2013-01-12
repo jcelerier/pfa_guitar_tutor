@@ -38,7 +38,7 @@ public:
     QString getSong();
     bool setAudioFile(QString file);
 	void updateWaveform();
-	void displayGraph(QImage *waveform, unsigned int pixelWidth);
+	void displayGraph(QImage *waveform, unsigned int pixelWidth, unsigned int pixelHeight);
     QTime getCurrentPosition();
 
 public slots:

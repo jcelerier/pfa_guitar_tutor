@@ -12,7 +12,12 @@ Last change on 08/05/12
  *
  * Constructeur de la grille d'accords.
  */
-GridEditor::GridEditor() {
+GridEditor::GridEditor()
+{
+	newGridDialog = 0;
+	trackProperties = new TrackProperties(this);
+	audioWindow = new AudioWindow(this);
+
     setWindowTitle("GridEditor");
     resize(800, 600); //Taille de la fenêtre
     createMenu();
@@ -20,11 +25,11 @@ GridEditor::GridEditor() {
     setActionsToMenu();
     createToolbar();
 
-    createCentralWidget();
+	createCentralWidget();
     setCentralWidget(centralArea);
     connectActionToSlot();
 
-    trackProperties = new TrackProperties(this);
+
 
     connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
     connect(this, SIGNAL(play(int)), audioWindow, SLOT(playFrom(int)));
@@ -39,6 +44,7 @@ GridEditor::GridEditor() {
         editionSelector->show();
         connect(editionSelector, SIGNAL(newEditor(int)), this, SLOT(newEditor(int)));
     }
+
 }
 
 /**
@@ -54,7 +60,9 @@ GridEditor::~GridEditor() {
     delete fileMenu; delete editMenu; delete optionMenu; delete aboutMenu;
     delete toolBar;
     delete openAction; delete saveAction; delete addRowAction; delete copyDownAction; delete deleteRowAction;
-        delete quitAction; delete aboutAction; delete newAction; delete renameAction;
+		delete quitAction; delete aboutAction; delete newAction; delete renameAction; delete openAudioWindowAction;
+		delete openTrackPropertiesAction; //peut être faire un dictionnaire d'actions qu'on puisse appeler par leur nom.
+		//ex. : actions["new"];
     delete settings;
     delete centralArea;
 }
@@ -165,10 +173,7 @@ void GridEditor::createCentralWidget() {
     chordTree = new ChordTree(); //Initialisation de chord_tree
     grid = new ChordTableWidget(); //Fenere d'accords
 
-
     layout = new QGridLayout();
-
-	audioWindow = new AudioWindow(this);
 
     layout->addWidget(chordTree, 0, 0); //Liste des accords en haut-gauche
 	layout->addWidget(grid, 0, 1); //Fenêtre d'accords en haut-milieu
@@ -180,7 +185,10 @@ void GridEditor::createCentralWidget() {
  *
  * Défini les relations entre signaux et slots pour la fenêtre principale.
  */
-void GridEditor::connectActionToSlot(){
+void GridEditor::connectActionToSlot()
+{
+
+
     connect(chordTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
     connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
 
@@ -193,11 +201,12 @@ void GridEditor::connectActionToSlot(){
     connect(renameAction, SIGNAL(triggered()), this, SLOT(rename()));
     connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
 
+
 	connect(saveAction, SIGNAL(triggered()), this, SLOT(toXML()));
 	connect(openAction, SIGNAL(triggered()), this, SLOT(fromXML()));
 
-	connect(openAudioWindowAction, SIGNAL(triggered()), this, SLOT(openAudioWindow()));
-	connect(openTrackPropertiesAction, SIGNAL(triggered()), this, SLOT(openTrackProperties()));
+	connect(openAudioWindowAction, SIGNAL(triggered()), audioWindow, SLOT(show()));
+	connect(openTrackPropertiesAction, SIGNAL(triggered()), trackProperties, SLOT(exec()));
 }
 
 //---------------------------------------------------
@@ -232,33 +241,63 @@ void GridEditor::changeState() {
  *
  * Mise en place d'une nouvelle grille dans le widget central.
  */
-// A FACTORISER DE TOUTE URGENCE AVEC LE CODE DU CONSTRUCTEUR !!
-void GridEditor::newGrid() {
-    bool ok;
-    QString mess;
-    if (grid->rowCount() == 0)
-        mess = tr("Column number:");
-    else
-        mess = tr("Warning:\nUnsaved modifications on current grid will be lost.\n\nColumn number:");
-    int column = QInputDialog::getInt(this, tr("New grid"), tr(mess.toAscii()), 4, 1, 64, 1, &ok);
-    if (!ok)
-        return;
-    delete grid;
-	grid = new ChordTableWidget(column + 1, 10, this);
-	layout->addWidget(grid, 0, 1);
-    saveAction->setEnabled(true);
-    addRowAction->setEnabled(true);
-    addColumnAction->setEnabled(true);
-    renameAction->setEnabled(true);
-    connect(chordTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
-    connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
-    connect(addRowAction, SIGNAL(triggered()), grid, SLOT(insert_row()));
-    connect(copyDownAction, SIGNAL(triggered()), grid, SLOT(copy_down_rows()));
-    connect(deleteRowAction, SIGNAL(triggered()), grid, SLOT(delete_selected_row()));
-    connect(deleteColumnAction, SIGNAL(triggered()), grid, SLOT(delete_selected_column()));
-    connect(addColumnAction, SIGNAL(triggered()), grid, SLOT(insert_column()));
+void GridEditor::newGrid()
+{
+	if (newGridDialog != 0)
+	{
+		QMessageBox msgBox;
+		msgBox.setText(tr("The document has been modified."));
+		msgBox.setInformativeText(tr("Do you want to save your changes?"));
+		msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+		msgBox.setDefaultButton(QMessageBox::Save);
 
-	connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
+		switch (msgBox.exec())
+		{
+			case QMessageBox::Save:
+				saveAction->activate(QAction::Trigger);
+				break;
+			case QMessageBox::Discard:
+				delete newGridDialog;
+				break;
+			case QMessageBox::Cancel:
+				return;
+				break;
+			default:
+				return;
+				break;
+		}
+	}
+
+	newGridDialog = new NewGridDialog(this);
+	int accept = newGridDialog->exec();
+	if(accept == QDialog::Rejected)
+	{
+		return;
+	}
+	else
+	{
+		delete grid;
+		grid = new ChordTableWidget(newGridDialog->getColumns() + 1, newGridDialog->getLines(), this);
+		trackProperties->setTrack(newGridDialog->getTrack());
+		trackProperties->setArtist(newGridDialog->getArtist());
+		trackProperties->setBarSize(newGridDialog->getBarSize());
+
+		layout->addWidget(grid, 0, 1);
+		saveAction->setEnabled(true);
+		addRowAction->setEnabled(true);
+		addColumnAction->setEnabled(true);
+		renameAction->setEnabled(true);
+
+		connect(chordTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
+		connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
+		connect(addRowAction, SIGNAL(triggered()), grid, SLOT(insert_row()));
+		connect(copyDownAction, SIGNAL(triggered()), grid, SLOT(copy_down_rows()));
+		connect(deleteRowAction, SIGNAL(triggered()), grid, SLOT(delete_selected_row()));
+		connect(deleteColumnAction, SIGNAL(triggered()), grid, SLOT(delete_selected_column()));
+		connect(addColumnAction, SIGNAL(triggered()), grid, SLOT(insert_column()));
+
+		connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
+	}
 }
 
 
@@ -277,29 +316,31 @@ void GridEditor::newEditor(int type)
     delete editionSelector;
 }
 
-
-void GridEditor::openAudioWindow()
-{
-	audioWindow->show();
-}
-
-/*
-*/
-#include <QDebug>
+/**
+ * @brief GridEditor::toXML
+ *
+ * Slot pour la sauvegarde d'un fichier XML.
+ */
 // penser à faire en sorte que les propriétés de base du morceau soient obligatoires (nom, etc...)
 void GridEditor::toXML() //ça serait bien qu'on sélectionne le fichier ou on sauve.
 {
+	QString file = QFileDialog::getSaveFileName(this, "Sauvegarde", ".", tr("XML Files (*.xml)"));
 	LogicalTrack* track = grid->getLogicalTrack();
 
 	track->setTrackName(trackProperties->getTrack());
 	track->setArtist(trackProperties->getArtist());
 	track->setMesure(trackProperties->getBarSize());
 
-	track->setAudioFileName(audioWindow->getSong()); //vérifier si chemin absolu
+	track->setAudioFileName(audioWindow->getFilename()); //vérifier si chemin absolu
 
-	TrackLoader::convertLogicalTrackToXml(track);
+	TrackLoader::convertLogicalTrackToXml(track, file);
 }
 
+/**
+ * @brief GridEditor::fromXML
+ *
+ * Slot pour le chargement d'un fichier XML.
+ */
 void GridEditor::fromXML() //ça serait bien qu'on sélectionne le fichier ou on sauve.
 {
 	LogicalTrack* track = new LogicalTrack;
@@ -315,9 +356,4 @@ void GridEditor::fromXML() //ça serait bien qu'on sélectionne le fichier ou on
 	// dans audiowindow
 
 	grid->setLogicalTrack(track);
-}
-
-void GridEditor::openTrackProperties()
-{
-	trackProperties->exec();
 }

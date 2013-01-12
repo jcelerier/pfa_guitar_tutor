@@ -99,16 +99,28 @@ CaseItem* CaseItem::clone() const
     return new CaseItem((const QTableWidgetItem&) *item);
 }
 
+/**
+ * @brief CaseItem::getPart
+ * @return Nom de la partie
+ */
 QString& CaseItem::getPart()
 {
 	return m_part;
 }
 
+/**
+ * @brief CaseItem::setPart
+ * @param part Nom de la partie
+ */
 void CaseItem::setPart(QString part)
 {
 	m_part = part;
 }
 
+/**
+ * @brief CaseItem::isPartSet
+ * @return Vrai si une partie est définie sur la case
+ */
 bool CaseItem::isPartSet()
 {
     return m_part.length() > 0;
@@ -120,6 +132,10 @@ void CaseItem::setBeginningTimer(QTime t, bool timerManuallySet)
     m_timerManuallySet = timerManuallySet;
 }
 
+/**
+ * @brief CaseItem::getBeginning
+ * @return Temps du début de la case.
+ */
 QTime CaseItem::getBeginning()
 {
     return m_beginningTimer;

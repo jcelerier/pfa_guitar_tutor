@@ -19,7 +19,7 @@ public:
     TrackLoader();
     ~TrackLoader();
 
-    static bool convertLogicalTrackToXml(LogicalTrack* currentTrack);
+	static bool convertLogicalTrackToXml(LogicalTrack* currentTrack, QString filename);
     static bool convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* currentTrack);
 
     // int SaveEditorTrackInLogicalTrack(); => TODO en attente de la nouvelle vue éditeur

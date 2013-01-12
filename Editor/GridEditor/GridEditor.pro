@@ -15,7 +15,8 @@ SOURCES += \
     AudioSync.cpp \
     PartSetter.cpp \
     AudioWindow.cpp \
-    TrackProperties.cpp
+    TrackProperties.cpp \
+    NewGridDialog.cpp
 
 HEADERS += \
     CaseItem.h \
@@ -27,7 +28,8 @@ HEADERS += \
     AudioSync.h \
     PartSetter.h \
     AudioWindow.h \
-    TrackProperties.h
+    TrackProperties.h \
+    NewGridDialog.h
 
 TRANSLATIONS = GridEditor_fr.ts
 
@@ -49,4 +51,5 @@ win32|unix: LIBS += -lfmodex64-4.44.00
 
 FORMS += \
     PartSetter.ui \
-    TrackProperties.ui
+    TrackProperties.ui \
+    NewGridDialog.ui

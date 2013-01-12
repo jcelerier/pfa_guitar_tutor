@@ -33,11 +33,9 @@ protected:
 public:
     ChordTableWidget();
 	ChordTableWidget(int column, int row, QWidget *parent);
-    ChordTableWidget(QString xgrid_file);
     QString get_name() const;
-    void set_name(QString name);
-    void open_grid(QString xgrid_file);
-    void to_xml(QString xml_file);
+	void set_name(QString name);
+
     bool is_selection_empty();
     bool is_row_selected();
     QList<QList<int>*> rows_selected();

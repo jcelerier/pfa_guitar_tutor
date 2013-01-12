@@ -69,21 +69,6 @@ ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent)
 }
 
 /**
- * @brief ChordTableWidget::ChordTableWidget
- * @param xgrid_file Chemin vers un fichier de sauvegarde
- *
- * Crée une grille d'accords à partir d'un fichier de sauvegarde.
- */
-ChordTableWidget::ChordTableWidget(QString xgrid_file) {
-	ChordTableWidget();
-	open_grid(xgrid_file);
-	this->setHorizontalHeaderItem(this->columnCount() - 1, new QTableWidgetItem(tr("Annotation")));
-	this->setEnabled(true);
-
-	connect(this, SIGNAL(cellClicked(int, int)), this, SLOT(onClick(int, int)));
-}
-
-/**
  * @brief ChordTableWidget::get_name
  * @return Le nom de la grille courante
  *
@@ -101,90 +86,6 @@ QString ChordTableWidget::get_name() const {
  */
 void ChordTableWidget::set_name(QString name) {
 	*(this->name) = name;
-}
-
-/**
- * @brief ChordTableWidget::open_grid
- * @param xgrid_file Chemin vers un fichier de sauvegarde
- *
- * Initialise la grille d'accords courante à partir d'un fichier de sauvegarde.
- */
-void ChordTableWidget::open_grid(QString xgrid_file) {
-	QDomDocument doc("XGRID");
-	QFile xml_doc(xgrid_file);
-	if (!xml_doc.open(QIODevice::ReadOnly))
-		exit(1);
-	doc.setContent(&xml_doc);
-	xml_doc.close();
-	QDomElement chord_grid = doc.documentElement();
-	this->setColumnCount(chord_grid.attribute("columns_number").toInt());
-	insert_row(this->rowCount(), chord_grid.attribute("lines_number").toInt() - this->rowCount());
-	this->set_name(chord_grid.attribute("name"));
-	QDomNode line_node = chord_grid.firstChild();
-	for (int row = 0 ; !line_node.isNull() ; line_node = line_node.nextSibling(), row ++) {
-		QDomElement line = line_node.toElement();
-		QDomNode case_node = line.firstChild();
-		for (int column = 0 ; !case_node.nextSibling().isNull() ; case_node = case_node.nextSibling(), column ++) {
-			QDomElement case_e = case_node.toElement();
-			CaseItem* item = (CaseItem*) this->takeItem(row, column);
-			item->set_chord(case_e.firstChild().toElement().attribute("name"));
-			int r = -1, g = -1, b = -1, a = -1;
-			r = case_e.lastChild().toElement().attribute("R").toInt();
-			g = case_e.lastChild().toElement().attribute("G").toInt();
-			b = case_e.lastChild().toElement().attribute("B").toInt();
-			a = case_e.lastChild().toElement().attribute("A").toInt();
-			item->set_color(r, g, b, a);
-			this->setItem(row, column, item);
-		}
-		QTableWidgetItem* item = this->takeItem(row, columnCount() - 1);
-		item->setText(line.lastChild().toElement().text());
-		this->setItem(row, columnCount() - 1, item);
-	}
-}
-
-/**
- * @brief ChordTableWidget::to_xml
- * @param xml_file Chemin vers un fichier de sauvegarde
- *
- * Conversion de la grille d'accords courante en format XML pour sauvegarde dans le fichier donné.
- */
-void ChordTableWidget::to_xml(QString xml_file) {
-	QDomDocument doc("XGRID");
-	QDomElement chord_grid = doc.createElement("chord_grid");
-	chord_grid.setAttribute("name", this->get_name());
-	chord_grid.setAttribute("lines_number", this->rowCount());
-	chord_grid.setAttribute("columns_number", this->columnCount());
-	doc.appendChild(chord_grid);
-	int red = -1, g = -1, b = -1, a = -1;
-	for (int r = 0 ; r < this->rowCount() ; r++) {
-		QDomElement line = doc.createElement("line");
-		line.setAttribute("id", r);
-		for (int c = 0 ; c < this->columnCount() - 1 ; c ++) {
-			QDomElement case_node = doc.createElement("case");
-			case_node.setAttribute("id", c);
-			QDomElement chord = doc.createElement("chord");
-			chord.setAttribute("name", this->item(r, c)->text());
-			case_node.appendChild(chord);
-			QDomElement color = doc.createElement("color");
-			((CaseItem*) this->item(r, c))->get_color()->getRgb(&red, &g, &b, &a);
-			color.setAttribute("G", g);
-			color.setAttribute("R", red);
-			color.setAttribute("A", a);
-			color.setAttribute("B", b);
-			case_node.appendChild(color);
-			line.appendChild(case_node);
-		}
-		QDomElement annotation = doc.createElement("annotation");
-		QDomText content = doc.createTextNode(this->item(r, this->columnCount() - 1)->text());
-		annotation.appendChild(content);
-		line.appendChild(annotation);
-		chord_grid.appendChild(line);
-	}
-	QFile file(xml_file);
-	file.open(QIODevice::WriteOnly);
-	QTextStream ts(&file);
-	ts << doc.toString();
-	file.close();
 }
 
 /**
@@ -472,6 +373,11 @@ void ChordTableWidget::removeCasePart()
 	m_currentItem->setBackgroundColor(Qt::white);
 }
 
+/**
+ * @brief ChordTableWidget::showProperties
+ *
+ * Affiche les propriétés de la case.
+ */
 void ChordTableWidget::showProperties()
 {
     m_setPartDialog->initBeginning(m_currentItem->getBeginning());
@@ -479,6 +385,13 @@ void ChordTableWidget::showProperties()
     m_setPartDialog->showDialogModal();
 }
 
+/**
+ * @brief ChordTableWidget::checkBeginningTimes
+ * @return Vrai si minutage de la case cohérent.
+ *
+ * Vérifie qu'il n'y a pas d'incohérences dans les temps des cases, comme
+ * par exemple une case qui finirait après qu'une autre ait commencée.
+ */
 bool ChordTableWidget::checkBeginningTimes()
 {
     QTime t;
@@ -538,11 +451,23 @@ void ChordTableWidget::setTimeInfo(const QTime beginning, const QTime bar, const
 	checkBeginningTimes();
 }
 
+/**
+ * @brief TimeToMsec
+ * @param t QTime à convertir
+ * @return Le temps en millisecondes
+ *
+ * Convertit un QTime en millisecondes
+ */
 inline int TimeToMsec(QTime t)
 {
 	return t.minute() * 60000 + t.second() * 1000 + t.msec();
 }
 
+/**
+ * @brief MsecToTime
+ * @param t Millisecondes à convertir
+ * @return QTime correspondant
+ */
 QTime MsecToTime(int t)
 {
 	int m = t / 60000;
@@ -558,7 +483,7 @@ LogicalTrack* ChordTableWidget::getLogicalTrack()
 	CaseItem* currentCase = NULL;
 	TrackChord* currentChord = NULL;
 
-	for(int i = 0; i < this->rowCount() - 1; i++)
+	for(int i = 0; i < this->rowCount(); i++)
 	{
 		for(int j = 0; j < this->columnCount() - 1; j++) // -1 pour l'annotation
 		{
@@ -570,6 +495,7 @@ LogicalTrack* ChordTableWidget::getLogicalTrack()
 
 				// on crée une nouvelle partie
 				part = new PartTrack(currentCase->getPart());
+				//qDebug() << "nouvelle partie";
 
 				//on y ajoute l'accord de la case actuelle *//* calculer s'il y a des répétitions ---------------v
 				currentChord = new TrackChord(currentCase->get_chord(), TimeToMsec(currentCase->getBeginning()), 0);
@@ -591,7 +517,6 @@ LogicalTrack* ChordTableWidget::getLogicalTrack()
 #include <QDebug>
 void ChordTableWidget::setLogicalTrack(LogicalTrack* track)
 {
-
 	CaseItem* currentCase = NULL;
 	QList<PartTrack*>::const_iterator iPart;
 	QList<TrackChord*>::const_iterator iChord;
@@ -644,6 +569,11 @@ void ChordTableWidget::setLogicalTrack(LogicalTrack* track)
 	}
 }
 
+/**
+ * @brief ChordTableWidget::playFromHere
+ *
+ * Emet un signal vers le lecteur audio pour qu'il lise à partir de la position de début.
+ */
 void ChordTableWidget::playFromHere()
 {
 	emit play(TimeToMsec(m_currentItem->getBeginning()));

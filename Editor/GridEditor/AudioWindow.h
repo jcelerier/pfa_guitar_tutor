@@ -12,7 +12,7 @@ class AudioWindow : public QWidget
 	public:
 		explicit AudioWindow(QWidget *parent = 0);
 		~AudioWindow();
-		QString getSong();
+		QString getFilename();
 		void setAudioFileName(QString file);
 
 	public slots:

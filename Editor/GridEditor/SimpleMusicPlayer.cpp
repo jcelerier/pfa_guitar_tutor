@@ -64,37 +64,6 @@ SimpleMusicPlayer::~SimpleMusicPlayer()
 }
 
 
-/**
- * @brief SimpleMusicPlayer::resizeEvent
- * @param event QResizeEvent reçu de l'évènement
- *
- * Actualise le graphe en cas de redimensionnement de la fenêtre.
- */
-void SimpleMusicPlayer::resizeEvent(QResizeEvent * event)
-{
-	if(player->getState())
-	{
-		updateWaveform();
-	}
-}
-
-/**
- * @brief SimpleMusicPlayer::updateWaveform
- *
- * Actualise le graphe.
- */
-void SimpleMusicPlayer::updateWaveform()
-{
-	unsigned const int size = slideBar->width() - 1;
-	QImage waveform(size, 50, QImage::Format_RGB32);
-
-	waveform.fill(0);
-    for(unsigned int i = 0; i < size; i++)
-		waveform.setPixel(i, 24, QColor(75, 200, 0).rgb());
-	displayGraph(&waveform, size);
-
-	waveform_display->setPixmap(QPixmap::fromImage(waveform));
-}
 
 /**
  * @brief SimpleMusicPlayer::getSong
@@ -130,11 +99,49 @@ bool SimpleMusicPlayer::setAudioFile(QString file)
 }
 
 /**
+ * @brief SimpleMusicPlayer::resizeEvent
+ * @param event QResizeEvent reçu de l'évènement
+ *
+ * Actualise le graphe en cas de redimensionnement de la fenêtre.
+ */
+void SimpleMusicPlayer::resizeEvent(QResizeEvent * event)
+{
+	if(player->getState())
+	{
+		updateWaveform();
+	}
+}
+
+/**
+ * @brief SimpleMusicPlayer::updateWaveform
+ *
+ * Actualise le graphe.
+ */
+void SimpleMusicPlayer::updateWaveform()
+{/*
+	unsigned const int size = slideBar->width() - 1;
+	QImage waveform(size, 50, QImage::Format_RGB32);
+
+	//fond noir
+	waveform.fill(0);
+
+	//ligne médiane
+	for(unsigned int i = 0; i < size; i++)
+		waveform.setPixel(i, 24, QColor(75, 200, 0).rgb());
+	displayGraph(&waveform, size, 50);
+
+	waveform_display->setPixmap(QPixmap::fromImage(waveform));*/
+}
+
+/**
  * @brief SimpleMusicPlayer::displayGraph
+ * @param waveform L'image dans laquelle on dessine
+ * @param pixelWidth Longueur de l'image
+ * @param pixelHeight Hauteur de l'image
  *
  * Affiche le sonogramme du morceau chargé.
  */
-void SimpleMusicPlayer::displayGraph(QImage * waveform, unsigned int pixelWidth)
+void SimpleMusicPlayer::displayGraph(QImage * waveform, unsigned int pixelWidth, unsigned int pixelHeight)
 {
 	int *table = new int[pixelWidth];
 	unsigned int height = 0;
@@ -144,13 +151,18 @@ void SimpleMusicPlayer::displayGraph(QImage * waveform, unsigned int pixelWidth)
 	{
 		//height = abs(table[i] / (int) pow(2, 23)); //moyenne
 		height = abs(table[i] / (int) pow(2, 19));//max
-        for(unsigned int j = 24 - height; j < 25 + height; j++)
+		for(unsigned int j = pixelHeight / 2 - 1 - height; j < pixelHeight / 2 + height; j++)
 		{
 			waveform->setPixel(i, j, QColor(75, 200, 0).rgb());
 		}
     }
+	delete table;
 }
 
+/**
+ * @brief SimpleMusicPlayer::getCurrentPosition
+ * @return Donne la position actuelle dans le morceau.
+ */
 QTime SimpleMusicPlayer::getCurrentPosition()
 {
     unsigned int time = player->getPosition();

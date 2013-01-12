@@ -51,6 +51,13 @@ void AudioWindow::setAudioFile()
 	audioSync->activeButtons(true);
 }
 
+/**
+ * @brief AudioWindow::setAudioFileName
+ * @param file Nom du fichier
+ *
+ * Permet de simplement définir le nom du fichier mp3
+ * (au chargement d'un xml par exemple.)
+ */
 void AudioWindow::setAudioFileName(QString file)
 {
 	player->setAudioFile(file);
@@ -97,14 +104,23 @@ void AudioWindow::browseAudioFile()
 	}
 }
 
-QString AudioWindow::getSong()
+/**
+ * @brief AudioWindow::getFilename
+ * @return Nom du fichier audio
+ */
+QString AudioWindow::getFilename()
 {
 	return player->getSong();
 }
 
+/**
+ * @brief AudioWindow::playFrom
+ * @param t Temps à partir du quel on joue en millisecondes
+ *
+ * Joue le fichier audio à partir du temps t.
+ */
 void AudioWindow::playFrom(int t)
 {
-
 	player->play();
 	player->changePosition( t);
 }

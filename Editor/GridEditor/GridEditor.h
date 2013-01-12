@@ -17,6 +17,7 @@ Last change on 08/05/12
 #include "AudioSync.h"
 #include "AudioWindow.h"
 #include "TrackProperties.h"
+#include "NewGridDialog.h"
 
 /**
  * @brief Fenêtre principale de l'éditeur
@@ -29,6 +30,7 @@ class GridEditor : public QMainWindow
 
 	AudioWindow* audioWindow;
 	TrackProperties* trackProperties;
+	NewGridDialog* newGridDialog;
 
     QWidget* centralArea;
     QGridLayout* layout;
@@ -66,9 +68,6 @@ signals:
 public slots:
 	void changeState();
 	void newGrid();
-
-	void openAudioWindow();
-	void openTrackProperties();
 
 	void toXML();
 	void fromXML();
