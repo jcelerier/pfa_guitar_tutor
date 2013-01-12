@@ -482,9 +482,9 @@ QTime MsecToTime(int t)
 LogicalTrack* ChordTableWidget::getLogicalTrack()
 {
 	LogicalTrack* track = new LogicalTrack();
-	PartTrack* part = NULL;
-	CaseItem* currentCase = NULL;
-	TrackChord* currentChord = NULL;
+    PartTrack* part = 0;
+    CaseItem* currentCase = 0;
+    TrackChord* currentChord = 0;
 
 	for(int i = 0; i < this->rowCount(); i++)
 	{
