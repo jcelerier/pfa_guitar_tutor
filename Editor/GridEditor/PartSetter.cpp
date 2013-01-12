@@ -47,7 +47,7 @@ void PartSetter::accept()
     ((ChordTableWidget*) parent())->checkBeginningTimes();
 }
 
-void PartSetter::setEnabledPartEdit(int state)
+void PartSetter::setEnabledPartEdit(bool state)
 {
     ui->labelPartEdit->setEnabled(state);
     ui->partEdit->setEnabled(state);

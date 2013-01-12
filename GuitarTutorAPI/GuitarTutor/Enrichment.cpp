@@ -143,6 +143,11 @@ const QStringList& Enrichment::getEnrichmentStringList() const
     return m_stringEquivs;
 }
 
+const QStringList& Enrichment::getListOfEnrichmentStrings()
+{
+	return listOfEnrichmentString;
+}
+
 void Enrichment::addEnrichment(const QString &newEnrich){
     m_stringEquivs.append(newEnrich);
 }

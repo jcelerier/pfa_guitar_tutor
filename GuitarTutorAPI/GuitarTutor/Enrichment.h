@@ -29,6 +29,7 @@ class GUITARTUTORAPISHARED_EXPORT Enrichment : public QList<e_Enrichment>
 {
 	public:
         static QStringList listOfEnrichmentString;
+		static const QStringList& getListOfEnrichmentStrings();
 
 		Enrichment();
         Enrichment(const Enrichment &enrich);
