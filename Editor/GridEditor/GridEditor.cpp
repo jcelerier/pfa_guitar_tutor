@@ -324,7 +324,17 @@ void GridEditor::newEditor(int type)
 // penser à faire en sorte que les propriétés de base du morceau soient obligatoires (nom, etc...)
 void GridEditor::toXML() //ça serait bien qu'on sélectionne le fichier ou on sauve.
 {
-	QString file = QFileDialog::getSaveFileName(this, "Sauvegarde", ".", tr("XML Files (*.xml)"));
+	// Pour tester qu'on sauve bien un xml
+	int pos = 0;
+	QRegExp xmlExt("\\S+\\.xml");
+	QRegExpValidator *validator = new QRegExpValidator(xmlExt, this);
+
+	QString file = QFileDialog::getSaveFileName(this, "Sauvegarde", ".", tr("XML Files (*.xml)"), 0, QFileDialog::HideNameFilterDetails);
+	if(validator->validate(file, pos) != QValidator::Acceptable)
+	{
+		file.append(".xml");
+	}
+
 	LogicalTrack* track = grid->getLogicalTrack();
 
 	track->setTrackName(trackProperties->getTrack());
