@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>450</width>
-    <height>161</height>
+    <height>158</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,6 +21,9 @@
      <width>91</width>
      <height>61</height>
     </rect>
+   </property>
+   <property name="locale">
+    <locale language="English" country="UnitedStates"/>
    </property>
    <property name="orientation">
     <enum>Qt::Vertical</enum>
@@ -44,18 +47,11 @@
     </property>
     <item row="0" column="0">
      <widget class="QCheckBox" name="isPart">
-      <property name="text">
-       <string>Début d'une nouvelle partie</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="labelPartEdit">
-      <property name="enabled">
-       <bool>false</bool>
+      <property name="locale">
+       <locale language="English" country="UnitedStates"/>
       </property>
       <property name="text">
-       <string>Nom de la partie</string>
+       <string>Beginning of a new part</string>
       </property>
      </widget>
     </item>
@@ -65,16 +61,6 @@
        <bool>false</bool>
       </property>
      </widget>
-    </item>
-    <item row="3" column="0">
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>Début</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="1">
-     <widget class="QTimeEdit" name="beginning"/>
     </item>
     <item row="2" column="0" colspan="2">
      <spacer name="verticalSpacer">
@@ -88,6 +74,32 @@
        </size>
       </property>
      </spacer>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_2">
+      <property name="locale">
+       <locale language="English" country="UnitedStates"/>
+      </property>
+      <property name="text">
+       <string>Beginning</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QTimeEdit" name="beginning"/>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="labelPartEdit">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="locale">
+       <locale language="English" country="UnitedStates"/>
+      </property>
+      <property name="text">
+       <string>Part name</string>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -108,8 +120,11 @@
      <bold>true</bold>
     </font>
    </property>
+   <property name="locale">
+    <locale language="English" country="UnitedStates"/>
+   </property>
    <property name="text">
-    <string>Propriété de la case</string>
+    <string>Cell properties</string>
    </property>
   </widget>
  </widget>
