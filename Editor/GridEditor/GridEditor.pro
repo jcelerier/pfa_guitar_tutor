@@ -16,7 +16,8 @@ SOURCES += \
     PartSetter.cpp \
     AudioWindow.cpp \
     TrackProperties.cpp \
-    NewGridDialog.cpp
+    NewGridDialog.cpp \
+    Waveform.cpp
 
 HEADERS += \
     CaseItem.h \
@@ -29,7 +30,8 @@ HEADERS += \
     PartSetter.h \
     AudioWindow.h \
     TrackProperties.h \
-    NewGridDialog.h
+    NewGridDialog.h \
+    Waveform.h
 
 TRANSLATIONS = GridEditor_fr.ts
 

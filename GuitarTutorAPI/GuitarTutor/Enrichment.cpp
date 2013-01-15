@@ -143,7 +143,7 @@ const QStringList& Enrichment::getEnrichmentStringList() const
     return m_stringEquivs;
 }
 
-const QStringList& Enrichment::getListOfEnrichmentStrings()
+const QStringList& Enrichment::getListOfEnrichmentStringList() const
 {
 	return listOfEnrichmentString;
 }

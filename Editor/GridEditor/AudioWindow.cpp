@@ -2,7 +2,6 @@
 
 AudioWindow::AudioWindow(QWidget * parent)
 {
-
 	player = new SimpleMusicPlayer();
 	QLabel* label = new QLabel(tr("Audio file")); //fuite mémoire
 	audioFile = new QLineEdit();

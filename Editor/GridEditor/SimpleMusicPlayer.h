@@ -3,7 +3,7 @@
 
 #include <QtGui>
 #include <MusicPlayer.h>
-
+#include "Waveform.h"
 #define REFRESH_DELAY 200
 
 /**
@@ -22,10 +22,10 @@ private:
     QLabel* timerLabel;
     QTimer* timer;
 
-	QLabel *waveform_display;
+	Waveform *waveform;
 
     MusicPlayer* player;
-	MusicPlayer* graph;
+
     unsigned int songLength;
     unsigned int currentPosition;
 
@@ -37,8 +37,7 @@ public:
     ~SimpleMusicPlayer();
     QString getSong();
     bool setAudioFile(QString file);
-	void updateWaveform();
-	void displayGraph(QImage *waveform, unsigned int pixelWidth, unsigned int pixelHeight);
+
     QTime getCurrentPosition();
 
 public slots:
