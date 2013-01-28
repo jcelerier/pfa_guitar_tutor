@@ -11,7 +11,7 @@
 /**
  * @brief Représente un accord sous forme d'une tonalité et d'un enrichissement
  */
-class GUITARTUTORAPISHARED_EXPORT Chord
+class Chord
 {
 	public:
         Chord(const QString &chord);

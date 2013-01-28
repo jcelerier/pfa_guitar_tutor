@@ -12,12 +12,13 @@ CONFIG += rtti
 DEPENDPATH +=  . \
               ../libsndfile/lib \
               ../boost/lib \
-              ../portaudio/lib
+              ../portaudio/lib \
+              ../fmod/api/lib
 
 INCLUDEPATH += . \
                ../libsndfile/include \
-               ../boost/include
-
+               ../boost/include \
+               ../fmod/api/inc
 }
 
 DEPENDPATH += . \
@@ -118,10 +119,11 @@ HEADERS += MultiTracks.h \
            IScoreLight/Editor/CSP/OutOfBoundException.hpp \
            IScoreLight/Editor/CSP/TriggerPoint.hpp \
            MusicPlayer.h \
-    Track/TrackLoader.h \
-    Track/PartTrack.h \
-    Track/LogicalTrack.h \
-    Track/TrackChord.h
+           Track/TrackLoader.h \
+           Track/PartTrack.h \
+           Track/LogicalTrack.h \
+           Track/TrackChord.h
+
 SOURCES += MultiTracks.cpp \
            Track.cpp \
            MusicManager.cpp \
@@ -131,6 +133,13 @@ SOURCES += MultiTracks.cpp \
            chord/chordcor.c \
            chord/ehpcp.c \
            chord/fft.c \
+           Track/TrackLoader.cpp \
+           Track/PartTrack.cpp \
+           Track/LogicalTrack.cpp \
+           Track/TrackChord.cpp \
+           ScoreManager.cpp \
+           MusicPlayer.cpp \
+           MusicManager.cpp \
            GuitarTutor/Chord.cpp \
            GuitarTutor/Enrichment.cpp \
            GuitarTutor/GuitarTutorAPI.cpp \
@@ -172,21 +181,17 @@ SOURCES += MultiTracks.cpp \
            IScoreLight/Editor/CSP/CSP.cpp \
            IScoreLight/Editor/CSP/CSPConstrainedVariable.cpp \
            IScoreLight/Editor/CSP/CSPLinearConstraint.cpp \
-           IScoreLight/Editor/CSP/TriggerPoint.cpp \
-    Track/TrackLoader.cpp \
-    Track/PartTrack.cpp \
-    Track/LogicalTrack.cpp \
-    Track/TrackChord.cpp \
-    ScoreManager.cpp \
-    MusicPlayer.cpp \
-    MusicManager.cpp
+           IScoreLight/Editor/CSP/TriggerPoint.cpp
+
 
 macx: QMAKE_CFLAGS_X86_64 += -mmacosx-version-min=10.7
 macx: QMAKE_CXXFLAGS_X86_64 = $$QMAKE_CFLAGS_X86_64
 
 LIBS += -lsndfile -lboost -lportaudio
 macx: LIBS += -lfmodex
+win32:QMAKE_LFLAGS += -shared
+win32:CONFIG += -dll
 win32|unix: LIBS += -lfmodex64-4.44.00
 
-QMAKE_POST_LINK += cp libIGuitar.a ../libiguitar/
+unix|macx:QMAKE_POST_LINK += cp libIGuitar.a ../libiguitar/
 

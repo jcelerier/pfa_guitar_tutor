@@ -18,7 +18,7 @@ enum e_Alteration { UNALTERED, SHARP, FLAT };
 /**
  * @brief Objet représentant une tonalité sous forme d'une note fondamentale et d'une altération.
  */
-class GUITARTUTORAPISHARED_EXPORT Tonality
+class Tonality
 {
 	public:
 		Tonality();

@@ -10,7 +10,7 @@
 /**
  * @brief Objet représentant la liste des différentes tonalités possibles
  */
-class GUITARTUTORAPISHARED_EXPORT Tonalities
+class Tonalities
 {
     QStringList tonalitiesStringList;
     int tonalitiesNumber;
