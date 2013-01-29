@@ -504,6 +504,7 @@ CSP::links(ConstrainedTemporalEntity *ent) const
 
 ConstrainedBox*
 CSP::getBoxById(unsigned int boxId) {
+
 	map<unsigned int, ConstrainedTemporalEntity *>::iterator iter = (*_cedEntities).find(boxId);
 
 	if(iter == (*_cedEntities).end())  {

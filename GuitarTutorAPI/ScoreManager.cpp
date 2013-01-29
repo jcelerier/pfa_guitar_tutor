@@ -158,8 +158,8 @@ void ScoreManager::getScore(prioritizedScore& score, int relativeBegin, int rela
 
 	std::vector<unsigned int> boxesId;
 	unsigned int currentPartBoxId = m_partNameToBoxId[m_currentPart];
-	unsigned int currentPartBoxDuration = m_iscoreEngine->getBoxDuration(currentPartBoxId);
 
+	unsigned int currentPartBoxDuration = m_iscoreEngine->getBoxDuration(currentPartBoxId);
 	m_iscoreEngine->getBoxesId(currentPartBoxId, boxesId);
 
 	int offset = m_iscoreEngine->getCurrentExecutionTime() - m_currentPartLaunchTime;
@@ -305,7 +305,6 @@ bool ScoreManager::loadScore(std::string fileName)
 
 					previousPart = currentLine;
 				} else {
-
 					std::istringstream currentStream(currentLine.data());
 					currentStream >> currentNote.duration >> currentNote.name;
 
@@ -343,8 +342,9 @@ bool ScoreManager::loadScore(LogicalTrack* trackName){
 	std::string previousPart = " ";
 
 	QList<PartTrack*>::iterator it1;
+    QList<TrackChord*>::iterator it2;
 
-	for(it1 = trackName->getPartTrackList().begin(); it1 != trackName->getPartTrackList().end(); ++it1){
+    for(it1 = trackName->getPartTrackList().begin(); it1 != trackName->getPartTrackList().end(); ++it1){
 
 		std::string current((*it1)->getPartName().toStdString ());
 
@@ -370,16 +370,37 @@ bool ScoreManager::loadScore(LogicalTrack* trackName){
 		}
 
 		previousPart = current;
-		QList<TrackChord*>::iterator it2;
-		for(it2 = (*it1)->getTrackChordsList().begin(); it2 != (*it1)->getTrackChordsList().end(); ++it2){
 
-			currentNote.duration = (*it2)->getDuration();
-			currentNote.name = (*it2)->toString().toStdString();
 
-			m_scoreNotes[m_iscoreEngine->addBox(currentRelativeStart * 1000, currentNote.duration * 1000, currentBoxId)] = currentNote.name;
 
-			currentRelativeStart += currentNote.duration;
-			currentAbsoluteStart += currentNote.duration;
+        QList<TrackChord*> gtc = (*it1)->getTrackChordsList(); //utilisée dans la boucle qui suit, plante si pas de passage par variable intermédiaire (pourquoi?) --- hamid
+
+        for(it2 = gtc.begin(); it2 != gtc.end(); ++it2){
+
+
+
+            int i;
+            for(i = 0; i < (*it2)->getRepetition();i++){
+                QString str_tmp("");
+                std::string s("");
+                std::string str("");
+
+                s += (*it2)->getChord().toStdString();
+                str_tmp.setNum((*it2)->getDuration());
+                str += str_tmp.toStdString() + " " + s;
+
+                std::istringstream currentStream(str.data());
+
+                currentStream >> currentNote.duration >> currentNote.name;
+
+                m_scoreNotes[m_iscoreEngine->addBox(currentRelativeStart * 1000, currentNote.duration * 1000, currentBoxId)] = currentNote.name;
+
+                std::cout << "currentNote.name =" << currentNote.name << "currentNote.duration" << currentNote.duration << std::endl;
+
+                currentRelativeStart += currentNote.duration;
+                currentAbsoluteStart += currentNote.duration;
+           }
+
 		}
 	}
 	m_isAScoreToRun = true;

@@ -409,12 +409,12 @@ ConstrainedBox* Editor::getBoxById(unsigned int boxId)
 int Editor::getBeginValue(unsigned int boxId)
 {
 	CSP* containingCSP = m_boxIdToContainingCSP[boxId];
-
 	return containingCSP->getBeginValue(boxId);
 }
 
 int Editor::getEndValue(unsigned int boxId)
 {
+
 	CSP* containingCSP = m_boxIdToContainingCSP[boxId];
 
 	return containingCSP->getEndValue(boxId);

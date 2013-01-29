@@ -113,6 +113,9 @@ void MainWidget::timeOut()
 
         m_scoreManager->loadScore("Tracks/BeatlesDayInTheLife/Guitar.txt");
 
+        /*LogicalTrack *tr = new LogicalTrack();
+        TrackLoader::convertXmlToLogicalTrack("Tracks/BeatlesDayInTheLife/songExample.xml", tr);
+        m_scoreManager->loadScore(tr);*/
 
 		m_scoreManager->run();
 
@@ -123,13 +126,16 @@ void MainWidget::timeOut()
 
 		m_renderAreas.changeButtonMode(false);
 
+
 	}
 
 	if (m_scoreManager != NULL)
 	{
-		prioritizedScore currentScore;
-		m_scoreManager->getScore(currentScore, MIN_SCORE_BOUND, MAX_SCORE_BOUND);
 
+
+		prioritizedScore currentScore;
+
+		m_scoreManager->getScore(currentScore, MIN_SCORE_BOUND, MAX_SCORE_BOUND);
 		m_scoreManager->update();
 
 		bool mustGoToTheNextPart = (m_scoreManager->getValidatedNotesPercent() >= PERCENT_OF_CORRECT_NOTES_TO_GO_TO_NEXT_PART);
