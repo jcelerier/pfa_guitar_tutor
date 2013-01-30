@@ -1,7 +1,12 @@
 #ifndef MUSICPLAYER_H
 #define MUSICPLAYER_H
 
+#ifndef WIN32
 #include <fmodex/fmod.h>
+#else
+#include "../fmod/api/inc/fmod.h"
+#endif
+
 #include <QString>
 #include <QImage>
 

@@ -4,6 +4,7 @@ TEMPLATE = app
 TARGET =
 DEPENDPATH += .
 
+
 SOURCES += \
     CaseItem.cpp \
     ChordTableWidget.cpp \
@@ -40,8 +41,8 @@ QT += core \
       xml
 
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../GuitarTutorAPI/release/ -lIGuitar
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../GuitarTutorAPI/debug/ -lIGuitar
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../libiguitar/ -lIGuitar
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../libiguitar/ -lIGuitar
 else:unix: LIBS += -L$$PWD/../../libiguitar/ -lIGuitar
 
 INCLUDEPATH += $$PWD/../../GuitarTutorAPI $$PWD/../../GuitarTutorAPI/GuitarTutor
@@ -49,7 +50,8 @@ DEPENDPATH += $$PWD/../../libiguitar
 
 
 macx: LIBS += -lfmodex
-win32|unix:!macx: LIBS += -lfmodex64-4.44.00
+unix:!macx: LIBS += -lfmodex64-4.44.00
+win32: LIBS += -L$$PWD/../../fmod/api/lib/ -lfmodex
 
 FORMS += \
     PartSetter.ui \
