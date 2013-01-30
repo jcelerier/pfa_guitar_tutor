@@ -65,7 +65,7 @@ ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent)
 
 	connect(m_properties, SIGNAL(triggered()), this, SLOT(showProperties()));
 	connect(m_playFromHere, SIGNAL(triggered()), this, SLOT(playFromHere()));
-	connect(this, SIGNAL(play(int)), parent, SIGNAL(play(int)));
+    //connect(this, SIGNAL(play(int)), parent, SIGNAL(play(int)));
 
 	m_currentItem = (CaseItem*) this->item(0, 0);
 	setCasePart("Intro");

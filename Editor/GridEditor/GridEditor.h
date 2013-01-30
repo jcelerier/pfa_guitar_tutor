@@ -55,9 +55,8 @@ class GridEditor : public QMainWindow
 public:
     GridEditor();
     ~GridEditor();
-    void newEditor(int);
 	QString statusText();
-
+    void startGrid(int);
 private:
     void createMenu();
     void createActions();
@@ -67,6 +66,7 @@ private:
     void connectActionToSlot();
     void buildChordTree();
     QTreeWidgetItem* buildChord(const QString tonality);
+    bool saveBeforeQuit();
 
 signals:
 	void sendTimeToChordWidget(QTime, QTime, QTime);
@@ -74,7 +74,7 @@ signals:
 
 public slots:
 	void changeState();
-	void newGrid();
+    void newGrid();
 	void toXML();
 	void fromXML();
     void about();
