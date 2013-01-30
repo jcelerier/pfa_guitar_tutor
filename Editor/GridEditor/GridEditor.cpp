@@ -115,12 +115,14 @@ void GridEditor::createActions(){
     deleteColumnAction->setIcon(QIcon("icons/deleterow.png"));
 
     saveAction->setEnabled(false);
-    /*
     deleteRowAction->setEnabled(false);
     copyDownAction->setEnabled(false);
     addRowAction->setEnabled(false);
-    */
+    addColumnAction->setEnabled(false);
+    deleteColumnAction->setEnabled(false);
     renameAction->setEnabled(false);
+    openAudioWindowAction->setEnabled(false);
+    openTrackPropertiesAction->setEnabled(false);
 }
 
 /**
@@ -285,6 +287,11 @@ void GridEditor::newGrid()
 		addRowAction->setEnabled(true);
 		addColumnAction->setEnabled(true);
 		renameAction->setEnabled(true);
+        openAudioWindowAction->setEnabled(true);
+        openTrackPropertiesAction->setEnabled(true);
+        deleteRowAction->setEnabled(true);
+        deleteColumnAction->setEnabled(true);
+        copyDownAction->setEnabled(true);
 
 		connect(chordTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
 		connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
@@ -295,8 +302,6 @@ void GridEditor::newGrid()
 		connect(addColumnAction, SIGNAL(triggered()), grid, SLOT(insert_column()));
 
 		connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
-
-
 
         isGridSet = true;
 	}
@@ -404,4 +409,9 @@ QString GridEditor::statusText()
 void GridEditor::setStatusText()
 {
 	statusInfo->setText(statusText());
+}
+
+void GridEditor::rename()
+{
+
 }

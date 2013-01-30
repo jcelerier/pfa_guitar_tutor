@@ -49,7 +49,7 @@ DEPENDPATH += $$PWD/../../libiguitar
 
 
 macx: LIBS += -lfmodex
-win32|unix: LIBS += -lfmodex64-4.44.00
+win32|unix:!macx: LIBS += -lfmodex64-4.44.00
 
 FORMS += \
     PartSetter.ui \

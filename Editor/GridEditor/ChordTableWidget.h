@@ -34,7 +34,7 @@ public:
     ChordTableWidget();
 	ChordTableWidget(int column, int row, QWidget *parent);
     QString get_name() const;
-	void set_name(QString name);
+    void set_name(QString name);
 
     bool is_selection_empty();
     bool is_row_selected();
