@@ -273,19 +273,38 @@ void SimpleMusicPlayer::zoomOut()
 void SimpleMusicPlayer::moveLeft()
 {
 	int mvt = (waveEnd - waveBegin) / waveform->getWidth() ;
-	waveBegin = std::max((unsigned) 0, waveBegin - mvt);
-	waveEnd -= mvt;
-
+	if(waveBegin < 0) { }
+	else if(waveBegin - mvt >= 0)
+	{
+		waveBegin -= mvt;
+		waveEnd -= mvt;
+	}
+	else
+	{
+		waveBegin = 0;
+		waveEnd += waveBegin - mvt;
+	}
 	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
 	waveform->update();
 }
 
 void SimpleMusicPlayer::moveRight()
 {
+	int lgr = player->getTotalLengthInSamples();
 	unsigned int l = waveEnd - waveBegin;
 	int mvt = l / waveform->getWidth() ;
-	waveBegin += mvt;
-	waveEnd = std::min(player->getTotalLengthInSamples(), waveEnd + mvt);
+
+	if(waveEnd > lgr) { }
+	else if (waveEnd + mvt <= lgr)
+	{
+		waveBegin += mvt;
+		waveEnd += mvt;
+	}
+	else
+	{
+		waveBegin += waveEnd + mvt - lgr;
+		waveEnd = lgr;
+	}
 
 	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
 	waveform->update();
