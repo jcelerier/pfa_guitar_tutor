@@ -36,16 +36,7 @@ GridEditor::GridEditor()
     connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
     connect(this, SIGNAL(play(int)), audioWindow, SLOT(playFrom(int)));
 
-
     settings = new QSettings("GuitarTutor", "GridEditor"); //Permet de retenir la configuration du logiciel
-
-    //Demande au client de choisir entre les deux types d'édition
-    if(!settings->contains("ShowEditionSelector") || settings->value("ShowEditionSelector").toBool() == true) {
-        editionSelector = new EditionSelector(this);
-        editionSelector->setWindowModality(Qt::ApplicationModal);
-        editionSelector->show();
-        connect(editionSelector, SIGNAL(newEditor(int)), this, SLOT(newEditor(int)));
-	}
 }
 
 /**
@@ -66,6 +57,7 @@ GridEditor::~GridEditor() {
 		//ex. : actions["new"];
     delete settings;
     delete centralArea;
+    delete editionSelector;
 }
 
 //---------------------------------------------------
@@ -115,12 +107,14 @@ void GridEditor::createActions(){
     deleteColumnAction->setIcon(QIcon("icons/deleterow.png"));
 
     saveAction->setEnabled(false);
-    /*
     deleteRowAction->setEnabled(false);
     copyDownAction->setEnabled(false);
     addRowAction->setEnabled(false);
-    */
+    addColumnAction->setEnabled(false);
+    deleteColumnAction->setEnabled(false);
     renameAction->setEnabled(false);
+    openAudioWindowAction->setEnabled(false);
+    openTrackPropertiesAction->setEnabled(false);
 }
 
 /**
@@ -173,11 +167,12 @@ void GridEditor::createCentralWidget() {
     /*Mise en place du layout*/
     chordTree = new ChordTree(); //Initialisation de chord_tree
     grid = new ChordTableWidget(); //Fenere d'accords
+    editionSelector = new EditionSelector(this);
 
     layout = new QGridLayout();
 
     layout->addWidget(chordTree, 0, 0); //Liste des accords en haut-gauche
-	layout->addWidget(grid, 0, 1); //Fenêtre d'accords en haut-milieu
+    layout->addWidget(editionSelector, 0, 1);
     centralArea->setLayout(layout);
 }
 
@@ -205,6 +200,7 @@ void GridEditor::connectActionToSlot()
 	connect(trackProperties, SIGNAL(trackChanged()), this, SLOT(setStatusText()));
 	connect(trackProperties, SIGNAL(artistChanged()), this, SLOT(setStatusText()));
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
+    connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
 }
 
 //---------------------------------------------------
@@ -241,65 +237,37 @@ void GridEditor::changeState() {
  */
 void GridEditor::newGrid()
 {
-    if (isGridSet)
-	{
-		QMessageBox msgBox;
-        msgBox.setText(tr("The document has been modified"));
-		msgBox.setInformativeText(tr("Do you want to save your changes?"));
-		msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
-		msgBox.setDefaultButton(QMessageBox::Save);
-
-		switch (msgBox.exec())
-		{
-			case QMessageBox::Save:
-				saveAction->activate(QAction::Trigger);
-				break;
-			case QMessageBox::Discard:
-				break;
-			case QMessageBox::Cancel:
-				return;
-				break;
-			default:
-				return;
-				break;
-		}
-	}
+    if(!saveBeforeQuit())
+        return;
 
 	newGridDialog = new NewGridDialog(this);
 
 	int accept = newGridDialog->exec();
 	if(accept == QDialog::Rejected)
-	{
 		return;
-	}
-	else
+    else
 	{
-		delete grid;
-		grid = new ChordTableWidget(newGridDialog->getColumns() + 1, newGridDialog->getLines(), this);
-		trackProperties->setTrack(newGridDialog->getTrack());
-		trackProperties->setArtist(newGridDialog->getArtist());
-		trackProperties->setBarSize(newGridDialog->getBarSize());
+        delete grid;
+        grid = new ChordTableWidget(newGridDialog->getColumns() + 1, newGridDialog->getLines(), this);
+        trackProperties->setTrack(newGridDialog->getTrack());
+        trackProperties->setArtist(newGridDialog->getArtist());
+        trackProperties->setBarSize(newGridDialog->getBarSize());
+        layout->removeWidget(editionSelector);
+        layout->addWidget(grid, 0, 1);
 
-		layout->addWidget(grid, 0, 1);
-		saveAction->setEnabled(true);
+        saveAction->setEnabled(true);
 		addRowAction->setEnabled(true);
 		addColumnAction->setEnabled(true);
 		renameAction->setEnabled(true);
-
-		connect(chordTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
-		connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
-		connect(addRowAction, SIGNAL(triggered()), grid, SLOT(insert_row()));
-		connect(copyDownAction, SIGNAL(triggered()), grid, SLOT(copy_down_rows()));
-		connect(deleteRowAction, SIGNAL(triggered()), grid, SLOT(delete_selected_row()));
-		connect(deleteColumnAction, SIGNAL(triggered()), grid, SLOT(delete_selected_column()));
-		connect(addColumnAction, SIGNAL(triggered()), grid, SLOT(insert_column()));
-
-		connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
-
-
+        openAudioWindowAction->setEnabled(true);
+        openTrackPropertiesAction->setEnabled(true);
+        deleteRowAction->setEnabled(true);
+        deleteColumnAction->setEnabled(true);
+        copyDownAction->setEnabled(true);
 
         isGridSet = true;
-	}
+    }
+    delete newGridDialog;
 }
 
 
@@ -309,13 +277,12 @@ void GridEditor::newGrid()
  *
  * Demande la création de l'éditeur demandé (utilisé depuis l'assistant).
  */
-void GridEditor::newEditor(int type)
+void GridEditor::startGrid(int type)
 {
-    if(type == ASSISTED_EDITOR)
-        QMessageBox::information(this, tr("So sorry..."), tr("This function has not been implemented yet, but come back soon!"));
-    else if(type == MANUAL_EDITOR)
+    if(type == NEW_GRID)
         newGrid();
-    delete editionSelector;
+    else if(type == OPEN_GRID)
+        fromXML();
 }
 
 /**
@@ -355,10 +322,13 @@ void GridEditor::toXML() //ça serait bien qu'on sélectionne le fichier ou on s
  */
 void GridEditor::fromXML() //ça serait bien qu'on sélectionne le fichier ou on sauve.
 {
+    if(!saveBeforeQuit())
+        return;
 	LogicalTrack* track = new LogicalTrack;
 
-	QString file = QFileDialog::getOpenFileName(this, "Chargement", ".", tr("XML Files (*.xml)"), 0, QFileDialog::HideNameFilterDetails);
-
+    QString file = QFileDialog::getOpenFileName(this, tr("Loading"), ".", tr("XML Files (*.xml)"), 0, QFileDialog::HideNameFilterDetails);
+    if(file == "")
+        return;
 	TrackLoader::convertXmlToLogicalTrack(file, track); //tester la valeur de retour et afficher dialog si échec
 
 	trackProperties->setTrack(track->getTrackName());
@@ -370,8 +340,23 @@ void GridEditor::fromXML() //ça serait bien qu'on sélectionne le fichier ou on
 
 	// il faudra penser à recalculer le début, la fin et la durée de la première mesure pour les mettre
 	// dans audiowindow
-
+    delete grid;
+    grid = new ChordTableWidget(4+1, 8, this); //TODO
     grid->setLogicalTrack(track);
+    layout->removeWidget(editionSelector);
+    layout->addWidget(grid, 0, 1);
+
+    saveAction->setEnabled(true);
+    addRowAction->setEnabled(true);
+    addColumnAction->setEnabled(true);
+    renameAction->setEnabled(true);
+    openAudioWindowAction->setEnabled(true);
+    openTrackPropertiesAction->setEnabled(true);
+    deleteRowAction->setEnabled(true);
+    deleteColumnAction->setEnabled(true);
+    copyDownAction->setEnabled(true);
+
+    isGridSet = true;
 }
 
 void GridEditor::about()
@@ -404,4 +389,37 @@ QString GridEditor::statusText()
 void GridEditor::setStatusText()
 {
 	statusInfo->setText(statusText());
+}
+
+void GridEditor::rename()
+{
+
+}
+
+bool GridEditor::saveBeforeQuit()
+{
+    if (isGridSet)
+    {
+        QMessageBox msgBox;
+        msgBox.setText(tr("The document has been modified"));
+        msgBox.setInformativeText(tr("Do you want to save your changes?"));
+        msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+        msgBox.setDefaultButton(QMessageBox::Save);
+
+        switch (msgBox.exec())
+        {
+            case QMessageBox::Save:
+                saveAction->activate(QAction::Trigger);
+                break;
+            case QMessageBox::Discard:
+                break;
+            case QMessageBox::Cancel:
+                return false;
+                break;
+            default:
+                return false;
+                break;
+        }
+    }
+    return true;
 }

@@ -33,10 +33,10 @@ class CaseItem : public QTableWidgetItem
 		CaseItem* clone() const;
 		void ShowContextMenu(const QPoint& pos);
 
-		QString& getPart();
+        QString& getPart();
         void setPart(QString);
 
-		bool isPartSet();
+        bool isPartSet();
         void setBeginningTimer(QTime t, bool timerManuallySet = false);
         QTime getBeginning();
         bool isTimerManuallySet();

@@ -8,83 +8,46 @@
  * Crée la fenêtre d'invite de sélection d'éditeur.
  */
 EditionSelector::EditionSelector(QWidget *parent) :
-    QWidget(parent)
+  QWidget(parent)
 {
-    setWindowFlags(Qt::Dialog);
-    QLabel  *presentation = new QLabel(tr("What do you want to do today?"));
-    QCheckBox *checkbox = new QCheckBox(tr("Show this screen at startup"), this);
-    QTabWidget *tabs = new QTabWidget(this);
-    QVBoxLayout *mainLayout = new QVBoxLayout();
+  setWindowFlags(Qt::Dialog);
+  QLabel *presentation = new QLabel(tr("What do you want to do today?"));
+  QTabWidget *tabs = new QTabWidget(this);
+  QVBoxLayout *mainLayout = new QVBoxLayout();
 
-    QWidget *pageManualEditor = new QWidget(); //Pages pour les onglets
-    QWidget *pageAssistedEditor = new QWidget();
+  QWidget *pageNew = new QWidget(); //Pages pour les onglets
+  QWidget *pageOpen = new QWidget();
 
-    //Page de l'édition manuelle
-    QLabel *pictureManualEditor = new QLabel();
-    pictureManualEditor->setPixmap(QPixmap("icons/manualeditor.jpg"));
-    QPushButton *buttonManualEditor = new QPushButton(tr("Begin"));
+  //Page nouveau fichier
+  QLabel *pictureNew = new QLabel(tr("Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat."));
+  pictureNew->setWordWrap(true);
+  //pictureNew->setPixmap(QPixmap("icons/manualeditor.jpg"));
+  QPushButton *buttonNew= new QPushButton(tr("Begin"));
 
-    QVBoxLayout *vboxManualEditor = new QVBoxLayout;
-    vboxManualEditor->addWidget(pictureManualEditor);
-    vboxManualEditor->addWidget(buttonManualEditor);
-    pageManualEditor->setLayout(vboxManualEditor);
+  QVBoxLayout *vboxNew = new QVBoxLayout;
+  vboxNew->addWidget(pictureNew);
+  vboxNew->addWidget(buttonNew);
+  pageNew->setLayout(vboxNew);
 
 
-    //Page de l'édition assistée
-    QLabel *pictureAssistedEditor = new QLabel();
-    pictureAssistedEditor->setPixmap(QPixmap("icons/assistededitor.jpg"));
-    QPushButton *buttonAssistedEditor = new QPushButton(tr("Begin"));
+  //Page ouverture fichier
+  QLabel *pictureOpen = new QLabel(tr("Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi."));
+  pictureOpen->setWordWrap(true);
+  //pictureOpen->setPixmap(QPixmap("icons/assistededitor.jpg"));
+  QPushButton *buttonOpen = new QPushButton(tr("Begin"));
 
-    QVBoxLayout *vboxAssistedEditor = new QVBoxLayout;
-    vboxAssistedEditor->addWidget(pictureAssistedEditor);
-    vboxAssistedEditor->addWidget(buttonAssistedEditor);
-    pageAssistedEditor->setLayout(vboxAssistedEditor);
+  QVBoxLayout *vboxOpen = new QVBoxLayout;
+  vboxOpen->addWidget(pictureOpen);
+  vboxOpen->addWidget(buttonOpen);
+  pageOpen->setLayout(vboxOpen);
 
-    tabs->addTab(pageManualEditor, tr("Manual Editor"));
-    tabs->addTab(pageAssistedEditor, tr("Assisted Editor"));
-    checkbox->setCheckState(Qt::Checked);
+  tabs->addTab(pageNew, tr("New grid"));
+  tabs->addTab(pageOpen, tr("Open a grid"));
 
-    mainLayout->addWidget(presentation);
-    mainLayout->addWidget(tabs);
-    mainLayout->addWidget(checkbox);
-    setLayout(mainLayout);
+  mainLayout->addWidget(presentation);
+  mainLayout->addWidget(tabs);
+  setLayout(mainLayout);
 
-    connect(buttonAssistedEditor, SIGNAL(clicked()), this, SLOT(newAssistedEditor()));
-    connect(buttonManualEditor, SIGNAL(clicked()), this, SLOT(newManualEditor()));
-    connect(checkbox, SIGNAL(stateChanged(int)), this, SLOT(setShowOption(int)));
-}
-
-/**
- * @brief EditionSelector::newAssistedEditor
- *
- * Demande la création d'un widget d'édition assistée dans la fenêtre parente puis quitte le sélecteur d'éditeur.
- */
-void EditionSelector::newAssistedEditor()
-{
-    close();
-    ((GridEditor*) parent())->newEditor(ASSISTED_EDITOR);
-}
-
-/**
- * @brief EditionSelector::newManualEditor
- *
- * Demande la création d'un widget d'édition manuelle dans la fenêtre parente puis quitte le sélecteur d'éditeur.
- */
-void EditionSelector::newManualEditor()
-{
-    close();
-    ((GridEditor*) parent())->newEditor(MANUAL_EDITOR);
-}
-
-/**
- * @brief EditionSelector::setShowOption
- * @param state 0 si et seulement si le sélectionneur d'éditeur ne doit pas s'afficher au démarrage.
- *
- * Sauvegarde s'il faut afficher ou non le sélectionneur d'éditeur au démarrage.
- */
-void EditionSelector::setShowOption(int state)
-{
-    QSettings* settings = new QSettings("GuitarTutor", "GridEditor");
-    settings->setValue("ShowEditionSelector", state);
-    delete settings;
+  connect(buttonNew, SIGNAL(clicked()), parent, SLOT(newGrid()));
+  connect(buttonOpen, SIGNAL(clicked()), parent, SLOT(fromXML()));
 }

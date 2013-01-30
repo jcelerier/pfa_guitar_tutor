@@ -14,13 +14,13 @@ AudioSync::AudioSync()
     QLabel* lbeggining = new QLabel(tr("Beginning"));
     QLabel* lend = new QLabel(tr("End"));
     QLabel* lbar = new QLabel(tr("Bar"));
-    bbeggining = new QToolButton();
+    bbeginning = new QToolButton();
     bend = new QToolButton();
     bbar = new QToolButton();
 
     sendButton = new QPushButton(tr("Compute"));
 
-    bbeggining->setIcon(QIcon("icons/timer.png"));
+    bbeginning->setIcon(QIcon("icons/timer.png"));
     bend->setIcon(QIcon("icons/timer.png"));
     bbar->setIcon(QIcon("icons/timer.png"));
 
@@ -32,7 +32,7 @@ AudioSync::AudioSync()
 
     layout->addWidget(lbeggining, 0, 0);
 	layout->addWidget(beginning, 0, 1);
-    layout->addWidget(bbeggining, 0, 2);
+    layout->addWidget(bbeginning, 0, 2);
     layout->addWidget(lend, 1, 0);
     layout->addWidget(end, 1, 1);
     layout->addWidget(bend, 1, 2);
@@ -43,7 +43,7 @@ AudioSync::AudioSync()
 	layout->addWidget(sendButton, 3, 0);
     setLayout(layout);
 
-    connect(bbeggining, SIGNAL(pressed()), this, SLOT(emitSignalTimer()));
+    connect(bbeginning, SIGNAL(pressed()), this, SLOT(emitSignalTimer()));
     connect(bend, SIGNAL(pressed()), this, SLOT(emitSignalTimer()));
     connect(bbar, SIGNAL(pressed()), this, SLOT(emitSignalTimer()));
 
@@ -56,7 +56,7 @@ AudioSync::~AudioSync()
     delete end;
     delete bar;
     delete layout;
-    delete bbeggining;
+    delete bbeginning;
     delete bend;
     delete bbar;
 }
@@ -85,7 +85,7 @@ void AudioSync::setBarTimer(const QTime t)
 
 void AudioSync::emitSignalTimer()
 {
-    if(bbeggining->isDown())
+    if(bbeginning->isDown())
         emit refreshTimer(TIMER_BEGGINING);
     else if(bend->isDown())
         emit refreshTimer(TIMER_END);
@@ -95,5 +95,8 @@ void AudioSync::emitSignalTimer()
 
 void AudioSync::sendData()
 {
-	emit sendTimer(beginning->time(), bar->time(), end->time());
+    if(beginning->time().isValid() && bar->time().isValid() && end->time().isValid())
+        emit sendTimer(beginning->time(), bar->time(), end->time());
+    else
+        QMessageBox::information(this, tr("Your job is not done yet"), tr("You have not completed the three timers yet."));
 }

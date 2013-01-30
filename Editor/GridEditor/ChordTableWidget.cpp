@@ -37,13 +37,13 @@ ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent)
 	this->insert_row(0, row);
 	this->setHorizontalHeaderItem(this->columnCount() - 1, new QTableWidgetItem(tr("Annotation")));
 	for (int c = 0 ; c < this->columnCount() - 1 ; c ++)
-		for (int r = 0 ; r < this->rowCount() ; r ++)
-		{
+        for (int r = 0 ; r < this->rowCount() ; r ++)
+        {
 			this->setItem(r, c, new CaseItem());
 			this->setColumnWidth(c, 60);
 		}
-	for (int r = 0 ; r < this->rowCount() ; r ++)
-	{
+    for (int r = 0 ; r < this->rowCount() ; r ++)
+    {
 		this->setItem(r, this->columnCount() - 1, new QTableWidgetItem());
 		this->setRowHeight(r, 40);
 	}
@@ -65,7 +65,7 @@ ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent)
 
 	connect(m_properties, SIGNAL(triggered()), this, SLOT(showProperties()));
 	connect(m_playFromHere, SIGNAL(triggered()), this, SLOT(playFromHere()));
-	connect(this, SIGNAL(play(int)), parent, SIGNAL(play(int)));
+    //connect(this, SIGNAL(play(int)), parent, SIGNAL(play(int)));
 
 	m_currentItem = (CaseItem*) this->item(0, 0);
 	setCasePart("Intro");
@@ -189,7 +189,6 @@ void ChordTableWidget::fill_selection(QTreeWidgetItem* chord, int column) {
 			if ((*it).column() != this->columnCount() - 1) {
 				CaseItem* item = (CaseItem*) this->takeItem((*it).row(), (*it).column());
 				item->set_chord(chord->text(column));
-				item->set_color(0, 200, 100, 150);
 				this->setItem((*it).row(), (*it).column(), item);
 			}
 		}

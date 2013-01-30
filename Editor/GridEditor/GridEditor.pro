@@ -50,8 +50,9 @@ DEPENDPATH += $$PWD/../../libiguitar
 
 
 macx: LIBS += -lfmodex
-unix: LIBS += -lfmodex64-4.44.00
+unix:!macx: LIBS += -lfmodex64-4.44.00
 win32: LIBS += -L$$PWD/../../fmod/api/lib/ -lfmodex
+
 FORMS += \
     PartSetter.ui \
     TrackProperties.ui \
