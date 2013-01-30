@@ -38,6 +38,7 @@ public:
     void changePosition(unsigned int position);
 
 	void getFullSpectrum(int *tab, unsigned int size);
+	void getSpectrum(int begin, int end, int* tab, unsigned int pixelSize);
 	void initSamples();
 
 };

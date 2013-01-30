@@ -63,7 +63,7 @@ void Waveform::display()
 	for(unsigned int i = 0; i < m_width ; i++)
 	{
 		//height = abs(table[i] / (int) pow(2, 23)); //moyenne
-		value = abs(spectrum[i] / (int) pow(2, 19));//max
+		value = abs(spectrum[i] / (int) pow(2, 19 - m_height/200));//max
 		for(unsigned int j = m_height / 2 - 1 - value; j < m_height / 2 + value; j++)
 		{
 			image->setPixel(i, j, green_color);

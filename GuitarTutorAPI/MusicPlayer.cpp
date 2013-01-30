@@ -258,9 +258,11 @@ void MusicPlayer::getFullSpectrum(int * tab, unsigned int size)
 		//algo max
 		for(unsigned int j = 0; j < chunk_size; j++)
 		{
-			if(i*chunk_sep + j < file_size)
+			int sample = i*chunk_sep + j;
+			if(sample < file_size)
 			{
-				max = (samples[i*chunk_sep + j] < max)? max : samples[i*chunk_sep + j];
+
+				max = (samples[sample] < max)? max : samples[sample];
 			}
 		}
 
@@ -270,6 +272,37 @@ void MusicPlayer::getFullSpectrum(int * tab, unsigned int size)
 	}
 
 	for(unsigned int i = 1; i < size-1; i++ )
+	{
+		tab[i] = (med_tab[i] + med_tab[i-1] + med_tab[i+1]) / 3;
+	}
+}
+
+void MusicPlayer::getSpectrum(int begin, int end, int* tab, unsigned int pixelSize)
+{
+	int max = 0;
+	const unsigned int file_size = getTotalLengthInSamples();
+	const unsigned int chunk_size = 32;
+	const unsigned int chunk_sep = (end - begin) / pixelSize;
+
+	int med_tab[pixelSize];
+	for(unsigned int i = 0; i < pixelSize; i ++)
+	{
+		//algo max
+		for(unsigned int j = 0; j < chunk_size; j++)
+		{
+			int sample = (((i * chunk_sep) + begin) + j);
+			if(sample < file_size)
+			{
+				max = (samples[sample] < max)? max : samples[sample];
+			}
+		}
+
+		med_tab[i] = max / chunk_size;
+
+		max = 0;
+	}
+
+	for(unsigned int i = 1; i < pixelSize-1; i++ )
 	{
 		tab[i] = (med_tab[i] + med_tab[i-1] + med_tab[i+1]) / 3;
 	}

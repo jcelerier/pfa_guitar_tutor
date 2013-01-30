@@ -7,7 +7,7 @@
 
 class Waveform : public QLabel
 {
-		Q_OBJECT
+	Q_OBJECT
 	QImage* image;
 
 	int* spectrum;

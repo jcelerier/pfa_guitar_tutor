@@ -18,13 +18,13 @@ AudioWindow::AudioWindow(QWidget * parent)
 	layout->addWidget(browseButton, 1, 3);
 	layout->addWidget(player, 2, 1, 3, 3);
 
-
 	connect(browseButton, SIGNAL(released()), this, SLOT(browseAudioFile()));
 	connect(player, SIGNAL(browseAudioFile()), this, SLOT(browseAudioFile()));
 	connect(player, SIGNAL(audioFileDeleted()), this, SLOT(resetAudioFile()));
 	connect(audioSync, SIGNAL(refreshTimer(int)), this, SLOT(refreshTimerAudioSync(int)));
 
 	connect(audioSync, SIGNAL(sendTimer(QTime, QTime, QTime)), parent, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)));
+
 	this->setLayout(layout);
 }
 

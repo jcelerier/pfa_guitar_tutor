@@ -29,6 +29,9 @@ private:
     unsigned int songLength;
     unsigned int currentPosition;
 
+	unsigned int waveBegin;
+	unsigned int waveEnd;
+
 protected:
     virtual void resizeEvent(QResizeEvent * event);
 
@@ -47,6 +50,11 @@ public slots:
     void refreshTimerLabel();
     void updateSlideBar();
     void changePosition(int);
+
+	void zoomIn();
+	void zoomOut();
+	void moveLeft();
+	void moveRight();
 signals:
     void browseAudioFile();
     void audioFileDeleted();

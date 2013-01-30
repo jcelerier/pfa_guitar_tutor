@@ -28,7 +28,25 @@ SimpleMusicPlayer::SimpleMusicPlayer()
     layout->addWidget(stopButton, 1, 2);
     layout->addWidget(timerLabel, 1, 6);
 	layout->addWidget(waveform, 2, 0, 1, 7);
+
+	QPushButton * plus = new QPushButton("+");
+	QPushButton * moins = new QPushButton("-");
+	QPushButton * gauche = new QPushButton("G");
+	QPushButton * droite = new QPushButton("D");
+
+	layout->addWidget(plus, 3, 0, 1, 1);
+	layout->addWidget(moins, 4, 0, 1, 1);
+	layout->addWidget(gauche, 3, 1, 1, 1);
+	layout->addWidget(droite, 3, 2, 1, 1);
+
     setLayout(layout);
+
+	connect(plus, SIGNAL(clicked()), this, SLOT(zoomIn()));
+	connect(moins, SIGNAL(clicked()), this, SLOT(zoomOut()));
+
+	connect(gauche, SIGNAL(clicked()), this, SLOT(moveLeft()));
+	connect(droite, SIGNAL(clicked()), this, SLOT(moveRight()));
+
 
     connect(playButton, SIGNAL(released()), this, SLOT(play()));
     connect(pauseButton, SIGNAL(released()), this, SLOT(pause()));
@@ -88,7 +106,11 @@ bool SimpleMusicPlayer::setAudioFile(QString file)
     refreshTimerLabel();
     slideBar->setRange(0, songLength);
 
-	player->getFullSpectrum(waveform->getSpectrum(), waveform->getWidth());
+	//player->getFullSpectrum(waveform->getSpectrum(), waveform->getWidth());
+	waveBegin = 0;
+	waveEnd = player->getTotalLengthInSamples();
+
+	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
 	waveform->update();
 
     return true;
@@ -105,7 +127,9 @@ void SimpleMusicPlayer::resizeEvent(QResizeEvent * event)
 	if(player->getState())
 	{
 		waveform->setWidth(slideBar->width());
-		player->getFullSpectrum(waveform->getSpectrum(), waveform->getWidth());
+		//player->getFullSpectrum(waveform->getSpectrum(), waveform->getWidth());
+
+		player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
 		waveform->update();
 	}
 }
@@ -223,4 +247,46 @@ void SimpleMusicPlayer::changePosition(int position)
 {
     player->changePosition(position);
 	currentPosition = player->getPosition();
+}
+
+
+void SimpleMusicPlayer::zoomIn()
+{
+	int med = (waveEnd - waveBegin) / 2;
+	waveBegin += med/2;
+	waveEnd -= med/2;
+
+	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
+	waveform->update();
+}
+
+void SimpleMusicPlayer::zoomOut()
+{
+	int med = (waveEnd - waveBegin) / 2;
+	waveBegin = std::min((unsigned) 0, waveBegin - med);
+	waveEnd = std::min(player->getTotalLengthInSamples(), waveEnd + med);
+
+	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
+	waveform->update();
+}
+
+void SimpleMusicPlayer::moveLeft()
+{
+	int mvt = (waveEnd - waveBegin) / waveform->getWidth() ;
+	waveBegin = std::max((unsigned) 0, waveBegin - mvt);
+	waveEnd -= mvt;
+
+	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
+	waveform->update();
+}
+
+void SimpleMusicPlayer::moveRight()
+{
+	unsigned int l = waveEnd - waveBegin;
+	int mvt = l / waveform->getWidth() ;
+	waveBegin += mvt;
+	waveEnd = std::min(player->getTotalLengthInSamples(), waveEnd + mvt);
+
+	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
+	waveform->update();
 }

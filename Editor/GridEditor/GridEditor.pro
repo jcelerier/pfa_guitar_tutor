@@ -56,3 +56,8 @@ FORMS += \
     PartSetter.ui \
     TrackProperties.ui \
     NewGridDialog.ui
+
+
+unix:QMAKE_POST_LINK += mv GridEditor ../../app/
+macx:QMAKE_POST_LINK += mv GridEditor.app ../../app/
+win32:QMAKE_POST_LINK += mv GridEditor.exe ../../app/
