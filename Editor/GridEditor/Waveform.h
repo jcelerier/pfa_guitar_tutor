@@ -7,6 +7,7 @@
 
 class Waveform : public QLabel
 {
+	QWidget* parent;
 	Q_OBJECT
 	QImage* image;
 
@@ -14,7 +15,13 @@ class Waveform : public QLabel
 	unsigned int m_width;
 	unsigned int m_height;
 
+	QPoint oldMousePos;
+
 	static const uint green_color;
+	protected:
+		void mouseMoveEvent(QMouseEvent * event);
+		void mousePressEvent(QMouseEvent * event);
+
 	public:
 		explicit Waveform(QWidget *parent, int w, int h);
 		void update();

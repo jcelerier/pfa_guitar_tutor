@@ -7,6 +7,7 @@ const uint Waveform::green_color = 0xFF00FF00; //QColor(75, 200, 0).rgb();
 
 Waveform::Waveform(QWidget *parent, int w, int h)
 {
+	this->parent = parent;
 	this->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
 	m_width = w;
 	m_height = h;
@@ -97,4 +98,35 @@ int* Waveform::getSpectrum()
 int Waveform::getWidth()
 {
 	return m_width;
+}
+
+#include <QMouseEvent>
+#include "SimpleMusicPlayer.h"
+void Waveform::mouseMoveEvent(QMouseEvent * event)
+{
+	const QPoint pos = event->pos();
+	if(pos.x() < oldMousePos.x()) // on va à gauche : mouvement
+	{
+		((SimpleMusicPlayer*) parent)->moveLeft();
+	}
+	else if(pos.x() > oldMousePos.x()) // on va à droite : mouvement
+	{
+		((SimpleMusicPlayer*) parent)->moveRight();
+	}
+
+	if(pos.y() < oldMousePos.y()) // on va en haut : zoom
+	{
+		((SimpleMusicPlayer*) parent)->zoomIn();
+	}
+	else if(pos.y() > oldMousePos.y()) // on va en bas : dézoom
+	{
+		((SimpleMusicPlayer*) parent)->zoomOut();
+	}
+
+	oldMousePos = pos;
+}
+
+void Waveform::mousePressEvent(QMouseEvent * event)
+{
+	oldMousePos =  event->pos();
 }

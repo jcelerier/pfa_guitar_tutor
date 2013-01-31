@@ -252,7 +252,7 @@ void SimpleMusicPlayer::changePosition(int position)
 
 void SimpleMusicPlayer::zoomIn()
 {
-	int med = (waveEnd - waveBegin) / 2;
+	int med = (waveEnd - waveBegin) / 20;
 	waveBegin += med/2;
 	waveEnd -= med/2;
 
@@ -262,9 +262,9 @@ void SimpleMusicPlayer::zoomIn()
 
 void SimpleMusicPlayer::zoomOut()
 {
-	int med = (waveEnd - waveBegin) / 2;
-	waveBegin = std::min((unsigned) 0, waveBegin - med);
-	waveEnd = std::min(player->getTotalLengthInSamples(), waveEnd + med);
+	int med = (waveEnd - waveBegin) / 20;
+	waveBegin = std::max(0, waveBegin - med);
+	waveEnd = std::min((signed) player->getTotalLengthInSamples(), waveEnd + med);
 
 	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
 	waveform->update();
@@ -273,6 +273,7 @@ void SimpleMusicPlayer::zoomOut()
 void SimpleMusicPlayer::moveLeft()
 {
 	int mvt = (waveEnd - waveBegin) / waveform->getWidth() ;
+
 	if(waveBegin < 0) { }
 	else if(waveBegin - mvt >= 0)
 	{
@@ -291,7 +292,7 @@ void SimpleMusicPlayer::moveLeft()
 void SimpleMusicPlayer::moveRight()
 {
 	int lgr = player->getTotalLengthInSamples();
-	unsigned int l = waveEnd - waveBegin;
+	int l = waveEnd - waveBegin;
 	int mvt = l / waveform->getWidth() ;
 
 	if(waveEnd > lgr) { }

@@ -29,8 +29,8 @@ private:
     unsigned int songLength;
     unsigned int currentPosition;
 
-	unsigned int waveBegin;
-	unsigned int waveEnd;
+	int waveBegin;
+	int waveEnd;
 
 protected:
     virtual void resizeEvent(QResizeEvent * event);
