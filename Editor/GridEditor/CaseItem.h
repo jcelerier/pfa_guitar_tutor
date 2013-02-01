@@ -21,10 +21,11 @@ class CaseItem : public QTableWidgetItem
 	QString m_part;
     QTime m_beginningTimer;
     bool m_timerManuallySet;
+    bool m_partEditable;
 
 	public:
-		CaseItem();
-		CaseItem(const QTableWidgetItem& item);
+        CaseItem(const bool partEditable = true);
+        CaseItem(const QTableWidgetItem& item);
 		~CaseItem();
 		void set_color(int r, int g, int b, int);
 		void set_chord(QString cw);
@@ -40,6 +41,7 @@ class CaseItem : public QTableWidgetItem
         void setBeginningTimer(QTime t, bool timerManuallySet = false);
         QTime getBeginning();
         bool isTimerManuallySet();
+        bool isPartEditable();
 };
 
 #endif // CASEITEM_H

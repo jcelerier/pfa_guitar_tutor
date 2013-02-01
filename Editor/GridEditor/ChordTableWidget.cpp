@@ -39,7 +39,10 @@ ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent)
 	for (int c = 0 ; c < this->columnCount() - 1 ; c ++)
         for (int r = 0 ; r < this->rowCount() ; r ++)
         {
-			this->setItem(r, c, new CaseItem());
+            if(c == 0 && r == 0)
+                this->setItem(r, c, new CaseItem(false));
+            else
+                this->setItem(r, c, new CaseItem());
 			this->setColumnWidth(c, 60);
 		}
     for (int r = 0 ; r < this->rowCount() ; r ++)
@@ -384,6 +387,7 @@ void ChordTableWidget::showProperties()
 {
     m_setPartDialog->initBeginning(m_currentItem->getBeginning());
     m_setPartDialog->initPart(m_currentItem->getPart());
+    m_setPartDialog->setPartEditable(m_currentItem->isPartEditable());
     m_setPartDialog->showDialogModal();
 }
 
