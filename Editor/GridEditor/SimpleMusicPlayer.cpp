@@ -281,14 +281,14 @@ void SimpleMusicPlayer::zoomOut(QPoint clickPos)
 	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
 	waveform->update();
 
-	qDebug() << waveBegin << waveEnd;
+	//qDebug() << waveBegin << waveEnd;
 }
 
 void SimpleMusicPlayer::moveLeft()
 {
 	int mvt = (waveEnd - waveBegin) / waveform->getWidth() ;
 
-	qDebug() << "début:" << waveBegin ;
+	//qDebug() << "début:" << waveBegin ;
 	if(waveBegin <= 0)
 	{
 	   //do nothing
@@ -305,7 +305,7 @@ void SimpleMusicPlayer::moveLeft()
 	}
 
 
-	qDebug() << "fin:" << waveBegin ;
+	//qDebug() << "fin:" << waveBegin ;
 	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
 	waveform->update();
 }
