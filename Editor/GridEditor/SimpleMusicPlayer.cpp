@@ -29,24 +29,9 @@ SimpleMusicPlayer::SimpleMusicPlayer()
     layout->addWidget(timerLabel, 1, 6);
 	layout->addWidget(waveform, 2, 0, 1, 7);
 
-	QPushButton * plus = new QPushButton("+");
-	QPushButton * moins = new QPushButton("-");
-	QPushButton * gauche = new QPushButton("G");
-	QPushButton * droite = new QPushButton("D");
-
-	layout->addWidget(plus, 3, 0, 1, 1);
-	layout->addWidget(moins, 4, 0, 1, 1);
-	layout->addWidget(gauche, 3, 1, 1, 1);
-	layout->addWidget(droite, 3, 2, 1, 1);
-
     setLayout(layout);
 
-	connect(plus, SIGNAL(clicked()), this, SLOT(zoomIn()));
-	connect(moins, SIGNAL(clicked()), this, SLOT(zoomOut()));
-
-	connect(gauche, SIGNAL(clicked()), this, SLOT(moveLeft()));
-	connect(droite, SIGNAL(clicked()), this, SLOT(moveRight()));
-
+	connect(this, SIGNAL(sendTimers(QTime,QTime,QTime)), waveform, SLOT(setTimers(QTime,QTime,QTime)));
 
     connect(playButton, SIGNAL(released()), this, SLOT(play()));
     connect(pauseButton, SIGNAL(released()), this, SLOT(pause()));
@@ -250,41 +235,77 @@ void SimpleMusicPlayer::changePosition(int position)
 }
 
 
-void SimpleMusicPlayer::zoomIn()
+void SimpleMusicPlayer::zoomIn(QPoint clickPos)
 {
-	int med = (waveEnd - waveBegin) / 20;
-	waveBegin += med/2;
-	waveEnd -= med/2;
+	float clickPercent = (float) clickPos.x() / (float) waveform->getWidth();
+	float sample = clickPercent * player->getTotalLengthInSamples();
+	const int zoomFactor = 20;
 
-	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
-	waveform->update();
+	// vieille méthode :
+//	int med = (waveEnd - waveBegin) / 20;
+//	waveBegin += med/2;
+//	waveEnd -= med/2;
+
+	if(waveEnd - waveBegin > 9000)
+	{
+		waveBegin += (sample - (float) waveBegin) / (float) zoomFactor;
+		waveEnd -= (waveEnd - sample) / zoomFactor;
+
+		if(waveEnd < waveBegin + 10000 || waveEnd < 0)
+			waveEnd = waveBegin + 10000;
+
+		player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
+		waveform->update();
+	}
+	else
+	{
+		waveEnd = waveBegin + 10000;
+	}
 }
 
-void SimpleMusicPlayer::zoomOut()
+void SimpleMusicPlayer::zoomOut(QPoint clickPos)
 {
-	int med = (waveEnd - waveBegin) / 20;
-	waveBegin = std::max(0, waveBegin - med);
-	waveEnd = std::min((signed) player->getTotalLengthInSamples(), waveEnd + med);
+	float clickPercent = (float) clickPos.x() / (float) waveform->getWidth();
+	float sample = clickPercent * player->getTotalLengthInSamples();
+	const int zoomFactor = 20;
+
+//	int med = (waveEnd - waveBegin) / 20;
+	waveBegin = std::max(0,
+						 std::min(waveBegin - (int) ((sample - (float) waveBegin) / (float) zoomFactor),
+								  (int) player->getTotalLengthInSamples() - 10000));
+	waveEnd = std::max(waveBegin + 10000,
+					   std::min((signed) player->getTotalLengthInSamples(),
+								waveEnd + std::max((int) ((waveEnd - sample) / zoomFactor),
+												   0)));
 
 	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
 	waveform->update();
+
+	//qDebug() << waveBegin << waveEnd;
 }
 
 void SimpleMusicPlayer::moveLeft()
 {
 	int mvt = (waveEnd - waveBegin) / waveform->getWidth() ;
 
-	if(waveBegin < 0) { }
-	else if(waveBegin - mvt >= 0)
+	//qDebug() << "début:" << waveBegin ;
+	if(waveBegin <= 0)
+	{
+	   //do nothing
+	} //pour éviter bugs
+	else if(waveBegin - mvt >= 0) // cas valide
 	{
 		waveBegin -= mvt;
 		waveEnd -= mvt;
 	}
-	else
+	else // cas ou on est au bord
 	{
+		//waveEnd = waveEnd + (waveBegin - mvt);
 		waveBegin = 0;
-		waveEnd += waveBegin - mvt;
 	}
+
+
+	//qDebug() << "fin:" << waveBegin ;
 	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
 	waveform->update();
 }
@@ -295,7 +316,7 @@ void SimpleMusicPlayer::moveRight()
 	int l = waveEnd - waveBegin;
 	int mvt = l / waveform->getWidth() ;
 
-	if(waveEnd > lgr) { }
+	if(waveEnd >= lgr) { }
 	else if (waveEnd + mvt <= lgr)
 	{
 		waveBegin += mvt;
@@ -303,10 +324,21 @@ void SimpleMusicPlayer::moveRight()
 	}
 	else
 	{
-		waveBegin += waveEnd + mvt - lgr;
+		//waveBegin += waveEnd + mvt - lgr;
 		waveEnd = lgr;
 	}
 
 	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
 	waveform->update();
+}
+
+
+int SimpleMusicPlayer::getWaveBegin()
+{
+	return waveBegin;
+}
+
+int SimpleMusicPlayer::getWaveEnd()
+{
+	return waveEnd;
 }

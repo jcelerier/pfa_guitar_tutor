@@ -111,11 +111,11 @@ void MainWidget::timeOut()
 		m_scoreManager = new ScoreManager(musicManager);
 
 
-        m_scoreManager->loadScore("Tracks/BeatlesDayInTheLife/Guitar.txt");
+		// m_scoreManager->loadScore("Tracks/BeatlesDayInTheLife/Guitar.txt");
 
-        /*LogicalTrack *tr = new LogicalTrack();
+		LogicalTrack *tr = new LogicalTrack();
         TrackLoader::convertXmlToLogicalTrack("Tracks/BeatlesDayInTheLife/songExample.xml", tr);
-        m_scoreManager->loadScore(tr);*/
+		m_scoreManager->loadScore(tr);
 
 		m_scoreManager->run();
 

@@ -43,6 +43,9 @@ public:
 
     QTime getCurrentPosition();
 
+	int getWaveBegin();
+	int getWaveEnd();
+
 public slots:
     void play();
     void pause();
@@ -51,13 +54,14 @@ public slots:
     void updateSlideBar();
     void changePosition(int);
 
-	void zoomIn();
-	void zoomOut();
+	void zoomIn(QPoint);
+	void zoomOut(QPoint);
 	void moveLeft();
 	void moveRight();
 signals:
     void browseAudioFile();
     void audioFileDeleted();
+	void sendTimers(QTime, QTime, QTime);
 };
 
 #endif // SIMPLEMUSICPLAYER_H

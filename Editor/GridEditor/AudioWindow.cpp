@@ -24,6 +24,7 @@ AudioWindow::AudioWindow(QWidget * parent)
 	connect(audioSync, SIGNAL(refreshTimer(int)), this, SLOT(refreshTimerAudioSync(int)));
 
 	connect(audioSync, SIGNAL(sendTimer(QTime, QTime, QTime)), parent, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)));
+	connect(audioSync, SIGNAL(sendTimer(QTime,QTime,QTime)), player, SIGNAL(sendTimers(QTime, QTime, QTime)));
 
 	this->setLayout(layout);
 }

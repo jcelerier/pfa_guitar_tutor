@@ -5,6 +5,8 @@
 #include <QList>
 #include <QtXml>
 #include <QFile>
+#include <Qt/qtest.h>
+
 using namespace std;
 
 #include "../GuitarTutor/Chord.h"
