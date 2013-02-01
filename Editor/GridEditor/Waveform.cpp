@@ -90,10 +90,34 @@ void Waveform::display()
 
 	if(s_beg > beg && s_beg < end)
 	{
-		int size = end - beg;
-		int pos = ((s_beg - beg) / size) * m_width;
+		float size = end - beg;
+		float tmp = (((float)s_beg - (float)beg) / size);
+		int pos = tmp * m_width;
 
-		qDebug() << pos;
+		for(unsigned int j = 0; j < m_height; j++)
+		{
+			image->setPixel(pos, j, 0xFFFFFFFFF);
+		}
+	}
+
+	if(s_bar > beg && s_bar < end)
+	{
+		float size = end - beg;
+		float tmp = (((float) s_bar - (float)beg) / size);
+		int pos = tmp * m_width;
+
+		for(unsigned int j = 0; j < m_height; j++)
+		{
+			image->setPixel(pos, j, 0xFFFFFFFFF);
+		}
+	}
+
+	if(s_end > beg && s_end < end)
+	{
+		float size = end - beg;
+		float tmp = (((float) s_end - (float)beg) / size);
+		int pos = tmp * m_width;
+
 		for(unsigned int j = 0; j < m_height; j++)
 		{
 			image->setPixel(pos, j, 0xFFFFFFFFF);
@@ -144,20 +168,23 @@ void Waveform::mouseMoveEvent(QMouseEvent * event)
 		((SimpleMusicPlayer*) parent)->moveRight();
 	}
 
+
 	if(pos.y() < oldMousePos.y()) // on va en haut : zoom
 	{
-		((SimpleMusicPlayer*) parent)->zoomIn();
+		((SimpleMusicPlayer*) parent)->zoomIn(clickPos);
 	}
 	else if(pos.y() > oldMousePos.y()) // on va en bas : dézoom
 	{
-		((SimpleMusicPlayer*) parent)->zoomOut();
+		((SimpleMusicPlayer*) parent)->zoomOut(clickPos);
 	}
 
 	oldMousePos = pos;
+
 }
 
 void Waveform::mousePressEvent(QMouseEvent * event)
 {
+	clickPos = event->pos();
 	oldMousePos =  event->pos();
 }
 

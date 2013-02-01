@@ -29,23 +29,7 @@ SimpleMusicPlayer::SimpleMusicPlayer()
     layout->addWidget(timerLabel, 1, 6);
 	layout->addWidget(waveform, 2, 0, 1, 7);
 
-	QPushButton * plus = new QPushButton("+");
-	QPushButton * moins = new QPushButton("-");
-	QPushButton * gauche = new QPushButton("G");
-	QPushButton * droite = new QPushButton("D");
-
-	layout->addWidget(plus, 3, 0, 1, 1);
-	layout->addWidget(moins, 4, 0, 1, 1);
-	layout->addWidget(gauche, 3, 1, 1, 1);
-	layout->addWidget(droite, 3, 2, 1, 1);
-
     setLayout(layout);
-
-	connect(plus, SIGNAL(clicked()), this, SLOT(zoomIn()));
-	connect(moins, SIGNAL(clicked()), this, SLOT(zoomOut()));
-
-	connect(gauche, SIGNAL(clicked()), this, SLOT(moveLeft()));
-	connect(droite, SIGNAL(clicked()), this, SLOT(moveRight()));
 
 	connect(this, SIGNAL(sendTimers(QTime,QTime,QTime)), waveform, SLOT(setTimers(QTime,QTime,QTime)));
 
@@ -251,17 +235,24 @@ void SimpleMusicPlayer::changePosition(int position)
 }
 
 
-void SimpleMusicPlayer::zoomIn()
+void SimpleMusicPlayer::zoomIn(QPoint clickPos)
 {
-	int med = (waveEnd - waveBegin) / 20;
-	waveBegin += med/2;
-	waveEnd -= med/2;
+	float clickPercent = (float) clickPos.x() / (float) waveform->getWidth();
+	float sample = clickPercent * player->getTotalLengthInSamples();
+//	int med = (waveEnd - waveBegin) / 20;
+//	waveBegin += med/2;
+//	waveEnd -= med/2;
+	const int zoomFactor = 20;
+	qDebug() << waveBegin;
+	waveBegin += (sample - (float) waveBegin) / (float) zoomFactor;
+	qDebug() << waveBegin;
+	waveEnd -= (waveEnd - sample) / zoomFactor;
 
 	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
 	waveform->update();
 }
 
-void SimpleMusicPlayer::zoomOut()
+void SimpleMusicPlayer::zoomOut(QPoint clickPos)
 {
 	int med = (waveEnd - waveBegin) / 20;
 	waveBegin = std::max(0, waveBegin - med);

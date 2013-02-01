@@ -18,7 +18,7 @@ class Waveform : public QLabel
 	unsigned int m_width;
 	unsigned int m_height;
 
-	QPoint oldMousePos;
+	QPoint oldMousePos, clickPos;
 
 	static const uint green_color;
 

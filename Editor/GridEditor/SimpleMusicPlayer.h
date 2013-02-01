@@ -54,8 +54,8 @@ public slots:
     void updateSlideBar();
     void changePosition(int);
 
-	void zoomIn();
-	void zoomOut();
+	void zoomIn(QPoint);
+	void zoomOut(QPoint);
 	void moveLeft();
 	void moveRight();
 signals:
