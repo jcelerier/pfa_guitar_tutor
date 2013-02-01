@@ -40,6 +40,10 @@ void PartSetter::accept()
 {
     if(ui->isPart->isChecked() && ui->partEdit->text() != "")
         ((ChordTableWidget*) parent())->setCasePart(ui->partEdit->text());
+    else if(ui->isPart->isChecked() && !ui->isPart->isEnabled() && ui->partEdit->text() == ""){
+        QMessageBox::information(this, tr("First part"), tr("You must give a part name to the first cell."));
+        return;
+    }
     else
         ((ChordTableWidget*) parent())->removeCasePart();
     ((ChordTableWidget*) parent())->setCaseBeginning(ui->beginning->time());
@@ -53,3 +57,8 @@ void PartSetter::setEnabledPartEdit(int state)
     ui->partEdit->setEnabled(state);
 }
 
+void PartSetter::setPartEditable(bool editable)
+{
+    ui->isPart->setEnabled(editable);
+    ui->isPart->setChecked(true);
+}

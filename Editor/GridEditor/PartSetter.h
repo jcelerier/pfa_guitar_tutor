@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QStringList>
 #include <QTime>
+#include <QMessageBox>
 
 namespace Ui {
 class PartSetter;
@@ -20,13 +21,13 @@ class PartSetter : public QDialog
     void initPart(QString part);
     void initBeginning(QTime t);
     void showDialogModal();
+    void setPartEditable(bool editable);
 public slots:
-
-		void accept();
-        void setEnabledPartEdit(int state);
+    void accept();
+    void setEnabledPartEdit(int state);
 		
-	private:
-		Ui::PartSetter *ui;
+private:
+    Ui::PartSetter *ui;
 };
 
 #endif // PARTSETTER_H

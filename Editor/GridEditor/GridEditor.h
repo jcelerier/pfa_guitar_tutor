@@ -38,7 +38,7 @@ class GridEditor : public QMainWindow
     ChordTableWidget* grid;
     ChordTree* chordTree;
 
-    QMenu *fileMenu, *editMenu, *optionMenu, *aboutMenu;
+    QMenu *fileMenu, *editMenu, *optionMenu, *gridMenu, *aboutMenu;
 
     QToolBar *toolBar;
     QAction *quitAction, *aboutAction, *newAction, *saveAction,

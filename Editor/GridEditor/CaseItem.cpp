@@ -16,12 +16,13 @@ Last change on 14/04/12
  *
  * Constructeur des cases de la grille.
  */
-CaseItem::CaseItem() :  QTableWidgetItem(), m_color(new QColor())
+CaseItem::CaseItem(const bool partEditable) :  QTableWidgetItem(), m_color(new QColor())
 {
     m_beginningTimer = QTime(0,0);
     m_part = "";
     m_color->setRgb(255, 255, 255);
     m_timerManuallySet = false;
+    m_partEditable = partEditable;
     this->setBackgroundColor(m_color->toRgb());
 	this->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
     this->setTextAlignment(Qt::AlignCenter);
@@ -144,4 +145,9 @@ QTime CaseItem::getBeginning()
 bool CaseItem::isTimerManuallySet()
 {
     return m_timerManuallySet;
+}
+
+bool CaseItem::isPartEditable()
+{
+    return m_partEditable;
 }

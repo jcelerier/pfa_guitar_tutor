@@ -49,7 +49,7 @@ GridEditor::~GridEditor() {
 	delete audioWindow;
     delete chordTree;
     delete layout;
-    delete fileMenu; delete editMenu; delete optionMenu; delete aboutMenu;
+    delete fileMenu; delete editMenu; delete optionMenu; delete gridMenu; delete aboutMenu;
     delete toolBar;
     delete openAction; delete saveAction; delete addRowAction; delete copyDownAction; delete deleteRowAction;
 		delete quitAction; delete aboutAction; delete newAction; delete renameAction; delete openAudioWindowAction;
@@ -71,7 +71,8 @@ GridEditor::~GridEditor() {
  */
 void GridEditor::createMenu() {
     fileMenu = menuBar()->addMenu(tr("&File"));
-    editMenu  = menuBar()->addMenu(tr("&Edit"));
+    editMenu = menuBar()->addMenu(tr("&Edit"));
+    gridMenu = menuBar()->addMenu(tr("&Grid"));
     optionMenu = menuBar()->addMenu(tr("&Options"));
     aboutMenu = menuBar()->addMenu(tr("&About"));
 }
@@ -127,14 +128,14 @@ void GridEditor::setActionsToMenu() {
     fileMenu->addAction(openAction);
     fileMenu->addAction(saveAction);
     fileMenu->addSeparator();
-	fileMenu->addAction(openAudioWindowAction);
     fileMenu->addAction(quitAction);
     editMenu->addAction(addRowAction);
     editMenu->addAction(deleteRowAction);
     editMenu->addAction(addColumnAction);
     editMenu->addAction(deleteColumnAction);
     editMenu->addAction(copyDownAction);
-	optionMenu->addAction(openTrackPropertiesAction);
+    gridMenu->addAction(openTrackPropertiesAction);
+    gridMenu->addAction(openAudioWindowAction);
     aboutMenu->addAction(aboutAction);
 }
 
@@ -249,6 +250,7 @@ void GridEditor::newGrid()
 	{
         delete grid;
         grid = new ChordTableWidget(newGridDialog->getColumns() + 1, newGridDialog->getLines(), this);
+        connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
         trackProperties->setTrack(newGridDialog->getTrack());
         trackProperties->setArtist(newGridDialog->getArtist());
         trackProperties->setBarSize(newGridDialog->getBarSize());
@@ -342,6 +344,7 @@ void GridEditor::fromXML() //ça serait bien qu'on sélectionne le fichier ou on
 	// dans audiowindow
     delete grid;
     grid = new ChordTableWidget(4+1, 8, this); //TODO
+    connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
     grid->setLogicalTrack(track);
     layout->removeWidget(editionSelector);
     layout->addWidget(grid, 0, 1);
@@ -359,6 +362,11 @@ void GridEditor::fromXML() //ça serait bien qu'on sélectionne le fichier ou on
     isGridSet = true;
 }
 
+/**
+ * @brief GridEditor::about
+ *
+ * Affiche une fenêtre de dialogue "A propos"
+ */
 void GridEditor::about()
 {
     QMessageBox::information(this, tr("About GridEditor"), tr("Lorem ipsum dolor sit amet, consectetur adipiscing elit.")); //TODO
@@ -391,11 +399,22 @@ void GridEditor::setStatusText()
 	statusInfo->setText(statusText());
 }
 
+/**
+ * @brief GridEditor::rename
+ * @todo TODO
+ */
 void GridEditor::rename()
 {
 
 }
 
+/**
+ * @brief GridEditor::saveBeforeQuit
+ * @return true si et seulement si l'utilisateur a choisi de continuer
+ *
+ * Se déclenche lorsque l'utilisateur veut changer de grille. Cette fonction vérifie que la grille courante a été sauvegardée,
+ * auquel cas il est invité à effectuer la sauvegarde ou à annuler son action.
+ */
 bool GridEditor::saveBeforeQuit()
 {
     if (isGridSet)
