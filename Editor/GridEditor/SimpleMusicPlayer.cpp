@@ -239,44 +239,66 @@ void SimpleMusicPlayer::zoomIn(QPoint clickPos)
 {
 	float clickPercent = (float) clickPos.x() / (float) waveform->getWidth();
 	float sample = clickPercent * player->getTotalLengthInSamples();
+	const int zoomFactor = 20;
+
+	// vieille méthode :
 //	int med = (waveEnd - waveBegin) / 20;
 //	waveBegin += med/2;
 //	waveEnd -= med/2;
-	const int zoomFactor = 20;
-	qDebug() << waveBegin;
-	waveBegin += (sample - (float) waveBegin) / (float) zoomFactor;
-	qDebug() << waveBegin;
-	waveEnd -= (waveEnd - sample) / zoomFactor;
 
-	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
-	waveform->update();
+	if(waveEnd - waveBegin > 9000)
+	{
+		waveBegin += (sample - (float) waveBegin) / (float) zoomFactor;
+		waveEnd -= (waveEnd - sample) / zoomFactor;
+
+		if(waveEnd < waveBegin + 10000 || waveEnd < 0)
+			waveEnd = waveBegin + 10000;
+
+		player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
+		waveform->update();
+	}
 }
 
 void SimpleMusicPlayer::zoomOut(QPoint clickPos)
 {
-	int med = (waveEnd - waveBegin) / 20;
-	waveBegin = std::max(0, waveBegin - med);
-	waveEnd = std::min((signed) player->getTotalLengthInSamples(), waveEnd + med);
+	float clickPercent = (float) clickPos.x() / (float) waveform->getWidth();
+	float sample = clickPercent * player->getTotalLengthInSamples();
+	const int zoomFactor = 20;
+
+//	int med = (waveEnd - waveBegin) / 20;
+	waveBegin = std::max(0, waveBegin - (int) ((sample - (float) waveBegin) / (float) zoomFactor));
+	waveEnd = std::max(waveBegin + 10000,
+					   std::min((signed) player->getTotalLengthInSamples(),
+								waveEnd + (int) ((waveEnd - sample) / zoomFactor)));
 
 	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
 	waveform->update();
+
+	qDebug() << waveBegin << waveEnd;
 }
 
 void SimpleMusicPlayer::moveLeft()
 {
 	int mvt = (waveEnd - waveBegin) / waveform->getWidth() ;
 
-	if(waveBegin < 0) { }
-	else if(waveBegin - mvt >= 0)
+	qDebug() << "début:" << waveBegin ;
+	if(waveBegin <= 0)
+	{
+	   //do nothing
+	} //pour éviter bugs
+	else if(waveBegin - mvt >= 0) // cas valide
 	{
 		waveBegin -= mvt;
 		waveEnd -= mvt;
 	}
-	else
+	else // cas ou on est au bord
 	{
+		//waveEnd = waveEnd + (waveBegin - mvt);
 		waveBegin = 0;
-		waveEnd += waveBegin - mvt;
 	}
+
+
+	qDebug() << "fin:" << waveBegin ;
 	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
 	waveform->update();
 }
