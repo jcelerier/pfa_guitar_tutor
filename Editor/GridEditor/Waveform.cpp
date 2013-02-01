@@ -1,9 +1,11 @@
 #include "Waveform.h"
+#include <QMouseEvent>
+#include "SimpleMusicPlayer.h"
 #include <QPixmap>
 #include <cmath>
-
 #include <QDebug>
-const uint Waveform::green_color = 0xFF00FF00; //QColor(75, 200, 0).rgb();
+
+const uint Waveform::green_color = 0xFF00FF00;
 
 Waveform::Waveform(QWidget *parent, int w, int h)
 {
@@ -46,6 +48,13 @@ void Waveform::initImage()
 		image->setPixel(i, m_height / 2, green_color);
 }
 
+
+int QTimeToSample(QTime t)
+{
+	return (t.msec() + t.second() * 1000 + t.minute() * 60000) * 44.1;
+	//ugly, poller la sample rate de FMOD
+}
+
 /**
  * @brief SimpleMusicPlayer::displayGraph
  * @param waveform L'image dans laquelle on dessine
@@ -70,6 +79,28 @@ void Waveform::display()
 			image->setPixel(i, j, green_color);
 		}
 	}
+	int beg = ((SimpleMusicPlayer*) parent)->getWaveBegin();
+	int end = ((SimpleMusicPlayer*) parent)->getWaveEnd();
+
+	int s_beg = QTimeToSample(l_begin);
+	int s_bar = QTimeToSample(l_bar);
+	int s_end = QTimeToSample(l_end);
+
+//	qDebug() << beg << l_begin << l_begin.msec() << s_beg;
+
+	if(s_beg > beg && s_beg < end)
+	{
+		int size = end - beg;
+		int pos = ((s_beg - beg) / size) * m_width;
+
+		qDebug() << pos;
+		for(unsigned int j = 0; j < m_height; j++)
+		{
+			image->setPixel(pos, j, 0xFFFFFFFFF);
+		}
+	}
+	//ajout des barres de temps
+
 }
 
 
@@ -100,8 +131,7 @@ int Waveform::getWidth()
 	return m_width;
 }
 
-#include <QMouseEvent>
-#include "SimpleMusicPlayer.h"
+
 void Waveform::mouseMoveEvent(QMouseEvent * event)
 {
 	const QPoint pos = event->pos();
@@ -129,4 +159,16 @@ void Waveform::mouseMoveEvent(QMouseEvent * event)
 void Waveform::mousePressEvent(QMouseEvent * event)
 {
 	oldMousePos =  event->pos();
+}
+
+void Waveform::setTimers(QTime begin, QTime bar, QTime end)
+{
+
+	l_begin = begin;
+	l_bar = bar;
+	l_end = end;
+
+	update();
+
+
 }

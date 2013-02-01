@@ -3,7 +3,10 @@
 
 #include <QLabel>
 #include <QColor>
+#include <QTime>
 #include "MusicPlayer.h"
+
+
 
 class Waveform : public QLabel
 {
@@ -18,6 +21,10 @@ class Waveform : public QLabel
 	QPoint oldMousePos;
 
 	static const uint green_color;
+
+	QTime l_begin, l_end, l_bar;
+
+
 	protected:
 		void mouseMoveEvent(QMouseEvent * event);
 		void mousePressEvent(QMouseEvent * event);
@@ -37,6 +44,7 @@ class Waveform : public QLabel
 	signals:
 		
 	public slots:
+		void setTimers(QTime, QTime, QTime);
 		
 };
 

@@ -47,6 +47,7 @@ SimpleMusicPlayer::SimpleMusicPlayer()
 	connect(gauche, SIGNAL(clicked()), this, SLOT(moveLeft()));
 	connect(droite, SIGNAL(clicked()), this, SLOT(moveRight()));
 
+	connect(this, SIGNAL(sendTimers(QTime,QTime,QTime)), waveform, SLOT(setTimers(QTime,QTime,QTime)));
 
     connect(playButton, SIGNAL(released()), this, SLOT(play()));
     connect(pauseButton, SIGNAL(released()), this, SLOT(pause()));
@@ -309,4 +310,15 @@ void SimpleMusicPlayer::moveRight()
 
 	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
 	waveform->update();
+}
+
+
+int SimpleMusicPlayer::getWaveBegin()
+{
+	return waveBegin;
+}
+
+int SimpleMusicPlayer::getWaveEnd()
+{
+	return waveEnd;
 }

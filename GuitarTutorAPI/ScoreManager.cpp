@@ -344,11 +344,12 @@ bool ScoreManager::loadScore(LogicalTrack* trackName){
 	QList<PartTrack*>::iterator it1;
     QList<TrackChord*>::iterator it2;
 
-    for(it1 = trackName->getPartTrackList().begin(); it1 != trackName->getPartTrackList().end(); ++it1){
-
+	for(it1 = trackName->getPartTrackList().begin(); it1 != trackName->getPartTrackList().end(); ++it1)
+	{
 		std::string current((*it1)->getPartName().toStdString ());
 
-		if (currentAbsoluteStart != 0) {
+		if (currentAbsoluteStart != 0)
+		{
 			std::vector<unsigned int> movedBox;
 			m_iscoreEngine->performBoxEditing(currentBoxId, 0, currentRelativeStart * 1000, movedBox);
 		}
@@ -364,7 +365,8 @@ bool ScoreManager::loadScore(LogicalTrack* trackName){
 
 		m_partNameToBoxId[current] = currentBoxId;
 
-		if (previousPart != " ") {
+		if (previousPart != " ")
+		{
 			m_nextPartName[previousPart] = current;
 			std::cout << previousPart << " " << current << std::endl;
 		}
@@ -372,15 +374,13 @@ bool ScoreManager::loadScore(LogicalTrack* trackName){
 		previousPart = current;
 
 
-
         QList<TrackChord*> gtc = (*it1)->getTrackChordsList(); //utilisée dans la boucle qui suit, plante si pas de passage par variable intermédiaire (pourquoi?) --- hamid
 
-        for(it2 = gtc.begin(); it2 != gtc.end(); ++it2){
-
-
-
-            int i;
-            for(i = 0; i < (*it2)->getRepetition();i++){
+		for(it2 = gtc.begin(); it2 != gtc.end(); ++it2)
+		{
+			int i;
+			for(i = 0; i < (*it2)->getRepetition();i++)
+			{
                 QString str_tmp("");
                 std::string s("");
                 std::string str("");
@@ -395,7 +395,7 @@ bool ScoreManager::loadScore(LogicalTrack* trackName){
 
                 m_scoreNotes[m_iscoreEngine->addBox(currentRelativeStart * 1000, currentNote.duration * 1000, currentBoxId)] = currentNote.name;
 
-                std::cout << "currentNote.name =" << currentNote.name << "currentNote.duration" << currentNote.duration << std::endl;
+				std::cout << "currentNote.name =" << currentNote.name << "\ncurrentNote.duration" << currentNote.duration << std::endl << std::endl;
 
                 currentRelativeStart += currentNote.duration;
                 currentAbsoluteStart += currentNote.duration;

@@ -43,6 +43,9 @@ public:
 
     QTime getCurrentPosition();
 
+	int getWaveBegin();
+	int getWaveEnd();
+
 public slots:
     void play();
     void pause();
@@ -58,6 +61,7 @@ public slots:
 signals:
     void browseAudioFile();
     void audioFileDeleted();
+	void sendTimers(QTime, QTime, QTime);
 };
 
 #endif // SIMPLEMUSICPLAYER_H
