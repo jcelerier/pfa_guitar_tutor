@@ -19,6 +19,7 @@ Last change on 08/05/12
 #include "TrackProperties.h"
 #include "NewGridDialog.h"
 #include "Track/TrackLoader.h"
+#include "EditorPanel.h"
 
 /**
  * @brief Fenêtre principale de l'éditeur
@@ -46,6 +47,7 @@ class GridEditor : public QMainWindow
             *copyDownAction, *renameAction, *addColumnAction,
 			*deleteColumnAction, *openAudioWindowAction, *openTrackPropertiesAction;
     EditionSelector *editionSelector;
+	EditorPanel *editorPanel;
 
 	QStatusBar* status;
 	QLabel* statusInfo;

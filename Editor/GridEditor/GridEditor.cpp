@@ -168,12 +168,12 @@ void GridEditor::createCentralWidget() {
     /*Mise en place du layout*/
     chordTree = new ChordTree(); //Initialisation de chord_tree
     grid = new ChordTableWidget(); //Fenere d'accords
-    editionSelector = new EditionSelector(this);
+	editionSelector = new EditionSelector(this);
 
     layout = new QGridLayout();
-
-    layout->addWidget(chordTree, 0, 0); //Liste des accords en haut-gauche
-    layout->addWidget(editionSelector, 0, 1);
+	layout->addWidget(editionSelector, 0, 1);
+	layout->addWidget(chordTree, 0, 0); //Liste des accords en haut-gauche
+//	layout->addWidget(p, 0, 1);
     centralArea->setLayout(layout);
 }
 
@@ -255,7 +255,10 @@ void GridEditor::newGrid()
         trackProperties->setArtist(newGridDialog->getArtist());
         trackProperties->setBarSize(newGridDialog->getBarSize());
         layout->removeWidget(editionSelector);
-        layout->addWidget(grid, 0, 1);
+		delete editionSelector;
+
+		editorPanel = new EditorPanel(grid, audioWindow, this);
+		layout->addWidget(editorPanel, 0, 1);
 
         saveAction->setEnabled(true);
 		addRowAction->setEnabled(true);
