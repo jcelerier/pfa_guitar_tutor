@@ -251,6 +251,8 @@ void GridEditor::newGrid()
         delete grid;
         grid = new ChordTableWidget(newGridDialog->getColumns() + 1, newGridDialog->getLines(), this);
         connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
+		connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
+
         trackProperties->setTrack(newGridDialog->getTrack());
         trackProperties->setArtist(newGridDialog->getArtist());
         trackProperties->setBarSize(newGridDialog->getBarSize());
