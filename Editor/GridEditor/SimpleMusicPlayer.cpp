@@ -95,6 +95,7 @@ bool SimpleMusicPlayer::setAudioFile(QString file)
 	waveBegin = 0;
 	waveEnd = player->getTotalLengthInSamples();
 
+	waveform->setWidth(slideBar->width());
 	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
 	waveform->update();
 
