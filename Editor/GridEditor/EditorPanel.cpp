@@ -25,6 +25,10 @@ EditorPanel::EditorPanel(ChordTableWidget* chordTable, AudioWindow* audioWindow,
 
 	pageAudio->setLayout(vboxAudio);
 
+	QSpacerItem* spacer = new QSpacerItem( 20, 20, QSizePolicy::Minimum,
+		QSizePolicy::Expanding );
+	  vboxAudio->addItem( spacer );
+
 	tabs->addTab(pageChordTable, tr("Grid"));
 	tabs->addTab(pageAudio, tr("Audio edition"));
 

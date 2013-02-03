@@ -14,6 +14,7 @@ class SimpleMusicPlayer : public QWidget
     Q_OBJECT
 
 private:
+	QWidget* parent;
     QGridLayout* layout;
     QToolButton* stopButton;
     QToolButton* pauseButton;
@@ -36,7 +37,7 @@ protected:
     virtual void resizeEvent(QResizeEvent * event);
 
 public:
-    SimpleMusicPlayer();
+	SimpleMusicPlayer(QWidget *parent);
     ~SimpleMusicPlayer();
     QString getSong();
     bool setAudioFile(QString file);

@@ -2,7 +2,8 @@
 
 AudioWindow::AudioWindow(QWidget * parent)
 {
-	player = new SimpleMusicPlayer();
+	this->parent = parent;
+	player = new SimpleMusicPlayer(this);
 	QLabel* label = new QLabel(tr("Audio file")); //fuite mémoire
 	audioFile = new QLineEdit();
 	audioFile->setReadOnly(true);
@@ -17,6 +18,7 @@ AudioWindow::AudioWindow(QWidget * parent)
 	layout->addWidget(audioFile, 1, 2);
 	layout->addWidget(browseButton, 1, 3);
 	layout->addWidget(player, 2, 1, 3, 3);
+	layout->addWidget(waveform, 5, 0, 3, 4);
 
 	connect(browseButton, SIGNAL(released()), this, SLOT(browseAudioFile()));
 	connect(player, SIGNAL(browseAudioFile()), this, SLOT(browseAudioFile()));
@@ -37,6 +39,12 @@ AudioWindow::~AudioWindow()
 	delete audioSync;
 	delete layout;
 	delete title;
+}
+
+
+void AudioWindow::setWaveform(Waveform* waveform)
+{
+	this->waveform = waveform;
 }
 
 /**
