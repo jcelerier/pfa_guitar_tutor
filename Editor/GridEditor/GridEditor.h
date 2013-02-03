@@ -27,6 +27,7 @@ Last change on 08/05/12
 class GridEditor : public QMainWindow
 {
     Q_OBJECT
+friend class EditionSelector;
 
     QSettings* settings;
 
@@ -76,7 +77,8 @@ signals:
 
 public slots:
 	void changeState();
-    void newGrid();
+	void firstNewGrid();
+	void newGrid();
 	void toXML();
 	void fromXML();
     void about();
