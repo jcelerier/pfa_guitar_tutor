@@ -399,7 +399,7 @@ bool ScoreManager::loadScore(LogicalTrack* trackName){
 
                 currentStream >> currentNote.duration >> currentNote.name;
 
-				m_scoreNotes[m_iscoreEngine->addBox(currentRelativeStart * 1000, currentNote.duration / 1000, currentBoxId)] = currentNote.name;
+                m_scoreNotes[m_iscoreEngine->addBox(currentAbsoluteStart * 1000, currentNote.duration / 1000, currentBoxId)] = currentNote.name;
 
 
 				currentRelativeStart = (currentNote.duration - prevNote.duration) / 1000;
