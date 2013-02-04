@@ -1,4 +1,5 @@
 #include "TrackLoader.h"
+#include <QDebug>
 
 TrackLoader::TrackLoader() {
 
@@ -25,6 +26,8 @@ bool TrackLoader::convertLogicalTrackToXml(LogicalTrack* currentTrack, QString f
     root.setAttribute("artiste", currentTrack->getArtist());
     root.setAttribute("casesMesure", currentTrack->getMesure());
     root.setAttribute("fichier", currentTrack->getAudioFileName());
+	root.setAttribute("line", currentTrack->getLine());
+	root.setAttribute("column", currentTrack->getColumn());
 
     //ajout des parties
     QList<PartTrack*> partList = currentTrack->getPartTrackList();
@@ -43,6 +46,8 @@ bool TrackLoader::convertLogicalTrackToXml(LogicalTrack* currentTrack, QString f
             newChord.setAttribute("temps", (*iChord)->getDuration());
             newChord.setAttribute("repetition", (*iChord)->getRepetition());
             newChord.setAttribute("nom", (*iChord)->getChord());
+
+			qDebug() << (*iChord)->getChord();
             newPart.appendChild(newChord);
         }//fin ajout accord
 
@@ -97,7 +102,7 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
     QDomElement root = dom->documentElement();
 
     // Inscription des datas dans la structure de piste LogicalTrack
-    QString n, a, f, m;//Pour stocker les information du morceaux : n = nom, a = artiste, f = fichier, m = nbr mesures
+	QString n, a, f, m, line, column;//Pour stocker les information du morceaux : n = nom, a = artiste, f = fichier, m = nbr mesures
     if(root.isNull()) { //Si le l'arborescence xml est vide
         delete currentTrack;
         qCritical("Pas d'information xml");
@@ -105,16 +110,22 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
     }
 
     //Si des informations sur le morceau sont absentes.
-    if (((n = root.attribute("nom", 0)) == 0) || ((a = root.attribute("artiste", 0)) == 0) || ((f = root.attribute("fichier", 0)) == 0) || ((m = root.attribute("casesMesure", 0)) == 0)) {
+	if (((n = root.attribute("nom", 0)) == 0) ||
+		((a = root.attribute("artiste", 0)) == 0) ||
+		((f = root.attribute("fichier", 0)) == 0) ||
+		((line = root.attribute("line", 0)) == 0) ||
+		((column = root.attribute("column", 0)) == 0) ||
+		((m = root.attribute("casesMesure", 0)) == 0))
+	{
         delete currentTrack;
         qCritical("Informations sur le morceau incorectes");
         return false;
     }
     currentTrack->setTrackName(n);
-
     currentTrack->setArtist(a);
-
     currentTrack->setAudioFileName(f);
+	currentTrack->setLine(line.toInt());
+	currentTrack->setColumn(column.toInt());
 
     if(m.toInt() <= 0){ // nbr de mesures incorrect(negatif ou nul)
         delete currentTrack;

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <morceau casesMesure="1" artiste="The Beatles" nom="A day in life" fichier="/home/doom/projets/pfa/pfa_guitar_tutor/app/Tracks/BeatlesDayInTheLife/AllTracks.wav">
   <partie nom="[INTRO]">
-    <accord  nom="G" temps="1088"/>
+    <accord nom="G" temps="1088"/>
     <accord  nom="Bm" temps="3176"/>
     <accord nom="Em" temps="5264"/>
     <accord  nom="C" temps="7352"/>

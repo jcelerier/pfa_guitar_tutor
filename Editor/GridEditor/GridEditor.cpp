@@ -348,6 +348,9 @@ void GridEditor::toXML() //ça serait bien qu'on sélectionne le fichier ou on s
 	track->setArtist(trackProperties->getArtist());
 	track->setMesure(trackProperties->getBarSize());
 
+	track->setLine(grid->rowCount());
+	track->setColumn(grid->columnCount() - 1);
+
 	track->setAudioFileName(audioWindow->getFilename()); //vérifier si chemin absolu
 
 	TrackLoader::convertLogicalTrackToXml(track, file);
@@ -379,7 +382,7 @@ void GridEditor::fromXML() //ça serait bien qu'on sélectionne le fichier ou on
 	// il faudra penser à recalculer le début, la fin et la durée de la première mesure pour les mettre
 	// dans audiowindow
     delete grid;
-    grid = new ChordTableWidget(4+1, 8, this); //TODO
+	grid = new ChordTableWidget(track->getColumn() + 1, track->getLine(), this); //TODO
     connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
     grid->setLogicalTrack(track);
 

@@ -136,3 +136,25 @@ int LogicalTrack::getMesure() {
 
     return this->mesure;
 }
+
+void LogicalTrack::setLine(int line)
+{
+	this->line = line;
+}
+
+
+void LogicalTrack::setColumn(int col)
+{
+	this->column = col;
+}
+
+int LogicalTrack::getLine()
+{
+	return line;
+}
+
+
+int LogicalTrack::getColumn()
+{
+	return column;
+}
