@@ -116,6 +116,7 @@ QString& CaseItem::getPart()
 void CaseItem::setPart(QString part)
 {
 	m_part = part;
+	set_color(220, 220, 255, 255);
 }
 
 /**

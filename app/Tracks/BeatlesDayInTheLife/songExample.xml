@@ -3,11 +3,11 @@
  <morceau nom="NomDuMorceau" artiste="Artiste" casesMesure="2" fichier="AllTracks.wav">
   <partie nom="refrain">
    <accord temps="1" nom="Cm" repetition="2"/>
-   <accord temps="5000" nom="F#b5"/>
+   <accord temps="220500" nom="F#b5"/>
   </partie>
   <partie nom="couplet">
-   <accord temps="15000" nom="D" repetition="2"/>
-   <accord temps="18000" nom="Dm" repetition="2"/>
-   <accord temps="22000" nom="E" repetition="2"/>
+   <accord temps="661500" nom="D" repetition="2"/>
+   <accord temps="793800" nom="Dm" repetition="2"/>
+   <accord temps="970200" nom="E" repetition="2"/>
   </partie>
  </morceau>

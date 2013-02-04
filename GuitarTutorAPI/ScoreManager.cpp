@@ -325,6 +325,7 @@ bool ScoreManager::loadScore(std::string fileName)
 bool ScoreManager::loadScore(LogicalTrack* trackName){
 
 	NoteData currentNote;
+	NoteData prevNote;
 
 	unsigned int currentBoxId = NO_ID;
 
@@ -344,8 +345,11 @@ bool ScoreManager::loadScore(LogicalTrack* trackName){
 	QList<PartTrack*>::iterator it1;
     QList<TrackChord*>::iterator it2;
 
-	for(it1 = trackName->getPartTrackList().begin(); it1 != trackName->getPartTrackList().end(); ++it1)
+	QList<PartTrack*> partTrackList = trackName->getPartTrackList();
+
+	for(it1 = partTrackList.begin(); it1 != partTrackList.end(); ++it1)
 	{
+		std::cout << "ici  " << std::flush;
 		std::string current((*it1)->getPartName().toStdString ());
 
 		if (currentAbsoluteStart != 0)
@@ -378,9 +382,10 @@ bool ScoreManager::loadScore(LogicalTrack* trackName){
 
 		for(it2 = gtc.begin(); it2 != gtc.end(); ++it2)
 		{
-			int i;
-			for(i = 0; i < (*it2)->getRepetition();i++)
+			std::cout << " 1ère ||| " << std::flush;
+			for(int i = 0; i < (*it2)->getRepetition(); i++)
 			{
+				std::cout << "on rentre\n" << std::flush;
                 QString str_tmp("");
                 std::string s("");
                 std::string str("");
@@ -390,20 +395,34 @@ bool ScoreManager::loadScore(LogicalTrack* trackName){
                 str += str_tmp.toStdString() + " " + s;
 
                 std::istringstream currentStream(str.data());
+				prevNote = currentNote;
 
                 currentStream >> currentNote.duration >> currentNote.name;
 
-                m_scoreNotes[m_iscoreEngine->addBox(currentRelativeStart * 1000, currentNote.duration * 1000, currentBoxId)] = currentNote.name;
+                m_scoreNotes[m_iscoreEngine->addBox(currentAbsoluteStart * 1000, currentNote.duration / 1000, currentBoxId)] = currentNote.name;
 
-				std::cout << "currentNote.name =" << currentNote.name << "\ncurrentNote.duration" << currentNote.duration << std::endl << std::endl;
 
-                currentRelativeStart += currentNote.duration;
-                currentAbsoluteStart += currentNote.duration;
+				currentRelativeStart = (currentNote.duration - prevNote.duration) / 1000;
+				currentAbsoluteStart = currentNote.duration / 1000;
+
+				std::cout << "currentNote.name = " << currentNote.name
+						  << "\ncurrentNote.duration = " << currentNote.duration
+						  << "\nlength = "<< currentRelativeStart
+						  << std::endl;
+
+				std::cout << "répétition: " <<  (*it2)->getRepetition()
+						  << "   i: " << i << std::endl << std::endl;
            }
+			std::cout << "salut ||| " << std::flush;
 
 		}
+		std::cout << "hello ||| " << std::flush;
 	}
+	std::cout << "coucou" << std::flush;
+
 	m_isAScoreToRun = true;
+
+
 
 	return true;
 }

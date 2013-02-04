@@ -7,7 +7,7 @@
  */
 Tonality::Tonality()
 {
-    m_baseNote = C;
+	m_baseNote = VIDE;
     m_alteration = UNALTERED;
 }
 
@@ -82,17 +82,23 @@ bool Tonality::isValid(const QString tonality) const
  */
 QString Tonality::toString()
 {
-    QString note = "";
-    QChar base = m_baseNote + 65;
-    note.append(base);
+	QString note = "";
+	if(m_baseNote != VIDE)
+	{
+		QChar base = m_baseNote + 65;
+		note.append(base);
 
-    if(m_alteration == SHARP){
-        note.append('#');
-    }
-    else if(m_alteration == FLAT){
-        note.append('b');
-    }
-
+		if(m_alteration == SHARP){
+			note.append('#');
+		}
+		else if(m_alteration == FLAT){
+			note.append('b');
+		}
+	}
+	else
+	{
+		note = "nc";
+	}
     return note;
 }
 

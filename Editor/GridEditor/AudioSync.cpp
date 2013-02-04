@@ -1,5 +1,5 @@
 #include "AudioSync.h"
-
+#include <QDebug>
 AudioSync::AudioSync()
 {
     layout = new QGridLayout();
@@ -96,7 +96,9 @@ void AudioSync::emitSignalTimer()
 void AudioSync::sendData()
 {
     if(beginning->time().isValid() && bar->time().isValid() && end->time().isValid())
+	{
         emit sendTimer(beginning->time(), bar->time(), end->time());
+	}
     else
         QMessageBox::information(this, tr("Your job is not done yet"), tr("You have not completed the three timers yet."));
 }

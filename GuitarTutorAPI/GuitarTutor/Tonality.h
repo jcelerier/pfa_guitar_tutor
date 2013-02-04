@@ -9,7 +9,7 @@
 /**
  * @brief Liste des fondamentales possibles.
  */
-enum e_Note { A, B, C, D, E, F, G };
+enum e_Note { A, B, C, D, E, F, G, VIDE };
 /**
  * @brief Liste des altérations possibles.
  */

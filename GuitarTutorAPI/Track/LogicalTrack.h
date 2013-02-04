@@ -26,6 +26,11 @@ public:
     void setMesure(int nb);
     int getMesure();
 
+	void setLine(int);
+	void setColumn(int);
+
+	int getLine();
+	int getColumn();
     void addPartTrackToList(PartTrack* newPartTrack);
 
 private:
@@ -34,6 +39,7 @@ private:
     QString artist;
     QString audioFileName;
     int mesure;
+	int line, column;
 
     QList<PartTrack*> listPartTrack;
 

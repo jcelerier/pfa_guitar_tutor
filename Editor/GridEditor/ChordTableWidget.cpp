@@ -3,7 +3,7 @@ Author: Fabien Fleurey
 Created on 28/02/12
 Last change on 08/05/12
 */
-
+#include <QDebug>
 #include <QtXml/QDomDocument>
 #include <QFile>
 #include <QTextStream>
@@ -355,7 +355,6 @@ void ChordTableWidget::ShowContextMenu(const QPoint& pos) // this is a slot
  */
 void ChordTableWidget::setCasePart(QString text)
 {
-	m_currentItem->setBackgroundColor(Qt::lightGray);
 	m_currentItem->setPart(text);
 }
 
@@ -412,10 +411,12 @@ bool ChordTableWidget::checkBeginningTimes()
                 result = false;
             }
             else {
-                if(((CaseItem*) item(r,c))->isPartSet())
-                    ((CaseItem*) item(r,c))->setBackgroundColor(Qt::lightGray);
-				else
-                    ((CaseItem*) item(r,c))->setBackgroundColor(Qt::white);
+
+				//bof la coloration ici, car ça remplace celle qu'on fait dans setPart()
+			   // if(((CaseItem*) item(r,c))->isPartSet())
+				 //   ((CaseItem*) item(r,c))->setBackgroundColor(Qt::lightGray);
+				//else
+				  //  ((CaseItem*) item(r,c))->setBackgroundColor(Qt::white);
             }
             t = ((CaseItem*) item(r,c))->getBeginning();
         }
@@ -503,12 +504,12 @@ LogicalTrack* ChordTableWidget::getLogicalTrack()
 				part = new PartTrack(currentCase->getPart());
 
 				//on y ajoute l'accord de la case actuelle *//* calculer s'il y a des répétitions ---------------v
-				currentChord = new TrackChord(currentCase->get_chord(), TimeToMsec(currentCase->getBeginning()), 0);
+                currentChord = new TrackChord(currentCase->get_chord(), TimeToMsec(currentCase->getBeginning()), 1);
 				part->AddChord(currentChord);
 			}
 			else
 			{
-				currentChord = new TrackChord(currentCase->get_chord(), TimeToMsec(currentCase->getBeginning()), 0);
+                currentChord = new TrackChord(currentCase->get_chord(), TimeToMsec(currentCase->getBeginning()), 1);
 				part->AddChord(currentChord);
 			}
 		}
@@ -519,7 +520,6 @@ LogicalTrack* ChordTableWidget::getLogicalTrack()
 	return track;
 }
 
-#include <QDebug>
 void ChordTableWidget::setLogicalTrack(LogicalTrack* track)
 {
 	CaseItem* currentCase = NULL;
@@ -551,7 +551,9 @@ void ChordTableWidget::setLogicalTrack(LogicalTrack* track)
 			qDebug() << i << j;
 
 			// on stocke le nom de l'accord
-			currentCase->set_chord((*iChord)->getChord());
+			if((*iChord)->getChord() != "n")
+				currentCase->set_chord((*iChord)->getChord());
+
 			qDebug() << "accord" << currentCase->get_chord();
 
 			//la durée de l'accord

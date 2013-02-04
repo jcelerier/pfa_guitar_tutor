@@ -1,4 +1,5 @@
 #include "TrackLoader.h"
+#include <QDebug>
 
 TrackLoader::TrackLoader() {
 
@@ -25,6 +26,8 @@ bool TrackLoader::convertLogicalTrackToXml(LogicalTrack* currentTrack, QString f
     root.setAttribute("artiste", currentTrack->getArtist());
     root.setAttribute("casesMesure", currentTrack->getMesure());
     root.setAttribute("fichier", currentTrack->getAudioFileName());
+	root.setAttribute("line", currentTrack->getLine());
+	root.setAttribute("column", currentTrack->getColumn());
 
     //ajout des parties
     QList<PartTrack*> partList = currentTrack->getPartTrackList();
@@ -43,6 +46,8 @@ bool TrackLoader::convertLogicalTrackToXml(LogicalTrack* currentTrack, QString f
             newChord.setAttribute("temps", (*iChord)->getDuration());
             newChord.setAttribute("repetition", (*iChord)->getRepetition());
             newChord.setAttribute("nom", (*iChord)->getChord());
+
+			qDebug() << (*iChord)->getChord();
             newPart.appendChild(newChord);
         }//fin ajout accord
 
@@ -97,24 +102,39 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
     QDomElement root = dom->documentElement();
 
     // Inscription des datas dans la structure de piste LogicalTrack
-    QString n, a, f, m;//Pour stocker les information du morceaux : n = nom, a = artiste, f = fichier, m = nbr mesures
+	QString n, a, f, m, line, column;//Pour stocker les information du morceaux : n = nom, a = artiste, f = fichier, m = nbr mesures
     if(root.isNull()) { //Si le l'arborescence xml est vide
         delete currentTrack;
         qCritical("Pas d'information xml");
         return false;
     }
 
+//    //Si des informations sur le morceau sont absentes.
+//    if (((n = root.attribute("nom", 0)) == 0) ||
+//        ((a = root.attribute("artiste", 0)) == 0) ||
+//        ((f = root.attribute("fichier", 0)) == 0) ||
+//        ((line = root.attribute("line", 0)) == 0) ||
+//        ((column = root.attribute("column", 0)) == 0) ||
+//        ((m = root.attribute("casesMesure", 0)) == 0))
+//    {
+//        delete currentTrack;
+//        qCritical("Informations sur le morceau incompletes.");
+//        return false;
+//    }
+
     //Si des informations sur le morceau sont absentes.
-    if (((n = root.attribute("nom", 0)) == 0) || ((a = root.attribute("artiste", 0)) == 0) || ((f = root.attribute("fichier", 0)) == 0) || ((m = root.attribute("casesMesure", 0)) == 0)) {
-        delete currentTrack;
-        qCritical("Informations sur le morceau incorectes");
-        return false;
-    }
+    n = root.attribute("nom", 0);
+    a = root.attribute("artiste", 0);
+    f = root.attribute("fichier", 0);
+    line = root.attribute("line", 0);
+    column = root.attribute("column", 0);
+    m = root.attribute("casesMesure", 0);
+
     currentTrack->setTrackName(n);
-
     currentTrack->setArtist(a);
-
     currentTrack->setAudioFileName(f);
+	currentTrack->setLine(line.toInt());
+	currentTrack->setColumn(column.toInt());
 
     if(m.toInt() <= 0){ // nbr de mesures incorrect(negatif ou nul)
         delete currentTrack;
@@ -144,6 +164,7 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
         QString name;
         QString repetition;
         int rep, t2;
+        int t3 = 0;
 
         while(!chordNode.isNull()) { //Chargement des infos sur les accords du morceau
             QDomElement chordElement = chordNode.toElement();
@@ -155,21 +176,32 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
                 return false;
             }
 
-            if((t2 = t1.toInt()) <= 0) { //Si le temps rentré est illogique(<= 0)
+            if((t2 = t1.toInt()) < 0) { //Si le temps rentré est illogique(<= 0)
                 delete currentTrack;
-                qCritical("Le temps rentré n'est pas correct");
+                qCritical("L'un des temps rentré est négatif...");
                 return false;
             }
+
+            if((t2 = t1.toInt()) < 0) { //Si le temps rentré est illogique(<= 0)
+                delete currentTrack;
+                qCritical("Les temps ne sont pas rentrés dans l'ordre croissant.");
+                return false;
+            }
+            t3 = t2;
 
             //L'attribut répétion peut être absent. Attention répétition ne peut pas être nul(minimum = 1)
             repetition = chordElement.attribute("repetition", 0);
             if(repetition == 0){
                 rep = 1;
             }
-            else if((rep = repetition.toInt()) <= 0) {
+            else if((rep = repetition.toInt()) < 0) {
                 delete currentTrack;
-				qCritical("La répétition est incorrecte");
+                qCritical("La répétition est négative");
                 return false;
+            }
+            else if((rep = repetition.toInt()) = 0) {
+                rep = 1;
+                qCritical("La répétition est nulle");
             }
             TrackChord * c = new TrackChord(name, t2, rep);
             currentPartTrack->AddChord(c);

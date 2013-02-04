@@ -1,12 +1,14 @@
 #include "SimpleMusicPlayer.h"
+#include "AudioWindow.h"
 #include <QDebug>
 /**
  * @brief SimpleMusicPlayer::SimpleMusicPlayer
  *
  * Construit l'interface du lecteur audio.
  */
-SimpleMusicPlayer::SimpleMusicPlayer()
+SimpleMusicPlayer::SimpleMusicPlayer(QWidget* parent)
 {
+	this->parent = parent;
 	layout = new QGridLayout();
     playButton = new QToolButton();
     pauseButton = new QToolButton();
@@ -17,6 +19,7 @@ SimpleMusicPlayer::SimpleMusicPlayer()
 
 	player = new MusicPlayer();
 	waveform = new Waveform(this, slideBar->width(), 100);
+	((AudioWindow*) parent)->setWaveform(waveform);
 
     playButton->setIcon(QIcon("icons/play.png"));
     pauseButton->setIcon(QIcon("icons/pause.png"));
@@ -95,6 +98,7 @@ bool SimpleMusicPlayer::setAudioFile(QString file)
 	waveBegin = 0;
 	waveEnd = player->getTotalLengthInSamples();
 
+	waveform->setWidth(parent->width());
 	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
 	waveform->update();
 
@@ -111,7 +115,7 @@ void SimpleMusicPlayer::resizeEvent(QResizeEvent * event)
 {
 	if(player->getState())
 	{
-		waveform->setWidth(slideBar->width());
+		waveform->setWidth(parent->width());
 		//player->getFullSpectrum(waveform->getSpectrum(), waveform->getWidth());
 
 		player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());

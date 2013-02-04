@@ -9,11 +9,13 @@ class AudioWindow : public QWidget
 {
 	Q_OBJECT
 
+
 	public:
 		explicit AudioWindow(QWidget *parent = 0);
 		~AudioWindow();
 		QString getFilename();
 		void setAudioFileName(QString file);
+		void setWaveform(Waveform* waveform);
 
 	public slots:
 		void browseAudioFile();
@@ -25,12 +27,14 @@ class AudioWindow : public QWidget
 		void refreshTimerAudioSync(int);
 
 	private:
+		QWidget* parent;
 		SimpleMusicPlayer* player;
 		QLabel* title;
 		QLineEdit* audioFile;
 		AudioSync* audioSync;
 		QPushButton *browseButton;
 		QGridLayout* layout;
+		Waveform* waveform;
 };
 
 #endif // AUDIOWINDOW_H
