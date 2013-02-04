@@ -17,7 +17,7 @@
 #include <portaudio.h>
 
 extern "C" {
-#include "chord/chord.h"
+#include "chord/chord_c.h"
 }
 
 

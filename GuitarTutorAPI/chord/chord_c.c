@@ -12,7 +12,7 @@
 
 #include <assert.h>
 
-#include "chord.h"
+#include "chord_c.h"
 #include "ehpcp.h"
 #include "fft.h"
 #include "chordcor.h"
