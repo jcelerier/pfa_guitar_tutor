@@ -243,8 +243,14 @@ void GridEditor::firstNewGrid()
 
 	delete grid;
 	grid = new ChordTableWidget(newGridDialog->getColumns() + 1, newGridDialog->getLines(), this);
-	connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
-	connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
+    connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
+    connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
+    connect(chordTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
+    connect(addRowAction, SIGNAL(triggered()), grid, SLOT(insert_row()));
+    connect(addColumnAction, SIGNAL(triggered()), grid, SLOT(insert_column()));
+    connect(deleteColumnAction, SIGNAL(triggered()), grid, SLOT(delete_selected_column()));
+    connect(copyDownAction, SIGNAL(triggered()), grid, SLOT(copy_down_rows()));
+    connect(deleteRowAction, SIGNAL(triggered()), grid, SLOT(delete_selected_row()));
 
 	trackProperties->setTrack(newGridDialog->getTrack());
 	trackProperties->setArtist(newGridDialog->getArtist());
@@ -286,6 +292,12 @@ void GridEditor::newGrid()
 		grid = new ChordTableWidget(newGridDialog->getColumns() + 1, newGridDialog->getLines(), this);
 		connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
 		connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
+        connect(chordTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
+        connect(addRowAction, SIGNAL(triggered()), grid, SLOT(insert_row()));
+        connect(addColumnAction, SIGNAL(triggered()), grid, SLOT(insert_column()));
+        connect(deleteColumnAction, SIGNAL(triggered()), grid, SLOT(delete_selected_column()));
+        connect(copyDownAction, SIGNAL(triggered()), grid, SLOT(copy_down_rows()));
+        connect(deleteRowAction, SIGNAL(triggered()), grid, SLOT(delete_selected_row()));
 
 		trackProperties->setTrack(newGridDialog->getTrack());
 		trackProperties->setArtist(newGridDialog->getArtist());
@@ -384,6 +396,14 @@ void GridEditor::fromXML() //ça serait bien qu'on sélectionne le fichier ou on
     delete grid;
 	grid = new ChordTableWidget(track->getColumn() + 1, track->getLine(), this); //TODO
     connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
+    connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
+    connect(chordTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
+    connect(addRowAction, SIGNAL(triggered()), grid, SLOT(insert_row()));
+    connect(addColumnAction, SIGNAL(triggered()), grid, SLOT(insert_column()));
+    connect(deleteColumnAction, SIGNAL(triggered()), grid, SLOT(delete_selected_column()));
+    connect(copyDownAction, SIGNAL(triggered()), grid, SLOT(copy_down_rows()));
+    connect(deleteRowAction, SIGNAL(triggered()), grid, SLOT(delete_selected_row()));
+
     grid->setLogicalTrack(track);
 
 	if(editionSelector != 0)
