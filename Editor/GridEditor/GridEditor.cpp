@@ -383,7 +383,10 @@ void GridEditor::fromXML() //ça serait bien qu'on sélectionne le fichier ou on
     connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
     grid->setLogicalTrack(track);
 
-    layout->removeWidget(editionSelector);
+	if(editionSelector != 0)
+	{
+		layout->removeWidget(editionSelector);
+	}
     layout->addWidget(grid, 0, 1);
 
     saveAction->setEnabled(true);

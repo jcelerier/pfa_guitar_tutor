@@ -93,7 +93,6 @@ MainWidget::createActions()
 // cette fonction m'a l'air vraiment sale...
 void MainWidget::timeOut()
 {
-
 	if (m_mustPlay)
 	{
 		m_mustPlay = false;
@@ -114,10 +113,11 @@ void MainWidget::timeOut()
 		// m_scoreManager->loadScore("Tracks/BeatlesDayInTheLife/Guitar.txt");
 
 		LogicalTrack *tr = new LogicalTrack();
-        TrackLoader::convertXmlToLogicalTrack("Tracks/BeatlesDayInTheLife/songExample.xml", tr);
+		TrackLoader::convertXmlToLogicalTrack("Tracks/BeatlesDayInTheLife/Beatles.xml", tr);
 		m_scoreManager->loadScore(tr);
-
+		qDebug() << "we are here!";
 		m_scoreManager->run();
+		qDebug() << "we are here!";
 
 		// nécessaire pour pas que ça crash, pourquoi ? (jm)
 		usleep(100000);
@@ -125,7 +125,6 @@ void MainWidget::timeOut()
 		m_scoreManager->setNextPart("[VERSE1]");
 
 		m_renderAreas.changeButtonMode(false);
-
 
 	}
 

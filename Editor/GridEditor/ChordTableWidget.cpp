@@ -355,7 +355,6 @@ void ChordTableWidget::ShowContextMenu(const QPoint& pos) // this is a slot
  */
 void ChordTableWidget::setCasePart(QString text)
 {
-	m_currentItem->setBackgroundColor(Qt::lightGray);
 	m_currentItem->setPart(text);
 }
 
@@ -412,10 +411,12 @@ bool ChordTableWidget::checkBeginningTimes()
                 result = false;
             }
             else {
-                if(((CaseItem*) item(r,c))->isPartSet())
-                    ((CaseItem*) item(r,c))->setBackgroundColor(Qt::lightGray);
-				else
-                    ((CaseItem*) item(r,c))->setBackgroundColor(Qt::white);
+
+				//bof la coloration ici, car ça remplace celle qu'on fait dans setPart()
+			   // if(((CaseItem*) item(r,c))->isPartSet())
+				 //   ((CaseItem*) item(r,c))->setBackgroundColor(Qt::lightGray);
+				//else
+				  //  ((CaseItem*) item(r,c))->setBackgroundColor(Qt::white);
             }
             t = ((CaseItem*) item(r,c))->getBeginning();
         }
