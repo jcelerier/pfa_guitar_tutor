@@ -4,7 +4,6 @@
 #include <QString>
 #include <QRegExp>
 #include <QtTest/QTest>
-#include "GuitarTutorAPI_global.h"
 
 /**
  * @brief Liste des fondamentales possibles.

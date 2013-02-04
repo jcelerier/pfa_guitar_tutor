@@ -3,8 +3,6 @@
 
 #include <QStringList>
 #include "Tonality.h"
-#include "GuitarTutorAPI_global.h"
-
 #define NUM_TONALITIES 7
 
 /**

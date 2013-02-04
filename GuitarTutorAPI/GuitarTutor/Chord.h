@@ -6,7 +6,6 @@
 #include <QtTest/QTest>
 #include "Enrichment.h"
 #include "Tonality.h"
-#include "GuitarTutorAPI_global.h"
 
 /**
  * @brief Représente un accord sous forme d'une tonalité et d'un enrichissement
