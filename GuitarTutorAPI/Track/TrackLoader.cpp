@@ -194,10 +194,14 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
             if(repetition == 0){
                 rep = 1;
             }
-            else if((rep = repetition.toInt()) <= 0) {
+            else if((rep = repetition.toInt()) < 0) {
                 delete currentTrack;
-				qCritical("La répétition est incorrecte");
+                qCritical("La répétition est négative");
                 return false;
+            }
+            else if((rep = repetition.toInt()) = 0) {
+                rep = 1;
+                qCritical("La répétition est nulle");
             }
             TrackChord * c = new TrackChord(name, t2, rep);
             currentPartTrack->AddChord(c);
