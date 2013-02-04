@@ -504,12 +504,12 @@ LogicalTrack* ChordTableWidget::getLogicalTrack()
 				part = new PartTrack(currentCase->getPart());
 
 				//on y ajoute l'accord de la case actuelle *//* calculer s'il y a des répétitions ---------------v
-				currentChord = new TrackChord(currentCase->get_chord(), TimeToMsec(currentCase->getBeginning()), 0);
+                currentChord = new TrackChord(currentCase->get_chord(), TimeToMsec(currentCase->getBeginning()), 1);
 				part->AddChord(currentChord);
 			}
 			else
 			{
-				currentChord = new TrackChord(currentCase->get_chord(), TimeToMsec(currentCase->getBeginning()), 0);
+                currentChord = new TrackChord(currentCase->get_chord(), TimeToMsec(currentCase->getBeginning()), 1);
 				part->AddChord(currentChord);
 			}
 		}
