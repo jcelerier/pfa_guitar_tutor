@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<morceau casesMesure="1" artiste="The Beatles" nom="A day in life" fichier="/home/doom/projets/pfa/pfa_guitar_tutor/app/Tracks/BeatlesDayInTheLife/AllTracks.wav">
+  <partie nom="[INTRO]">
+    <accord  nom="G" temps="1088"/>
+    <accord  nom="Bm" temps="3176"/>
+    <accord nom="Em" temps="5264"/>
+    <accord  nom="C" temps="7352"/>
+  </partie>
+  <partie nom="[VERSE1]">
+    <accord  nom="G" temps="11528"/>
+    <accord  nom="Bm" temps="13616"/>
+    <accord  nom="Em" temps="15704"/>
+    <accord  nom="Em" temps="17792"/>
+    <accord  nom="C" temps="21968"/>
+    <accord  nom="Em" temps="24056"/>
+    <accord  nom="Am" temps="26144"/>
+    <accord  nom="G" temps="28232"/>
+    <accord  nom="Bm" temps="32408"/>
+    <accord  nom="Em" temps="34496"/>
+    <accord  nom="Em" temps="36584"/>
+    <accord  nom="C" temps="38672"/>
+    <accord  nom="F" temps="42848"/>
+    <accord  nom="Em" temps="44936"/>
+    <accord  nom="Em" temps="47024"/>
+    <accord  nom="C" temps="49112"/>
+    <accord  nom="F" temps="53288"/>
+    <accord  nom="Em" temps="55376"/>
+    <accord  nom="C" temps="57464"/>
+    <accord  nom="D" temps="59552"/>
+  </partie>
+  <partie nom="Verse 2">
+    <accord  nom="G" temps="63728"/>
+    <accord  nom="Bm" temps="65816"/>
+    <accord  nom="Em" temps="67904"/>
+    <accord  nom="C" temps="69992"/>
+    <accord  nom="Em" temps="74168"/>
+    <accord  nom="Am" temps="76256"/>
+    <accord  nom="G" temps="78344"/>
+    <accord  nom="Bm" temps="80432"/>
+    <accord  nom="Em" temps="84608"/>
+    <accord  nom="Em" temps="86696"/>
+    <accord  nom="C" temps="88784"/>
+    <accord  nom="F" temps="90872"/>
+    <accord  nom="Em" temps="95048"/>
+    <accord  nom="Em" temps="97136"/>
+    <accord  nom="C" temps="99224"/>
+  </partie>
+  <partie nom="Verse 3">
+    <accord  nom="G" temps="101312"/>
+    <accord  nom="Bm" temps="105488"/>
+    <accord  nom="Em" temps="107576"/>
+    <accord  nom="Em" temps="109664"/>
+    <accord  nom="C" temps="111752"/>
+    <accord  nom="Em" temps="115928"/>
+    <accord  nom="Am" temps="118016"/>
+    <accord  nom="Am" temps="120104"/>
+    <accord  nom="G" temps="122192"/>
+    <accord  nom="Bm" temps="126368"/>
+    <accord  nom="Em" temps="128456"/>
+    <accord  nom="Em" temps="130544"/>
+    <accord  nom="C" temps="132632"/>
+    <accord  nom="F" temps="136808"/>
+    <accord  nom="Em" temps="138896"/>
+    <accord  nom="Em" temps="140984"/>
+  </partie>
+</morceau>
