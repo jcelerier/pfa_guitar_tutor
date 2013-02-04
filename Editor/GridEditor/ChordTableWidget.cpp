@@ -551,7 +551,9 @@ void ChordTableWidget::setLogicalTrack(LogicalTrack* track)
 			qDebug() << i << j;
 
 			// on stocke le nom de l'accord
-			currentCase->set_chord((*iChord)->getChord());
+			if((*iChord)->getChord() != "n")
+				currentCase->set_chord((*iChord)->getChord());
+
 			qDebug() << "accord" << currentCase->get_chord();
 
 			//la durée de l'accord
