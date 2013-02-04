@@ -86,7 +86,6 @@ void Waveform::display()
 	int s_bar = QTimeToSample(l_bar);
 	int s_end = QTimeToSample(l_end);
 
-//	qDebug() << beg << l_begin << l_begin.msec() << s_beg;
 
 	if(s_beg > beg && s_beg < end)
 	{
@@ -190,12 +189,9 @@ void Waveform::mousePressEvent(QMouseEvent * event)
 
 void Waveform::setTimers(QTime begin, QTime bar, QTime end)
 {
-
 	l_begin = begin;
 	l_bar = bar;
 	l_end = end;
 
 	update();
-
-
 }

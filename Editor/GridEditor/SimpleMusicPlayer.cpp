@@ -18,7 +18,7 @@ SimpleMusicPlayer::SimpleMusicPlayer(QWidget* parent)
     timer = new QTimer();
 
 	player = new MusicPlayer();
-	waveform = new Waveform(this, slideBar->width(), 100);
+	waveform = new Waveform(this, ((AudioWindow*) parent)->width()  -20, 300);
 	((AudioWindow*) parent)->setWaveform(waveform);
 
     playButton->setIcon(QIcon("icons/play.png"));
@@ -98,7 +98,7 @@ bool SimpleMusicPlayer::setAudioFile(QString file)
 	waveBegin = 0;
 	waveEnd = player->getTotalLengthInSamples();
 
-	waveform->setWidth(parent->width());
+	waveform->setWidth(parent->width() - 20);
 	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
 	waveform->update();
 
@@ -115,7 +115,7 @@ void SimpleMusicPlayer::resizeEvent(QResizeEvent * event)
 {
 	if(player->getState())
 	{
-		waveform->setWidth(parent->width());
+		waveform->setWidth(parent->width() - 20);
 		//player->getFullSpectrum(waveform->getSpectrum(), waveform->getWidth());
 
 		player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
