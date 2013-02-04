@@ -109,18 +109,27 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
         return false;
     }
 
+//    //Si des informations sur le morceau sont absentes.
+//    if (((n = root.attribute("nom", 0)) == 0) ||
+//        ((a = root.attribute("artiste", 0)) == 0) ||
+//        ((f = root.attribute("fichier", 0)) == 0) ||
+//        ((line = root.attribute("line", 0)) == 0) ||
+//        ((column = root.attribute("column", 0)) == 0) ||
+//        ((m = root.attribute("casesMesure", 0)) == 0))
+//    {
+//        delete currentTrack;
+//        qCritical("Informations sur le morceau incompletes.");
+//        return false;
+//    }
+
     //Si des informations sur le morceau sont absentes.
-	if (((n = root.attribute("nom", 0)) == 0) ||
-		((a = root.attribute("artiste", 0)) == 0) ||
-		((f = root.attribute("fichier", 0)) == 0) ||
-		((line = root.attribute("line", 0)) == 0) ||
-		((column = root.attribute("column", 0)) == 0) ||
-		((m = root.attribute("casesMesure", 0)) == 0))
-	{
-        delete currentTrack;
-        qCritical("Informations sur le morceau incorectes");
-        return false;
-    }
+    n = root.attribute("nom", 0);
+    a = root.attribute("artiste", 0);
+    f = root.attribute("fichier", 0);
+    line = root.attribute("line", 0);
+    column = root.attribute("column", 0);
+    m = root.attribute("casesMesure", 0);
+
     currentTrack->setTrackName(n);
     currentTrack->setArtist(a);
     currentTrack->setAudioFileName(f);
@@ -155,6 +164,7 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
         QString name;
         QString repetition;
         int rep, t2;
+        int t3 = 0;
 
         while(!chordNode.isNull()) { //Chargement des infos sur les accords du morceau
             QDomElement chordElement = chordNode.toElement();
@@ -166,11 +176,18 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
                 return false;
             }
 
-            if((t2 = t1.toInt()) <= 0) { //Si le temps rentré est illogique(<= 0)
+            if((t2 = t1.toInt()) < 0) { //Si le temps rentré est illogique(<= 0)
                 delete currentTrack;
-                qCritical("Le temps rentré n'est pas correct");
+                qCritical("L'un des temps rentré est négatif...");
                 return false;
             }
+
+            if((t2 = t1.toInt()) < 0) { //Si le temps rentré est illogique(<= 0)
+                delete currentTrack;
+                qCritical("Les temps ne sont pas rentrés dans l'ordre croissant.");
+                return false;
+            }
+            t3 = t2;
 
             //L'attribut répétion peut être absent. Attention répétition ne peut pas être nul(minimum = 1)
             repetition = chordElement.attribute("repetition", 0);
