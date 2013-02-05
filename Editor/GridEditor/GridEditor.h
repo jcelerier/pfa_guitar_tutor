@@ -20,6 +20,7 @@ Last change on 08/05/12
 #include "NewGridDialog.h"
 #include "Track/TrackLoader.h"
 #include "EditorPanel.h"
+#include "HelpWindow.h"
 
 /**
  * @brief Fenêtre principale de l'éditeur
@@ -87,6 +88,7 @@ public slots:
     void about();
 	void setStatusText();
     void rename();
+    void help();
 };
 
 #endif // GRIDEDITOR_H

@@ -14,8 +14,8 @@ Last change on 08/05/12
 GridEditor::GridEditor()
 {
     isGridSet = false;
-	trackProperties = new TrackProperties(this);
-	audioWindow = new AudioWindow(this);
+    trackProperties = new TrackProperties(this);
+    audioWindow = new AudioWindow(this);
 
 	status = statusBar();
 	statusInfo = new QLabel(statusText(), status);
@@ -32,9 +32,6 @@ GridEditor::GridEditor()
 	createCentralWidget();
     setCentralWidget(centralArea);
     connectActionToSlot();
-
-    connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
-    connect(this, SIGNAL(play(int)), audioWindow, SLOT(playFrom(int)));
 
     settings = new QSettings("GuitarTutor", "GridEditor"); //Permet de retenir la configuration du logiciel
 }
@@ -200,6 +197,9 @@ void GridEditor::connectActionToSlot()
 {
     connect(chordTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
     connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
+    connect(trackProperties, SIGNAL(trackChanged()), this, SLOT(setStatusText()));
+    connect(trackProperties, SIGNAL(artistChanged()), this, SLOT(setStatusText()));
+
     connect(addRowAction, SIGNAL(triggered()), grid, SLOT(insert_row()));
     connect(addColumnAction, SIGNAL(triggered()), grid, SLOT(insert_column()));
     connect(deleteColumnAction, SIGNAL(triggered()), grid, SLOT(delete_selected_column()));
@@ -213,11 +213,12 @@ void GridEditor::connectActionToSlot()
 	connect(openAction, SIGNAL(triggered()), this, SLOT(fromXML()));
     connect(openAudioWindowAction, SIGNAL(triggered()), audioWindow, SLOT(show()));
 	connect(openTrackPropertiesAction, SIGNAL(triggered()), trackProperties, SLOT(exec()));
-	connect(trackProperties, SIGNAL(trackChanged()), this, SLOT(setStatusText()));
-	connect(trackProperties, SIGNAL(artistChanged()), this, SLOT(setStatusText()));
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
     connect(helpAction, SIGNAL(triggered()), this, SLOT(help()));
+
     connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
+    connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
+    connect(this, SIGNAL(play(int)), audioWindow, SLOT(playFrom(int)));
 }
 
 //---------------------------------------------------
@@ -234,17 +235,6 @@ void GridEditor::changeState() {
         chordTree->setEnabled(false);
     else if(!grid->is_selection_empty() && !chordTree->isEnabled())
         chordTree->setEnabled(true);
-
-    /*
-    if (grid->is_row_selected() && !deleteRowAction->isEnabled()) {
-        deleteRowAction->setEnabled(true);
-        copyDownAction->setEnabled(true);
-    }
-    else if (!grid->is_row_selected() && deleteRowAction->isEnabled()) {
-        deleteRowAction->setEnabled(false);
-        copyDownAction->setEnabled(false);
-    }
-    */
 }
 
 /**
@@ -256,8 +246,8 @@ void GridEditor::firstNewGrid()
 {
     if(!saveBeforeQuit())
         return;
-
 	delete grid;
+
 	grid = new ChordTableWidget(newGridDialog->getColumns() + 1, newGridDialog->getLines(), this);
     connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
     connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
@@ -272,6 +262,7 @@ void GridEditor::firstNewGrid()
 	trackProperties->setArtist(newGridDialog->getArtist());
 	trackProperties->setBarSize(newGridDialog->getBarSize());
 	layout->removeWidget(editionSelector);
+
 	delete editionSelector;
 
 	editorPanel = new EditorPanel(grid, audioWindow, this);
@@ -298,7 +289,6 @@ void GridEditor::newGrid()
 		return;
 
 	newGridDialog = new NewGridDialog(this);
-
     filename = "";
 
 	int accept = newGridDialog->exec();
@@ -308,6 +298,7 @@ void GridEditor::newGrid()
 	{
 		delete grid;
 		grid = new ChordTableWidget(newGridDialog->getColumns() + 1, newGridDialog->getLines(), this);
+
 		connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
 		connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
         connect(chordTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
@@ -361,6 +352,7 @@ void GridEditor::startGrid(int type)
 
 /**
  * @brief GridEditor::toXML
+ * @param filename Laisser vide pour demander où faire l'enregistrement, ou donner le chemin vers le fichier dans lequel écrire
  *
  * Slot pour la sauvegarde d'un fichier XML.
  */
@@ -383,10 +375,8 @@ void GridEditor::toXML(QString filename) //ça serait bien qu'on sélectionne le
 	track->setTrackName(trackProperties->getTrack());
 	track->setArtist(trackProperties->getArtist());
 	track->setMesure(trackProperties->getBarSize());
-
 	track->setLine(grid->rowCount());
 	track->setColumn(grid->columnCount() - 1);
-
 	track->setAudioFileName(audioWindow->getFilename()); //vérifier si chemin absolu
 
     TrackLoader::convertLogicalTrackToXml(track, filename);
@@ -420,7 +410,8 @@ void GridEditor::fromXML() //ça serait bien qu'on sélectionne le fichier ou on
 	// il faudra penser à recalculer le début, la fin et la durée de la première mesure pour les mettre
 	// dans audiowindow
     delete grid;
-	grid = new ChordTableWidget(track->getColumn() + 1, track->getLine(), this); //TODO
+    grid = new ChordTableWidget(track->getColumn() + 1, track->getLine(), this);
+
     connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
     connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
     connect(chordTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
@@ -433,9 +424,7 @@ void GridEditor::fromXML() //ça serait bien qu'on sélectionne le fichier ou on
     grid->setLogicalTrack(track);
 
 	if(editionSelector != 0)
-	{
 		layout->removeWidget(editionSelector);
-	}
     layout->addWidget(grid, 0, 1);
 
     saveAction->setEnabled(true);
@@ -535,7 +524,18 @@ bool GridEditor::saveBeforeQuit()
     return true;
 }
 
+/**
+ * @brief GridEditor::save
+ *
+ * Slot servant à rediriger vers l'enregistrement à partir d'une demande de type "enregistrer" (et non "enregistrer sous")
+ */
 void GridEditor::save()
 {
     toXML(filename);
+}
+
+void GridEditor::help()
+{
+    HelpWindow helpWindow;
+    helpWindow.exec();
 }

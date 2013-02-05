@@ -19,7 +19,8 @@ SOURCES += \
     TrackProperties.cpp \
     NewGridDialog.cpp \
     Waveform.cpp \
-    EditorPanel.cpp
+    EditorPanel.cpp \
+    HelpWindow.cpp
 
 HEADERS += \
     CaseItem.h \
@@ -34,7 +35,8 @@ HEADERS += \
     TrackProperties.h \
     NewGridDialog.h \
     Waveform.h \
-    EditorPanel.h
+    EditorPanel.h \
+    HelpWindow.h
 
 TRANSLATIONS = GridEditor_fr.ts
 
