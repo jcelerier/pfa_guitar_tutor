@@ -45,9 +45,9 @@ GridEditor::GridEditor()
  * Destructeur de la grille d'accords.
  */
 GridEditor::~GridEditor() {
-    delete openAction; delete saveAction; delete addRowAction; delete copyDownAction; delete deleteRowAction;
+    delete openAction; delete saveAction; delete addRowAction; delete copyDownAction; delete deleteRowAction; delete saveAsAction;
 		delete quitAction; delete aboutAction; delete newAction; delete renameAction; delete openAudioWindowAction;
-        delete openTrackPropertiesAction; delete addColumnAction; delete deleteColumnAction; //peut être faire un dictionnaire d'actions qu'on puisse appeler par leur nom.
+        delete openTrackPropertiesAction; delete addColumnAction; delete deleteColumnAction; delete helpAction; //peut être faire un dictionnaire d'actions qu'on puisse appeler par leur nom.
 		//ex. : actions["new"];
     delete fileMenu; delete editMenu; delete optionMenu; delete gridMenu; delete aboutMenu;
     delete toolBar;
@@ -88,6 +88,7 @@ void GridEditor::createActions(){
     aboutAction = new QAction(tr("About"), this);
     newAction = new QAction(tr("&New"), this);
     saveAction = new QAction(tr("&Save"), this);
+    saveAsAction = new QAction(tr("Save as"), this);
     openAction = new QAction(tr("&Open"), this);
     addRowAction = new QAction(tr("Add row"), this);
     deleteRowAction = new QAction(tr("Delete row"), this);
@@ -97,6 +98,7 @@ void GridEditor::createActions(){
     renameAction = new QAction(tr("Rename"), this);
 	openAudioWindowAction = new QAction(tr("Audio"), this);
 	openTrackPropertiesAction = new QAction(tr("Properties"), this);
+    helpAction = new QAction(tr("&Help"), this);
 
     quitAction->setIcon(QIcon("icons/quit.png"));
     aboutAction->setIcon(QIcon("icons/about.png"));
@@ -107,8 +109,10 @@ void GridEditor::createActions(){
     deleteRowAction->setIcon(QIcon("icons/deleterow.png"));
     addColumnAction->setIcon(QIcon("icons/addrow.png"));
     deleteColumnAction->setIcon(QIcon("icons/deleterow.png"));
+    helpAction->setIcon(QIcon("icons/help.png"));
 
     saveAction->setEnabled(false);
+    saveAsAction->setEnabled(false);
     deleteRowAction->setEnabled(false);
     copyDownAction->setEnabled(false);
     addRowAction->setEnabled(false);
@@ -117,6 +121,13 @@ void GridEditor::createActions(){
     renameAction->setEnabled(false);
     openAudioWindowAction->setEnabled(false);
     openTrackPropertiesAction->setEnabled(false);
+
+    newAction->setShortcut(QKeySequence::New);
+    openAction->setShortcut(QKeySequence::Open);
+    saveAction->setShortcut(QKeySequence::Save);
+    saveAsAction->setShortcut(QKeySequence::SaveAs);
+    quitAction->setShortcut(QKeySequence::Quit);
+    helpAction->setShortcut(QKeySequence::HelpContents);
 }
 
 /**
@@ -128,6 +139,7 @@ void GridEditor::setActionsToMenu() {
     fileMenu->addAction(newAction);
     fileMenu->addAction(openAction);
     fileMenu->addAction(saveAction);
+    fileMenu->addAction(saveAsAction);
     fileMenu->addSeparator();
     fileMenu->addAction(quitAction);
     editMenu->addAction(addRowAction);
@@ -137,6 +149,7 @@ void GridEditor::setActionsToMenu() {
     editMenu->addAction(copyDownAction);
     gridMenu->addAction(openTrackPropertiesAction);
     gridMenu->addAction(openAudioWindowAction);
+    aboutMenu->addAction(helpAction);
     aboutMenu->addAction(aboutAction);
 }
 
@@ -195,13 +208,15 @@ void GridEditor::connectActionToSlot()
     connect(newAction, SIGNAL(triggered()), this, SLOT(newGrid()));
     connect(renameAction, SIGNAL(triggered()), this, SLOT(rename()));
     connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
-	connect(saveAction, SIGNAL(triggered()), this, SLOT(toXML()));
+    connect(saveAsAction, SIGNAL(triggered()), this, SLOT(toXML()));
+    connect(saveAction, SIGNAL(triggered()), this, SLOT(save()));
 	connect(openAction, SIGNAL(triggered()), this, SLOT(fromXML()));
     connect(openAudioWindowAction, SIGNAL(triggered()), audioWindow, SLOT(show()));
 	connect(openTrackPropertiesAction, SIGNAL(triggered()), trackProperties, SLOT(exec()));
 	connect(trackProperties, SIGNAL(trackChanged()), this, SLOT(setStatusText()));
 	connect(trackProperties, SIGNAL(artistChanged()), this, SLOT(setStatusText()));
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
+    connect(helpAction, SIGNAL(triggered()), this, SLOT(help()));
     connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
 }
 
@@ -263,6 +278,7 @@ void GridEditor::firstNewGrid()
 	layout->addWidget(editorPanel, 0, 1);
 
 	saveAction->setEnabled(true);
+    saveAsAction->setEnabled(true);
 	addRowAction->setEnabled(true);
 	addColumnAction->setEnabled(true);
 	renameAction->setEnabled(true);
@@ -278,11 +294,12 @@ void GridEditor::firstNewGrid()
 
 void GridEditor::newGrid()
 {
-
 	if(!saveBeforeQuit())
 		return;
 
 	newGridDialog = new NewGridDialog(this);
+
+    filename = "";
 
 	int accept = newGridDialog->exec();
 	if(accept == QDialog::Rejected)
@@ -308,6 +325,7 @@ void GridEditor::newGrid()
 		layout->addWidget(editorPanel, 0, 1);
 
 		saveAction->setEnabled(true);
+        saveAsAction->setEnabled(true);
 		addRowAction->setEnabled(true);
 		addColumnAction->setEnabled(true);
 		renameAction->setEnabled(true);
@@ -316,6 +334,11 @@ void GridEditor::newGrid()
 		deleteRowAction->setEnabled(true);
 		deleteColumnAction->setEnabled(true);
 		copyDownAction->setEnabled(true);
+
+        if(!isGridSet) {
+            layout->removeWidget(editionSelector);
+            delete editionSelector;
+        }
 
 		isGridSet = true;
 	}
@@ -342,18 +365,18 @@ void GridEditor::startGrid(int type)
  * Slot pour la sauvegarde d'un fichier XML.
  */
 // penser à faire en sorte que les propriétés de base du morceau soient obligatoires (nom, etc...)
-void GridEditor::toXML() //ça serait bien qu'on sélectionne le fichier ou on sauve.
+void GridEditor::toXML(QString filename) //ça serait bien qu'on sélectionne le fichier ou on sauve.
 {
 	// Pour tester qu'on sauve bien un xml
 	int pos = 0;
 	QRegExp xmlExt("\\S+\\.xml");
 	QRegExpValidator *validator = new QRegExpValidator(xmlExt, this);
 
-	QString file = QFileDialog::getSaveFileName(this, "Sauvegarde", ".", tr("XML Files (*.xml)"), 0, QFileDialog::HideNameFilterDetails);
-	if(validator->validate(file, pos) != QValidator::Acceptable)
-	{
-		file.append(".xml");
-	}
+    if(filename == "")
+        filename = QFileDialog::getSaveFileName(this, "Sauvegarde", ".", tr("XML Files (*.xml)"), 0, QFileDialog::HideNameFilterDetails);
+
+    if(validator->validate(filename, pos) != QValidator::Acceptable)
+        filename.append(".xml");
 
 	LogicalTrack* track = grid->getLogicalTrack();
 
@@ -366,7 +389,8 @@ void GridEditor::toXML() //ça serait bien qu'on sélectionne le fichier ou on s
 
 	track->setAudioFileName(audioWindow->getFilename()); //vérifier si chemin absolu
 
-	TrackLoader::convertLogicalTrackToXml(track, file);
+    TrackLoader::convertLogicalTrackToXml(track, filename);
+    delete validator;
 }
 
 /**
@@ -383,6 +407,7 @@ void GridEditor::fromXML() //ça serait bien qu'on sélectionne le fichier ou on
     QString file = QFileDialog::getOpenFileName(this, tr("Loading"), ".", tr("XML Files (*.xml)"), 0, QFileDialog::HideNameFilterDetails);
     if(file == "")
         return;
+    filename = file;
 	TrackLoader::convertXmlToLogicalTrack(file, track); //tester la valeur de retour et afficher dialog si échec
 
 	trackProperties->setTrack(track->getTrackName());
@@ -414,6 +439,7 @@ void GridEditor::fromXML() //ça serait bien qu'on sélectionne le fichier ou on
     layout->addWidget(grid, 0, 1);
 
     saveAction->setEnabled(true);
+    saveAsAction->setEnabled(true);
     addRowAction->setEnabled(true);
     addColumnAction->setEnabled(true);
     renameAction->setEnabled(true);
@@ -424,6 +450,8 @@ void GridEditor::fromXML() //ça serait bien qu'on sélectionne le fichier ou on
     copyDownAction->setEnabled(true);
 
     isGridSet = true;
+
+    delete track;
 }
 
 /**
@@ -505,4 +533,9 @@ bool GridEditor::saveBeforeQuit()
         }
     }
     return true;
+}
+
+void GridEditor::save()
+{
+    toXML(filename);
 }

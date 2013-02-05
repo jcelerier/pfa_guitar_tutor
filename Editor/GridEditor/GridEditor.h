@@ -43,8 +43,8 @@ friend class EditionSelector;
     QMenu *fileMenu, *editMenu, *optionMenu, *gridMenu, *aboutMenu;
 
     QToolBar *toolBar;
-    QAction *quitAction, *aboutAction, *newAction, *saveAction,
-            *openAction, *addRowAction, *deleteRowAction,
+    QAction *quitAction, *aboutAction, *newAction, *saveAction, *helpAction,
+            *openAction, *addRowAction, *deleteRowAction, *saveAsAction,
             *copyDownAction, *renameAction, *addColumnAction,
 			*deleteColumnAction, *openAudioWindowAction, *openTrackPropertiesAction;
     EditionSelector *editionSelector;
@@ -54,6 +54,8 @@ friend class EditionSelector;
 	QLabel* statusInfo;
 
     bool isGridSet;
+
+    QString filename;
 
 public:
     GridEditor();
@@ -79,7 +81,8 @@ public slots:
 	void changeState();
 	void firstNewGrid();
 	void newGrid();
-	void toXML();
+    void save();
+    void toXML(QString filename = "");
 	void fromXML();
     void about();
 	void setStatusText();
