@@ -12,7 +12,7 @@ Last change on 08/05/12
 #include "ChordTableWidget.h"
 #include "PartSetter.h"
 
-#include "../../GuitarTutorAPI/Track/LogicalTrack.h"
+#include <Track/LogicalTrack.h>
 
 /**
  * @brief ChordTableWidget::ChordTableWidget
@@ -593,5 +593,6 @@ void ChordTableWidget::setLogicalTrack(LogicalTrack* track)
  */
 void ChordTableWidget::playFromHere()
 {
+	qDebug() << "ChordTableWidget";
 	emit play(TimeToMsec(m_currentItem->getBeginning()));
 }

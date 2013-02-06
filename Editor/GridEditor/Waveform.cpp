@@ -38,6 +38,7 @@ void Waveform::update()
 	this->setPixmap(QPixmap::fromImage(*image));
 }
 
+
 void Waveform::initImage()
 {
 	//fond noir
@@ -48,7 +49,11 @@ void Waveform::initImage()
 		image->setPixel(i, m_height / 2, green_color);
 }
 
-
+/**
+ * @brief QTimeToSample
+ * @param t un temps au format QTime
+ * @return un entier qui correspond à un nombre de samples à 44.1 khZ
+ */
 int QTimeToSample(QTime t)
 {
 	return (t.msec() + t.second() * 1000 + t.minute() * 60000) * 44.1;
@@ -126,7 +131,12 @@ void Waveform::display()
 
 }
 
-
+/**
+ * @brief Waveform::setWidth
+ * @param w Largeur en pixels
+ *
+ * Définit une nouvelle taille en pixels pour la waveform
+ */
 void Waveform::setWidth(int w)
 {
 	if(m_width != w)
@@ -139,22 +149,40 @@ void Waveform::setWidth(int w)
 	}
 }
 
+/**
+ * @brief Waveform::setHeight
+ * @param h Nouvelle hauteur
+ */
 void Waveform::setHeight(int h)
 {
 	m_height = h;
 }
 
+/**
+ * @brief Waveform::getSpectrum
+ * @return Le tableau qui contient le spectre
+ */
 int* Waveform::getSpectrum()
 {
 	return spectrum;
 }
 
+/**
+ * @brief Waveform::getWidth
+ * @return La largeur
+ */
 int Waveform::getWidth()
 {
 	return m_width;
 }
 
 
+/**
+ * @brief Waveform::mouseMoveEvent
+ * @param event
+ *
+ * Handler lors de la réception d'un mouvement à la souris
+ */
 void Waveform::mouseMoveEvent(QMouseEvent * event)
 {
 	const QPoint pos = event->pos();
@@ -181,12 +209,27 @@ void Waveform::mouseMoveEvent(QMouseEvent * event)
 
 }
 
+/**
+ * @brief Waveform::mousePressEvent
+ * @param event
+ *
+ * Handler lors de la réception d'un clic à la souris
+ */
 void Waveform::mousePressEvent(QMouseEvent * event)
 {
 	clickPos = event->pos();
 	oldMousePos =  event->pos();
 }
 
+
+/**
+ * @brief Waveform::setTimers
+ * @param begin
+ * @param bar
+ * @param end
+ *
+ * Slot pour la réception des timers
+ */
 void Waveform::setTimers(QTime begin, QTime bar, QTime end)
 {
 	l_begin = begin;

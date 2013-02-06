@@ -33,12 +33,15 @@ AudioSync::AudioSync()
     layout->addWidget(lbeggining, 0, 0);
 	layout->addWidget(beginning, 0, 1);
     layout->addWidget(bbeginning, 0, 2);
-    layout->addWidget(lend, 1, 0);
-    layout->addWidget(end, 1, 1);
-    layout->addWidget(bend, 1, 2);
-    layout->addWidget(lbar, 2, 0);
-    layout->addWidget(bar, 2, 1);
-    layout->addWidget(bbar, 2, 2);
+
+	layout->addWidget(lbar, 1, 0);
+	layout->addWidget(bar, 1, 1);
+	layout->addWidget(bbar, 1, 2);
+
+	layout->addWidget(lend, 2, 0);
+	layout->addWidget(end, 2, 1);
+	layout->addWidget(bend, 2, 2);
+
 
 	layout->addWidget(sendButton, 3, 0);
     setLayout(layout);

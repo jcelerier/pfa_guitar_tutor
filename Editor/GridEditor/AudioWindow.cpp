@@ -132,6 +132,7 @@ QString AudioWindow::getFilename()
  */
 void AudioWindow::playFrom(int t)
 {
+	qDebug() << "coucou";
 	player->play();
 	player->changePosition( t);
 }
