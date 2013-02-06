@@ -30,7 +30,7 @@ ChordTableWidget::ChordTableWidget() : QTableWidget(), name(new QString("")) {
  *
  * Initialise la grille d'accords à une taille donnée.
  */
-ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent)
+ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent) : QTableWidget(parent)
 {
 	ChordTableWidget();
 	this->setColumnCount(column);
@@ -536,7 +536,6 @@ void ChordTableWidget::setLogicalTrack(LogicalTrack* track)
 	QList<PartTrack*>::const_iterator iPart;
 	QList<TrackChord*>::const_iterator iChord;
 	QList<PartTrack*> partList = track->getPartTrackList();
-	qDebug() << partList.length(); // 36 ? wtf
 
 	QList<TrackChord*> chordsList;
 
@@ -544,13 +543,10 @@ void ChordTableWidget::setLogicalTrack(LogicalTrack* track)
 	int imax = this->rowCount();
 	int jmax = this->columnCount() - 2;
 
-	qDebug() << imax << jmax << "max";
 
 	currentCase = (CaseItem* )this->item(0, 0);
 	for(iPart = partList.begin(); iPart < partList.end(); ++iPart)
 	{
-		qDebug() << "nouvelle partie";
-
 		// on définit une partie sur la case actuelle
 		currentCase->setPart((*iPart)->getPartName());
 
@@ -564,11 +560,8 @@ void ChordTableWidget::setLogicalTrack(LogicalTrack* track)
 			if((*iChord)->getChord() != "n")
 				currentCase->set_chord((*iChord)->getChord());
 
-			qDebug() << "accord" << currentCase->get_chord();
-
 			//la durée de l'accord
 			currentCase->setBeginningTimer(MsecToTime(int((*iChord)->getDuration())));
-			qDebug() << "debut" << currentCase->getBeginning();
 
 			//case suivante
 			if(j < jmax)
@@ -593,6 +586,5 @@ void ChordTableWidget::setLogicalTrack(LogicalTrack* track)
  */
 void ChordTableWidget::playFromHere()
 {
-	qDebug() << "ChordTableWidget";
 	emit play(TimeToMsec(m_currentItem->getBeginning()));
 }

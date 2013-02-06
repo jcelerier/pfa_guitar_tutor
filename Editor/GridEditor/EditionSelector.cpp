@@ -53,7 +53,6 @@ EditionSelector::EditionSelector(QWidget *parent) :
 
 EditionSelector::~EditionSelector()
 {
-	qDebug() << "here";
 	delete presentation;
 	delete tabs;
 	delete mainLayout;
