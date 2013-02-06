@@ -238,7 +238,14 @@ void SimpleMusicPlayer::changePosition(int position)
 	currentPosition = player->getPosition();
 }
 
-
+/**
+ * @brief SimpleMusicPlayer::zoomIn
+ * @param clickPos position du pointeur
+ *
+ * Effectue un zoom avant sur la waveform.
+ * Algorithme : on augmente les positions gauche et droite de zoomFactor%
+ *			relativement à la position du clic
+ */
 void SimpleMusicPlayer::zoomIn(QPoint clickPos)
 {
 	float clickPercent = (float) clickPos.x() / (float) waveform->getWidth();
@@ -267,6 +274,12 @@ void SimpleMusicPlayer::zoomIn(QPoint clickPos)
 	}
 }
 
+/**
+ * @brief SimpleMusicPlayer::zoomOut
+ * @param clickPos Position du clic
+ *
+ * Effectue un zoom arrière.
+ */
 void SimpleMusicPlayer::zoomOut(QPoint clickPos)
 {
 	float clickPercent = (float) clickPos.x() / (float) waveform->getWidth();
@@ -288,6 +301,11 @@ void SimpleMusicPlayer::zoomOut(QPoint clickPos)
 	//qDebug() << waveBegin << waveEnd;
 }
 
+/**
+ * @brief SimpleMusicPlayer::moveLeft
+ *
+ * Effectue un déplacement à gauche.
+ */
 void SimpleMusicPlayer::moveLeft()
 {
 	int mvt = (waveEnd - waveBegin) / waveform->getWidth() ;
@@ -314,6 +332,11 @@ void SimpleMusicPlayer::moveLeft()
 	waveform->update();
 }
 
+/**
+ * @brief SimpleMusicPlayer::moveRight
+ *
+ * Effectue un déplacement à droite.
+ */
 void SimpleMusicPlayer::moveRight()
 {
 	int lgr = player->getTotalLengthInSamples();
@@ -336,12 +359,19 @@ void SimpleMusicPlayer::moveRight()
 	waveform->update();
 }
 
-
+/**
+ * @brief SimpleMusicPlayer::getWaveBegin
+ * @return Sample gauche de la waveform
+ */
 int SimpleMusicPlayer::getWaveBegin()
 {
 	return waveBegin;
 }
 
+/**
+ * @brief SimpleMusicPlayer::getWaveEnd
+ * @return Sample droite de la waveform
+ */
 int SimpleMusicPlayer::getWaveEnd()
 {
 	return waveEnd;

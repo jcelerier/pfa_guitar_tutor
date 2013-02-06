@@ -41,7 +41,10 @@ AudioWindow::~AudioWindow()
 	delete title;
 }
 
-
+/**
+ * @brief AudioWindow::setWaveform
+ * @param waveform une forme d'onde
+ */
 void AudioWindow::setWaveform(Waveform* waveform)
 {
 	this->waveform = waveform;

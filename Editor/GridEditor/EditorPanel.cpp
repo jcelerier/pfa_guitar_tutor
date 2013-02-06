@@ -1,5 +1,11 @@
 #include "EditorPanel.h"
 
+/**
+ * @brief EditorPanel::EditorPanel
+ * @param chordTable Pointeur vers la grille de GridEditor
+ * @param audioWindow Pointeur vers l'audioWindow de GridEditor
+ * @param parent Parent Qt
+ */
 EditorPanel::EditorPanel(ChordTableWidget* chordTable, AudioWindow* audioWindow, QWidget *parent) :
 	QWidget(parent)
 {

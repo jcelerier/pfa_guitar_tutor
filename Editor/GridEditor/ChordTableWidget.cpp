@@ -483,6 +483,10 @@ QTime MsecToTime(int t)
 	return QTime(0, m, s, ms);
 }
 
+/**
+ * @brief ChordTableWidget::getLogicalTrack
+ * @return LogicalTrack qui contient les données de la grille.
+ */
 LogicalTrack* ChordTableWidget::getLogicalTrack()
 {
 	LogicalTrack* track = new LogicalTrack();
@@ -520,6 +524,12 @@ LogicalTrack* ChordTableWidget::getLogicalTrack()
 	return track;
 }
 
+/**
+ * @brief ChordTableWidget::setLogicalTrack
+ * @param track LogicalTrack à charger
+ *
+ * Cette fonction charge une LogicalTrack dans la grille
+ */
 void ChordTableWidget::setLogicalTrack(LogicalTrack* track)
 {
 	CaseItem* currentCase = NULL;
