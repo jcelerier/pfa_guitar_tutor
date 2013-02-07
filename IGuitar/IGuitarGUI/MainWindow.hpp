@@ -10,6 +10,7 @@
 class MainWindow : public QMainWindow
 {
 		Q_OBJECT
+    friend class MainWidget;
 	public:
 		explicit MainWindow(QWidget *parent = 0);
 		void buildGUI();
@@ -26,9 +27,9 @@ class MainWindow : public QMainWindow
 		QMenu *menuOptions;
 		AudioConfiguration *audioConfPanel;
 		SongSelection *songSelectionPanel;
-		MainWidget m_mainWidget;
+        MainWidget *m_mainWidget;
 
-		Configuration m_conf;
+        Configuration m_conf;
 		
 };
 

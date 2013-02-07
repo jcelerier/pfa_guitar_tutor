@@ -17,8 +17,10 @@
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent)
 {
+    m_mainWidget = new MainWidget(this);
 	buildGUI();
 }
+
 /**
  * @brief MainWindow::CreateMenus
  *
@@ -85,7 +87,7 @@ MainWindow::buildGUI()
     createToolBars();
     createDockWindows();*/
 
-	topLayout->addWidget(&m_mainWidget, 0, 0);
+    topLayout->addWidget(m_mainWidget, 0, 0);
 //	ssong.showView(topLayout);
 //	topLayout->addWidget(fileSystemView, 0, 0);
 	widLayout->setLayout(topLayout);

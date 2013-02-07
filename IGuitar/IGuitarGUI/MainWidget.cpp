@@ -1,8 +1,11 @@
 #include "MainWidget.hpp"
+#include "MainWindow.hpp"
 
 #include <QFrame>
 #include <QHBoxLayout>
 #include <QTimer>
+
+#include <string>
 
 
 #include <unistd.h>
@@ -22,9 +25,10 @@ MainWidget::~MainWidget()
   *
   * Constructeur
   */
-MainWidget::MainWidget()
-	: QWidget()
+MainWidget::MainWidget(QWidget *parent)
+    : QWidget(parent)
 {
+    this->parent = parent;
 	m_mustPlay = false;
 	m_mustStop = false;
 	m_playMuted = false;
@@ -104,7 +108,14 @@ void MainWidget::timeOut()
 			muteTracks.push_back("all");
 		}
 
-        multiTracksMap["all"] = "Tracks/BeatlesDayInTheLife/AllTracks.wav";
+        QString path;
+        if(((MainWindow *) parent) != 0){
+           path = ((MainWindow *) parent)->m_conf.getSongName();
+        }
+        else{
+            path = "Tracks/BeatlesDayInTheLife/Beatles.xml";
+        }
+        multiTracksMap["all"] = path.toStdString().c_str();
 
 		MusicManager* musicManager = new MusicManager(multiTracksMap, muteTracks);
 		m_scoreManager = new ScoreManager(musicManager);

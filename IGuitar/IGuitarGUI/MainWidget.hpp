@@ -21,7 +21,7 @@ class MainWidget : public QWidget {
 	public:
 
 		~MainWidget();
-		MainWidget();
+        MainWidget(QWidget * parent = 0);
 
 		void playScore(bool mute);
 		void stopScore();
@@ -44,7 +44,7 @@ class MainWidget : public QWidget {
 		bool m_mustPlay;
 		bool m_mustStop;
 		bool m_playMuted;
-
+        QWidget * parent;
 		QTimer *m_timer;
 };
 
