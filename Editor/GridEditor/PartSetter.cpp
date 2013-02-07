@@ -10,6 +10,8 @@ PartSetter::PartSetter(QWidget *parent) :
     ui->beginning->setDisplayFormat("m:ss:zzz");
     ui->beginning->setTime(QTime(0,0));
     ui->partEdit->setText("");
+
+	//ui->pushButton->addAction(((ChordTableWidget*) parent)->m_playFromHere);
 }
 
 PartSetter::~PartSetter()
@@ -75,4 +77,9 @@ void PartSetter::setPartEditable(bool editable)
 {
     ui->isPart->setEnabled(editable);
     ui->isPart->setChecked(true);
+}
+
+void PartSetter::on_pushButton_clicked()
+{
+	((ChordTableWidget*) parent())->playFromHere();
 }

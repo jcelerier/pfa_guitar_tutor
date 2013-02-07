@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>481</width>
-    <height>186</height>
+    <height>242</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -38,7 +38,7 @@
      <x>10</x>
      <y>40</y>
      <width>361</width>
-     <height>131</height>
+     <height>151</height>
     </rect>
    </property>
    <layout class="QFormLayout" name="formLayout">
@@ -88,10 +88,7 @@
       </property>
      </spacer>
     </item>
-    <item row="4" column="1">
-     <widget class="QTimeEdit" name="beginning"/>
-    </item>
-    <item row="4" column="0">
+    <item row="5" column="0">
      <widget class="QLabel" name="label_2">
       <property name="locale">
        <locale language="English" country="UnitedStates"/>
@@ -101,7 +98,10 @@
       </property>
      </widget>
     </item>
-    <item row="3" column="1">
+    <item row="5" column="1">
+     <widget class="QTimeEdit" name="beginning"/>
+    </item>
+    <item row="4" column="1">
      <widget class="QCheckBox" name="updateFollowers">
       <property name="text">
        <string>Update following bars</string>
@@ -134,11 +134,29 @@
     <string>Cell properties</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>190</y>
+     <width>31</width>
+     <height>33</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../../app/icons/play.png</normaloff>../../app/icons/play.png</iconset>
+   </property>
+  </widget>
   <zorder>buttonBox</zorder>
   <zorder>formLayoutWidget</zorder>
   <zorder>label_4</zorder>
   <zorder>label_2</zorder>
   <zorder>beginning</zorder>
+  <zorder>pushButton</zorder>
  </widget>
  <resources/>
  <connections>

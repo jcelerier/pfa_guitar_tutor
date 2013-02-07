@@ -54,7 +54,7 @@ ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent) : QTabl
 	this->setEnabled(true);
 
 
-	m_setPartDialog = new PartSetter(this);
+
 
 	//menu clic droit
 	m_rightClickMenu = new QMenu();
@@ -69,6 +69,8 @@ ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent) : QTabl
 
 	connect(m_properties, SIGNAL(triggered()), this, SLOT(showProperties()));
 	connect(m_playFromHere, SIGNAL(triggered()), this, SLOT(playFromHere()));
+
+	m_setPartDialog = new PartSetter(this);
     //connect(this, SIGNAL(play(int)), parent, SIGNAL(play(int)));
 
 	m_currentItem = (CaseItem*) this->item(0, 0);

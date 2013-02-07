@@ -20,6 +20,8 @@ class ChordTableWidget : public QTableWidget
 {
     Q_OBJECT
 
+	friend class PartSetter;
+
 	QString* name;
 	QMenu* m_rightClickMenu;
 	CaseItem* m_currentItem;
