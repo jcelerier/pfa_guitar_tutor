@@ -137,7 +137,7 @@ void Waveform::display()
  *
  * Définit une nouvelle taille en pixels pour la waveform
  */
-void Waveform::setWidth(int w)
+void Waveform::setWidth(unsigned int w)
 {
 	if(m_width != w)
 	{

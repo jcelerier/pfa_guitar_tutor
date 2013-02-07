@@ -50,7 +50,6 @@ void MusicPlayer::play()
 {
     if(state) {
 		FMOD_System_PlaySound(system, FMOD_CHANNEL_FREE, music, 0, &channel);
-		FMOD_Channel_SetPaused(channel, 0);
     }
 }
 
@@ -59,17 +58,21 @@ void MusicPlayer::play()
  *
  * Mise en pause du fichier audio.
  */
-void MusicPlayer::pause()
+void MusicPlayer::pause(bool p)
+{
+    if(state) {
+        FMOD_Channel_SetPaused(channel, p);
+    }
+}
+
+bool MusicPlayer::isPaused()
 {
     if(state) {
         FMOD_BOOL isPaused;
         FMOD_Channel_GetPaused(channel, &isPaused);
-
-        if (isPaused)
-            FMOD_Channel_SetPaused(channel, 0);
-        else
-            FMOD_Channel_SetPaused(channel, 1);
+        return (bool) isPaused;
     }
+    return false;
 }
 
 /**
@@ -80,8 +83,8 @@ void MusicPlayer::pause()
 void MusicPlayer::stop()
 {
     if(state) {
-        state = false;
-        FMOD_Channel_Stop(channel);
+        FMOD_Channel_SetPaused(channel, true);
+        FMOD_Channel_SetPosition(channel, 0, FMOD_TIMEUNIT_MS);
     }
 }
 
@@ -258,7 +261,7 @@ void MusicPlayer::getFullSpectrum(int * tab, unsigned int size)
 		//algo max
 		for(unsigned int j = 0; j < chunk_size; j++)
 		{
-			int sample = i*chunk_sep + j;
+            unsigned int sample = i*chunk_sep + j;
 			if(sample < file_size)
 			{
 
@@ -290,7 +293,7 @@ void MusicPlayer::getSpectrum(int begin, int end, int* tab, unsigned int pixelSi
 		//algo max
 		for(unsigned int j = 0; j < chunk_size; j++)
 		{
-			int sample = (((i * chunk_sep) + begin) + j);
+            unsigned int sample = (((i * chunk_sep) + begin) + j);
 			if(sample < file_size)
 			{
 				max = (samples[sample] < max)? max : samples[sample];

@@ -26,7 +26,6 @@ private:
 	QWidget* parent;
     QGridLayout* layout;
     QToolButton* stopButton;
-    QToolButton* pauseButton;
     QToolButton* playButton;
     QSlider* slideBar;
     QLabel* timerLabel;

@@ -39,7 +39,7 @@ class Waveform : public QLabel
 		void display();
 		void initImage();
 		
-		void setWidth(int w);
+        void setWidth(unsigned int w);
 		void setHeight(int h);
 
 		int getWidth();

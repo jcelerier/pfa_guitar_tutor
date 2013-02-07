@@ -27,7 +27,8 @@ public:
     MusicPlayer(QString);
     ~MusicPlayer();
     void play();
-    void pause();
+    void pause(bool);
+    bool isPaused();
     void stop();
     bool setSong(QString);
     QString getSong() const;
