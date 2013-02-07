@@ -39,15 +39,29 @@ void PartSetter::initBeginning(QTime t)
 void PartSetter::accept()
 {
     if(ui->isPart->isChecked() && ui->partEdit->text() != "")
+	{
         ((ChordTableWidget*) parent())->setCasePart(ui->partEdit->text());
-    else if(ui->isPart->isChecked() && !ui->isPart->isEnabled() && ui->partEdit->text() == ""){
+	}
+	else if(ui->isPart->isChecked() && !ui->isPart->isEnabled() && ui->partEdit->text() == "")
+	{
         QMessageBox::information(this, tr("First part"), tr("You must give a part name to the first cell."));
         return;
     }
     else
+	{
         ((ChordTableWidget*) parent())->removeCasePart();
-    ((ChordTableWidget*) parent())->setCaseBeginning(ui->beginning->time());
-    hide();
+	}
+
+	if(ui->updateFollowers->isChecked())
+	{
+		((ChordTableWidget*) parent())->setCaseAndFollowersBeginning(ui->beginning->time());
+	}
+	else
+	{
+		((ChordTableWidget*) parent())->setCaseBeginning(ui->beginning->time());
+	}
+
+	hide();
     ((ChordTableWidget*) parent())->checkBeginningTimes();
 }
 

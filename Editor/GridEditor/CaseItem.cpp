@@ -10,6 +10,7 @@ Last change on 14/04/12
 
 #include "CaseItem.h"
 #include <QMenu>
+#include <QDebug>
 #include <QMouseEvent>
 /**
  * @brief CaseItem::CaseItem
@@ -18,11 +19,12 @@ Last change on 14/04/12
  */
 CaseItem::CaseItem(const bool partEditable) :  QTableWidgetItem(), m_color(new QColor())
 {
-    m_beginningTimer = QTime(0,0);
+	m_beginningTimer = QTime(0,0);
     m_part = "";
     m_color->setRgb(255, 255, 255);
     m_timerManuallySet = false;
     m_partEditable = partEditable;
+
     this->setBackgroundColor(m_color->toRgb());
 	this->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
     this->setTextAlignment(Qt::AlignCenter);
@@ -128,7 +130,7 @@ bool CaseItem::isPartSet()
     return m_part.length() > 0;
 }
 
-void CaseItem::setBeginningTimer(QTime t, bool timerManuallySet)
+void CaseItem::setBeginning(QTime t, bool timerManuallySet)
 {
     m_beginningTimer = t;
     m_timerManuallySet = timerManuallySet;

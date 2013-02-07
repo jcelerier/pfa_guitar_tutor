@@ -20,7 +20,8 @@ SOURCES += \
     NewGridDialog.cpp \
     Waveform.cpp \
     EditorPanel.cpp \
-    HelpWindow.cpp
+    HelpWindow.cpp \
+    Util.cpp
 
 HEADERS += \
     CaseItem.h \
@@ -36,7 +37,8 @@ HEADERS += \
     NewGridDialog.h \
     Waveform.h \
     EditorPanel.h \
-    HelpWindow.h
+    HelpWindow.h \
+    Util.hpp
 
 TRANSLATIONS = GridEditor_fr.ts
 

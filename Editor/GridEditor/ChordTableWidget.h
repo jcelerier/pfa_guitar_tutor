@@ -61,6 +61,7 @@ public slots:
 
     void setCasePart(QString text);
     void setCaseBeginning(QTime t);
+	void setCaseAndFollowersBeginning(QTime t);
 	void removeCasePart();
 	bool checkBeginningTimes();
 
