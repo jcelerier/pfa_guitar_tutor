@@ -57,7 +57,6 @@ GridEditor::~GridEditor() {
 	{
 		delete grid;
 	}
-	delete editionSelector;
     delete layout;
     delete centralArea;
     delete statusInfo; delete status;
@@ -314,8 +313,7 @@ void GridEditor::newGrid()
 		trackProperties->setTrack(newGridDialog->getTrack());
 		trackProperties->setArtist(newGridDialog->getArtist());
 		trackProperties->setBarSize(newGridDialog->getBarSize());
-
-		editorPanel = new EditorPanel(grid, audioWindow, this);
+        editorPanel = new EditorPanel(grid, audioWindow, this);
 		layout->addWidget(editorPanel, 0, 1);
 
         if(!isGridSet) {

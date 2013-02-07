@@ -40,14 +40,3 @@ EditorPanel::EditorPanel(ChordTableWidget* chordTable, AudioWindow* audioWindow,
 	mainLayout->addWidget(tabs);
 	setLayout(mainLayout);
 }
-
-EditorPanel::~EditorPanel()
-{
-    delete spacer;
-    delete vboxTable;
-    delete vboxAudio;
-    delete pageAudio;
-    delete pageChordTable;
-    delete mainLayout;
-    delete tabs;
-}

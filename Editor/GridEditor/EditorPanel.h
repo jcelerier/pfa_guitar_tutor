@@ -22,7 +22,7 @@ class EditorPanel : public QWidget
 
 public:
     explicit EditorPanel(ChordTableWidget* chordTable, AudioWindow *audioWindow, QWidget *parent);
-    ~EditorPanel();
+
 signals:
 		
 	public slots:

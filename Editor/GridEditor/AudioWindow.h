@@ -34,7 +34,7 @@ class AudioWindow : public QWidget
 	private:
 		QWidget* parent;
 		SimpleMusicPlayer* player;
-		QLabel* title;
+        QLabel* label;
 		QLineEdit* audioFile;
 		AudioSync* audioSync;
 		QPushButton *browseButton;

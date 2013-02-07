@@ -5,7 +5,7 @@ AudioWindow::AudioWindow(QWidget * parent)
 {
 	this->parent = parent;
 	player = new SimpleMusicPlayer(this);
-	QLabel* label = new QLabel(tr("Audio file")); //fuite mémoire
+    label = new QLabel(tr("Audio file")); //fuite mémoire
 	audioFile = new QLineEdit();
 	audioFile->setReadOnly(true);
 	audioFile->setEnabled(false);
@@ -39,7 +39,7 @@ AudioWindow::~AudioWindow()
 	delete browseButton;
 	delete audioSync;
 	delete layout;
-	delete title;
+    delete label;
 }
 
 /**
