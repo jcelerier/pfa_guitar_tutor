@@ -14,8 +14,9 @@ Last change on 08/05/12
 GridEditor::GridEditor()
 {
     isGridSet = false;
-	trackProperties = new TrackProperties(this);
-	audioWindow = new AudioWindow(this);
+    trackProperties = new TrackProperties(this);
+    audioWindow = new AudioWindow(this);
+	grid = 0;
 
 	status = statusBar();
 	statusInfo = new QLabel(statusText(), status);
@@ -33,9 +34,6 @@ GridEditor::GridEditor()
     setCentralWidget(centralArea);
     connectActionToSlot();
 
-    connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
-    connect(this, SIGNAL(play(int)), audioWindow, SLOT(playFrom(int)));
-
     settings = new QSettings("GuitarTutor", "GridEditor"); //Permet de retenir la configuration du logiciel
 }
 
@@ -45,19 +43,23 @@ GridEditor::GridEditor()
  * Destructeur de la grille d'accords.
  */
 GridEditor::~GridEditor() {
-    delete grid;
-	delete audioWindow;
-    delete chordTree;
-    delete layout;
+    delete openAction; delete saveAction; delete addRowAction; delete copyDownAction; delete deleteRowAction; delete saveAsAction;
+		delete quitAction; delete aboutAction; delete newAction; delete renameAction; delete openAudioWindowAction;
+        delete openTrackPropertiesAction; delete addColumnAction; delete deleteColumnAction; delete helpAction; //peut être faire un dictionnaire d'actions qu'on puisse appeler par leur nom.
+		//ex. : actions["new"];
     delete fileMenu; delete editMenu; delete optionMenu; delete gridMenu; delete aboutMenu;
     delete toolBar;
-    delete openAction; delete saveAction; delete addRowAction; delete copyDownAction; delete deleteRowAction;
-		delete quitAction; delete aboutAction; delete newAction; delete renameAction; delete openAudioWindowAction;
-		delete openTrackPropertiesAction; //peut être faire un dictionnaire d'actions qu'on puisse appeler par leur nom.
-		//ex. : actions["new"];
     delete settings;
+    delete trackProperties;
+    delete chordTree;
+	if(grid != 0)
+	{
+		delete grid;
+	}
+	delete editionSelector;
+    delete layout;
     delete centralArea;
-    delete editionSelector;
+    delete statusInfo; delete status;
 }
 
 //---------------------------------------------------
@@ -87,6 +89,7 @@ void GridEditor::createActions(){
     aboutAction = new QAction(tr("About"), this);
     newAction = new QAction(tr("&New"), this);
     saveAction = new QAction(tr("&Save"), this);
+    saveAsAction = new QAction(tr("Save as"), this);
     openAction = new QAction(tr("&Open"), this);
     addRowAction = new QAction(tr("Add row"), this);
     deleteRowAction = new QAction(tr("Delete row"), this);
@@ -96,6 +99,7 @@ void GridEditor::createActions(){
     renameAction = new QAction(tr("Rename"), this);
 	openAudioWindowAction = new QAction(tr("Audio"), this);
 	openTrackPropertiesAction = new QAction(tr("Properties"), this);
+    helpAction = new QAction(tr("&Help"), this);
 
     quitAction->setIcon(QIcon("icons/quit.png"));
     aboutAction->setIcon(QIcon("icons/about.png"));
@@ -106,8 +110,10 @@ void GridEditor::createActions(){
     deleteRowAction->setIcon(QIcon("icons/deleterow.png"));
     addColumnAction->setIcon(QIcon("icons/addrow.png"));
     deleteColumnAction->setIcon(QIcon("icons/deleterow.png"));
+    helpAction->setIcon(QIcon("icons/help.png"));
 
     saveAction->setEnabled(false);
+    saveAsAction->setEnabled(false);
     deleteRowAction->setEnabled(false);
     copyDownAction->setEnabled(false);
     addRowAction->setEnabled(false);
@@ -116,6 +122,13 @@ void GridEditor::createActions(){
     renameAction->setEnabled(false);
     openAudioWindowAction->setEnabled(false);
     openTrackPropertiesAction->setEnabled(false);
+
+    newAction->setShortcut(QKeySequence::New);
+    openAction->setShortcut(QKeySequence::Open);
+    saveAction->setShortcut(QKeySequence::Save);
+    saveAsAction->setShortcut(QKeySequence::SaveAs);
+    quitAction->setShortcut(QKeySequence::Quit);
+    helpAction->setShortcut(QKeySequence::HelpContents);
 }
 
 /**
@@ -127,6 +140,7 @@ void GridEditor::setActionsToMenu() {
     fileMenu->addAction(newAction);
     fileMenu->addAction(openAction);
     fileMenu->addAction(saveAction);
+    fileMenu->addAction(saveAsAction);
     fileMenu->addSeparator();
     fileMenu->addAction(quitAction);
     editMenu->addAction(addRowAction);
@@ -136,6 +150,7 @@ void GridEditor::setActionsToMenu() {
     editMenu->addAction(copyDownAction);
     gridMenu->addAction(openTrackPropertiesAction);
     gridMenu->addAction(openAudioWindowAction);
+    aboutMenu->addAction(helpAction);
     aboutMenu->addAction(aboutAction);
 }
 
@@ -167,7 +182,8 @@ void GridEditor::createCentralWidget() {
 
     /*Mise en place du layout*/
     chordTree = new ChordTree(); //Initialisation de chord_tree
-    grid = new ChordTableWidget(); //Fenere d'accords
+	//grid = new ChordTableWidget(); //Fenere d'accords
+
 	editionSelector = new EditionSelector(this);
 
     layout = new QGridLayout();
@@ -177,6 +193,33 @@ void GridEditor::createCentralWidget() {
     centralArea->setLayout(layout);
 }
 
+void GridEditor::createGrid(int columns, int rows)
+{
+	grid = new ChordTableWidget(columns, rows, this);
+
+	connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
+	connect(grid, SIGNAL(play(int)), this, SIGNAL(play(int)));
+	connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
+	connect(chordTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
+	connect(addRowAction, SIGNAL(triggered()), grid, SLOT(insert_row()));
+	connect(addColumnAction, SIGNAL(triggered()), grid, SLOT(insert_column()));
+	connect(deleteColumnAction, SIGNAL(triggered()), grid, SLOT(delete_selected_column()));
+	connect(copyDownAction, SIGNAL(triggered()), grid, SLOT(copy_down_rows()));
+	connect(deleteRowAction, SIGNAL(triggered()), grid, SLOT(delete_selected_row()));
+
+
+	saveAction->setEnabled(true);
+	saveAsAction->setEnabled(true);
+	addRowAction->setEnabled(true);
+	addColumnAction->setEnabled(true);
+	renameAction->setEnabled(true);
+	openAudioWindowAction->setEnabled(true);
+	openTrackPropertiesAction->setEnabled(true);
+	deleteRowAction->setEnabled(true);
+	deleteColumnAction->setEnabled(true);
+	copyDownAction->setEnabled(true);
+}
+
 /**
  * @brief GridEditor::connectActionToSlot
  *
@@ -184,24 +227,23 @@ void GridEditor::createCentralWidget() {
  */
 void GridEditor::connectActionToSlot()
 {
-    connect(chordTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
-    connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
-    connect(addRowAction, SIGNAL(triggered()), grid, SLOT(insert_row()));
-    connect(addColumnAction, SIGNAL(triggered()), grid, SLOT(insert_column()));
-    connect(deleteColumnAction, SIGNAL(triggered()), grid, SLOT(delete_selected_column()));
-    connect(copyDownAction, SIGNAL(triggered()), grid, SLOT(copy_down_rows()));
-    connect(deleteRowAction, SIGNAL(triggered()), grid, SLOT(delete_selected_row()));
+    connect(trackProperties, SIGNAL(trackChanged()), this, SLOT(setStatusText()));
+    connect(trackProperties, SIGNAL(artistChanged()), this, SLOT(setStatusText()));
+
     connect(newAction, SIGNAL(triggered()), this, SLOT(newGrid()));
     connect(renameAction, SIGNAL(triggered()), this, SLOT(rename()));
     connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
-	connect(saveAction, SIGNAL(triggered()), this, SLOT(toXML()));
+    connect(saveAsAction, SIGNAL(triggered()), this, SLOT(toXML()));
+    connect(saveAction, SIGNAL(triggered()), this, SLOT(save()));
 	connect(openAction, SIGNAL(triggered()), this, SLOT(fromXML()));
     connect(openAudioWindowAction, SIGNAL(triggered()), audioWindow, SLOT(show()));
 	connect(openTrackPropertiesAction, SIGNAL(triggered()), trackProperties, SLOT(exec()));
-	connect(trackProperties, SIGNAL(trackChanged()), this, SLOT(setStatusText()));
-	connect(trackProperties, SIGNAL(artistChanged()), this, SLOT(setStatusText()));
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
-    connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
+    connect(helpAction, SIGNAL(triggered()), this, SLOT(help()));
+
+
+
+    connect(this, SIGNAL(play(int)), audioWindow, SLOT(playFrom(int)));
 }
 
 //---------------------------------------------------
@@ -218,17 +260,6 @@ void GridEditor::changeState() {
         chordTree->setEnabled(false);
     else if(!grid->is_selection_empty() && !chordTree->isEnabled())
         chordTree->setEnabled(true);
-
-    /*
-    if (grid->is_row_selected() && !deleteRowAction->isEnabled()) {
-        deleteRowAction->setEnabled(true);
-        copyDownAction->setEnabled(true);
-    }
-    else if (!grid->is_row_selected() && deleteRowAction->isEnabled()) {
-        deleteRowAction->setEnabled(false);
-        copyDownAction->setEnabled(false);
-    }
-    */
 }
 
 /**
@@ -240,36 +271,21 @@ void GridEditor::firstNewGrid()
 {
     if(!saveBeforeQuit())
         return;
-
-	delete grid;
-	grid = new ChordTableWidget(newGridDialog->getColumns() + 1, newGridDialog->getLines(), this);
-    connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
-    connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
-    connect(chordTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
-    connect(addRowAction, SIGNAL(triggered()), grid, SLOT(insert_row()));
-    connect(addColumnAction, SIGNAL(triggered()), grid, SLOT(insert_column()));
-    connect(deleteColumnAction, SIGNAL(triggered()), grid, SLOT(delete_selected_column()));
-    connect(copyDownAction, SIGNAL(triggered()), grid, SLOT(copy_down_rows()));
-    connect(deleteRowAction, SIGNAL(triggered()), grid, SLOT(delete_selected_row()));
+	if(grid != 0)
+	{
+		delete grid;
+	}
+	createGrid(newGridDialog->getColumns() + 1, newGridDialog->getLines());
 
 	trackProperties->setTrack(newGridDialog->getTrack());
 	trackProperties->setArtist(newGridDialog->getArtist());
 	trackProperties->setBarSize(newGridDialog->getBarSize());
 	layout->removeWidget(editionSelector);
+
 	delete editionSelector;
 
 	editorPanel = new EditorPanel(grid, audioWindow, this);
 	layout->addWidget(editorPanel, 0, 1);
-
-	saveAction->setEnabled(true);
-	addRowAction->setEnabled(true);
-	addColumnAction->setEnabled(true);
-	renameAction->setEnabled(true);
-	openAudioWindowAction->setEnabled(true);
-	openTrackPropertiesAction->setEnabled(true);
-	deleteRowAction->setEnabled(true);
-	deleteColumnAction->setEnabled(true);
-	copyDownAction->setEnabled(true);
 
 	isGridSet = true;
 }
@@ -277,27 +293,22 @@ void GridEditor::firstNewGrid()
 
 void GridEditor::newGrid()
 {
-
 	if(!saveBeforeQuit())
 		return;
 
 	newGridDialog = new NewGridDialog(this);
+    filename = "";
 
 	int accept = newGridDialog->exec();
 	if(accept == QDialog::Rejected)
 		return;
 	else
 	{
-		delete grid;
-		grid = new ChordTableWidget(newGridDialog->getColumns() + 1, newGridDialog->getLines(), this);
-		connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
-		connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
-        connect(chordTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
-        connect(addRowAction, SIGNAL(triggered()), grid, SLOT(insert_row()));
-        connect(addColumnAction, SIGNAL(triggered()), grid, SLOT(insert_column()));
-        connect(deleteColumnAction, SIGNAL(triggered()), grid, SLOT(delete_selected_column()));
-        connect(copyDownAction, SIGNAL(triggered()), grid, SLOT(copy_down_rows()));
-        connect(deleteRowAction, SIGNAL(triggered()), grid, SLOT(delete_selected_row()));
+		if(grid != 0)
+		{
+			delete grid;
+		}
+		createGrid(newGridDialog->getColumns() + 1, newGridDialog->getLines());
 
 		trackProperties->setTrack(newGridDialog->getTrack());
 		trackProperties->setArtist(newGridDialog->getArtist());
@@ -306,15 +317,10 @@ void GridEditor::newGrid()
 		editorPanel = new EditorPanel(grid, audioWindow, this);
 		layout->addWidget(editorPanel, 0, 1);
 
-		saveAction->setEnabled(true);
-		addRowAction->setEnabled(true);
-		addColumnAction->setEnabled(true);
-		renameAction->setEnabled(true);
-		openAudioWindowAction->setEnabled(true);
-		openTrackPropertiesAction->setEnabled(true);
-		deleteRowAction->setEnabled(true);
-		deleteColumnAction->setEnabled(true);
-		copyDownAction->setEnabled(true);
+        if(!isGridSet) {
+            layout->removeWidget(editionSelector);
+            delete editionSelector;
+        }
 
 		isGridSet = true;
 	}
@@ -337,35 +343,35 @@ void GridEditor::startGrid(int type)
 
 /**
  * @brief GridEditor::toXML
+ * @param filename Laisser vide pour demander où faire l'enregistrement, ou donner le chemin vers le fichier dans lequel écrire
  *
  * Slot pour la sauvegarde d'un fichier XML.
  */
 // penser à faire en sorte que les propriétés de base du morceau soient obligatoires (nom, etc...)
-void GridEditor::toXML() //ça serait bien qu'on sélectionne le fichier ou on sauve.
+void GridEditor::toXML(QString filename) //ça serait bien qu'on sélectionne le fichier ou on sauve.
 {
 	// Pour tester qu'on sauve bien un xml
 	int pos = 0;
 	QRegExp xmlExt("\\S+\\.xml");
 	QRegExpValidator *validator = new QRegExpValidator(xmlExt, this);
 
-	QString file = QFileDialog::getSaveFileName(this, "Sauvegarde", ".", tr("XML Files (*.xml)"), 0, QFileDialog::HideNameFilterDetails);
-	if(validator->validate(file, pos) != QValidator::Acceptable)
-	{
-		file.append(".xml");
-	}
+    if(filename == "")
+        filename = QFileDialog::getSaveFileName(this, "Sauvegarde", ".", tr("XML Files (*.xml)"), 0, QFileDialog::HideNameFilterDetails);
+
+    if(validator->validate(filename, pos) != QValidator::Acceptable)
+        filename.append(".xml");
 
 	LogicalTrack* track = grid->getLogicalTrack();
 
 	track->setTrackName(trackProperties->getTrack());
 	track->setArtist(trackProperties->getArtist());
 	track->setMesure(trackProperties->getBarSize());
-
 	track->setLine(grid->rowCount());
 	track->setColumn(grid->columnCount() - 1);
-
 	track->setAudioFileName(audioWindow->getFilename()); //vérifier si chemin absolu
 
-	TrackLoader::convertLogicalTrackToXml(track, file);
+    TrackLoader::convertLogicalTrackToXml(track, filename);
+    delete validator;
 }
 
 /**
@@ -382,6 +388,7 @@ void GridEditor::fromXML() //ça serait bien qu'on sélectionne le fichier ou on
     QString file = QFileDialog::getOpenFileName(this, tr("Loading"), ".", tr("XML Files (*.xml)"), 0, QFileDialog::HideNameFilterDetails);
     if(file == "")
         return;
+    filename = file;
 	TrackLoader::convertXmlToLogicalTrack(file, track); //tester la valeur de retour et afficher dialog si échec
 
 	trackProperties->setTrack(track->getTrackName());
@@ -393,16 +400,12 @@ void GridEditor::fromXML() //ça serait bien qu'on sélectionne le fichier ou on
 
 	// il faudra penser à recalculer le début, la fin et la durée de la première mesure pour les mettre
 	// dans audiowindow
-    delete grid;
-	grid = new ChordTableWidget(track->getColumn() + 1, track->getLine(), this); //TODO
-    connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
-    connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
-    connect(chordTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
-    connect(addRowAction, SIGNAL(triggered()), grid, SLOT(insert_row()));
-    connect(addColumnAction, SIGNAL(triggered()), grid, SLOT(insert_column()));
-    connect(deleteColumnAction, SIGNAL(triggered()), grid, SLOT(delete_selected_column()));
-    connect(copyDownAction, SIGNAL(triggered()), grid, SLOT(copy_down_rows()));
-    connect(deleteRowAction, SIGNAL(triggered()), grid, SLOT(delete_selected_row()));
+
+	if(grid != 0)
+	{
+		delete grid;
+	}
+	createGrid(track->getColumn() + 1, track->getLine());
 
     grid->setLogicalTrack(track);
 
@@ -410,19 +413,12 @@ void GridEditor::fromXML() //ça serait bien qu'on sélectionne le fichier ou on
 	{
 		layout->removeWidget(editionSelector);
 	}
-    layout->addWidget(grid, 0, 1);
 
-    saveAction->setEnabled(true);
-    addRowAction->setEnabled(true);
-    addColumnAction->setEnabled(true);
-    renameAction->setEnabled(true);
-    openAudioWindowAction->setEnabled(true);
-    openTrackPropertiesAction->setEnabled(true);
-    deleteRowAction->setEnabled(true);
-    deleteColumnAction->setEnabled(true);
-    copyDownAction->setEnabled(true);
+	layout->addWidget(grid, 0, 1);
 
-    isGridSet = true;
+   isGridSet = true;
+
+    delete track;
 }
 
 /**
@@ -432,7 +428,7 @@ void GridEditor::fromXML() //ça serait bien qu'on sélectionne le fichier ou on
  */
 void GridEditor::about()
 {
-    QMessageBox::information(this, tr("About GridEditor"), tr("Lorem ipsum dolor sit amet, consectetur adipiscing elit.")); //TODO
+	QMessageBox::information(this, tr("About GridEditor"), tr("Editor for the GuitarTutor software suite.")); //TODO
 }
 
 /**
@@ -504,4 +500,20 @@ bool GridEditor::saveBeforeQuit()
         }
     }
     return true;
+}
+
+/**
+ * @brief GridEditor::save
+ *
+ * Slot servant à rediriger vers l'enregistrement à partir d'une demande de type "enregistrer" (et non "enregistrer sous")
+ */
+void GridEditor::save()
+{
+    toXML(filename);
+}
+
+void GridEditor::help()
+{
+    HelpWindow helpWindow;
+    helpWindow.exec();
 }

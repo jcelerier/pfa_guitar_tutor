@@ -20,6 +20,7 @@ Last change on 08/05/12
 #include "NewGridDialog.h"
 #include "Track/TrackLoader.h"
 #include "EditorPanel.h"
+#include "HelpWindow.h"
 
 /**
  * @brief Fenêtre principale de l'éditeur
@@ -43,8 +44,8 @@ friend class EditionSelector;
     QMenu *fileMenu, *editMenu, *optionMenu, *gridMenu, *aboutMenu;
 
     QToolBar *toolBar;
-    QAction *quitAction, *aboutAction, *newAction, *saveAction,
-            *openAction, *addRowAction, *deleteRowAction,
+    QAction *quitAction, *aboutAction, *newAction, *saveAction, *helpAction,
+            *openAction, *addRowAction, *deleteRowAction, *saveAsAction,
             *copyDownAction, *renameAction, *addColumnAction,
 			*deleteColumnAction, *openAudioWindowAction, *openTrackPropertiesAction;
     EditionSelector *editionSelector;
@@ -55,11 +56,14 @@ friend class EditionSelector;
 
     bool isGridSet;
 
+    QString filename;
+
 public:
     GridEditor();
     ~GridEditor();
 	QString statusText();
     void startGrid(int);
+	void createGrid(int columns, int rows);
 private:
     void createMenu();
     void createActions();
@@ -79,11 +83,13 @@ public slots:
 	void changeState();
 	void firstNewGrid();
 	void newGrid();
-	void toXML();
+    void save();
+    void toXML(QString filename = "");
 	void fromXML();
     void about();
 	void setStatusText();
     void rename();
+    void help();
 };
 
 #endif // GRIDEDITOR_H

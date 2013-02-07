@@ -52,14 +52,12 @@ HEADERS += MultiTracks.h \
            MusicManager.h \
            ScoreManager.h \
            Track.h \
-           chord/chord.h \
+           chord/chord_c.h \
            chord/chordcor.h \
            chord/ehpcp.h \
            chord/fft.h \
            GuitarTutor/Chord.h \
            GuitarTutor/Enrichment.h \
-           GuitarTutor/GuitarTutorAPI.h \
-           GuitarTutor/GuitarTutorAPI_global.h \
            GuitarTutor/Tonalities.h \
            GuitarTutor/Tonality.h \
            portaudio/pa_asio.h \
@@ -124,12 +122,12 @@ HEADERS += MultiTracks.h \
            Track/LogicalTrack.h \
            Track/TrackChord.h
 
+
 SOURCES += MultiTracks.cpp \
            Track.cpp \
            MusicManager.cpp \
            ScoreManager.cpp \
            MusicPlayer.cpp \
-           chord/chord.c \
            chord/chordcor.c \
            chord/ehpcp.c \
            chord/fft.c \
@@ -142,7 +140,6 @@ SOURCES += MultiTracks.cpp \
            MusicManager.cpp \
            GuitarTutor/Chord.cpp \
            GuitarTutor/Enrichment.cpp \
-           GuitarTutor/GuitarTutorAPI.cpp \
            GuitarTutor/Tonalities.cpp \
            GuitarTutor/Tonality.cpp \
            IScoreLight/Engines.cpp \
@@ -181,7 +178,8 @@ SOURCES += MultiTracks.cpp \
            IScoreLight/Editor/CSP/CSP.cpp \
            IScoreLight/Editor/CSP/CSPConstrainedVariable.cpp \
            IScoreLight/Editor/CSP/CSPLinearConstraint.cpp \
-           IScoreLight/Editor/CSP/TriggerPoint.cpp
+           IScoreLight/Editor/CSP/TriggerPoint.cpp \
+           chord/chord_c.c
 
 
 macx: QMAKE_CFLAGS_X86_64 += -mmacosx-version-min=10.7

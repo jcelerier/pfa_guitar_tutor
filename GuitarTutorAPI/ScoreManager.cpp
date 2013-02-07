@@ -6,9 +6,11 @@
  */
 
 #include "ScoreManager.h"
-#include <fstream>
+
 #include <iostream>
+#include <fstream>
 #include <sstream>
+
 #include <unistd.h>
 
 
@@ -322,8 +324,58 @@ bool ScoreManager::loadScore(std::string fileName)
 	return true;
 }
 
-bool ScoreManager::loadScore(LogicalTrack* trackName){
+std::string ScoreToString(LogicalTrack* trackName )
+{
+	NoteData currentNote, prevNote;
+	float currentRelativeStart;
+	std::stringstream text("");
+	QList<PartTrack*>::iterator it1;
+	QList<TrackChord*>::iterator it2;
 
+
+	QList<PartTrack*> partTrackList = trackName->getPartTrackList();
+
+	for(it1 = partTrackList.begin(); it1 != partTrackList.end(); ++it1)
+	{
+		std::string current((*it1)->getPartName().toStdString());
+		text << (*it1)->getPartName().toStdString() << "\n";
+
+		QList<TrackChord*> gtc = (*it1)->getTrackChordsList(); //utilisée dans la boucle qui suit, plante si pas de passage par variable intermédiaire (pourquoi?) --- hamid
+
+		for(it2 = gtc.begin(); it2 != gtc.end(); ++it2)
+		{
+			for(int i = 0; i < (*it2)->getRepetition(); i++)
+			{
+				QString str_tmp("");
+				std::string s("");
+				std::string str("");
+
+				s += (*it2)->getChord().toStdString();
+				str_tmp.setNum((*it2)->getDuration());
+				str += str_tmp.toStdString() + " " + s;
+
+				std::istringstream currentStream(str.data());
+				prevNote = currentNote;
+				currentStream >> currentNote.duration >> currentNote.name;
+
+				currentRelativeStart = (currentNote.duration - prevNote.duration) / 1000;
+
+				if(currentNote.name != "n")
+					text << currentRelativeStart << " " << currentNote.name  << std::endl;
+			}
+		}
+	}
+	return text.str();
+}
+
+bool ScoreManager::loadScore(LogicalTrack* trackName)
+{
+	std::cout << ScoreToString(trackName) << std::flush;
+	std::ofstream file("tmp", std::ios::out);
+	file << ScoreToString(trackName);
+	file.close();
+	return loadScore("tmp");
+/*
 	NoteData currentNote;
 	NoteData prevNote;
 
@@ -399,7 +451,7 @@ bool ScoreManager::loadScore(LogicalTrack* trackName){
 
                 currentStream >> currentNote.duration >> currentNote.name;
 
-                m_scoreNotes[m_iscoreEngine->addBox(currentAbsoluteStart * 1000, currentNote.duration / 1000, currentBoxId)] = currentNote.name;
+				m_scoreNotes[m_iscoreEngine->addBox(currentAbsoluteStart * 1000, currentNote.duration / 1000, currentBoxId)] = currentNote.name;
 
 
 				currentRelativeStart = (currentNote.duration - prevNote.duration) / 1000;
@@ -412,19 +464,16 @@ bool ScoreManager::loadScore(LogicalTrack* trackName){
 
 				std::cout << "répétition: " <<  (*it2)->getRepetition()
 						  << "   i: " << i << std::endl << std::endl;
-           }
-			std::cout << "salut ||| " << std::flush;
+		   }
 
 		}
-		std::cout << "hello ||| " << std::flush;
 	}
-	std::cout << "coucou" << std::flush;
 
 	m_isAScoreToRun = true;
 
+*/
 
-
-	return true;
+//	return true;
 }
 
 bool ScoreManager::isRunning()

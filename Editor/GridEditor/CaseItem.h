@@ -38,7 +38,7 @@ class CaseItem : public QTableWidgetItem
         void setPart(QString);
 
         bool isPartSet();
-        void setBeginningTimer(QTime t, bool timerManuallySet = false);
+		void setBeginning(QTime t, bool timerManuallySet = false);
         QTime getBeginning();
         bool isTimerManuallySet();
         bool isPartEditable();

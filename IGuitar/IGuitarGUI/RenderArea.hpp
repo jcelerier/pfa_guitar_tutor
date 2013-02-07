@@ -10,7 +10,7 @@
 #include <vector>
 #include <map>
 
-#include "../../GuitarTutorAPI/ScoreManager.h"
+#include <ScoreManager.h>
 
 #define BACKGROUND_UPLEFT_X 0.0
 #define BACKGROUND_UPLEFT_Y 0.0

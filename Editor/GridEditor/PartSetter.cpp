@@ -10,6 +10,8 @@ PartSetter::PartSetter(QWidget *parent) :
     ui->beginning->setDisplayFormat("m:ss:zzz");
     ui->beginning->setTime(QTime(0,0));
     ui->partEdit->setText("");
+
+	//ui->pushButton->addAction(((ChordTableWidget*) parent)->m_playFromHere);
 }
 
 PartSetter::~PartSetter()
@@ -39,15 +41,29 @@ void PartSetter::initBeginning(QTime t)
 void PartSetter::accept()
 {
     if(ui->isPart->isChecked() && ui->partEdit->text() != "")
+	{
         ((ChordTableWidget*) parent())->setCasePart(ui->partEdit->text());
-    else if(ui->isPart->isChecked() && !ui->isPart->isEnabled() && ui->partEdit->text() == ""){
+	}
+	else if(ui->isPart->isChecked() && !ui->isPart->isEnabled() && ui->partEdit->text() == "")
+	{
         QMessageBox::information(this, tr("First part"), tr("You must give a part name to the first cell."));
         return;
     }
     else
+	{
         ((ChordTableWidget*) parent())->removeCasePart();
-    ((ChordTableWidget*) parent())->setCaseBeginning(ui->beginning->time());
-    hide();
+	}
+
+	if(ui->updateFollowers->isChecked())
+	{
+		((ChordTableWidget*) parent())->setCaseAndFollowersBeginning(ui->beginning->time());
+	}
+	else
+	{
+		((ChordTableWidget*) parent())->setCaseBeginning(ui->beginning->time());
+	}
+
+	hide();
     ((ChordTableWidget*) parent())->checkBeginningTimes();
 }
 
@@ -61,4 +77,9 @@ void PartSetter::setPartEditable(bool editable)
 {
     ui->isPart->setEnabled(editable);
     ui->isPart->setChecked(true);
+}
+
+void PartSetter::on_pushButton_clicked()
+{
+	((ChordTableWidget*) parent())->playFromHere();
 }

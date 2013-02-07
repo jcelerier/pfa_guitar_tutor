@@ -5,7 +5,7 @@
 #include <QList>
 #include <QtXml>
 #include <QFile>
-#include <Qt/qtest.h>
+//#include <Qt/qtest.h>
 
 using namespace std;
 

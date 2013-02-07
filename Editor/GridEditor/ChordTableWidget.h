@@ -20,6 +20,8 @@ class ChordTableWidget : public QTableWidget
 {
     Q_OBJECT
 
+	friend class PartSetter;
+
 	QString* name;
 	QMenu* m_rightClickMenu;
 	CaseItem* m_currentItem;
@@ -61,6 +63,7 @@ public slots:
 
     void setCasePart(QString text);
     void setCaseBeginning(QTime t);
+	void setCaseAndFollowersBeginning(QTime t);
 	void removeCasePart();
 	bool checkBeginningTimes();
 

@@ -25,8 +25,11 @@ class PartSetter : public QDialog
 public slots:
     void accept();
     void setEnabledPartEdit(int state);
-		
-private:
+
+	private slots:
+	void on_pushButton_clicked();
+
+	private:
     Ui::PartSetter *ui;
 };
 

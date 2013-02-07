@@ -18,7 +18,7 @@ AudioWindow::AudioWindow(QWidget * parent)
 	layout->addWidget(audioFile, 1, 2);
 	layout->addWidget(browseButton, 1, 3);
 	layout->addWidget(player, 2, 1, 3, 3);
-	layout->addWidget(waveform, 5, 0, 3, 4);
+	layout->addWidget(waveform, 5, 0, 3, 5);
 
 	connect(browseButton, SIGNAL(released()), this, SLOT(browseAudioFile()));
 	connect(player, SIGNAL(browseAudioFile()), this, SLOT(browseAudioFile()));
@@ -41,7 +41,10 @@ AudioWindow::~AudioWindow()
 	delete title;
 }
 
-
+/**
+ * @brief AudioWindow::setWaveform
+ * @param waveform une forme d'onde
+ */
 void AudioWindow::setWaveform(Waveform* waveform)
 {
 	this->waveform = waveform;

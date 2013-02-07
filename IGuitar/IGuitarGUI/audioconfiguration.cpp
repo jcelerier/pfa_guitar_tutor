@@ -3,8 +3,8 @@
 
 #include <string>
 #include <QString>
-#include "../../GuitarTutorAPI/MusicManager.h"
-#include "../../GuitarTutorAPI/ScoreManager.h"
+#include <MusicManager.h>
+#include <ScoreManager.h>
 #include <iostream>
 #include "Configuration.h"
 

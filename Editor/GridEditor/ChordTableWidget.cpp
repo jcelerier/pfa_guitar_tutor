@@ -12,7 +12,8 @@ Last change on 08/05/12
 #include "ChordTableWidget.h"
 #include "PartSetter.h"
 
-#include "../../GuitarTutorAPI/Track/LogicalTrack.h"
+#include <Track/LogicalTrack.h>
+#include "Util.hpp"
 
 /**
  * @brief ChordTableWidget::ChordTableWidget
@@ -30,7 +31,7 @@ ChordTableWidget::ChordTableWidget() : QTableWidget(), name(new QString("")) {
  *
  * Initialise la grille d'accords à une taille donnée.
  */
-ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent)
+ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent) : QTableWidget(parent)
 {
 	ChordTableWidget();
 	this->setColumnCount(column);
@@ -53,7 +54,7 @@ ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent)
 	this->setEnabled(true);
 
 
-	m_setPartDialog = new PartSetter(this);
+
 
 	//menu clic droit
 	m_rightClickMenu = new QMenu();
@@ -68,6 +69,8 @@ ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent)
 
 	connect(m_properties, SIGNAL(triggered()), this, SLOT(showProperties()));
 	connect(m_playFromHere, SIGNAL(triggered()), this, SLOT(playFromHere()));
+
+	m_setPartDialog = new PartSetter(this);
     //connect(this, SIGNAL(play(int)), parent, SIGNAL(play(int)));
 
 	m_currentItem = (CaseItem*) this->item(0, 0);
@@ -328,7 +331,8 @@ void ChordTableWidget::ShowContextMenu(const QPoint& pos) // this is a slot
     m_rightClickMenu->clear();
     QPoint globalPos = this->mapToGlobal(pos);
     m_currentItem = (CaseItem*) this->itemAt(pos);
-    if (m_currentItem->column() != this->columnCount() - 1) {
+	if (m_currentItem->column() != this->columnCount() - 1)
+	{
         // une partie est déjà définie sur cette case
         if(m_currentItem->isPartSet())
         {
@@ -358,9 +362,57 @@ void ChordTableWidget::setCasePart(QString text)
 	m_currentItem->setPart(text);
 }
 
+/**
+ * @brief ChordTableWidget::setCaseBeginning
+ * @param t nouveau temps de début de case
+ *
+ * Slot appelé lorsque l'on change le temps de début d'une case
+ */
 void ChordTableWidget::setCaseBeginning(QTime t)
 {
-    m_currentItem->setBeginningTimer(t, true);
+	m_currentItem->setBeginning(t, true);
+}
+
+
+/**
+ * @brief ChordTableWidget::setCaseAndFollowersBeginning
+ * @param t nouveau temps de début de la première case à changer
+ *
+ * Appelé lorsque l'on change le temps de début d'une case et
+ * que l'on veut changer le temps de toutes les cases qui suivent.
+ */
+void ChordTableWidget::setCaseAndFollowersBeginning(QTime t)
+{
+	int minRow = this->row(m_currentItem);
+	int minCol = this->column(m_currentItem);
+
+	QTime old_t;
+	QTime b_t = m_currentItem->getBeginning();
+
+	// on ajoutera à chaque case la différence entre l'ancien et le nouveau temps
+	QTime add_t(std::abs(t.hour() - b_t.hour()),
+				std::abs(t.minute() - b_t.minute()),
+				std::abs(t.second() - b_t.second()),
+				std::abs(t.msec() - b_t.msec()));
+
+	for(int i = minRow; i < this->rowCount(); i++)
+	{
+		for(int j = 0; j < this->columnCount() - 1; j++)
+		{
+			if(i != minRow || j >= minCol)
+			{
+				old_t = ((CaseItem*) this->item(i, j))->getBeginning();
+
+//				((CaseItem*) this->item(i, j))->setBeginning(QTime(
+//										 old_t.hour() + add_t.hour(),
+//										 old_t.minute() + add_t.minute(),
+//										 old_t.second() + add_t.second(),
+//										 old_t.msec() + add_t.msec()), true);
+
+				((CaseItem*) this->item(i, j))->setBeginning(old_t.addMSecs(TimeToMsec(add_t)));
+			}
+		}
+	}
 }
 
 /**
@@ -451,38 +503,18 @@ void ChordTableWidget::setTimeInfo(const QTime beginning, const QTime bar, const
                 m  += bar.minute()*(r*cmax+c);
                 h  += m/60; m = m%60;
                 h  += bar.hour()*(r*cmax+c);
-                ((CaseItem*) item(r,c))->setBeginningTimer(QTime(h,m,s,ms));
+				((CaseItem*) item(r,c))->setBeginning(QTime(h,m,s,ms));
             }
         }
     }
 	checkBeginningTimes();
 }
 
-/**
- * @brief TimeToMsec
- * @param t QTime à convertir
- * @return Le temps en millisecondes
- *
- * Convertit un QTime en millisecondes
- */
-inline int TimeToMsec(QTime t)
-{
-	return t.minute() * 60000 + t.second() * 1000 + t.msec();
-}
 
 /**
- * @brief MsecToTime
- * @param t Millisecondes à convertir
- * @return QTime correspondant
+ * @brief ChordTableWidget::getLogicalTrack
+ * @return LogicalTrack qui contient les données de la grille.
  */
-QTime MsecToTime(int t)
-{
-	int m = t / 60000;
-	int s = (t - m * 60000) / 1000;
-	int ms = t - m * 60000 - s * 1000;
-	return QTime(0, m, s, ms);
-}
-
 LogicalTrack* ChordTableWidget::getLogicalTrack()
 {
 	LogicalTrack* track = new LogicalTrack();
@@ -520,13 +552,18 @@ LogicalTrack* ChordTableWidget::getLogicalTrack()
 	return track;
 }
 
+/**
+ * @brief ChordTableWidget::setLogicalTrack
+ * @param track LogicalTrack à charger
+ *
+ * Cette fonction charge une LogicalTrack dans la grille
+ */
 void ChordTableWidget::setLogicalTrack(LogicalTrack* track)
 {
 	CaseItem* currentCase = NULL;
 	QList<PartTrack*>::const_iterator iPart;
 	QList<TrackChord*>::const_iterator iChord;
 	QList<PartTrack*> partList = track->getPartTrackList();
-	qDebug() << partList.length(); // 36 ? wtf
 
 	QList<TrackChord*> chordsList;
 
@@ -534,13 +571,10 @@ void ChordTableWidget::setLogicalTrack(LogicalTrack* track)
 	int imax = this->rowCount();
 	int jmax = this->columnCount() - 2;
 
-	qDebug() << imax << jmax << "max";
 
 	currentCase = (CaseItem* )this->item(0, 0);
 	for(iPart = partList.begin(); iPart < partList.end(); ++iPart)
 	{
-		qDebug() << "nouvelle partie";
-
 		// on définit une partie sur la case actuelle
 		currentCase->setPart((*iPart)->getPartName());
 
@@ -554,11 +588,8 @@ void ChordTableWidget::setLogicalTrack(LogicalTrack* track)
 			if((*iChord)->getChord() != "n")
 				currentCase->set_chord((*iChord)->getChord());
 
-			qDebug() << "accord" << currentCase->get_chord();
-
 			//la durée de l'accord
-			currentCase->setBeginningTimer(MsecToTime(int((*iChord)->getDuration())));
-			qDebug() << "debut" << currentCase->getBeginning();
+			currentCase->setBeginning(MsecToTime(int((*iChord)->getDuration())));
 
 			//case suivante
 			if(j < jmax)

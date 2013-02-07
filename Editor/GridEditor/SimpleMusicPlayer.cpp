@@ -18,7 +18,7 @@ SimpleMusicPlayer::SimpleMusicPlayer(QWidget* parent)
     timer = new QTimer();
 
 	player = new MusicPlayer();
-	waveform = new Waveform(this, slideBar->width(), 100);
+	waveform = new Waveform(this, ((AudioWindow*) parent)->width()  -20, 300);
 	((AudioWindow*) parent)->setWaveform(waveform);
 
     playButton->setIcon(QIcon("icons/play.png"));
@@ -98,7 +98,7 @@ bool SimpleMusicPlayer::setAudioFile(QString file)
 	waveBegin = 0;
 	waveEnd = player->getTotalLengthInSamples();
 
-	waveform->setWidth(parent->width());
+	waveform->setWidth(parent->width() - 20);
 	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
 	waveform->update();
 
@@ -115,7 +115,7 @@ void SimpleMusicPlayer::resizeEvent(QResizeEvent * event)
 {
 	if(player->getState())
 	{
-		waveform->setWidth(parent->width());
+		waveform->setWidth(parent->width() - 20);
 		//player->getFullSpectrum(waveform->getSpectrum(), waveform->getWidth());
 
 		player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
@@ -238,7 +238,14 @@ void SimpleMusicPlayer::changePosition(int position)
 	currentPosition = player->getPosition();
 }
 
-
+/**
+ * @brief SimpleMusicPlayer::zoomIn
+ * @param clickPos position du pointeur
+ *
+ * Effectue un zoom avant sur la waveform.
+ * Algorithme : on augmente les positions gauche et droite de zoomFactor%
+ *			relativement à la position du clic
+ */
 void SimpleMusicPlayer::zoomIn(QPoint clickPos)
 {
 	float clickPercent = (float) clickPos.x() / (float) waveform->getWidth();
@@ -267,6 +274,12 @@ void SimpleMusicPlayer::zoomIn(QPoint clickPos)
 	}
 }
 
+/**
+ * @brief SimpleMusicPlayer::zoomOut
+ * @param clickPos Position du clic
+ *
+ * Effectue un zoom arrière.
+ */
 void SimpleMusicPlayer::zoomOut(QPoint clickPos)
 {
 	float clickPercent = (float) clickPos.x() / (float) waveform->getWidth();
@@ -285,14 +298,17 @@ void SimpleMusicPlayer::zoomOut(QPoint clickPos)
 	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
 	waveform->update();
 
-	//qDebug() << waveBegin << waveEnd;
 }
 
+/**
+ * @brief SimpleMusicPlayer::moveLeft
+ *
+ * Effectue un déplacement à gauche.
+ */
 void SimpleMusicPlayer::moveLeft()
 {
 	int mvt = (waveEnd - waveBegin) / waveform->getWidth() ;
 
-	//qDebug() << "début:" << waveBegin ;
 	if(waveBegin <= 0)
 	{
 	   //do nothing
@@ -308,12 +324,15 @@ void SimpleMusicPlayer::moveLeft()
 		waveBegin = 0;
 	}
 
-
-	//qDebug() << "fin:" << waveBegin ;
 	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
 	waveform->update();
 }
 
+/**
+ * @brief SimpleMusicPlayer::moveRight
+ *
+ * Effectue un déplacement à droite.
+ */
 void SimpleMusicPlayer::moveRight()
 {
 	int lgr = player->getTotalLengthInSamples();
@@ -336,12 +355,19 @@ void SimpleMusicPlayer::moveRight()
 	waveform->update();
 }
 
-
+/**
+ * @brief SimpleMusicPlayer::getWaveBegin
+ * @return Sample gauche de la waveform
+ */
 int SimpleMusicPlayer::getWaveBegin()
 {
 	return waveBegin;
 }
 
+/**
+ * @brief SimpleMusicPlayer::getWaveEnd
+ * @return Sample droite de la waveform
+ */
 int SimpleMusicPlayer::getWaveEnd()
 {
 	return waveEnd;
