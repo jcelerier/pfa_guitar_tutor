@@ -1,6 +1,10 @@
 #ifndef WAVEFORM_H
 #define WAVEFORM_H
 
+#include <QWidget>
+#include <QImage>
+#include <QPoint>
+#include <QMouseEvent>
 #include <QLabel>
 #include <QColor>
 #include <QTime>

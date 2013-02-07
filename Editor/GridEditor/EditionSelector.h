@@ -2,9 +2,11 @@
 #define EDITIONSELECTOR_H
 
 #include <QWidget>
-#include <QtGui>
-
+#include <QLabel>
+#include <QTabWidget>
+#include <QVBoxLayout>
 #include "NewGridDialog.h"
+
 #define NEW_GRID 0
 #define OPEN_GRID 1
 

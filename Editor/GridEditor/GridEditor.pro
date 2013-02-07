@@ -44,7 +44,8 @@ TRANSLATIONS = GridEditor_fr.ts
 
 QT += core \
       gui \
-      xml
+      xml \
+      webkit
 
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../libiguitar/ -lIGuitar

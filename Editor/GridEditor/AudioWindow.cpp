@@ -1,4 +1,5 @@
 #include "AudioWindow.h"
+#include <QFileDialog>
 
 AudioWindow::AudioWindow(QWidget * parent)
 {

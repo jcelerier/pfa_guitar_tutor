@@ -1,5 +1,6 @@
 #include "SimpleMusicPlayer.h"
 #include "AudioWindow.h"
+#include <QMessageBox>
 #include <QDebug>
 /**
  * @brief SimpleMusicPlayer::SimpleMusicPlayer

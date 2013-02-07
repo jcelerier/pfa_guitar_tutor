@@ -2,6 +2,11 @@
 #define AUDIOWINDOW_H
 
 #include <QWidget>
+#include <QString>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QGridLayout>
 #include "AudioSync.h"
 #include "SimpleMusicPlayer.h"
 

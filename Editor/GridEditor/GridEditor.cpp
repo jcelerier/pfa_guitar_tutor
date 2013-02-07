@@ -5,6 +5,7 @@ Last change on 08/05/12
 */
 
 #include "GridEditor.h"
+#include <QFileDialog>
 #include <QDebug>
 /**
  * @brief GridEditor::GridEditor

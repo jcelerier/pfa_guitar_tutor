@@ -2,6 +2,7 @@
 #define CHORDTREE_H
 
 #include <QTreeWidget>
+#include <QString>
 #include "Tonalities.h"
 #include "Enrichment.h"
 
