@@ -7,9 +7,13 @@ Last change on 08/05/12
 #ifndef CHORDTABLEWIDGET_H
 #define CHORDTABLEWIDGET_H
 
-#include <QWidget>
 #include <QTreeWidget>
 #include <QTableWidget>
+#include <QList>
+#include <QMenu>
+#include <QString>
+#include <QAction>
+#include <QPoint>
 #include "CaseItem.h"
 #include "PartSetter.h"
 #include "Track/LogicalTrack.h"

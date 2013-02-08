@@ -1,7 +1,16 @@
 #ifndef SIMPLEMUSICPLAYER_H
 #define SIMPLEMUSICPLAYER_H
 
-#include <QtGui>
+#include <QWidget>
+#include <QGridLayout>
+#include <QToolButton>
+#include <QSlider>
+#include <QLabel>
+#include <QTimer>
+#include <QResizeEvent>
+#include <QString>
+#include <QPoint>
+#include <QTime>
 #include <MusicPlayer.h>
 #include "Waveform.h"
 #define REFRESH_DELAY 200
@@ -17,7 +26,6 @@ private:
 	QWidget* parent;
     QGridLayout* layout;
     QToolButton* stopButton;
-    QToolButton* pauseButton;
     QToolButton* playButton;
     QSlider* slideBar;
     QLabel* timerLabel;

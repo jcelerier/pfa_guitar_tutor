@@ -2,9 +2,9 @@
 #define PARTSETTER_H
 
 #include <QDialog>
-#include <QStringList>
 #include <QTime>
 #include <QMessageBox>
+#include <QString>
 
 namespace Ui {
 class PartSetter;

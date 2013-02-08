@@ -11,6 +11,8 @@ Last change on 14/04/12
 #include <QSize>
 #include <QTableWidgetItem>
 #include <QTime>
+#include <QString>
+#include <QPoint>
 
 /**
  * @brief Case d'une grille d'accords

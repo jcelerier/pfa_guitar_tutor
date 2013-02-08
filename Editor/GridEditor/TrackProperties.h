@@ -2,6 +2,7 @@
 #define TRACKPROPERTIES_H
 
 #include <QDialog>
+#include <QString>
 
 namespace Ui {
 class TrackProperties;

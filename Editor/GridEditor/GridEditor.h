@@ -7,8 +7,19 @@ Last change on 08/05/12
 #ifndef GRIDEDITOR_H
 #define GRIDEDITOR_H
 
-#include <QCoreApplication>
-#include <QtGui>
+#include <QMainWindow>
+#include <QSettings>
+#include <QWidget>
+#include <QGridLayout>
+#include <QMenu>
+#include <QMenuBar>
+#include <QAction>
+#include <QToolBar>
+#include <QStatusBar>
+#include <QLabel>
+#include <QString>
+#include <QTime>
+#include <QTreeWidgetItem>
 #include "ChordTableWidget.h"
 #include "CaseItem.h"
 #include "EditionSelector.h"

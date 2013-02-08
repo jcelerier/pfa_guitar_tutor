@@ -1,8 +1,13 @@
 #ifndef AUDIOSYNC_H
 #define AUDIOSYNC_H
 
-#include <QtGui>
+#include <QWidget>
+#include <QGridLayout>
+#include <QTimeEdit>
+#include <QToolButton>
+#include <QPushButton>
 #include <QTime>
+#include <QLabel>
 #define TIMER_BEGGINING 0
 #define TIMER_END       1
 #define TIMER_BAR       2
@@ -14,7 +19,7 @@ class AudioSync : public QWidget
     QGridLayout* layout;
     QTimeEdit *beginning, *end, *bar;
     QToolButton* bbeginning, *bend, *bbar;
-
+    QLabel *lbeginning, *lend, *lbar;
 	QPushButton *sendButton;
 
 public:

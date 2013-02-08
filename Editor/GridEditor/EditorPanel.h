@@ -2,17 +2,28 @@
 #define EDITORPANEL_H
 
 #include <QWidget>
-#include <QtGui>
+#include <QTableWidget>
+#include <QVBoxLayout>
+#include <QSpacerItem>
 #include "ChordTableWidget.h"
 #include "AudioWindow.h"
 
 class EditorPanel : public QWidget
 {
 		Q_OBJECT
-	public:
-		explicit EditorPanel(ChordTableWidget* chordTable, AudioWindow *audioWindow, QWidget *parent);
-		
-	signals:
+
+    QTabWidget *tabs;
+    QVBoxLayout *mainLayout;
+    QWidget *pageChordTable;
+    QWidget *pageAudio;
+    QVBoxLayout *vboxTable;
+    QVBoxLayout *vboxAudio;
+    QSpacerItem* spacer;
+
+public:
+    explicit EditorPanel(ChordTableWidget* chordTable, AudioWindow *audioWindow, QWidget *parent);
+
+signals:
 		
 	public slots:
 		

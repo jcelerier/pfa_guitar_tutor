@@ -10,15 +10,15 @@ EditorPanel::EditorPanel(ChordTableWidget* chordTable, AudioWindow* audioWindow,
 	QWidget(parent)
 {
 	setWindowFlags(Qt::Dialog);
-	QTabWidget *tabs = new QTabWidget(this);
-	QVBoxLayout *mainLayout = new QVBoxLayout();
+    tabs = new QTabWidget(this);
+    mainLayout = new QVBoxLayout();
 
-	QWidget *pageChordTable = new QWidget(); //Pages pour les onglets
-	QWidget *pageAudio = new QWidget();
+    pageChordTable = new QWidget(); //Pages pour les onglets
+    pageAudio = new QWidget();
 
 	//Page nouveau fichier
 
-	QVBoxLayout *vboxTable = new QVBoxLayout;
+    vboxTable = new QVBoxLayout();
 	vboxTable->addWidget(chordTable);
 
 	pageChordTable->setLayout(vboxTable);
@@ -26,19 +26,17 @@ EditorPanel::EditorPanel(ChordTableWidget* chordTable, AudioWindow* audioWindow,
 
 	//Page ouverture fichier
 
-	QVBoxLayout *vboxAudio = new QVBoxLayout;
+    vboxAudio = new QVBoxLayout;
 	vboxAudio->addWidget(audioWindow);
 
 	pageAudio->setLayout(vboxAudio);
 
-	QSpacerItem* spacer = new QSpacerItem( 20, 20, QSizePolicy::Minimum,
-		QSizePolicy::Expanding );
-	  vboxAudio->addItem( spacer );
+    spacer = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
+    vboxAudio->addItem( spacer );
 
 	tabs->addTab(pageChordTable, tr("Grid"));
 	tabs->addTab(pageAudio, tr("Audio edition"));
 
 	mainLayout->addWidget(tabs);
 	setLayout(mainLayout);
-
 }

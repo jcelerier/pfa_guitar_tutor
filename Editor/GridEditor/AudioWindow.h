@@ -2,6 +2,11 @@
 #define AUDIOWINDOW_H
 
 #include <QWidget>
+#include <QString>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QGridLayout>
 #include "AudioSync.h"
 #include "SimpleMusicPlayer.h"
 
@@ -29,7 +34,7 @@ class AudioWindow : public QWidget
 	private:
 		QWidget* parent;
 		SimpleMusicPlayer* player;
-		QLabel* title;
+        QLabel* label;
 		QLineEdit* audioFile;
 		AudioSync* audioSync;
 		QPushButton *browseButton;

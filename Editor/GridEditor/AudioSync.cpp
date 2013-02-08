@@ -1,4 +1,5 @@
 #include "AudioSync.h"
+#include <QMessageBox>
 #include <QDebug>
 AudioSync::AudioSync()
 {
@@ -11,9 +12,9 @@ AudioSync::AudioSync()
     end->setDisplayFormat("m:ss:zzz");
     bar->setDisplayFormat("m:ss:zzz");
 
-    QLabel* lbeggining = new QLabel(tr("Beginning"));
-    QLabel* lend = new QLabel(tr("End"));
-    QLabel* lbar = new QLabel(tr("Bar"));
+    lbeginning = new QLabel(tr("Beginning"));
+    lend = new QLabel(tr("End"));
+    lbar = new QLabel(tr("Bar"));
     bbeginning = new QToolButton();
     bend = new QToolButton();
     bbar = new QToolButton();
@@ -30,7 +31,7 @@ AudioSync::AudioSync()
 
     activeButtons(false);
 
-    layout->addWidget(lbeggining, 0, 0);
+    layout->addWidget(lbeginning, 0, 0);
 	layout->addWidget(beginning, 0, 1);
     layout->addWidget(bbeginning, 0, 2);
 
@@ -62,6 +63,9 @@ AudioSync::~AudioSync()
     delete bbeginning;
     delete bend;
     delete bbar;
+    delete lend;
+    delete lbeginning;
+    delete lbar;
 }
 
 void AudioSync::activeButtons(bool active)
