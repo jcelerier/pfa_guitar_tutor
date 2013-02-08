@@ -332,7 +332,6 @@ std::string ScoreToString(LogicalTrack* trackName )
 	QList<PartTrack*>::iterator it1;
 	QList<TrackChord*>::iterator it2;
 
-
 	QList<PartTrack*> partTrackList = trackName->getPartTrackList();
 
 	for(it1 = partTrackList.begin(); it1 != partTrackList.end(); ++it1)

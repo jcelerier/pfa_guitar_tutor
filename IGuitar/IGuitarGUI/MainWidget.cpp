@@ -3,6 +3,8 @@
 
 #include <QFrame>
 #include <QHBoxLayout>
+
+#include <QDebug>
 #include <QTimer>
 
 #include <string>
@@ -115,7 +117,7 @@ void MainWidget::timeOut()
         else{
             path = "Tracks/BeatlesDayInTheLife/Beatles.xml";
         }
-        multiTracksMap["all"] = path.toStdString().c_str();
+		multiTracksMap["all"] =  "Tracks/BeatlesDayInTheLife/AllTracks.wav";
 
 		MusicManager* musicManager = new MusicManager(multiTracksMap, muteTracks);
 		m_scoreManager = new ScoreManager(musicManager);
@@ -128,7 +130,8 @@ void MainWidget::timeOut()
 //		m_scoreManager->loadScore(tr);
 
         LogicalTrack *tr = new LogicalTrack();
-		TrackLoader::convertXmlToLogicalTrack("Tracks/BeatlesDayInTheLife/BeatlesOK.xml", tr);
+		qDebug() << path;
+		TrackLoader::convertXmlToLogicalTrack(path, tr);
 
 		m_scoreManager->loadScore(tr);
 		m_scoreManager->run();
