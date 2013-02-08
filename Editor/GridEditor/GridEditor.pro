@@ -4,7 +4,6 @@ TEMPLATE = app
 TARGET =
 DEPENDPATH += .
 
-
 SOURCES += \
     CaseItem.cpp \
     ChordTableWidget.cpp \

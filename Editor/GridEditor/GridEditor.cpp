@@ -288,15 +288,21 @@ void GridEditor::firstNewGrid()
 	trackProperties->setTrack(newGridDialog->getTrack());
 	trackProperties->setArtist(newGridDialog->getArtist());
 	trackProperties->setBarSize(newGridDialog->getBarSize());
-	layout->removeWidget(editionSelector);
 
-	delete editionSelector;
-	editionSelector = 0;
+	if(editionSelector != 0)
+	{
+		layout->removeWidget(editionSelector);
+		delete editionSelector;
+		editionSelector = 0;
+	}
 
 	if(editorPanel != 0)
 	{
 		layout->removeWidget(editorPanel);
+		delete editorPanel;
+		editorPanel = 0;
 	}
+
 	editorPanel = new EditorPanel(grid, audioWindow, this);
 	layout->addWidget(editorPanel, 0, 1);
 
@@ -331,14 +337,23 @@ void GridEditor::newGrid()
 		if(editorPanel != 0)
 		{
 			layout->removeWidget(editorPanel);
+			delete editorPanel;
+			editorPanel = 0;
 		}
+
+		if(!isGridSet)
+		{
+			if(editionSelector != 0)
+			{
+				layout->removeWidget(editionSelector);
+				delete editionSelector;
+				editionSelector = 0;
+			}
+		}
+
+		audioWindow = new AudioWindow(this);
 		editorPanel = new EditorPanel(grid, audioWindow, this);
 		layout->addWidget(editorPanel, 0, 1);
-
-		if(!isGridSet) {
-			layout->removeWidget(editionSelector);
-			delete editionSelector;
-		}
 
 		isGridSet = true;
 	}
@@ -430,12 +445,18 @@ void GridEditor::fromXML() //ça serait bien qu'on sélectionne le fichier ou on
 	if(editionSelector != 0)
 	{
 		layout->removeWidget(editionSelector);
+		delete editionSelector;
+		editionSelector = 0;
 	}
 
 	if(editorPanel != 0)
 	{
 		layout->removeWidget(editorPanel);
+		delete editorPanel;
+		editorPanel = 0;
 	}
+
+	audioWindow = new AudioWindow(this); // on doit le recréer car editorPanel le supprime dans son destructeur.
 	editorPanel = new EditorPanel(grid, audioWindow, this);
 	layout->addWidget(editorPanel, 0, 1);
 

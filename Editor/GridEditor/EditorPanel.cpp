@@ -1,4 +1,5 @@
 #include "EditorPanel.h"
+#include <QDebug>
 
 /**
  * @brief EditorPanel::EditorPanel
@@ -9,6 +10,7 @@
 EditorPanel::EditorPanel(ChordTableWidget* chordTable, AudioWindow* audioWindow, QWidget *parent) :
 	QWidget(parent)
 {
+
 	setWindowFlags(Qt::Dialog);
     tabs = new QTabWidget(this);
     mainLayout = new QVBoxLayout();
@@ -23,14 +25,12 @@ EditorPanel::EditorPanel(ChordTableWidget* chordTable, AudioWindow* audioWindow,
 
 	pageChordTable->setLayout(vboxTable);
 
-
 	//Page ouverture fichier
 
     vboxAudio = new QVBoxLayout;
 	vboxAudio->addWidget(audioWindow);
 
 	pageAudio->setLayout(vboxAudio);
-
     spacer = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
     vboxAudio->addItem( spacer );
 

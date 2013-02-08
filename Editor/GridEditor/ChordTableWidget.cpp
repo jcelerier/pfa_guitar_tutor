@@ -582,8 +582,6 @@ void ChordTableWidget::setLogicalTrack(LogicalTrack* track)
 		chordsList = (*iPart)->getTrackChordsList();
 		for(iChord = chordsList.begin(); iChord < chordsList.end() && i < imax; ++iChord)
 		{
-			qDebug() << i << j;
-
 			// on stocke le nom de l'accord
 			if((*iChord)->getChord() != "n")
 				currentCase->set_chord((*iChord)->getChord());
