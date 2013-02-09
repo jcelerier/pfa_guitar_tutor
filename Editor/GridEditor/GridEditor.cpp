@@ -80,7 +80,6 @@ GridEditor::~GridEditor() {
 void GridEditor::createMenu() {
 	fileMenu = menuBar()->addMenu(tr("&File"));
 	editMenu = menuBar()->addMenu(tr("&Edit"));
-	optionMenu = menuBar()->addMenu(tr("&Options"));
 	aboutMenu = menuBar()->addMenu(tr("&About"));
 }
 
