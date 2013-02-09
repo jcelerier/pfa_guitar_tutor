@@ -1,6 +1,8 @@
 #include "TrackProperties.h"
 #include "ui_TrackProperties.h"
 
+#include <QDebug>
+
 TrackProperties::TrackProperties(QWidget *parent) :
 	QDialog(parent),
 	ui(new Ui::TrackProperties)
@@ -23,8 +25,6 @@ void TrackProperties::accept()
 	setTrack(ui->t_trackname->text());
 	setArtist(ui->t_artist->text());
 	m_barsize = ui->t_barsize->value();
-
-	done(QDialog::Accepted);
 }
 
 /**
@@ -61,6 +61,7 @@ int TrackProperties::getBarSize()
 void TrackProperties::setArtist(QString artist)
 {
 	m_artist = artist;
+	ui->t_artist->setText(artist);
 	emit artistChanged();
 }
 
@@ -71,6 +72,7 @@ void TrackProperties::setArtist(QString artist)
 void TrackProperties::setTrack(QString track)
 {
 	m_trackname = track;
+	ui->t_trackname->setText(track);
 	emit trackChanged();
 }
 
@@ -81,4 +83,5 @@ void TrackProperties::setTrack(QString track)
 void TrackProperties::setBarSize(int barsize)
 {
 	m_barsize = barsize;
+	ui->t_barsize->setValue(barsize);
 }

@@ -65,7 +65,7 @@ friend class EditionSelector;
 	QStatusBar* status;
 	QLabel* statusInfo;
 
-    bool isGridSet;
+    bool isPanelSet;
 
     QString filename;
 
@@ -89,6 +89,7 @@ private:
 signals:
 	void sendTimeToChordWidget(QTime, QTime, QTime);
     void play(int);
+	void propsChanged();
 
 public slots:
 	void changeState();

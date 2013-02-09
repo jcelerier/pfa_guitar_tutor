@@ -7,6 +7,7 @@
 #include <QSpacerItem>
 #include "ChordTableWidget.h"
 #include "AudioWindow.h"
+#include "TrackProperties.h"
 
 class EditorPanel : public QWidget
 {
@@ -16,12 +17,16 @@ class EditorPanel : public QWidget
     QVBoxLayout *mainLayout;
     QWidget *pageChordTable;
     QWidget *pageAudio;
-    QVBoxLayout *vboxTable;
-    QVBoxLayout *vboxAudio;
+	QWidget *pageProps;
+	QVBoxLayout *vboxTable, *vboxAudio, *vboxProps;
+
     QSpacerItem* spacer;
 
+	ChordTableWidget* grid;
+
 public:
-    explicit EditorPanel(ChordTableWidget* chordTable, AudioWindow *audioWindow, QWidget *parent);
+	explicit EditorPanel(ChordTableWidget* chordTable, AudioWindow *audioWindow, TrackProperties* trackProperties, QWidget *parent);
+	void updateGrid(ChordTableWidget* chordTable);
 
 signals:
 		
