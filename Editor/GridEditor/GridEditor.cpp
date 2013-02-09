@@ -352,7 +352,7 @@ void GridEditor::startGrid(int type)
  * Slot pour la sauvegarde d'un fichier XML.
  */
 // penser à faire en sorte que les propriétés de base du morceau soient obligatoires (nom, etc...)
-void GridEditor::toXML(QString filename) //ça serait bien qu'on sélectionne le fichier ou on sauve.
+void GridEditor::toXML(QString filename)
 {
 	// Pour tester qu'on sauve bien un xml
 	int pos = 0;
@@ -383,7 +383,7 @@ void GridEditor::toXML(QString filename) //ça serait bien qu'on sélectionne le
  *
  * Slot pour le chargement d'un fichier XML.
  */
-void GridEditor::fromXML() //ça serait bien qu'on sélectionne le fichier ou on sauve.
+void GridEditor::fromXML()
 {
 	if(!saveBeforeQuit())
 		return;
@@ -398,7 +398,6 @@ void GridEditor::fromXML() //ça serait bien qu'on sélectionne le fichier ou on
 	trackProperties->setTrack(track->getTrackName());
 	trackProperties->setArtist(track->getArtist());
 	trackProperties->setBarSize(track->getMesure());
-	//status->showMessage(statusText());
 
 	audioWindow->setAudioFileName(track->getAudioFileName()); //vérifier si chemin absolu
 	audioWindow->setAudioFile();

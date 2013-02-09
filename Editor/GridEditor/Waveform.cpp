@@ -19,6 +19,8 @@ Waveform::Waveform(QWidget *parent, int w, int h)
 
 	initImage();
 	this->setPixmap(QPixmap::fromImage(*image));
+
+	empty = true;
 }
 
 
@@ -34,7 +36,15 @@ void Waveform::update()
 		delete image;
 	image = new QImage(m_width, m_height, QImage::Format_RGB32);
 
-	display();
+
+	if(!empty)
+	{
+		display();
+	}
+	else
+	{
+		initImage();
+	}
 	this->setPixmap(QPixmap::fromImage(*image));
 }
 
@@ -237,4 +247,9 @@ void Waveform::setTimers(QTime begin, QTime bar, QTime end)
 	l_end = end;
 
 	update();
+}
+
+void Waveform::activate()
+{
+	empty = false;
 }

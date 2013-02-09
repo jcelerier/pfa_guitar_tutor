@@ -16,6 +16,8 @@ class Waveform : public QLabel
 {
 	QWidget* parent;
 	Q_OBJECT
+
+	bool empty;
 	QImage* image;
 
 	int* spectrum;
@@ -49,6 +51,8 @@ class Waveform : public QLabel
 		
 	public slots:
 		void setTimers(QTime, QTime, QTime);
+		void activate();
+
 		
 };
 

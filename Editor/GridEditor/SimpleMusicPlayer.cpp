@@ -32,13 +32,16 @@ SimpleMusicPlayer::SimpleMusicPlayer(QWidget* parent)
 
     setLayout(layout);
 
+	waveform->setWidth(parent->width() - 20);
+	waveform->initImage();
+	waveform->update();
+
 	connect(this, SIGNAL(sendTimers(QTime,QTime,QTime)), waveform, SLOT(setTimers(QTime,QTime,QTime)));
 
     connect(playButton, SIGNAL(released()), this, SLOT(pause()));
     connect(stopButton, SIGNAL(released()), this, SLOT(stop()));
     connect(timer, SIGNAL(timeout()), this, SLOT(updateSlideBar()));
     connect(slideBar, SIGNAL(sliderMoved(int)), this, SLOT(changePosition(int)));
-
 
     currentPosition = 0;
     songLength = 0;
@@ -93,12 +96,12 @@ bool SimpleMusicPlayer::setAudioFile(QString file)
     refreshTimerLabel();
     slideBar->setRange(0, songLength);
 
-	//player->getFullSpectrum(waveform->getSpectrum(), waveform->getWidth());
 	waveBegin = 0;
 	waveEnd = player->getTotalLengthInSamples();
 
 	waveform->setWidth(parent->width() - 20);
 	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
+	waveform->activate();
 	waveform->update();
 
     player->play();
@@ -122,6 +125,11 @@ void SimpleMusicPlayer::resizeEvent(QResizeEvent * event)
 		//player->getFullSpectrum(waveform->getSpectrum(), waveform->getWidth());
 
 		player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
+		waveform->update();
+	}
+	else
+	{
+		waveform->setWidth(parent->width() - 20);
 		waveform->update();
 	}
 }
