@@ -8,6 +8,7 @@
 #include <QPushButton>
 #include <QGridLayout>
 #include "AudioSync.h"
+#include "ZoomButtons.h"
 #include "SimpleMusicPlayer.h"
 
 class AudioWindow : public QWidget

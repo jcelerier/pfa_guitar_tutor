@@ -105,7 +105,7 @@ void Waveform::display()
 	if(s_beg > beg && s_beg < end)
 	{
 		float size = end - beg;
-		float tmp = (((float)s_beg - (float)beg) / size);
+		float tmp = (((float) s_beg - (float) beg) / size);
 		int pos = tmp * m_width;
 
 		for(unsigned int j = 0; j < m_height; j++)

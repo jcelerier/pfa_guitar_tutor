@@ -14,12 +14,15 @@ AudioWindow::AudioWindow(QWidget * parent)
 
 	layout = new QGridLayout();
 
+	ZoomButtons* zoomButtons = new ZoomButtons();
+
 	layout->addWidget(audioSync, 1, 0, 3, 1);
 	layout->addWidget(label, 1, 1);
 	layout->addWidget(audioFile, 1, 2);
 	layout->addWidget(browseButton, 1, 3);
 	layout->addWidget(player, 2, 1, 3, 3);
 	layout->addWidget(waveform, 5, 0, 3, 5);
+	layout->addWidget(zoomButtons, 12, 0, 1, 1);
 
 	connect(browseButton, SIGNAL(released()), this, SLOT(browseAudioFile()));
 	connect(player, SIGNAL(browseAudioFile()), this, SLOT(browseAudioFile()));

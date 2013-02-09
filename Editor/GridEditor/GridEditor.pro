@@ -20,7 +20,8 @@ SOURCES += \
     Waveform.cpp \
     EditorPanel.cpp \
     HelpWindow.cpp \
-    Util.cpp
+    Util.cpp \
+    ZoomButtons.cpp
 
 HEADERS += \
     CaseItem.h \
@@ -37,7 +38,8 @@ HEADERS += \
     Waveform.h \
     EditorPanel.h \
     HelpWindow.h \
-    Util.hpp
+    Util.hpp \
+    ZoomButtons.h
 
 TRANSLATIONS = GridEditor_fr.ts
 
