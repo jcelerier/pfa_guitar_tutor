@@ -7,6 +7,8 @@
 #include <MusicManager.h>
 #include <ScoreManager.h>
 
+#include "PlayerScene.h"
+#include "myView.h"
 #include "RenderArea.hpp"
 #include "audioconfiguration.h"
 #define PERCENT_OF_CORRECT_NOTES_TO_GO_TO_NEXT_PART 50.0
@@ -16,36 +18,37 @@ class QTimer;
 
 class MainWidget : public QWidget {
 
-		Q_OBJECT
+    Q_OBJECT
 
-	public:
+public:
+    MainWidget();
+    ~MainWidget();
 
-		~MainWidget();
-        MainWidget(QWidget * parent = 0);
-
-		void playScore(bool mute);
-		void stopScore();
+    void playScore(bool mute);
+    void stopScore();
 
 
-	protected:
-		virtual void timeOut();
+    QList<QString> getChordList(); //TODO
+    QString getChords(); //TODO
+protected:
+    virtual void timeOut();
 
-	protected slots:
-		virtual void timeOutSlot();
+protected slots:
+    virtual void timeOutSlot();
 
-	private:
-		void buildGUI();
-		void createActions();
-		void initListeners();
+private:
+    void initListeners();
 
-		ScoreManager* m_scoreManager;
-		RenderArea m_renderAreas;
+    ScoreManager* m_scoreManager;
+    RenderArea m_renderAreas;
 
-		bool m_mustPlay;
-		bool m_mustStop;
-		bool m_playMuted;
-        QWidget * parent;
-		QTimer *m_timer;
+    bool m_mustPlay;
+    bool m_mustStop;
+    bool m_playMuted;
+    QWidget * parent;
+    QTimer *m_timer;
+    PlayerScene *m_scene;
+    myView *m_view;
 };
 
 #endif /* MAINWINDOW_HPP */

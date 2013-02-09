@@ -1,15 +1,10 @@
 #include "MainWidget.hpp"
-#include "MainWindow.hpp"
 
 #include <QFrame>
 #include <QHBoxLayout>
-
 #include <QDebug>
 #include <QTimer>
-
 #include <string>
-
-
 #include <unistd.h>
 
 /**
@@ -19,7 +14,6 @@
   */
 MainWidget::~MainWidget()
 {
-
 }
 
 /**
@@ -27,17 +21,19 @@ MainWidget::~MainWidget()
   *
   * Constructeur
   */
-MainWidget::MainWidget(QWidget *parent)
-    : QWidget(parent)
+MainWidget::MainWidget()
 {
-    this->parent = parent;
-	m_mustPlay = false;
-	m_mustStop = false;
-	m_playMuted = false;
+    m_mustPlay = true;
+    m_mustStop = false;
+    m_playMuted = false;
 
-	m_scoreManager = NULL;
+    m_scoreManager = NULL;
 
-	buildGUI();
+    m_scene = new PlayerScene(this);
+    m_view = new myView(m_scene);
+
+    m_view->show();
+    timeOut();
 }
 
 /**
@@ -64,37 +60,6 @@ void MainWidget::stopScore()
 	m_mustStop = true;
 }
 
-/**
-  * @brief MainWidget::buildGuI
-  *
-  * Construit le widget principal
-  */
-
-void
-MainWidget::buildGUI()
-{
-	createActions();
-
-	QGridLayout *topLayout = new QGridLayout;
-	topLayout->addWidget(&m_renderAreas, 0, 0);
-
-	m_renderAreas.loadChordImages(CHORDS_IMAGES_LOCATION);
-	setLayout(topLayout);
-}
-
-
-
-void
-MainWidget::createActions()
-{
-	unsigned int timeOutTime = 0; //pourquoi? m-à-j toutes les 50 ms ?
-	// marche très bien sur mon pc avec maj continue, et sera beaucoup plus agréable à l'oeil
-
-	m_timer = new QTimer( this );
-	connect( m_timer, SIGNAL(timeout()), this, SLOT(timeOutSlot()) );
-	m_timer->start( timeOutTime );
-}
-
 
 // cette fonction m'a l'air vraiment sale...
 void MainWidget::timeOut()
@@ -111,19 +76,15 @@ void MainWidget::timeOut()
 		}
 
         QString path;
-        if(((MainWindow *) parent) != 0){
-           path = ((MainWindow *) parent)->m_conf.getSongName();
-        }
-        else{
-            path = "Tracks/BeatlesDayInTheLife/Beatles.xml";
-        }
+        path = "Tracks/BeatlesDayInTheLife/Beatles.xml";
+
 		multiTracksMap["all"] =  "Tracks/BeatlesDayInTheLife/AllTracks.wav";
 
 		MusicManager* musicManager = new MusicManager(multiTracksMap, muteTracks);
 		m_scoreManager = new ScoreManager(musicManager);
 
 
-	//	 m_scoreManager->loadScore("Tracks/BeatlesDayInTheLife/Guitar.txt");
+         m_scoreManager->loadScore("Tracks/BeatlesDayInTheLife/Guitar.txt");
 
 //		LogicalTrack *tr = new LogicalTrack();
 //		TrackLoader::convertXmlToLogicalTrack("Tracks/BeatlesDayInTheLife/test.xml", tr);
@@ -189,4 +150,20 @@ void
 MainWidget::initListeners()
 {
 
+}
+
+QList<QString> MainWidget::getChordList() //TODO
+{
+    QList<QString> chordList;
+    for(int i=0; i<10; i++) {
+        chordList.append("A");
+    }
+    //return m_scoreManager->chordList();
+    return chordList;
+}
+
+QString MainWidget::getChords() //TODO
+{
+    //return m_scoreManager->chords();
+    return "G D B F F G H G D B F F G H G D B F F G H G D B F F G H G D B F F G H G D B F F G H G D B F F G H G D B F F G H";
 }

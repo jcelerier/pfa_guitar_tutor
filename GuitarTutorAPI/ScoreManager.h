@@ -83,6 +83,7 @@ public:
 
     void stop();
 
+    std::string ScoreToString(LogicalTrack *trackName);
 private:
 	MusicManager* m_musicManager;
 	Engines* m_iscoreEngine;
@@ -118,6 +119,8 @@ private:
 	unsigned int m_mainBoxId;
 
 	std::vector<float> m_parts;
+
+    LogicalTrack* logicalTrack;
 };
 
 #endif /* SCOREMANAGER_H_ */

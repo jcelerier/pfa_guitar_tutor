@@ -1,7 +1,8 @@
 TEMPLATE = app
 TARGET =
 DEPENDPATH += .
-QT += xml
+QT += xml core gui
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 win32 {
 DEPENDPATH += . \
@@ -21,16 +22,24 @@ CONFIG += rtti
 HEADERS += RenderArea.hpp \
     audioconfiguration.h \
     MainWidget.hpp \
-    MainWindow.hpp \
     SongSelection.hpp \
     Configuration.h \
+    PlayerScene.h \
+    config.h \
+    entiresong.h \
+    myitem.h \
+    myView.h
 
 SOURCES += main.cpp RenderArea.cpp \
     audioconfiguration.cpp \
     MainWidget.cpp \
-    MainWindow.cpp \
     SongSelection.cpp \
     Configuration.cpp \
+    PlayerScene.cpp \
+    config.cpp \
+    entiresong.cpp \
+    myitem.cpp \
+    myView.cpp
 
 FORMS += \
     audioconfiguration.ui \
@@ -84,3 +93,10 @@ PRE_TARGETDEPS += $$PWD/../../portaudio/lib/libportaudio.a
 unix: QMAKE_POST_LINK += mv IGuitarGUI ../../app/
 win32: QMAKE_POST_LINK += mv IGuitarGUI.exe ../../app/
 macx: QMAKE_POST_LINK += mv IGuitarGUI.app ../../app/
+
+OTHER_FILES += \
+    ressources/transport.png \
+    ressources/testmask.png \
+    ressources/menu-btn.png \
+    ressources/bgwide.png \
+    ressources/background.png
