@@ -58,7 +58,6 @@ SimpleMusicPlayer::~SimpleMusicPlayer()
     delete playButton;
     delete stopButton;
     delete timerLabel;
-    delete player;
     delete timer;
 }
 

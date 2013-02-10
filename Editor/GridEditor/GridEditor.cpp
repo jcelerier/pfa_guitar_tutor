@@ -48,15 +48,15 @@ GridEditor::GridEditor()
  * Destructeur de la grille d'accords.
  */
 GridEditor::~GridEditor() {
-	delete openAction; delete saveAction; delete addRowAction; delete copyDownAction; delete deleteRowAction; delete saveAsAction;
+    delete openAction; delete saveAction; delete addRowAction; delete copyDownAction; delete deleteRowAction; delete saveAsAction;
 	delete quitAction; delete aboutAction; delete newAction; delete renameAction; delete openAudioWindowAction;
 	delete openTrackPropertiesAction; delete addColumnAction; delete deleteColumnAction; delete helpAction; //peut être faire un dictionnaire d'actions qu'on puisse appeler par leur nom.
 	//ex. : actions["new"];
-	delete fileMenu; delete editMenu; delete optionMenu;  delete aboutMenu;
+    delete fileMenu; delete editMenu;  delete aboutMenu;
 	delete toolBar;
 	delete settings;
 
-	delete editorPanel;
+    delete editorPanel;
 	delete chordTree;
 	if(grid != 0)
 	{
@@ -64,8 +64,8 @@ GridEditor::~GridEditor() {
 		grid = 0;
 	}
 	delete layout;
-	delete centralArea;
-	delete statusInfo; delete status;
+    delete centralArea;
+    delete statusInfo; delete status;
 }
 
 //---------------------------------------------------

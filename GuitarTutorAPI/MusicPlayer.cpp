@@ -36,7 +36,8 @@ MusicPlayer::MusicPlayer(QString song)
  */
 MusicPlayer::~MusicPlayer()
 {
-    FMOD_Sound_Release(music);
+    if(state)
+        FMOD_Sound_Release(music);
     FMOD_System_Close(system);
     FMOD_System_Release(system);
 }

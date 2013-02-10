@@ -52,7 +52,7 @@ friend class EditionSelector;
     ChordTableWidget* grid;
     ChordTree* chordTree;
 
-    QMenu *fileMenu, *editMenu, *optionMenu, *gridMenu, *aboutMenu;
+    QMenu *fileMenu, *editMenu, *aboutMenu;
 
     QToolBar *toolBar;
     QAction *quitAction, *aboutAction, *newAction, *saveAction, *helpAction,
