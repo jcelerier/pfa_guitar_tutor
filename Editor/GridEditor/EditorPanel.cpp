@@ -52,7 +52,7 @@ EditorPanel::EditorPanel(ChordTableWidget* chordTable,
 
 	tabs->addTab(pageChordTable, tr("Grid"));
 	tabs->addTab(pageAudio, tr("Audio edition"));
-	tabs->addTab(pageProps, tr("Proprerties"));
+    tabs->addTab(pageProps, tr("Properties"));
 
 	mainLayout->addWidget(tabs);
 	setLayout(mainLayout);
