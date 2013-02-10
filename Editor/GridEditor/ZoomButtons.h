@@ -2,6 +2,7 @@
 #define ZOOMBUTTONS_H
 
 #include <QtGui>
+#include <QString>
 
 class ZoomButtons : public QWidget
 {

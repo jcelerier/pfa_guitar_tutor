@@ -384,3 +384,34 @@ int SimpleMusicPlayer::getWaveEnd()
 {
 	return waveEnd;
 }
+
+
+void SimpleMusicPlayer::waveFullZoom()
+{
+	waveBegin = 0;
+	waveEnd = player->getTotalLengthInSamples();
+	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
+	waveform->update();
+}
+
+void SimpleMusicPlayer::waveSongZoom()
+{
+	if(waveform->getSampleBegin() + 10000 < waveform->getSampleEnd())
+	{
+		waveBegin = waveform->getSampleBegin();
+		waveEnd = waveform->getSampleEnd();
+		player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
+		waveform->update();
+	}
+}
+
+void SimpleMusicPlayer::waveBarZoom()
+{
+	if(waveform->getSampleBegin() + 10000 < waveform->getSampleBar())
+	{
+		waveBegin = waveform->getSampleBegin();
+		waveEnd = waveform->getSampleBar();
+		player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
+		waveform->update();
+	}
+}

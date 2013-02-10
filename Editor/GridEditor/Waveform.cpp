@@ -249,6 +249,21 @@ void Waveform::setTimers(QTime begin, QTime bar, QTime end)
 	update();
 }
 
+int Waveform::getSampleBegin()
+{
+	return QTimeToSample(l_begin);
+}
+
+int Waveform::getSampleBar()
+{
+	return QTimeToSample(l_bar);
+}
+
+int Waveform::getSampleEnd()
+{
+	return QTimeToSample(l_end);
+}
+
 void Waveform::activate()
 {
 	empty = false;

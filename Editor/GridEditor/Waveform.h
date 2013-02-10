@@ -47,6 +47,11 @@ class Waveform : public QLabel
 		int getWidth();
 		int* getSpectrum();
 
+		int getSampleBegin();
+		int getSampleBar();
+		int getSampleEnd();
+
+
 	signals:
 		
 	public slots:

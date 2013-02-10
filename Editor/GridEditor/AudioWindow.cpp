@@ -14,7 +14,7 @@ AudioWindow::AudioWindow(QWidget * parent)
 
 	layout = new QGridLayout();
 
-	ZoomButtons* zoomButtons = new ZoomButtons();
+	ZoomButtons* zoomButtons = new ZoomButtons(this);
 
 	layout->addWidget(audioSync, 1, 0, 3, 1);
 	layout->addWidget(label, 1, 1);
@@ -31,6 +31,10 @@ AudioWindow::AudioWindow(QWidget * parent)
 
 	connect(audioSync, SIGNAL(sendTimer(QTime, QTime, QTime)), parent, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)));
 	connect(audioSync, SIGNAL(sendTimer(QTime,QTime,QTime)), player, SIGNAL(sendTimers(QTime, QTime, QTime)));
+
+	connect(this, SIGNAL(waveFullZoom()), player, SLOT(waveFullZoom()));
+	connect(this, SIGNAL(waveBarZoom()), player, SLOT(waveBarZoom()));
+	connect(this, SIGNAL(waveSongZoom()), player, SLOT(waveSongZoom()));
 
 	this->setLayout(layout);
 }

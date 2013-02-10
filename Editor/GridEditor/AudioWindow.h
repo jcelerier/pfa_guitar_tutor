@@ -32,6 +32,11 @@ class AudioWindow : public QWidget
 	private slots:
 		void refreshTimerAudioSync(int);
 
+	signals:
+		void waveFullZoom();
+		void waveBarZoom();
+		void waveSongZoom();
+
 	private:
 		QWidget* parent;
 		SimpleMusicPlayer* player;

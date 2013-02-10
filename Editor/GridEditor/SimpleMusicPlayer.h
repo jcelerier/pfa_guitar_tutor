@@ -63,6 +63,10 @@ public slots:
     void updateSlideBar();
     void changePosition(int);
 
+	void waveFullZoom();
+	void waveSongZoom();
+	void waveBarZoom();
+
 	void zoomIn(QPoint);
 	void zoomOut(QPoint);
 	void moveLeft();
