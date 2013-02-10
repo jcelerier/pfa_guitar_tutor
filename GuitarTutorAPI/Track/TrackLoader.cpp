@@ -190,7 +190,10 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
 
             //L'attribut répétion peut être absent. Attention répétition ne peut pas être nul(minimum = 1)
             repetition = chordElement.attribute("repetition", 0);
-            if(repetition == 0){
+
+			//repetition c'est un qstring, donc avant qu'il soit égal à 0...
+			if(repetition == 0)
+			{
                 rep = 1;
             }
             else if((rep = repetition.toInt()) < 0) {
@@ -198,10 +201,11 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
                 qCritical("La répétition est négative");
                 return false;
             }
-            else if((rep = repetition.toInt()) = 0) {
+			else if((rep = repetition.toInt()) == 0) {
                 rep = 1;
                 qCritical("La répétition est nulle");
-            }
+			}
+
             TrackChord * c = new TrackChord(name, t2, rep);
             currentPartTrack->AddChord(c);
 

@@ -623,25 +623,30 @@ void ChordTableWidget::setLogicalTrack(LogicalTrack* track)
         chordsList = (*iPart)->getTrackChordsList();
         for(iChord = chordsList.begin(); iChord < chordsList.end() && i < imax; ++iChord)
         {
-            // on stocke le nom de l'accord
-            if((*iChord)->getChord() != "n")
-                currentCase->set_chord((*iChord)->getChord());
+			qDebug() << (*iChord)->getChord() << (*iChord)->getRepetition();
+			for(int repetitions = 0; repetitions < (*iChord)->getRepetition(); repetitions++)
+			{
+				// on stocke le nom de l'accord
+				if((*iChord)->getChord() != "n")
+					currentCase->set_chord((*iChord)->getChord());
 
-            //la durée de l'accord
-            currentCase->setBeginning(MsecToTime(int((*iChord)->getDuration())));
+				//la durée de l'accord
+				currentCase->setBeginning(MsecToTime(int((*iChord)->getDuration())));
 
-            //case suivante
-            if(j < jmax)
-            {
-                ++j;
-            }
-            else
-            {
-                j = 0;
-                ++i;
-            }
+				//case suivante
+				if(j < jmax)
+				{
+					++j;
+				}
+				else
+				{
+					j = 0;
+					++i;
+				}
 
-            currentCase = (CaseItem*) this->item(i, j);
+				qDebug() << i << j;
+				currentCase = (CaseItem*) this->item(i, j);
+			}
         }
     }
 }
