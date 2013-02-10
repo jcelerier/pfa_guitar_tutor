@@ -60,3 +60,8 @@ QString PartTrack::getPartName(){
 QList<TrackChord*> PartTrack::getTrackChordsList(){
     return listTrackChords;
 }
+
+void PartTrack::incrementCurrentChordRepetition()
+{
+	listTrackChords.last()->setRepetition(listTrackChords.last()->getRepetition() + 1);
+}

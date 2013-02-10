@@ -497,21 +497,35 @@ void ChordTableWidget::setTimeInfo(const QTime beginning, const QTime bar, const
     int barhour = ((barms-barmin*60*1000-barsec*1000-barmsec)/(1000*60*60));
     int rmax = rowCount(), cmax = columnCount();
     bool warningShown = false, modifyAllCases = false;
-    for (int r = 0 ; r < rmax ; r++) {
-        for (int c = 0 ; c < cmax - 1 ; c ++) {
-            if(!warningShown && ((CaseItem*) item(r,c))->isTimerManuallySet()) {
+	for (int r = 0 ; r < rmax ; r++)
+	{
+		for (int c = 0 ; c < cmax - 1 ; c ++)
+		{
+			if(!warningShown && ((CaseItem*) item(r,c))->isTimerManuallySet())
+			{
                 modifyAllCases = (QMessageBox::question(this, tr("Before doing something wrong"), tr("Some timers have already been set manually. Do you want to reset them too?"), QMessageBox::Yes | QMessageBox::No)) == QMessageBox::Yes;
                 warningShown = true;
             }
-            int ms = beginning.msec(), s = beginning.second(), m = beginning.minute(), h = beginning.hour();
-            ms += barmsec*(r*cmax+c);
-            s  += ms/1000; ms = ms%1000;
+			int ms = beginning.msec(),
+				s = beginning.second(),
+				m = beginning.minute(),
+				h = beginning.hour();
+
+			ms += barmsec*(r*cmax+c);
+			ms %= 1000;
+
+			s  += ms/1000;
             s  += barsec*(r*cmax+c);
-            m  += s/60; s = s%60;
+			s  %= 60;
+
+			m  += s/60;
             m  += barmin*(r*cmax+c);
-            h  += m/60; m = m%60;
+			m  %= 60;
+
+			h  += m/60;
             h  += barhour*(r*cmax+c);
-            if(QTime(h,m,s,ms)>end) {
+
+			if(QTime(h,m,s,ms)>end) {
                 QMessageBox::warning(this, tr("Error with timers"), tr("There are too many cells for the end timer you entered."));
                 return;
             }
@@ -534,11 +548,15 @@ LogicalTrack* ChordTableWidget::getLogicalTrack()
     CaseItem* currentCase = 0;
     TrackChord* currentChord = 0;
 
+	QString prevChordText;
+
     for(int i = 0; i < this->rowCount(); i++)
     {
         for(int j = 0; j < this->columnCount() - 1; j++) // -1 pour l'annotation
         {
-            if((currentCase = (CaseItem*) this->item(i, j))->isPartSet())
+			currentCase = (CaseItem*) this->item(i, j);
+
+			if(currentCase->isPartSet())
             {
                 // on stocke la partie précédente
                 if(part != NULL)
@@ -547,15 +565,26 @@ LogicalTrack* ChordTableWidget::getLogicalTrack()
                 // on crée une nouvelle partie
                 part = new PartTrack(currentCase->getPart());
 
-                //on y ajoute l'accord de la case actuelle *//* calculer s'il y a des répétitions ---------------v
-                currentChord = new TrackChord(currentCase->get_chord(), TimeToMsec(currentCase->getBeginning()), 1);
-                part->AddChord(currentChord);
-            }
-            else
-            {
-                currentChord = new TrackChord(currentCase->get_chord(), TimeToMsec(currentCase->getBeginning()), 1);
-                part->AddChord(currentChord);
-            }
+				currentChord = new TrackChord(currentCase->get_chord(), TimeToMsec(currentCase->getBeginning()), 1);
+				part->AddChord(currentChord);
+			}
+			else
+			{
+				if(currentCase->get_chord() != prevChordText)
+				{
+					//on y ajoute l'accord de la case actuelle *//* calculer s'il y a des répétitions ---------------v
+					currentChord = new TrackChord(currentCase->get_chord(), TimeToMsec(currentCase->getBeginning()), 1);
+					part->AddChord(currentChord);
+				}
+				else
+				{
+					part->incrementCurrentChordRepetition();
+				}
+			}
+			// ajout des accords, faire attention aux cases vides.
+
+
+			prevChordText = currentCase->get_chord();
         }
     }
     // on ajoute la dernière partie

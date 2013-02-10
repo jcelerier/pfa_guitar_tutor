@@ -4,22 +4,24 @@
 #include <QList>
 #include "TrackChord.h"
 
-class PartTrack {
+class PartTrack
+{
+	public:
 
-public:
+		PartTrack();
+		PartTrack(QString newPartName);
+		PartTrack(QString newPartName, QList<TrackChord*> newListChords);
+		QString getPartName();
+		QList<TrackChord*> getTrackChordsList();
+		void AddChord(TrackChord * c);
+		~PartTrack();
 
-    PartTrack();
-    PartTrack(QString newPartName);
-    PartTrack(QString newPartName, QList<TrackChord*> newListChords);
-    QString getPartName();
-    QList<TrackChord*> getTrackChordsList();
-    void AddChord(TrackChord * c);
-    ~PartTrack();
+		void incrementCurrentChordRepetition();
 
-private:
+	private:
 
-    QString partName;
-    QList<TrackChord*> listTrackChords;
+		QString partName;
+		QList<TrackChord*> listTrackChords;
 
 };
 

@@ -163,10 +163,10 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
         QString t1;
         QString name;
         QString repetition;
-        int rep, t2;
-        int t3 = 0;
+		int rep, t2;
 
-        while(!chordNode.isNull()) { //Chargement des infos sur les accords du morceau
+		while(!chordNode.isNull())
+		{ //Chargement des infos sur les accords du morceau
             QDomElement chordElement = chordNode.toElement();
 
             //Vérification de la présence et de la validité des attributs de l'accord (nom, temps, nbr de répétition)
@@ -186,8 +186,7 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
                 delete currentTrack;
                 qCritical("Les temps ne sont pas rentrés dans l'ordre croissant.");
                 return false;
-            }
-            t3 = t2;
+			}
 
             //L'attribut répétion peut être absent. Attention répétition ne peut pas être nul(minimum = 1)
             repetition = chordElement.attribute("repetition", 0);
