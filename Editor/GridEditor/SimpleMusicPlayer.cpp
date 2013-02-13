@@ -261,7 +261,8 @@ void SimpleMusicPlayer::changePosition(int position)
 void SimpleMusicPlayer::zoomIn(QPoint clickPos)
 {
 	float clickPercent = (float) clickPos.x() / (float) waveform->getWidth();
-	float sample = clickPercent * player->getTotalLengthInSamples();
+	qDebug() << clickPercent;
+	float sample = clickPercent * (waveEnd - waveBegin) + waveBegin; //player->getTotalLengthInSamples();
 	const int zoomFactor = 20;
 
 	// vieille méthode :
@@ -295,7 +296,7 @@ void SimpleMusicPlayer::zoomIn(QPoint clickPos)
 void SimpleMusicPlayer::zoomOut(QPoint clickPos)
 {
 	float clickPercent = (float) clickPos.x() / (float) waveform->getWidth();
-	float sample = clickPercent * player->getTotalLengthInSamples();
+	float sample = clickPercent * (waveEnd - waveBegin) + waveBegin;
 	const int zoomFactor = 20;
 
 //	int med = (waveEnd - waveBegin) / 20;
@@ -321,19 +322,17 @@ void SimpleMusicPlayer::moveLeft()
 {
 	int mvt = (waveEnd - waveBegin) / waveform->getWidth() ;
 
-	if(waveBegin <= 0)
+	if(waveBegin > 0)
 	{
-	   //do nothing
-	} //pour éviter bugs
-	else if(waveBegin - mvt >= 0) // cas valide
-	{
-		waveBegin -= mvt;
-		waveEnd -= mvt;
-	}
-	else // cas ou on est au bord
-	{
-		//waveEnd = waveEnd + (waveBegin - mvt);
-		waveBegin = 0;
+		if(waveBegin - mvt >= 0) // cas valide
+		{
+			waveBegin -= mvt;
+			waveEnd -= mvt;
+		}
+		else if(waveBegin - mvt < 0)// cas ou on est au bord
+		{
+			waveBegin = 0;
+		}
 	}
 
 	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
@@ -351,16 +350,17 @@ void SimpleMusicPlayer::moveRight()
 	int l = waveEnd - waveBegin;
 	int mvt = l / waveform->getWidth() ;
 
-	if(waveEnd >= lgr) { }
-	else if (waveEnd + mvt <= lgr)
+	if(waveEnd < lgr)
 	{
-		waveBegin += mvt;
-		waveEnd += mvt;
-	}
-	else
-	{
-		//waveBegin += waveEnd + mvt - lgr;
-		waveEnd = lgr;
+		if (waveEnd + mvt <= lgr)
+		{
+			waveBegin += mvt;
+			waveEnd += mvt;
+		}
+		else
+		{
+			waveEnd = lgr;
+		}
 	}
 
 	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
