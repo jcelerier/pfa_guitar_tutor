@@ -29,8 +29,10 @@ AudioWindow::AudioWindow(QWidget * parent)
 	connect(player, SIGNAL(audioFileDeleted()), this, SLOT(resetAudioFile()));
 	connect(audioSync, SIGNAL(refreshTimer(int)), this, SLOT(refreshTimerAudioSync(int)));
 
-	connect(audioSync, SIGNAL(sendTimer(QTime, QTime, QTime)), parent, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)));
-	connect(audioSync, SIGNAL(sendTimer(QTime,QTime,QTime)), player, SIGNAL(sendTimers(QTime, QTime, QTime)));
+	connect(audioSync, SIGNAL(sendTimers(QTime, QTime, QTime)), parent, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)));
+	connect(audioSync, SIGNAL(sendTimers(QTime,QTime,QTime)), waveform, SLOT(setTimers(QTime, QTime, QTime)));
+
+	connect(audioSync, SIGNAL(sendTimer(int,QTime)), waveform, SLOT(setTimer(int, QTime)));
 
 	connect(this, SIGNAL(waveFullZoom()), player, SLOT(waveFullZoom()));
 	connect(this, SIGNAL(waveBarZoom()), player, SLOT(waveBarZoom()));
@@ -97,7 +99,7 @@ void AudioWindow::resetAudioFile()
 void AudioWindow::refreshTimerAudioSync(int i)
 {
 	switch(i) {
-	case TIMER_BEGGINING:
+	case TIMER_BEGINNING:
 		audioSync->setBegginingTimer(player->getCurrentPosition());
 		break;
 	case TIMER_END:

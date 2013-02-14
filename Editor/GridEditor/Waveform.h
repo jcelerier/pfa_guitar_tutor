@@ -12,6 +12,7 @@
 
 
 
+
 class Waveform : public QLabel
 {
 	QWidget* parent;
@@ -56,6 +57,7 @@ class Waveform : public QLabel
 		
 	public slots:
 		void setTimers(QTime, QTime, QTime);
+		void setTimer(int, QTime);
 		void activate();
 
 		

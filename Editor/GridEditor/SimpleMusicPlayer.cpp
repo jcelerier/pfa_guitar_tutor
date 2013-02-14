@@ -40,7 +40,7 @@ SimpleMusicPlayer::SimpleMusicPlayer(QWidget* parent)
 	waveform->initImage();
 	waveform->update();
 
-	connect(this, SIGNAL(sendTimers(QTime,QTime,QTime)), waveform, SLOT(setTimers(QTime,QTime,QTime)));
+	//connect(this, SIGNAL(sendTimers(QTime,QTime,QTime)), waveform, SLOT(setTimers(QTime,QTime,QTime)));
 
     connect(playButton, SIGNAL(released()), this, SLOT(pause()));
     connect(stopButton, SIGNAL(released()), this, SLOT(stop()));

@@ -1,6 +1,7 @@
 #include "Waveform.h"
 #include <QMouseEvent>
 #include "SimpleMusicPlayer.h"
+#include "AudioSync.h"
 #include <QPixmap>
 #include <cmath>
 #include <QDebug>
@@ -301,4 +302,24 @@ int Waveform::getSampleEnd()
 void Waveform::activate()
 {
 	empty = false;
+}
+
+void Waveform::setTimer(int type, QTime t)
+{
+	switch(type)
+	{
+		case TIMER_BEGINNING:
+			l_begin = t;
+			break;
+		case TIMER_BAR:
+			l_bar = t;
+			break;
+		case TIMER_END:
+			l_end = t;
+			break;
+		default:
+			break;
+	}
+
+	update();
 }

@@ -8,7 +8,7 @@
 #include <QPushButton>
 #include <QTime>
 #include <QLabel>
-#define TIMER_BEGGINING 0
+#define TIMER_BEGINNING 0
 #define TIMER_END       1
 #define TIMER_BAR       2
 
@@ -30,14 +30,20 @@ public:
     void setBarTimer(const QTime);
     void setBegginingTimer(const QTime);
     void setEndTimer(const QTime);
+
 public slots:
 	void sendData();
+
 private slots:
     void emitSignalTimer();
+	void beginningChanged(QTime);
+	void barChanged(QTime);
+	void endChanged(QTime);
 
 signals:
     void refreshTimer(int);
-	void sendTimer(QTime, QTime, QTime);
+	void sendTimers(QTime, QTime, QTime);
+	void sendTimer(int, QTime);
 };
 
 #endif // AUDIOSYNC_H

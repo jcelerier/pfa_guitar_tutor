@@ -51,6 +51,10 @@ AudioSync::AudioSync()
     connect(bend, SIGNAL(pressed()), this, SLOT(emitSignalTimer()));
     connect(bbar, SIGNAL(pressed()), this, SLOT(emitSignalTimer()));
 
+	connect(beginning, SIGNAL(timeChanged(QTime)), this, SLOT(beginningChanged(QTime)));
+	connect(bar, SIGNAL(timeChanged(QTime)), this, SLOT(barChanged(QTime)));
+	connect(end, SIGNAL(timeChanged(QTime)), this, SLOT(endChanged(QTime)));
+
 	connect(sendButton, SIGNAL(clicked()), this, SLOT(sendData()));
 }
 
@@ -90,10 +94,25 @@ void AudioSync::setBarTimer(const QTime t)
     bar->setTime(t);
 }
 
+void AudioSync::beginningChanged(QTime t)
+{
+	emit sendTimer(TIMER_BEGINNING, t);
+}
+
+void AudioSync::barChanged(QTime t)
+{
+	emit sendTimer(TIMER_BAR, t);
+}
+
+void AudioSync::endChanged(QTime t)
+{
+	emit sendTimer(TIMER_END, t);
+}
+
 void AudioSync::emitSignalTimer()
 {
     if(bbeginning->isDown())
-        emit refreshTimer(TIMER_BEGGINING);
+		emit refreshTimer(TIMER_BEGINNING);
     else if(bend->isDown())
         emit refreshTimer(TIMER_END);
     else if(bbar->isDown())
@@ -104,8 +123,8 @@ void AudioSync::sendData()
 {
     if(beginning->time().isValid() && bar->time().isValid() && end->time().isValid())
 	{
-        emit sendTimer(beginning->time(), bar->time(), end->time());
+		emit sendTimers(beginning->time(), bar->time(), end->time());
 	}
     else
-        QMessageBox::information(this, tr("Your job is not done yet"), tr("You have not completed the three timers yet."));
+		QMessageBox::information(this, tr("Your job is not done yet"), tr("You have not set the three timers yet."));
 }
