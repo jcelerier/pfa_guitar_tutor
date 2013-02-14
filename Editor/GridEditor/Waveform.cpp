@@ -93,6 +93,14 @@ void Waveform::display()
 	int s_bar = QTimeToSample(l_bar);
 	int s_end = QTimeToSample(l_end);
 
+	float tmp_begin = (((float) s_beg - (float) beg) / size);
+	int pos_begin = tmp_begin * m_width;
+
+	float tmp_end = (((float) s_end - (float) beg) / size);
+	int pos_end = tmp_end * m_width;
+
+	qDebug() << pos_end;
+
 	//dessin du graphe
 	for(unsigned int i = 0; i < m_width ; i++)
 	{
@@ -101,13 +109,18 @@ void Waveform::display()
 		{
 			if(s_beg > beg && s_end > s_beg)
 			{
-				float tmp_begin = (((float) s_beg - (float) beg) / size);
-				int pos_begin = tmp_begin * m_width;
-
-				float tmp_end = (((float) s_end - (float) beg) / size);
-				int pos_end = tmp_end * m_width;
-
 				if(i <= pos_begin || i >= pos_end)
+				{
+					image->setPixel(i, j, darkgreen_color);
+				}
+				else
+				{
+					image->setPixel(i, j, green_color);
+				}
+			}
+			else if(s_end > 0)
+			{
+				if(i >= pos_end || pos_end < 0)
 				{
 					image->setPixel(i, j, darkgreen_color);
 				}
