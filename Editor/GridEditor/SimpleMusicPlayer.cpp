@@ -2,6 +2,10 @@
 #include "AudioWindow.h"
 #include <QMessageBox>
 #include <QDebug>
+
+//trucs pour le zoom
+#define MOVE_FACTOR 3
+#define ZOOM_FACTOR 20
 /**
  * @brief SimpleMusicPlayer::SimpleMusicPlayer
  *
@@ -121,7 +125,6 @@ void SimpleMusicPlayer::resizeEvent(QResizeEvent * event)
 	if(player->getState())
 	{
 		waveform->setWidth(parent->width() - 20);
-		//player->getFullSpectrum(waveform->getSpectrum(), waveform->getWidth());
 
 		player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
 		waveform->update();
@@ -261,9 +264,8 @@ void SimpleMusicPlayer::changePosition(int position)
 void SimpleMusicPlayer::zoomIn(QPoint clickPos)
 {
 	float clickPercent = (float) clickPos.x() / (float) waveform->getWidth();
-	qDebug() << clickPercent;
 	float sample = clickPercent * (waveEnd - waveBegin) + waveBegin; //player->getTotalLengthInSamples();
-	const int zoomFactor = 20;
+	const int zoomFactor = ZOOM_FACTOR;
 
 	// vieille méthode :
 //	int med = (waveEnd - waveBegin) / 20;
@@ -297,7 +299,7 @@ void SimpleMusicPlayer::zoomOut(QPoint clickPos)
 {
 	float clickPercent = (float) clickPos.x() / (float) waveform->getWidth();
 	float sample = clickPercent * (waveEnd - waveBegin) + waveBegin;
-	const int zoomFactor = 20;
+	const int zoomFactor = ZOOM_FACTOR;
 
 //	int med = (waveEnd - waveBegin) / 20;
 	waveBegin = std::max(0,
@@ -320,7 +322,7 @@ void SimpleMusicPlayer::zoomOut(QPoint clickPos)
  */
 void SimpleMusicPlayer::moveLeft()
 {
-	int mvt = (waveEnd - waveBegin) / waveform->getWidth() ;
+	int mvt = (waveEnd - waveBegin) * MOVE_FACTOR / waveform->getWidth() ;
 
 	if(waveBegin > 0)
 	{
@@ -347,8 +349,8 @@ void SimpleMusicPlayer::moveLeft()
 void SimpleMusicPlayer::moveRight()
 {
 	int lgr = player->getTotalLengthInSamples();
-	int l = waveEnd - waveBegin;
-	int mvt = l / waveform->getWidth() ;
+
+	int mvt = (waveEnd - waveBegin) * MOVE_FACTOR / waveform->getWidth() ;
 
 	if(waveEnd < lgr)
 	{

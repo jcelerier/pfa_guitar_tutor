@@ -6,6 +6,7 @@
 #include <QDebug>
 
 const uint Waveform::green_color = 0xFF00FF00;
+const uint Waveform::darkgreen_color = 0xFF009900;
 
 Waveform::Waveform(QWidget *parent, int w, int h)
 {
@@ -56,7 +57,7 @@ void Waveform::initImage()
 
 	//ligne médiane
 	for(unsigned int i = 0; i < m_width; i++)
-		image->setPixel(i, m_height / 2, green_color);
+		image->setPixel(i, m_height / 2 -1, green_color);
 }
 
 /**
@@ -84,27 +85,49 @@ void Waveform::display()
 
 	initImage();
 
-	//dessin du graphe
-	for(unsigned int i = 0; i < m_width ; i++)
-	{
-		//height = abs(table[i] / (int) pow(2, 23)); //moyenne
-		value = abs(spectrum[i] / (int) pow(2, 19 - m_height/200));//max
-		for(unsigned int j = m_height / 2 - 1 - value; j < m_height / 2 + value; j++)
-		{
-			image->setPixel(i, j, green_color);
-		}
-	}
 	int beg = ((SimpleMusicPlayer*) parent)->getWaveBegin();
 	int end = ((SimpleMusicPlayer*) parent)->getWaveEnd();
+	float size = end - beg; // nb de samples affichées
 
 	int s_beg = QTimeToSample(l_begin);
 	int s_bar = QTimeToSample(l_bar);
 	int s_end = QTimeToSample(l_end);
 
+	//dessin du graphe
+	for(unsigned int i = 0; i < m_width ; i++)
+	{
+		value = abs(spectrum[i] / (int) pow(2, 19 - m_height/200));
+		for(unsigned int j = m_height / 2 - 1 - value; j < m_height / 2 + value; j++)
+		{
+			if(s_beg > beg && s_end > s_beg)
+			{
+				float tmp_begin = (((float) s_beg - (float) beg) / size);
+				int pos_begin = tmp_begin * m_width;
+
+				float tmp_end = (((float) s_end - (float) beg) / size);
+				int pos_end = tmp_end * m_width;
+
+				if(i <= pos_begin || i >= pos_end)
+				{
+					image->setPixel(i, j, darkgreen_color);
+				}
+				else
+				{
+					image->setPixel(i, j, green_color);
+				}
+			}
+			else
+			{
+				image->setPixel(i, j, green_color);
+			}
+		}
+	}
+
+
+	//dessin des barres
 
 	if(s_beg > beg && s_beg < end)
-	{
-		float size = end - beg;
+	{	
 		float tmp = (((float) s_beg - (float) beg) / size);
 		int pos = tmp * m_width;
 
@@ -116,7 +139,6 @@ void Waveform::display()
 
 	if(s_bar > beg && s_bar < end)
 	{
-		float size = end - beg;
 		float tmp = (((float) s_bar - (float)beg) / size);
 		int pos = tmp * m_width;
 
@@ -128,7 +150,6 @@ void Waveform::display()
 
 	if(s_end > beg && s_end < end)
 	{
-		float size = end - beg;
 		float tmp = (((float) s_end - (float)beg) / size);
 		int pos = tmp * m_width;
 
