@@ -129,8 +129,8 @@ void MainWidget::timeOut()
 //		TrackLoader::convertXmlToLogicalTrack("Tracks/BeatlesDayInTheLife/test.xml", tr);
 //		m_scoreManager->loadScore(tr);
 
-        LogicalTrack *tr = new LogicalTrack();
-		qDebug() << path;
+		LogicalTrack *tr = new LogicalTrack();
+
 		TrackLoader::convertXmlToLogicalTrack(path, tr);
 
 		m_scoreManager->loadScore(tr);

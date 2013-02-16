@@ -14,6 +14,7 @@
 #include <MusicPlayer.h>
 #include "Waveform.h"
 #define REFRESH_DELAY 200
+#define PLAYTIMER_DELAY 20
 
 /**
  * @brief Classe générant l'interface graphique d'un lecteur audio simple
@@ -29,7 +30,7 @@ private:
     QToolButton* playButton;
     QSlider* slideBar;
     QLabel* timerLabel;
-    QTimer* timer;
+	QTimer* timer, *playTimer;
 
 	Waveform *waveform;
 
@@ -63,6 +64,8 @@ public slots:
     void updateSlideBar();
     void changePosition(int);
 
+	void sendTimeData();
+
 	void waveFullZoom();
 	void waveSongZoom();
 	void waveBarZoom();
@@ -71,7 +74,9 @@ public slots:
 	void zoomOut(QPoint);
 	void moveLeft();
 	void moveRight();
+
 signals:
+	void sigTimeData(QTime);
     void browseAudioFile();
     void audioFileDeleted();
 	void sendTimers(QTime, QTime, QTime);

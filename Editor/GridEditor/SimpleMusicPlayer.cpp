@@ -1,5 +1,6 @@
 #include "SimpleMusicPlayer.h"
 #include "AudioWindow.h"
+#include "Util.hpp"
 #include <QMessageBox>
 #include <QDebug>
 
@@ -20,6 +21,9 @@ SimpleMusicPlayer::SimpleMusicPlayer(QWidget* parent)
     slideBar = new QSlider(Qt::Horizontal);
     timerLabel = new QLabel("");
     timer = new QTimer();
+	playTimer = new QTimer();
+
+
 
 	player = new MusicPlayer();
 	waveform = new Waveform(this, ((AudioWindow*) parent)->width()  -20, 300);
@@ -45,6 +49,8 @@ SimpleMusicPlayer::SimpleMusicPlayer(QWidget* parent)
     connect(playButton, SIGNAL(released()), this, SLOT(pause()));
     connect(stopButton, SIGNAL(released()), this, SLOT(stop()));
     connect(timer, SIGNAL(timeout()), this, SLOT(updateSlideBar()));
+	connect(playTimer, SIGNAL(timeout()), this, SLOT(sendTimeData()));
+
     connect(slideBar, SIGNAL(sliderMoved(int)), this, SLOT(changePosition(int)));
 
     currentPosition = 0;
@@ -143,9 +149,7 @@ void SimpleMusicPlayer::resizeEvent(QResizeEvent * event)
  */
 QTime SimpleMusicPlayer::getCurrentPosition()
 {
-    unsigned int time = player->getPosition();
-    QTime t(time/(1000*60*60),time/(1000*60)%60, (time/1000)%60, time%1000);
-    return t;
+	return MsecToTime(player->getPosition());
 }
 
 /**
@@ -155,11 +159,18 @@ QTime SimpleMusicPlayer::getCurrentPosition()
  */
 void SimpleMusicPlayer::play()
 {
-    if(player->getState()) {
+	if(player->getState())
+	{
         player->pause(false);
-    }
+		playTimer->start(PLAYTIMER_DELAY);
+	}
     else
         emit browseAudioFile();
+}
+
+void SimpleMusicPlayer::sendTimeData()
+{
+	emit sigTimeData(getCurrentPosition());
 }
 
 /**
@@ -169,8 +180,21 @@ void SimpleMusicPlayer::play()
  */
 void SimpleMusicPlayer::pause()
 {
-    if(player->getState()) {
-        player->pause(!player->isPaused());
+	if(player->getState())
+	{
+		if(player->isPaused())
+		{
+			player->pause(false);
+			playTimer->start(PLAYTIMER_DELAY);
+		}
+		else
+		{
+			player->pause(true);
+			playTimer->stop();
+		}
+
+
+
         if(player->isPaused())
             playButton->setIcon(QIcon("icons/pause.png"));
         else
@@ -187,6 +211,7 @@ void SimpleMusicPlayer::stop()
 {
     if(player->getState()) {
         player->stop();
+		playTimer->stop();
         currentPosition = 0;
         slideBar->setSliderPosition(0);
         refreshTimerLabel();
@@ -252,6 +277,7 @@ void SimpleMusicPlayer::changePosition(int position)
     player->changePosition(position);
 	currentPosition = player->getPosition();
 }
+
 
 /**
  * @brief SimpleMusicPlayer::zoomIn

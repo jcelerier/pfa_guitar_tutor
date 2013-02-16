@@ -205,7 +205,9 @@ void GridEditor::createGrid(int columns, int rows)
 
 	connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
 	connect(grid, SIGNAL(play(int)), this, SIGNAL(play(int)));
+
 	connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
+	connect(this, SIGNAL(sigTimeData(QTime)), grid, SLOT(isPlayingAt(QTime)));
 	connect(chordTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
 	connect(addRowAction, SIGNAL(triggered()), grid, SLOT(insert_row()));
 	connect(addColumnAction, SIGNAL(triggered()), grid, SLOT(insert_column()));

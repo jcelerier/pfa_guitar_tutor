@@ -29,6 +29,7 @@ class ChordTableWidget : public QTableWidget
 	QString* name;
 	QMenu* m_rightClickMenu;
 	CaseItem* m_currentItem;
+	CaseItem* m_lastPlayedCase;
 
 	QAction* m_properties, *m_playFromHere;
 
@@ -74,6 +75,7 @@ public slots:
 	void playFromHere();
 
 	void setTimeInfo(const QTime beginning, const QTime bar, const QTime end);
+	void isPlayingAt(QTime t);
 
 	//void onClick(int row, int column);
 };

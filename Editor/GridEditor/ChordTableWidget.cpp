@@ -33,6 +33,7 @@ ChordTableWidget::ChordTableWidget() : QTableWidget(), name(new QString("")) {
  */
 ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent) : QTableWidget(parent)
 {
+
     ChordTableWidget();
     this->setColumnCount(column);
     this->insert_row(0, row);
@@ -55,7 +56,6 @@ ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent) : QTabl
 
 
 
-
     //menu clic droit
     m_rightClickMenu = new QMenu();
 
@@ -74,6 +74,7 @@ ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent) : QTabl
     //connect(this, SIGNAL(play(int)), parent, SIGNAL(play(int)));
 
     m_currentItem = (CaseItem*) this->item(0, 0);
+	m_lastPlayedCase = 0;
     setCasePart("Intro");
 }
 
@@ -512,17 +513,20 @@ void ChordTableWidget::setTimeInfo(const QTime beginning, const QTime bar, const
 				h = beginning.hour();
 
 			ms += barmsec*(r*cmax+c);
+			s  += ms/1000;
 			ms %= 1000;
 
-			s  += ms/1000;
+
             s  += barsec*(r*cmax+c);
+			m  += s/60;
 			s  %= 60;
 
-			m  += s/60;
+
             m  += barmin*(r*cmax+c);
+			h  += m/60;
 			m  %= 60;
 
-			h  += m/60;
+
             h  += barhour*(r*cmax+c);
 
 			if(QTime(h,m,s,ms)>end) {
@@ -659,4 +663,26 @@ void ChordTableWidget::setLogicalTrack(LogicalTrack* track)
 void ChordTableWidget::playFromHere()
 {
     emit play(TimeToMsec(m_currentItem->getBeginning()));
+}
+
+void ChordTableWidget::isPlayingAt(QTime t)
+{
+	for(int i=0; i< this->rowCount(); i++)
+	{
+		for(int j=0; j < this->columnCount()-1; j++)
+		{
+			if(((CaseItem*) item(i, j))->getBeginning() >= t)
+			{
+				((CaseItem*) item(i, j))->play();
+
+				if(m_lastPlayedCase != 0 && m_lastPlayedCase != item(i, j))
+				{
+					m_lastPlayedCase->restoreColor();
+				}
+				m_lastPlayedCase = (CaseItem*) item(i, j);
+
+				return;
+			}
+		}
+	}
 }

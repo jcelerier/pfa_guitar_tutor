@@ -90,6 +90,7 @@ signals:
 	void sendTimeToChordWidget(QTime, QTime, QTime);
     void play(int);
 	void propsChanged();
+	void sigTimeData(QTime);
 
 public slots:
 	void changeState();

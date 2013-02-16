@@ -20,6 +20,7 @@ Last change on 14/04/12
 class CaseItem : public QTableWidgetItem
 {
     QColor* m_color;
+	QColor* m_prevColor;
 	QString m_part;
     QTime m_beginningTimer;
     bool m_timerManuallySet;
@@ -44,6 +45,10 @@ class CaseItem : public QTableWidgetItem
         QTime getBeginning();
         bool isTimerManuallySet();
         bool isPartEditable();
+
+	public slots:
+		void play();
+		void restoreColor();
 };
 
 #endif // CASEITEM_H

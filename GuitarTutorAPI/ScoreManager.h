@@ -83,6 +83,7 @@ public:
 
     void stop();
 
+
 private:
 	MusicManager* m_musicManager;
 	Engines* m_iscoreEngine;
