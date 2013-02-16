@@ -502,6 +502,7 @@ void ChordTableWidget::setTimeInfo(const QTime beginning, const QTime bar, const
 	{
 		for (int c = 0 ; c < cmax - 1 ; c ++)
 		{
+			qDebug() << r << c;
 			if(!warningShown && ((CaseItem*) item(r,c))->isTimerManuallySet())
 			{
                 modifyAllCases = (QMessageBox::question(this, tr("Before doing something wrong"), tr("Some timers have already been set manually. Do you want to reset them too?"), QMessageBox::Yes | QMessageBox::No)) == QMessageBox::Yes;
@@ -512,22 +513,22 @@ void ChordTableWidget::setTimeInfo(const QTime beginning, const QTime bar, const
 				m = beginning.minute(),
 				h = beginning.hour();
 
-			ms += barmsec*(r*cmax+c);
+			ms += barmsec*(r*(cmax-1)+c);
 			s  += ms/1000;
 			ms %= 1000;
 
 
-            s  += barsec*(r*cmax+c);
+			s  += barsec*(r*(cmax-1)+c);
 			m  += s/60;
 			s  %= 60;
 
 
-            m  += barmin*(r*cmax+c);
+			m  += barmin*(r*(cmax-1)+c);
 			h  += m/60;
 			m  %= 60;
 
 
-            h  += barhour*(r*cmax+c);
+			h  += barhour*(r*(cmax-1)+c);
 
 			if(QTime(h,m,s,ms)>end) {
                 QMessageBox::warning(this, tr("Error with timers"), tr("There are too many cells for the end timer you entered."));
@@ -667,11 +668,27 @@ void ChordTableWidget::playFromHere()
 
 void ChordTableWidget::isPlayingAt(QTime t)
 {
-	for(int i=0; i< this->rowCount(); i++)
+	CaseItem* nextItem;
+
+	for(int i = 0; i< this->rowCount(); i++)
 	{
-		for(int j=0; j < this->columnCount()-1; j++)
+		for(int j = 0; j < this->columnCount() - 1; j++)
 		{
-			if(((CaseItem*) item(i, j))->getBeginning() >= t)
+			if ( (j == this->columnCount() - 2) && (i == this->rowCount() - 1))
+			{
+				nextItem = 0;
+			}
+			else if ( j == this->columnCount() - 2)
+			{
+				nextItem = ((CaseItem*) item(i+1, 0));
+			}
+			else
+			{
+				nextItem = ((CaseItem*) item(i, j+1));
+			}
+
+
+			if(t >= ((CaseItem*) item(i, j))->getBeginning() && (nextItem == 0 || t <= nextItem->getBeginning()))
 			{
 				((CaseItem*) item(i, j))->play();
 
@@ -683,6 +700,7 @@ void ChordTableWidget::isPlayingAt(QTime t)
 
 				return;
 			}
+
 		}
 	}
 }
