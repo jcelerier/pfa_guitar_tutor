@@ -11,17 +11,24 @@
 #include "MusicPlayer.h"
 
 
-
-
 class Waveform : public QLabel
 {
 	QWidget* parent;
 	Q_OBJECT
 
 	bool empty;
-	QImage* image;
+	QImage* m_image;
+	QPixmap* m_pixmap;
+	QPen* m_mainPen;
+	QPen* m_darkPen;
+	QPen* m_delimiterPen;
+	QPen* m_playerPen;
+	QPainter* m_painter;
 
-	int* spectrum;
+	int* m_spectrum;
+	int m_previouslyPlayedPixel;
+	uint m_previouslyPlayedPixelColor;
+
 	unsigned int m_width;
 	unsigned int m_height;
 
@@ -52,7 +59,8 @@ class Waveform : public QLabel
 		int getSampleBar();
 		int getSampleEnd();
 
-
+		void simpleDrawColumn(int col, int value, QPen* pen);
+		void drawColumn(int col, int beg, int end, int smp_begin, int smp_end, int pos_begin, int pos_end);
 	signals:
 		
 	public slots:

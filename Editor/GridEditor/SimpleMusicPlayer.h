@@ -14,7 +14,7 @@
 #include <MusicPlayer.h>
 #include "Waveform.h"
 #define REFRESH_DELAY 200
-#define PLAYTIMER_DELAY 20
+#define PLAYTIMER_DELAY 40
 
 /**
  * @brief Classe générant l'interface graphique d'un lecteur audio simple

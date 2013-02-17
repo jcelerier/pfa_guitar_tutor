@@ -2,6 +2,7 @@
 #include <QMouseEvent>
 #include "SimpleMusicPlayer.h"
 #include "AudioSync.h"
+#include <QPainter>
 #include <QPixmap>
 #include <cmath>
 #include <QDebug>
@@ -9,18 +10,30 @@
 const uint Waveform::green_color = 0xFF00FF00;
 const uint Waveform::darkgreen_color = 0xFF009900;
 
-Waveform::Waveform(QWidget *parent, int w, int h)
+Waveform::Waveform(QWidget *parent, int w, int h):
+	QLabel(parent),
+	m_previouslyPlayedPixel(0),
+	m_width(w),
+	m_height(h),
+	parent(parent)
 {
-	this->parent = parent;
 	this->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
-	m_width = w;
-	m_height = h;
 
-	image = new QImage(m_width, m_height, QImage::Format_RGB32);
-	spectrum = new int[m_width];
+	m_spectrum = new int[m_width];
 
-	initImage();
-	this->setPixmap(QPixmap::fromImage(*image));
+	m_mainPen = new QPen(Qt::green , 2, Qt::SolidLine, Qt::RoundCap);
+	m_darkPen = new QPen(QBrush(0xFF009900), 2, Qt::SolidLine, Qt::RoundCap);
+	m_delimiterPen = new QPen(Qt::white , 2, Qt::SolidLine, Qt::RoundCap);
+	m_playerPen = new QPen(QBrush(0xFFD8FA32) , 2, Qt::SolidLine, Qt::RoundCap);
+
+	m_pixmap = new QPixmap(m_width, m_height);
+	m_painter = new QPainter(m_pixmap);
+	m_painter->setRenderHint( QPainter::HighQualityAntialiasing, true);
+	m_painter->setPen(*m_mainPen);
+	m_painter->setBrush(QBrush(Qt::green, Qt::SolidPattern));
+
+
+	this->setPixmap(*m_pixmap);
 
 	empty = true;
 }
@@ -34,10 +47,16 @@ Waveform::Waveform(QWidget *parent, int w, int h)
  */
 void Waveform::update()
 {
-	if(image != 0)
-		delete image;
-	image = new QImage(m_width, m_height, QImage::Format_RGB32);
+	m_painter->end();
+	if(m_pixmap != 0)
+		delete m_pixmap;
 
+	m_pixmap = new QPixmap(m_width, m_height);
+	m_painter->begin(m_pixmap);
+
+	m_painter->setRenderHint( QPainter::HighQualityAntialiasing, true);
+	m_painter->setPen(*m_mainPen);
+	m_painter->setBrush(QBrush(Qt::green, Qt::SolidPattern));
 
 	if(!empty)
 	{
@@ -47,18 +66,14 @@ void Waveform::update()
 	{
 		initImage();
 	}
-	this->setPixmap(QPixmap::fromImage(*image));
+	this->setPixmap(*m_pixmap);
 }
 
 
 void Waveform::initImage()
 {
-	//fond noir
-	image->fill(0);
-
-	//ligne médiane
-	for(unsigned int i = 0; i < m_width; i++)
-		image->setPixel(i, m_height / 2 -1, green_color);
+	m_painter->fillRect(0, 0, (int) m_width, (int) m_height, Qt::black);
+	m_painter->drawLine(0, m_height / 2 -1, m_width, m_height / 2 -1);
 }
 
 /**
@@ -82,11 +97,9 @@ int QTimeToSample(QTime t)
  */
 void Waveform::display()
 {
-	unsigned int value = 0;
-
 	initImage();
 
-	int beg = ((SimpleMusicPlayer*) parent)->getWaveBegin();
+	int beg = ((SimpleMusicPlayer*) parent)->getWaveBegin(); //première sample affichée
 	int end = ((SimpleMusicPlayer*) parent)->getWaveEnd();
 	float size = end - beg; // nb de samples affichées
 
@@ -95,83 +108,75 @@ void Waveform::display()
 	int s_end = QTimeToSample(l_end);
 
 	float tmp_begin = (((float) s_beg - (float) beg) / size);
-	int pos_begin = tmp_begin * m_width;
+	float tmp_end   = (((float) s_end - (float) beg) / size);
+	float tmp_bar   = (((float) s_bar - (float) beg) / size);
 
-	float tmp_end = (((float) s_end - (float) beg) / size);
-	int pos_end = tmp_end * m_width;
+	int pos_begin = tmp_begin * m_width;
+	int pos_bar   = tmp_bar * m_width;
+	int pos_end   = tmp_end * m_width;
 
 	//dessin du graphe
 	for( int i = 0; i < m_width ; i++)
 	{
-		value = abs(spectrum[i] / (int) pow(2, 19 - m_height/200));
-		for( int j = m_height / 2 - 1 - value; j < m_height / 2 + value; j++)
-		{
-			if(s_beg > beg && s_end > s_beg)
-			{
-				if(i <= pos_begin || i >= pos_end)
-				{
-					image->setPixel(i, j, darkgreen_color);
-				}
-				else
-				{
-					image->setPixel(i, j, green_color);
-				}
-			}
-			else if(s_end > 0)
-			{
-				if(i >= pos_end || pos_end < 0)
-				{
-					image->setPixel(i, j, darkgreen_color);
-				}
-				else
-				{
-					image->setPixel(i, j, green_color);
-				}
-			}
-			else
-			{
-				image->setPixel(i, j, green_color);
-			}
-		}
+		drawColumn(i, beg, end, s_beg, s_end, pos_begin, pos_end);
 	}
 
 
 	//dessin des barres
-
 	if(s_beg > beg && s_beg < end)
-	{	
-		float tmp = (((float) s_beg - (float) beg) / size);
-		int pos = tmp * m_width;
-
-		for(unsigned int j = 0; j < m_height; j++)
-		{
-			image->setPixel(pos, j, 0xFFFFFFFFF);
-		}
+	{
+		simpleDrawColumn(pos_begin, m_height, m_delimiterPen);
 	}
 
 	if(s_bar > beg && s_bar < end)
 	{
-		float tmp = (((float) s_bar - (float)beg) / size);
-		int pos = tmp * m_width;
-
-		for(unsigned int j = 0; j < m_height; j++)
-		{
-			image->setPixel(pos, j, 0xFFFFFFFFF);
-		}
+		simpleDrawColumn(pos_bar, m_height, m_delimiterPen);
 	}
 
 	if(s_end > beg && s_end < end)
 	{
-		float tmp = (((float) s_end - (float)beg) / size);
-		int pos = tmp * m_width;
+		simpleDrawColumn(pos_end, m_height, m_delimiterPen);
+	}
+}
 
-		for(unsigned int j = 0; j < m_height; j++)
+
+void Waveform::simpleDrawColumn(int col, int value, QPen* pen)
+{
+	m_painter->setPen(*pen);
+	m_painter->drawLine(col,  m_height / 2 - 1 - value, col, m_height / 2 + value);
+}
+
+void Waveform::drawColumn(int col, int beg, int end, int smp_begin, int smp_end, int pos_begin, int pos_end)
+{
+	unsigned int value = std::min((unsigned int) abs(m_spectrum[col] / (int) pow(2, 19 - m_height/200)), m_height);
+
+
+	if(smp_begin > beg && smp_end > smp_begin)
+	{
+		if(col <= pos_begin || col >= pos_end)
 		{
-			image->setPixel(pos, j, 0xFFFFFFFFF);
+			simpleDrawColumn(col, value, m_darkPen);
+		}
+		else
+		{
+			simpleDrawColumn(col, value, m_mainPen);
 		}
 	}
-	//ajout des barres de temps
-
+	else if(smp_end > 0)
+	{
+		if(col >= pos_end || pos_end < 0)
+		{
+			simpleDrawColumn(col, value, m_darkPen);
+		}
+		else
+		{
+			simpleDrawColumn(col, value, m_mainPen);
+		}
+	}
+	else
+	{
+		simpleDrawColumn(col, value, m_mainPen);
+	}
 }
 
 /**
@@ -185,10 +190,10 @@ void Waveform::setWidth(unsigned int w)
 	if(m_width != w)
 	{
 		m_width = w;
-		if (spectrum != 0)
-			delete spectrum;
+		if (m_spectrum != 0)
+			delete m_spectrum;
 
-		spectrum = new int[m_width];
+		m_spectrum = new int[m_width];
 	}
 }
 
@@ -207,7 +212,7 @@ void Waveform::setHeight(int h)
  */
 int* Waveform::getSpectrum()
 {
-	return spectrum;
+	return m_spectrum;
 }
 
 /**
@@ -330,18 +335,35 @@ void Waveform::setPlayerTimer(QTime t)
 	int end = ((SimpleMusicPlayer*) parent)->getWaveEnd();
 	float size = end - beg; // nb de samples affichées
 
+	int s_beg = QTimeToSample(l_begin);
+	int s_end = QTimeToSample(l_end);
+
+	float tmp_begin = (((float) s_beg - (float) beg) / size);
+	int pos_begin = tmp_begin * m_width;
+
+	float tmp_end = (((float) s_end - (float) beg) / size);
+	int pos_end = tmp_end * m_width;
+
 	float tmp = (((float) s_pos - (float) beg) / size);
 	int pos_pixel = tmp * m_width;
 
-
+	//vérifier si le timer est dans la zone visible
 	if(beg < s_pos && s_pos < end)
 	{
 		update();
+
+		simpleDrawColumn(pos_pixel, m_height, m_playerPen);
+
+		this->setPixmap(*m_pixmap);/*
 		for(unsigned int j = 0; j < m_height; j++)
 		{
-			image->setPixel(pos_pixel, j, 0xFFD8FA32);
+			m_image->setPixel(pos_pixel, j, 0xFFD8FA32);
 		}
 
+		if(pos_pixel != m_previouslyPlayedPixel)
+		{
+			drawColumn(m_previouslyPlayedPixel, beg, end, s_beg, s_end, pos_begin, pos_end);
+			m_previouslyPlayedPixel = pos_pixel;
+		}*/
 	}
-	this->setPixmap(QPixmap::fromImage(*image));
 }
