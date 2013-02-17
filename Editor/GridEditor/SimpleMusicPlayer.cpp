@@ -17,6 +17,7 @@ SimpleMusicPlayer::SimpleMusicPlayer(QWidget* parent)
 	this->parent = parent;
 	layout = new QGridLayout();
     playButton = new QToolButton();
+	playBarButton = new QToolButton();
     stopButton = new QToolButton();
     slideBar = new QSlider(Qt::Horizontal);
     timerLabel = new QLabel("");
@@ -30,11 +31,13 @@ SimpleMusicPlayer::SimpleMusicPlayer(QWidget* parent)
 	((AudioWindow*) parent)->setWaveform(waveform);
 
     playButton->setIcon(QIcon("icons/play.png"));
+	playBarButton->setIcon(QIcon("icons/play.png"));
     stopButton->setIcon(QIcon("icons/stop.png"));
 
     layout->addWidget(slideBar, 0, 0, 1, 7);
     layout->addWidget(playButton, 1, 0);
-    layout->addWidget(stopButton, 1, 1);
+	layout->addWidget(playBarButton, 1, 1);
+	layout->addWidget(stopButton, 1, 2);
     layout->addWidget(timerLabel, 1, 6);
 	layout->addWidget(waveform, 2, 0, 1, 7);
 
@@ -44,12 +47,13 @@ SimpleMusicPlayer::SimpleMusicPlayer(QWidget* parent)
 	waveform->initImage();
 	waveform->update();
 
-	//connect(this, SIGNAL(sendTimers(QTime,QTime,QTime)), waveform, SLOT(setTimers(QTime,QTime,QTime)));
-
     connect(playButton, SIGNAL(released()), this, SLOT(pause()));
+	//connect(playBarButton, SIGNAL(clicked()), this, SLOT(playBar()));
     connect(stopButton, SIGNAL(released()), this, SLOT(stop()));
     connect(timer, SIGNAL(timeout()), this, SLOT(updateSlideBar()));
 	connect(playTimer, SIGNAL(timeout()), this, SLOT(sendTimeData()));
+
+	connect(this, SIGNAL(sigTimeData(QTime)), waveform, SLOT(setPlayerTimer(QTime)));
 
     connect(slideBar, SIGNAL(sliderMoved(int)), this, SLOT(changePosition(int)));
 

@@ -59,6 +59,7 @@ class Waveform : public QLabel
 		void setTimers(QTime, QTime, QTime);
 		void setTimer(int, QTime);
 		void activate();
+		void setPlayerTimer(QTime);
 
 		
 };

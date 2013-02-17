@@ -502,7 +502,6 @@ void ChordTableWidget::setTimeInfo(const QTime beginning, const QTime bar, const
 	{
 		for (int c = 0 ; c < cmax - 1 ; c ++)
 		{
-			qDebug() << r << c;
 			if(!warningShown && ((CaseItem*) item(r,c))->isTimerManuallySet())
 			{
                 modifyAllCases = (QMessageBox::question(this, tr("Before doing something wrong"), tr("Some timers have already been set manually. Do you want to reset them too?"), QMessageBox::Yes | QMessageBox::No)) == QMessageBox::Yes;
@@ -627,8 +626,7 @@ void ChordTableWidget::setLogicalTrack(LogicalTrack* track)
         // puis on remplit les accords de la partie
         chordsList = (*iPart)->getTrackChordsList();
         for(iChord = chordsList.begin(); iChord < chordsList.end() && i < imax; ++iChord)
-        {
-			qDebug() << (*iChord)->getChord() << (*iChord)->getRepetition();
+		{
 			for(int repetitions = 0; repetitions < (*iChord)->getRepetition(); repetitions++)
 			{
 				// on stocke le nom de l'accord
@@ -649,7 +647,6 @@ void ChordTableWidget::setLogicalTrack(LogicalTrack* track)
 					++i;
 				}
 
-				qDebug() << i << j;
 				currentCase = (CaseItem*) this->item(i, j);
 			}
         }

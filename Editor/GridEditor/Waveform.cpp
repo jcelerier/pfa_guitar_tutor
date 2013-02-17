@@ -100,13 +100,11 @@ void Waveform::display()
 	float tmp_end = (((float) s_end - (float) beg) / size);
 	int pos_end = tmp_end * m_width;
 
-	qDebug() << pos_end;
-
 	//dessin du graphe
-	for(unsigned int i = 0; i < m_width ; i++)
+	for( int i = 0; i < m_width ; i++)
 	{
 		value = abs(spectrum[i] / (int) pow(2, 19 - m_height/200));
-		for(unsigned int j = m_height / 2 - 1 - value; j < m_height / 2 + value; j++)
+		for( int j = m_height / 2 - 1 - value; j < m_height / 2 + value; j++)
 		{
 			if(s_beg > beg && s_end > s_beg)
 			{
@@ -322,4 +320,28 @@ void Waveform::setTimer(int type, QTime t)
 	}
 
 	update();
+}
+
+void Waveform::setPlayerTimer(QTime t)
+{
+	int s_pos = QTimeToSample(t);
+
+	int beg = ((SimpleMusicPlayer*) parent)->getWaveBegin();
+	int end = ((SimpleMusicPlayer*) parent)->getWaveEnd();
+	float size = end - beg; // nb de samples affichées
+
+	float tmp = (((float) s_pos - (float) beg) / size);
+	int pos_pixel = tmp * m_width;
+
+
+	if(beg < s_pos && s_pos < end)
+	{
+		update();
+		for(unsigned int j = 0; j < m_height; j++)
+		{
+			image->setPixel(pos_pixel, j, 0xFFD8FA32);
+		}
+
+	}
+	this->setPixmap(QPixmap::fromImage(*image));
 }
