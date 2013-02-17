@@ -24,3 +24,14 @@ QTime MsecToTime(int t)
 	int ms = t - m * 60000 - s * 1000;
 	return QTime(0, m, s, ms);
 }
+
+/**
+ * @brief QTimeToSample
+ * @param t un temps au format QTime
+ * @return un entier qui correspond à un nombre de samples à 44.1 khZ
+ */
+int QTimeToSample(QTime t)
+{
+	return (t.msec() + t.second() * 1000 + t.minute() * 60000) * 44.1;
+	//ugly, poller la sample rate de FMOD
+}

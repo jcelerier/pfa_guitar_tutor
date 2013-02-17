@@ -1,4 +1,5 @@
 #include "AudioSync.h"
+#include "Util.hpp"
 #include <QMessageBox>
 #include <QDebug>
 AudioSync::AudioSync()
@@ -7,7 +8,10 @@ AudioSync::AudioSync()
 	beginning = new QTimeEdit();
     end = new QTimeEdit();
     bar = new QTimeEdit();
+	bpm = new QSpinBox();
 
+	bpm->setMinimum(10);
+	bpm->setMaximum(250);
 	beginning->setDisplayFormat("m:ss:zzz");
     end->setDisplayFormat("m:ss:zzz");
     bar->setDisplayFormat("m:ss:zzz");
@@ -15,6 +19,7 @@ AudioSync::AudioSync()
     lbeginning = new QLabel(tr("Beginning"));
     lend = new QLabel(tr("End"));
     lbar = new QLabel(tr("Bar"));
+	lbpm = new QLabel(tr("BPM"));
     bbeginning = new QToolButton();
     bend = new QToolButton();
     bbar = new QToolButton();
@@ -45,6 +50,10 @@ AudioSync::AudioSync()
 
 
 	layout->addWidget(sendButton, 3, 0);
+
+	layout->addWidget(lbpm, 4, 0);
+	layout->addWidget(bpm, 4, 1);
+
     setLayout(layout);
 
     connect(bbeginning, SIGNAL(pressed()), this, SLOT(emitSignalTimer()));
@@ -54,6 +63,8 @@ AudioSync::AudioSync()
 	connect(beginning, SIGNAL(timeChanged(QTime)), this, SLOT(beginningChanged(QTime)));
 	connect(bar, SIGNAL(timeChanged(QTime)), this, SLOT(barChanged(QTime)));
 	connect(end, SIGNAL(timeChanged(QTime)), this, SLOT(endChanged(QTime)));
+
+	connect(bpm, SIGNAL(valueChanged(int)), this, SLOT(tempoChanged(int)));
 
 	connect(sendButton, SIGNAL(clicked()), this, SLOT(sendData()));
 }
@@ -101,12 +112,23 @@ void AudioSync::beginningChanged(QTime t)
 
 void AudioSync::barChanged(QTime t)
 {
+	int tempo = 240000 / (TimeToMsec(t) - TimeToMsec(beginning->time())) ;
+
+	if(tempo > 10 && tempo < 250 && tempo != bpm->value())
+		bpm->setValue(tempo);
+
 	emit sendTimer(TIMER_BAR, t);
 }
 
 void AudioSync::endChanged(QTime t)
 {
 	emit sendTimer(TIMER_END, t);
+}
+
+void AudioSync::tempoChanged(int tempo)
+{
+	QTime bar_time = MsecToTime(240000 / tempo + TimeToMsec(beginning->time()));
+	bar->setTime(bar_time);
 }
 
 void AudioSync::emitSignalTimer()

@@ -27,13 +27,10 @@ AudioWindow::AudioWindow(QWidget * parent)
 	connect(browseButton, SIGNAL(released()), this, SLOT(browseAudioFile()));
 	connect(player, SIGNAL(browseAudioFile()), this, SLOT(browseAudioFile()));
 	connect(player, SIGNAL(audioFileDeleted()), this, SLOT(resetAudioFile()));
+
 	connect(player, SIGNAL(sigTimeData(QTime)), parent, SIGNAL(sigTimeData(QTime)));
-
 	connect(audioSync, SIGNAL(refreshTimer(int)), this, SLOT(refreshTimerAudioSync(int)));
-
 	connect(audioSync, SIGNAL(sendTimers(QTime, QTime, QTime)), parent, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)));
-	connect(audioSync, SIGNAL(sendTimers(QTime,QTime,QTime)), waveform, SLOT(setTimers(QTime, QTime, QTime)));
-
 	connect(audioSync, SIGNAL(sendTimer(int,QTime)), waveform, SLOT(setTimer(int, QTime)));
 
 	connect(this, SIGNAL(waveFullZoom()), player, SLOT(waveFullZoom()));

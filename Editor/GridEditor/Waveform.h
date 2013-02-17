@@ -34,8 +34,6 @@ class Waveform : public QLabel
 
 	QPoint oldMousePos, clickPos;
 
-	static const uint green_color, darkgreen_color;
-
 	QTime l_begin, l_end, l_bar;
 
 
@@ -65,7 +63,6 @@ class Waveform : public QLabel
 	signals:
 		
 	public slots:
-		void setTimers(QTime, QTime, QTime);
 		void setTimer(int, QTime);
 		void activate();
 		void setPlayerTimer(QTime);

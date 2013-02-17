@@ -3,5 +3,6 @@
 
 #include <QTime>
 int TimeToMsec(QTime t);
+int QTimeToSample(QTime t);
 QTime MsecToTime(int t);
 #endif // UTIL_HPP

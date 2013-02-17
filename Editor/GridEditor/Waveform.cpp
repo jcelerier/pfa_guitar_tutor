@@ -2,13 +2,11 @@
 #include <QMouseEvent>
 #include "SimpleMusicPlayer.h"
 #include "AudioSync.h"
+#include "Util.hpp"
 #include <QPainter>
 #include <QPixmap>
 #include <cmath>
 #include <QDebug>
-
-const uint Waveform::green_color = 0xFF00FF00;
-const uint Waveform::darkgreen_color = 0xFF009900;
 
 Waveform::Waveform(QWidget *parent, int w, int h):
 	QLabel(parent),
@@ -20,13 +18,14 @@ Waveform::Waveform(QWidget *parent, int w, int h):
 	this->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
 
 	m_spectrum = new int[m_width];
+	m_pixmap = new QPixmap(m_width, m_height);
 
 	m_mainPen = new QPen(Qt::green , 2, Qt::SolidLine, Qt::RoundCap);
 	m_darkPen = new QPen(QBrush(0xFF009900), 2, Qt::SolidLine, Qt::RoundCap);
 	m_delimiterPen = new QPen(Qt::white , 2, Qt::SolidLine, Qt::RoundCap);
 	m_playerPen = new QPen(QBrush(0xFFD8FA32) , 2, Qt::SolidLine, Qt::RoundCap);
 
-	m_pixmap = new QPixmap(m_width, m_height);
+
 	m_painter = new QPainter(m_pixmap);
 	m_painter->setRenderHint( QPainter::HighQualityAntialiasing, true);
 	m_painter->setPen(*m_mainPen);
@@ -34,19 +33,18 @@ Waveform::Waveform(QWidget *parent, int w, int h):
 
 
 	this->setPixmap(*m_pixmap);
-
 	empty = true;
 }
 
 Waveform::~Waveform()
 {
+	m_painter->end();
 	delete m_pixmap;
 	delete m_mainPen;
 	delete m_darkPen;
 	delete m_delimiterPen;
 	delete m_playerPen;
 	delete m_painter;
-
 	delete m_spectrum;
 }
 
@@ -87,16 +85,7 @@ void Waveform::initImage()
 	m_painter->drawLine(0, m_height / 2 -1, m_width, m_height / 2 -1);
 }
 
-/**
- * @brief QTimeToSample
- * @param t un temps au format QTime
- * @return un entier qui correspond à un nombre de samples à 44.1 khZ
- */
-int QTimeToSample(QTime t)
-{
-	return (t.msec() + t.second() * 1000 + t.minute() * 60000) * 44.1;
-	//ugly, poller la sample rate de FMOD
-}
+
 
 /**
  * @brief SimpleMusicPlayer::displayGraph
@@ -280,23 +269,6 @@ void Waveform::mousePressEvent(QMouseEvent * event)
 	oldMousePos =  event->pos();
 }
 
-
-/**
- * @brief Waveform::setTimers
- * @param begin
- * @param bar
- * @param end
- *
- * Slot pour la réception des timers
- */
-void Waveform::setTimers(QTime begin, QTime bar, QTime end)
-{
-	l_begin = begin;
-	l_bar = bar;
-	l_end = end;
-
-	update();
-}
 
 int Waveform::getSampleBegin()
 {

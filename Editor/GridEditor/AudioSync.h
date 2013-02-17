@@ -2,6 +2,7 @@
 #define AUDIOSYNC_H
 
 #include <QWidget>
+#include <QtGui>
 #include <QGridLayout>
 #include <QTimeEdit>
 #include <QToolButton>
@@ -19,7 +20,8 @@ class AudioSync : public QWidget
     QGridLayout* layout;
     QTimeEdit *beginning, *end, *bar;
     QToolButton* bbeginning, *bend, *bbar;
-    QLabel *lbeginning, *lend, *lbar;
+	QLabel *lbeginning, *lend, *lbar, *lbpm;
+	QSpinBox *bpm;
 	QPushButton *sendButton;
 
 public:
@@ -39,6 +41,7 @@ private slots:
 	void beginningChanged(QTime);
 	void barChanged(QTime);
 	void endChanged(QTime);
+	void tempoChanged(int tempo);
 
 signals:
     void refreshTimer(int);
