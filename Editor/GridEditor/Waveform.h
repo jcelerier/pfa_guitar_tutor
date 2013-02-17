@@ -17,7 +17,7 @@ class Waveform : public QLabel
 	Q_OBJECT
 
 	bool empty;
-	QImage* m_image;
+
 	QPixmap* m_pixmap;
 	QPen* m_mainPen;
 	QPen* m_darkPen;
@@ -45,6 +45,7 @@ class Waveform : public QLabel
 
 	public:
 		explicit Waveform(QWidget *parent, int w, int h);
+		~Waveform();
 		void update();
 		void display();
 		void initImage();

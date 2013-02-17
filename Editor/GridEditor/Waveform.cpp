@@ -12,10 +12,10 @@ const uint Waveform::darkgreen_color = 0xFF009900;
 
 Waveform::Waveform(QWidget *parent, int w, int h):
 	QLabel(parent),
+	parent(parent),
 	m_previouslyPlayedPixel(0),
 	m_width(w),
-	m_height(h),
-	parent(parent)
+	m_height(h)
 {
 	this->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
 
@@ -38,6 +38,17 @@ Waveform::Waveform(QWidget *parent, int w, int h):
 	empty = true;
 }
 
+Waveform::~Waveform()
+{
+	delete m_pixmap;
+	delete m_mainPen;
+	delete m_darkPen;
+	delete m_delimiterPen;
+	delete m_playerPen;
+	delete m_painter;
+
+	delete m_spectrum;
+}
 
 // slideBar
 /**
@@ -335,17 +346,7 @@ void Waveform::setPlayerTimer(QTime t)
 	int end = ((SimpleMusicPlayer*) parent)->getWaveEnd();
 	float size = end - beg; // nb de samples affichées
 
-	int s_beg = QTimeToSample(l_begin);
-	int s_end = QTimeToSample(l_end);
-
-	float tmp_begin = (((float) s_beg - (float) beg) / size);
-	int pos_begin = tmp_begin * m_width;
-
-	float tmp_end = (((float) s_end - (float) beg) / size);
-	int pos_end = tmp_end * m_width;
-
-	float tmp = (((float) s_pos - (float) beg) / size);
-	int pos_pixel = tmp * m_width;
+	float pos_pixel = (((float) s_pos - (float) beg) / size) * m_width;
 
 	//vérifier si le timer est dans la zone visible
 	if(beg < s_pos && s_pos < end)
