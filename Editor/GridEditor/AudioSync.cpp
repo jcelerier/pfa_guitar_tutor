@@ -71,16 +71,24 @@ AudioSync::AudioSync()
 
 AudioSync::~AudioSync()
 {
+
+	delete bpm;
 	delete beginning;
     delete end;
     delete bar;
-    delete layout;
+
+	delete layout;
+
     delete bbeginning;
     delete bend;
     delete bbar;
+
+	delete lbpm;
     delete lend;
     delete lbeginning;
     delete lbar;
+
+
 }
 
 void AudioSync::activeButtons(bool active)
