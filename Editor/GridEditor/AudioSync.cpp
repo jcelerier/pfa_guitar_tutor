@@ -2,24 +2,24 @@
 #include "Util.hpp"
 #include <QMessageBox>
 #include <QDebug>
+
+
+
+
 AudioSync::AudioSync()
 {
     layout = new QGridLayout();
-	beginning = new QTimeEdit();
-    end = new QTimeEdit();
-    bar = new QTimeEdit();
+	beginning = new TimeEdit();
+	end = new TimeEdit();
+	bar = new TimeEdit();
 	bpm = new QSpinBox();
 
-	bpm->setMinimum(10);
-	bpm->setMaximum(250);
-	beginning->setDisplayFormat("m:ss:zzz");
-    end->setDisplayFormat("m:ss:zzz");
-    bar->setDisplayFormat("m:ss:zzz");
 
     lbeginning = new QLabel(tr("Beginning"));
     lend = new QLabel(tr("End"));
     lbar = new QLabel(tr("Bar"));
 	lbpm = new QLabel(tr("BPM"));
+
     bbeginning = new QToolButton();
     bend = new QToolButton();
     bbar = new QToolButton();
@@ -36,7 +36,15 @@ AudioSync::AudioSync()
 
     activeButtons(false);
 
-    layout->addWidget(lbeginning, 0, 0);
+	bpm->setMinimum(10);
+	bpm->setMaximum(250);
+	beginning->setDisplayFormat("m:ss:zzz");
+	end->setDisplayFormat("m:ss:zzz");
+	end->setBad();
+	bar->setDisplayFormat("m:ss:zzz");
+	bar->setBad();
+
+	layout->addWidget(lbeginning, 0, 0);
 	layout->addWidget(beginning, 0, 1);
     layout->addWidget(bbeginning, 0, 2);
 
@@ -96,6 +104,13 @@ void AudioSync::activeButtons(bool active)
 	beginning->setEnabled(active);
     end->setEnabled(active);
     bar->setEnabled(active);
+
+	if(active)
+	{
+		endChanged(end->time());
+		beginningChanged(beginning->time());
+		barChanged(bar->time());
+	}
 }
 
 void AudioSync::setBegginingTimer(const QTime t)
@@ -115,27 +130,66 @@ void AudioSync::setBarTimer(const QTime t)
 
 void AudioSync::beginningChanged(QTime t)
 {
+	checkTimes();
 	emit sendTimer(TIMER_BEGINNING, t);
 }
 
 void AudioSync::barChanged(QTime t)
 {
-	int tempo = 240000 / (TimeToMsec(t) - TimeToMsec(beginning->time())) ;
+	checkTimes();
+	int tps = TimeToMsec(t) - TimeToMsec(beginning->time());
+	if(tps > 0)
+	{
+		int tempo = 240000 / tps ;
 
-	if(tempo > 10 && tempo < 250 && tempo != bpm->value())
-		bpm->setValue(tempo);
+		if(tempo > 10 && tempo < 250 && tempo != bpm->value())
+			bpm->setValue(tempo);
+	}
+
 
 	emit sendTimer(TIMER_BAR, t);
 }
 
 void AudioSync::endChanged(QTime t)
 {
+	checkTimes();
 	emit sendTimer(TIMER_END, t);
 }
+
+/**
+ * @brief AudioSync::checkTimes
+ *
+ * On doit avoir à tout instant beginning < bar < end
+ */
+void AudioSync::checkTimes()
+{
+	long long tps = TimeToMsec(end->time()) - TimeToMsec(beginning->time());
+	if(tps > 0)
+	{
+		end->setGood();
+	}
+	else
+	{
+		end->setBad();
+	}
+
+	long long tps1 = TimeToMsec(end->time()) - TimeToMsec(bar->time());
+	long long tps2 = TimeToMsec(bar->time()) - TimeToMsec(beginning->time());
+	if(tps1 > 0 && tps2 > 0)
+	{
+		bar->setGood();
+	}
+	else
+	{
+		bar->setBad();
+	}
+}
+
 
 void AudioSync::tempoChanged(int tempo)
 {
 	QTime bar_time = MsecToTime(240000 / tempo + TimeToMsec(beginning->time()));
+
 	bar->setTime(bar_time);
 }
 

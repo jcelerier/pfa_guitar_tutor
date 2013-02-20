@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QtGui>
 #include <QGridLayout>
-#include <QTimeEdit>
+#include "TimeEdit.h"
 #include <QToolButton>
 #include <QPushButton>
 #include <QTime>
@@ -13,12 +13,14 @@
 #define TIMER_END       1
 #define TIMER_BAR       2
 
+class TimeEdit;
+
 class AudioSync : public QWidget
 {
     Q_OBJECT
 
     QGridLayout* layout;
-    QTimeEdit *beginning, *end, *bar;
+	TimeEdit *beginning, *end, *bar;
     QToolButton* bbeginning, *bend, *bbar;
 	QLabel *lbeginning, *lend, *lbar, *lbpm;
 	QSpinBox *bpm;
@@ -32,6 +34,7 @@ public:
     void setBarTimer(const QTime);
     void setBegginingTimer(const QTime);
     void setEndTimer(const QTime);
+	void checkTimes();
 
 public slots:
 	void sendData();
