@@ -221,16 +221,24 @@ QList<int> ChordTableWidget::expand_list(QList<QList<int>*> list) {
  *
  * Copie les lignes actuellement sélectionnées et les insère dans la grille.
  */
-void ChordTableWidget::copy_down_rows() {
-    if (is_row_selected()) {
+void ChordTableWidget::copy_down_rows()
+{
+	if (is_row_selected())
+	{
         QList<QList<int>*> ranges = rows_selected();
         int count = 0;
         QList<int>::Iterator i;
-        for (QList<QList<int>*>::Iterator it = ranges.begin() ; it != ranges.end() ; it ++) {
-            for (i = (**it).begin(), count = 1 ; i != (**it).end() ; i ++, count ++) {
+		QList<QList<int>*>::Iterator it;
+
+		for (it = ranges.begin() ; it != ranges.end() ; it ++)
+		{
+			for (i = (**it).begin(), count = 1 ; i != (**it).end() ; i ++, count ++)
+			{
                 insert_row((**it).last() + count);
                 for (int c = 0 ; c < this->columnCount() ; c ++)
+				{
                     this->setItem((**it).last() + count, c, this->item(*i, c)->clone());
+				}
             }
         }
     }

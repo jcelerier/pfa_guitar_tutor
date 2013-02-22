@@ -57,7 +57,7 @@ friend class EditionSelector;
     QToolBar *toolBar;
     QAction *quitAction, *aboutAction, *newAction, *saveAction, *helpAction,
             *openAction, *addRowAction, *deleteRowAction, *saveAsAction,
-            *copyDownAction, *renameAction, *addColumnAction,
+			*copyDownAction, *addColumnAction,
 			*deleteColumnAction, *openAudioWindowAction, *openTrackPropertiesAction;
     EditionSelector *editionSelector;
 	EditorPanel *editorPanel;
@@ -81,9 +81,7 @@ private:
     void setActionsToMenu();
     void createToolbar();
     void createCentralWidget();
-    void connectActionToSlot();
-    void buildChordTree();
-    QTreeWidgetItem* buildChord(const QString tonality);
+	void connectActionToSlot();
     bool saveBeforeQuit();
 
 signals:

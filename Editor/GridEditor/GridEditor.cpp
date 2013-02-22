@@ -49,7 +49,7 @@ GridEditor::GridEditor()
  */
 GridEditor::~GridEditor() {
     delete openAction; delete saveAction; delete addRowAction; delete copyDownAction; delete deleteRowAction; delete saveAsAction;
-	delete quitAction; delete aboutAction; delete newAction; delete renameAction; delete openAudioWindowAction;
+	delete quitAction; delete aboutAction; delete newAction;  delete openAudioWindowAction;
 	delete openTrackPropertiesAction; delete addColumnAction; delete deleteColumnAction; delete helpAction; //peut être faire un dictionnaire d'actions qu'on puisse appeler par leur nom.
 	//ex. : actions["new"];
     delete fileMenu; delete editMenu;  delete aboutMenu;
@@ -100,7 +100,6 @@ void GridEditor::createActions(){
 	addColumnAction = new QAction(tr("Add column"), this);
 	deleteColumnAction = new QAction(tr("Delete column"), this);
 	copyDownAction = new QAction(tr("&Copy down"), this);
-	renameAction = new QAction(tr("Rename"), this);
 	openAudioWindowAction = new QAction(tr("Audio"), this);
 	openTrackPropertiesAction = new QAction(tr("Properties"), this);
 	helpAction = new QAction(tr("&Help"), this);
@@ -123,7 +122,6 @@ void GridEditor::createActions(){
 	addRowAction->setEnabled(false);
 	addColumnAction->setEnabled(false);
 	deleteColumnAction->setEnabled(false);
-	renameAction->setEnabled(false);
 	openAudioWindowAction->setEnabled(false);
 	openTrackPropertiesAction->setEnabled(false);
 
@@ -226,7 +224,6 @@ void GridEditor::createGrid(int columns, int rows)
 	saveAsAction->setEnabled(true);
 	addRowAction->setEnabled(true);
 	addColumnAction->setEnabled(true);
-	renameAction->setEnabled(true);
 	openAudioWindowAction->setEnabled(true);
 	openTrackPropertiesAction->setEnabled(true);
 	deleteRowAction->setEnabled(true);
@@ -261,7 +258,6 @@ void GridEditor::connectActionToSlot()
 	connect(this, SIGNAL(propsChanged()), this, SLOT(setStatusText()));
 
 	connect(newAction, SIGNAL(triggered()), this, SLOT(newGrid()));
-	connect(renameAction, SIGNAL(triggered()), this, SLOT(rename()));
 	connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
 	connect(saveAsAction, SIGNAL(triggered()), this, SLOT(toXML()));
 	connect(saveAction, SIGNAL(triggered()), this, SLOT(save()));
