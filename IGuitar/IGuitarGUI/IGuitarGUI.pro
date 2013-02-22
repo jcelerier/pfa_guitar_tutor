@@ -24,12 +24,10 @@ HEADERS += RenderArea.hpp \
     SongSelection.hpp \
     Configuration.h \
     PlayerScene.h \
-    config.h \
     entiresong.h \
     myView.h \
     menuitem.h \
     buttonitem.h \
-    Bridge.h \
     playerchord.h \
     Controler.hpp
 
@@ -38,12 +36,10 @@ SOURCES += main.cpp RenderArea.cpp \
     SongSelection.cpp \
     Configuration.cpp \
     PlayerScene.cpp \
-    config.cpp \
     entiresong.cpp \
     myView.cpp \
     menuitem.cpp \
     buttonitem.cpp \
-    Bridge.cpp \
     playerchord.cpp \
     Controler.cpp
 

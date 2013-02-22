@@ -9,7 +9,7 @@ MenuItem::MenuItem(QGraphicsItem *parent) :
     rect = new QGraphicsRectItem(this);
 
     // Hide fond modal
-    rect->setRect(0, 0, Config::originalWidth, Config::originalHeight);
+    rect->setRect(0, 0, Configuration::originalWidth, Configuration::originalHeight);
 
     QBrush hidingBrush(Qt::black);
     rect->setBrush(hidingBrush);
@@ -18,7 +18,7 @@ MenuItem::MenuItem(QGraphicsItem *parent) :
     rect->setPanelModality(QGraphicsItem::SceneModal);
 
     QGraphicsRectItem* menuBack = new QGraphicsRectItem(rect);
-    menuBack->setRect(Config::originalWidth/2-width/2, Config::originalHeight/2-width/2, width, height);
+    menuBack->setRect(Configuration::originalWidth/2-width/2, Configuration::originalHeight/2-width/2, width, height);
 
     QBrush backBrush(QColor(11,41,116));
     QPen borderPen(Qt::black, 6);
@@ -71,6 +71,6 @@ void MenuItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 }
 
 QRectF MenuItem::boundingRect() const {
-    return Config::getWindowSize();
+    return Configuration::getWindowSize();
 
 }

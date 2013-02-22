@@ -7,7 +7,7 @@
 
 PlayerScene::PlayerScene(QObject *parent) :
     QGraphicsScene(parent),
-    windowSize(Config::getWindowSize()),
+    windowSize(Configuration::getWindowSize()),
     framesPerSecond(40),
     playing(false)
 {

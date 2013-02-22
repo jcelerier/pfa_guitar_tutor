@@ -2,7 +2,6 @@
 #define ENTIRESONG_H
 
 #include <QGraphicsItem>
-#include <Bridge.h>
 
 class Controler;
 
@@ -15,7 +14,6 @@ public:
     void nextChord();
     virtual void advance ( int );
 private:
-    Bridge bridge;
     QList<QGraphicsRectItem*> cList;
     int currentChord;
     int lastRefresh;

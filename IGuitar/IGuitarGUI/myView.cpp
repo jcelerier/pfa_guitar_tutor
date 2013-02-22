@@ -1,12 +1,11 @@
 #include "myView.h"
-#include "config.h"
 
 myView::myView(QGraphicsScene * scene, QWidget * parent) :
     QGraphicsView(scene, parent)
 {
-    centerOn(Config::originalWidth/2, Config::originalHeight/2);
-    scale(Config::quotient, Config::quotient);
-    setSceneRect(0, 0, Config::originalWidth-20, Config::originalHeight-20);
+    centerOn(Configuration::originalWidth/2, Configuration::originalHeight/2);
+    scale(Configuration::quotient, Configuration::quotient);
+    setSceneRect(0, 0, Configuration::originalWidth-20, Configuration::originalHeight-20);
     //setSceneRect(Config::getWindowSize());
     //setFixedSize(Config::getWindowSize().size());
 

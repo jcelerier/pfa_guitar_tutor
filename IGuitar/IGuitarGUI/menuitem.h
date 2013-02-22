@@ -3,7 +3,7 @@
 
 #include <QGraphicsRectItem>
 #include "buttonitem.h"
-#include "config.h"
+#include "Configuration.h"
 
 class MenuItem : public QGraphicsObject
 {

@@ -3,6 +3,8 @@
 
 #include <QtGui>
 
+#include "Configuration.h"
+
 class myView : public QGraphicsView
 {
     Q_OBJECT

@@ -24,16 +24,18 @@ class Configuration
 
         static QRect getWindowSize();
 
-	private:
-		QString m_currentSongName;
-		QString m_audioInput;
-		QString m_audioOutput;
-
         static float quotient;
         static int height;
         static int width;
         static int const originalWidth=ORIGINAL_WIDTH;
         static int const originalHeight=ORIGINAL_HEIGHT;
+
+	private:
+		QString m_currentSongName;
+		QString m_audioInput;
+		QString m_audioOutput;
+
+
 
 };
 
