@@ -27,8 +27,11 @@ HEADERS += RenderArea.hpp \
     PlayerScene.h \
     config.h \
     entiresong.h \
-    myitem.h \
-    myView.h
+    myView.h \
+    menuitem.h \
+    buttonitem.h \
+    Bridge.h \
+    playerchord.h
 
 SOURCES += main.cpp RenderArea.cpp \
     audioconfiguration.cpp \
@@ -38,8 +41,11 @@ SOURCES += main.cpp RenderArea.cpp \
     PlayerScene.cpp \
     config.cpp \
     entiresong.cpp \
-    myitem.cpp \
-    myView.cpp
+    myView.cpp \
+    menuitem.cpp \
+    buttonitem.cpp \
+    Bridge.cpp \
+    playerchord.cpp
 
 FORMS += \
     audioconfiguration.ui \

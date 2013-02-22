@@ -11,6 +11,8 @@ public:
     static float quotient;
     static int height;
     static int width;
+    static int const originalHeight=1080;
+    static int const originalWidth=1920;
 
     Config();
     static QRect getWindowSize();

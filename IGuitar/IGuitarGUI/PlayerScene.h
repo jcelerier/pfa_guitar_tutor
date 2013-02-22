@@ -4,13 +4,14 @@
 #include <QGraphicsScene>
 #include <QtGui>
 #include <QMap>
+#include <Bridge.h>
 
 class PlayerScene : public QGraphicsScene
 {
     Q_OBJECT
 
 public:
-    PlayerScene(QWidget *parent = 0);
+    explicit PlayerScene(QObject *parent = 0);
     void mousePressEvent(QGraphicsSceneMouseEvent*);
     QGraphicsItem* getItem(QString);
     
@@ -25,10 +26,12 @@ private:
     QMap <QString, QGraphicsItem*> itemMap;
     int framesPerSecond;
     bool playing;
-    QWidget *parent;
+    Bridge bridge;
 
     void disposeScene();
+public slots:
     void switchPlaying();
+    void switchMenu();
 };
 
 #endif // MYSCENE_H

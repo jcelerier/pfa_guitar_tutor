@@ -4,9 +4,9 @@
 myView::myView(QGraphicsScene * scene, QWidget * parent) :
     QGraphicsView(scene, parent)
 {
-    centerOn(960,540);
+    centerOn(Config::originalWidth/2, Config::originalHeight/2);
     scale(Config::quotient, Config::quotient);
-    setSceneRect(0, 0, 1900, 1060);
+    setSceneRect(0, 0, Config::originalWidth-20, Config::originalHeight-20);
     //setSceneRect(Config::getWindowSize());
     //setFixedSize(Config::getWindowSize().size());
 
@@ -15,7 +15,8 @@ myView::myView(QGraphicsScene * scene, QWidget * parent) :
 
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setRenderHint(QPainter::Antialiasing, true);
+    setRenderHints(QPainter::Antialiasing);
+    //setRenderHint(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
 
     showFullScreen();
 }
