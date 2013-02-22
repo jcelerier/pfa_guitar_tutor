@@ -17,6 +17,7 @@ Last change on 08/05/12
 #include "CaseItem.h"
 #include "PartSetter.h"
 #include "Track/LogicalTrack.h"
+
 /**
  * @brief Grille d'accords
  */

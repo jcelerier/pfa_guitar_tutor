@@ -101,6 +101,7 @@ bool SimpleMusicPlayer::setAudioFile(QString file)
     if(file == ""){
         return false;
     }
+
     if(!player->setSong(file)) {
         QMessageBox::information(this, tr("So sorry..."), QString(tr("Impossible to open the file ") + file));
         return false;

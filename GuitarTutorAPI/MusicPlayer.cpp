@@ -14,7 +14,7 @@
 MusicPlayer::MusicPlayer()
 {
     FMOD_System_Create(&system);
-    FMOD_System_Init(system, 1, FMOD_INIT_NORMAL, NULL);
+	FMOD_System_Init(system, 4, FMOD_INIT_NORMAL, NULL);
     state = false;
 }
 
@@ -98,11 +98,15 @@ void MusicPlayer::stop()
  */
 bool MusicPlayer::setSong(QString song)
 {
-    const char* tmp = song.toStdString().c_str();
-	FMOD_RESULT result = FMOD_System_CreateSound(system, tmp, FMOD_SOFTWARE | FMOD_2D | FMOD_CREATESAMPLE, 0, &music);
+	//à garder pour convertir en string C
+	QByteArray   ar = song.toAscii();
+	const char * tmp = ar.constData();
+
+	FMOD_RESULT result = FMOD_System_CreateSound(system, tmp, FMOD_SOFTWARE | FMOD_2D | FMOD_UNICODE | FMOD_CREATESAMPLE, 0, &music);
 
     if (result != FMOD_OK) {
         state = false;
+		qDebug() << FMOD_ErrorString(result);
         return false;
     }
     this->song = song;

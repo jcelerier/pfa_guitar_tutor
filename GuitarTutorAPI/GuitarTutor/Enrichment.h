@@ -24,13 +24,6 @@ enum e_Enrichment { MAJ, MIN, AUG, DIM, SUS2, SUS4, B5, SIX, SEPT, NEUF, ONZE, T
 /**
  * @brief Objet enrichissement pour définir la forme d'un accord
  */
-/*
-#ifdef STATIC_BUILD
-#define GUITARTUTORAPISHARED_EXPORT
-#else
-#define GUITARTUTORAPISHARED_EXPORT QDESIGNER_WIDGET_EXPORT
-#endif*/
-
 class Enrichment : public QList<e_Enrichment>
 {
 	public:
