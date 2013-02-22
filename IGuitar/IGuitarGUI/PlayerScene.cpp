@@ -51,13 +51,13 @@ void PlayerScene::disposeScene()
     itemMap["songTitle"] = addText("a", robotoFont);
     itemMap["songTitle"]->setPos(200, 65);
     ((QGraphicsTextItem*)itemMap["songTitle"])->setTextWidth(520);
-    ((QGraphicsTextItem*)itemMap["songTitle"])->setHtml("<p align=\"center\">FreeBird</p>");
+    ((QGraphicsTextItem*)itemMap["songTitle"])->setHtml("<p align=\"center\">"+controler->track->getTrackName()+"</p>");
 
     // Artiste de la chanson
     itemMap["songArtist"] = addText("a", robotoFont);
     itemMap["songArtist"]->setPos(200, 115);
     ((QGraphicsTextItem*)itemMap["songArtist"])->setTextWidth(520);
-    ((QGraphicsTextItem*)itemMap["songArtist"])->setHtml("<p align=\"center\">Lynyrd Skynyrd</p>");
+    ((QGraphicsTextItem*)itemMap["songArtist"])->setHtml("<p align=\"center\">"+controler->track->getArtist()+"</p>");
 
     // Couverture d'album
     QPixmap albumImage("noalbum.png");

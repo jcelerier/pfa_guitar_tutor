@@ -34,17 +34,17 @@ Controler::Controler()
         chordList.append(*tempChord);
     }
 
-    m_mustPlay = true;
+    m_mustPlay = false;
     m_mustStop = false;
-    m_playMuted = false;
+    m_playing = false;
 
-    m_scoreManager = NULL;
+    initSong();
 
     m_scene = new PlayerScene(this);
     m_view = new myView(m_scene);
 
     m_view->show(); // Que se passe-t-il apres le show ?
-    timeOut();      // timeOut est il execute ?
+         // timeOut est il execute ?
 
 
 }
@@ -59,7 +59,6 @@ Controler::Controler()
 void Controler::playScore(bool mute)
 {
 
-	m_playMuted = mute;
 	m_mustPlay = true;
 
 }
@@ -73,50 +72,66 @@ void Controler::stopScore()
 	m_mustStop = true;
 }
 
+void Controler::initSong() {
 
-// cette fonction m'a l'air vraiment sale...
-void Controler::timeOut()
-{
-	if (m_mustPlay)
-	{
-		m_mustPlay = false;
+    track = new LogicalTrack();
+    m_scoreManager = NULL;
 
-		std::map<std::string, std::string> multiTracksMap;
-		std::vector<std::string> muteTracks;
+    std::map<std::string, std::string> multiTracksMap;
+    std::vector<std::string> muteTracks;
 
-		if (m_playMuted) {
-			muteTracks.push_back("all");
-		}
+    /*if (m_playMuted) {
+        muteTracks.push_back("all");
+    }*/
 
-        QString path;
-        path = "Tracks/BeatlesDayInTheLife/Beatles.xml";
+    QString path;
+    path = "Tracks/BeatlesDayInTheLife/Beatles.xml";
 
-		multiTracksMap["all"] =  "Tracks/BeatlesDayInTheLife/AllTracks.wav";
+    multiTracksMap["all"] =  "Tracks/BeatlesDayInTheLife/AllTracks.wav";
 
-		MusicManager* musicManager = new MusicManager(multiTracksMap, muteTracks);
-		m_scoreManager = new ScoreManager(musicManager);
+    MusicManager* musicManager = new MusicManager(multiTracksMap, muteTracks);
+    m_scoreManager = new ScoreManager(musicManager);
 
 
-         m_scoreManager->loadScore("Tracks/BeatlesDayInTheLife/Guitar.txt");
+    m_scoreManager->loadScore("Tracks/BeatlesDayInTheLife/Guitar.txt");
 
 //		LogicalTrack *tr = new LogicalTrack();
 //		TrackLoader::convertXmlToLogicalTrack("Tracks/BeatlesDayInTheLife/test.xml", tr);
 //		m_scoreManager->loadScore(tr);
 
-        LogicalTrack *tr = new LogicalTrack();
-		qDebug() << path;
-		TrackLoader::convertXmlToLogicalTrack(path, tr);
 
-		m_scoreManager->loadScore(tr);
-		m_scoreManager->run();
+    qDebug() << path;
+    TrackLoader::convertXmlToLogicalTrack(path, track);
 
-		// nécessaire pour pas que ça crash, pourquoi ? (jm)
-		usleep(100000);
+    m_scoreManager->loadScore(track);
+}
 
-		m_scoreManager->setNextPart("[VERSE1]");
-		m_renderAreas.changeButtonMode(false);
-	}
+void Controler::startSong() {
+    m_scoreManager->run();
 
+    // nécessaire pour pas que ça crash, pourquoi ? (jm)
+    usleep(100000);
+
+    m_scoreManager->setNextPart("[VERSE1]");
+    //m_renderAreas.changeButtonMode(false);
+}
+
+void Controler::stopSong() {
+    m_mustStop = false;
+
+    if (m_scoreManager != NULL)
+    {
+
+        m_scoreManager->stop();
+        m_scoreManager = NULL;
+
+        //m_renderAreas.changeButtonMode(true);
+    }
+}
+
+// cette fonction m'a l'air vraiment sale...
+void Controler::timeOut()
+{
 	if (m_scoreManager != NULL)
 	{
 		prioritizedScore currentScore;
@@ -130,25 +145,11 @@ void Controler::timeOut()
 			m_scoreManager->setToNaturalNextPart();
 		}
 
-		m_renderAreas.drawScore(currentScore,
+        /*m_renderAreas.drawScore(currentScore,
 								m_scoreManager->getCurrentChord(),
 								m_scoreManager->getCurrentPart(),
 								m_scoreManager->getNextPart(),
-								mustGoToTheNextPart);
-	}
-
-	if (m_mustStop)
-	{
-		m_mustStop = false;
-
-		if (m_scoreManager != NULL)
-		{
-
-			m_scoreManager->stop();
-			m_scoreManager = NULL;
-
-			m_renderAreas.changeButtonMode(true);
-		}
+                                mustGoToTheNextPart);*/
 	}
 
 }
@@ -165,23 +166,6 @@ Controler::initListeners()
 
 }
 
-QList<QString> Controler::getChordList() //TODO
-{
-    QList<QString> chordList;
-    for(int i=0; i<10; i++) {
-        chordList.append("A");
-    }
-    //return m_scoreManager->chordList();
-    return chordList;
-}
-
-QString Controler::getChords() //TODO
-{
-    //return m_scoreManager->chords();
-    return "G D B F F G H G D B F F G H G D B F F G H G D B F F G H G D B F F G H G D B F F G H G D B F F G H G D B F F G H";
-}
-
-
 // amoi
 
 int Controler::elapsedTime() {
@@ -189,7 +173,16 @@ int Controler::elapsedTime() {
 }
 
 void Controler::startClock() {
-    globalClock.start();
+    if(!m_playing) {
+        startSong();
+        globalClock.start();
+        m_playing=true;
+    }
+    else {
+        stopSong();
+        m_playing=false;
+        initSong();
+    }
 }
 
 void Controler::pauseClock() {

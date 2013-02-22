@@ -27,15 +27,13 @@ public:
     void playScore(bool mute);
     void stopScore();
 
-    QList<QString> getChordList(); //TODO
-    QString getChords(); //TODO
-
     // amoi
     int elapsedTime();
     void startClock();
     void pauseClock();
     QList<PlayerChord> chordList;
     int test;
+    LogicalTrack *track;
 
 protected:
     virtual void timeOut();
@@ -45,13 +43,15 @@ protected slots:
 
 private:
     void initListeners();
+    void initSong();
+    void startSong();
+    void stopSong();
 
     ScoreManager* m_scoreManager;
-    RenderArea m_renderAreas;
 
     bool m_mustPlay;
     bool m_mustStop;
-    bool m_playMuted;
+    bool m_playing;
     QWidget * parent;
     QTimer *m_timer;
     PlayerScene *m_scene;
