@@ -1,4 +1,4 @@
-#include "MainWidget.hpp"
+#include "Controler.hpp"
 
 #include <QFrame>
 #include <QHBoxLayout>
@@ -12,7 +12,7 @@
   *
   *Destructeur par défaut
   */
-MainWidget::~MainWidget()
+Controler::~Controler()
 {
 }
 
@@ -21,8 +21,19 @@ MainWidget::~MainWidget()
   *
   * Constructeur
   */
-MainWidget::MainWidget()
+Controler::Controler()
 {
+    clockOffset = 0;
+
+    PlayerChord* tempChord;
+
+    for(int i=0; i<10; i++) {
+        tempChord = new PlayerChord();
+        tempChord->name = "A";
+        tempChord->time = i * 1000;
+        chordList.append(*tempChord);
+    }
+
     m_mustPlay = true;
     m_mustStop = false;
     m_playMuted = false;
@@ -32,8 +43,10 @@ MainWidget::MainWidget()
     m_scene = new PlayerScene(this);
     m_view = new myView(m_scene);
 
-    m_view->show();
-    timeOut();
+    m_view->show(); // Que se passe-t-il apres le show ?
+    timeOut();      // timeOut est il execute ?
+
+
 }
 
 /**
@@ -43,7 +56,7 @@ MainWidget::MainWidget()
   *
   */
 
-void MainWidget::playScore(bool mute)
+void Controler::playScore(bool mute)
 {
 
 	m_playMuted = mute;
@@ -55,14 +68,14 @@ void MainWidget::playScore(bool mute)
   *
   *
   */
-void MainWidget::stopScore()
+void Controler::stopScore()
 {
 	m_mustStop = true;
 }
 
 
 // cette fonction m'a l'air vraiment sale...
-void MainWidget::timeOut()
+void Controler::timeOut()
 {
 	if (m_mustPlay)
 	{
@@ -141,18 +154,18 @@ void MainWidget::timeOut()
 }
 
 
-void MainWidget::timeOutSlot()
+void Controler::timeOutSlot()
 {
 	timeOut();
 }
 
 void
-MainWidget::initListeners()
+Controler::initListeners()
 {
 
 }
 
-QList<QString> MainWidget::getChordList() //TODO
+QList<QString> Controler::getChordList() //TODO
 {
     QList<QString> chordList;
     for(int i=0; i<10; i++) {
@@ -162,8 +175,23 @@ QList<QString> MainWidget::getChordList() //TODO
     return chordList;
 }
 
-QString MainWidget::getChords() //TODO
+QString Controler::getChords() //TODO
 {
     //return m_scoreManager->chords();
     return "G D B F F G H G D B F F G H G D B F F G H G D B F F G H G D B F F G H G D B F F G H G D B F F G H G D B F F G H";
+}
+
+
+// amoi
+
+int Controler::elapsedTime() {
+    return clockOffset + globalClock.elapsed();
+}
+
+void Controler::startClock() {
+    globalClock.start();
+}
+
+void Controler::pauseClock() {
+    clockOffset += globalClock.elapsed();
 }

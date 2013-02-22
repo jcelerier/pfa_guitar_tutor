@@ -1,12 +1,12 @@
 #include <QApplication>
-#include "MainWidget.hpp"
+#include "Controler.hpp"
 
 
 
 int main(int argc, char *argv[]){
   QApplication app(argc, argv);
 
-  new MainWidget();
+  new Controler();
 
   return app.exec();
 }

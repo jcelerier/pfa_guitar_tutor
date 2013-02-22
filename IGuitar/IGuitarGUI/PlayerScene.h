@@ -4,7 +4,13 @@
 #include <QGraphicsScene>
 #include <QtGui>
 #include <QMap>
-#include <Bridge.h>
+#include "Bridge.h"
+#include "buttonitem.h"
+#include "menuitem.h"
+#include "entiresong.h"
+#include "config.h"
+
+class Controler;
 
 class PlayerScene : public QGraphicsScene
 {
@@ -27,6 +33,8 @@ private:
     int framesPerSecond;
     bool playing;
     Bridge bridge;
+
+    Controler* controler;
 
     void disposeScene();
 public slots:

@@ -1,8 +1,5 @@
 #include "PlayerScene.h"
-#include "buttonitem.h"
-#include "menuitem.h"
-#include "entiresong.h"
-#include "config.h"
+#include "Controler.hpp"
 
 /* Scene principale du player
  */
@@ -14,6 +11,7 @@ PlayerScene::PlayerScene(QObject *parent) :
     framesPerSecond(40),
     playing(false)
 {
+    controler = (Controler*)parent;
     disposeScene();
     QTimer *t_Timer = new QTimer(this);
     connect(t_Timer, SIGNAL(timeout()), this, SLOT(updateScene()));
@@ -101,7 +99,7 @@ void PlayerScene::mousePressEvent(QGraphicsSceneMouseEvent*e)
 void PlayerScene::switchPlaying()
 {
     playing = !playing;
-    Bridge::startClock();
+    controler->startClock();
 }
 
 void PlayerScene::switchMenu()

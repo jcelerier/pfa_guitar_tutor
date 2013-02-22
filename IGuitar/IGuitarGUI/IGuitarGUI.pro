@@ -21,7 +21,6 @@ CONFIG += rtti
 # Input
 HEADERS += RenderArea.hpp \
     audioconfiguration.h \
-    MainWidget.hpp \
     SongSelection.hpp \
     Configuration.h \
     PlayerScene.h \
@@ -31,11 +30,11 @@ HEADERS += RenderArea.hpp \
     menuitem.h \
     buttonitem.h \
     Bridge.h \
-    playerchord.h
+    playerchord.h \
+    Controler.hpp
 
 SOURCES += main.cpp RenderArea.cpp \
     audioconfiguration.cpp \
-    MainWidget.cpp \
     SongSelection.cpp \
     Configuration.cpp \
     PlayerScene.cpp \
@@ -45,7 +44,8 @@ SOURCES += main.cpp RenderArea.cpp \
     menuitem.cpp \
     buttonitem.cpp \
     Bridge.cpp \
-    playerchord.cpp
+    playerchord.cpp \
+    Controler.cpp
 
 FORMS += \
     audioconfiguration.ui \

@@ -4,6 +4,8 @@
 #include <QGraphicsItem>
 #include <Bridge.h>
 
+class Controler;
+
 class EntireSong : public QGraphicsItem
 {
 public:
@@ -12,18 +14,17 @@ public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
     void nextChord();
     virtual void advance ( int );
-signals:
-    
-public slots:
 private:
     Bridge bridge;
     QList<QGraphicsRectItem*> cList;
     int currentChord;
-    int time;
+    int lastRefresh;
     QGraphicsItemGroup* scrollingTextContainer;
     QGraphicsTextItem* timeText;
 
     float pixPerMsec;
+
+    Controler* controler;
     
 };
 

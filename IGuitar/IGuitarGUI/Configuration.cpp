@@ -1,10 +1,20 @@
 #include "Configuration.h"
 #include <QDebug>
 
+int Configuration::width = 1366;
+int Configuration::height = 768;
+float Configuration::quotient = float(Configuration::height)/float(Configuration::originalHeight); // L'image de base est de hauteur 1080, pour mise a l'echelle
+
 Configuration::Configuration()
 {
 
 }
+
+QRect Configuration::getWindowSize()
+{
+    return QRect(0, 0, Configuration::width, Configuration::height);
+}
+
 
 void Configuration::setSongName(QString songName)
 {

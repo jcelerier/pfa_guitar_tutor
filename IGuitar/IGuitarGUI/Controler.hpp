@@ -1,5 +1,5 @@
-#ifndef MAINWIDGET_HPP
-#define MAINWIDGET_HPP
+#ifndef CONTROLER_HPP
+#define CONTROLER_HPP
 
 #include <QString>
 
@@ -10,26 +10,33 @@
 #include "PlayerScene.h"
 #include "myView.h"
 #include "RenderArea.hpp"
+#include "playerchord.h"
 #include "audioconfiguration.h"
 #define PERCENT_OF_CORRECT_NOTES_TO_GO_TO_NEXT_PART 50.0
 #define CHORDS_IMAGES_LOCATION "./chordsImg"
 
-class QTimer;
 
-class MainWidget : public QWidget {
+class Controler : public QObject {
 
     Q_OBJECT
 
 public:
-    MainWidget();
-    ~MainWidget();
+    Controler();
+    ~Controler();
 
     void playScore(bool mute);
     void stopScore();
 
-
     QList<QString> getChordList(); //TODO
     QString getChords(); //TODO
+
+    // amoi
+    int elapsedTime();
+    void startClock();
+    void pauseClock();
+    QList<PlayerChord> chordList;
+    int test;
+
 protected:
     virtual void timeOut();
 
@@ -49,6 +56,14 @@ private:
     QTimer *m_timer;
     PlayerScene *m_scene;
     myView *m_view;
+
+    // amoi
+
+    QTime globalClock;
+    int clockOffset;
+
+
+
 };
 
 #endif /* MAINWINDOW_HPP */

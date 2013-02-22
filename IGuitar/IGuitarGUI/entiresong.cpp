@@ -1,10 +1,16 @@
 #include "entiresong.h"
+#include "Controler.hpp"
+
+#define PIXEL_PER_MSECOND 0.3
+
 
 EntireSong::EntireSong(QGraphicsItem *parent) :
     QGraphicsItem(parent),
     currentChord(0),
-    pixPerMsec(0.3)
+    pixPerMsec(PIXEL_PER_MSECOND)
 {
+    controler = (Controler*) scene()->parent();
+
     QPen borderPen(Qt::black, 3);
     QPen lightPen(Qt::black, 1);
     QBrush innerCont(Qt::white);
@@ -37,7 +43,7 @@ EntireSong::EntireSong(QGraphicsItem *parent) :
     QGraphicsTextItem* tempScrollingChord;
 
     int i=0, j=0;
-    for (ite = bridge.chordList.begin(); ite != bridge.chordList.end(); ++ite)
+    for (ite = controler->chordList.begin(); ite != controler->chordList.end(); ++ite)
     {
 
         // Partie chanson entiere
@@ -73,40 +79,34 @@ EntireSong::EntireSong(QGraphicsItem *parent) :
     }
 
     // partie temporelle
-    time = 0;
+    lastRefresh = 0;
 
 
 }
 
 void EntireSong::nextChord() {
     QBrush newCol(Qt::green);
-    bridge.chordList[currentChord].fullSongItem->setBrush(newCol);
+    controler->chordList[currentChord].fullSongItem->setBrush(newCol);
     currentChord++;
-    if(currentChord>=bridge.chordList.size())
+    if(currentChord>=controler->chordList.size())
         currentChord=0;
 }
 
 void EntireSong::advance ( int phase ) {
-    if(phase == 1)
+    if(phase == 1) // advance est appellée automatiquement par la scene, deux fois (voir doc)
     {
-    int elapsed = Bridge::getElapsed();
-    qDebug() << time;
-    qDebug() << elapsed;
-    qDebug() << elapsed-time;
-
+        int currentTime = controler->elapsedTime();
 
         QTransform textTrans;
-        textTrans.translate(qreal(-pixPerMsec*(elapsed-time)),0);
+        textTrans.translate(-pixPerMsec*(currentTime-lastRefresh), 0);
         scrollingTextContainer->setTransform(textTrans, true);
 
-        //scrollingTextContainer->setPos(scrollingTextContainer->pos()-QPointF(elapsed*pixPerMsec, 0));
-        if(bridge.chordList[currentChord].time<elapsed)
+        if(controler->chordList[currentChord].time<currentTime)
         {
             nextChord();
         }
 
-
-    time = elapsed;
+        lastRefresh = currentTime;
     }
 }
 
@@ -115,6 +115,7 @@ void EntireSong::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 }
 
 QRectF EntireSong::boundingRect() const {
+    // This rectangle is false, but may decrease performance if determined precisely
     return QRectF(0,0,1920,1080);
 
 }
