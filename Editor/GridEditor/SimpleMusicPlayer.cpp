@@ -172,6 +172,11 @@ void SimpleMusicPlayer::play()
         emit browseAudioFile();
 }
 
+/**
+ * @brief SimpleMusicPlayer::sendTimeData
+ *
+ * Envoie le temps de lecture actuel
+ */
 void SimpleMusicPlayer::sendTimeData()
 {
 	emit sigTimeData(getCurrentPosition());
@@ -186,6 +191,7 @@ void SimpleMusicPlayer::pause()
 {
 	if(player->getState())
 	{
+
 		if(player->isPaused())
 		{
 			player->pause(false);
@@ -196,7 +202,6 @@ void SimpleMusicPlayer::pause()
 			player->pause(true);
 			playTimer->stop();
 		}
-
 
 
         if(player->isPaused())
@@ -297,11 +302,6 @@ void SimpleMusicPlayer::zoomIn(QPoint clickPos)
 	float sample = clickPercent * (waveEnd - waveBegin) + waveBegin; //player->getTotalLengthInSamples();
 	const int zoomFactor = ZOOM_FACTOR;
 
-	// vieille méthode :
-//	int med = (waveEnd - waveBegin) / 20;
-//	waveBegin += med/2;
-//	waveEnd -= med/2;
-
 	if(waveEnd - waveBegin > 9000)
 	{
 		waveBegin += (sample - (float) waveBegin) / (float) zoomFactor;
@@ -331,7 +331,6 @@ void SimpleMusicPlayer::zoomOut(QPoint clickPos)
 	float sample = clickPercent * (waveEnd - waveBegin) + waveBegin;
 	const int zoomFactor = ZOOM_FACTOR;
 
-//	int med = (waveEnd - waveBegin) / 20;
 	waveBegin = std::max(0,
 						 std::min(waveBegin - (int) ((sample - (float) waveBegin) / (float) zoomFactor),
 								  (int) player->getTotalLengthInSamples() - 10000));
@@ -418,6 +417,11 @@ int SimpleMusicPlayer::getWaveEnd()
 }
 
 
+/**
+ * @brief SimpleMusicPlayer::waveFullZoom
+ *
+ * Zoom de manière à ce qu'on voie l'intégralité du fichier
+ */
 void SimpleMusicPlayer::waveFullZoom()
 {
 	waveBegin = 0;
@@ -425,6 +429,12 @@ void SimpleMusicPlayer::waveFullZoom()
 	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
 	waveform->update();
 }
+
+/**
+ * @brief SimpleMusicPlayer::waveSongZoom
+ *
+ * Zoom de manière à ce qu'on voie le morceau tel qu'il a été défini dans AudioSync
+ */
 
 void SimpleMusicPlayer::waveSongZoom()
 {
@@ -436,7 +446,11 @@ void SimpleMusicPlayer::waveSongZoom()
 		waveform->update();
 	}
 }
-
+/**
+ * @brief SimpleMusicPlayer::waveBarZoom
+ *
+ * Définit le zoom de manière à ce qu'on voie la première mesure
+ */
 void SimpleMusicPlayer::waveBarZoom()
 {
 	if(waveform->getSampleBegin() + 10000 < waveform->getSampleBar())

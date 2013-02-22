@@ -10,7 +10,9 @@
 #include <QTime>
 #include "MusicPlayer.h"
 
-
+/**
+ * @brief Affichage d'une forme  d'onde
+ */
 class Waveform : public QLabel
 {
 	QWidget* parent;
@@ -31,6 +33,7 @@ class Waveform : public QLabel
 
 	unsigned int m_width;
 	unsigned int m_height;
+	int m_reductionFactor;
 
 	QPoint oldMousePos, clickPos;
 

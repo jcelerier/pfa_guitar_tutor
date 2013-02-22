@@ -13,7 +13,7 @@ Last change on 28/02/12
  * @param argv
  * @return Le résultat de l'exécution de l'éditeur.
  *
- * Fonction main à but de test.
+ * Fonction main.
  */
 int main(int argc, char *argv[])
 {

@@ -15,6 +15,9 @@
 
 class TimeEdit;
 
+/**
+ * @brief Interface de synchronisation audio
+ */
 class AudioSync : public QWidget
 {
     Q_OBJECT

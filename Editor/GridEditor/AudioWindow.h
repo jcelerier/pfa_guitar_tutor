@@ -11,6 +11,9 @@
 #include "ZoomButtons.h"
 #include "SimpleMusicPlayer.h"
 
+/**
+ * @brief Tab qui contient toutes les informations relatives à l'audio
+ */
 class AudioWindow : public QWidget
 {
 	Q_OBJECT

@@ -10,6 +10,9 @@ namespace Ui {
 class PartSetter;
 }
 
+/**
+ * @brief Fenêtre qui s'affiche lors d'un clic droit sur une case
+ */
 class PartSetter : public QDialog
 {
 		Q_OBJECT
@@ -18,9 +21,9 @@ class PartSetter : public QDialog
     explicit PartSetter(QWidget *parent = 0);
 		~PartSetter();
     void setBeginning(const QTime &t);
-    void initPart(QString part);
-    void initBeginning(QTime t);
-    void showDialogModal();
+    void setPart(QString part);
+
+	void showDialogModal();
     void setPartEditable(bool editable);
 public slots:
     void accept();

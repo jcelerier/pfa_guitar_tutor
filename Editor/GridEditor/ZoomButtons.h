@@ -4,6 +4,9 @@
 #include <QtGui>
 #include <QString>
 
+/**
+ * @brief Boutons de zoom en dessous de l'affichage de la waveform
+ */
 class ZoomButtons : public QWidget
 {
 		Q_OBJECT

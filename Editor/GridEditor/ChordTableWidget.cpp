@@ -437,8 +437,8 @@ void ChordTableWidget::removeCasePart()
  */
 void ChordTableWidget::showProperties()
 {
-    m_setPartDialog->initBeginning(m_currentItem->getBeginning());
-    m_setPartDialog->initPart(m_currentItem->getPart());
+	m_setPartDialog->setBeginning(m_currentItem->getBeginning());
+	m_setPartDialog->setPart(m_currentItem->getPart());
     m_setPartDialog->setPartEditable(m_currentItem->isPartEditable());
     m_setPartDialog->showDialogModal();
 }

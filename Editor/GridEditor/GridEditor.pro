@@ -9,7 +9,6 @@ SOURCES += \
     CaseItem.cpp \
     ChordTableWidget.cpp \
     GridEditor.cpp \
-    TestMain.cpp \
     EditionSelector.cpp \
     ChordTree.cpp \
     SimpleMusicPlayer.cpp \
@@ -23,7 +22,8 @@ SOURCES += \
     HelpWindow.cpp \
     Util.cpp \
     ZoomButtons.cpp \
-    TimeEdit.cpp
+    TimeEdit.cpp \
+    Main.cpp
 
 HEADERS += \
     CaseItem.h \

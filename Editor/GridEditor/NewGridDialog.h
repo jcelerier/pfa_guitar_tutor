@@ -8,6 +8,9 @@ namespace Ui {
 class NewGridDialog;
 }
 
+/**
+ * @brief Fenêtre de création de nouvelles grilles
+ */
 class NewGridDialog : public QDialog
 {
 		Q_OBJECT

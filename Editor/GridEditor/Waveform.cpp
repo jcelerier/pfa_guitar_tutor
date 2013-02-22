@@ -8,6 +8,12 @@
 #include <cmath>
 #include <QDebug>
 
+/**
+ * @brief Waveform::Waveform
+ * @param parent
+ * @param w Largeur en pixels à la création
+ * @param h Hauteur en pixels à la création
+ */
 Waveform::Waveform(QWidget *parent, int w, int h):
 	QLabel(parent),
 	parent(parent),
@@ -16,6 +22,8 @@ Waveform::Waveform(QWidget *parent, int w, int h):
 	m_height(h)
 {
 	this->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
+
+	m_reductionFactor = (int) pow(2, 19 - m_height/200);
 
 	m_spectrum = new int[m_width];
 	m_pixmap = new QPixmap(m_width, m_height);
@@ -79,6 +87,11 @@ void Waveform::update()
 }
 
 
+/**
+ * @brief Waveform::initImage
+ *
+ * Mets le fond noir et trace une ligne au centre
+ */
 void Waveform::initImage()
 {
 	m_painter->fillRect(0, 0, (int) m_width, (int) m_height, Qt::black);
@@ -88,10 +101,7 @@ void Waveform::initImage()
 
 
 /**
- * @brief SimpleMusicPlayer::displayGraph
- * @param waveform L'image dans laquelle on dessine
- * @param pixelWidth Longueur de l'image
- * @param pixelHeight Hauteur de l'image
+ * @brief Waveform::display
  *
  * Affiche le sonogramme du morceau chargé.
  */
@@ -139,16 +149,36 @@ void Waveform::display()
 	}
 }
 
-
+/**
+ * @brief Waveform::simpleDrawColumn
+ * @param col Colonne à dessiner
+ * @param value Valeur. Si supérieur à m_height, alors emplit toute la hauteur.
+ * @param pen Pinceau utilisé, pour la couleur
+ *
+ * Méthode de bas niveau pour faire le dessin effectif
+ */
 void Waveform::simpleDrawColumn(int col, int value, QPen* pen)
 {
 	m_painter->setPen(*pen);
 	m_painter->drawLine(col,  m_height / 2 - 1 - value, col, m_height / 2 + value);
 }
 
+/**
+ * @brief Waveform::drawColumn
+ * @param col Colonne à dessiner
+ * @param beg Sample qui correspond au pixel le plus à gauche
+ * @param end Sample qui correspond au pixel le plus à droite
+ * @param smp_begin Sample de la barre de début
+ * @param smp_end Sample de la barre de fin
+ * @param pos_begin Position en pixels de la barre de début
+ * @param pos_end Position en pixels de la barre de fin
+ *
+ * Dessine une colonne de la waveform à proprement parler, toutes ces variables sont nécessaires
+ * pour savoir si on la met en clair ou foncé
+ */
 void Waveform::drawColumn(int col, int beg, int end, int smp_begin, int smp_end, int pos_begin, int pos_end)
 {
-	unsigned int value = std::min((unsigned int) abs(m_spectrum[col] / (int) pow(2, 19 - m_height/200)), m_height);
+	unsigned int value = std::min((unsigned int) abs(m_spectrum[col] / m_reductionFactor), m_height);
 
 
 	if(smp_begin > beg && smp_end > smp_begin)
@@ -204,6 +234,7 @@ void Waveform::setWidth(unsigned int w)
 void Waveform::setHeight(int h)
 {
 	m_height = h;
+	m_reductionFactor = (int) pow(2, 19 - m_height/200);
 }
 
 /**
@@ -270,26 +301,48 @@ void Waveform::mousePressEvent(QMouseEvent * event)
 }
 
 
+/**
+ * @brief Waveform::getSampleBegin
+ * @return La sample qui correspond au TimeEdit du début
+ */
 int Waveform::getSampleBegin()
 {
 	return QTimeToSample(l_begin);
 }
 
+/**
+ * @brief Waveform::getSampleBar
+ * @return  La sample qui correspond au TimeEdit de mesure
+ */
 int Waveform::getSampleBar()
 {
 	return QTimeToSample(l_bar);
 }
 
+/**
+ * @brief Waveform::getSampleEnd
+ * @return La sample qui correspond au TimeEdit de fin
+ */
 int Waveform::getSampleEnd()
 {
 	return QTimeToSample(l_end);
 }
 
+/**
+ * @brief Waveform::activate
+ *
+ * Active la waveform (pour éviter l'affichage de données incohérentes quand non initialisée)
+ */
 void Waveform::activate()
 {
 	empty = false;
 }
 
+/**
+ * @brief Waveform::setTimer
+ * @param type Le timer à changer
+ * @param t Le temps correspondant
+ */
 void Waveform::setTimer(int type, QTime t)
 {
 	switch(type)
@@ -310,6 +363,12 @@ void Waveform::setTimer(int type, QTime t)
 	update();
 }
 
+/**
+ * @brief Waveform::setPlayerTimer
+ * @param t Temps de lecture
+ *
+ * Affiche le curseur de lecture
+ */
 void Waveform::setPlayerTimer(QTime t)
 {
 	int s_pos = QTimeToSample(t);
@@ -327,16 +386,6 @@ void Waveform::setPlayerTimer(QTime t)
 
 		simpleDrawColumn(pos_pixel, m_height, m_playerPen);
 
-		this->setPixmap(*m_pixmap);/*
-		for(unsigned int j = 0; j < m_height; j++)
-		{
-			m_image->setPixel(pos_pixel, j, 0xFFD8FA32);
-		}
-
-		if(pos_pixel != m_previouslyPlayedPixel)
-		{
-			drawColumn(m_previouslyPlayedPixel, beg, end, s_beg, s_end, pos_begin, pos_end);
-			m_previouslyPlayedPixel = pos_pixel;
-		}*/
+		this->setPixmap(*m_pixmap);
 	}
 }

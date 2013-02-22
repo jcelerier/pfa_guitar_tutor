@@ -7,6 +7,9 @@
 #include <QWebView>
 #include <QDialog>
 
+/**
+ * @brief Affichage de l'aide
+ */
 class HelpWindow : public QDialog
 {
     Q_OBJECT

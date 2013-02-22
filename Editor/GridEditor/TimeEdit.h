@@ -3,6 +3,9 @@
 
 #include <QTimeEdit>
 
+/**
+ * @brief Sous-classe de QTimeEdit qui permet de changer la couleur
+ */
 class TimeEdit : public QTimeEdit
 {
 		Q_OBJECT

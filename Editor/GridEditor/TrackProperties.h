@@ -8,6 +8,9 @@ namespace Ui {
 class TrackProperties;
 }
 
+/**
+ * @brief Onglet qui gère les propriétés (nom, artiste...) d'un morceau
+ */
 class TrackProperties : public QDialog
 {
 		Q_OBJECT

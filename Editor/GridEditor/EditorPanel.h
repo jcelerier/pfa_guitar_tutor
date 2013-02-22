@@ -9,6 +9,9 @@
 #include "AudioWindow.h"
 #include "TrackProperties.h"
 
+/**
+ * @brief Classe qui affiche les onglets
+ */
 class EditorPanel : public QWidget
 {
 		Q_OBJECT
