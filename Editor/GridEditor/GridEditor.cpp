@@ -476,15 +476,6 @@ void GridEditor::setStatusText()
 }
 
 /**
- * @brief GridEditor::rename
- * @todo TODO
- */
-void GridEditor::rename()
-{
-
-}
-
-/**
  * @brief GridEditor::saveBeforeQuit
  * @return true si et seulement si l'utilisateur a choisi de continuer
  *

@@ -101,7 +101,6 @@ public slots:
 	void fromXML();
     void about();
 	void setStatusText();
-    void rename();
     void help();
 };
 
