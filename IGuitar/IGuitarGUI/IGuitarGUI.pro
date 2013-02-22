@@ -101,4 +101,14 @@ OTHER_FILES += \
     ressources/testmask.png \
     ressources/menu-btn.png \
     ressources/bgwide.png \
-    ressources/background.png
+    ressources/background.png \
+    ../../app/transport.png \
+    ../../app/noalbum.png \
+    ../../app/minibarretemps.png \
+    ../../app/menu.png \
+    ../../app/maskplaying.png \
+    ../../app/chordbar.png \
+    ../../app/btn_bg.png \
+    ../../app/bgwide.png \
+    ../../app/barretemps.png \
+    ../../app/album.png
