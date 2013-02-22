@@ -19,8 +19,7 @@ Last change on 14/04/12
  */
 class CaseItem : public QTableWidgetItem
 {
-    QColor* m_color;
-	QColor* m_prevColor;
+	QColor* m_color;
 	QString m_part;
     QTime m_beginningTimer;
     bool m_timerManuallySet;

@@ -194,6 +194,13 @@ void GridEditor::createCentralWidget() {
 	centralArea->setLayout(layout);
 }
 
+/**
+ * @brief GridEditor::createGrid
+ * @param columns Colonnes
+ * @param rows Lignes
+ *
+ * Instancie une nouvelle grille, et crée les widgets, actions, connections, etc... correspondants
+ */
 void GridEditor::createGrid(int columns, int rows)
 {
 	if(grid != 0)
@@ -245,7 +252,7 @@ void GridEditor::createGrid(int columns, int rows)
 /**
  * @brief GridEditor::connectActionToSlot
  *
- * Défini les relations entre signaux et slots pour la fenêtre principale.
+ * Définit les relations entre signaux et slots pour la fenêtre principale.
  */
 void GridEditor::connectActionToSlot()
 {
@@ -276,7 +283,8 @@ void GridEditor::connectActionToSlot()
  *
  * Gère l'activation des différents outils dans la fenêtre selon les évènements.
  */
-void GridEditor::changeState() {
+void GridEditor::changeState()
+{
 	if (grid->is_selection_empty() &&
 		chordTree->isEnabled())
 	{
@@ -290,9 +298,10 @@ void GridEditor::changeState() {
 }
 
 /**
- * @brief GridEditor::newGrid
+ * @brief GridEditor::firstNewGrid
  *
- * Mise en place d'une nouvelle grille dans le widget central.
+ * Mise en place d'une nouvelle grille (action Nouveau) dans le widget central.
+ * Méthode spécialement prévue pour le premier lancement, car affiche dans un onglet
  */
 void GridEditor::firstNewGrid()
 {
@@ -307,6 +316,10 @@ void GridEditor::firstNewGrid()
 }
 
 
+/**
+ * @brief GridEditor::newGrid
+ * Méthode prévue pour les nouvelles grilles (action Nouveau) subséquentes, car affiche dans une fenêtre.
+ */
 void GridEditor::newGrid()
 {
 	if(!saveBeforeQuit())
@@ -516,6 +529,11 @@ void GridEditor::save()
 	toXML(filename);
 }
 
+/**
+ * @brief GridEditor::help
+ *
+ * Affiche la fenêtre d'aide
+ */
 void GridEditor::help()
 {
 	HelpWindow helpWindow;

@@ -5,7 +5,10 @@
 
 
 
-
+/**
+ * @brief AudioSync::AudioSync
+ * Constructeur des boutons de synchronisation audio
+ */
 AudioSync::AudioSync()
 {
     layout = new QGridLayout();
@@ -99,6 +102,12 @@ AudioSync::~AudioSync()
 
 }
 
+/**
+ * @brief AudioSync::activeButtons
+ * @param active Vrai si les boutons doivent être activés, faux sinon
+ *
+ * Active l'interface AudioSync (rend les éléments clickables)
+ */
 void AudioSync::activeButtons(bool active)
 {
 	beginning->setEnabled(active);
@@ -113,27 +122,55 @@ void AudioSync::activeButtons(bool active)
 	}
 }
 
+/**
+ * @brief AudioSync::setBegginingTimer
+ * @param t Temps du début
+ *
+ * Appelé principalement lors de la pression du petit bouton à la droite du TimeEdit
+ */
 void AudioSync::setBegginingTimer(const QTime t)
 {
 	beginning->setTime(t);
 }
 
+/**
+ * @brief AudioSync::setEndTimer
+ * @param t Temps de la fin
+
+ * Appelé principalement lors de la pression du petit bouton à la droite du TimeEdit
+ */
 void AudioSync::setEndTimer(const QTime t)
 {
     end->setTime(t);
 }
 
+/**
+ * @brief AudioSync::setBarTimer
+ * @param t Temps de la mesure
+ * Appelé principalement lors de la pression du petit bouton à la droite du TimeEdit
+ */
 void AudioSync::setBarTimer(const QTime t)
 {
     bar->setTime(t);
 }
 
+/**
+ * @brief AudioSync::beginningChanged
+ * @param t Temps du début
+ *
+ * Utilisé principalement pour modifier la waveform en temps réel
+ */
 void AudioSync::beginningChanged(QTime t)
 {
 	checkTimes();
 	emit sendTimer(TIMER_BEGINNING, t);
 }
 
+/**
+ * @brief AudioSync::barChanged
+ * @param t Temps de la mesure
+ * Utilisé principalement pour modifier la waveform en temps réel
+ */
 void AudioSync::barChanged(QTime t)
 {
 	checkTimes();
@@ -150,6 +187,11 @@ void AudioSync::barChanged(QTime t)
 	emit sendTimer(TIMER_BAR, t);
 }
 
+/**
+ * @brief AudioSync::endChanged
+ * @param t Temps de la fin
+ * Utilisé principalement pour modifier la waveform en temps réel
+ */
 void AudioSync::endChanged(QTime t)
 {
 	checkTimes();
@@ -159,7 +201,8 @@ void AudioSync::endChanged(QTime t)
 /**
  * @brief AudioSync::checkTimes
  *
- * On doit avoir à tout instant beginning < bar < end
+ * Vérifie qu'on ait à tout instant beginning < bar < end,
+ * sinon offre une indication visuelle de l'incorrection des données entrées
  */
 void AudioSync::checkTimes()
 {
@@ -185,7 +228,12 @@ void AudioSync::checkTimes()
 	}
 }
 
-
+/**
+ * @brief AudioSync::tempoChanged
+ * @param tempo
+ *
+ * Slot utilisé lors du changement du tempo, mets à jour le TimeEdit en conséquence
+ */
 void AudioSync::tempoChanged(int tempo)
 {
 	QTime bar_time = MsecToTime(240000 / tempo + TimeToMsec(beginning->time()));
@@ -193,6 +241,10 @@ void AudioSync::tempoChanged(int tempo)
 	bar->setTime(bar_time);
 }
 
+/**
+ * @brief AudioSync::emitSignalTimer
+ *
+ */
 void AudioSync::emitSignalTimer()
 {
     if(bbeginning->isDown())
@@ -203,6 +255,11 @@ void AudioSync::emitSignalTimer()
         emit refreshTimer(TIMER_BAR);
 }
 
+/**
+ * @brief AudioSync::sendData
+ *
+ * Envoie les données à GridEditor
+ */
 void AudioSync::sendData()
 {
     if(beginning->time().isValid() && bar->time().isValid() && end->time().isValid())

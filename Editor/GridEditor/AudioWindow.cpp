@@ -95,6 +95,13 @@ void AudioWindow::resetAudioFile()
 	audioSync->activeButtons(false);
 }
 
+/**
+ * @brief AudioWindow::refreshTimerAudioSync
+ * @param i
+ *
+ * Change le timer i quand on clique sur le bouton i,
+ * i étant début, fin, mesure
+ */
 void AudioWindow::refreshTimerAudioSync(int i)
 {
 	switch(i) {

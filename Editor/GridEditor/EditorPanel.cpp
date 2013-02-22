@@ -6,6 +6,10 @@
  * @param chordTable Pointeur vers la grille de GridEditor
  * @param audioWindow Pointeur vers l'audioWindow de GridEditor
  * @param parent Parent Qt
+ *
+ * Cette classe sert à afficher les onglets dans la fenêtre principale.
+ * Attention : les données des onglets sont possédées par le parent,
+ * EditorPanel n'est qu'une sorte de vue.
  */
 EditorPanel::EditorPanel(ChordTableWidget* chordTable,
 						 AudioWindow* audioWindow,
@@ -58,6 +62,13 @@ EditorPanel::EditorPanel(ChordTableWidget* chordTable,
 	setLayout(mainLayout);
 }
 
+
+/**
+ * @brief EditorPanel::updateGrid
+ * @param chordTable La nouvelle grille
+ *
+ * Changement de grille lors d'un chargement ou d'un nouveau fichier
+ */
 void EditorPanel::updateGrid(ChordTableWidget *chordTable)
 {
 	if(grid != 0)

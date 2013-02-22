@@ -663,6 +663,14 @@ void ChordTableWidget::playFromHere()
     emit play(TimeToMsec(m_currentItem->getBeginning()));
 }
 
+/**
+ * @brief ChordTableWidget::isPlayingAt
+ * @param t Temps à partir duquel le player joue
+ *
+ * Cette méthode sert principalement à la synchronisation visuelle entre le lecteur audio et la grille.
+ * Le but étant d'afficher en vert l'accord dans lequel se situe le player en fonction des
+ * données de temps qui ont été entrées.
+ */
 void ChordTableWidget::isPlayingAt(QTime t)
 {
 	CaseItem* nextItem;
@@ -685,7 +693,9 @@ void ChordTableWidget::isPlayingAt(QTime t)
 			}
 
 
-			if(t >= ((CaseItem*) item(i, j))->getBeginning() && (nextItem == 0 || t <= nextItem->getBeginning()))
+			if(t >= ((CaseItem*) item(i, j))->getBeginning()
+			   && (nextItem == 0
+				   || t <= nextItem->getBeginning()))
 			{
 				((CaseItem*) item(i, j))->play();
 
@@ -693,11 +703,10 @@ void ChordTableWidget::isPlayingAt(QTime t)
 				{
 					m_lastPlayedCase->restoreColor();
 				}
-				m_lastPlayedCase = (CaseItem*) item(i, j);
 
+				m_lastPlayedCase = (CaseItem*) item(i, j);
 				return;
 			}
-
 		}
 	}
 }

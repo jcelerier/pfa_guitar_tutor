@@ -17,12 +17,12 @@ Last change on 14/04/12
  *
  * Constructeur des cases de la grille.
  */
-CaseItem::CaseItem(const bool partEditable) :  QTableWidgetItem(), m_color(new QColor()), m_prevColor(new QColor())
+CaseItem::CaseItem(const bool partEditable) :  QTableWidgetItem(), m_color(new QColor())
 {
 	m_beginningTimer = QTime(0,0);
     m_part = "";
-    m_color->setRgb(255, 255, 255);
-	m_prevColor->setRgb(255, 255, 255);
+	m_color->setRgb(255, 255, 255);
+
     m_timerManuallySet = false;
     m_partEditable = partEditable;
 
@@ -42,8 +42,9 @@ CaseItem::CaseItem(const QTableWidgetItem& item) : QTableWidgetItem(item), m_col
 	this->text() = item.text();
 }
 
-CaseItem::~CaseItem() {
-    delete m_color;
+CaseItem::~CaseItem()
+{
+	delete m_color;
 }
 
 /**
@@ -131,6 +132,11 @@ bool CaseItem::isPartSet()
     return m_part.length() > 0;
 }
 
+/**
+ * @brief CaseItem::setBeginning
+ * @param t Temps auquel commence l'accord
+ * @param timerManuallySet Booléen qui dit si le timer a été mis par l'homme
+ */
 void CaseItem::setBeginning(QTime t, bool timerManuallySet)
 {
     m_beginningTimer = t;
@@ -146,21 +152,40 @@ QTime CaseItem::getBeginning()
     return m_beginningTimer;
 }
 
+/**
+ * @brief CaseItem::isTimerManuallySet
+ * @return Vrai si le timer a été mis par l'homme
+ */
 bool CaseItem::isTimerManuallySet()
 {
     return m_timerManuallySet;
 }
 
+/**
+ * @brief CaseItem::isPartEditable
+ * @return Vrai si la partie est éditable
+ */
 bool CaseItem::isPartEditable()
 {
     return m_partEditable;
 }
 
+/**
+ * @brief CaseItem::play
+ *
+ * Effectue les actions nécessaires lors de la lecture d'une case,
+ * en l'occurence un passage en vert.
+ */
 void CaseItem::play()
 {
 	set_color(20, 250, 0);
 }
 
+/**
+ * @brief CaseItem::restoreColor
+ *
+ * Remet la couleur précédente d'une case, est utilisé lors de la lecture.
+ */
 void CaseItem::restoreColor()
 {
 	if(isPartSet())
