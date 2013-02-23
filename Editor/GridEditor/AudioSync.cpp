@@ -9,14 +9,14 @@
  * @brief AudioSync::AudioSync
  * Constructeur des boutons de synchronisation audio
  */
-AudioSync::AudioSync()
+AudioSync::AudioSync(QWidget* parent) : QWidget(parent)
 {
+
     layout = new QGridLayout();
 	beginning = new TimeEdit();
 	end = new TimeEdit();
 	bar = new TimeEdit();
-	bpm = new QSpinBox();
-
+	bpm = new TempoEdit();
 
     lbeginning = new QLabel(tr("Beginning"));
     lend = new QLabel(tr("End"));
@@ -55,27 +55,30 @@ AudioSync::AudioSync()
 	layout->addWidget(bar, 1, 1);
 	layout->addWidget(bbar, 1, 2);
 
-	layout->addWidget(lend, 2, 0);
-	layout->addWidget(end, 2, 1);
-	layout->addWidget(bend, 2, 2);
+	layout->addWidget(lbpm, 2, 0);
+	layout->addWidget(bpm, 2, 1);
+
+	layout->addWidget(lend, 3, 0);
+	layout->addWidget(end, 3, 1);
+	layout->addWidget(bend, 3, 2);
 
 
-	layout->addWidget(sendButton, 3, 0);
+	layout->addWidget(sendButton, 4, 0);
 
-	layout->addWidget(lbpm, 4, 0);
-	layout->addWidget(bpm, 4, 1);
 
     setLayout(layout);
+
 
     connect(bbeginning, SIGNAL(pressed()), this, SLOT(emitSignalTimer()));
     connect(bend, SIGNAL(pressed()), this, SLOT(emitSignalTimer()));
     connect(bbar, SIGNAL(pressed()), this, SLOT(emitSignalTimer()));
 
+	connect(bpm, SIGNAL(valueChanged(int)), this, SLOT(tempoChanged(int)));
+	connect(bpm, SIGNAL(hasBeenClicked()), this, SLOT(tempoClicked()));
+
 	connect(beginning, SIGNAL(timeChanged(QTime)), this, SLOT(beginningChanged(QTime)));
 	connect(bar, SIGNAL(timeChanged(QTime)), this, SLOT(barChanged(QTime)));
 	connect(end, SIGNAL(timeChanged(QTime)), this, SLOT(endChanged(QTime)));
-
-	connect(bpm, SIGNAL(valueChanged(int)), this, SLOT(tempoChanged(int)));
 
 	connect(sendButton, SIGNAL(clicked()), this, SLOT(sendData()));
 }
@@ -113,12 +116,14 @@ void AudioSync::activeButtons(bool active)
 	beginning->setEnabled(active);
     end->setEnabled(active);
     bar->setEnabled(active);
+	bpm->setEnabled(active);
 
 	if(active)
 	{
 		endChanged(end->time());
 		beginningChanged(beginning->time());
 		barChanged(bar->time());
+		tempoChanged(bpm->value());
 	}
 }
 
@@ -163,7 +168,27 @@ void AudioSync::setBarTimer(const QTime t)
 void AudioSync::beginningChanged(QTime t)
 {
 	checkTimes();
+	updateTempo();
+
 	emit sendTimer(TIMER_BEGINNING, t);
+}
+/**
+ * @brief AudioSync::updateTempo
+ *
+ * Met à jour l'information de tempo en fonction de la différence de temps entre bar et beginning
+ */
+void AudioSync::updateTempo()
+{
+	int tps = TimeToMsec(bar->time()) - TimeToMsec(beginning->time());
+	if(tps > 0)
+	{
+		int tempo = 240000 / tps ;
+
+		if(tempo > 10 && tempo < 250 && tempo != bpm->value())
+		{
+			bpm->setValue(tempo);
+		}
+	}
 }
 
 /**
@@ -174,15 +199,7 @@ void AudioSync::beginningChanged(QTime t)
 void AudioSync::barChanged(QTime t)
 {
 	checkTimes();
-	int tps = TimeToMsec(t) - TimeToMsec(beginning->time());
-	if(tps > 0)
-	{
-		int tempo = 240000 / tps ;
-
-		if(tempo > 10 && tempo < 250 && tempo != bpm->value())
-			bpm->setValue(tempo);
-	}
-
+	updateTempo();
 
 	emit sendTimer(TIMER_BAR, t);
 }
@@ -206,8 +223,8 @@ void AudioSync::endChanged(QTime t)
  */
 void AudioSync::checkTimes()
 {
-	long long tps = TimeToMsec(end->time()) - TimeToMsec(beginning->time());
-	if(tps > 0)
+	// Condition sur end
+	if(TimeToMsec(end->time()) - TimeToMsec(beginning->time()) > 0)
 	{
 		end->setGood();
 	}
@@ -216,9 +233,9 @@ void AudioSync::checkTimes()
 		end->setBad();
 	}
 
-	long long tps1 = TimeToMsec(end->time()) - TimeToMsec(bar->time());
-	long long tps2 = TimeToMsec(bar->time()) - TimeToMsec(beginning->time());
-	if(tps1 > 0 && tps2 > 0)
+	//Condition sur bar
+	if(TimeToMsec(end->time()) - TimeToMsec(bar->time()) > 0 &&
+	   TimeToMsec(bar->time()) - TimeToMsec(beginning->time()) > 0)
 	{
 		bar->setGood();
 	}
@@ -236,9 +253,9 @@ void AudioSync::checkTimes()
  */
 void AudioSync::tempoChanged(int tempo)
 {
-	QTime bar_time = MsecToTime(240000 / tempo + TimeToMsec(beginning->time()));
+	// on ne change bar que si tempo a été modifié manuellement
+	m_tempBarTime = MsecToTime(240000 / tempo + TimeToMsec(beginning->time()));
 
-	bar->setTime(bar_time);
 }
 
 /**
@@ -267,5 +284,10 @@ void AudioSync::sendData()
 		emit sendTimers(beginning->time(), bar->time(), end->time());
 	}
     else
-		QMessageBox::information(this, tr("Your job is not done yet"), tr("You have not set the three timers yet."));
+		QMessageBox::information(this, tr("Your job is not done yet"), tr("The three timers have not been set yet."));
+}
+
+void AudioSync::tempoClicked()
+{
+	bar->setTime(m_tempBarTime);
 }

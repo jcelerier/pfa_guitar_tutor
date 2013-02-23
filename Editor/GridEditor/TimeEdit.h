@@ -14,8 +14,18 @@ class TimeEdit : public QTimeEdit
 		void setBad();
 		void setGood();
 
+		virtual void mousePressEvent ( QMouseEvent * event );
+
+	signals:
+		void hasBeenClicked();
+
+	public slots:
+		void changed(QTime);
+
 	private:
+		bool has_changed;
 		QString badStyle;
+
 		
 };
 

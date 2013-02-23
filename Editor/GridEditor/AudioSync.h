@@ -5,6 +5,7 @@
 #include <QtGui>
 #include <QGridLayout>
 #include "TimeEdit.h"
+#include "TempoEdit.h"
 #include <QToolButton>
 #include <QPushButton>
 #include <QTime>
@@ -26,21 +27,25 @@ class AudioSync : public QWidget
 	TimeEdit *beginning, *end, *bar;
     QToolButton* bbeginning, *bend, *bbar;
 	QLabel *lbeginning, *lend, *lbar, *lbpm;
-	QSpinBox *bpm;
+	TempoEdit *bpm;
 	QPushButton *sendButton;
+	QTime m_tempBarTime;
+
 
 public:
-    AudioSync();
+	AudioSync(QWidget* parent = 0);
     ~AudioSync();
-    void activeButtons(bool active);
+	void activeButtons(bool active);
 
     void setBarTimer(const QTime);
     void setBegginingTimer(const QTime);
     void setEndTimer(const QTime);
 	void checkTimes();
+	void updateTempo();
 
 public slots:
 	void sendData();
+	void tempoClicked();
 
 private slots:
     void emitSignalTimer();
