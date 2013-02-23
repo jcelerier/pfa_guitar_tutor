@@ -10,7 +10,7 @@ AudioWindow::AudioWindow(QWidget * parent)
 	audioFile->setReadOnly(true);
 	audioFile->setEnabled(false);
 	browseButton = new QPushButton(tr("Browse"));
-	audioSync = new AudioSync();
+	audioSync = new AudioSync(this);
 
 	layout = new QGridLayout();
 

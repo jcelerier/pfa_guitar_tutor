@@ -126,7 +126,7 @@ void Waveform::display()
 	int pos_end   = tmp_end * m_width;
 
 	//dessin du graphe
-	for( int i = 0; i < m_width ; i++)
+	for(unsigned int i = 0; i < m_width ; i++)
 	{
 		drawColumn(i, beg, end, s_beg, s_end, pos_begin, pos_end);
 	}
@@ -179,7 +179,6 @@ void Waveform::simpleDrawColumn(int col, int value, QPen* pen)
 void Waveform::drawColumn(int col, int beg, int end, int smp_begin, int smp_end, int pos_begin, int pos_end)
 {
 	unsigned int value = std::min((unsigned int) abs(m_spectrum[col] / m_reductionFactor), m_height);
-
 
 	if(smp_begin > beg && smp_end > smp_begin)
 	{
@@ -248,7 +247,7 @@ int* Waveform::getSpectrum()
 
 /**
  * @brief Waveform::getWidth
- * @return La largeur
+ * @return La largeur en pixels
  */
 int Waveform::getWidth()
 {

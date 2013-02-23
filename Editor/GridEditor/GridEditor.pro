@@ -23,7 +23,8 @@ SOURCES += \
     Util.cpp \
     ZoomButtons.cpp \
     TimeEdit.cpp \
-    Main.cpp
+    Main.cpp \
+    TempoEdit.cpp
 
 HEADERS += \
     CaseItem.h \
@@ -42,7 +43,8 @@ HEADERS += \
     HelpWindow.h \
     Util.hpp \
     ZoomButtons.h \
-    TimeEdit.h
+    TimeEdit.h \
+    TempoEdit.h
 
 TRANSLATIONS = GridEditor_fr.ts
 

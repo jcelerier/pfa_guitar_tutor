@@ -21,7 +21,8 @@ PartSetter::~PartSetter()
 
 /**
  * @brief PartSetter::showDialogModal
- *Affiche le dialogue
+ *
+ * Affiche le dialogue
  */
 void PartSetter::showDialogModal()
 {
@@ -110,6 +111,7 @@ void PartSetter::setPartEditable(bool editable)
 
 /**
  * @brief PartSetter::on_pushButton_clicked
+ *
  * Active la lecture à partir du beginning de cette case, pour faire des réglages fins
  */
 void PartSetter::on_pushButton_clicked()

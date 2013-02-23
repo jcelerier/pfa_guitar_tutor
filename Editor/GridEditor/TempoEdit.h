@@ -1,32 +1,30 @@
-#ifndef TIMEEDIT_H
-#define TIMEEDIT_H
+#ifndef TEMPOEDIT_H
+#define TEMPOEDIT_H
 
-#include <QTimeEdit>
+#include <QtGui>
+#include <QSpinBox>
 
-/**
- * @brief Sous-classe de QTimeEdit qui permet de changer la couleur
- */
-class TimeEdit : public QTimeEdit
+class TempoEdit : public QSpinBox
 {
 		Q_OBJECT
 	public:
-		explicit TimeEdit(QWidget *parent = 0);
+		explicit TempoEdit(QWidget *parent = 0);
 		void setBad();
 		void setGood();
 
 		virtual void mousePressEvent ( QMouseEvent * event );
+		virtual void mouseReleaseEvent(QMouseEvent *event);
 
 	signals:
 		void hasBeenClicked();
 
 	public slots:
-		void changed(QTime);
+		void changed(int);
 
 	private:
 		bool has_changed;
 		QString badStyle; //mérite de passer en static const
-
 		
 };
 
-#endif // TIMEEDIT_H
+#endif // TEMPOEDIT_H

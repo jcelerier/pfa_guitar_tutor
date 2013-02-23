@@ -358,7 +358,7 @@ void GridEditor::startGrid(int type)
 
 /**
  * @brief GridEditor::toXML
- * @param filename Laisser vide pour demander où faire l'enregistrement, ou donner le chemin vers le fichier dans lequel écrire
+ * @param filename Laisser vide pour demander où faire l'enregistrement
  *
  * Slot pour la sauvegarde d'un fichier XML.
  */

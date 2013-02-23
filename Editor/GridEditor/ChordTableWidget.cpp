@@ -412,12 +412,6 @@ void ChordTableWidget::setCaseAndFollowersBeginning(QTime t)
             {
                 old_t = ((CaseItem*) this->item(i, j))->getBeginning();
 
-                //				((CaseItem*) this->item(i, j))->setBeginning(QTime(
-                //										 old_t.hour() + add_t.hour(),
-                //										 old_t.minute() + add_t.minute(),
-                //										 old_t.second() + add_t.second(),
-                //										 old_t.msec() + add_t.msec()), true);
-
                 ((CaseItem*) this->item(i, j))->setBeginning(old_t.addMSecs(TimeToMsec(add_t)));
             }
         }

@@ -133,6 +133,7 @@ bool SimpleMusicPlayer::setAudioFile(QString file)
  */
 void SimpleMusicPlayer::resizeEvent(QResizeEvent * event)
 {
+	QWidget::resizeEvent(event);
 	if(player->getState())
 	{
 		waveform->setWidth(parent->width() - 20);
@@ -300,10 +301,10 @@ void SimpleMusicPlayer::changePosition(int position)
 void SimpleMusicPlayer::zoomIn(QPoint clickPos)
 {
 	float clickPercent = (float) clickPos.x() / (float) waveform->getWidth();
-	float sample = clickPercent * (waveEnd - waveBegin) + waveBegin; //player->getTotalLengthInSamples();
+	float sample = clickPercent * (waveEnd - waveBegin) + waveBegin;
 	const int zoomFactor = ZOOM_FACTOR;
 
-	if(waveEnd - waveBegin > 9000)
+	if(waveEnd - waveBegin > 10000)
 	{
 		waveBegin += (sample - (float) waveBegin) / (float) zoomFactor;
 		waveEnd -= (waveEnd - sample) / zoomFactor;

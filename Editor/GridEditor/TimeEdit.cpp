@@ -1,9 +1,14 @@
 #include "TimeEdit.h"
+#include <QDebug>
 
 TimeEdit::TimeEdit(QWidget *parent) :
 	QTimeEdit(parent)
 {
 	badStyle = "QTimeEdit { background-color:#ffDDDD;color:#000000 }";
+
+	connect(this, SIGNAL(timeChanged(QTime)), SLOT(changed(QTime)), Qt::DirectConnection);
+	has_changed = false;
+
 }
 
 /**
@@ -29,4 +34,32 @@ void TimeEdit::setBad()
 void TimeEdit::setGood()
 {
 	this->setStyleSheet("");
+}
+
+
+/**
+ * @brief TimeEdit::mousePressEvent
+ * @param event évènement souris
+ *
+ * Réimplémenté depuis QAbstractSpinBox
+ */
+void TimeEdit::mousePressEvent ( QMouseEvent * event )
+{
+	QAbstractSpinBox::mousePressEvent(event);
+
+	if(has_changed == true)
+	{
+		emit hasBeenClicked();
+		has_changed = false;
+	}
+}
+
+/**
+ * @brief TimeEdit::changed
+ *
+ * Slot appelé lorsque la valeur a changé
+ */
+void TimeEdit::changed(QTime)
+{
+	has_changed = true;
 }
