@@ -4,8 +4,6 @@
  * @brief TimeToMsec
  * @param t QTime à convertir
  * @return Le temps en millisecondes
- *
- * Convertit un QTime en millisecondes
  */
 int TimeToMsec(QTime t)
 {

@@ -152,6 +152,7 @@ void AudioSync::setEndTimer(const QTime t)
 /**
  * @brief AudioSync::setBarTimer
  * @param t Temps de la mesure
+ *
  * Appelé principalement lors de la pression du petit bouton à la droite du TimeEdit
  */
 void AudioSync::setBarTimer(const QTime t)
@@ -191,7 +192,6 @@ void AudioSync::updateTempo()
 		}
 		else if((tempo < 10 || tempo > 250) && tempo != bpm->value())
 		{
-			qDebug() << "coucou";
 			bpm->setBad();
 		}
 	}
@@ -200,6 +200,7 @@ void AudioSync::updateTempo()
 /**
  * @brief AudioSync::barChanged
  * @param t Temps de la mesure
+ *
  * Utilisé principalement pour modifier la waveform en temps réel
  */
 void AudioSync::barChanged(QTime t)
@@ -213,6 +214,7 @@ void AudioSync::barChanged(QTime t)
 /**
  * @brief AudioSync::endChanged
  * @param t Temps de la fin
+ *
  * Utilisé principalement pour modifier la waveform en temps réel
  */
 void AudioSync::endChanged(QTime t)
@@ -272,6 +274,7 @@ void AudioSync::tempoChanged(int tempo)
 /**
  * @brief AudioSync::emitSignalTimer
  *
+ * Utilisé pour mettre les temps en fonction de la position du player
  */
 void AudioSync::emitSignalTimer()
 {

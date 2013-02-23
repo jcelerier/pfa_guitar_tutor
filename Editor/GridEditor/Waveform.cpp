@@ -247,7 +247,7 @@ int* Waveform::getSpectrum()
 
 /**
  * @brief Waveform::getWidth
- * @return La largeur
+ * @return La largeur en pixels
  */
 int Waveform::getWidth()
 {
