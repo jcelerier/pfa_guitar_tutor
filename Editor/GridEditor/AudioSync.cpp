@@ -11,45 +11,50 @@
  */
 AudioSync::AudioSync(QWidget* parent) : QWidget(parent)
 {
-
-    layout = new QGridLayout();
+	layout = new QGridLayout();
 	beginning = new TimeEdit();
 	end = new TimeEdit();
 	bar = new TimeEdit();
 	bpm = new TempoEdit();
 
-    lbeginning = new QLabel(tr("Beginning"));
-    lend = new QLabel(tr("End"));
-    lbar = new QLabel(tr("Bar"));
+	lbeginning = new QLabel(tr("Beginning"));
+	lend = new QLabel(tr("End"));
+	lbar = new QLabel(tr("Bar"));
 	lbpm = new QLabel(tr("BPM"));
 
-    bbeginning = new QToolButton();
-    bend = new QToolButton();
-    bbar = new QToolButton();
+	bbeginning = new QToolButton();
+	bend = new QToolButton();
+	bbar = new QToolButton();
 
-    sendButton = new QPushButton(tr("Compute"));
+	sendButton = new QPushButton(tr("Compute"));
 
-    bbeginning->setIcon(QIcon("icons/timer.png"));
-    bend->setIcon(QIcon("icons/timer.png"));
-    bbar->setIcon(QIcon("icons/timer.png"));
+	// Propriétés du GUI
+	activeButtons(false);
+
+	bbeginning->setIcon(QIcon("icons/timer.png"));
+	bend->setIcon(QIcon("icons/timer.png"));
+	bbar->setIcon(QIcon("icons/timer.png"));
 
 	beginning->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    end->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    bar->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-
-    activeButtons(false);
+	end->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+	bar->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
 	bpm->setMinimum(10);
 	bpm->setMaximum(250);
+	bpm->setBad();
+
 	beginning->setDisplayFormat("m:ss:zzz");
+
 	end->setDisplayFormat("m:ss:zzz");
 	end->setBad();
+
 	bar->setDisplayFormat("m:ss:zzz");
 	bar->setBad();
 
+	// Layout
 	layout->addWidget(lbeginning, 0, 0);
 	layout->addWidget(beginning, 0, 1);
-    layout->addWidget(bbeginning, 0, 2);
+	layout->addWidget(bbeginning, 0, 2);
 
 	layout->addWidget(lbar, 1, 0);
 	layout->addWidget(bar, 1, 1);
@@ -62,16 +67,14 @@ AudioSync::AudioSync(QWidget* parent) : QWidget(parent)
 	layout->addWidget(end, 3, 1);
 	layout->addWidget(bend, 3, 2);
 
-
 	layout->addWidget(sendButton, 4, 0);
 
+	setLayout(layout);
 
-    setLayout(layout);
-
-
-    connect(bbeginning, SIGNAL(pressed()), this, SLOT(emitSignalTimer()));
-    connect(bend, SIGNAL(pressed()), this, SLOT(emitSignalTimer()));
-    connect(bbar, SIGNAL(pressed()), this, SLOT(emitSignalTimer()));
+	// Connections
+	connect(bbeginning, SIGNAL(pressed()), this, SLOT(emitSignalTimer()));
+	connect(bend, SIGNAL(pressed()), this, SLOT(emitSignalTimer()));
+	connect(bbar, SIGNAL(pressed()), this, SLOT(emitSignalTimer()));
 
 	connect(bpm, SIGNAL(valueChanged(int)), this, SLOT(tempoChanged(int)));
 	connect(bpm, SIGNAL(hasBeenClicked()), this, SLOT(tempoClicked()));
@@ -85,24 +88,21 @@ AudioSync::AudioSync(QWidget* parent) : QWidget(parent)
 
 AudioSync::~AudioSync()
 {
-
 	delete bpm;
 	delete beginning;
-    delete end;
-    delete bar;
+	delete end;
+	delete bar;
 
 	delete layout;
 
-    delete bbeginning;
-    delete bend;
-    delete bbar;
+	delete bbeginning;
+	delete bend;
+	delete bbar;
 
 	delete lbpm;
-    delete lend;
-    delete lbeginning;
-    delete lbar;
-
-
+	delete lend;
+	delete lbeginning;
+	delete lbar;
 }
 
 /**
@@ -114,8 +114,8 @@ AudioSync::~AudioSync()
 void AudioSync::activeButtons(bool active)
 {
 	beginning->setEnabled(active);
-    end->setEnabled(active);
-    bar->setEnabled(active);
+	end->setEnabled(active);
+	bar->setEnabled(active);
 	bpm->setEnabled(active);
 
 	if(active)
@@ -146,7 +146,7 @@ void AudioSync::setBegginingTimer(const QTime t)
  */
 void AudioSync::setEndTimer(const QTime t)
 {
-    end->setTime(t);
+	end->setTime(t);
 }
 
 /**
@@ -156,7 +156,7 @@ void AudioSync::setEndTimer(const QTime t)
  */
 void AudioSync::setBarTimer(const QTime t)
 {
-    bar->setTime(t);
+	bar->setTime(t);
 }
 
 /**
@@ -184,9 +184,15 @@ void AudioSync::updateTempo()
 	{
 		int tempo = 240000 / tps ;
 
-		if(tempo > 10 && tempo < 250 && tempo != bpm->value())
+		if(tempo >= 10 && tempo <= 250 && tempo != bpm->value())
 		{
 			bpm->setValue(tempo);
+			bpm->setGood();
+		}
+		else if((tempo < 10 || tempo > 250) && tempo != bpm->value())
+		{
+			qDebug() << "coucou";
+			bpm->setBad();
 		}
 	}
 }
@@ -223,8 +229,12 @@ void AudioSync::endChanged(QTime t)
  */
 void AudioSync::checkTimes()
 {
+	long endTime = TimeToMsec(end->time());
+	long beginningTime = TimeToMsec(beginning->time());
+	long barTime = TimeToMsec(bar->time());
+
 	// Condition sur end
-	if(TimeToMsec(end->time()) - TimeToMsec(beginning->time()) > 0)
+	if(endTime - beginningTime  > 0)
 	{
 		end->setGood();
 	}
@@ -234,8 +244,8 @@ void AudioSync::checkTimes()
 	}
 
 	//Condition sur bar
-	if(TimeToMsec(end->time()) - TimeToMsec(bar->time()) > 0 &&
-	   TimeToMsec(bar->time()) - TimeToMsec(beginning->time()) > 0)
+	if(endTime - barTime > 0 &&
+	   barTime - beginningTime > 0)
 	{
 		bar->setGood();
 	}
@@ -244,6 +254,8 @@ void AudioSync::checkTimes()
 		bar->setBad();
 	}
 }
+
+
 
 /**
  * @brief AudioSync::tempoChanged
@@ -255,7 +267,6 @@ void AudioSync::tempoChanged(int tempo)
 {
 	// on ne change bar que si tempo a été modifié manuellement
 	m_tempBarTime = MsecToTime(240000 / tempo + TimeToMsec(beginning->time()));
-
 }
 
 /**
@@ -264,12 +275,12 @@ void AudioSync::tempoChanged(int tempo)
  */
 void AudioSync::emitSignalTimer()
 {
-    if(bbeginning->isDown())
+	if(bbeginning->isDown())
 		emit refreshTimer(TIMER_BEGINNING);
-    else if(bend->isDown())
-        emit refreshTimer(TIMER_END);
-    else if(bbar->isDown())
-        emit refreshTimer(TIMER_BAR);
+	else if(bend->isDown())
+		emit refreshTimer(TIMER_END);
+	else if(bbar->isDown())
+		emit refreshTimer(TIMER_BAR);
 }
 
 /**
@@ -279,15 +290,22 @@ void AudioSync::emitSignalTimer()
  */
 void AudioSync::sendData()
 {
-    if(beginning->time().isValid() && bar->time().isValid() && end->time().isValid())
+	if(beginning->time().isValid() && bar->time().isValid() && end->time().isValid())
 	{
 		emit sendTimers(beginning->time(), bar->time(), end->time());
 	}
-    else
+	else
 		QMessageBox::information(this, tr("Your job is not done yet"), tr("The three timers have not been set yet."));
 }
 
+
+/**
+ * @brief AudioSync::tempoClicked
+ *
+ * Slot appelé lorsqu'on change manuellement la valeur du tempo
+ */
 void AudioSync::tempoClicked()
 {
 	bar->setTime(m_tempBarTime);
+	bpm->setGood();
 }

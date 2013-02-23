@@ -133,6 +133,7 @@ bool SimpleMusicPlayer::setAudioFile(QString file)
  */
 void SimpleMusicPlayer::resizeEvent(QResizeEvent * event)
 {
+	QWidget::resizeEvent(event);
 	if(player->getState())
 	{
 		waveform->setWidth(parent->width() - 20);

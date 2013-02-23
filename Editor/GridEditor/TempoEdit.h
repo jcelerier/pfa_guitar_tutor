@@ -9,6 +9,9 @@ class TempoEdit : public QSpinBox
 		Q_OBJECT
 	public:
 		explicit TempoEdit(QWidget *parent = 0);
+		void setBad();
+		void setGood();
+
 		virtual void mousePressEvent ( QMouseEvent * event );
 		virtual void mouseReleaseEvent(QMouseEvent *event);
 
@@ -20,6 +23,7 @@ class TempoEdit : public QSpinBox
 
 	private:
 		bool has_changed;
+		QString badStyle; //mérite de passer en static const
 		
 };
 

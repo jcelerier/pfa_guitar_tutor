@@ -24,7 +24,7 @@ class TimeEdit : public QTimeEdit
 
 	private:
 		bool has_changed;
-		QString badStyle;
+		QString badStyle; //mérite de passer en static const
 
 		
 };

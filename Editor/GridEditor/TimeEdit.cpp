@@ -37,6 +37,12 @@ void TimeEdit::setGood()
 }
 
 
+/**
+ * @brief TimeEdit::mousePressEvent
+ * @param event évènement souris
+ *
+ * Réimplémenté depuis QAbstractSpinBox
+ */
 void TimeEdit::mousePressEvent ( QMouseEvent * event )
 {
 	QAbstractSpinBox::mousePressEvent(event);
@@ -48,6 +54,11 @@ void TimeEdit::mousePressEvent ( QMouseEvent * event )
 	}
 }
 
+/**
+ * @brief TimeEdit::changed
+ *
+ * Slot appelé lorsque la valeur a changé
+ */
 void TimeEdit::changed(QTime)
 {
 	has_changed = true;
