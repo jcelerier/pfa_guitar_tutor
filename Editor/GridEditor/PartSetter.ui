@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>481</width>
-    <height>242</height>
+    <width>504</width>
+    <height>249</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>380</x>
-     <y>90</y>
+     <x>400</x>
+     <y>100</y>
      <width>91</width>
      <height>61</height>
     </rect>
@@ -37,8 +37,8 @@
     <rect>
      <x>10</x>
      <y>40</y>
-     <width>361</width>
-     <height>151</height>
+     <width>375</width>
+     <height>201</height>
     </rect>
    </property>
    <layout class="QFormLayout" name="formLayout">
@@ -88,6 +88,13 @@
       </property>
      </spacer>
     </item>
+    <item row="4" column="0">
+     <widget class="QCheckBox" name="updateFollowers">
+      <property name="text">
+       <string>Update following bars</string>
+      </property>
+     </widget>
+    </item>
     <item row="5" column="0">
      <widget class="QLabel" name="label_2">
       <property name="locale">
@@ -101,10 +108,14 @@
     <item row="5" column="1">
      <widget class="QTimeEdit" name="beginning"/>
     </item>
-    <item row="4" column="1">
-     <widget class="QCheckBox" name="updateFollowers">
+    <item row="6" column="1">
+     <widget class="QPushButton" name="pushButton">
       <property name="text">
-       <string>Update following bars</string>
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../../app/icons/play.png</normaloff>../../app/icons/play.png</iconset>
       </property>
      </widget>
     </item>
@@ -134,29 +145,6 @@
     <string>Cell properties</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
-   <property name="geometry">
-    <rect>
-     <x>190</x>
-     <y>190</y>
-     <width>31</width>
-     <height>33</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>../../app/icons/play.png</normaloff>../../app/icons/play.png</iconset>
-   </property>
-  </widget>
-  <zorder>buttonBox</zorder>
-  <zorder>formLayoutWidget</zorder>
-  <zorder>label_4</zorder>
-  <zorder>label_2</zorder>
-  <zorder>beginning</zorder>
-  <zorder>pushButton</zorder>
  </widget>
  <resources/>
  <connections>

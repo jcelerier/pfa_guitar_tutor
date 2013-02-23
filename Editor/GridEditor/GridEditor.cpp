@@ -56,14 +56,13 @@ GridEditor::~GridEditor() {
 	delete toolBar;
 	delete settings;
 
-    delete editorPanel;
-	delete chordTree;
+    delete chordTree;
 	if(grid != 0)
 	{
 		delete grid;
 		grid = 0;
 	}
-	delete layout;
+    delete layout;
     delete centralArea;
     delete statusInfo; delete status;
 }
@@ -444,17 +443,15 @@ QString GridEditor::statusText()
 	QString text;
 	if( ! trackProperties->getTrack().isEmpty() )
 	{
-		text += "Morceau: ";
+        text += tr("Track: ");
 		text += trackProperties->getTrack();
+        text += ". ";
 	}
 	if( ! trackProperties->getArtist().isEmpty() )
 	{
-		text += ". Artiste: ";
-		text += trackProperties->getArtist();
-	}
-	if( ! trackProperties->getTrack().isEmpty() || ! trackProperties->getArtist().isEmpty() )
-	{
-		text += ".";
+        text += tr(". Artist: ");
+        text += trackProperties->getArtist();
+        text += ".";
 	}
 
 	return text;
@@ -526,3 +523,4 @@ void GridEditor::help()
 	HelpWindow helpWindow;
 	helpWindow.exec();
 }
+

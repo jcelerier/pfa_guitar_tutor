@@ -39,7 +39,6 @@ protected:
 	//virtual void mousePressEvent( QMouseEvent* event );
 
 public:
-    ChordTableWidget();
 	ChordTableWidget(int column, int row, QWidget *parent);
     QString get_name() const;
     void set_name(QString name);
@@ -75,7 +74,7 @@ public slots:
 
 	void playFromHere();
 
-	void setTimeInfo(const QTime beginning, const QTime bar, const QTime end);
+    void setTimeInfo(const QTime beginning, const QTime bar, const QTime end);
 	void isPlayingAt(QTime t);
 
 	//void onClick(int row, int column);

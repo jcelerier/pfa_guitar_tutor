@@ -10,6 +10,7 @@ PartSetter::PartSetter(QWidget *parent) :
     ui->beginning->setDisplayFormat("m:ss:zzz");
     ui->beginning->setTime(QTime(0,0));
     ui->partEdit->setText("");
+    setMinimumSize(500,250);
 
 	//ui->pushButton->addAction(((ChordTableWidget*) parent)->m_playFromHere);
 }

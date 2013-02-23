@@ -85,7 +85,7 @@ private:
     bool saveBeforeQuit();
 
 signals:
-	void sendTimeToChordWidget(QTime, QTime, QTime);
+    void sendTimeToChordWidget(QTime, QTime, QTime);
     void play(int);
 	void propsChanged();
 	void sigTimeData(QTime);

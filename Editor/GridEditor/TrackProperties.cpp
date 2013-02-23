@@ -5,9 +5,10 @@
 
 TrackProperties::TrackProperties(QWidget *parent) :
 	QDialog(parent),
-	ui(new Ui::TrackProperties)
+    ui(new Ui::TrackProperties)
 {
 	ui->setupUi(this);
+    accept();
 }
 
 TrackProperties::~TrackProperties()
@@ -49,7 +50,7 @@ QString TrackProperties::getTrack()
  * @brief TrackProperties::getBarSize
  * @return Taille d'une mesure en cases
  */
-int TrackProperties::getBarSize()
+unsigned int TrackProperties::getBarSize()
 {
 	return m_barsize;
 }
@@ -80,7 +81,7 @@ void TrackProperties::setTrack(QString track)
  * @brief TrackProperties::setBarSize
  * @param barsize Taille d'une mesure en cases
  */
-void TrackProperties::setBarSize(int barsize)
+void TrackProperties::setBarSize(unsigned int barsize)
 {
 	m_barsize = barsize;
 	ui->t_barsize->setValue(barsize);

@@ -20,11 +20,11 @@ class TrackProperties : public QDialog
 		~TrackProperties();
 		QString getArtist();
 		QString getTrack();
-		int getBarSize();
+        unsigned int getBarSize();
 
 		void setArtist(QString artist);
 		void setTrack(QString track);
-		void setBarSize(int barsize);
+        void setBarSize(unsigned int barsize);
 		
 	public slots:
 		void accept();
@@ -36,7 +36,7 @@ class TrackProperties : public QDialog
 		Ui::TrackProperties *ui;
 		QString m_trackname;
 		QString m_artist;
-		int m_barsize; //taille en cases d'une mesure, ou nombre d'accords par mesure si on préfère
+        unsigned int m_barsize; //taille en cases d'une mesure, ou nombre d'accords par mesure si on préfère
 
 };
 

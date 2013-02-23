@@ -17,15 +17,6 @@ Last change on 08/05/12
 
 /**
  * @brief ChordTableWidget::ChordTableWidget
- *
- * Initialise la grille d'accords.
- */
-ChordTableWidget::ChordTableWidget() : QTableWidget(), name(new QString("")) {
-    this->setEnabled(false);
-}
-
-/**
- * @brief ChordTableWidget::ChordTableWidget
  * @param column Nombre de colonnes
  * @param row Nombre de lignes
  *
@@ -33,8 +24,8 @@ ChordTableWidget::ChordTableWidget() : QTableWidget(), name(new QString("")) {
  */
 ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent) : QTableWidget(parent)
 {
-
-    ChordTableWidget();
+    setParent(parent);
+    setEnabled(false);
     this->setColumnCount(column);
     this->insert_row(0, row);
     this->setHorizontalHeaderItem(this->columnCount() - 1, new QTableWidgetItem(tr("Annotation")));
@@ -262,7 +253,7 @@ void ChordTableWidget::delete_selected_row() {
 
         for(QList<QTableWidgetItem*>::Iterator i = listItems.begin(); i != listItems.end() ; i++) {
             listRow.append(QString::number((**i).row()+1));
-            listRow.append(" ");
+            listRow.append(", ");
         }
         listRow.append("?");
 
@@ -296,7 +287,7 @@ void ChordTableWidget::delete_selected_column() {
 
         for(QList<QTableWidgetItem*>::Iterator i = listItems.begin(); i != listItems.end() ; i++) {
             listColumn.append(QString::number((**i).column()+1));
-            listColumn.append(" ");
+            listColumn.append(", ");
         }
         listColumn.append("?");
 
@@ -489,7 +480,7 @@ bool ChordTableWidget::checkBeginningTimes()
  */
 void ChordTableWidget::setTimeInfo(const QTime beginning, const QTime bar, const QTime end)
 {
-    int barms = bar.hour()*60*60*1000 + bar.minute()*60*1000 + bar.second()*1000 + bar.msec() - beginning.hour()*60*60*100 - beginning.minute()*60*1000 - beginning.second()*1000 - beginning.msec();
+    int barms = (bar.hour()*60*60*1000 + bar.minute()*60*1000 + bar.second()*1000 + bar.msec() - beginning.hour()*60*60*100 - beginning.minute()*60*1000 - beginning.second()*1000 - beginning.msec());
     if(barms<0) {
         QMessageBox::warning(this, tr("Error with timers"), tr("The bar timer should be greater than the beginning timer."));
         return;
@@ -518,16 +509,13 @@ void ChordTableWidget::setTimeInfo(const QTime beginning, const QTime bar, const
 			s  += ms/1000;
 			ms %= 1000;
 
-
 			s  += barsec*(r*(cmax-1)+c);
 			m  += s/60;
 			s  %= 60;
 
-
 			m  += barmin*(r*(cmax-1)+c);
 			h  += m/60;
 			m  %= 60;
-
 
 			h  += barhour*(r*(cmax-1)+c);
 
