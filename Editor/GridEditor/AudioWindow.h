@@ -7,9 +7,11 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QGridLayout>
+
 #include "AudioSync.h"
 #include "ZoomButtons.h"
 #include "SimpleMusicPlayer.h"
+#include "WaveformTimeBar.h"
 
 /**
  * @brief Tab qui contient toutes les informations relatives à l'audio
@@ -18,13 +20,12 @@ class AudioWindow : public QWidget
 {
 	Q_OBJECT
 
-
 	public:
 		explicit AudioWindow(QWidget *parent = 0);
 		~AudioWindow();
 		QString getFilename();
 		void setAudioFileName(QString file);
-		void setWaveform(Waveform* waveform);
+		void setWaveformData(Waveform* waveform, WaveformTimeBar* timeBar);
 
 	public slots:
 		void browseAudioFile();
@@ -48,7 +49,9 @@ class AudioWindow : public QWidget
 		AudioSync* audioSync;
 		QPushButton *browseButton;
 		QGridLayout* layout;
+
 		Waveform* waveform;
+		WaveformTimeBar* waveformTimeBar;
 };
 
 #endif // AUDIOWINDOW_H

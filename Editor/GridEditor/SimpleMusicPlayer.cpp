@@ -4,9 +4,13 @@
 #include <QMessageBox>
 #include <QDebug>
 
+
 //trucs pour le zoom
 #define MOVE_FACTOR 3
 #define ZOOM_FACTOR 20
+
+//nécessaire pour emplir l'espace, don't ask me why.. Sans doute à cause des 9 pixels de marge de chaque côté
+#define WIDTH_ADJUSTMENT 18
 /**
  * @brief SimpleMusicPlayer::SimpleMusicPlayer
  *
@@ -25,10 +29,12 @@ SimpleMusicPlayer::SimpleMusicPlayer(QWidget* parent)
 	playTimer = new QTimer();
 
 
-
 	player = new MusicPlayer();
-	waveform = new Waveform(this, ((AudioWindow*) parent)->width()  -20, 300);
-	((AudioWindow*) parent)->setWaveform(waveform);
+
+	waveform = new Waveform(this, ((AudioWindow*) parent)->width()  - WIDTH_ADJUSTMENT, 300);
+	waveformTimeBar = new WaveformTimeBar(QTime(0, 0), this);
+	((AudioWindow*) parent)->setWaveformData(waveform, waveformTimeBar);
+
 
     playButton->setIcon(QIcon("icons/play.png"));
 	playBarButton->setIcon(QIcon("icons/play.png"));
@@ -38,12 +44,11 @@ SimpleMusicPlayer::SimpleMusicPlayer(QWidget* parent)
     layout->addWidget(playButton, 1, 0);
 	layout->addWidget(playBarButton, 1, 1);
 	layout->addWidget(stopButton, 1, 2);
-    layout->addWidget(timerLabel, 1, 6);
-	layout->addWidget(waveform, 2, 0, 1, 7);
+	layout->addWidget(timerLabel, 1, 6);
 
     setLayout(layout);
 
-	waveform->setWidth(parent->width() - 20);
+	waveform->setWidth(parent->width() - WIDTH_ADJUSTMENT);
 	waveform->initImage();
 	waveform->update();
 
@@ -113,10 +118,11 @@ bool SimpleMusicPlayer::setAudioFile(QString file)
 	waveBegin = 0;
 	waveEnd = player->getTotalLengthInSamples();
 
-	waveform->setWidth(parent->width() - 20);
+	waveform->setWidth(parent->width() - WIDTH_ADJUSTMENT);
 	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
 	waveform->activate();
 	waveform->update();
+
 
     player->play();
     player->pause(true);
@@ -136,14 +142,14 @@ void SimpleMusicPlayer::resizeEvent(QResizeEvent * event)
 	QWidget::resizeEvent(event);
 	if(player->getState())
 	{
-		waveform->setWidth(parent->width() - 20);
+		waveform->setWidth(parent->width() - WIDTH_ADJUSTMENT);
 
 		player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
 		waveform->update();
 	}
 	else
 	{
-		waveform->setWidth(parent->width() - 20);
+		waveform->setWidth(parent->width() - WIDTH_ADJUSTMENT);
 		waveform->update();
 	}
 }
@@ -313,12 +319,12 @@ void SimpleMusicPlayer::zoomIn(QPoint clickPos)
 			waveEnd = waveBegin + 10000;
 
 		player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
-		waveform->update();
 	}
 	else
 	{
 		waveEnd = waveBegin + 10000;
 	}
+	waveform->update();
 }
 
 /**
@@ -343,7 +349,6 @@ void SimpleMusicPlayer::zoomOut(QPoint clickPos)
 
 	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
 	waveform->update();
-
 }
 
 /**
@@ -462,4 +467,11 @@ void SimpleMusicPlayer::waveBarZoom()
 		player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
 		waveform->update();
 	}
+}
+
+
+void SimpleMusicPlayer::waveUpdate()
+{
+	waveform->update();
+	waveformTimeBar->update();
 }

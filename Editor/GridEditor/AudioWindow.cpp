@@ -4,7 +4,7 @@
 AudioWindow::AudioWindow(QWidget * parent)
 {
 	this->parent = parent;
-	player = new SimpleMusicPlayer(this);
+	player = new SimpleMusicPlayer(this); // met en place la waveform via setWaveformData
     label = new QLabel(tr("Audio file")); //fuite mémoire
 	audioFile = new QLineEdit();
 	audioFile->setReadOnly(true);
@@ -21,6 +21,8 @@ AudioWindow::AudioWindow(QWidget * parent)
 	layout->addWidget(audioFile, 1, 2);
 	layout->addWidget(browseButton, 1, 3);
 	layout->addWidget(player, 2, 1, 3, 3);
+	layout->addWidget(waveformTimeBar, 4, 0, 1, 5);
+
 	layout->addWidget(waveform, 5, 0, 3, 5);
 	layout->addWidget(zoomButtons, 12, 0, 1, 1);
 
@@ -54,9 +56,10 @@ AudioWindow::~AudioWindow()
  * @brief AudioWindow::setWaveform
  * @param waveform une forme d'onde
  */
-void AudioWindow::setWaveform(Waveform* waveform)
+void AudioWindow::setWaveformData(Waveform* waveform, WaveformTimeBar* timeBar)
 {
 	this->waveform = waveform;
+	this->waveformTimeBar = timeBar;
 }
 
 /**

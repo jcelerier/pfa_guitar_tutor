@@ -33,3 +33,8 @@ int QTimeToSample(QTime t)
 	return (t.msec() + t.second() * 1000 + t.minute() * 60000) * 44.1;
 	//ugly, poller la sample rate de FMOD
 }
+
+QTime SampleToQTime(int smp)
+{
+	return MsecToTime(smp / 44.1);
+}

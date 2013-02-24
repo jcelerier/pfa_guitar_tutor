@@ -23,7 +23,7 @@ Waveform::Waveform(QWidget *parent, int w, int h):
 {
 	this->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
 
-	m_reductionFactor = (int) pow(2, 19 - m_height/200);
+	m_reductionFactor = (int) pow(2, 15 - m_height/200);
 
 	m_spectrum = new int[m_width];
 	m_pixmap = new QPixmap(m_width, m_height);

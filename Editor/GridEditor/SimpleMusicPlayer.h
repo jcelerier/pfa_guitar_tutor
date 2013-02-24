@@ -13,6 +13,7 @@
 #include <QTime>
 #include <MusicPlayer.h>
 #include "Waveform.h"
+#include "WaveformTimeBar.h"
 #define REFRESH_DELAY 200
 #define PLAYTIMER_DELAY 40
 
@@ -33,6 +34,7 @@ private:
 	QTimer* timer, *playTimer;
 
 	Waveform *waveform;
+	WaveformTimeBar* waveformTimeBar;
 
     MusicPlayer* player;
 
@@ -55,6 +57,8 @@ public:
 
 	int getWaveBegin();
 	int getWaveEnd();
+
+	void waveUpdate();
 
 public slots:
     void play();

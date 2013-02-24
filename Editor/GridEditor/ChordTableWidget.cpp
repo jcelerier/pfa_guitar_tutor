@@ -24,6 +24,7 @@ Last change on 08/05/12
  */
 ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent) : QTableWidget(parent)
 {
+
     setParent(parent);
     setEnabled(false);
     this->setColumnCount(column);
