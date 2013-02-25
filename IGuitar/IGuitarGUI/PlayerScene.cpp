@@ -8,14 +8,10 @@
 PlayerScene::PlayerScene(QObject *parent) :
     QGraphicsScene(parent),
     windowSize(Configuration::getWindowSize()),
-    framesPerSecond(40),
     playing(false)
 {
     controler = (Controler*)parent;
     disposeScene();
-    QTimer *t_Timer = new QTimer(this);
-    connect(t_Timer, SIGNAL(timeout()), this, SLOT(updateScene()));
-    t_Timer->start(1000/framesPerSecond);
 }
 
 void PlayerScene::disposeScene()
@@ -67,7 +63,6 @@ void PlayerScene::disposeScene()
     // Chanson entière
 
     itemMap["entireSong"] = new EntireSong(itemMap["backgnd"]);
-    addItem(itemMap["entireSong"]);
 
     // Barre avancement
     QPixmap avancemntImage("barretemps.png");
@@ -84,6 +79,13 @@ void PlayerScene::disposeScene()
     itemMap["menu"] = new MenuItem(itemMap["backgnd"]);
     itemMap["menu"]->setVisible(false);
     itemMap["menu"]->setPanelModality(QGraphicsItem::PanelModal);
+
+
+    // Options
+    itemMap["options"] = new ButtonItem(menuBtnImage, itemMap["backgnd"]);
+    itemMap["options"]->setPos(400, 760); // Position absolue par rapport au background
+    itemMap["options"]->setToolTip("Audio options");
+    connect((ButtonItem*)itemMap["options"], SIGNAL(pushed()), this, SLOT(openAudioOptions()));
 
 }
 
@@ -102,6 +104,12 @@ void PlayerScene::switchPlaying()
     controler->startClock();
 }
 
+void PlayerScene::openAudioOptions()
+{
+    Configuration config;
+    addWidget(new AudioConfiguration(config));
+}
+
 void PlayerScene::switchMenu()
 {
     itemMap["menu"]->setVisible(!itemMap["menu"]->isVisible());
@@ -118,6 +126,6 @@ void PlayerScene::updateScene()
     }
 }
 
-void PlayerScene::newChordPlayed(QString chord) {
+void PlayerScene::setPlayedChord(QString chord) {
     ((QGraphicsTextItem*)itemMap["chordPlayed"])->setPlainText(chord);
 }

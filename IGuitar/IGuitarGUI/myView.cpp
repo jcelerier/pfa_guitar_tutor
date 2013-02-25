@@ -3,21 +3,20 @@
 myView::myView(QGraphicsScene * scene, QWidget * parent) :
     QGraphicsView(scene, parent)
 {
-    centerOn(Configuration::originalWidth/2, Configuration::originalHeight/2);
-    scale(Configuration::quotient, Configuration::quotient);
     setSceneRect(0, 0, Configuration::originalWidth-20, Configuration::originalHeight-20);
-    //setSceneRect(Config::getWindowSize());
-    //setFixedSize(Config::getWindowSize().size());
+    centerOn(Configuration::originalWidth/2, Configuration::originalHeight/2);
 
-    //fitInView(Config::getWindowSize());
-
+    scale(Configuration::getQuotient(), Configuration::getQuotient()); // Adaptation a l'ecran
+    //fitInView(Configuration::getWindowSize()); // Resultats pitoyables
 
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setRenderHints(QPainter::Antialiasing);
-    //setRenderHint(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
 
-    showFullScreen();
+    setRenderHints(QPainter::Antialiasing);
+    //setRenderHint(QPainter::Antialiasing | QPainter::SmoothPixmapTransform); // Smoothpixmap ne s'applique pas a tout
+
+    setFixedSize(Configuration::getWindowSize().size()); // Fenetré
+    //showFullScreen();                                  // Plein ecran
 }
 
 void myView::keyPressEvent(QKeyEvent* event)

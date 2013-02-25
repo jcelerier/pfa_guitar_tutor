@@ -35,6 +35,7 @@ EntireSong::EntireSong(QGraphicsItem *parent) :
     textMasking->setOpacityMask(brushMask);
     maskingTextContainer->setGraphicsEffect(textMasking);
     scrollingTextContainer = new QGraphicsItemGroup(maskingTextContainer);
+    scrollingTextContainer->setPos(180, 440);
 
 
     QList<PlayerChord>::iterator ite;
@@ -71,7 +72,7 @@ EntireSong::EntireSong(QGraphicsItem *parent) :
 
         tempScrollingChord = new QGraphicsTextItem(scrollingTextContainer);
         tempScrollingChord->setFont(scrollingChordFont);
-        tempScrollingChord->setPos(180 + ite->time*pixPerMsec, 440);
+        tempScrollingChord->setPos(ite->time*pixPerMsec, 0);
         tempScrollingChord->setHtml("<font color=\"#ffffff\">"+ite->name+"</font>");
 
         ite->scrollingChordItem = tempScrollingChord;

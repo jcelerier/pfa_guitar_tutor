@@ -24,19 +24,19 @@ signals:
     
 public slots:
     void updateScene();
-    void newChordPlayed(QString);
+    void setPlayedChord(QString);
+    void switchPlaying();
+    void switchMenu();
+    void openAudioOptions();
 
 private:
     QRect windowSize;
     QMap <QString, QGraphicsItem*> itemMap;
-    int framesPerSecond;
     bool playing;
     Controler* controler;
 
     void disposeScene();
-public slots:
-    void switchPlaying();
-    void switchMenu();
+
 };
 
 #endif // MYSCENE_H

@@ -34,6 +34,8 @@ public:
     QList<PlayerChord> chordList;
     int test;
     LogicalTrack *track;
+public slots:
+    void ticTac();
 
 protected:
     virtual void timeOut();
@@ -48,6 +50,7 @@ private:
     void stopSong();
 
     ScoreManager* m_scoreManager;
+    QList<PlayerChord> getChordList(LogicalTrack* trackName);
 
     bool m_mustPlay;
     bool m_mustStop;

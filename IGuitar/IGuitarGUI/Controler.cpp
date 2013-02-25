@@ -34,19 +34,32 @@ Controler::Controler()
         chordList.append(*tempChord);
     }
 
+
+
     m_mustPlay = false;
     m_mustStop = false;
     m_playing = false;
 
     initSong();
 
+     chordList = getChordList(track);
+
     m_scene = new PlayerScene(this);
     m_view = new myView(m_scene);
 
+    QTimer *t_Timer = new QTimer(this);
+    connect(t_Timer, SIGNAL(timeout()), this, SLOT(ticTac()));
+    t_Timer->start(1000/Configuration::framesPerSec);
+
     m_view->show(); // Que se passe-t-il apres le show ?
-         // timeOut est il execute ?
 
+}
 
+void Controler::ticTac() {
+    if(m_playing)
+        m_scene->advance();
+    //m_scene->setPlayedChord("QS");
+    m_scene->setPlayedChord(QString(m_scoreManager->getCurrentChord().c_str()));
 }
 
 /**
@@ -104,6 +117,10 @@ void Controler::initSong() {
     TrackLoader::convertXmlToLogicalTrack(path, track);
 
     m_scoreManager->loadScore(track);
+
+    qDebug() << "ammiiii";
+    qDebug() << QString(m_scoreManager->ScoreToString(track).c_str());
+    qDebug() << getChordList(track)[0].name;
 }
 
 void Controler::startSong() {
@@ -187,4 +204,43 @@ void Controler::startClock() {
 
 void Controler::pauseClock() {
     clockOffset += globalClock.elapsed();
+}
+
+QList<PlayerChord> Controler::getChordList(LogicalTrack* trackName)
+{
+   QList<PlayerChord> chList;
+   PlayerChord* tempChord;
+
+   QList<PartTrack*>::iterator it1;
+   QList<TrackChord*>::iterator it2;
+
+   QList<PartTrack*> partTrackList = trackName->getPartTrackList();
+
+   for(it1 = partTrackList.begin(); it1 != partTrackList.end(); ++it1)
+   {
+
+       QList<TrackChord*> gtc = (*it1)->getTrackChordsList(); //utilisée dans la boucle qui suit, plante si pas de passage par variable intermédiaire (pourquoi?) --- hamid
+
+       for(it2 = gtc.begin(); it2 != gtc.end(); ++it2)
+       {
+           for(int i = 0; i < (*it2)->getRepetition(); i++)
+           {
+               tempChord = new PlayerChord();
+               qreal time;
+               QString chord("");
+
+               chord += (*it2)->getChord();
+               time = (*it2)->getDuration();
+
+               tempChord->name = chord;
+               tempChord->time = (int) time;
+
+               if(chord != "n") {
+                   chList.append(*tempChord);
+               }
+
+           }
+       }
+   }
+   return chList;
 }
