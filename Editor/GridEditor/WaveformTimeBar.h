@@ -18,6 +18,7 @@ class WaveformTimeBar : public QWidget
 		PrecisionLevel computePrecisionLevel();
 		double computeLogPrecisionLevel();
 		int getPixelSpacing();
+		void drawTextAtTime(int s_time);
 		
 	signals:
 		

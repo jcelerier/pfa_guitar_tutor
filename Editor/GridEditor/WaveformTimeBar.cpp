@@ -2,6 +2,7 @@
 #include "SimpleMusicPlayer.h"
 #include <QDebug>
 
+
 WaveformTimeBar::WaveformTimeBar(const QTime& song_end, QWidget *parent) :
 	QWidget(parent), begin(QTime(0, 0)), end(song_end)
 {
@@ -13,7 +14,7 @@ WaveformTimeBar::WaveformTimeBar(const QTime& song_end, QWidget *parent) :
 	this->setLayout(layout);
 
 	//moche
-	for(int i = 1; i < 10; ++i)
+	for(int i = 1; i < 20; ++i)
 	{
 		layout->setColumnMinimumWidth(i, 20);
 	}
@@ -28,21 +29,23 @@ void WaveformTimeBar::draw()
 	drawTimeMovers();
 }
 
+// on affiche, en fonction du niveau de précision :
+// toutes les minutes
+// 30s
+// 15s
+// 7s500
+// 3s750
+// 1s875
 void WaveformTimeBar::drawText()
 {
 	const int spacing = getPixelSpacing();
 	const int width = this->geometry().width();
 	const int max_drawn = width / (spacing + 20);
 
-	qDebug() << spacing;
 	for(int i = 0; i < max_drawn; ++i)
 	{
-		painter->drawText(spacing * i,
-						  0,
-						  this->width(),
-						  fontMetrics().height(),
-						  Qt::AlignLeft,
-						  "coucou");
+		//faire en fonction du tempo !
+		drawTextAtTime(0);
 	}
 
 }
@@ -56,6 +59,47 @@ void WaveformTimeBar::paintEvent(QPaintEvent *event)
 	drawText();
 	painter->end();
 }
+
+
+
+//algorithme général :
+// on dispose du temps du pixel gauche et du pixel droit
+// ainsi que du niveau de précision souhaité
+// on affiche pour chaque temps qui correspond au niveau de précision et qui est entre début et fin sa valeur
+// à la bonne position, avec une fonction qui prend début, fin, temps et donne la position en pixel du temps
+/**
+ * @brief WaveformTimeBar::drawTextAtTime
+ * @param s_time Temps en sample à afficher
+ *
+ * Cette méthode affiche un temps donné.
+ */
+void WaveformTimeBar::drawTextAtTime(int s_time)
+{
+	double s_begin =  ((SimpleMusicPlayer*) parent)->getWaveBegin();
+	double s_end = ((SimpleMusicPlayer*) parent)->getWaveEnd();
+
+	QTime time = SampleToQTime(s_time);
+
+
+	//1 : déterminer si s_time est visible :
+	if(s_begin <= s_time && s_time <= s_end)
+	{
+		//2 : calculer sa position dans le temps (rapport entre begin et end)
+		double percent = (s_time - s_begin) / (s_end - s_begin);
+
+		//3 : obtenir la position en pixels
+		double pos = this->width() * percent;
+
+		painter->drawText(pos,
+						  0,
+						  this->width(),
+						  fontMetrics().height(),
+						  Qt::AlignLeft,
+						  time.toString("m:ss:zzz"));
+
+	}
+}
+
 
 void WaveformTimeBar::drawTimeMovers()
 {
@@ -87,7 +131,6 @@ double WaveformTimeBar::computeLogPrecisionLevel()
 	int s_begin =  ((SimpleMusicPlayer*) parent)->getWaveBegin();
 	int s_end = ((SimpleMusicPlayer*) parent)->getWaveEnd();
 
-	qDebug() << s_begin << s_end;
 	if(s_end - s_begin == 0)
 	{
 		return -1;
