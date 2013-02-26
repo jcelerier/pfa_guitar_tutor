@@ -9,7 +9,6 @@
 
 using namespace std;
 
-#include "../GuitarTutor/Chord.h"
 #include "LogicalTrack.h"
 #include "PartTrack.h"
 

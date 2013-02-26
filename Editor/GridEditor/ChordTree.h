@@ -1,7 +1,7 @@
 #ifndef CHORDTREE_H
 #define CHORDTREE_H
 
-#include <QTreeWidget>
+#include <QtWidgets/QTreeWidget>
 #include <QString>
 #include "Tonalities.h"
 #include "Enrichment.h"

@@ -1,9 +1,9 @@
 #ifndef PARTSETTER_H
 #define PARTSETTER_H
 
-#include <QDialog>
+#include <QtWidgets/QDialog>
 #include <QTime>
-#include <QMessageBox>
+#include <QtWidgets/QMessageBox>
 #include <QString>
 
 namespace Ui {

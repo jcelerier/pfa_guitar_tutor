@@ -1,10 +1,10 @@
 #ifndef EDITIONSELECTOR_H
 #define EDITIONSELECTOR_H
 
-#include <QWidget>
-#include <QLabel>
-#include <QTabWidget>
-#include <QVBoxLayout>
+#include <QtWidgets/QWidget>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QTabWidget>
+#include <QtWidgets/QVBoxLayout>
 #include "NewGridDialog.h"
 
 #define NEW_GRID 0

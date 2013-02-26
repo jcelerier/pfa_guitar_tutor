@@ -1,13 +1,13 @@
 #ifndef SELECTSONG_H
 #define SELECTSONG_H
 
-#include <QDialog>
-#include <QFileSystemModel>
+#include <QtWidgets/QDialog>
+#include <QtWidgets/QFileSystemModel>
 #include <QSortFilterProxyModel>
-#include <QTreeView>
+#include <QtWidgets/QTreeView>
 #include <QRegExp>
 #include "Configuration.h"
-#include <QGridLayout>
+#include <QtWidgets/QGridLayout>
 
 namespace Ui {
 	class SongSelection;

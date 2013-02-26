@@ -1,7 +1,7 @@
 #ifndef TIMEEDIT_H
 #define TIMEEDIT_H
 
-#include <QTimeEdit>
+#include <QtWidgets/QTimeEdit>
 
 /**
  * @brief Sous-classe de QTimeEdit qui permet de changer la couleur

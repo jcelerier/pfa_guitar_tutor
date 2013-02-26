@@ -2,7 +2,7 @@
 #define TEMPOEDIT_H
 
 #include <QtGui>
-#include <QSpinBox>
+#include <QtWidgets/QSpinBox>
 
 class TempoEdit : public QSpinBox
 {

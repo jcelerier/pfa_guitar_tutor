@@ -2,9 +2,9 @@
 #define RENDERAREA_H
 
 #include <QPainterPath>
-#include <QBoxLayout>
-#include <QPushButton>
-#include <QWidget>
+#include <QtWidgets/QBoxLayout>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QWidget>
 #include <QImage>
 #include <QDir>
 #include <vector>

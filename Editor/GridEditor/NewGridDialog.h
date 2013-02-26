@@ -1,7 +1,7 @@
 #ifndef NEWGRIDDIALOG_H
 #define NEWGRIDDIALOG_H
 
-#include <QDialog>
+#include <QtWidgets/QDialog>
 #include <QString>
 
 namespace Ui {
