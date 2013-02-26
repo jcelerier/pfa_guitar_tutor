@@ -64,12 +64,14 @@ Waveform::~Waveform()
  */
 void Waveform::update()
 {
+	//repaint();
 	m_painter->end();
 	if(m_pixmap != 0)
 		delete m_pixmap;
 
 	m_pixmap = new QPixmap(m_width, m_height);
 	m_painter->begin(m_pixmap);
+
 
 	m_painter->setRenderHint( QPainter::HighQualityAntialiasing, true);
 	m_painter->setPen(*m_mainPen);

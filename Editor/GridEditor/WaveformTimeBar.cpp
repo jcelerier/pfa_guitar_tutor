@@ -7,15 +7,21 @@
 WaveformTimeBar::WaveformTimeBar(const QTime& song_end, QWidget *parent) :
 	QWidget(parent), begin(QTime(0, 0)), end(song_end)
 {
-	begin_slider = new WaveformTimeSlider("icons/arrow.png", TIMER_BEGINNING, this);
-	bar_slider = new WaveformTimeSlider("icons/arrow.png", TIMER_BAR, this);
-	end_slider = new WaveformTimeSlider("icons/arrow.png", TIMER_END, this);
+	begin_slider = new WaveformTimeSlider("icons/arrow_beg.png", TIMER_BEGINNING, this);
+	bar_slider = new WaveformTimeSlider("icons/arrow_bar.png", TIMER_BAR, this);
+	end_slider = new WaveformTimeSlider("icons/arrow_end.png", TIMER_END, this);
+
+	play_slider = new WaveformTimeSlider("icons/arrow_player.png", TIMER_PLAY, this);
+
 
 	connect(begin_slider, SIGNAL(timeChanged(int, QTime)), this, SIGNAL(timeChanged(int,QTime)));
 	connect(bar_slider, SIGNAL(timeChanged(int, QTime)), this, SIGNAL(timeChanged(int,QTime)));
 	connect(end_slider, SIGNAL(timeChanged(int, QTime)), this, SIGNAL(timeChanged(int,QTime)));
 
 	this->parent = parent;
+	this->setBackgroundRole(QPalette::Window);
+	this->setAutoFillBackground(true);
+
 	painter = new QPainter();
 
 	layout = new QGridLayout();
@@ -34,7 +40,7 @@ WaveformTimeBar::WaveformTimeBar(const QTime& song_end, QWidget *parent) :
 
 void WaveformTimeBar::draw()
 {
-	drawText();
+	//drawText();
 	drawTimeSliders();
 }
 
@@ -58,11 +64,9 @@ void WaveformTimeBar::drawText()
 	}
 
 }
-
 void WaveformTimeBar::paintEvent(QPaintEvent *event)
 {
 	painter->begin(this);
-	painter->fillRect(event->rect(), Qt::lightGray);
 	painter->setPen(Qt::black);
 
 	draw();
@@ -177,6 +181,7 @@ void WaveformTimeBar::drawTimeSliders()
 	drawSlider(begin_slider);
 	drawSlider(bar_slider);
 	drawSlider(end_slider);
+	drawSlider(play_slider);
 }
 
 //TODO plutôt renvoyer le log à base 10 ?
@@ -260,5 +265,11 @@ void WaveformTimeBar::setTimer(int type, QTime t)
 		default:
 			break;
 	}
+	update();
 }
 
+void WaveformTimeBar::setPlayerTimer(QTime t)
+{
+	play_slider->setTime(QTimeToSample(t));
+	update();
+}

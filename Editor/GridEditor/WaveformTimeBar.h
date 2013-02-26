@@ -36,12 +36,13 @@ class WaveformTimeBar : public QWidget
 	public slots:
 		void update();
 		void setTimer(int type, QTime t);
+		void setPlayerTimer(QTime t);
 
 	protected:
 		void paintEvent(QPaintEvent *event);
 
 	private:
-		WaveformTimeSlider* begin_slider, *bar_slider, *end_slider;
+		WaveformTimeSlider* begin_slider, *bar_slider, *end_slider, *play_slider;
 		WaveformTimeSlider* clickedSlider;
 		QWidget* parent;
 		QTime begin, end;

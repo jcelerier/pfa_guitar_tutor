@@ -13,7 +13,7 @@
 #define TIMER_BEGINNING 0
 #define TIMER_END       1
 #define TIMER_BAR       2
-
+#define TIMER_PLAY		3
 class TimeEdit;
 
 /**
