@@ -25,8 +25,8 @@ SOURCES += \
     TimeEdit.cpp \
     Main.cpp \
     TempoEdit.cpp \
-    WaveformTimeMover.cpp \
-    WaveformTimeBar.cpp
+    WaveformTimeBar.cpp \
+    WaveformTimeSlider.cpp
 
 HEADERS += \
     CaseItem.h \
@@ -47,8 +47,8 @@ HEADERS += \
     ZoomButtons.h \
     TimeEdit.h \
     TempoEdit.h \
-    WaveformTimeMover.h \
-    WaveformTimeBar.h
+    WaveformTimeBar.h \
+    WaveformTimeSlider.h
 
 TRANSLATIONS = GridEditor_fr.ts
 

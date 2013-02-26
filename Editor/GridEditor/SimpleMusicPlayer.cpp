@@ -59,6 +59,8 @@ SimpleMusicPlayer::SimpleMusicPlayer(QWidget* parent)
 	connect(playTimer, SIGNAL(timeout()), this, SLOT(sendTimeData()));
 
 	connect(this, SIGNAL(sigTimeData(QTime)), waveform, SLOT(setPlayerTimer(QTime)));
+	connect(this, SIGNAL(sigTimeData(QTime)), waveformTimeBar, SLOT(setPlayerTimer(QTime)));
+
 
     connect(slideBar, SIGNAL(sliderMoved(int)), this, SLOT(changePosition(int)));
 

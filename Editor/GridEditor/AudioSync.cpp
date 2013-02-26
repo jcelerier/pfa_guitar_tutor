@@ -301,6 +301,21 @@ void AudioSync::sendData()
 		QMessageBox::information(this, tr("Your job is not done yet"), tr("The three timers have not been set yet."));
 }
 
+void AudioSync::recvTimer(int type, QTime t)
+{
+	if(type == TIMER_BEGINNING)
+	{
+		beginning->setTime(t);
+	}
+	else if(type == TIMER_BAR)
+	{
+		bar->setTime(t);
+	}
+	else if(type == TIMER_END)
+	{
+		end->setTime(t);
+	}
+}
 
 /**
  * @brief AudioSync::tempoClicked

@@ -1,11 +1,20 @@
 #include "WaveformTimeBar.h"
 #include "SimpleMusicPlayer.h"
+#include "AudioSync.h"
 #include <QDebug>
 
 
 WaveformTimeBar::WaveformTimeBar(const QTime& song_end, QWidget *parent) :
 	QWidget(parent), begin(QTime(0, 0)), end(song_end)
 {
+	begin_slider = new WaveformTimeSlider("icons/arrow.png", TIMER_BEGINNING, this);
+	bar_slider = new WaveformTimeSlider("icons/arrow.png", TIMER_BAR, this);
+	end_slider = new WaveformTimeSlider("icons/arrow.png", TIMER_END, this);
+
+	connect(begin_slider, SIGNAL(timeChanged(int, QTime)), this, SIGNAL(timeChanged(int,QTime)));
+	connect(bar_slider, SIGNAL(timeChanged(int, QTime)), this, SIGNAL(timeChanged(int,QTime)));
+	connect(end_slider, SIGNAL(timeChanged(int, QTime)), this, SIGNAL(timeChanged(int,QTime)));
+
 	this->parent = parent;
 	painter = new QPainter();
 
@@ -26,7 +35,7 @@ WaveformTimeBar::WaveformTimeBar(const QTime& song_end, QWidget *parent) :
 void WaveformTimeBar::draw()
 {
 	drawText();
-	drawTimeMovers();
+	drawTimeSliders();
 }
 
 // on affiche, en fonction du niveau de précision :
@@ -45,7 +54,7 @@ void WaveformTimeBar::drawText()
 	for(int i = 0; i < max_drawn; ++i)
 	{
 		//faire en fonction du tempo !
-		drawTextAtTime(0);
+		drawTextAtTime(48168);
 	}
 
 }
@@ -56,10 +65,49 @@ void WaveformTimeBar::paintEvent(QPaintEvent *event)
 	painter->fillRect(event->rect(), Qt::lightGray);
 	painter->setPen(Qt::black);
 
-	drawText();
+	draw();
+
 	painter->end();
 }
 
+
+void WaveformTimeBar::mouseMoveEvent(QMouseEvent * event)
+{
+	if(clickedSlider != 0)
+	{
+		double s_begin =  ((SimpleMusicPlayer*) parent)->getWaveBegin();
+		double s_end = ((SimpleMusicPlayer*) parent)->getWaveEnd();
+
+		float clickPercent = (float) event->x() / (float) this->width();
+		float sample = clickPercent * (s_end - s_begin) + s_begin;
+
+		clickedSlider->private_setTime(sample);
+		update();
+	}
+}
+
+void WaveformTimeBar::mousePressEvent(QMouseEvent * event)
+{
+	if(begin_slider->getPos() <= event->x() &&
+	   event->x() <= begin_slider->getPos() + begin_slider->getPixmapSize().width())
+	{
+		clickedSlider = begin_slider;
+	}
+	else if(bar_slider->getPos()  <= event->x() &&
+			event->x() <= bar_slider->getPos() + bar_slider->getPixmapSize().width())
+	{
+		clickedSlider = bar_slider;
+	}
+	else if(end_slider->getPos()<= event->x() &&
+			event->x() <= end_slider->getPos() + end_slider->getPixmapSize().width())
+	{
+		clickedSlider = end_slider;
+	}
+	else
+	{
+		clickedSlider = 0;
+	}
+}
 
 
 //algorithme général :
@@ -100,10 +148,35 @@ void WaveformTimeBar::drawTextAtTime(int s_time)
 	}
 }
 
-
-void WaveformTimeBar::drawTimeMovers()
+void WaveformTimeBar::drawSlider(WaveformTimeSlider* slider)
 {
+	double s_begin =  ((SimpleMusicPlayer*) parent)->getWaveBegin();
+	double s_end = ((SimpleMusicPlayer*) parent)->getWaveEnd();
 
+
+
+	//1 : déterminer si s_time est visible :
+	if(s_begin <= slider->getTime() && slider->getTime() <= s_end)
+	{
+		//2 : calculer sa position dans le temps (rapport entre begin et end)
+		double percent = (slider->getTime() - s_begin) / (s_end - s_begin);
+
+		//3 : obtenir la position en pixels
+		double pos = this->width() * percent;
+
+		painter->drawPixmap(pos - slider->getPixmapSize().width() / 2,
+							0,
+							slider->getPixmap());
+
+		slider->setPos(pos - slider->getPixmapSize().width() / 2);
+	}
+}
+
+void WaveformTimeBar::drawTimeSliders()
+{
+	drawSlider(begin_slider);
+	drawSlider(bar_slider);
+	drawSlider(end_slider);
 }
 
 //TODO plutôt renvoyer le log à base 10 ?
@@ -170,3 +243,22 @@ void WaveformTimeBar::update()
 {
 	repaint();
 }
+
+void WaveformTimeBar::setTimer(int type, QTime t)
+{
+	switch(type)
+	{
+		case TIMER_BEGINNING:
+			begin_slider->setTime(QTimeToSample(t));
+			break;
+		case TIMER_BAR:
+			bar_slider->setTime(QTimeToSample(t));
+			break;
+		case TIMER_END:
+			end_slider->setTime(QTimeToSample(t));
+			break;
+		default:
+			break;
+	}
+}
+

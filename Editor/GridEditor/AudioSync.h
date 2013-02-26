@@ -46,6 +46,7 @@ public:
 public slots:
 	void sendData();
 	void tempoClicked();
+	void recvTimer(int, QTime);
 
 private slots:
     void emitSignalTimer();

@@ -33,11 +33,15 @@ AudioWindow::AudioWindow(QWidget * parent)
 	connect(player, SIGNAL(sigTimeData(QTime)), parent, SIGNAL(sigTimeData(QTime)));
 	connect(audioSync, SIGNAL(refreshTimer(int)), this, SLOT(refreshTimerAudioSync(int)));
 	connect(audioSync, SIGNAL(sendTimers(QTime, QTime, QTime)), parent, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)));
+
 	connect(audioSync, SIGNAL(sendTimer(int,QTime)), waveform, SLOT(setTimer(int, QTime)));
+	connect(audioSync, SIGNAL(sendTimer(int,QTime)), waveformTimeBar, SLOT(setTimer(int, QTime)));
 
 	connect(this, SIGNAL(waveFullZoom()), player, SLOT(waveFullZoom()));
 	connect(this, SIGNAL(waveBarZoom()), player, SLOT(waveBarZoom()));
 	connect(this, SIGNAL(waveSongZoom()), player, SLOT(waveSongZoom()));
+
+	connect(waveformTimeBar, SIGNAL(timeChanged(int,QTime)), audioSync, SLOT(recvTimer(int, QTime)));
 
 	this->setLayout(layout);
 }
