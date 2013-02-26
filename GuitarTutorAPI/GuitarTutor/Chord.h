@@ -3,19 +3,20 @@
 
 #include <QList>
 #include <QStringList>
-#include <QtTest/QTest>
 #include "Enrichment.h"
 #include "Tonality.h"
 
 /**
  * @brief Représente un accord sous forme d'une tonalité et d'un enrichissement
  */
-class Chord
+class BasicChord
 {
 	public:
-        Chord(const QString &chord);
-		Chord(const Chord &chord);
-		Chord(const Tonality& tonality, const Enrichment& enrichment);
+        BasicChord(const QString &chord);
+        BasicChord(const BasicChord &chord);
+        BasicChord(const Tonality& tonality, const Enrichment& enrichment);
+
+        ~BasicChord();
 
 		bool isValid() const;
 		bool isValid(const QString& chord) const;

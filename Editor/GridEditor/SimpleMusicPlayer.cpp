@@ -1,7 +1,7 @@
 #include "SimpleMusicPlayer.h"
 #include "AudioWindow.h"
 #include "Util.hpp"
-#include <QMessageBox>
+#include <QtWidgets/QMessageBox>
 #include <QDebug>
 
 
@@ -107,6 +107,7 @@ bool SimpleMusicPlayer::setAudioFile(QString file)
         return false;
     }
 
+    file = QDir::toNativeSeparators(file);
     if(!player->setSong(file)) {
         QMessageBox::information(this, tr("So sorry..."), QString(tr("Impossible to open the file ") + file));
         return false;

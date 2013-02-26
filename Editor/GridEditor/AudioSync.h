@@ -1,15 +1,15 @@
 #ifndef AUDIOSYNC_H
 #define AUDIOSYNC_H
 
-#include <QWidget>
+#include <QtWidgets/QWidget>
 #include <QtGui>
-#include <QGridLayout>
+#include <QtWidgets/QGridLayout>
 #include "TimeEdit.h"
 #include "TempoEdit.h"
-#include <QToolButton>
-#include <QPushButton>
+#include <QtWidgets/QToolButton>
+#include <QtWidgets/QPushButton>
 #include <QTime>
-#include <QLabel>
+#include <QtWidgets/QLabel>
 #define TIMER_BEGINNING 0
 #define TIMER_END       1
 #define TIMER_BAR       2

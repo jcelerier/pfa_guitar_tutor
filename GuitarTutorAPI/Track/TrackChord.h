@@ -4,8 +4,8 @@
 #include <QString>
 #include "../GuitarTutor/Chord.h"
 
-class TrackChord {
 
+class TrackChord {
 public:
 
     TrackChord();
@@ -21,8 +21,7 @@ public:
     QString toString();
 
 private:
-
-    Chord * currentChord;
+    BasicChord * currentChord;
     qreal duration;
     int repetition;
 

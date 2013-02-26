@@ -131,17 +131,14 @@ SOURCES += MultiTracks.cpp \
            chord/chordcor.c \
            chord/ehpcp.c \
            chord/fft.c \
-           Track/TrackLoader.cpp \
-           Track/PartTrack.cpp \
-           Track/LogicalTrack.cpp \
-           Track/TrackChord.cpp \
+		   chord/chord_c.c \
+		   GuitarTutor/Chord.cpp \
+		   GuitarTutor/Enrichment.cpp \
+		   GuitarTutor/Tonalities.cpp \
+		   GuitarTutor/Tonality.cpp \
            ScoreManager.cpp \
            MusicPlayer.cpp \
            MusicManager.cpp \
-           GuitarTutor/Chord.cpp \
-           GuitarTutor/Enrichment.cpp \
-           GuitarTutor/Tonalities.cpp \
-           GuitarTutor/Tonality.cpp \
            IScoreLight/Engines.cpp \
            IScoreLight/ECOMachine/ChangeTempo.cpp \
            IScoreLight/ECOMachine/ControlPointInformations.cpp \
@@ -179,7 +176,11 @@ SOURCES += MultiTracks.cpp \
            IScoreLight/Editor/CSP/CSPConstrainedVariable.cpp \
            IScoreLight/Editor/CSP/CSPLinearConstraint.cpp \
            IScoreLight/Editor/CSP/TriggerPoint.cpp \
-           chord/chord_c.c
+		   Track/TrackLoader.cpp \
+		   Track/PartTrack.cpp \
+		   Track/LogicalTrack.cpp \
+		   Track/TrackChord.cpp
+
 
 
 macx: QMAKE_CFLAGS_X86_64 += -mmacosx-version-min=10.7
@@ -192,4 +193,4 @@ win32:CONFIG += -dll
 win32|unix: LIBS += -lfmodex64-4.44.00
 
 unix|macx:QMAKE_POST_LINK += mv libIGuitar.a ../libiguitar/
-win32:QMAKE_POST_LINK += mv IGuitar.lib ../libiguitar/
+#win32:QMAKE_POST_LINK += mv IGuitar.lib ../libiguitar/

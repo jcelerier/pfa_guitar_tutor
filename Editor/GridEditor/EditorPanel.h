@@ -1,10 +1,10 @@
 #ifndef EDITORPANEL_H
 #define EDITORPANEL_H
 
-#include <QWidget>
-#include <QTableWidget>
-#include <QVBoxLayout>
-#include <QSpacerItem>
+#include <QtWidgets/QWidget>
+#include <QtWidgets/QTableWidget>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QSpacerItem>
 #include "ChordTableWidget.h"
 #include "AudioWindow.h"
 #include "TrackProperties.h"

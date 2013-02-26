@@ -177,7 +177,7 @@ void Tonality::setAlteration(const e_Alteration alteration)
  */
 e_Note Tonality::extractBaseNoteFromStr(const QString str)
 {
-    e_Note a = (e_Note) (str.at(0).toAscii() - 65);
+    e_Note a = (e_Note) (str.at(0).toLatin1() - 65);
     return a;
 }
 

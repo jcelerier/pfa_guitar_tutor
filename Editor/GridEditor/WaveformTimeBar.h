@@ -1,7 +1,7 @@
 #ifndef WAVEFORMTIMEBAR_H
 #define WAVEFORMTIMEBAR_H
 
-#include <QtGui>
+#include <QtWidgets>
 #include "WaveformTimeMover.h"
 #include "Util.hpp"
 

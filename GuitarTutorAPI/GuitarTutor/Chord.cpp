@@ -6,7 +6,7 @@
  *
  * Construitun accord à partir d'une chaîne de caractères.
  */
-Chord::Chord(const QString& chord)
+BasicChord::BasicChord(const QString& chord)
 {
 
     m_tonality = extractTonalityFromStr(chord);
@@ -15,13 +15,18 @@ Chord::Chord(const QString& chord)
     //Je ne sais pas encore laquelle des deux est la plus efficace mais j'ai corrigé celle appelé ici.
 }
 
+BasicChord::~BasicChord()
+{
+
+}
+
 /**
  * @brief Chord::Chord
  * @param chord Accord
  *
  * Constructeur par recopie.
  */
-Chord::Chord(const Chord& chord)
+BasicChord::BasicChord(const BasicChord& chord)
 {
     m_tonality = chord.getTonality();
     m_enrichment = chord.getEnrichment();
@@ -34,7 +39,7 @@ Chord::Chord(const Chord& chord)
  *
  * Construit un accord à partir d'une tonalité et d'un enrichissement.
  */
-Chord::Chord(const Tonality &tonality, const Enrichment &enrichment)
+BasicChord::BasicChord(const Tonality &tonality, const Enrichment &enrichment)
 {
     m_tonality = Tonality(tonality);
     m_enrichment = Enrichment(enrichment);
@@ -46,7 +51,7 @@ Chord::Chord(const Tonality &tonality, const Enrichment &enrichment)
  *
  * Indique si un accord est valide ou non.
  */
-bool Chord::isValid() const
+bool BasicChord::isValid() const
 {
     return m_tonality.isValid() && m_enrichment.isValid();
 }
@@ -58,7 +63,7 @@ bool Chord::isValid() const
  *
  * Indique si un accord est valide ou non.
  */
-bool Chord::isValid(const QString &chord) const
+bool BasicChord::isValid(const QString &chord) const
 {
     return extractTonalityFromStr(chord).isValid() && extractEnrichmentFromStr(chord).isValid();
 }
@@ -69,7 +74,7 @@ bool Chord::isValid(const QString &chord) const
  *
  * Convertie un accord en chaîne de caractères.
  */
-QString Chord::toString()
+QString BasicChord::toString()
 {
     QString chord = "";
     chord += m_tonality.toString();
@@ -84,7 +89,7 @@ QString Chord::toString()
  *
  * Extrait l'enrichissement de l'accord.
  */
-const Enrichment& Chord::getEnrichment() const
+const Enrichment& BasicChord::getEnrichment() const
 {
     return m_enrichment;
 }
@@ -95,7 +100,7 @@ const Enrichment& Chord::getEnrichment() const
  *
  * Extrait la tonalité de l'accord.
  */
-const Tonality& Chord::getTonality() const
+const Tonality& BasicChord::getTonality() const
 {
     return m_tonality;
 }
@@ -106,7 +111,7 @@ const Tonality& Chord::getTonality() const
  *
  * Modifie la tonalité de l'accord.
  */
-void Chord::setTonality(Tonality& tone)
+void BasicChord::setTonality(Tonality& tone)
 {
     m_tonality = Tonality(tone);
 }
@@ -117,7 +122,7 @@ void Chord::setTonality(Tonality& tone)
  *
  * Modifie la tonalité de l'accord à partir d'une chaîne de caractères.
  */
-void Chord::setTonality(const QString& tone)
+void BasicChord::setTonality(const QString& tone)
 {
     m_tonality = Tonality(tone);
 }
@@ -128,7 +133,7 @@ void Chord::setTonality(const QString& tone)
  *
  * Modifie l'enrichissement de l'accord.
  */
-void Chord::setEnrichment(Enrichment& enrichment)
+void BasicChord::setEnrichment(Enrichment& enrichment)
 {
     m_enrichment = Enrichment(enrichment);
 }
@@ -139,7 +144,7 @@ void Chord::setEnrichment(Enrichment& enrichment)
  *
  * Modifie l'enrichissement d'un accord à partir d'une chaîne de caractères.
  */
-void Chord::setEnrichment(const QString& enrichment)
+void BasicChord::setEnrichment(const QString& enrichment)
 {
     m_enrichment = Enrichment(enrichment);
 }
@@ -152,7 +157,7 @@ void Chord::setEnrichment(const QString& enrichment)
  *
  * Extrait la tonalité d'une tonalité ou d'un accord sous forme de chaîne de caractères.
  */
-Tonality Chord::extractTonalityFromStr(const QString str) const
+Tonality BasicChord::extractTonalityFromStr(const QString str) const
 {
     Tonality tone;
     if(str.size() == 0){//Si on lui passe une chaine vide, elle renvoie nul
@@ -179,7 +184,7 @@ Tonality Chord::extractTonalityFromStr(const QString str) const
  *
  * Extrait l'enrichissement d'un accord sous forme de chaîne de caractères.
  */
-const Enrichment Chord::extractEnrichmentFromStr(QString const str_enr) const
+const Enrichment BasicChord::extractEnrichmentFromStr(QString const str_enr) const
 {
 
     //Ancienne version

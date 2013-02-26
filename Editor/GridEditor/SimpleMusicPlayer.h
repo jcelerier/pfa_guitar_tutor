@@ -1,11 +1,11 @@
 #ifndef SIMPLEMUSICPLAYER_H
 #define SIMPLEMUSICPLAYER_H
 
-#include <QWidget>
-#include <QGridLayout>
-#include <QToolButton>
-#include <QSlider>
-#include <QLabel>
+#include <QtWidgets/QWidget>
+#include <QtWidgets/QGridLayout>
+#include <QtWidgets/QToolButton>
+#include <QtWidgets/QSlider>
+#include <QtWidgets/QLabel>
 #include <QTimer>
 #include <QResizeEvent>
 #include <QString>

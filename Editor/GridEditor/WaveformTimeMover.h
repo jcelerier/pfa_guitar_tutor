@@ -1,7 +1,7 @@
 #ifndef WAVEFORMTIMEMOVER_H
 #define WAVEFORMTIMEMOVER_H
 
-#include <QWidget>
+#include <QtWidgets/QWidget>
 
 class WaveformTimeMover : public QWidget
 {
