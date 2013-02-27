@@ -43,7 +43,7 @@
 #include <QRect>
 
 #include "RenderArea.hpp"
-#include "MainWidget.hpp"
+#include "Controler.hpp"
 
 RenderArea::RenderArea(QWidget *parent)
 : QWidget(parent)
@@ -93,17 +93,17 @@ RenderArea::RenderArea(QWidget *parent)
 
 void RenderArea::playButtonClicked()
 {
-	((MainWidget*)parentWidget())->playScore(false);
+    ((Controler*)parentWidget())->playScore(false);
 }
 
 void RenderArea::playWithoutSoundButtonClicked()
 {
-	((MainWidget*)parentWidget())->playScore(true);
+    ((Controler*)parentWidget())->playScore(true);
 }
 
 void RenderArea::stopButtonClicked()
 {
-	((MainWidget*)parentWidget())->stopScore();
+    ((Controler*)parentWidget())->stopScore();
 }
 
 void RenderArea::changeButtonMode(bool play)
