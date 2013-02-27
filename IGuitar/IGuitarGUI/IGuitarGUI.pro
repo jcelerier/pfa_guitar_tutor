@@ -90,7 +90,7 @@ LIBS += -L$$PWD/../../portaudio/lib/ -lportaudio
 INCLUDEPATH += $$PWD/../../GuitarTutorAPI/portaudio
 DEPENDPATH += $$PWD/../../GuitarTutorAPI/portaudio
 
-PRE_TARGETDEPS += $$PWD/../../portaudio/lib/libportaudio.a
+PRE_TARGETDEPS += $$PWD/../../portaudio/lib/libportaudio.dll.a
 }
 
 unix: QMAKE_POST_LINK += mv IGuitarGUI ../../app/

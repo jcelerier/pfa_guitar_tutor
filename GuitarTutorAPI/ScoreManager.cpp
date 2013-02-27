@@ -7,11 +7,11 @@
 
 #include "ScoreManager.h"
 
-#include <iostream>
-#include <fstream>
-#include <sstream>
+#include<iostream>
+#include<fstream>
+#include<sstream>
 
-#include <unistd.h>
+#include<unistd.h>
 
 
 ScoreManager::ScoreManager(MusicManager* musicManager) {

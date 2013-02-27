@@ -98,16 +98,16 @@ void Controler::initSong() {
     }*/
 
     QString path;
-    path = "C:\\Users\\doom\\Documents\\GitHub\\pfa_guitar_tutor\\Editor\\GridEditor\\release\\Tracks\\BeatlesDayInTheLife\\Beatles.xml";
+    path = "Tracks/BeatlesDayInTheLife/Beatles.xml";
 
-    multiTracksMap["all"] =  "C:\\Users\\doom\\Documents\\GitHub\\pfa_guitar_tutor\\Editor\\GridEditor\\release\\Tracks\\BeatlesDayInTheLife\\AllTracks.wav";
+    multiTracksMap["all"] =  "Tracks/BeatlesDayInTheLife/AllTracks.wav";
 
 
     MusicManager* musicManager = new MusicManager(multiTracksMap, muteTracks);
     m_scoreManager = new ScoreManager(musicManager);
 
 
-    //m_scoreManager->loadScore("Tracks/BeatlesDayInTheLife/Guitar.txt");
+    m_scoreManager->loadScore("Tracks/BeatlesDayInTheLife/Guitar.txt");
 
 //		LogicalTrack *tr = new LogicalTrack();
 //		TrackLoader::convertXmlToLogicalTrack("Tracks/BeatlesDayInTheLife/test.xml", tr);
@@ -116,7 +116,7 @@ void Controler::initSong() {
 
     qDebug() << path;
     TrackLoader::convertXmlToLogicalTrack(path, track);
-    qDebug() << "coucou";
+
     m_scoreManager->loadScore(track);
 
     qDebug() << "ammiiii";
