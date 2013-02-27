@@ -45,6 +45,8 @@ Thumbs.db
 *.pro.user
 *.user
 moc_*
+ui_*
+.svn
 IGuitar/IGuitarGUI/IGuitarGUI
 IGuitar/IGuitarGUI/Tracks/
 IGuitar/PlayAnalysisGUI/PlayAnalysisGUI
