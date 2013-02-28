@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<morceau casesMesure="1" fichier="Tracks/LetItBe/piano2.wav" artiste="GuitarTutor" column="4" line="8" nom="Piano">
+  <partie nom="Intro">
+    <accord temps="0" repetition="1" nom="C"/>
+    <accord temps="2000" repetition="1" nom="G"/>
+    <accord temps="4000" repetition="1" nom="Am"/>
+    <accord temps="6000" repetition="1" nom="F"/>
+    <accord temps="8000" repetition="1" nom="C"/>
+    <accord temps="10000" repetition="1" nom="G"/>
+    <accord temps="12000" repetition="1" nom="F"/>
+  </partie>
+  <partie nom="Refrain">
+    <accord temps="14000" repetition="1" nom="Am"/>
+    <accord temps="16000" repetition="1" nom="G"/>
+    <accord temps="18000" repetition="1" nom="F"/>
+    <accord temps="20000" repetition="1" nom="C"/>
+    <accord temps="22000" repetition="1" nom="G"/>
+    <accord temps="24000" repetition="1" nom="C"/>
+    <accord temps="26000" repetition="1" nom="F"/>
+  </partie>
+  <partie nom="Couplet">
+    <accord temps="28000" repetition="1" nom="C"/>
+    <accord temps="30000" repetition="1" nom="G"/>
+    <accord temps="32000" repetition="1" nom="Am"/>
+    <accord temps="34000" repetition="1" nom="F"/>
+    <accord temps="36000" repetition="1" nom="C"/>
+    <accord temps="38000" repetition="1" nom="G"/>
+    <accord temps="40000" repetition="1" nom="F"/>
+  </partie>
+  <partie nom="Refrain">
+    <accord temps="42000" repetition="1" nom="Am"/>
+    <accord temps="44000" repetition="1" nom="G"/>
+    <accord temps="46000" repetition="1" nom="F"/>
+    <accord temps="48000" repetition="1" nom="C"/>
+    <accord temps="50000" repetition="1" nom="G"/>
+    <accord temps="52000" repetition="1" nom="C"/>
+    <accord temps="54000" repetition="1" nom="F"/>
+  </partie>
+  <partie nom="Final">
+    <accord temps="56000" repetition="1" nom="C"/>
+    <accord temps="58000" repetition="1" nom="G"/>
+    <accord temps="60000" repetition="2" nom="Am"/>
+  </partie>
+</morceau>

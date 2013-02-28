@@ -1,1 +1,1 @@
-move /Y debug\GridEditor.exe ..\..\app
+move /Y release\GridEditor.exe ..\..\app
