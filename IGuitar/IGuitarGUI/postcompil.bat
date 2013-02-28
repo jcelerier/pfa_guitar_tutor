@@ -1,1 +1,1 @@
-move /Y debug\IGuitarGui.exe ..\..\app
+move /Y release\IGuitarGui.exe ..\..\app

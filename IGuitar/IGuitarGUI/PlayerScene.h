@@ -2,7 +2,7 @@
 #define MYSCENE_H
 
 #include <QGraphicsScene>
-#include <QtGui>
+#include <QtWidgets>
 #include <QMap>
 #include "buttonitem.h"
 #include "menuitem.h"

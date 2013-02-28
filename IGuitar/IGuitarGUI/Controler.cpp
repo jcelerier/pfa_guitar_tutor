@@ -42,7 +42,7 @@ Controler::Controler()
 
     initSong();
 
-     chordList = getChordList(track);
+    chordList = getChordList(track);
 
     m_scene = new PlayerScene(this);
     m_view = new myView(m_scene);
@@ -50,8 +50,8 @@ Controler::Controler()
     QTimer *t_Timer = new QTimer(this);
     connect(t_Timer, SIGNAL(timeout()), this, SLOT(ticTac()));
     t_Timer->start(1000/Configuration::framesPerSec);
-
     m_view->show(); // Que se passe-t-il apres le show ?
+
 
 }
 
@@ -88,6 +88,7 @@ void Controler::stopScore()
 void Controler::initSong() {
 
     track = new LogicalTrack();
+    QString path("Tracks/BeatlesDayInTheLife/Beatles.xml");
     m_scoreManager = NULL;
 
     std::map<std::string, std::string> multiTracksMap;
@@ -97,8 +98,6 @@ void Controler::initSong() {
         muteTracks.push_back("all");
     }*/
 
-    QString path;
-    path = "Tracks/BeatlesDayInTheLife/Beatles.xml";
 
     multiTracksMap["all"] =  "Tracks/BeatlesDayInTheLife/AllTracks.wav";
 
@@ -107,7 +106,7 @@ void Controler::initSong() {
     m_scoreManager = new ScoreManager(musicManager);
 
 
-    m_scoreManager->loadScore("Tracks/BeatlesDayInTheLife/Guitar.txt");
+//    m_scoreManager->loadScore("Tracks/BeatlesDayInTheLife/Guitar.txt");
 
 //		LogicalTrack *tr = new LogicalTrack();
 //		TrackLoader::convertXmlToLogicalTrack("Tracks/BeatlesDayInTheLife/test.xml", tr);

@@ -161,6 +161,8 @@ void* MusicManager::initAudioInput()
 			recordCallback,
 			&m_recordData );
 
+    printf("erreur: %s\n", Pa_GetErrorText(m_err));
+
 	if( m_inputStream ) {
 		Pa_StartStream( m_inputStream );
 	}

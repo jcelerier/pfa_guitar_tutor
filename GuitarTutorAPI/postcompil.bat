@@ -1,1 +1,1 @@
-move /Y debug\libIguitar.a ..\libiguitar\
+move /Y release\libIguitar.a ..\libiguitar\

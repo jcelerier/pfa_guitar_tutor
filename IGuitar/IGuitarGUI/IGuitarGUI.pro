@@ -76,12 +76,12 @@ PRE_TARGETDEPS += $$PWD/../../libsndfile/lib/libsndfile.a
 
 
 #boost::thread
-LIBS += -L$$PWD/../../boost/lib/ -lboost_thread_win32
+LIBS += -L$$PWD/../../boost/lib/ -lboost_thread-mgw47-mt-1_53 -lboost_system-mgw47-mt-1_53
 
 INCLUDEPATH += $$PWD/../../boost/include
 DEPENDPATH += $$PWD/../../boost/include
 
-PRE_TARGETDEPS += $$PWD/../../boost/lib/libboost_thread_win32.dll.a
+PRE_TARGETDEPS += $$PWD/../../boost/lib/libboost_thread-mgw47-mt-1_53.dll.a $$PWD/../../boost/lib/libboost_system-mgw47-mt-1_53.dll.a
 
 
 #portaudio
