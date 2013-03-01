@@ -1,9 +1,7 @@
 #ifndef WAVEFORMTIMEBAR_H
 #define WAVEFORMTIMEBAR_H
 
-#include <QtGui>
-#include <QMouseEvent>
-#include <QMouseEvent>
+#include <QtWidgets>
 #include "WaveformTimeSlider.h"
 #include "Util.hpp"
 

@@ -9,7 +9,7 @@ Last change on 14/04/12
 
 #include <QColor>
 #include <QSize>
-#include <QTableWidgetItem>
+#include <QtWidgets/QTableWidgetItem>
 #include <QTime>
 #include <QString>
 #include <QPoint>

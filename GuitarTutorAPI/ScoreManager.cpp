@@ -7,11 +7,11 @@
 
 #include "ScoreManager.h"
 
-#include <iostream>
-#include <fstream>
-#include <sstream>
+#include<iostream>
+#include<fstream>
+#include<sstream>
 
-#include <unistd.h>
+#include<unistd.h>
 
 
 ScoreManager::ScoreManager(MusicManager* musicManager) {
@@ -324,7 +324,7 @@ bool ScoreManager::loadScore(std::string fileName)
 	return true;
 }
 
-std::string ScoreToString(LogicalTrack* trackName )
+std::string ScoreManager::ScoreToString(LogicalTrack* trackName )
 {
 	NoteData currentNote, prevNote;
 	float currentRelativeStart;
@@ -369,7 +369,7 @@ std::string ScoreToString(LogicalTrack* trackName )
 
 bool ScoreManager::loadScore(LogicalTrack* trackName)
 {
-	std::cout << ScoreToString(trackName) << std::flush;
+    std::cout << ScoreToString(trackName) << std::flush;
 	std::ofstream file("tmp", std::ios::out);
 	file << ScoreToString(trackName);
 	file.close();

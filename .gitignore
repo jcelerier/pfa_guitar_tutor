@@ -59,4 +59,8 @@ Makefile
 *Makefile
 *Makefile*
 IGuitar/IGuitarGUI/Makefile
+<<<<<<< HEAD
 app/IGuitarGUI 
+=======
+app/IGuitarGUI
+>>>>>>> origin/qt5_interface

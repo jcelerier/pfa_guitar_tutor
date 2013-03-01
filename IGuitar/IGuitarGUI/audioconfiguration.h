@@ -1,7 +1,7 @@
 #ifndef AUDIOCONFIGURATION_H
 #define AUDIOCONFIGURATION_H
 
-#include <QDialog>
+#include <QtWidgets/QDialog>
 #include <QList>
 #include "Configuration.h"
 #include <string>

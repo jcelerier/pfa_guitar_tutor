@@ -1,12 +1,12 @@
 #ifndef AUDIOWINDOW_H
 #define AUDIOWINDOW_H
 
-#include <QWidget>
+#include <QtWidgets/QWidget>
 #include <QString>
-#include <QLabel>
-#include <QLineEdit>
-#include <QPushButton>
-#include <QGridLayout>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QGridLayout>
 
 #include "AudioSync.h"
 #include "ZoomButtons.h"

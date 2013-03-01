@@ -1,0 +1,1 @@
+move /Y release\libIguitar.a ..\libiguitar\

@@ -1,7 +1,7 @@
 #Projet: GridEditor
 
 TEMPLATE = app
-TARGET =
+TARGET = GridEditor
 DEPENDPATH += .
 
 
@@ -55,7 +55,10 @@ TRANSLATIONS = GridEditor_fr.ts
 QT += core \
       gui \
       xml \
-      webkit
+	  webkit \
+	  webkitwidgets \
+	  testlib \
+	  widgets
 
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../libiguitar/ -lIGuitar
@@ -78,4 +81,4 @@ FORMS += \
 
 unix:QMAKE_POST_LINK += mv GridEditor ../../app/
 macx:QMAKE_POST_LINK += mv GridEditor.app ../../app/
-win32:QMAKE_POST_LINK += mv GridEditor.exe ../../app/
+# win32:QMAKE_POST_LINK += move GridEditor.exe ../../app/

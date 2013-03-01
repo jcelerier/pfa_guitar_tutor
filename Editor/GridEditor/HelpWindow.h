@@ -1,11 +1,11 @@
 #ifndef HELPWINDOW_H
 #define HELPWINDOW_H
 
-#include <QWidget>
-#include <QPushButton>
-#include <QVBoxLayout>
-#include <QWebView>
-#include <QDialog>
+#include <QtWidgets/QWidget>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWebKitWidgets/QWebView>
+#include <QtWidgets/QDialog>
 
 /**
  * @brief Affichage de l'aide

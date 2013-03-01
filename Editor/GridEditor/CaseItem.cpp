@@ -9,7 +9,7 @@ Last change on 14/04/12
  */
 
 #include "CaseItem.h"
-#include <QMenu>
+#include <QtWidgets/QMenu>
 #include <QDebug>
 #include <QMouseEvent>
 /**

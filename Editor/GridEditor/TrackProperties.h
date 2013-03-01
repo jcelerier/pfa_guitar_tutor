@@ -1,7 +1,7 @@
 #ifndef TRACKPROPERTIES_H
 #define TRACKPROPERTIES_H
 
-#include <QDialog>
+#include <QtWidgets/QDialog>
 #include <QString>
 
 namespace Ui {

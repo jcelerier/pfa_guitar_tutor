@@ -18,7 +18,7 @@ Waveform::Waveform(QWidget *parent, int w, int h):
 	QLabel(parent),
 	parent(parent),
 	m_previouslyPlayedPixel(0),
-	m_width(w),
+    m_width(w),
 	m_height(h)
 {
 	this->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
@@ -28,14 +28,14 @@ Waveform::Waveform(QWidget *parent, int w, int h):
 	m_spectrum = new int[m_width];
 	m_pixmap = new QPixmap(m_width, m_height);
 
-	m_mainPen = new QPen(Qt::green , 2, Qt::SolidLine, Qt::RoundCap);
-	m_darkPen = new QPen(QBrush(0xFF009900), 2, Qt::SolidLine, Qt::RoundCap);
+    m_mainPen = new QPen(Qt::green , 1, Qt::SolidLine, Qt::RoundCap);
+    m_darkPen = new QPen(QBrush(0xFF009900), 1, Qt::SolidLine, Qt::RoundCap);
 	m_delimiterPen = new QPen(Qt::white , 2, Qt::SolidLine, Qt::RoundCap);
 	m_playerPen = new QPen(QBrush(0xFFD8FA32) , 2, Qt::SolidLine, Qt::RoundCap);
 
 
 	m_painter = new QPainter(m_pixmap);
-	m_painter->setRenderHint( QPainter::HighQualityAntialiasing, true);
+    m_painter->setRenderHint( QPainter::TextAntialiasing, true);
 	m_painter->setPen(*m_mainPen);
 	m_painter->setBrush(QBrush(Qt::green, Qt::SolidPattern));
 
@@ -70,10 +70,9 @@ void Waveform::update()
 		delete m_pixmap;
 
 	m_pixmap = new QPixmap(m_width, m_height);
-	m_painter->begin(m_pixmap);
+    m_painter->begin(m_pixmap);
 
-
-	m_painter->setRenderHint( QPainter::HighQualityAntialiasing, true);
+	m_painter->setRenderHint( QPainter::TextAntialiasing, true);
 	m_painter->setPen(*m_mainPen);
 	m_painter->setBrush(QBrush(Qt::green, Qt::SolidPattern));
 

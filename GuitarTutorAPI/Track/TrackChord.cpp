@@ -9,11 +9,12 @@ TrackChord::TrackChord(QString nom, qreal d, int rep) {
 
     duration = d;
     repetition = rep;
-    currentChord = new Chord(nom);
+    currentChord = new BasicChord(nom);
 }
 
 
-TrackChord::~TrackChord() {
+TrackChord::~TrackChord()
+{
 
 }
 
