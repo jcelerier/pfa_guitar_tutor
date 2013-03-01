@@ -25,22 +25,12 @@ Controler::Controler()
 {
     clockOffset = 0;
 
-    PlayerChord* tempChord;
-
-    for(int i=0; i<10; i++) {
-        tempChord = new PlayerChord();
-        tempChord->name = "A";
-        tempChord->time = i * 1000;
-        chordList.append(*tempChord);
-    }
-
-
-
     m_mustPlay = false;
     m_mustStop = false;
     m_playing = false;
 
-    initSong();
+    if(!initSong())
+        qApp->quit();
 
     chordList = getChordList(track);
 
@@ -51,8 +41,6 @@ Controler::Controler()
     connect(t_Timer, SIGNAL(timeout()), this, SLOT(ticTac()));
     t_Timer->start(1000/Configuration::framesPerSec);
     m_view->show(); // Que se passe-t-il apres le show ?
-
-
 }
 
 void Controler::ticTac() {
@@ -71,9 +59,7 @@ void Controler::ticTac() {
 
 void Controler::playScore(bool mute)
 {
-
 	m_mustPlay = true;
-
 }
 /**
   * @brief MainWidget::stopScore
@@ -85,10 +71,13 @@ void Controler::stopScore()
 	m_mustStop = true;
 }
 
-void Controler::initSong() {
+bool Controler::initSong() {
 
-    track = new LogicalTrack();
-    QString path("Tracks/BeatlesDayInTheLife/Beatles.xml");
+    QString path = QFileDialog::getOpenFileName(0, tr("Loading"), ".", tr("XML Files (*.xml)"), 0, QFileDialog::HideNameFilterDetails);
+    if(path == "")
+        return false;
+
+    track = new LogicalTrack();;
     m_scoreManager = NULL;
 
     std::map<std::string, std::string> multiTracksMap;
@@ -99,11 +88,7 @@ void Controler::initSong() {
     }*/
 
 
-    multiTracksMap["all"] =  "Tracks/BeatlesDayInTheLife/AllTracks.wav";
-
-
-    MusicManager* musicManager = new MusicManager(multiTracksMap, muteTracks);
-    m_scoreManager = new ScoreManager(musicManager);
+    //m_scoreManager = new ScoreManager(musicManager);
 
 
 //    m_scoreManager->loadScore("Tracks/BeatlesDayInTheLife/Guitar.txt");
@@ -115,12 +100,15 @@ void Controler::initSong() {
 
     qDebug() << path;
     TrackLoader::convertXmlToLogicalTrack(path, track);
-
+    multiTracksMap["all"] =  track->getAudioFileName().toStdString();
+    MusicManager* musicManager = new MusicManager(multiTracksMap, muteTracks);
+    m_scoreManager = new ScoreManager(musicManager);
     m_scoreManager->loadScore(track);
 
-    qDebug() << "ammiiii";
     qDebug() << QString(m_scoreManager->ScoreToString(track).c_str());
     qDebug() << getChordList(track)[0].name;
+
+    return true;
 }
 
 void Controler::startSong() {
@@ -129,7 +117,7 @@ void Controler::startSong() {
     // nécessaire pour pas que ça crash, pourquoi ? (jm)
     usleep(100000);
 
-    m_scoreManager->setNextPart("[VERSE1]");
+    m_scoreManager->setNextPart(track->getPartName(2).toStdString());
     //m_renderAreas.changeButtonMode(false);
 }
 

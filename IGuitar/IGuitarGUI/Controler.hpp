@@ -44,7 +44,7 @@ protected slots:
 
 private:
     void initListeners();
-    void initSong();
+    bool initSong();
     void startSong();
     void stopSong();
 
