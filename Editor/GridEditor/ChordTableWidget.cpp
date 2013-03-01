@@ -248,7 +248,8 @@ void ChordTableWidget::delete_selected_row() {
     if(listItems.count() == 1) {
         removeRow(listItems.first()->row());
     }
-    else if(listItems.count() > 1) {
+    else if(listItems.count() > 1)
+    {
         QString listRow;
         listRow.append(tr("Are you sure you want to delete lines "));
 

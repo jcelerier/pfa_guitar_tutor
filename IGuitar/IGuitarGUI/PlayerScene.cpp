@@ -30,10 +30,10 @@ void PlayerScene::disposeScene()
     ((QGraphicsPixmapItem*) itemMap["backgnd"])->setTransformationMode(Qt::SmoothTransformation);
 
     // Bouton de menu
-    QPixmap menuBtnImage("menu.png");
+    QPixmap menuBtnImage("menu.png");/*
     itemMap["menuBtn"] = new ButtonItem(menuBtnImage, itemMap["backgnd"]);
     itemMap["menuBtn"]->setPos(820, 122); // Position absolue par rapport au background
-    itemMap["menuBtn"]->setToolTip("Menu");
+    itemMap["menuBtn"]->setToolTip("Menu");*/
     connect((ButtonItem*)itemMap["menuBtn"], SIGNAL(pushed()), this, SLOT(switchMenu()));
 
     // Bouton de lecture/pause
