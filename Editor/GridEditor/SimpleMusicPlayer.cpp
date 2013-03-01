@@ -124,7 +124,7 @@ bool SimpleMusicPlayer::setAudioFile(QString file)
 	waveform->setWidth(parent->width() - WIDTH_ADJUSTMENT);
 	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
 	waveform->activate();
-	waveform->update();
+	waveUpdate();
 
 
     player->play();
@@ -148,13 +148,13 @@ void SimpleMusicPlayer::resizeEvent(QResizeEvent * event)
 		waveform->setWidth(parent->width() - WIDTH_ADJUSTMENT);
 
 		player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
-		waveform->update();
+
 	}
 	else
 	{
 		waveform->setWidth(parent->width() - WIDTH_ADJUSTMENT);
-		waveform->update();
 	}
+	waveUpdate();
 }
 
 
@@ -327,7 +327,7 @@ void SimpleMusicPlayer::zoomIn(QPoint clickPos)
 	{
 		waveEnd = waveBegin + 10000;
 	}
-	waveform->update();
+	waveUpdate();
 }
 
 /**
@@ -351,7 +351,7 @@ void SimpleMusicPlayer::zoomOut(QPoint clickPos)
 												   0)));
 
 	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
-	waveform->update();
+	waveUpdate();
 }
 
 /**
@@ -377,7 +377,7 @@ void SimpleMusicPlayer::moveLeft()
 	}
 
 	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
-	waveform->update();
+	waveUpdate();
 }
 
 /**
@@ -405,7 +405,7 @@ void SimpleMusicPlayer::moveRight()
 	}
 
 	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
-	waveform->update();
+	waveUpdate();
 }
 
 /**
@@ -437,7 +437,7 @@ void SimpleMusicPlayer::waveFullZoom()
 	waveBegin = 0;
 	waveEnd = player->getTotalLengthInSamples();
 	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
-	waveform->update();
+	waveUpdate();
 }
 
 /**
@@ -453,7 +453,7 @@ void SimpleMusicPlayer::waveSongZoom()
 		waveBegin = waveform->getSampleBegin();
 		waveEnd = waveform->getSampleEnd();
 		player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
-		waveform->update();
+		waveUpdate();
 	}
 }
 /**
@@ -468,7 +468,7 @@ void SimpleMusicPlayer::waveBarZoom()
 		waveBegin = waveform->getSampleBegin();
 		waveEnd = waveform->getSampleBar();
 		player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
-		waveform->update();
+		waveUpdate();
 	}
 }
 
