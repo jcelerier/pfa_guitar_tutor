@@ -122,6 +122,9 @@
    <property name="minimum">
     <number>1</number>
    </property>
+   <property name="maximum">
+    <number>8</number>
+   </property>
   </widget>
   <widget class="QLabel" name="label_4">
    <property name="geometry">
