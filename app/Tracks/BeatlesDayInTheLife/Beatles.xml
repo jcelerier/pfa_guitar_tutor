@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
-<morceau casesMesure="1" artiste="The Beatles" nom="A day in life" fichier="/home/doom/projets/pfa/pfa_guitar_tutor/app/Tracks/BeatlesDayInTheLife/AllTracks.wav">
+<morceau casesMesure="1" artiste="The Beatles" nom="A day in life" fichier="Tracks/BeatlesDayInTheLife/AllTracks.wav">
   <partie nom="[INTRO]">
     <accord nom="G" temps="1088"/>
     <accord  nom="Bm" temps="3176"/>
     <accord nom="Em" temps="5264"/>
     <accord  nom="C" temps="7352"/>
   </partie>
-  <partie nom="[VERSE1]">
+  <partie nom="Verse 1">
     <accord  nom="G" temps="11528"/>
     <accord  nom="Bm" temps="13616"/>
     <accord  nom="Em" temps="15704"/>
