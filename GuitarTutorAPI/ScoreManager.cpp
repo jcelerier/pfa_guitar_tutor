@@ -45,7 +45,7 @@ ScoreManager::~ScoreManager() {
 
 std::string ScoreManager::getCurrentChord()
 {
-	return (m_currentInputChord == "nc")?" ":m_currentInputChord;
+    return (m_currentInputChord == "nc")?" ":m_currentInputChord;
 }
 
 void triggerCallBack(void* arg, bool state, unsigned int triggerId, unsigned int boxId, unsigned int controlPointIndex, std::string waitedString)
@@ -102,7 +102,7 @@ void crossAction(void* arg, unsigned int boxNb, unsigned int controlPointIndex, 
 void ScoreManager::update()
 {
 	double buffer[INPUT_FRAMES_PER_BUFFER];
-
+    qDebug() << "TOTO";
 	chord_init(m_chordControl, SAMPLE_RATE, INPUT_FRAMES_PER_BUFFER, INPUT_FRAMES_PER_BUFFER);
 
 	m_musicManager->fillBufferWithLastInputValues(buffer, INPUT_FRAMES_PER_BUFFER);
@@ -111,7 +111,7 @@ void ScoreManager::update()
 	chroma_compute(m_chordControl, buffer, INPUT_FRAMES_PER_BUFFER);
 
 	m_currentInputChord = chord_compute(m_chordControl);
-
+    qDebug() << QString(m_currentInputChord.c_str());
 	if (m_isAScoreToRun) {
 		unsigned int currentTime = m_iscoreEngine->getCurrentExecutionTime();
 

@@ -44,6 +44,7 @@ Controler::Controler()
 }
 
 void Controler::ticTac() {
+    m_scoreManager->update();
     if(m_playing)
         m_scene->advance();
     //m_scene->setPlayedChord("QS");
