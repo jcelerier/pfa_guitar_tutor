@@ -21,7 +21,7 @@ public:
     void setAudioFileName(QString newAudioFileName);
     QString getAudioFileName();
 
-	QList<PartTrack *> &getPartTrackList();
+    QList<PartTrack *> &getPartTrackList();
 
     void setMesure(int nb);
     int getMesure();
@@ -32,7 +32,7 @@ public:
 	int getLine();
 	int getColumn();
     void addPartTrackToList(PartTrack* newPartTrack);
-
+    QString getPartName(int n);
 private:
 
     QString trackName;

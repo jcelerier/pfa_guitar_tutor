@@ -56,7 +56,6 @@ public:
 
 	std::string getCurrentChord();
 
-	bool loadScore(std::string fileName);
     bool loadScore(LogicalTrack* trackName);
 
 	void run();
@@ -85,6 +84,7 @@ public:
 
     std::string ScoreToString(LogicalTrack *trackName);
 private:
+    bool loadScore(std::string fileName);
 	MusicManager* m_musicManager;
 	Engines* m_iscoreEngine;
 	std::string m_currentNote;

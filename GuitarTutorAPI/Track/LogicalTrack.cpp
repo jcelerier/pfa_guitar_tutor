@@ -6,7 +6,11 @@
  * Constructeur par défaut de la classe LogicalTrack
  */
 LogicalTrack::LogicalTrack() {
-
+    trackName = "";
+    artist = "";
+    audioFileName = "";
+    mesure = 0;
+    listPartTrack;
 }
 
 LogicalTrack::LogicalTrack(QString newTrackName, QString newArtist, QString newAudoFileName, int newMesure, QList<PartTrack*> newList){
@@ -158,3 +162,14 @@ int LogicalTrack::getColumn()
 {
 	return column;
 }
+
+QString LogicalTrack::getPartName(int n)
+{
+    if(n <= listPartTrack.size() && n>0){
+        return listPartTrack[n-1]->getPartName();
+    }
+    return listPartTrack[listPartTrack.size()-1]->getPartName();
+}
+
+
+

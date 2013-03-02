@@ -5,10 +5,6 @@ TrackLoader::TrackLoader() {
 
 }
 
-TrackLoader::~TrackLoader() {
-
-}
-
 bool TrackLoader::convertLogicalTrackToXml(LogicalTrack* currentTrack, QString fname) {
    // QString fname = currentTrack->getTrackName().append(".xml");
     QFile file(fname);

@@ -7,11 +7,13 @@
 
 #include "ScoreManager.h"
 
-#include<iostream>
-#include<fstream>
-#include<sstream>
+#include <iostream>
+#include <fstream>
+#include <sstream>
 
-#include<unistd.h>
+#include <unistd.h>
+
+#include <QDebug>
 
 
 ScoreManager::ScoreManager(MusicManager* musicManager) {
@@ -337,7 +339,7 @@ std::string ScoreManager::ScoreToString(LogicalTrack* trackName )
 	for(it1 = partTrackList.begin(); it1 != partTrackList.end(); ++it1)
 	{
 		std::string current((*it1)->getPartName().toStdString());
-		text << (*it1)->getPartName().toStdString() << "\n";
+        text << "[" << (*it1)->getPartName().toStdString() << "]" << "\n";
 
 		QList<TrackChord*> gtc = (*it1)->getTrackChordsList(); //utilisée dans la boucle qui suit, plante si pas de passage par variable intermédiaire (pourquoi?) --- hamid
 
@@ -369,6 +371,7 @@ std::string ScoreManager::ScoreToString(LogicalTrack* trackName )
 
 bool ScoreManager::loadScore(LogicalTrack* trackName)
 {
+    logicalTrack = trackName;
     std::cout << ScoreToString(trackName) << std::flush;
 	std::ofstream file("tmp", std::ios::out);
 	file << ScoreToString(trackName);
@@ -483,7 +486,9 @@ bool ScoreManager::isRunning()
 void ScoreManager::run()
 {
 	if (m_isAScoreToRun) {
-		m_nextPart = "[INTRO]";
+        //TODO: [] obligatoires pour les noms de parties si on utilise le fichier tmp
+        m_nextPart = "[" + logicalTrack->getPartName(1).toStdString() + "]";
+        qDebug() << "DEJZOD: " << QString(m_nextPart.c_str());
 		m_iscoreEngine->play();
 	} else {
 		goToInMs(0);
