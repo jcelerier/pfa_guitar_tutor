@@ -48,6 +48,11 @@ std::string ScoreManager::getCurrentChord()
     return (m_currentInputChord == "nc")?" ":m_currentInputChord;
 }
 
+bool ScoreManager::isCurrentChordValidated()
+{
+    return true;//m_validatedNoteInCurrentPart[m_currentNoteId];
+}
+
 void triggerCallBack(void* arg, bool state, unsigned int triggerId, unsigned int boxId, unsigned int controlPointIndex, std::string waitedString)
 {
 	ScoreManager* scoreManager = (ScoreManager*) arg;
@@ -102,7 +107,6 @@ void crossAction(void* arg, unsigned int boxNb, unsigned int controlPointIndex, 
 void ScoreManager::update()
 {
 	double buffer[INPUT_FRAMES_PER_BUFFER];
-    qDebug() << "TOTO";
 	chord_init(m_chordControl, SAMPLE_RATE, INPUT_FRAMES_PER_BUFFER, INPUT_FRAMES_PER_BUFFER);
 
 	m_musicManager->fillBufferWithLastInputValues(buffer, INPUT_FRAMES_PER_BUFFER);
@@ -111,22 +115,20 @@ void ScoreManager::update()
 	chroma_compute(m_chordControl, buffer, INPUT_FRAMES_PER_BUFFER);
 
 	m_currentInputChord = chord_compute(m_chordControl);
-    qDebug() << QString(m_currentInputChord.c_str());
-	if (m_isAScoreToRun) {
+    //qDebug() << QString(m_currentInputChord.c_str()) << "-" << QString(m_currentNote.c_str());
+    /*if (m_isAScoreToRun) {
 		unsigned int currentTime = m_iscoreEngine->getCurrentExecutionTime();
-
-		//m_currentInputChord = "C";
-		//m_currentInputChord = m_currentNote;
 
 		if (m_currentInputChord == m_currentNote) {
 			m_matchingChordsTimeInNote += (currentTime - m_lastMatchingChordsCheckTime);
-			if (((m_matchingChordsTimeInNote * 100.0)/m_currentNoteDurationInScore) > PERCENT_TO_VALIDATE_NOTE) {
+            qDebug() << (m_matchingChordsTimeInNote * 100.0)/m_currentNoteDurationInScore;
+            if (((m_matchingChordsTimeInNote * 100.0)/m_currentNoteDurationInScore) > PERCENT_TO_VALIDATE_NOTE) {
 				m_validatedNoteInCurrentPart[m_currentNoteId] = true;
 			}
-		}
+        }
 
 		m_lastMatchingChordsCheckTime = currentTime;
-	}
+    }*/
 }
 
 unsigned int ScoreManager::getValidatedNotesPercent()
@@ -372,7 +374,7 @@ std::string ScoreManager::ScoreToString(LogicalTrack* trackName )
 bool ScoreManager::loadScore(LogicalTrack* trackName)
 {
     logicalTrack = trackName;
-    std::cout << ScoreToString(trackName) << std::flush;
+    //std::cout << ScoreToString(trackName) << std::flush;
 	std::ofstream file("tmp", std::ios::out);
 	file << ScoreToString(trackName);
 	file.close();
@@ -488,7 +490,6 @@ void ScoreManager::run()
 	if (m_isAScoreToRun) {
         //TODO: [] obligatoires pour les noms de parties si on utilise le fichier tmp
         m_nextPart = "[" + logicalTrack->getPartName(1).toStdString() + "]";
-        qDebug() << "DEJZOD: " << QString(m_nextPart.c_str());
 		m_iscoreEngine->play();
 	} else {
 		goToInMs(0);

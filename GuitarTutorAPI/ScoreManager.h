@@ -83,6 +83,7 @@ public:
     void stop();
 
     std::string ScoreToString(LogicalTrack *trackName);
+    bool isCurrentChordValidated();
 private:
     bool loadScore(std::string fileName);
 	MusicManager* m_musicManager;

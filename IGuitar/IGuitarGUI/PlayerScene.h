@@ -19,7 +19,8 @@ public:
     explicit PlayerScene(QObject *parent = 0);
     void mousePressEvent(QGraphicsSceneMouseEvent*);
     QGraphicsItem* getItem(QString);
-    
+    void setCurrentChordValidated(bool v);
+    void resetNoteCheck();
 signals:
     
 public slots:
@@ -33,6 +34,10 @@ private:
     QRect windowSize;
     QMap <QString, QGraphicsItem*> itemMap;
     bool playing;
+    bool valideNote;
+    int  timeNoteSynchronized;
+    int  lastTimeCheck;
+    int  currentNoteDuration;
     Controler* controler;
 
     void disposeScene();

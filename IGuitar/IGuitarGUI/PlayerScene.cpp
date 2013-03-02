@@ -12,6 +12,8 @@ PlayerScene::PlayerScene(QObject *parent) :
 {
     controler = (Controler*)parent;
     disposeScene();
+
+    resetNoteCheck();
 }
 
 void PlayerScene::disposeScene()
@@ -126,6 +128,25 @@ void PlayerScene::updateScene()
     }
 }
 
-void PlayerScene::setPlayedChord(QString chord) {
-    ((QGraphicsTextItem*)itemMap["chordPlayed"])->setPlainText(chord);
+void PlayerScene::setPlayedChord(QString playedChord) {
+    ((QGraphicsTextItem*)itemMap["chordPlayed"])->setPlainText(playedChord);
+    if(playedChord == ((EntireSong*)itemMap["entireSong"])->getCurrentChord()) {
+        timeNoteSynchronized += (controler->elapsedTime() - lastTimeCheck);
+        if (((timeNoteSynchronized * 100.0)/currentNoteDuration) > 30 /*Adaptative*/) {
+            setCurrentChordValidated(true);
+        }
+    }
+    lastTimeCheck = controler->elapsedTime();
+}
+
+void PlayerScene::resetNoteCheck()
+{
+    valideNote = false;
+    timeNoteSynchronized = 0;
+    currentNoteDuration = 2000;//((EntireSong*)itemMap["entireSong"])->getCurrentDuration();
+}
+
+void PlayerScene::setCurrentChordValidated(bool v)
+{
+    ((EntireSong*)itemMap["entireSong"])->validateChord(v);
 }

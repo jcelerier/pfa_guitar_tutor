@@ -13,6 +13,8 @@ public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
     void nextChord();
     virtual void advance ( int );
+    void validateChord(bool v);
+    QString getCurrentChord();
 private:
     QList<QGraphicsRectItem*> cList;
     int currentChord;
@@ -23,6 +25,7 @@ private:
     float pixPerMsec;
 
     Controler* controler;
+    bool isCurrentChordValidated;
     
 };
 

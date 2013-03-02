@@ -46,9 +46,10 @@ Controler::Controler()
 void Controler::ticTac() {
     m_scoreManager->update();
     if(m_playing)
-        m_scene->advance();
+        m_scene->updateScene();
     //m_scene->setPlayedChord("QS");
-    m_scene->setPlayedChord(QString(m_scoreManager->getCurrentChord().c_str()));
+    QString playedChord = QString(m_scoreManager->getCurrentChord().c_str());
+    m_scene->setPlayedChord(playedChord);
 }
 
 /**
@@ -98,16 +99,11 @@ bool Controler::initSong() {
 //		TrackLoader::convertXmlToLogicalTrack("Tracks/BeatlesDayInTheLife/test.xml", tr);
 //		m_scoreManager->loadScore(tr);
 
-
-    qDebug() << path;
     TrackLoader::convertXmlToLogicalTrack(path, track);
     multiTracksMap["all"] =  track->getAudioFileName().toStdString();
     MusicManager* musicManager = new MusicManager(multiTracksMap, muteTracks);
     m_scoreManager = new ScoreManager(musicManager);
     m_scoreManager->loadScore(track);
-
-    qDebug() << QString(m_scoreManager->ScoreToString(track).c_str());
-    qDebug() << getChordList(track)[0].name;
 
     return true;
 }

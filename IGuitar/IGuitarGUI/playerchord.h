@@ -7,6 +7,7 @@ class PlayerChord
 {
 public:
     PlayerChord();
+    QString getName();
     QString name;
     int time;
     QGraphicsRectItem* fullSongItem;

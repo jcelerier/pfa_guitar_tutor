@@ -1,6 +1,7 @@
 #include "entiresong.h"
 #include "Controler.hpp"
 #include <QGraphicsOpacityEffect>
+#include "PlayerScene.h"
 
 #define PIXEL_PER_MSECOND 0.3
 
@@ -82,14 +83,17 @@ EntireSong::EntireSong(QGraphicsItem *parent) :
 
     // partie temporelle
     lastRefresh = 0;
-
-
+    controler->chordList[currentChord].fullSongItem->setBrush(Qt::yellow);
+    isCurrentChordValidated = false;
 }
 
 void EntireSong::nextChord() {
-    QBrush newCol(Qt::green);
-    controler->chordList[currentChord].fullSongItem->setBrush(newCol);
+    ((PlayerScene*) scene())->resetNoteCheck();
+    if(!isCurrentChordValidated)
+        validateChord(false);
+    isCurrentChordValidated = false;
     currentChord++;
+    controler->chordList[currentChord].fullSongItem->setBrush(Qt::yellow);
     if(currentChord>=controler->chordList.size())
         currentChord=0;
 }
@@ -103,11 +107,10 @@ void EntireSong::advance ( int phase ) {
         textTrans.translate(-pixPerMsec*(currentTime-lastRefresh), 0);
         scrollingTextContainer->setTransform(textTrans, true);
 
-        if(controler->chordList[currentChord].time<currentTime)
+        if(controler->chordList[currentChord+1].time<currentTime)
         {
             nextChord();
         }
-
         lastRefresh = currentTime;
     }
 }
@@ -120,4 +123,18 @@ QRectF EntireSong::boundingRect() const {
     // This rectangle is false, but may decrease performance if determined precisely
     return QRectF(0,0,1920,1080);
 
+}
+void EntireSong::validateChord(bool v)
+{
+    if(v) {
+        controler->chordList[currentChord].fullSongItem->setBrush(Qt::green);
+        isCurrentChordValidated = true;
+    }
+    else
+        controler->chordList[currentChord].fullSongItem->setBrush(Qt::red);
+}
+
+QString EntireSong::getCurrentChord()
+{
+    return controler->chordList[currentChord].getName();
 }
