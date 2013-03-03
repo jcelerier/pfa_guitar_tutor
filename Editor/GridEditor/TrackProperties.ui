@@ -110,7 +110,7 @@
     <string>Apply</string>
    </property>
   </widget>
-  <widget class="QSpinBox" name="spinBox">
+  <widget class="QSpinBox" name="t_timeSignature">
    <property name="geometry">
     <rect>
      <x>30</x>

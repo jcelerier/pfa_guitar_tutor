@@ -5,6 +5,7 @@
 TEMPLATE = lib
 TARGET = IGuitar
 CONFIG += staticlib
+DESTDIR = ../libiguitar/
 QT += xml
 
 win32 {

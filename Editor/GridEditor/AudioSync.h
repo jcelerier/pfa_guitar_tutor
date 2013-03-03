@@ -24,41 +24,44 @@ class AudioSync : public QWidget
     Q_OBJECT
 
     QGridLayout* layout;
-	TimeEdit *beginning, *end, *bar;
+    TimeEdit *beginning, *end, *bar;
     QToolButton* bbeginning, *bend, *bbar;
-	QLabel *lbeginning, *lend, *lbar, *lbpm;
-	TempoEdit *bpm;
-	QPushButton *sendButton;
-	QTime m_tempBarTime;
+    QLabel *lbeginning, *lend, *lbar, *lbpm;
+    TempoEdit *bpm;
+    QPushButton *sendButton;
+    QTime m_tempBarTime;
+
+    unsigned int m_timeSignature;
 
 
 public:
-	AudioSync(QWidget* parent = 0);
+    AudioSync(QWidget* parent = 0);
     ~AudioSync();
-	void activeButtons(bool active);
+    void activeButtons(bool active);
 
     void setBarTimer(const QTime);
     void setBegginingTimer(const QTime);
     void setEndTimer(const QTime);
-	void checkTimes();
-	void updateTempo();
+    void checkTimes();
+    void updateTempo();
 
 public slots:
-	void sendData();
-	void tempoClicked();
-	void recvTimer(int, QTime);
+    void sendData();
+    void tempoClicked();
+    void recvTimer(int, QTime);
+    void setTimeSignature(int);
 
 private slots:
     void emitSignalTimer();
-	void beginningChanged(QTime);
-	void barChanged(QTime);
-	void endChanged(QTime);
-	void tempoChanged(int tempo);
+    void beginningChanged(QTime);
+    void barChanged(QTime);
+    void endChanged(QTime);
+    void tempoChanged(int tempo);
 
 signals:
     void refreshTimer(int);
-	void sendTimers(QTime, QTime, QTime);
-	void sendTimer(int, QTime);
+    void sendTimers(QTime, QTime, QTime);
+    void sendTimer(int, QTime);
 };
 
 #endif // AUDIOSYNC_H

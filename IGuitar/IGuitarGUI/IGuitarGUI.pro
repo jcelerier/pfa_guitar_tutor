@@ -1,5 +1,6 @@
 TEMPLATE = app
 TARGET = IGuitarGUI
+DESTDIR = ../app/
 DEPENDPATH += .
 
 QT += xml core gui testlib widgets

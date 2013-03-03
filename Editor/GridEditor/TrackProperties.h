@@ -13,30 +13,36 @@ class TrackProperties;
  */
 class TrackProperties : public QDialog
 {
-		Q_OBJECT
-		
-	public:
-		explicit TrackProperties(QWidget *parent = 0);
-		~TrackProperties();
-		QString getArtist();
-		QString getTrack();
+        Q_OBJECT
+
+    public:
+        explicit TrackProperties(QWidget *parent = 0);
+        ~TrackProperties();
+        QString getArtist();
+        QString getTrack();
         unsigned int getBarSize();
+        unsigned int getTimeSignature();
 
-		void setArtist(QString artist);
-		void setTrack(QString track);
+        void setArtist(QString artist);
+        void setTrack(QString track);
         void setBarSize(unsigned int barsize);
-		
-	public slots:
-		void accept();
-	signals:
-		void trackChanged();
-		void artistChanged();
+        void setTimeSignature(int time);
 
-	private:
-		Ui::TrackProperties *ui;
-		QString m_trackname;
-		QString m_artist;
+    public slots:
+        void accept();
+        void coucou(int);
+
+    signals:
+        void timeSignatureChanged(int);
+        void trackChanged();
+        void artistChanged();
+
+    private:
+        Ui::TrackProperties *ui;
+        QString m_trackname;
+        QString m_artist;
         unsigned int m_barsize; //taille en cases d'une mesure, ou nombre d'accords par mesure si on préfère
+        int m_timeSignature;
 
 };
 

@@ -5,10 +5,17 @@
 
 TrackProperties::TrackProperties(QWidget *parent) :
 	QDialog(parent),
-    ui(new Ui::TrackProperties)
+	ui(new Ui::TrackProperties)
 {
 	ui->setupUi(this);
-    accept();
+	connect(ui->t_timeSignature, SIGNAL(valueChanged(int)), this, SIGNAL(timeSignatureChanged(int)));
+	connect(ui->t_timeSignature, SIGNAL(valueChanged(int)), this, SLOT(coucou(int)));
+	accept();
+}
+
+void TrackProperties::coucou(int t)
+{
+	qDebug( ) << t;
 }
 
 TrackProperties::~TrackProperties()
@@ -56,6 +63,15 @@ unsigned int TrackProperties::getBarSize()
 }
 
 /**
+ * @brief TrackProperties::getTimeSignature
+ * @return Nombre de temps par mesure (généralement 3 ou 4)
+ */
+unsigned int TrackProperties::getTimeSignature()
+{
+	return m_timeSignature;
+}
+
+/**
  * @brief TrackProperties::setArtist
  * @param artist Artiste
  */
@@ -85,4 +101,14 @@ void TrackProperties::setBarSize(unsigned int barsize)
 {
 	m_barsize = barsize;
 	ui->t_barsize->setValue(barsize);
+}
+
+/**
+ * @brief TrackProperties::setTimeSignature
+ * @param barsize Temps par mesure
+ */
+void TrackProperties::setTimeSignature(int time)
+{
+	m_timeSignature = time;
+	ui->t_barsize->setValue(time);
 }

@@ -2,59 +2,60 @@
 
 TEMPLATE = app
 TARGET = GridEditor
+DESTDIR = ../../app/
 DEPENDPATH += .
 
 
 SOURCES += \
-    CaseItem.cpp \
-    ChordTableWidget.cpp \
-    GridEditor.cpp \
-    EditionSelector.cpp \
-    ChordTree.cpp \
-    SimpleMusicPlayer.cpp \
-    AudioSync.cpp \
-    PartSetter.cpp \
-    AudioWindow.cpp \
-    TrackProperties.cpp \
-    NewGridDialog.cpp \
-    Waveform.cpp \
-    EditorPanel.cpp \
-    HelpWindow.cpp \
-    Util.cpp \
-    ZoomButtons.cpp \
-    TimeEdit.cpp \
-    Main.cpp \
-    TempoEdit.cpp \
-    WaveformTimeBar.cpp \
-    WaveformTimeSlider.cpp
+	CaseItem.cpp \
+	ChordTableWidget.cpp \
+	GridEditor.cpp \
+	EditionSelector.cpp \
+	ChordTree.cpp \
+	SimpleMusicPlayer.cpp \
+	AudioSync.cpp \
+	PartSetter.cpp \
+	AudioWindow.cpp \
+	TrackProperties.cpp \
+	NewGridDialog.cpp \
+	Waveform.cpp \
+	EditorPanel.cpp \
+	HelpWindow.cpp \
+	Util.cpp \
+	ZoomButtons.cpp \
+	TimeEdit.cpp \
+	Main.cpp \
+	TempoEdit.cpp \
+	WaveformTimeBar.cpp \
+	WaveformTimeSlider.cpp
 
 HEADERS += \
-    CaseItem.h \
-    ChordTableWidget.h \
-    GridEditor.h \
-    EditionSelector.h \
-    ChordTree.h \
-    SimpleMusicPlayer.h \
-    AudioSync.h \
-    PartSetter.h \
-    AudioWindow.h \
-    TrackProperties.h \
-    NewGridDialog.h \
-    Waveform.h \
-    EditorPanel.h \
-    HelpWindow.h \
-    Util.hpp \
-    ZoomButtons.h \
-    TimeEdit.h \
-    TempoEdit.h \
-    WaveformTimeBar.h \
-    WaveformTimeSlider.h
+	CaseItem.h \
+	ChordTableWidget.h \
+	GridEditor.h \
+	EditionSelector.h \
+	ChordTree.h \
+	SimpleMusicPlayer.h \
+	AudioSync.h \
+	PartSetter.h \
+	AudioWindow.h \
+	TrackProperties.h \
+	NewGridDialog.h \
+	Waveform.h \
+	EditorPanel.h \
+	HelpWindow.h \
+	Util.hpp \
+	ZoomButtons.h \
+	TimeEdit.h \
+	TempoEdit.h \
+	WaveformTimeBar.h \
+	WaveformTimeSlider.h
 
 TRANSLATIONS = GridEditor_fr.ts
 
 QT += core \
-      gui \
-      xml \
+	  gui \
+	  xml \
 	  webkit \
 	  webkitwidgets \
 	  testlib \
@@ -74,9 +75,9 @@ unix:!macx: LIBS += -lfmodex64-4.44.00
 win32: LIBS += -L$$PWD/../../fmod/api/lib/ -lfmodex
 
 FORMS += \
-    PartSetter.ui \
-    TrackProperties.ui \
-    NewGridDialog.ui
+	PartSetter.ui \
+	TrackProperties.ui \
+	NewGridDialog.ui
 
 
 unix:QMAKE_POST_LINK += mv GridEditor ../../app/
