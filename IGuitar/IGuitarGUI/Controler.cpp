@@ -8,7 +8,7 @@
 #include <unistd.h>
 
 /**
-  *@brief MainWidget::~MainWidget
+  *@brief Controler::~Controler
   *
   *Destructeur par défaut
   */
@@ -17,43 +17,50 @@ Controler::~Controler()
 }
 
 /**
-  * @brief MainWidget::MainWidget
+  * @brief Controler::Controler
   *
   * Constructeur
   */
 Controler::Controler()
 {
-    clockOffset = 0;
 
-    m_mustPlay = false;
-    m_mustStop = false;
-    m_playing = false;
+	clockOffset = 0;
 
-    if(!initSong())
-        qApp->quit();
+	m_mustPlay = false;
+	m_mustStop = false;
+	m_playing = false;
 
-    chordList = getChordList(track);
+	if(!initSong())
+	{
+		exit(0);
+		// note : ne pas appeler les méthodes de qApp (quit, exit...) car qApp->exec() n'est pas encore appelé
+	}
 
-    m_scene = new PlayerScene(this);
-    m_view = new myView(m_scene);
 
-    QTimer *t_Timer = new QTimer(this);
-    connect(t_Timer, SIGNAL(timeout()), this, SLOT(ticTac()));
-    t_Timer->start(1000/Configuration::framesPerSec);
-    m_view->show(); // Que se passe-t-il apres le show ?
+	chordList = getChordList(track);
+
+	m_scene = new PlayerScene(this);
+	m_view = new myView(m_scene);
+
+	QTimer *t_Timer = new QTimer(this);
+	connect(t_Timer, SIGNAL(timeout()), this, SLOT(ticTac()));
+	t_Timer->start(1000/Configuration::framesPerSec);
+	m_view->show();
+	// Que se passe-t-il apres le show ?
+	// JM: l'event loop de Qt est lancée
 }
 
 void Controler::ticTac() {
-    m_scoreManager->update();
-    if(m_playing)
-        m_scene->updateScene();
-    //m_scene->setPlayedChord("QS");
-    QString playedChord = QString(m_scoreManager->getCurrentChord().c_str());
-    m_scene->setPlayedChord(playedChord);
+	m_scoreManager->update();
+	if(m_playing)
+		m_scene->updateScene();
+	//m_scene->setPlayedChord("QS");
+	QString playedChord = QString(m_scoreManager->getCurrentChord().c_str());
+	m_scene->setPlayedChord(playedChord);
 }
 
 /**
-  * @brief MainWidget::playScore
+  * @brief Controler::playScore
   *
   * @param mute
   *
@@ -64,7 +71,7 @@ void Controler::playScore(bool mute)
 	m_mustPlay = true;
 }
 /**
-  * @brief MainWidget::stopScore
+  * @brief Controler::stopScore
   *
   *
   */
@@ -75,22 +82,26 @@ void Controler::stopScore()
 
 bool Controler::initSong() {
 
-    QString path = QFileDialog::getOpenFileName(0, tr("Loading"), ".", tr("XML Files (*.xml)"), 0, QFileDialog::HideNameFilterDetails);
-    if(path == "")
-        return false;
-
-    track = new LogicalTrack();;
-    m_scoreManager = NULL;
-
-    std::map<std::string, std::string> multiTracksMap;
-    std::vector<std::string> muteTracks;
-
-    /*if (m_playMuted) {
-        muteTracks.push_back("all");
-    }*/
+	QString path = QFileDialog::getOpenFileName(0, tr("Loading"), ".", tr("XML Files (*.xml)"), 0, QFileDialog::HideNameFilterDetails);
 
 
-    //m_scoreManager = new ScoreManager(musicManager);
+	if(path.isNull())
+	{
+		return false;
+	}
+
+	track = new LogicalTrack();
+	m_scoreManager = NULL;
+
+	std::map<std::string, std::string> multiTracksMap;
+	std::vector<std::string> muteTracks;
+
+	/*if (m_playMuted) {
+		muteTracks.push_back("all");
+	}*/
+
+
+	//m_scoreManager = new ScoreManager(musicManager);
 
 
 //    m_scoreManager->loadScore("Tracks/BeatlesDayInTheLife/Guitar.txt");
@@ -99,36 +110,36 @@ bool Controler::initSong() {
 //		TrackLoader::convertXmlToLogicalTrack("Tracks/BeatlesDayInTheLife/test.xml", tr);
 //		m_scoreManager->loadScore(tr);
 
-    TrackLoader::convertXmlToLogicalTrack(path, track);
-    multiTracksMap["all"] =  track->getAudioFileName().toStdString();
-    MusicManager* musicManager = new MusicManager(multiTracksMap, muteTracks);
-    m_scoreManager = new ScoreManager(musicManager);
-    m_scoreManager->loadScore(track);
+	TrackLoader::convertXmlToLogicalTrack(path, track);
+	multiTracksMap["all"] =  track->getAudioFileName().toStdString();
+	MusicManager* musicManager = new MusicManager(multiTracksMap, muteTracks);
+	m_scoreManager = new ScoreManager(musicManager);
+	m_scoreManager->loadScore(track);
 
-    return true;
+	return true;
 }
 
 void Controler::startSong() {
-    m_scoreManager->run();
+	m_scoreManager->run();
 
-    // nécessaire pour pas que ça crash, pourquoi ? (jm)
-    usleep(100000);
+	// nécessaire pour pas que ça crash, pourquoi ? (jm)
+	usleep(100000);
 
-    m_scoreManager->setNextPart(track->getPartName(2).toStdString());
-    //m_renderAreas.changeButtonMode(false);
+	m_scoreManager->setNextPart(track->getPartName(2).toStdString());
+	//m_renderAreas.changeButtonMode(false);
 }
 
 void Controler::stopSong() {
-    m_mustStop = false;
+	m_mustStop = false;
 
-    if (m_scoreManager != NULL)
-    {
+	if (m_scoreManager != NULL)
+	{
 
-        m_scoreManager->stop();
-        m_scoreManager = NULL;
+		m_scoreManager->stop();
+		m_scoreManager = NULL;
 
-        //m_renderAreas.changeButtonMode(true);
-    }
+		//m_renderAreas.changeButtonMode(true);
+	}
 }
 
 // cette fonction m'a l'air vraiment sale...
@@ -147,11 +158,11 @@ void Controler::timeOut()
 			m_scoreManager->setToNaturalNextPart();
 		}
 
-        /*m_renderAreas.drawScore(currentScore,
+		/*m_renderAreas.drawScore(currentScore,
 								m_scoreManager->getCurrentChord(),
 								m_scoreManager->getCurrentPart(),
 								m_scoreManager->getNextPart(),
-                                mustGoToTheNextPart);*/
+								mustGoToTheNextPart);*/
 	}
 
 }
@@ -171,24 +182,24 @@ Controler::initListeners()
 // amoi
 
 int Controler::elapsedTime() {
-    return clockOffset + globalClock.elapsed();
+	return clockOffset + globalClock.elapsed();
 }
 
 void Controler::startClock() {
-    if(!m_playing) {
-        startSong();
-        globalClock.start();
-        m_playing=true;
-    }
-    else {
-        stopSong();
-        m_playing=false;
-        initSong();
-    }
+	if(!m_playing) {
+		startSong();
+		globalClock.start();
+		m_playing=true;
+	}
+	else {
+		stopSong();
+		m_playing=false;
+		initSong();
+	}
 }
 
 void Controler::pauseClock() {
-    clockOffset += globalClock.elapsed();
+	clockOffset += globalClock.elapsed();
 }
 
 QList<PlayerChord> Controler::getChordList(LogicalTrack* trackName)
@@ -204,28 +215,28 @@ QList<PlayerChord> Controler::getChordList(LogicalTrack* trackName)
    for(it1 = partTrackList.begin(); it1 != partTrackList.end(); ++it1)
    {
 
-       QList<TrackChord*> gtc = (*it1)->getTrackChordsList(); //utilisée dans la boucle qui suit, plante si pas de passage par variable intermédiaire (pourquoi?) --- hamid
+	   QList<TrackChord*> gtc = (*it1)->getTrackChordsList(); //utilisée dans la boucle qui suit, plante si pas de passage par variable intermédiaire (pourquoi?) --- hamid
 
-       for(it2 = gtc.begin(); it2 != gtc.end(); ++it2)
-       {
-           for(int i = 0; i < (*it2)->getRepetition(); i++)
-           {
-               tempChord = new PlayerChord();
-               qreal time;
-               QString chord("");
+	   for(it2 = gtc.begin(); it2 != gtc.end(); ++it2)
+	   {
+		   for(int i = 0; i < (*it2)->getRepetition(); i++)
+		   {
+			   tempChord = new PlayerChord();
+			   qreal time;
+			   QString chord("");
 
-               chord += (*it2)->getChord();
-               time = (*it2)->getDuration();
+			   chord += (*it2)->getChord();
+			   time = (*it2)->getDuration();
 
-               tempChord->name = chord;
-               tempChord->time = (int) time;
+			   tempChord->name = chord;
+			   tempChord->time = (int) time;
 
-               if(chord != "n") {
-                   chList.append(*tempChord);
-               }
+			   if(chord != "n") {
+				   chList.append(*tempChord);
+			   }
 
-           }
-       }
+		   }
+	   }
    }
    return chList;
 }
