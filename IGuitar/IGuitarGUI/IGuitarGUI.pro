@@ -1,19 +1,19 @@
 TEMPLATE = app
 TARGET = IGuitarGUI
-DESTDIR = ../app/
+DESTDIR = ../../app/
 DEPENDPATH += .
 
 QT += xml core gui testlib widgets
 
 win32 {
 DEPENDPATH += . \
-              ../../libsndfile/lib \
-              ../../boost/lib \
-              ../../portaudio/lib
+			  ../../libsndfile/lib \
+			  ../../boost/lib \
+			  ../../portaudio/lib
 
 INCLUDEPATH += . \
-               ../../libsndfile/include \
-               ../../boost/include
+			   ../../libsndfile/include \
+			   ../../boost/include
 
 QMAKE_CXXFLAGS += -fexceptions
 CONFIG += rtti
@@ -21,32 +21,32 @@ CONFIG += rtti
 
 # Input
 HEADERS += RenderArea.hpp \
-    audioconfiguration.h \
-    SongSelection.hpp \
-    Configuration.h \
-    PlayerScene.h \
-    entiresong.h \
-    myView.h \
-    menuitem.h \
-    buttonitem.h \
-    playerchord.h \
-    Controler.hpp
+	audioconfiguration.h \
+	SongSelection.hpp \
+	Configuration.h \
+	PlayerScene.h \
+	entiresong.h \
+	myView.h \
+	menuitem.h \
+	buttonitem.h \
+	playerchord.h \
+	Controler.hpp
 
 SOURCES += main.cpp RenderArea.cpp \
-    audioconfiguration.cpp \
-    SongSelection.cpp \
-    Configuration.cpp \
-    PlayerScene.cpp \
-    entiresong.cpp \
-    myView.cpp \
-    menuitem.cpp \
-    buttonitem.cpp \
-    playerchord.cpp \
-    Controler.cpp
+	audioconfiguration.cpp \
+	SongSelection.cpp \
+	Configuration.cpp \
+	PlayerScene.cpp \
+	entiresong.cpp \
+	myView.cpp \
+	menuitem.cpp \
+	buttonitem.cpp \
+	playerchord.cpp \
+	Controler.cpp
 
 FORMS += \
-    audioconfiguration.ui \
-    SongSelection.ui
+	audioconfiguration.ui \
+	SongSelection.ui
 
 
 unix:!symbian|win32: LIBS += -L$$PWD/../../libiguitar/ -lIGuitar
@@ -99,18 +99,18 @@ unix: QMAKE_POST_LINK += mv IGuitarGUI ../../app/
 macx: QMAKE_POST_LINK += mv IGuitarGUI.app ../../app/
 
 OTHER_FILES += \
-    ressources/transport.png \
-    ressources/testmask.png \
-    ressources/menu-btn.png \
-    ressources/bgwide.png \
-    ressources/background.png \
-    ../../app/transport.png \
-    ../../app/noalbum.png \
-    ../../app/minibarretemps.png \
-    ../../app/menu.png \
-    ../../app/maskplaying.png \
-    ../../app/chordbar.png \
-    ../../app/btn_bg.png \
-    ../../app/bgwide.png \
-    ../../app/barretemps.png \
-    ../../app/album.png
+	ressources/transport.png \
+	ressources/testmask.png \
+	ressources/menu-btn.png \
+	ressources/bgwide.png \
+	ressources/background.png \
+	../../app/transport.png \
+	../../app/noalbum.png \
+	../../app/minibarretemps.png \
+	../../app/menu.png \
+	../../app/maskplaying.png \
+	../../app/chordbar.png \
+	../../app/btn_bg.png \
+	../../app/bgwide.png \
+	../../app/barretemps.png \
+	../../app/album.png
