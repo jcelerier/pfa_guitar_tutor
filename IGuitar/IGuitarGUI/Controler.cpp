@@ -23,31 +23,18 @@ Controler::~Controler()
   */
 Controler::Controler()
 {
+	m_view = 0;
+	m_scene = 0;
+	m_scoreManager = 0;
+	m_musicManager = 0;
+	track = 0;
+	m_Timer = new QTimer(this);
 
-	clockOffset = 0;
+	connect(m_Timer, SIGNAL(timeout()), this, SLOT(ticTac()));
+	configuration = new Configuration();
+	audioConfiguration = new AudioConfiguration(configuration, (QWidget*) this);
 
-	m_mustPlay = false;
-	m_mustStop = false;
-	m_playing = false;
-
-	if(!initSong())
-	{
-		exit(0);
-		// note : ne pas appeler les méthodes de qApp (quit, exit...) car qApp->exec() n'est pas encore appelé
-	}
-
-
-	chordList = getChordList(track);
-
-	m_scene = new PlayerScene(this);
-	m_view = new myView(m_scene);
-
-	QTimer *t_Timer = new QTimer(this);
-	connect(t_Timer, SIGNAL(timeout()), this, SLOT(ticTac()));
-	t_Timer->start(1000/Configuration::framesPerSec);
-	m_view->show();
-	// Que se passe-t-il apres le show ?
-	// JM: l'event loop de Qt est lancée
+	restartEngine();
 }
 
 void Controler::ticTac() {
@@ -90,8 +77,8 @@ bool Controler::initSong() {
 		return false;
 	}
 
+	if(track != 0) delete track;
 	track = new LogicalTrack();
-	m_scoreManager = NULL;
 
 	std::map<std::string, std::string> multiTracksMap;
 	std::vector<std::string> muteTracks;
@@ -112,11 +99,25 @@ bool Controler::initSong() {
 
 	TrackLoader::convertXmlToLogicalTrack(path, track);
 	multiTracksMap["all"] =  track->getAudioFileName().toStdString();
-	MusicManager* musicManager = new MusicManager(multiTracksMap, muteTracks);
-	m_scoreManager = new ScoreManager(musicManager);
+
+	if(m_musicManager != 0)
+	{
+		delete m_musicManager;
+	}
+	m_musicManager = new MusicManager(multiTracksMap, muteTracks, configuration->getInputIndex(), configuration->getOutputIndex());
+
+	if(m_scoreManager != 0) delete m_scoreManager;
+	m_scoreManager = new ScoreManager(m_musicManager);
+
 	m_scoreManager->loadScore(track);
 
 	return true;
+}
+
+
+void Controler::openAudioOptions()
+{
+	audioConfiguration->show();
 }
 
 void Controler::startSong() {
@@ -239,4 +240,39 @@ QList<PlayerChord> Controler::getChordList(LogicalTrack* trackName)
 	   }
    }
    return chList;
+}
+
+// l'idéal serait de ne pas faire reset la view et juste de mettre à jour les infos
+// mais comme LogicalTrack est utilisé directement on ne peut pas pour l'instant
+// il faut aussi faire gaffe à la désactivation de portaudio dans MusicManager
+void Controler::restartEngine()
+{
+	qDebug( ) << "here";
+	m_Timer->stop();
+	clockOffset = 0;
+
+	m_mustPlay = false;
+	m_mustStop = false;
+	m_playing = false;
+
+	if(!initSong())
+	{
+		exit(0);
+		// note : ne pas appeler les méthodes de qApp (quit, exit...) car qApp->exec() n'est pas encore appelé
+	}
+	qDebug( ) << "there";
+
+
+	chordList = getChordList(track);
+
+	if (m_scene != 0) delete m_scene;
+	if (m_view != 0) delete m_view;
+
+	m_scene = new PlayerScene(this);
+	m_view = new myView(m_scene);
+
+	m_Timer->start(1000/Configuration::framesPerSec);
+
+	qDebug( ) << "ok fine";
+	m_view->show();
 }

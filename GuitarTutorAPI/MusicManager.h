@@ -43,18 +43,21 @@ typedef struct
 {
 	static const unsigned short NB_CROSSFADE_FRAMES = 256;
 	float			  		 	crossFadeCurrentValue;
-    unsigned int    	      	frameIndex;  /* Index into sample array. */
-    unsigned int    	      	crossFadeframeIndex;  /* Index into sample array. */
-    unsigned int          		maxFrameIndex;
-    unsigned int 		 		nbChannels;
-    SAMPLE      				*recordedSamples;
-    bool						waitStart;
+	unsigned int    	      	frameIndex;  /* Index into sample array. */
+	unsigned int    	      	crossFadeframeIndex;  /* Index into sample array. */
+	unsigned int          		maxFrameIndex;
+	unsigned int 		 		nbChannels;
+	SAMPLE      				*recordedSamples;
+	bool						waitStart;
 }
 soundData;
 
 class MusicManager {
 public:
-	MusicManager(std::map<std::string, std::string> & tracks, std::vector<std::string>& muteTracks);
+	MusicManager(std::map<std::string, std::string> & tracks,
+				 std::vector<std::string>& muteTracks,
+				 PaDeviceIndex inputDevice = -1,
+				 PaDeviceIndex outputDevice = -1);
 
 	MusicManager(unsigned int timeToRecord);
 
@@ -67,25 +70,29 @@ public:
 	bool isRunning() const;
 	void setMustStop(bool mustStop);
 
-    MultiTracks *getMultiTracks() const;
-    void* goToInMs(int millisecPos);
+	MultiTracks *getMultiTracks() const;
+	void* goToInMs(int millisecPos);
 
 	friend void* musicManagerMainFunction(void* threadArg);
 
 	bool isStarted();
-    std::string getCurrentChord() const;
+	std::string getCurrentChord() const;
 
-    void fillBufferWithLastInputValues(double* buffer, unsigned int size);
+	void fillBufferWithLastInputValues(double* buffer, unsigned int size);
 
-    void saveRecordedData(std::string fileName);
+	void saveRecordedData(std::string fileName);
 
 private:
-    bool m_isRunning;
-    bool m_mustStop;
-    std::map<std::string,std::string> m_tracksName;
+
+	bool m_isRunning;
+	bool m_mustStop;
+	std::map<std::string,std::string> m_tracksName;
 	boost::thread * m_musicManagerThread;
-    MultiTracks *m_multiTracks;
-    PaStreamParameters m_inputParameters;
+	MultiTracks *m_multiTracks;
+
+	PaDeviceIndex m_input, m_output;
+
+	PaStreamParameters m_inputParameters;
 	PaStreamParameters m_outputParameters;
 	PaStream* m_playStream;
 	PaStream* m_inputStream;
@@ -95,7 +102,7 @@ private:
 
 	std::string m_currentChord;
 
-	void* initAudioDevice();
+	void* initAudioDevice(PaDeviceIndex inputDevice = -1, PaDeviceIndex outputDevice = -1);
 	void* initAudioInput();
 	void* initAudioOutput();
 	void* terminateAudioDevice();

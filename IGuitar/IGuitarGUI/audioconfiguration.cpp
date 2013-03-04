@@ -7,12 +7,14 @@
 #include <ScoreManager.h>
 #include <iostream>
 #include "Configuration.h"
+#include "Controler.hpp"
 
-AudioConfiguration::AudioConfiguration(Configuration& conf, QWidget *parent) :
-	QDialog(parent),
+AudioConfiguration::AudioConfiguration(Configuration* conf, QWidget *parent) :
 	ui(new Ui::AudioConfiguration), m_conf(conf)
 {
+	m_parent = parent;
 	ui->setupUi(this);
+	init();
 }
 
 void AudioConfiguration::init()
@@ -93,6 +95,11 @@ void AudioConfiguration::setOutput(QString output)
 
 void AudioConfiguration::acceptData()
 {
-	m_conf.setAudioInput(m_tmpInput);
-	m_conf.setAudioOutput(m_tmpOutput);
+	m_conf->setAudioInput(m_tmpInput);
+	m_conf->setAudioOutput(m_tmpOutput);
+
+	m_conf->setInputIndex(ui->inputBox->currentIndex());
+	m_conf->setOutputIndex(ui->outputBox->currentIndex());
+
+	((Controler*) m_parent)->restartEngine();
 }

@@ -13,34 +13,33 @@ class Controler;
 
 class PlayerScene : public QGraphicsScene
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit PlayerScene(QObject *parent = 0);
-    void mousePressEvent(QGraphicsSceneMouseEvent*);
-    QGraphicsItem* getItem(QString);
-    void setCurrentChordValidated(bool v);
-    void resetNoteCheck();
+	explicit PlayerScene(QObject *parent = 0);
+	void mousePressEvent(QGraphicsSceneMouseEvent*);
+	QGraphicsItem* getItem(QString);
+	void setCurrentChordValidated(bool v);
+	void resetNoteCheck();
 signals:
-    
+
 public slots:
-    void updateScene();
-    void setPlayedChord(QString);
-    void switchPlaying();
-    void switchMenu();
-    void openAudioOptions();
+	void updateScene();
+	void setPlayedChord(QString);
+	void switchPlaying();
+	void switchMenu();
 
 private:
-    QRect windowSize;
-    QMap <QString, QGraphicsItem*> itemMap;
-    bool playing;
-    bool valideNote;
-    int  timeNoteSynchronized;
-    int  lastTimeCheck;
-    int  currentNoteDuration;
-    Controler* controler;
+	QRect windowSize;
+	QMap <QString, QGraphicsItem*> itemMap;
+	bool playing;
+	bool valideNote;
+	int  timeNoteSynchronized;
+	int  lastTimeCheck;
+	int  currentNoteDuration;
+	Controler* controler;
 
-    void disposeScene();
+	void disposeScene();
 
 };
 

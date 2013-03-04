@@ -13,9 +13,9 @@ class AudioConfiguration;
 class AudioConfiguration : public QDialog
 {
 		Q_OBJECT
-		
+
 	public:
-		explicit AudioConfiguration(Configuration &conf, QWidget *parent = 0);
+		explicit AudioConfiguration(Configuration *conf, QWidget *parent = 0);
 		void init();
 		void sendOutputVect(std::vector<std::string> &outputVect );
 		void sendInputVect(std::vector<std::string> &inputVect );
@@ -30,7 +30,8 @@ class AudioConfiguration : public QDialog
 	private:
 		Ui::AudioConfiguration *ui;
 
-		Configuration& m_conf;
+		QWidget* m_parent;
+		Configuration* m_conf;
 
 		QString m_tmpInput;
 		QString m_tmpOutput;

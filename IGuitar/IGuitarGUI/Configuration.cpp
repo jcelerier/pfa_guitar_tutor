@@ -17,13 +17,13 @@ Configuration::Configuration()
 
 float Configuration::getQuotient()
 {
-    return Configuration::quotient;
+	return Configuration::quotient;
 }
 
 
 QRect Configuration::getWindowSize()
 {
-    return QRect(0, 0, Configuration::width, Configuration::height);
+	return QRect(0, 0, Configuration::width, Configuration::height);
 }
 
 void Configuration::setWindowSize(int w, int h)
@@ -67,4 +67,25 @@ void Configuration::setAudioOutput(QString audioOutput)
 QString Configuration::setAudioOutput()
 {
 	return m_audioOutput;
+}
+
+int Configuration::getInputIndex()
+{
+	return m_inputIndex;
+}
+
+int Configuration::getOutputIndex()
+{
+	return m_outputIndex;
+}
+
+
+void Configuration::setInputIndex(int i)
+{
+	m_inputIndex = i;
+}
+
+void Configuration::setOutputIndex(int i)
+{
+	m_outputIndex = i;
 }
