@@ -83,32 +83,23 @@ bool Controler::initSong() {
 	std::map<std::string, std::string> multiTracksMap;
 	std::vector<std::string> muteTracks;
 
-	/*if (m_playMuted) {
-		muteTracks.push_back("all");
-	}*/
-
-
-	//m_scoreManager = new ScoreManager(musicManager);
-
-
-//    m_scoreManager->loadScore("Tracks/BeatlesDayInTheLife/Guitar.txt");
-
-//		LogicalTrack *tr = new LogicalTrack();
-//		TrackLoader::convertXmlToLogicalTrack("Tracks/BeatlesDayInTheLife/test.xml", tr);
-//		m_scoreManager->loadScore(tr);
-
 	TrackLoader::convertXmlToLogicalTrack(path, track);
+
 	multiTracksMap["all"] =  track->getAudioFileName().toStdString();
 
 	if(m_musicManager != 0)
 	{
+		m_musicManager->stop();
+		/*qDebug() << "musicManager deletion";
 		delete m_musicManager;
+		qDebug() << "musicManager deleted";*/
 	}
-	m_musicManager = new MusicManager(multiTracksMap, muteTracks, configuration->getInputIndex(), configuration->getOutputIndex());
-
+	else
+	{
+		m_musicManager = new MusicManager(multiTracksMap, muteTracks, configuration->getInputIndex(), configuration->getOutputIndex());
+	}
 	if(m_scoreManager != 0) delete m_scoreManager;
 	m_scoreManager = new ScoreManager(m_musicManager);
-
 	m_scoreManager->loadScore(track);
 
 	return true;
@@ -120,25 +111,32 @@ void Controler::openAudioOptions()
 	audioConfiguration->show();
 }
 
-void Controler::startSong() {
+void Controler::startSong()
+{
 	m_scoreManager->run();
+
 
 	// nécessaire pour pas que ça crash, pourquoi ? (jm)
 	usleep(100000);
 
 	m_scoreManager->setNextPart(track->getPartName(2).toStdString());
+	m_Timer->start(1000/Configuration::framesPerSec);
 	//m_renderAreas.changeButtonMode(false);
 }
 
-void Controler::stopSong() {
+void Controler::stopSong()
+{
 	m_mustStop = false;
+	m_Timer->stop();
 
-	if (m_scoreManager != NULL)
+	if (m_scoreManager != 0)
 	{
 
 		m_scoreManager->stop();
-		m_scoreManager = NULL;
-
+/*
+		delete m_scoreManager;
+		m_scoreManager = 0;
+*/
 		//m_renderAreas.changeButtonMode(true);
 	}
 }
@@ -195,7 +193,7 @@ void Controler::startClock() {
 	else {
 		stopSong();
 		m_playing=false;
-		initSong();
+//		restartEngine(); // à remplacer par une fonction qui fait juste redémarrer le morceau
 	}
 }
 

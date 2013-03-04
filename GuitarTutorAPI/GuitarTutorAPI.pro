@@ -193,5 +193,5 @@ win32:QMAKE_LFLAGS += -shared
 win32:CONFIG += -dll
 win32|unix: LIBS += -lfmodex64-4.44.00
 
-unix|macx:QMAKE_POST_LINK += mv libIGuitar.a ../libiguitar/
+#unix|macx:QMAKE_POST_LINK += mv libIGuitar.a ../libiguitar/
 #win32:QMAKE_POST_LINK += mv IGuitar.lib ../libiguitar/

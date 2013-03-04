@@ -8,6 +8,7 @@
 #include "MusicManager.h"
 
 #include <boost/thread.hpp>
+#include <QDebug>
 
 static int recordCallback( const void *inputBuffer, void *outputBuffer,
 						   unsigned long framesPerBuffer,
@@ -88,9 +89,10 @@ MusicManager::MusicManager(unsigned int timeToRecordInMs)
 
 MusicManager::~MusicManager()
 {
-	m_musicManagerThread->~thread();
-	terminateAudioDevice();
+	stop();
+	m_musicManagerThread->join();
 	delete m_multiTracks;
+	qDebug() << "MusicManager properly deleted";
 }
 
 
@@ -116,6 +118,9 @@ void* MusicManager::initAudioDevice(PaDeviceIndex inputDevice, PaDeviceIndex out
 {
 	Pa_Initialize();
 
+	qDebug() << inputDevice << Pa_GetDeviceInfo(inputDevice)->name;
+
+
 	if(inputDevice < 0)
 	{
 		inputDevice = Pa_GetDefaultInputDevice();
@@ -124,17 +129,23 @@ void* MusicManager::initAudioDevice(PaDeviceIndex inputDevice, PaDeviceIndex out
 	{
 		outputDevice = Pa_GetDefaultOutputDevice();
 	}
+
+	qDebug() << "inputDevice: " << inputDevice;
 	m_inputParameters.device = inputDevice;
 	if (m_inputParameters.device == paNoDevice) {
 		std::cerr << "Error: No default input device." << std::endl;
 		m_isRunning = false;
 		return NULL;
 	}
+
+	const PaDeviceInfo *info = Pa_GetDeviceInfo(inputDevice);
+	qDebug() << "infos: nom" << info->name;
 	m_inputParameters.channelCount = 2;                    /* stereo input */
 	m_inputParameters.sampleFormat = PA_SAMPLE_TYPE;
 	m_inputParameters.suggestedLatency = Pa_GetDeviceInfo( m_inputParameters.device )->defaultLowInputLatency;
 	m_inputParameters.hostApiSpecificStreamInfo = NULL;
 
+	qDebug() << "coucou";
 
 	m_outputParameters.device = outputDevice;
 	if (m_outputParameters.device == paNoDevice) {
@@ -148,6 +159,7 @@ void* MusicManager::initAudioDevice(PaDeviceIndex inputDevice, PaDeviceIndex out
 	m_outputParameters.suggestedLatency = Pa_GetDeviceInfo( m_outputParameters.device )->defaultLowOutputLatency;
 	m_outputParameters.hostApiSpecificStreamInfo = NULL;
 
+	qDebug() << "coucou bis";
 	return NULL;
 }
 

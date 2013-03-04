@@ -5,6 +5,7 @@
 #include <QList>
 #include "Configuration.h"
 #include <string>
+#include <map>
 
 namespace Ui {
 class AudioConfiguration;
@@ -17,8 +18,8 @@ class AudioConfiguration : public QDialog
 	public:
 		explicit AudioConfiguration(Configuration *conf, QWidget *parent = 0);
 		void init();
-		void sendOutputVect(std::vector<std::string> &outputVect );
-		void sendInputVect(std::vector<std::string> &inputVect );
+		void fillOutputVect(std::vector<std::string> &outputVect );
+		void fillInputVect(std::vector<std::string> &inputVect );
 		~AudioConfiguration();
 
 	public slots:
@@ -29,6 +30,9 @@ class AudioConfiguration : public QDialog
 
 	private:
 		Ui::AudioConfiguration *ui;
+
+		std::vector<int> inputIndexes;
+		std::vector<int> outputIndexes;
 
 		QWidget* m_parent;
 		Configuration* m_conf;

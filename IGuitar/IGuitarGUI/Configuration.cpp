@@ -12,7 +12,8 @@ float Configuration::quotient = float(Configuration::height)/float(Configuration
 
 Configuration::Configuration()
 {
-
+	m_inputIndex = 0;
+	m_outputIndex = 0;
 }
 
 float Configuration::getQuotient()
