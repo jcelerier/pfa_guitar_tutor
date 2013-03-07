@@ -16,6 +16,8 @@ private Q_SLOTS:
     void testExtractTonalityFromStr();
     void testConvertXmlToLogical();
     void testConvertLogicalTrackToXml();
+    void testIsValid();
+    void testIsValidForPlayer();
 
 private:
     LogicalTrack* initLogicalTrack();
@@ -31,6 +33,33 @@ APITest::APITest()
 //    return new LogicalTrack;
 //}
 
+void APITest::testIsValid(){
+    QString chord1 = "A#";
+    QString chord2 = "B";
+    QString chord3 = "CM";
+    QString chord4 = "jfhtf-";
+    QString chord5 = "Csus4";
+    QString chord6 = "Ebb5";
+
+    QVERIFY2(BasicChord::isValid(chord1), "Chord1 not valid");
+    QVERIFY2(BasicChord::isValid(chord2), "Chord2 not valid");
+    QVERIFY2(BasicChord::isValid(chord3), "Chord3 not valid");
+    QVERIFY2(!BasicChord::isValid(chord4), "Chord4 must not be valid");
+    QVERIFY2(BasicChord::isValid(chord5), "Chord5 not valid");
+    QVERIFY2(BasicChord::isValid(chord6), "Chord6 not valid");
+}
+
+void APITest::testIsValidForPlayer(){
+    QString chord1 = "A#";
+    QString chord2 = "B";
+    QString chord3 = "Cm";
+    QString chord4 = "jfhtf-";
+
+    QVERIFY2(BasicChord::isValidForPlayer(chord1), "Chord1 not valid");
+    QVERIFY2(BasicChord::isValidForPlayer(chord2), "Chord2 not valid");
+    QVERIFY2(BasicChord::isValidForPlayer(chord3), "Chord3 not valid");
+    QVERIFY2(!BasicChord::isValidForPlayer(chord4), "Chord4 must not be valid");
+}
 
 void APITest::testExtractEnrichmentsFromStr(){
 

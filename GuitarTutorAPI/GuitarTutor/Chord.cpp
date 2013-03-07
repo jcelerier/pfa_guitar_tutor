@@ -1,4 +1,5 @@
 #include "Chord.h"
+#include <QDebug>
 
 /**
  * @brief Chord::Chord
@@ -59,13 +60,29 @@ bool BasicChord::isValid() const
 /**
  * @brief Chord::isValid
  * @param chord Accord
+ * @return Vrai si est seulement si l'accord extrait depuis la chaîne de caractères est valide pour le player.
+ *
+ * Indique si un accord est valide ou non pour le player. C'est à dire qu'il contient simplement "M" comme enrichissement,
+ * #.
+ */
+bool BasicChord::isValidForPlayer(const QString &chord)
+{
+    QRegExp r("[A-G]#?m?");
+    return r.exactMatch(chord);
+}
+
+/**
+ * @brief Chord::isValid
+ * @param chord Accord
  * @return Vrai si est seulement si l'accord extrait depuis la chaîne de caractères est valide.
  *
  * Indique si un accord est valide ou non.
+ * Attention, cette fonction accepte tout les accords définis actuellement par l'éditeur(c'est à dire avec 9 types
+ * d'enrichissements en plus des dièses et des bémols)
  */
-bool BasicChord::isValid(const QString &chord) const
+bool BasicChord::isValid(const QString &chord)
 {
-    return extractTonalityFromStr(chord).isValid() && extractEnrichmentFromStr(chord).isValid();
+    return BasicChord::extractTonalityFromStr(chord).isValid() && BasicChord::extractEnrichmentFromStr(chord).isValid();
 }
 
 /**
@@ -157,7 +174,7 @@ void BasicChord::setEnrichment(const QString& enrichment)
  *
  * Extrait la tonalité d'une tonalité ou d'un accord sous forme de chaîne de caractères.
  */
-Tonality BasicChord::extractTonalityFromStr(const QString str) const
+Tonality BasicChord::extractTonalityFromStr(const QString str)
 {
     Tonality tone;
     if(str.size() == 0){//Si on lui passe une chaine vide, elle renvoie nul
@@ -184,22 +201,8 @@ Tonality BasicChord::extractTonalityFromStr(const QString str) const
  *
  * Extrait l'enrichissement d'un accord sous forme de chaîne de caractères.
  */
-const Enrichment BasicChord::extractEnrichmentFromStr(QString const str_enr) const
+const Enrichment& BasicChord::extractEnrichmentFromStr(QString const str_enr)
 {
-
-    //Ancienne version
-
-    //    Enrichment e = Enrichment();
-    //    if(str.size() < 2){
-    //        return e;
-    //    }
-    //    else{
-    //        if(str.at(1) == 'b' || str.at(1) == '#')
-    //            e = Enrichment(str.right(1));
-    //        else
-    //            e = Enrichment(str.right(1));
-    //    }
-    //    return e;
     Enrichment e(str_enr);
     return e;
 }
