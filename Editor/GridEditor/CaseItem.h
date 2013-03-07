@@ -13,7 +13,7 @@ Last change on 14/04/12
 #include <QTime>
 #include <QString>
 #include <QPoint>
-
+#include "Chord.h"
 /**
  * @brief Case d'une grille d'accords
  */

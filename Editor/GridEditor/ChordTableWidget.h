@@ -78,7 +78,7 @@ public slots:
 	void setTimeInfo(const QTime beginning, const QTime bar, const QTime end);
 	void isPlayingAt(QTime t);
 
-	void itemChanged_slot(CaseItem* item);
+	void itemChanged_slot(QTableWidgetItem* item);
 
 	//void onClick(int row, int column);
 };

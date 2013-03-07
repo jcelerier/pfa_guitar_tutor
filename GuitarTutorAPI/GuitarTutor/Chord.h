@@ -19,13 +19,14 @@ class BasicChord
         ~BasicChord();
 
 		bool isValid() const;
-		bool isValid(const QString& chord) const;
+        static bool isValid(const QString& chord);
+        static bool isValidForPlayer(const QString& chord);
 
 		const Enrichment &getEnrichment() const;
 		const Tonality &getTonality() const;
 
-        Tonality extractTonalityFromStr(const QString str) const;
-        const Enrichment extractEnrichmentFromStr(QString const str_enr) const;
+        static Tonality extractTonalityFromStr(const QString str);
+        static const Enrichment &extractEnrichmentFromStr(QString const str_enr);
 
 
 		void setTonality(Tonality &tone);

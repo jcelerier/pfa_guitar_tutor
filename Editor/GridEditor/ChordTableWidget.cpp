@@ -65,6 +65,9 @@ ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent) : QTabl
 	m_setPartDialog = new PartSetter(this);
 	//connect(this, SIGNAL(play(int)), parent, SIGNAL(play(int)));
 
+	// gestion des erreurs de saisie
+	connect(this, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(itemChanged_slot(QTableWidgetItem*)));
+
 	m_currentItem = (CaseItem*) this->item(0, 0);
 	m_lastPlayedCase = 0;
 	setCasePart("Intro");
@@ -724,14 +727,14 @@ void ChordTableWidget::isPlayingAt(QTime t)
 }
 
 
-void ChordTableWidget::itemChanged_slot(CaseItem* item)
+void ChordTableWidget::itemChanged_slot(QTableWidgetItem *item)
 {
-	if(!BasicChord::isValidForPlayer(item->get_chord()))
+	if(!BasicChord::isValidForPlayer(((CaseItem *)item)->get_chord()))
 	{
-		item->setBadChordColor();
+		((CaseItem *)item)->setBadChordColor();
 	}
 	else
 	{
-		item->restoreColor();
+		((CaseItem *)item)->restoreColor();
 	}
 }

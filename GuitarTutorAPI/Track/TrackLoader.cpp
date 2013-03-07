@@ -43,7 +43,6 @@ bool TrackLoader::convertLogicalTrackToXml(LogicalTrack* currentTrack, QString f
             newChord.setAttribute("repetition", (*iChord)->getRepetition());
             newChord.setAttribute("nom", (*iChord)->getChord());
 
-			qDebug() << (*iChord)->getChord();
             newPart.appendChild(newChord);
         }//fin ajout accord
 
@@ -206,8 +205,7 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
             currentPartTrack->AddChord(c);
 
             chordNode = chordNode.nextSibling();
-
-        }//end while
+          }//end while
 
         currentTrack->addPartTrackToList(currentPartTrack);
         partNode = partNode.nextSibling();

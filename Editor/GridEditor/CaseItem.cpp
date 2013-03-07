@@ -77,7 +77,16 @@ QColor* CaseItem::get_color() const {
  *
  * Met à jour le texte de la case pour afficher le nom de l'accord entré.
  */
-void CaseItem::set_chord(QString chord) {
+void CaseItem::set_chord(QString chord)
+{
+	if(!BasicChord::isValidForPlayer(chord))
+	{
+		setBadChordColor();
+	}
+	else
+	{
+		restoreColor();
+	}
 	this->setText(chord);
 }
 
@@ -200,7 +209,7 @@ void CaseItem::restoreColor()
 
 void CaseItem::setBadChordColor()
 {
-	set_color(200, 40, 40);
+	set_color(255, 150, 150);
 }
 
 void CaseItem::setBadTimeColor()
