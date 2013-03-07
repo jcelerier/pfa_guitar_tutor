@@ -7,11 +7,11 @@
 WaveformTimeBar::WaveformTimeBar(const QTime& song_end, QWidget *parent) :
 	QWidget(parent), begin(QTime(0, 0)), end(song_end)
 {
-	begin_slider = new WaveformTimeSlider("icons/arrow_beg.png", TIMER_BEGINNING, this);
-	bar_slider = new WaveformTimeSlider("icons/arrow_bar.png", TIMER_BAR, this);
-	end_slider = new WaveformTimeSlider("icons/arrow_end.png", TIMER_END, this);
+	begin_slider = new WaveformTimeSlider(":/icons/arrow_beg.png", TIMER_BEGINNING, this);
+	bar_slider = new WaveformTimeSlider(":/icons/arrow_bar.png", TIMER_BAR, this);
+	end_slider = new WaveformTimeSlider(":/icons/arrow_end.png", TIMER_END, this);
 
-	play_slider = new WaveformTimeSlider("icons/arrow_player.png", TIMER_PLAY, this);
+	play_slider = new WaveformTimeSlider(":/icons/arrow_player.png", TIMER_PLAY, this);
 
 
 	connect(begin_slider, SIGNAL(timeChanged(int, QTime)), this, SIGNAL(timeChanged(int,QTime)));

@@ -114,8 +114,8 @@
        <string/>
       </property>
       <property name="icon">
-       <iconset>
-        <normaloff>../../app/icons/play.png</normaloff>../../app/icons/play.png</iconset>
+       <iconset resource="EditorResources.qrc">
+        <normaloff>:/icons/icons/play.png</normaloff>:/icons/icons/play.png</iconset>
       </property>
      </widget>
     </item>
@@ -146,7 +146,9 @@
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="EditorResources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

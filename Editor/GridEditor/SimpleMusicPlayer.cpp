@@ -20,12 +20,12 @@ SimpleMusicPlayer::SimpleMusicPlayer(QWidget* parent)
 {
 	this->parent = parent;
 	layout = new QGridLayout();
-    playButton = new QToolButton();
+	playButton = new QToolButton();
 	playBarButton = new QToolButton();
-    stopButton = new QToolButton();
-    slideBar = new QSlider(Qt::Horizontal);
-    timerLabel = new QLabel("");
-    timer = new QTimer();
+	stopButton = new QToolButton();
+	slideBar = new QSlider(Qt::Horizontal);
+	timerLabel = new QLabel("");
+	timer = new QTimer();
 	playTimer = new QTimer();
 
 
@@ -36,36 +36,36 @@ SimpleMusicPlayer::SimpleMusicPlayer(QWidget* parent)
 	((AudioWindow*) parent)->setWaveformData(waveform, waveformTimeBar);
 
 
-    playButton->setIcon(QIcon("icons/play.png"));
-	playBarButton->setIcon(QIcon("icons/play.png"));
-    stopButton->setIcon(QIcon("icons/stop.png"));
+	playButton->setIcon(QIcon(":/icons/play.png"));
+	playBarButton->setIcon(QIcon(":/icons/play.png"));
+	stopButton->setIcon(QIcon(":/icons/stop.png"));
 
-    layout->addWidget(slideBar, 0, 0, 1, 7);
-    layout->addWidget(playButton, 1, 0);
+	layout->addWidget(slideBar, 0, 0, 1, 7);
+	layout->addWidget(playButton, 1, 0);
 	layout->addWidget(playBarButton, 1, 1);
 	layout->addWidget(stopButton, 1, 2);
 	layout->addWidget(timerLabel, 1, 6);
 
-    setLayout(layout);
+	setLayout(layout);
 
 	waveform->setWidth(parent->width() - WIDTH_ADJUSTMENT);
 	waveform->initImage();
 	waveform->update();
 
-    connect(playButton, SIGNAL(released()), this, SLOT(pause()));
+	connect(playButton, SIGNAL(released()), this, SLOT(pause()));
 	//connect(playBarButton, SIGNAL(clicked()), this, SLOT(playBar()));
-    connect(stopButton, SIGNAL(released()), this, SLOT(stop()));
-    connect(timer, SIGNAL(timeout()), this, SLOT(updateSlideBar()));
+	connect(stopButton, SIGNAL(released()), this, SLOT(stop()));
+	connect(timer, SIGNAL(timeout()), this, SLOT(updateSlideBar()));
 	connect(playTimer, SIGNAL(timeout()), this, SLOT(sendTimeData()));
 
 	connect(this, SIGNAL(sigTimeData(QTime)), waveform, SLOT(setPlayerTimer(QTime)));
 	connect(this, SIGNAL(sigTimeData(QTime)), waveformTimeBar, SLOT(setPlayerTimer(QTime)));
 
 
-    connect(slideBar, SIGNAL(sliderMoved(int)), this, SLOT(changePosition(int)));
+	connect(slideBar, SIGNAL(sliderMoved(int)), this, SLOT(changePosition(int)));
 
-    currentPosition = 0;
-    songLength = 0;
+	currentPosition = 0;
+	songLength = 0;
 	refreshTimerLabel();
 }
 
@@ -74,12 +74,12 @@ SimpleMusicPlayer::SimpleMusicPlayer(QWidget* parent)
  */
 SimpleMusicPlayer::~SimpleMusicPlayer()
 {
-    delete slideBar;
-    delete layout;
-    delete playButton;
-    delete stopButton;
-    delete timerLabel;
-    delete timer;
+	delete slideBar;
+	delete layout;
+	delete playButton;
+	delete stopButton;
+	delete timerLabel;
+	delete timer;
 }
 
 
@@ -92,7 +92,7 @@ SimpleMusicPlayer::~SimpleMusicPlayer()
  */
 QString SimpleMusicPlayer::getSong()
 {
-    return player->getSong();
+	return player->getSong();
 }
 
 
@@ -105,18 +105,18 @@ QString SimpleMusicPlayer::getSong()
  */
 bool SimpleMusicPlayer::setAudioFile(QString file)
 {
-    if(file == ""){
-        return false;
-    }
+	if(file == ""){
+		return false;
+	}
 
-    file = QDir::toNativeSeparators(file);
-    if(!player->setSong(file)) {
-        QMessageBox::information(this, tr("So sorry..."), QString(tr("Impossible to open the file ") + file));
-        return false;
-    }
-    songLength = player->getTotalLength();
-    refreshTimerLabel();
-    slideBar->setRange(0, songLength);
+	file = QDir::toNativeSeparators(file);
+	if(!player->setSong(file)) {
+		QMessageBox::information(this, tr("So sorry..."), QString(tr("Impossible to open the file ") + file));
+		return false;
+	}
+	songLength = player->getTotalLength();
+	refreshTimerLabel();
+	slideBar->setRange(0, songLength);
 
 	waveBegin = 0;
 	waveEnd = player->getTotalLengthInSamples();
@@ -127,11 +127,11 @@ bool SimpleMusicPlayer::setAudioFile(QString file)
 	waveUpdate();
 
 
-    player->play();
-    player->pause(true);
-    timer->start(REFRESH_DELAY);
+	player->play();
+	player->pause(true);
+	timer->start(REFRESH_DELAY);
 
-    return true;
+	return true;
 }
 
 /**
@@ -176,11 +176,11 @@ void SimpleMusicPlayer::play()
 {
 	if(player->getState())
 	{
-        player->pause(false);
+		player->pause(false);
 		playTimer->start(PLAYTIMER_DELAY);
 	}
-    else
-        emit browseAudioFile();
+	else
+		emit browseAudioFile();
 }
 
 /**
@@ -215,11 +215,11 @@ void SimpleMusicPlayer::pause()
 		}
 
 
-        if(player->isPaused())
-            playButton->setIcon(QIcon("icons/pause.png"));
-        else
-            playButton->setIcon(QIcon("icons/play.png"));
-    }
+		if(player->isPaused())
+			playButton->setIcon(QIcon(":/icons/pause.png"));
+		else
+			playButton->setIcon(QIcon(":/icons/play.png"));
+	}
 }
 
 /**
@@ -229,14 +229,14 @@ void SimpleMusicPlayer::pause()
  */
 void SimpleMusicPlayer::stop()
 {
-    if(player->getState()) {
-        player->stop();
+	if(player->getState()) {
+		player->stop();
 		playTimer->stop();
-        currentPosition = 0;
-        slideBar->setSliderPosition(0);
-        refreshTimerLabel();
-        playButton->setIcon(QIcon("icons/play.png"));
-    }
+		currentPosition = 0;
+		slideBar->setSliderPosition(0);
+		refreshTimerLabel();
+		playButton->setIcon(QIcon(":/icons/play.png"));
+	}
 }
 
 /**
@@ -246,31 +246,31 @@ void SimpleMusicPlayer::stop()
  */
 void SimpleMusicPlayer::refreshTimerLabel()
 {
-    QString tmp1, tmp2;
-    if(currentPosition > 0) {
-        int min = (currentPosition/1000)/60;
-        int sec = (currentPosition/1000)%60;
-        if(sec<10)
-            timerLabel->setText(QString(tmp1.setNum(min) + ":0" + tmp2.setNum(sec) + " / "));
-        else
-            timerLabel->setText(QString(tmp1.setNum(min) + ":" + tmp2.setNum(sec) + " / "));
-    }
-    else {
-        if(player->getState())
-            timerLabel->setText("0:00 / ");
-        else
-            timerLabel->setText(".. / ");
-    }
-    if(songLength > 0) {
-        int min = (songLength/1000)/60;
-        int sec = (songLength/1000)%60;
-        if(sec<10)
-            timerLabel->setText(QString(timerLabel->text() + tmp1.setNum(min) + ":0" + tmp2.setNum(sec)));
-        else
-            timerLabel->setText(QString(timerLabel->text() + tmp1.setNum(min) + ":" + tmp2.setNum(sec)));
-    }
-    else
-        timerLabel->setText(QString(timerLabel->text() + ".."));
+	QString tmp1, tmp2;
+	if(currentPosition > 0) {
+		int min = (currentPosition/1000)/60;
+		int sec = (currentPosition/1000)%60;
+		if(sec<10)
+			timerLabel->setText(QString(tmp1.setNum(min) + ":0" + tmp2.setNum(sec) + " / "));
+		else
+			timerLabel->setText(QString(tmp1.setNum(min) + ":" + tmp2.setNum(sec) + " / "));
+	}
+	else {
+		if(player->getState())
+			timerLabel->setText("0:00 / ");
+		else
+			timerLabel->setText(".. / ");
+	}
+	if(songLength > 0) {
+		int min = (songLength/1000)/60;
+		int sec = (songLength/1000)%60;
+		if(sec<10)
+			timerLabel->setText(QString(timerLabel->text() + tmp1.setNum(min) + ":0" + tmp2.setNum(sec)));
+		else
+			timerLabel->setText(QString(timerLabel->text() + tmp1.setNum(min) + ":" + tmp2.setNum(sec)));
+	}
+	else
+		timerLabel->setText(QString(timerLabel->text() + ".."));
 }
 
 /**
@@ -280,10 +280,10 @@ void SimpleMusicPlayer::refreshTimerLabel()
  */
 void SimpleMusicPlayer::updateSlideBar()
 {
-    currentPosition = player->getPosition();
-    slideBar->setSliderPosition(currentPosition);
-    refreshTimerLabel();
-    timer->start(REFRESH_DELAY);
+	currentPosition = player->getPosition();
+	slideBar->setSliderPosition(currentPosition);
+	refreshTimerLabel();
+	timer->start(REFRESH_DELAY);
 }
 
 /**
@@ -294,7 +294,7 @@ void SimpleMusicPlayer::updateSlideBar()
  */
 void SimpleMusicPlayer::changePosition(int position)
 {
-    player->changePosition(position);
+	player->changePosition(position);
 	currentPosition = player->getPosition();
 }
 
