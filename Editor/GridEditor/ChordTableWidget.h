@@ -23,7 +23,7 @@ Last change on 08/05/12
  */
 class ChordTableWidget : public QTableWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
 	friend class PartSetter;
 
@@ -40,42 +40,45 @@ protected:
 
 public:
 	ChordTableWidget(int column, int row, QWidget *parent);
-    QString get_name() const;
-    void set_name(QString name);
+	QString get_name() const;
+	void set_name(QString name);
 
-    bool is_selection_empty();
-    bool is_row_selected();
-    QList<QList<int>*> rows_selected();
-    void insert_row(int position, int number = 1);
+	bool is_selection_empty();
+	bool is_row_selected();
+	QList<QList<int>*> rows_selected();
+	void insert_row(int position, int number = 1);
 
 	LogicalTrack* getLogicalTrack();
 	void setLogicalTrack(LogicalTrack* track);
 private:
-    QList<int> expand_list(QList<QList<int>*> list);
+	QList<int> expand_list(QList<QList<int>*> list);
 
 signals:
 	void play(int);
+
 public slots:
 	void ShowContextMenu(const QPoint& pos);
-    void showProperties();
+	void showProperties();
 
-    void fill_selection(QTreeWidgetItem* chord, int column);
-    void insert_row();
-    void insert_column();
-    void delete_selected_column();
-    void delete_selected_row();
-    void copy_down_rows();
+	void fill_selection(QTreeWidgetItem* chord, int column);
+	void insert_row();
+	void insert_column();
+	void delete_selected_column();
+	void delete_selected_row();
+	void copy_down_rows();
 
-    void setCasePart(QString text);
-    void setCaseBeginning(QTime t);
+	void setCasePart(QString text);
+	void setCaseBeginning(QTime t);
 	void setCaseAndFollowersBeginning(QTime t);
 	void removeCasePart();
 	bool checkBeginningTimes();
 
 	void playFromHere();
 
-    void setTimeInfo(const QTime beginning, const QTime bar, const QTime end);
+	void setTimeInfo(const QTime beginning, const QTime bar, const QTime end);
 	void isPlayingAt(QTime t);
+
+	void itemChanged_slot(CaseItem* item);
 
 	//void onClick(int row, int column);
 };

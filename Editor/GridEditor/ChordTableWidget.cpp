@@ -25,49 +25,49 @@ Last change on 08/05/12
 ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent) : QTableWidget(parent)
 {
 
-    setParent(parent);
-    setEnabled(false);
-    this->setColumnCount(column);
-    this->insert_row(0, row);
-    this->setHorizontalHeaderItem(this->columnCount() - 1, new QTableWidgetItem(tr("Annotation")));
-    for (int c = 0 ; c < this->columnCount() - 1 ; c ++)
-        for (int r = 0 ; r < this->rowCount() ; r ++)
-        {
-            if(c == 0 && r == 0)
-                this->setItem(r, c, new CaseItem(false));
-            else
-                this->setItem(r, c, new CaseItem());
-            this->setColumnWidth(c, 60);
-        }
-    for (int r = 0 ; r < this->rowCount() ; r ++)
-    {
-        this->setItem(r, this->columnCount() - 1, new QTableWidgetItem());
-        this->setRowHeight(r, 40);
-    }
-    this->setEnabled(true);
+	setParent(parent);
+	setEnabled(false);
+	this->setColumnCount(column);
+	this->insert_row(0, row);
+	this->setHorizontalHeaderItem(this->columnCount() - 1, new QTableWidgetItem(tr("Annotation")));
+	for (int c = 0 ; c < this->columnCount() - 1 ; c ++)
+		for (int r = 0 ; r < this->rowCount() ; r ++)
+		{
+			if(c == 0 && r == 0)
+				this->setItem(r, c, new CaseItem(false));
+			else
+				this->setItem(r, c, new CaseItem());
+			this->setColumnWidth(c, 60);
+		}
+	for (int r = 0 ; r < this->rowCount() ; r ++)
+	{
+		this->setItem(r, this->columnCount() - 1, new QTableWidgetItem());
+		this->setRowHeight(r, 40);
+	}
+	this->setEnabled(true);
 
 
 
-    //menu clic droit
-    m_rightClickMenu = new QMenu();
+	//menu clic droit
+	m_rightClickMenu = new QMenu();
 
-    this->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(this, SIGNAL(customContextMenuRequested(const QPoint&)),
-            this, SLOT(ShowContextMenu(const QPoint&)));
+	this->setContextMenuPolicy(Qt::CustomContextMenu);
+	connect(this, SIGNAL(customContextMenuRequested(const QPoint&)),
+			this, SLOT(ShowContextMenu(const QPoint&)));
 
-    //actions du menu
-    m_properties = new QAction(tr("Properties"), this);
-    m_playFromHere = new QAction(tr("Play from here"), this);
+	//actions du menu
+	m_properties = new QAction(tr("Properties"), this);
+	m_playFromHere = new QAction(tr("Play from here"), this);
 
-    connect(m_properties, SIGNAL(triggered()), this, SLOT(showProperties()));
-    connect(m_playFromHere, SIGNAL(triggered()), this, SLOT(playFromHere()));
+	connect(m_properties, SIGNAL(triggered()), this, SLOT(showProperties()));
+	connect(m_playFromHere, SIGNAL(triggered()), this, SLOT(playFromHere()));
 
-    m_setPartDialog = new PartSetter(this);
-    //connect(this, SIGNAL(play(int)), parent, SIGNAL(play(int)));
+	m_setPartDialog = new PartSetter(this);
+	//connect(this, SIGNAL(play(int)), parent, SIGNAL(play(int)));
 
-    m_currentItem = (CaseItem*) this->item(0, 0);
-    m_lastPlayedCase = 0;
-    setCasePart("Intro");
+	m_currentItem = (CaseItem*) this->item(0, 0);
+	m_lastPlayedCase = 0;
+	setCasePart("Intro");
 }
 
 /**
@@ -77,7 +77,7 @@ ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent) : QTabl
  * Retourne le nom de la grille d'accords courante.
  */
 QString ChordTableWidget::get_name() const {
-    return *name;
+	return *name;
 }
 
 /**
@@ -87,7 +87,7 @@ QString ChordTableWidget::get_name() const {
  * Attribue un nom à la grille d'accords courante.
  */
 void ChordTableWidget::set_name(QString name) {
-    *(this->name) = name;
+	*(this->name) = name;
 }
 
 /**
@@ -97,9 +97,9 @@ void ChordTableWidget::set_name(QString name) {
  * Indique si une ou plusieurs cases de la grille d'accords sont actuellement sélectionnées.
  */
 bool ChordTableWidget::is_selection_empty() {
-    if (this->selectedIndexes().isEmpty())
-        return true;
-    return false;
+	if (this->selectedIndexes().isEmpty())
+		return true;
+	return false;
 }
 
 /**
@@ -109,13 +109,13 @@ bool ChordTableWidget::is_selection_empty() {
  * Indique si une ligne de la grille d'accords est actuellement sélectionnée.
  */
 bool ChordTableWidget::is_row_selected() {
-    QList<QTableWidgetSelectionRange> ranges = selectedRanges();
-    if (ranges.isEmpty())
-        return false;
-    for (QList<QTableWidgetSelectionRange>::Iterator it = ranges.begin() ; it != ranges.end() ; it ++)
-        if ((*it).leftColumn() != 0 || (*it).rightColumn() != this->columnCount() - 1)
-            return false;
-    return true;
+	QList<QTableWidgetSelectionRange> ranges = selectedRanges();
+	if (ranges.isEmpty())
+		return false;
+	for (QList<QTableWidgetSelectionRange>::Iterator it = ranges.begin() ; it != ranges.end() ; it ++)
+		if ((*it).leftColumn() != 0 || (*it).rightColumn() != this->columnCount() - 1)
+			return false;
+	return true;
 }
 
 /**
@@ -125,17 +125,17 @@ bool ChordTableWidget::is_row_selected() {
  * Donne la liste des lignes actuellement sélectionnées dans la grille.
  */
 QList<QList<int>*> ChordTableWidget::rows_selected() {
-    QList<QList<int>*> range_rows;
-    QList<QTableWidgetSelectionRange> ranges = selectedRanges();
-    for (QList<QTableWidgetSelectionRange>::Iterator it = ranges.begin() ; it != ranges.end() ; it ++) {
-        if ((*it).leftColumn() == 0 && (*it).rightColumn() == this->columnCount() - 1) {
-            QList<int>* rows = new QList<int>();
-            for (int r = (*it).topRow() ; r <= (*it).bottomRow() ; r ++)
-                rows->push_back(r);
-            range_rows.push_back(rows);
-        }
-    }
-    return range_rows;
+	QList<QList<int>*> range_rows;
+	QList<QTableWidgetSelectionRange> ranges = selectedRanges();
+	for (QList<QTableWidgetSelectionRange>::Iterator it = ranges.begin() ; it != ranges.end() ; it ++) {
+		if ((*it).leftColumn() == 0 && (*it).rightColumn() == this->columnCount() - 1) {
+			QList<int>* rows = new QList<int>();
+			for (int r = (*it).topRow() ; r <= (*it).bottomRow() ; r ++)
+				rows->push_back(r);
+			range_rows.push_back(rows);
+		}
+	}
+	return range_rows;
 }
 
 /**
@@ -146,15 +146,15 @@ QList<QList<int>*> ChordTableWidget::rows_selected() {
  * Insère une ou plusieurs nouvelles lignes dans la grille à une position donnée.
  */
 void ChordTableWidget::insert_row(int pos, int num) {
-    for (int i = 0 ; i < num ; i ++) {
-        this->insertRow(pos);
-        for (int c = 0 ; c < this->columnCount() - 1 ; c ++) {
-            this->setItem(pos, c, new CaseItem());
-            this->setColumnWidth(c, 60);
-        }
-        this->setRowHeight(pos, 40);
-        this->setItem(pos, this->columnCount() - 1, new QTableWidgetItem());
-    }
+	for (int i = 0 ; i < num ; i ++) {
+		this->insertRow(pos);
+		for (int c = 0 ; c < this->columnCount() - 1 ; c ++) {
+			this->setItem(pos, c, new CaseItem());
+			this->setColumnWidth(c, 60);
+		}
+		this->setRowHeight(pos, 40);
+		this->setItem(pos, this->columnCount() - 1, new QTableWidgetItem());
+	}
 }
 
 /**
@@ -164,13 +164,13 @@ void ChordTableWidget::insert_row(int pos, int num) {
  * @todo insérer SOIT après la case sélectionnée (si une seule case sélectionnée), SOIT à la fin du fichier
  */
 void ChordTableWidget::insert_row() {
-    if (is_row_selected()) {
-        QList<int> rows = expand_list(rows_selected());
-        for (QList<int>::Iterator it = rows.begin() ; it != rows.end() ; it ++)
-            insert_row(*it);
-    }
-    else
-        insert_row(this->rowCount());
+	if (is_row_selected()) {
+		QList<int> rows = expand_list(rows_selected());
+		for (QList<int>::Iterator it = rows.begin() ; it != rows.end() ; it ++)
+			insert_row(*it);
+	}
+	else
+		insert_row(this->rowCount());
 }
 
 /**
@@ -182,16 +182,16 @@ void ChordTableWidget::insert_row() {
  * @todo Ce code me semble bien compliqué pour ce qu'il fait...
  */
 void ChordTableWidget::fill_selection(QTreeWidgetItem* chord, int column) {
-    if (chord->childCount() == 0) {
-        QModelIndexList index_list = this->selectedIndexes();
-        for (QModelIndexList::Iterator it = index_list.begin() ; it != index_list.end() ; it ++) {
-            if ((*it).column() != this->columnCount() - 1) {
-                CaseItem* item = (CaseItem*) this->takeItem((*it).row(), (*it).column());
-                item->set_chord(chord->text(column));
-                this->setItem((*it).row(), (*it).column(), item);
-            }
-        }
-    }
+	if (chord->childCount() == 0) {
+		QModelIndexList index_list = this->selectedIndexes();
+		for (QModelIndexList::Iterator it = index_list.begin() ; it != index_list.end() ; it ++) {
+			if ((*it).column() != this->columnCount() - 1) {
+				CaseItem* item = (CaseItem*) this->takeItem((*it).row(), (*it).column());
+				item->set_chord(chord->text(column));
+				this->setItem((*it).row(), (*it).column(), item);
+			}
+		}
+	}
 }
 
 /**
@@ -202,10 +202,10 @@ void ChordTableWidget::fill_selection(QTreeWidgetItem* chord, int column) {
  * @todo Comprendre à quoi sert cette fonction
  */
 QList<int> ChordTableWidget::expand_list(QList<QList<int>*> list) {
-    QList<int> result;
-    for (QList<QList<int>*>::Iterator it = list.begin() ; it != list.end() ; it ++)
-        result.append(**it);
-    return result;
+	QList<int> result;
+	for (QList<QList<int>*>::Iterator it = list.begin() ; it != list.end() ; it ++)
+		result.append(**it);
+	return result;
 }
 
 /**
@@ -215,25 +215,25 @@ QList<int> ChordTableWidget::expand_list(QList<QList<int>*> list) {
  */
 void ChordTableWidget::copy_down_rows()
 {
-    if (is_row_selected())
-    {
-        QList<QList<int>*> ranges = rows_selected();
-        int count = 0;
-        QList<int>::Iterator i;
-        QList<QList<int>*>::Iterator it;
+	if (is_row_selected())
+	{
+		QList<QList<int>*> ranges = rows_selected();
+		int count = 0;
+		QList<int>::Iterator i;
+		QList<QList<int>*>::Iterator it;
 
-        for (it = ranges.begin() ; it != ranges.end() ; it ++)
-        {
-            for (i = (**it).begin(), count = 1 ; i != (**it).end() ; i ++, count ++)
-            {
-                insert_row((**it).last() + count);
-                for (int c = 0 ; c < this->columnCount() ; c ++)
-                {
-                    this->setItem((**it).last() + count, c, this->item(*i, c)->clone());
-                }
-            }
-        }
-    }
+		for (it = ranges.begin() ; it != ranges.end() ; it ++)
+		{
+			for (i = (**it).begin(), count = 1 ; i != (**it).end() ; i ++, count ++)
+			{
+				insert_row((**it).last() + count);
+				for (int c = 0 ; c < this->columnCount() ; c ++)
+				{
+					this->setItem((**it).last() + count, c, this->item(*i, c)->clone());
+				}
+			}
+		}
+	}
 }
 
 /**
@@ -243,42 +243,42 @@ void ChordTableWidget::copy_down_rows()
  */
 void ChordTableWidget::delete_selected_row() {
 
-    QList<QTableWidgetItem*> listItems = selectedItems();
-    //Suppression des doublons
-    for(int i=0; i<listItems.size(); i++) {
-        for(int j=i+1; j<listItems.size(); j++) {
-            if(listItems.value(i)->row() == listItems.value(j)->row()) {
-                listItems.removeAt(j);
-                j--;
-            }
-        }
-    }
+	QList<QTableWidgetItem*> listItems = selectedItems();
+	//Suppression des doublons
+	for(int i=0; i<listItems.size(); i++) {
+		for(int j=i+1; j<listItems.size(); j++) {
+			if(listItems.value(i)->row() == listItems.value(j)->row()) {
+				listItems.removeAt(j);
+				j--;
+			}
+		}
+	}
 
-    if(listItems.count() == 1) {
-        removeRow(listItems.first()->row());
-    }
-    else if(listItems.count() > 1)
-    {
-        QString listRow;
-        listRow.append(tr("Are you sure you want to delete lines "));
+	if(listItems.count() == 1) {
+		removeRow(listItems.first()->row());
+	}
+	else if(listItems.count() > 1)
+	{
+		QString listRow;
+		listRow.append(tr("Are you sure you want to delete lines "));
 
-        for(QList<QTableWidgetItem*>::Iterator i = listItems.begin(); i != listItems.end() ; i++) {
-            listRow.append(QString::number((**i).row()+1));
-            listRow.append(", ");
-        }
-        listRow.remove(listRow.length()-2, 1);
-        listRow.append("?");
+		for(QList<QTableWidgetItem*>::Iterator i = listItems.begin(); i != listItems.end() ; i++) {
+			listRow.append(QString::number((**i).row()+1));
+			listRow.append(", ");
+		}
+		listRow.remove(listRow.length()-2, 1);
+		listRow.append("?");
 
-        int answer = QMessageBox::question(this, tr("Deleting lines"), listRow, QMessageBox::Yes | QMessageBox::No);
+		int answer = QMessageBox::question(this, tr("Deleting lines"), listRow, QMessageBox::Yes | QMessageBox::No);
 
-        if(answer == QMessageBox::Yes) {
-            for(QList<QTableWidgetItem*>::Iterator i = listItems.begin(); i != listItems.end() ; i++) {
-                if(rowCount() > 1) {
-                    removeRow((**i).row());
-                }
-            }
-        }
-    }
+		if(answer == QMessageBox::Yes) {
+			for(QList<QTableWidgetItem*>::Iterator i = listItems.begin(); i != listItems.end() ; i++) {
+				if(rowCount() > 1) {
+					removeRow((**i).row());
+				}
+			}
+		}
+	}
 }
 
 /**
@@ -288,41 +288,41 @@ void ChordTableWidget::delete_selected_row() {
  */
 void ChordTableWidget::delete_selected_column() {
 
-    QList<QTableWidgetItem*> listItems = selectedItems();
-    //Suppression des doublons
-    for(int i=0; i<listItems.size(); i++) {
-        for(int j=i+1; j<listItems.size(); j++) {
-            if(listItems.value(i)->column() == listItems.value(j)->column()) {
-                listItems.removeAt(j);
-                j--;
-            }
-        }
-    }
+	QList<QTableWidgetItem*> listItems = selectedItems();
+	//Suppression des doublons
+	for(int i=0; i<listItems.size(); i++) {
+		for(int j=i+1; j<listItems.size(); j++) {
+			if(listItems.value(i)->column() == listItems.value(j)->column()) {
+				listItems.removeAt(j);
+				j--;
+			}
+		}
+	}
 
-    if(listItems.count() == 1) {
-        removeColumn(listItems.first()->column());
-    }
-    else if(listItems.count() > 1) {
-        QString listColumn;
-        listColumn.append(tr("Are you sure you want to delete columns "));
+	if(listItems.count() == 1) {
+		removeColumn(listItems.first()->column());
+	}
+	else if(listItems.count() > 1) {
+		QString listColumn;
+		listColumn.append(tr("Are you sure you want to delete columns "));
 
-        for(QList<QTableWidgetItem*>::Iterator i = listItems.begin(); i != listItems.end() ; i++) {
-            listColumn.append(QString::number((**i).column()+1));
-            listColumn.append(", ");
-        }
-        listColumn.remove(listColumn.length()-2, 1);
-        listColumn.append("?");
+		for(QList<QTableWidgetItem*>::Iterator i = listItems.begin(); i != listItems.end() ; i++) {
+			listColumn.append(QString::number((**i).column()+1));
+			listColumn.append(", ");
+		}
+		listColumn.remove(listColumn.length()-2, 1);
+		listColumn.append("?");
 
-        int answer = QMessageBox::question(this, tr("Deleting columns"), listColumn, QMessageBox::Yes | QMessageBox::No);
-        if(answer == QMessageBox::Yes) {
+		int answer = QMessageBox::question(this, tr("Deleting columns"), listColumn, QMessageBox::Yes | QMessageBox::No);
+		if(answer == QMessageBox::Yes) {
 
-            for(QList<QTableWidgetItem*>::Iterator i = listItems.begin(); i != listItems.end() ; i++) {
-                if(columnCount() > 1) {
-                    removeColumn((**i).column());
-                }
-            }
-        }
-    }
+			for(QList<QTableWidgetItem*>::Iterator i = listItems.begin(); i != listItems.end() ; i++) {
+				if(columnCount() > 1) {
+					removeColumn((**i).column());
+				}
+			}
+		}
+	}
 }
 
 /**
@@ -333,12 +333,12 @@ void ChordTableWidget::delete_selected_column() {
  */
 void ChordTableWidget::insert_column() {
 
-    insertColumn(columnCount()-1);
+	insertColumn(columnCount()-1);
 
-    for (int c = 0 ; c < this->rowCount(); c ++) {
-        this->setItem(c, columnCount()-2, new CaseItem());
-        this->setColumnWidth(c, 60);
-    }
+	for (int c = 0 ; c < this->rowCount(); c ++) {
+		this->setItem(c, columnCount()-2, new CaseItem());
+		this->setColumnWidth(c, 60);
+	}
 }
 
 
@@ -350,25 +350,25 @@ void ChordTableWidget::insert_column() {
  */
 void ChordTableWidget::ShowContextMenu(const QPoint& pos) // this is a slot
 {
-    m_rightClickMenu->clear();
-    QPoint globalPos = this->mapToGlobal(pos);
-    m_currentItem = (CaseItem*) this->itemAt(pos);
-    if (m_currentItem->column() != this->columnCount() - 1)
-    {
-        // une partie est déjà définie sur cette case
-        if(m_currentItem->isPartSet())
-        {
-            m_rightClickMenu->addAction(m_currentItem->getPart());
-            m_rightClickMenu->addSeparator();
-            m_rightClickMenu->addAction(m_properties);
-        }
-        else
-        {
-            m_rightClickMenu->addAction(m_properties);
-        }
-        m_rightClickMenu->addAction(m_playFromHere);
-        m_rightClickMenu->exec(globalPos);
-    }
+	m_rightClickMenu->clear();
+	QPoint globalPos = this->mapToGlobal(pos);
+	m_currentItem = (CaseItem*) this->itemAt(pos);
+	if (m_currentItem->column() != this->columnCount() - 1)
+	{
+		// une partie est déjà définie sur cette case
+		if(m_currentItem->isPartSet())
+		{
+			m_rightClickMenu->addAction(m_currentItem->getPart());
+			m_rightClickMenu->addSeparator();
+			m_rightClickMenu->addAction(m_properties);
+		}
+		else
+		{
+			m_rightClickMenu->addAction(m_properties);
+		}
+		m_rightClickMenu->addAction(m_playFromHere);
+		m_rightClickMenu->exec(globalPos);
+	}
 }
 
 /////// TODO:
@@ -381,7 +381,7 @@ void ChordTableWidget::ShowContextMenu(const QPoint& pos) // this is a slot
  */
 void ChordTableWidget::setCasePart(QString text)
 {
-    m_currentItem->setPart(text);
+	m_currentItem->setPart(text);
 }
 
 /**
@@ -392,7 +392,7 @@ void ChordTableWidget::setCasePart(QString text)
  */
 void ChordTableWidget::setCaseBeginning(QTime t)
 {
-    m_currentItem->setBeginning(t, true);
+	m_currentItem->setBeginning(t, true);
 }
 
 
@@ -405,30 +405,30 @@ void ChordTableWidget::setCaseBeginning(QTime t)
  */
 void ChordTableWidget::setCaseAndFollowersBeginning(QTime t)
 {
-    int minRow = this->row(m_currentItem);
-    int minCol = this->column(m_currentItem);
+	int minRow = this->row(m_currentItem);
+	int minCol = this->column(m_currentItem);
 
-    QTime old_t;
-    QTime b_t = m_currentItem->getBeginning();
+	QTime old_t;
+	QTime b_t = m_currentItem->getBeginning();
 
-    // on ajoutera à chaque case la différence entre l'ancien et le nouveau temps
-    QTime add_t(std::abs(t.hour() - b_t.hour()),
-                std::abs(t.minute() - b_t.minute()),
-                std::abs(t.second() - b_t.second()),
-                std::abs(t.msec() - b_t.msec()));
+	// on ajoutera à chaque case la différence entre l'ancien et le nouveau temps
+	QTime add_t(std::abs(t.hour() - b_t.hour()),
+				std::abs(t.minute() - b_t.minute()),
+				std::abs(t.second() - b_t.second()),
+				std::abs(t.msec() - b_t.msec()));
 
-    for(int i = minRow; i < this->rowCount(); i++)
-    {
-        for(int j = 0; j < this->columnCount() - 1; j++)
-        {
-            if(i != minRow || j >= minCol)
-            {
-                old_t = ((CaseItem*) this->item(i, j))->getBeginning();
+	for(int i = minRow; i < this->rowCount(); i++)
+	{
+		for(int j = 0; j < this->columnCount() - 1; j++)
+		{
+			if(i != minRow || j >= minCol)
+			{
+				old_t = ((CaseItem*) this->item(i, j))->getBeginning();
 
-                ((CaseItem*) this->item(i, j))->setBeginning(old_t.addMSecs(TimeToMsec(add_t)));
-            }
-        }
-    }
+				((CaseItem*) this->item(i, j))->setBeginning(old_t.addMSecs(TimeToMsec(add_t)));
+			}
+		}
+	}
 }
 
 /**
@@ -439,10 +439,10 @@ void ChordTableWidget::setCaseAndFollowersBeginning(QTime t)
  */
 void ChordTableWidget::removeCasePart()
 {
-    QString text("");
-    m_currentItem->setPart(text);
+	QString text("");
+	m_currentItem->setPart(text);
 
-    m_currentItem->setBackgroundColor(Qt::white);
+	m_currentItem->setBackgroundColor(Qt::white);
 }
 
 /**
@@ -452,10 +452,10 @@ void ChordTableWidget::removeCasePart()
  */
 void ChordTableWidget::showProperties()
 {
-    m_setPartDialog->setBeginning(m_currentItem->getBeginning());
-    m_setPartDialog->setPart(m_currentItem->getPart());
-    m_setPartDialog->setPartEditable(m_currentItem->isPartEditable());
-    m_setPartDialog->showDialogModal();
+	m_setPartDialog->setBeginning(m_currentItem->getBeginning());
+	m_setPartDialog->setPart(m_currentItem->getPart());
+	m_setPartDialog->setPartEditable(m_currentItem->isPartEditable());
+	m_setPartDialog->showDialogModal();
 }
 
 /**
@@ -467,29 +467,29 @@ void ChordTableWidget::showProperties()
  */
 bool ChordTableWidget::checkBeginningTimes()
 {
-    QTime t;
-    bool result = true;
-    t = ((CaseItem*) item(0,0))->getBeginning();
-    for (int r = 0 ; r < this->rowCount() ; r++) {
-        for (int c = 0 ; c < this->columnCount() - 1 ; c ++) {
-            if(r==0 && c == 0)
-                continue;
-            if(((CaseItem*) item(r,c))->getBeginning() < t) {
-                ((CaseItem*) item(r,c))->setBackgroundColor(QColor(255, 165, 0));
-                result = false;
-            }
-            else {
+	QTime t;
+	bool result = true;
+	t = ((CaseItem*) item(0,0))->getBeginning();
+	for (int r = 0 ; r < this->rowCount() ; r++) {
+		for (int c = 0 ; c < this->columnCount() - 1 ; c ++) {
+			if(r==0 && c == 0)
+				continue;
+			if(((CaseItem*) item(r,c))->getBeginning() < t) {
+				((CaseItem*) item(r,c))->setBadTimeColor();
+				result = false;
+			}
+			else {
 
-                //bof la coloration ici, car ça remplace celle qu'on fait dans setPart()
-                // if(((CaseItem*) item(r,c))->isPartSet())
-                //   ((CaseItem*) item(r,c))->setBackgroundColor(Qt::lightGray);
-                //else
-                //  ((CaseItem*) item(r,c))->setBackgroundColor(Qt::white);
-            }
-            t = ((CaseItem*) item(r,c))->getBeginning();
-        }
-    }
-    return result;
+				//bof la coloration ici, car ça remplace celle qu'on fait dans setPart()
+				// if(((CaseItem*) item(r,c))->isPartSet())
+				//   ((CaseItem*) item(r,c))->setBackgroundColor(Qt::lightGray);
+				//else
+				//  ((CaseItem*) item(r,c))->setBackgroundColor(Qt::white);
+			}
+			t = ((CaseItem*) item(r,c))->getBeginning();
+		}
+	}
+	return result;
 }
 
 /**
@@ -502,54 +502,54 @@ bool ChordTableWidget::checkBeginningTimes()
  */
 void ChordTableWidget::setTimeInfo(const QTime beginning, const QTime bar, const QTime end)
 {
-    int barms = (bar.hour()*60*60*1000 + bar.minute()*60*1000 + bar.second()*1000 + bar.msec() - beginning.hour()*60*60*100 - beginning.minute()*60*1000 - beginning.second()*1000 - beginning.msec());
-    if(barms<0) {
-        QMessageBox::warning(this, tr("Error with timers"), tr("The bar timer should be greater than the beginning timer."));
-        return;
-    }
-    int barmsec = barms%1000;
-    int barsec = ((barms-barmsec)/1000)%60;
-    int barmin = ((barms-barsec*1000-barmsec)/(1000*60))%60;
-    int barhour = ((barms-barmin*60*1000-barsec*1000-barmsec)/(1000*60*60));
-    int rmax = rowCount(), cmax = columnCount();
-    bool warningShown = false, modifyAllCases = false;
-    for (int r = 0 ; r < rmax ; r++)
-    {
-        for (int c = 0 ; c < cmax - 1 ; c ++)
-        {
-            if(!warningShown && ((CaseItem*) item(r,c))->isTimerManuallySet())
-            {
-                modifyAllCases = (QMessageBox::question(this, tr("Before doing something wrong"), tr("Some timers have already been set manually. Do you want to reset them too?"), QMessageBox::Yes | QMessageBox::No)) == QMessageBox::Yes;
-                warningShown = true;
-            }
-            int ms = beginning.msec(),
-                    s = beginning.second(),
-                    m = beginning.minute(),
-                    h = beginning.hour();
+	int barms = (bar.hour()*60*60*1000 + bar.minute()*60*1000 + bar.second()*1000 + bar.msec() - beginning.hour()*60*60*100 - beginning.minute()*60*1000 - beginning.second()*1000 - beginning.msec());
+	if(barms<0) {
+		QMessageBox::warning(this, tr("Error with timers"), tr("The bar timer should be greater than the beginning timer."));
+		return;
+	}
+	int barmsec = barms%1000;
+	int barsec = ((barms-barmsec)/1000)%60;
+	int barmin = ((barms-barsec*1000-barmsec)/(1000*60))%60;
+	int barhour = ((barms-barmin*60*1000-barsec*1000-barmsec)/(1000*60*60));
+	int rmax = rowCount(), cmax = columnCount();
+	bool warningShown = false, modifyAllCases = false;
+	for (int r = 0 ; r < rmax ; r++)
+	{
+		for (int c = 0 ; c < cmax - 1 ; c ++)
+		{
+			if(!warningShown && ((CaseItem*) item(r,c))->isTimerManuallySet())
+			{
+				modifyAllCases = (QMessageBox::question(this, tr("Before doing something wrong"), tr("Some timers have already been set manually. Do you want to reset them too?"), QMessageBox::Yes | QMessageBox::No)) == QMessageBox::Yes;
+				warningShown = true;
+			}
+			int ms = beginning.msec(),
+					s = beginning.second(),
+					m = beginning.minute(),
+					h = beginning.hour();
 
-            ms += barmsec*(r*(cmax-1)+c);
-            s  += ms/1000;
-            ms %= 1000;
+			ms += barmsec*(r*(cmax-1)+c);
+			s  += ms/1000;
+			ms %= 1000;
 
-            s  += barsec*(r*(cmax-1)+c);
-            m  += s/60;
-            s  %= 60;
+			s  += barsec*(r*(cmax-1)+c);
+			m  += s/60;
+			s  %= 60;
 
-            m  += barmin*(r*(cmax-1)+c);
-            h  += m/60;
-            m  %= 60;
+			m  += barmin*(r*(cmax-1)+c);
+			h  += m/60;
+			m  %= 60;
 
-            h  += barhour*(r*(cmax-1)+c);
+			h  += barhour*(r*(cmax-1)+c);
 
-            if(QTime(h,m,s,ms)>end) {
-                QMessageBox::warning(this, tr("Error with timers"), tr("There are too many cells for the end timer you entered."));
-                return;
-            }
-            if(modifyAllCases || !((CaseItem*) item(r,c))->isTimerManuallySet())
-                ((CaseItem*) item(r,c))->setBeginning(QTime(h,m,s,ms));
-        }
-    }
-    checkBeginningTimes();
+			if(QTime(h,m,s,ms)>end) {
+				QMessageBox::warning(this, tr("Error with timers"), tr("There are too many cells for the end timer you entered."));
+				return;
+			}
+			if(modifyAllCases || !((CaseItem*) item(r,c))->isTimerManuallySet())
+				((CaseItem*) item(r,c))->setBeginning(QTime(h,m,s,ms));
+		}
+	}
+	checkBeginningTimes();
 }
 
 
@@ -559,54 +559,54 @@ void ChordTableWidget::setTimeInfo(const QTime beginning, const QTime bar, const
  */
 LogicalTrack* ChordTableWidget::getLogicalTrack()
 {
-    LogicalTrack* track = new LogicalTrack();
-    PartTrack* part = 0;
-    CaseItem* currentCase = 0;
-    TrackChord* currentChord = 0;
+	LogicalTrack* track = new LogicalTrack();
+	PartTrack* part = 0;
+	CaseItem* currentCase = 0;
+	TrackChord* currentChord = 0;
 
-    QString prevChordText;
+	QString prevChordText;
 
-    for(int i = 0; i < this->rowCount(); i++)
-    {
-        for(int j = 0; j < this->columnCount() - 1; j++) // -1 pour l'annotation
-        {
-            currentCase = (CaseItem*) this->item(i, j);
+	for(int i = 0; i < this->rowCount(); i++)
+	{
+		for(int j = 0; j < this->columnCount() - 1; j++) // -1 pour l'annotation
+		{
+			currentCase = (CaseItem*) this->item(i, j);
 
-            if(currentCase->isPartSet())
-            {
-                // on stocke la partie précédente
-                if(part != NULL)
-                    track->addPartTrackToList(part);
+			if(currentCase->isPartSet())
+			{
+				// on stocke la partie précédente
+				if(part != NULL)
+					track->addPartTrackToList(part);
 
-                // on crée une nouvelle partie
-                part = new PartTrack(currentCase->getPart());
+				// on crée une nouvelle partie
+				part = new PartTrack(currentCase->getPart());
 
-                currentChord = new TrackChord(currentCase->get_chord(), TimeToMsec(currentCase->getBeginning()), 1);
-                part->AddChord(currentChord);
-            }
-            else
-            {
-                if(currentCase->get_chord() != prevChordText)
-                {
-                    //on y ajoute l'accord de la case actuelle *//* calculer s'il y a des répétitions ---------------v
-                    currentChord = new TrackChord(currentCase->get_chord(), TimeToMsec(currentCase->getBeginning()), 1);
-                    part->AddChord(currentChord);
-                }
-                else
-                {
-                    part->incrementCurrentChordRepetition();
-                }
-            }
-            // ajout des accords, faire attention aux cases vides.
+				currentChord = new TrackChord(currentCase->get_chord(), TimeToMsec(currentCase->getBeginning()), 1);
+				part->AddChord(currentChord);
+			}
+			else
+			{
+				if(currentCase->get_chord() != prevChordText)
+				{
+					//on y ajoute l'accord de la case actuelle *//* calculer s'il y a des répétitions ---------------v
+					currentChord = new TrackChord(currentCase->get_chord(), TimeToMsec(currentCase->getBeginning()), 1);
+					part->AddChord(currentChord);
+				}
+				else
+				{
+					part->incrementCurrentChordRepetition();
+				}
+			}
+			// ajout des accords, faire attention aux cases vides.
 
 
-            prevChordText = currentCase->get_chord();
-        }
-    }
-    // on ajoute la dernière partie
-    track->addPartTrackToList(part);
+			prevChordText = currentCase->get_chord();
+		}
+	}
+	// on ajoute la dernière partie
+	track->addPartTrackToList(part);
 
-    return track;
+	return track;
 }
 
 /**
@@ -617,52 +617,52 @@ LogicalTrack* ChordTableWidget::getLogicalTrack()
  */
 void ChordTableWidget::setLogicalTrack(LogicalTrack* track)
 {
-    CaseItem* currentCase = NULL;
-    QList<PartTrack*>::const_iterator iPart;
-    QList<TrackChord*>::const_iterator iChord;
-    QList<PartTrack*> partList = track->getPartTrackList();
+	CaseItem* currentCase = NULL;
+	QList<PartTrack*>::const_iterator iPart;
+	QList<TrackChord*>::const_iterator iChord;
+	QList<PartTrack*> partList = track->getPartTrackList();
 
-    QList<TrackChord*> chordsList;
+	QList<TrackChord*> chordsList;
 
-    int i=0, j=0; //ligne et colonne
-    int imax = this->rowCount();
-    int jmax = this->columnCount() - 2;
+	int i=0, j=0; //ligne et colonne
+	int imax = this->rowCount();
+	int jmax = this->columnCount() - 2;
 
 
-    currentCase = (CaseItem* )this->item(0, 0);
-    for(iPart = partList.begin(); iPart < partList.end(); ++iPart)
-    {
-        // on définit une partie sur la case actuelle
-        currentCase->setPart((*iPart)->getPartName());
+	currentCase = (CaseItem* )this->item(0, 0);
+	for(iPart = partList.begin(); iPart < partList.end(); ++iPart)
+	{
+		// on définit une partie sur la case actuelle
+		currentCase->setPart((*iPart)->getPartName());
 
-        // puis on remplit les accords de la partie
-        chordsList = (*iPart)->getTrackChordsList();
-        for(iChord = chordsList.begin(); iChord < chordsList.end() && i < imax; ++iChord)
-        {
-            for(int repetitions = 0; repetitions < (*iChord)->getRepetition(); repetitions++)
-            {
-                // on stocke le nom de l'accord
-                if((*iChord)->getChord() != "n")
-                    currentCase->set_chord((*iChord)->getChord());
+		// puis on remplit les accords de la partie
+		chordsList = (*iPart)->getTrackChordsList();
+		for(iChord = chordsList.begin(); iChord < chordsList.end() && i < imax; ++iChord)
+		{
+			for(int repetitions = 0; repetitions < (*iChord)->getRepetition(); repetitions++)
+			{
+				// on stocke le nom de l'accord
+				if((*iChord)->getChord() != "n")
+					currentCase->set_chord((*iChord)->getChord());
 
-                //la durée de l'accord
-                currentCase->setBeginning(MsecToTime(int((*iChord)->getDuration())));
+				//la durée de l'accord
+				currentCase->setBeginning(MsecToTime(int((*iChord)->getDuration())));
 
-                //case suivante
-                if(j < jmax)
-                {
-                    ++j;
-                }
-                else
-                {
-                    j = 0;
-                    ++i;
-                }
+				//case suivante
+				if(j < jmax)
+				{
+					++j;
+				}
+				else
+				{
+					j = 0;
+					++i;
+				}
 
-                currentCase = (CaseItem*) this->item(i, j);
-            }
-        }
-    }
+				currentCase = (CaseItem*) this->item(i, j);
+			}
+		}
+	}
 }
 
 /**
@@ -672,7 +672,7 @@ void ChordTableWidget::setLogicalTrack(LogicalTrack* track)
  */
 void ChordTableWidget::playFromHere()
 {
-    emit play(TimeToMsec(m_currentItem->getBeginning()));
+	emit play(TimeToMsec(m_currentItem->getBeginning()));
 }
 
 /**
@@ -685,40 +685,53 @@ void ChordTableWidget::playFromHere()
  */
 void ChordTableWidget::isPlayingAt(QTime t)
 {
-    CaseItem* nextItem;
+	CaseItem* nextItem;
 
-    for(int i = 0; i< this->rowCount(); i++)
-    {
-        for(int j = 0; j < this->columnCount() - 1; j++)
-        {
-            if ( (j == this->columnCount() - 2) && (i == this->rowCount() - 1))
-            {
-                nextItem = 0;
-            }
-            else if ( j == this->columnCount() - 2)
-            {
-                nextItem = ((CaseItem*) item(i+1, 0));
-            }
-            else
-            {
-                nextItem = ((CaseItem*) item(i, j+1));
-            }
+	for(int i = 0; i< this->rowCount(); i++)
+	{
+		for(int j = 0; j < this->columnCount() - 1; j++)
+		{
+			if ( (j == this->columnCount() - 2) && (i == this->rowCount() - 1))
+			{
+				nextItem = 0;
+			}
+			else if ( j == this->columnCount() - 2)
+			{
+				nextItem = ((CaseItem*) item(i+1, 0));
+			}
+			else
+			{
+				nextItem = ((CaseItem*) item(i, j+1));
+			}
 
 
-            if(t >= ((CaseItem*) item(i, j))->getBeginning()
-                    && (nextItem == 0
-                        || t <= nextItem->getBeginning()))
-            {
-                ((CaseItem*) item(i, j))->play();
+			if(t >= ((CaseItem*) item(i, j))->getBeginning()
+					&& (nextItem == 0
+						|| t <= nextItem->getBeginning()))
+			{
+				((CaseItem*) item(i, j))->play();
 
-                if(m_lastPlayedCase != 0 && m_lastPlayedCase != item(i, j))
-                {
-                    m_lastPlayedCase->restoreColor();
-                }
+				if(m_lastPlayedCase != 0 && m_lastPlayedCase != item(i, j))
+				{
+					m_lastPlayedCase->restoreColor();
+				}
 
-                m_lastPlayedCase = (CaseItem*) item(i, j);
-                return;
-            }
-        }
-    }
+				m_lastPlayedCase = (CaseItem*) item(i, j);
+				return;
+			}
+		}
+	}
+}
+
+
+void ChordTableWidget::itemChanged_slot(CaseItem* item)
+{
+	if(!BasicChord::isValidForPlayer(item->get_chord()))
+	{
+		item->setBadChordColor();
+	}
+	else
+	{
+		item->restoreColor();
+	}
 }
