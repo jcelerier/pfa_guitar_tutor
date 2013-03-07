@@ -83,3 +83,6 @@ FORMS += \
 #unix:QMAKE_POST_LINK += mv GridEditor ../../app/
 #macx:QMAKE_POST_LINK += mv GridEditor.app ../../app/
 # win32:QMAKE_POST_LINK += move GridEditor.exe ../../app/
+
+RESOURCES += \
+    EditorResources.qrc

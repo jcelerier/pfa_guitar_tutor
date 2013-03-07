@@ -15,8 +15,7 @@ INCLUDEPATH += . \
 			   ../../libsndfile/include \
 			   ../../boost/include
 
-QMAKE_CXXFLAGS += -fexceptions
-CONFIG += rtti
+
 }
 
 # Input
@@ -114,3 +113,6 @@ OTHER_FILES += \
 	../../app/bgwide.png \
 	../../app/barretemps.png \
 	../../app/album.png
+
+RESOURCES += \
+    PlayerResources.qrc
