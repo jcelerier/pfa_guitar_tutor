@@ -68,7 +68,7 @@ bool BasicChord::isValid() const
 bool BasicChord::isValidForPlayer(const QString &chord)
 {
     QRegExp r("[A-G]#?m?");
-    return r.exactMatch(chord);
+    return (r.exactMatch(chord) || chord.isEmpty());
 }
 
 /**
