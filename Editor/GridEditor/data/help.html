@@ -1,0 +1,149 @@
+<!DOCTYPE HTML>
+<html lang="fr">
+  <head>
+	<title>GuitarTutor - Aide</title>
+	<link rel="stylesheet" media="screen" type="text/css" title="design" href="qrc:/help/design.css" />
+	<meta charset="utf-8" />
+  </head>
+  <body>
+
+	<nav>
+	  <ul id="menu_ul">
+		<li><a href="#intro">Présentation</a></li>
+		<li><a href="#install">Installation</a>
+		  <ul>
+			<li><a href="#install_win">Windows</a></li>
+			<li><a href="#install_mac">Mac OS X</a></li>
+			<li><a href="#install_linux">Linux</a></li>
+		  </ul>
+		</li>
+		<li><a href="#editor">Editeur de partitions</a>
+		  <ul>
+			<li><a href="#editor_newgrid">Créer</a></li>
+			<li><a href="#editor_loadgrid">Ouvrir</a></li>
+			<li><a href="#editor_editgrid">Editer</a></li>
+			<li><a href="#editor_syncaudio">Synchronisation audio</a></li>
+			<li><a href="#editor_save">Sauvegarder</a></li>
+		  </ul>
+		</li>
+		<li><a href="#player">Lecteur de partitions</a></li>
+		<li><a href="#about">A propos</a></li>
+	  </ul>
+	</nav>
+
+
+	<section id="intro">
+	  <h1>Présentation de la suite GuitarTutor</h1>
+
+	  <p>GuitarTutor est un logiciel conçu pour faciliter l'apprentissage de la guitare aux débutants en créant un environnement ludique qui encouragera les nouveaux guitaristes à s'entraîner.</p>
+
+	</section>
+
+	<section id="install">
+	  <h1>Installation de GuitarTutor sur votre ordinateur</h1>
+
+	  <p>La suite GuitarTutor est compatible Mac OS X, Windows et Linux. Reportez-vous aux différentes sections ci-dessous pour la procédure d'installation relative à votre système d'exploitation.</p>
+
+	  <!-- Ces sections sont à développer en fonction des installateurs que nous ferons -->
+
+	  <section class="subsection" id="install_win">
+		<h2>Installation sur Windows</h2>
+
+		Un installateur prêt à l'emploi vous a été fourni.
+	  </section>
+
+	  <section class="subsection" id="install_mac">
+		<h2>Installation sur Mac OS X</h2>
+
+
+	  </section>
+
+	  <section class="subsection" id="install_linux">
+		<h2>Installation sur GNU/Linux</h2>
+
+	  </section>
+
+	<p>Une fois l'installation effectuée, vous pourrez lancer l'éditeur et le lecteur depuis le dossier d'installation.</p>
+
+	</section>
+
+	<section id="editor">
+	  <h1>Utilisation de l'éditeur de partitions</h1>
+
+	  <p>L'éditeur de partitions vous permet de créer les partitions que vous pourrez ensuite utiliser sur le lecteur. Commencez tout d'abord par lancer le logiciel. Une fenêtre d'accueil apparaît.</p>
+	  <img class="img_tuto" alt="Démarrage de l'éditeur" src="qrc:/help/img/editor_startup" />
+	  <p>Cette fenêtre vous donne le choix entre la création d'une nouvelle grille, ou le chargement d'une grille sauvegardée.</p>
+
+	  <h3 id="editor_newgrid">Création d'une grille</h3>
+
+		<p>La création d'une grille nécessite quelques informations à remplir directement depuis l'écran d'accueil.</p>
+		<ul>
+		  <li><span class="underline">Nom de la piste:</span> le nom de l'&oelig;uvre dont vous souhaitez créer la grille.</li>
+		  <li><span class="underline">Artiste:</span> le nom de l'artiste de cette &oelig;uvre.</li>
+		  <li><span class="underline">Accords par mesure:</span> le nombre maximal, dans la grille que vous souhaitez créer, d'accords dans une mesure.</li>
+		  <li><span class="underline">Lignes:</span> le nombre de lignes à mettre dans la grille. Généralement, une ligne correspond à une phrase dans le morceau.</li>
+		  <li><span class="underline">Colonnes:</span> le nombre de colonnes à mettre dans la grille.</li>
+		</ul>
+		<p>Il ne vous reste plus qu'à cliquer sur <span class="action">Créer</span> pour voir s'afficher une grille vierge configurée selon les données que vous venez d'entrer.</p>
+
+		<img class="img_tuto" alt="Nouvelle grille" src="qrc:/help/img/editor_newgrid" />
+
+	  <h3 id="editor_loadgrid">Chargement d'une grille</h3>
+
+	  Pour ouvrir une grille, vous pouvez le faire directement depuis l'onglet adéquat de l'écran d'accueil, ou depuis le bouton Ouvrir (ou Ctrl+O). Vous n'avez plus qu'à indiquer à l'éditeur quel fichier XML charger.
+
+	  <h3 id="editor_editgrid">Editer une grille</h3>
+
+		<p>Vous êtes désormais prêt à éditer les accords du morceau! Sur cette grille, chaque case correspond à un unique accord. Commencez par cliquer sur la première case du morceau. Vous avez alors la possibilité d'entrer votre premier accord, et ce, de deux manières:</p>
+		<ul>
+		  <li>Soit en entrant directement l'accord à l'aide de votre clavier</li>
+		  <li>Soit en double-cliquant sur l'accord voulu dans le panneau de gauche</li>
+		</ul>
+
+		<p>Notez que, pour gagner du temps, vous pouvez sélectionner plusieurs cases à la fois en maintenant la touche Ctrl de votre clavier enfoncée, puis sélectionner l'accord désiré dans le panneau latéral. Vous pouvez également ajouter ou supprimer lignes et colonnes à l'aide des boutons de la barre d'outils.</p>
+
+		<p>L'éditeur vous permet également d'indiquer les différentes parties qui composeront la grille, comme par exemple "Introduction", "Couplet", "Refrain", etc... Pour cela, faites un clic droit sur la case désignant le début de la partie, et cliquez sur Propriétés. Assurez-vous que la "Début d'une nouvelle partie" est coché, et entrez le nom de cette partie avant de valider par Ok. Vous devriez désormais remarquer que la couleur de cette case a changé. Notez que la première case du morceau doit obligatoirement désigner le début d'une partie (quitte à nommer cette partie "Morceau entier" par exemple).</p>
+
+		<img class="img_tuto" alt="Edition de grille" src="qrc:/help/img/editor_edit" />
+
+	  <h3 id="editor_syncaudio">Synchronisation audio</h3>
+
+		<p>Afin que la grille que vous venez de créer soit utilisable dans le lecteur de partition, vous devez la synchroniser avec un fichier audio. Pour cela, accédez à l'onglet "Edition audio" de votre grille. Commencez par cliquer sur <span class="action">Parcourir</span> pour indiquer le fichier audio avec lequel faire la synchronisation. La forme d'onde apparaît est calculée et apparaît en bas de la fenêtre.</p>
+		<p>A présent, observez les trois compteurs sur la gauche. L'objectif de cette étape est de leur indiquer les temps tels que:</p>
+		<ul>
+		  <li>Le temps de début doit être le temps auquel le premier accord de votre grille doit être joué</li>
+		  <li>Le temps de mesure doit être la durée moyenne d'un accord (donc d'une case de votre grille)</li>
+		  <li>Le temps de fin doit être le temps auquel le dernier accord de votre grille doit se terminer</li>
+		</ul>
+		<p>Il y a plusieurs manières de remplir ces durées correctement. La manière la plus simple, mais pas forcément la plus précise, consiste à cliquer sur le bouton <img alt="timer" src="qrc:/help/img/editor_audiosynctimer"/> lors de la lecture du morceau. Vous pouvez ensuite affiner votre mesure à l'aide des flèches ou directement depuis votre clavier. Remarquez qu'une barre est apparue sur la forme d'onde, et correspond au temps qui a été entré, et celle-ci est actualisée dès que vous modifiez ce temps. Pour plus de précision, n'hésitez pas à zoomer sur la forme d'onde en maintenant votre clic gauche enfoncé et en vous déplaçant vers le haut (zoom +) ou vers le bas (zoom -), et vers la gauche ou la droite pour vous déplacer.</p>
+		<p>Pour mieux vous rendre compte de votre travail, lancez la lecture du morceau, et retournez à l'onglet Grille. Vous constaterez que la case correspondant à l'accord courant est alors mise en évidence.</p>
+		<img class="img_tuto" alt="Synchronisation audio" src="qrc:/help/img/editor_syncaudio" />
+
+		<p>Certains morceaux nécessiteront un réglage plus fin, en modifiant par exemple la durée d'un seul ou de quelques accord seulement (par exemple dans le cas d'un ralentis). Pour cela, retournez à l'onglet Grille, et faites un clic-droit sur la case concernée, puis cliquez sur Propriétés. Vous pourrez y définir le temps de début de l'accord sans modifier les temps des autres accords.</p>
+
+	  <h3 id="editor_save">Sauvegarde</h3>
+
+	  Une fois la grille éditée, il est possible de la sauvegarder pour l'<a href="#editor_loadgrid">ouvrir</a> plus tard et continuer l'édition, ou pour l'utiliser dans le <a href="#player">lecteur</a> (à condition que l'édition soit terminée). Il vous suffit pour cela de cliquer sur le bouton Enregistrer (ou Ctrl+S) et d'indiquer le chemin où le fichier sera sauvegardé.
+
+	</section>
+
+	<section id="player">
+	  <h1>Utilisation du lecteur de partitions</h1>
+
+	</section>
+
+	<section id="about">
+	  <h1>A propos de GuitarTutor</h1>
+
+	  <p>Ci-dessous la liste des différentes bibliothèques qui sont utilisées par GuitarTutor.</p>
+	  <ul>
+		<li>Qt &lt;<a href="http://qt-project.org/">http://qt-project.org/</a>&gt;</li>
+		<li>Fmodex &lt;<a href="http://www.fmod.org/">http://www.fmod.org/</a>&gt;</li>
+		<li>libsndfile &lt;<a href="http://www.mega-nerd.com/libsndfile/">http://www.mega-nerd.com/libsndfile/</a>&gt;</li>
+		<li>Portaudio &lt;<a href="http://www.portaudio.com/">http://www.portaudio.com/</a>&gt;</li>
+		<li>Boost &lt;<a href="http://www.boost.org/">http://www.boost.org/</a>&gt;</li>
+	  </ul>
+	</section>
+
+  </body>
+</html>

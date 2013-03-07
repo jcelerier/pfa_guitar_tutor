@@ -1,25 +1,27 @@
 #include "HelpWindow.h"
-
+#include <QDebug>
+#include <QDir>
 HelpWindow::HelpWindow(QWidget *parent) :
-    QDialog(parent)
+	QDialog(parent)
 {
-    page = new QWebView();
-    page->load(QUrl("data/help.html"));
+	page = new QWebView();
+	page->load(QUrl("qrc:/help/help.html"));
+	qDebug() << QUrl::fromLocalFile("qrc:/help/help.html").toString() <<page->page()->totalBytes();
 
-    close = new QPushButton(tr("Close"));
+	close = new QPushButton(tr("Close"));
 
-    layout = new QVBoxLayout();
-    layout->addWidget(page);
-    layout->addWidget(close);
+	layout = new QVBoxLayout();
+	layout->addWidget(page);
+	layout->addWidget(close);
 
-    setLayout(layout);
+	setLayout(layout);
 
-    connect(close, SIGNAL(clicked()), this, SLOT(accept()));
+	connect(close, SIGNAL(clicked()), this, SLOT(accept()));
 }
 
 HelpWindow::~HelpWindow()
 {
-    delete layout;
-    delete page;
-    delete close;
+	delete layout;
+	delete page;
+	delete close;
 }

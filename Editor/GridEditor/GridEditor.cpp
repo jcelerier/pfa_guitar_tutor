@@ -521,7 +521,7 @@ void GridEditor::save()
  */
 void GridEditor::help()
 {
-	HelpWindow helpWindow;
-	helpWindow.exec();
+	HelpWindow *helpWindow = new HelpWindow(this);
+	helpWindow->exec();
 }
 

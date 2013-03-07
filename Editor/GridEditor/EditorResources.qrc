@@ -17,4 +17,15 @@
         <file alias="stop.png">icons/stop.png</file>
         <file alias="timer.png">icons/timer.png</file>
     </qresource>
+    <qresource prefix="/help">
+        <file alias="help.html">data/help.html</file>
+        <file alias="design.css">data/design.css</file>
+    </qresource>
+    <qresource prefix="/help/img">
+        <file alias="editor_audiosynctimer">data/img/editor_audiosynctimer.png</file>
+        <file alias="editor_edit">data/img/editor_edit.png</file>
+        <file alias="editor_newgrid">data/img/editor_newgrid.png</file>
+        <file alias="editor_startup">data/img/editor_startup.png</file>
+        <file alias="editor_syncaudio">data/img/editor_syncaudio.png</file>
+    </qresource>
 </RCC>
