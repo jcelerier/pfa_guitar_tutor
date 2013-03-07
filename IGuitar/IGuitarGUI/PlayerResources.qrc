@@ -1,1 +1,16 @@
-<RCC/>
+<RCC>
+    <qresource prefix="/images">
+        <file alias="album.png">images/album.png</file>
+        <file alias="barretemps.png">images/barretemps.png</file>
+        <file alias="bgwide.png">images/bgwide.png</file>
+        <file alias="btn_bg.png">images/btn_bg.png</file>
+        <file alias="chordbar.png">images/chordbar.png</file>
+        <file alias="maskplaying.png">images/maskplaying.png</file>
+        <file alias="menu.png">images/menu.png</file>
+        <file alias="minibarretemps.png">images/minibarretemps.png</file>
+        <file alias="next.png">images/next.png</file>
+        <file alias="noalbum.png">images/noalbum.png</file>
+        <file alias="previous.png">images/previous.png</file>
+        <file alias="transport.png">images/transport.png</file>
+    </qresource>
+</RCC>

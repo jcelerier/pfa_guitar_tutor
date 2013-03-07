@@ -27,19 +27,19 @@ void PlayerScene::disposeScene()
 	setBackgroundBrush(bgColor);
 
 	// Image de fond
-	QPixmap bgImg("bgwide.png");
+	QPixmap bgImg(":/images/bgwide.png");
 	itemMap["backgnd"] = addPixmap(bgImg);
 	((QGraphicsPixmapItem*) itemMap["backgnd"])->setTransformationMode(Qt::SmoothTransformation);
 
 	// Bouton de menu
-	QPixmap menuBtnImage("menu.png");
+	QPixmap menuBtnImage(":/images/menu.png");
 	itemMap["menuBtn"] = new ButtonItem(menuBtnImage, itemMap["backgnd"]);
 	itemMap["menuBtn"]->setPos(820, 122); // Position absolue par rapport au background
 	itemMap["menuBtn"]->setToolTip("Menu");
 	connect((ButtonItem*)itemMap["menuBtn"], SIGNAL(pushed()), this, SLOT(switchMenu()));
 
 	// Bouton de lecture/pause
-	QPixmap transportImage("transport.png");
+	QPixmap transportImage(":/images/transport.png");
 	itemMap["transport"] = new ButtonItem(transportImage, itemMap["backgnd"]);
 	itemMap["transport"]->setPos(40, 760); // Position absolue par rapport au background
 	itemMap["transport"]->setToolTip("Play/Pause");
@@ -58,7 +58,7 @@ void PlayerScene::disposeScene()
 	((QGraphicsTextItem*)itemMap["songArtist"])->setHtml("<p align=\"center\">"+controler->track->getArtist()+"</p>");
 
 	// Couverture d'album
-	QPixmap albumImage("noalbum.png");
+	QPixmap albumImage(":/images/noalbum.png");
 	itemMap["songAlbumImg"] = new QGraphicsPixmapItem(albumImage, itemMap["backgnd"]);
 	itemMap["songAlbumImg"]->setPos(58,63);
 
@@ -67,7 +67,7 @@ void PlayerScene::disposeScene()
 	itemMap["entireSong"] = new EntireSong(itemMap["backgnd"]);
 
 	// Barre avancement
-	QPixmap avancemntImage("barretemps.png");
+	QPixmap avancemntImage(":/images/barretemps.png");
 	itemMap["avancmt"] = new QGraphicsPixmapItem(avancemntImage, itemMap["backgnd"]);
 	itemMap["avancmt"]->setPos(200, 400); // Position absolue par rapport au background
 
