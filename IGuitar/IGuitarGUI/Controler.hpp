@@ -11,6 +11,8 @@
 #include "MyView.h"
 #include "PlayerChord.h"
 #include "AudioConfiguration.h"
+#define MIN_SCORE_BOUND -1000
+#define MAX_SCORE_BOUND 5000
 #define PERCENT_OF_CORRECT_NOTES_TO_GO_TO_NEXT_PART 50.0
 #define CHORDS_IMAGES_LOCATION "./chordsImg"
 
@@ -55,6 +57,7 @@ private:
     LogicalTrack *m_track;
     QList<PlayerChord> chordList;
 
+	std::string m_currentPart;
 	QTime globalClock;
 	int clockOffset;
 

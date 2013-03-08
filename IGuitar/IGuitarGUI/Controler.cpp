@@ -36,6 +36,7 @@ Controler::Controler()
 	m_scoreManager = 0;
 	m_musicManager = 0;
     m_track = 0;
+	m_currentPart.clear();
     m_timer = new QTimer(this);
 
     connect(m_timer, SIGNAL(timeout()), this, SLOT(ticTac()));
@@ -51,17 +52,28 @@ Controler::Controler()
  * Slot appelé à intervalle régulier pour permettre la mise à jour de l'interface et du scoreManager
  */
 void Controler::ticTac() {
-    if(m_scoreManager->isRunning()) {
+	if(m_scoreManager->isRunning())
+	{
 		m_scene->updateScene();
-        m_scoreManager->update();
-        QString playedChord = QString(m_scoreManager->getCurrentChord().c_str());
-        m_scene->setPlayedChord(playedChord);
+
+//		prioritizedScore currentScore;
+
+//		m_scoreManager->getScore(currentScore, MIN_SCORE_BOUND, MAX_SCORE_BOUND);
+		m_scoreManager->update();
+
+//		bool mustGoToTheNextPart = (m_scoreManager->getValidatedNotesPercent() >= PERCENT_OF_CORRECT_NOTES_TO_GO_TO_NEXT_PART);
+/*		if(mustGoToTheNextPart)
+		{
+			m_scoreManager->setToNaturalNextPart();
+		}
+*/
+		QString playedChord = QString(m_scoreManager->getCurrentChord().c_str());
+		m_scene->setPlayedChord(playedChord);
     }
 }
 
 bool Controler::initSong()
 {
-
 	QString path = QFileDialog::getOpenFileName(0, tr("Loading"), ".", tr("XML Files (*.xml)"), 0, QFileDialog::HideNameFilterDetails);
 
 
@@ -103,28 +115,33 @@ void Controler::openAudioOptions()
 
 void Controler::startSong()
 {
-	qDebug() << "startSong";
 	m_scoreManager->run();
-	qDebug() << "run";
-
 
 	// nécessaire pour pas que ça crash, pourquoi ? (jm)
 	usleep(100000);
 
-    m_scoreManager->setNextPart(m_track->getPartName(2).toStdString());
+	if(m_currentPart.empty()) //début du morceau
+	{
+		m_scoreManager->setNextPart(m_track->getPartName(2).toStdString());
+	}
+	else
+	{
+		qDebug() << "partie:" << m_scoreManager;
+		m_scoreManager->setNextPart(m_currentPart);
+	}
     m_timer->start(1000/Configuration::framesPerSec);
+
 	//m_renderAreas.changeButtonMode(false);
 }
 
 void Controler::stopSong()
 {
-	qDebug() << "stopSong";
     m_timer->stop();
 
 	if (m_scoreManager != 0)
 	{
+		m_currentPart = m_scoreManager->getCurrentPart();
 		m_scoreManager->stop();
-		//m_scoreManager->goToInMs(0);
 	}
 }
 
@@ -134,16 +151,6 @@ void Controler::stopSong()
 
 //	if (m_scoreManager != NULL)
 //	{
-//		prioritizedScore currentScore;
-
-//		m_scoreManager->getScore(currentScore, MIN_SCORE_BOUND, MAX_SCORE_BOUND);
-//		m_scoreManager->update();
-
-//		bool mustGoToTheNextPart = (m_scoreManager->getValidatedNotesPercent() >= PERCENT_OF_CORRECT_NOTES_TO_GO_TO_NEXT_PART);
-//		if(mustGoToTheNextPart)
-//		{
-//			m_scoreManager->setToNaturalNextPart();
-//		}
 
 //		/*m_renderAreas.drawScore(currentScore,
 //								m_scoreManager->getCurrentChord(),
