@@ -20,7 +20,6 @@ INCLUDEPATH += . \
 
 # Input
 HEADERS += \
-	SongSelection.hpp \
 	Configuration.h \
 	PlayerScene.h \
 	Controler.hpp \
@@ -28,11 +27,9 @@ HEADERS += \
     MyView.h \
     MenuItem.h \
     EntireSong.h \
-    ButtonItem.h \
-    AudioConfiguration.h
+    ButtonItem.h
 
 SOURCES += main.cpp \
-	SongSelection.cpp \
 	Configuration.cpp \
 	PlayerScene.cpp \
 	Controler.cpp \
@@ -40,12 +37,9 @@ SOURCES += main.cpp \
     MenuItem.cpp \
     MyView.cpp \
     PlayerChord.cpp \
-    ButtonItem.cpp \
-    AudioConfiguration.cpp
+    ButtonItem.cpp
 
-FORMS += \
-	SongSelection.ui \
-    AudioConfiguration.ui
+FORMS +=
 
 
 unix:!symbian|win32: LIBS += -L$$PWD/../../libiguitar/ -lIGuitar

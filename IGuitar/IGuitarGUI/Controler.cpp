@@ -107,12 +107,6 @@ bool Controler::initSong()
 	return true;
 }
 
-
-void Controler::openAudioOptions()
-{
-	//m_audioConfiguration->show();
-}
-
 void Controler::startSong()
 {
 	m_scoreManager->run();

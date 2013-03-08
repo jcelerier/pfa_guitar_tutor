@@ -10,7 +10,6 @@
 #include "PlayerScene.h"
 #include "MyView.h"
 #include "PlayerChord.h"
-#include "AudioConfiguration.h"
 #define MIN_SCORE_BOUND -1000
 #define MAX_SCORE_BOUND 5000
 #define PERCENT_OF_CORRECT_NOTES_TO_GO_TO_NEXT_PART 50.0
@@ -34,7 +33,6 @@ public:
 
 public slots:
 	void ticTac();
-	void openAudioOptions();
 	void restartEngine();
 
 private:
@@ -52,7 +50,6 @@ private:
     MyView *m_view;
 
     Configuration* m_configuration;
-    AudioConfiguration* m_audioConfiguration;
 
     LogicalTrack *m_track;
     QList<PlayerChord> chordList;
