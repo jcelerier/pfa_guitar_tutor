@@ -66,13 +66,13 @@ private:
 	bool m_mustStop;
 	bool m_playing;
 	QWidget * parent;
-	QTimer *m_Timer;
+    QTimer *m_timer;
 	PlayerScene *m_scene;
 	myView *m_view;
 
 
-	Configuration* configuration;
-	AudioConfiguration* audioConfiguration;
+    Configuration* m_configuration;
+    AudioConfiguration* m_audioConfiguration;
 
 	// amoi
 

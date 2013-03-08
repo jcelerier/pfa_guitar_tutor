@@ -14,6 +14,11 @@
   */
 Controler::~Controler()
 {
+    delete m_musicManager;
+    delete m_scoreManager;
+    delete m_timer;
+    delete m_configuration;
+    delete m_audioConfiguration;
 }
 
 /**
@@ -28,22 +33,22 @@ Controler::Controler()
 	m_scoreManager = 0;
 	m_musicManager = 0;
 	track = 0;
-	m_Timer = new QTimer(this);
+    m_timer = new QTimer(this);
 
-	connect(m_Timer, SIGNAL(timeout()), this, SLOT(ticTac()));
-	configuration = new Configuration();
-	audioConfiguration = new AudioConfiguration(configuration, (QWidget*) this);
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(ticTac()));
+    m_configuration = new Configuration();
+    m_audioConfiguration = new AudioConfiguration(m_configuration, (QWidget*) this);
 
 	restartEngine();
 }
 
 void Controler::ticTac() {
-	m_scoreManager->update();
-	if(m_playing)
+    if(m_scoreManager->isRunning()) {
 		m_scene->updateScene();
-	//m_scene->setPlayedChord("QS");
-	QString playedChord = QString(m_scoreManager->getCurrentChord().c_str());
-	m_scene->setPlayedChord(playedChord);
+        m_scoreManager->update();
+        QString playedChord = QString(m_scoreManager->getCurrentChord().c_str());
+        m_scene->setPlayedChord(playedChord);
+    }
 }
 
 /**
@@ -96,7 +101,7 @@ bool Controler::initSong() {
 	}
 	else
 	{
-		m_musicManager = new MusicManager(multiTracksMap, muteTracks, configuration->getInputIndex(), configuration->getOutputIndex());
+        m_musicManager = new MusicManager(multiTracksMap, muteTracks, m_configuration->getInputIndex(), m_configuration->getOutputIndex());
 	}
 	if(m_scoreManager != 0) delete m_scoreManager;
 	m_scoreManager = new ScoreManager(m_musicManager);
@@ -108,7 +113,7 @@ bool Controler::initSong() {
 
 void Controler::openAudioOptions()
 {
-	audioConfiguration->show();
+    m_audioConfiguration->show();
 }
 
 void Controler::startSong()
@@ -120,14 +125,14 @@ void Controler::startSong()
 	usleep(100000);
 
 	m_scoreManager->setNextPart(track->getPartName(2).toStdString());
-	m_Timer->start(1000/Configuration::framesPerSec);
+    m_timer->start(1000/Configuration::framesPerSec);
 	//m_renderAreas.changeButtonMode(false);
 }
 
 void Controler::stopSong()
 {
 	m_mustStop = false;
-	m_Timer->stop();
+    m_timer->stop();
 
 	if (m_scoreManager != 0)
 	{
@@ -251,7 +256,7 @@ QList<PlayerChord> Controler::getChordList(LogicalTrack* trackName)
 void Controler::restartEngine()
 {
 	qDebug( ) << "here";
-	m_Timer->stop();
+    m_timer->stop();
 	clockOffset = 0;
 
 	m_mustPlay = false;
@@ -274,7 +279,7 @@ void Controler::restartEngine()
 	m_scene = new PlayerScene(this);
 	m_view = new myView(m_scene);
 
-	m_Timer->start(1000/Configuration::framesPerSec);
+    m_timer->start(1000/Configuration::framesPerSec);
 
 	qDebug( ) << "ok fine";
 	m_view->show();
