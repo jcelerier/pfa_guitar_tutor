@@ -22,23 +22,13 @@ class Controler : public QObject {
 public:
 	Controler();
 	~Controler();
-
 	void playScore(bool mute);
 	void stopScore();
-
-	// Configuration* getConfiguration();
-
-	// amoi
 	int elapsedTime();
 	void startClock();
 	void pauseClock();
-
-	// va falloir que ça passe en private un jour ou l'autre tout ça <_<
-	QList<PlayerChord> chordList;
-	int test;
-	LogicalTrack *track;
-	/////////////////////////////
-
+    QList<PlayerChord>* getChordList();
+    LogicalTrack *getTrack();
 public slots:
 	void ticTac();
 	void openAudioOptions();
@@ -66,15 +56,17 @@ private:
 	bool m_mustStop;
 	bool m_playing;
 	QWidget * parent;
-	QTimer *m_Timer;
+    QTimer *m_timer;
 	PlayerScene *m_scene;
 	myView *m_view;
 
 
-	Configuration* configuration;
-	AudioConfiguration* audioConfiguration;
+    Configuration* m_configuration;
+    AudioConfiguration* m_audioConfiguration;
 
 	// amoi
+    LogicalTrack *m_track;
+    QList<PlayerChord> chordList;
 
 	QTime globalClock;
 	int clockOffset;
