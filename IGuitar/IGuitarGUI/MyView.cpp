@@ -26,7 +26,8 @@ void MyView::keyPressEvent(QKeyEvent* event)
 
     switch ( event->key() )
      {
-        case Qt::Key_Up :
+        //Debug
+        /*case Qt::Key_Up :
             scale(0.5,0.5);
             break;
         case Qt::Key_Down :
@@ -34,7 +35,7 @@ void MyView::keyPressEvent(QKeyEvent* event)
             break;
         case Qt::Key_Right :
             scene()->advance();
-            break;
+            break;*/
     }
     event->accept();
 }

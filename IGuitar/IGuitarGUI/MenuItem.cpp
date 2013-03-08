@@ -33,7 +33,7 @@ MenuItem::MenuItem(QGraphicsItem *parent) :
 
 	menuMap["closeMenu"] = new ButtonItem(menuBtnImage, rect);
 	menuMap["closeMenu"]->setPos(menuBack->rect().topLeft()+QPointF(width/2 -272/2,20));
-	menuMap["closeMenu"]->setToolTip("Close");
+    menuMap["closeMenu"]->setToolTip(tr("Continue"));
 	connect((ButtonItem*)menuMap["closeMenu"], SIGNAL(pushed()), this, SLOT(closeMenu()));
 
 	menuMap["closeMenuText"] = new QGraphicsTextItem(rect);
@@ -41,11 +41,11 @@ MenuItem::MenuItem(QGraphicsItem *parent) :
 	((QGraphicsTextItem*) menuMap["closeMenuText"])->setTextWidth(272);
 	((QGraphicsTextItem*) menuMap["closeMenuText"])->setDefaultTextColor(QColor(0,95,61));
 	((QGraphicsTextItem*) menuMap["closeMenuText"])->setFont(eltFont);
-	((QGraphicsTextItem*) menuMap["closeMenuText"])->setHtml("<p align='center'>FERMER MENU</p>");
+    ((QGraphicsTextItem*) menuMap["closeMenuText"])->setHtml(tr("<p align='center'>CONTINUE</p>"));
 
 	menuMap["close"] = new ButtonItem(menuBtnImage, rect);
 	menuMap["close"]->setPos(menuBack->rect().topLeft()+QPointF(width/2 -272/2,20+100));
-	menuMap["close"]->setToolTip("Close");
+    menuMap["close"]->setToolTip(tr("Quit"));
 	connect((ButtonItem*)menuMap["close"], SIGNAL(pushed()), this, SLOT(closeGame()));
 
 	menuMap["closeText"] = new QGraphicsTextItem(rect);
@@ -53,7 +53,7 @@ MenuItem::MenuItem(QGraphicsItem *parent) :
 	((QGraphicsTextItem*) menuMap["closeText"])->setTextWidth(272);
 	((QGraphicsTextItem*) menuMap["closeText"])->setDefaultTextColor(QColor(0,95,61));
 	((QGraphicsTextItem*) menuMap["closeText"])->setFont(eltFont);
-	((QGraphicsTextItem*) menuMap["closeText"])->setHtml("<p align='center'>FERMER</p>");
+    ((QGraphicsTextItem*) menuMap["closeText"])->setHtml(tr("<p align='center'>QUIT</p>"));
 }
 
 void MenuItem::closeMenu()

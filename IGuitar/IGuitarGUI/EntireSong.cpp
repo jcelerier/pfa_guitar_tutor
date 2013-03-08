@@ -104,7 +104,7 @@ void EntireSong::advance ( int phase ) {
 	if(phase == 1) // advance est appellée automatiquement par la scene, deux fois (voir doc)
 	{
 		int currentTime = controler->elapsedTime();
-
+        static bool isLastChordAlreadyValidated = false;
 		QTransform textTrans;
 		textTrans.translate(-pixPerMsec*(currentTime-lastRefresh), 0);
 		scrollingTextContainer->setTransform(textTrans, true);
@@ -113,9 +113,11 @@ void EntireSong::advance ( int phase ) {
             if(controler->getChordList()->at(currentChord+1).getTime()<currentTime)
                 nextChord();
         }
-        else //Dernier accord du morceau
-            if(!isCurrentChordValidated)
-                validateChord(false);
+        else if(!isLastChordAlreadyValidated && !isCurrentChordValidated
+                && controler->getChordList()->at(currentChord).getTime() + getCurrentDuration() < currentTime) {//Dernier accord du morceau
+            validateChord(false);
+            isLastChordAlreadyValidated = true;
+        }
 		lastRefresh = currentTime;
 	}
 }

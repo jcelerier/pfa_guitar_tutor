@@ -89,13 +89,6 @@ void PlayerScene::disposeScene()
     itemMap["totalValidated"] = addText("0", robotoFont);
     itemMap["totalValidated"]->setPos(1340, 170);
     ((QGraphicsTextItem*)itemMap["totalValidated"])->setDefaultTextColor(QColor(255,255,255));
-
-    /*// Options
-    itemMap["options"] = new ButtonItem(menuBtnImage, itemMap["backgnd"]);
-    itemMap["options"]->setPos(400, 760); // Position absolue par rapport au background
-    itemMap["options"]->setToolTip("Audio options");
-    connect((ButtonItem*)itemMap["options"], SIGNAL(pushed()), (Controler*) parent(), SLOT(openAudioOptions()));*/
-
 }
 
 QGraphicsItem* PlayerScene::getItem(QString name) {

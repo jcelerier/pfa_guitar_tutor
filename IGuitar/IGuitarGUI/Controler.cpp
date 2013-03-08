@@ -18,7 +18,6 @@ Controler::~Controler()
     if(m_scoreManager != 0) delete m_scoreManager;
     delete m_timer;
     delete m_configuration;
-//    delete m_audioConfiguration;
     if(m_scene != 0) delete m_scene;
     if(m_view  != 0) delete m_view;
     if(m_track != 0) delete m_track;
@@ -41,7 +40,6 @@ Controler::Controler()
 
     connect(m_timer, SIGNAL(timeout()), this, SLOT(ticTac()));
     m_configuration = new Configuration();
-//	m_audioConfiguration = new AudioConfiguration(m_configuration, (QWidget*) this);
 
 	restartEngine();
 }
@@ -124,8 +122,6 @@ void Controler::startSong()
 		m_scoreManager->setNextPart(m_currentPart);
 	}
     m_timer->start(1000/Configuration::framesPerSec);
-
-	//m_renderAreas.changeButtonMode(false);
 }
 
 void Controler::stopSong()
