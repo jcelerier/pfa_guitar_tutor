@@ -149,6 +149,7 @@ QString AudioWindow::getFilename()
 	return player->getSong();
 }
 
+
 /**
  * @brief AudioWindow::playFrom
  * @param t Temps à partir du quel on joue en millisecondes

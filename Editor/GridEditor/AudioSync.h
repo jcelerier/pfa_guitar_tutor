@@ -42,6 +42,10 @@ public:
     void setBarTimer(const QTime);
     void setBegginingTimer(const QTime);
     void setEndTimer(const QTime);
+    int getBeginning();
+    int getBar();
+    int getEnd();
+
     void checkTimes();
     void updateTempo();
 
