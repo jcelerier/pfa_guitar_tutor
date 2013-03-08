@@ -729,12 +729,15 @@ void ChordTableWidget::isPlayingAt(QTime t)
 
 void ChordTableWidget::itemChanged_slot(QTableWidgetItem *item)
 {
-	if(!BasicChord::isValidForPlayer(((CaseItem *)item)->get_chord()))
+	if(item->column() < columnCount() -1)
 	{
-		((CaseItem *)item)->setBadChordColor();
-	}
-	else
-	{
-		((CaseItem *)item)->restoreColor();
+		if(!BasicChord::isValidForPlayer(((CaseItem *)item)->get_chord()))
+		{
+			((CaseItem *)item)->setBadChordColor();
+		}
+		else
+		{
+			((CaseItem *)item)->restoreColor();
+		}
 	}
 }

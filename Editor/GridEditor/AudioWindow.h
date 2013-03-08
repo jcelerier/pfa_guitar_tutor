@@ -50,6 +50,7 @@ class AudioWindow : public QWidget
         AudioSync* audioSync;
         QPushButton *browseButton;
         QGridLayout* layout;
+		ZoomButtons* zoomButtons;
 
         Waveform* waveform;
         WaveformTimeBar* waveformTimeBar;

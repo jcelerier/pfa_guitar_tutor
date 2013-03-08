@@ -53,7 +53,7 @@ Waveform::~Waveform()
 	delete m_delimiterPen;
 	delete m_playerPen;
 	delete m_painter;
-	delete m_spectrum;
+	delete[] m_spectrum;
 }
 
 // slideBar
@@ -221,7 +221,7 @@ void Waveform::setWidth(unsigned int w)
 	{
 		m_width = w;
 		if (m_spectrum != 0)
-			delete m_spectrum;
+			delete[] m_spectrum;
 
 		m_spectrum = new int[m_width];
 	}
