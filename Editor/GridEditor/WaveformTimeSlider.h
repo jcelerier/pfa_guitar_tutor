@@ -27,7 +27,7 @@ class WaveformTimeSlider : public QWidget
 		int m_time;
 		QPixmap m_pixmap;
 
-		int pos_x;
+		int m_pos;
 		
 };
 

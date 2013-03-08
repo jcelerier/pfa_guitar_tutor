@@ -14,7 +14,7 @@ AudioWindow::AudioWindow(QWidget * parent)
 
 	layout = new QGridLayout();
 
-	ZoomButtons* zoomButtons = new ZoomButtons(this);
+	zoomButtons = new ZoomButtons(this);
 
 	layout->addWidget(audioSync, 1, 0, 3, 1);
 	layout->addWidget(label, 1, 1);
@@ -54,6 +54,7 @@ AudioWindow::~AudioWindow()
 	delete audioFile;
 	delete browseButton;
 	delete audioSync;
+	delete zoomButtons;
 	delete layout;
 	delete label;
 }
@@ -148,6 +149,7 @@ QString AudioWindow::getFilename()
 {
 	return player->getSong();
 }
+
 
 /**
  * @brief AudioWindow::playFrom

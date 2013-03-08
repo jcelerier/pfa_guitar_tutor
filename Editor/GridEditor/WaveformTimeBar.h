@@ -11,6 +11,8 @@ class WaveformTimeBar : public QWidget
 		Q_OBJECT
 	public:
 		explicit WaveformTimeBar(const QTime& song_end , QWidget *parent = 0);
+
+		~WaveformTimeBar();
 		void draw();
 		void drawText();
 		void drawTimeSliders();
@@ -46,9 +48,11 @@ class WaveformTimeBar : public QWidget
 		QTime begin, end;
 		QGridLayout* layout;
 		QPainter* painter;
+		QLabel* container;
 
 		QPoint oldMousePos, clickPos;
 		
+
 };
 
 #endif // WAVEFORMTIMEBAR_H

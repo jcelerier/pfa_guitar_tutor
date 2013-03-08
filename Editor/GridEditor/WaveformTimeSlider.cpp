@@ -2,7 +2,7 @@
 #include "Util.hpp"
 
 WaveformTimeSlider::WaveformTimeSlider(QString imagepath, int type, QWidget *parent):
-	QWidget(parent),  type(type), m_time(0), m_pixmap(imagepath)
+	QWidget(parent),  type(type), m_time(0), m_pixmap(imagepath), m_pos(0)
 {
 }
 
@@ -25,12 +25,12 @@ void WaveformTimeSlider::private_setTime(int time)
 
 int WaveformTimeSlider::getPos()
 {
-	return pos_x;
+	return m_pos;
 }
 
 void WaveformTimeSlider::setPos(int pos)
 {
-	pos_x = pos;
+	m_pos = pos;
 }
 
 QPixmap& WaveformTimeSlider::getPixmap()

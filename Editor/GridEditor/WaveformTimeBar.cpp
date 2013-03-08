@@ -7,24 +7,25 @@
 WaveformTimeBar::WaveformTimeBar(const QTime& song_end, QWidget *parent) :
 	QWidget(parent), begin(QTime(0, 0)), end(song_end)
 {
+	this->parent = parent;
 	begin_slider = new WaveformTimeSlider(":/icons/arrow_beg.png", TIMER_BEGINNING, this);
 	bar_slider = new WaveformTimeSlider(":/icons/arrow_bar.png", TIMER_BAR, this);
 	end_slider = new WaveformTimeSlider(":/icons/arrow_end.png", TIMER_END, this);
 
 	play_slider = new WaveformTimeSlider(":/icons/arrow_player.png", TIMER_PLAY, this);
 
+	painter = new QPainter();
+
+	layout = new QGridLayout();
 
 	connect(begin_slider, SIGNAL(timeChanged(int, QTime)), this, SIGNAL(timeChanged(int,QTime)));
 	connect(bar_slider, SIGNAL(timeChanged(int, QTime)), this, SIGNAL(timeChanged(int,QTime)));
 	connect(end_slider, SIGNAL(timeChanged(int, QTime)), this, SIGNAL(timeChanged(int,QTime)));
 
-	this->parent = parent;
 	this->setBackgroundRole(QPalette::Window);
 	this->setAutoFillBackground(true);
 
-	painter = new QPainter();
 
-	layout = new QGridLayout();
 	layout->setContentsMargins(0, 0, 0, 0);
 	this->setLayout(layout);
 
@@ -34,8 +35,19 @@ WaveformTimeBar::WaveformTimeBar(const QTime& song_end, QWidget *parent) :
 		layout->setColumnMinimumWidth(i, 20);
 	}
 
-	QLabel* blbl = new QLabel(" ");
-	layout->addWidget(blbl);
+	container = new QLabel(" ");
+	layout->addWidget(container);
+}
+
+WaveformTimeBar::~WaveformTimeBar()
+{
+	delete container;
+	delete begin_slider;
+	delete bar_slider;
+	delete end_slider;
+	delete play_slider;
+	delete painter;
+	delete layout;
 }
 
 void WaveformTimeBar::draw()
@@ -154,8 +166,10 @@ void WaveformTimeBar::drawTextAtTime(int s_time)
 
 void WaveformTimeBar::drawSlider(WaveformTimeSlider* slider)
 {
-	double s_begin =  ((SimpleMusicPlayer*) parent)->getWaveBegin();
-	double s_end = ((SimpleMusicPlayer*) parent)->getWaveEnd();
+	double s_begin = 0;
+	s_begin = ((SimpleMusicPlayer*) parent)->getWaveBegin();
+	double s_end = 0;
+	s_begin = ((SimpleMusicPlayer*) parent)->getWaveEnd();
 
 
 

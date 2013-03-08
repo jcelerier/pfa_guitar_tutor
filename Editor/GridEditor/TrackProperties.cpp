@@ -112,3 +112,19 @@ void TrackProperties::setTimeSignature(int time)
 	m_timeSignature = time;
 	ui->t_barsize->setValue(time);
 }
+
+//void TrackProperties::setBar(int nBar){
+//    bar = nBar;
+//}
+
+//void TrackProperties::setEnd(int nEnd){
+//    end = nEnd;
+//}
+
+//void TrackProperties::setBeginning(int nbeginning){
+//    beginning = nbeginning;
+//}
+
+//void TrackProperties::setTimePerMesure(){
+//    timePerMesure = nTimePerMesure;
+//}

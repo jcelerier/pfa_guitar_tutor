@@ -21,7 +21,7 @@ SimpleMusicPlayer::SimpleMusicPlayer(QWidget* parent)
 	this->parent = parent;
 	layout = new QGridLayout();
 	playButton = new QToolButton();
-	playBarButton = new QToolButton();
+	// A FAIRE : playBarButton = new QToolButton();
 	stopButton = new QToolButton();
 	slideBar = new QSlider(Qt::Horizontal);
 	timerLabel = new QLabel("");
@@ -37,12 +37,12 @@ SimpleMusicPlayer::SimpleMusicPlayer(QWidget* parent)
 
 
 	playButton->setIcon(QIcon(":/icons/play.png"));
-	playBarButton->setIcon(QIcon(":/icons/play.png"));
+	//playBarButton->setIcon(QIcon(":/icons/play.png"));
 	stopButton->setIcon(QIcon(":/icons/stop.png"));
 
 	layout->addWidget(slideBar, 0, 0, 1, 7);
 	layout->addWidget(playButton, 1, 0);
-	layout->addWidget(playBarButton, 1, 1);
+	//layout->addWidget(playBarButton, 1, 1);
 	layout->addWidget(stopButton, 1, 2);
 	layout->addWidget(timerLabel, 1, 6);
 
@@ -77,6 +77,11 @@ SimpleMusicPlayer::~SimpleMusicPlayer()
 	delete slideBar;
 	delete layout;
 	delete playButton;
+	// delete playBarButton;
+	delete playTimer;
+	delete player;
+	delete waveform;
+	delete waveformTimeBar;
 	delete stopButton;
 	delete timerLabel;
 	delete timer;

@@ -27,6 +27,7 @@ class AudioWindow : public QWidget
         void setAudioFileName(QString file);
         void setWaveformData(Waveform* waveform, WaveformTimeBar* timeBar);
 
+
     public slots:
         void browseAudioFile();
         void setAudioFile();
@@ -50,6 +51,7 @@ class AudioWindow : public QWidget
         AudioSync* audioSync;
         QPushButton *browseButton;
         QGridLayout* layout;
+		ZoomButtons* zoomButtons;
 
         Waveform* waveform;
         WaveformTimeBar* waveformTimeBar;
