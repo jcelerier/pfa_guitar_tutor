@@ -27,7 +27,8 @@ HEADERS += \
     MyView.h \
     MenuItem.h \
     EntireSong.h \
-    ButtonItem.h
+    ButtonItem.h \
+    ChordDictionary.h
 
 SOURCES += main.cpp \
 	Configuration.cpp \
@@ -37,9 +38,11 @@ SOURCES += main.cpp \
     MenuItem.cpp \
     MyView.cpp \
     PlayerChord.cpp \
-    ButtonItem.cpp
+    ButtonItem.cpp \
+    ChordDictionary.cpp
 
-FORMS +=
+FORMS += \
+    ChordDictionary.ui
 
 
 unix:!symbian|win32: LIBS += -L$$PWD/../../libiguitar/ -lIGuitar
@@ -90,23 +93,6 @@ PRE_TARGETDEPS += $$PWD/../../portaudio/lib/libportaudio.dll.a
 #unix: QMAKE_POST_LINK += mv IGuitarGUI ../../app/
 #win32: QMAKE_POST_LINK += mv IGuitarGUI.exe ../../app/
 #macx: QMAKE_POST_LINK += mv IGuitarGUI.app ../../app/
-
-OTHER_FILES += \
-	ressources/transport.png \
-	ressources/testmask.png \
-	ressources/menu-btn.png \
-	ressources/bgwide.png \
-	ressources/background.png \
-	../../app/transport.png \
-	../../app/noalbum.png \
-	../../app/minibarretemps.png \
-	../../app/menu.png \
-	../../app/maskplaying.png \
-	../../app/chordbar.png \
-	../../app/btn_bg.png \
-	../../app/bgwide.png \
-	../../app/barretemps.png \
-	../../app/album.png
 
 RESOURCES += \
     PlayerResources.qrc

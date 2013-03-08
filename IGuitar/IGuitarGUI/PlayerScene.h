@@ -8,6 +8,7 @@
 #include "MenuItem.h"
 #include "EntireSong.h"
 #include "Configuration.h"
+#include "ChordDictionary.h"
 
 class Controler;
 
@@ -22,6 +23,7 @@ public:
 	void setCurrentChordValidated(bool v);
     void resetNoteCheck();
     void updateStats(int validated, int played);
+    ~PlayerScene();
 signals:
 
 public slots:
@@ -29,6 +31,7 @@ public slots:
 	void setPlayedChord(QString);
 	void switchPlaying();
 	void switchMenu();
+    void displayDictionary();
 
 private:
 	QRect windowSize;
@@ -39,7 +42,7 @@ private:
 	int  lastTimeCheck;
 	int  currentNoteDuration;
 	Controler* controler;
-
+    ChordDictionary *dictionary;
 	void disposeScene();
 
 };

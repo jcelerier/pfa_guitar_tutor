@@ -14,6 +14,13 @@ PlayerScene::PlayerScene(QObject *parent) :
 	disposeScene();
 
 	resetNoteCheck();
+
+    dictionary = new ChordDictionary(controler->getChordList());
+}
+
+PlayerScene::~PlayerScene()
+{
+    delete dictionary;
 }
 
 void PlayerScene::disposeScene()
@@ -35,14 +42,14 @@ void PlayerScene::disposeScene()
 	QPixmap menuBtnImage(":/images/menu.png");
 	itemMap["menuBtn"] = new ButtonItem(menuBtnImage, itemMap["backgnd"]);
 	itemMap["menuBtn"]->setPos(820, 122); // Position absolue par rapport au background
-	itemMap["menuBtn"]->setToolTip("Menu");
+    itemMap["menuBtn"]->setToolTip(tr("Menu"));
 	connect((ButtonItem*)itemMap["menuBtn"], SIGNAL(pushed()), this, SLOT(switchMenu()));
 
 	// Bouton de lecture/pause
 	QPixmap transportImage(":/images/transport.png");
 	itemMap["transport"] = new ButtonItem(transportImage, itemMap["backgnd"]);
 	itemMap["transport"]->setPos(40, 760); // Position absolue par rapport au background
-	itemMap["transport"]->setToolTip("Play/Pause");
+    itemMap["transport"]->setToolTip(tr("Play/Pause"));
 	connect((ButtonItem*)itemMap["transport"], SIGNAL(pushed()), this, SLOT(switchPlaying()));
 
 	// Titre de la chanson
@@ -89,6 +96,13 @@ void PlayerScene::disposeScene()
     itemMap["totalValidated"] = addText("0", robotoFont);
     itemMap["totalValidated"]->setPos(1340, 170);
     ((QGraphicsTextItem*)itemMap["totalValidated"])->setDefaultTextColor(QColor(255,255,255));
+
+    // Dictionnaire d'accords
+    QPixmap dictionaryImage(":/images/dictionary.png");
+    itemMap["dictionary"] = new ButtonItem(dictionaryImage, itemMap["backgnd"]);
+    itemMap["dictionary"]->setPos(57, 650); // Position absolue par rapport au background
+    itemMap["dictionary"]->setToolTip(tr("Chord dictionary"));
+    connect((ButtonItem*)itemMap["dictionary"], SIGNAL(pushed()), this, SLOT(displayDictionary()));
 }
 
 QGraphicsItem* PlayerScene::getItem(QString name) {
@@ -150,4 +164,9 @@ void PlayerScene::updateStats(int validated, int played)
 {
     ((QGraphicsTextItem*)itemMap["totalValidated"])->setPlainText(QString::number(validated));
     ((QGraphicsTextItem*)itemMap["totalPlayed"])->setPlainText(QString::number(played));
+}
+
+void PlayerScene::displayDictionary()
+{
+    dictionary->show();
 }
