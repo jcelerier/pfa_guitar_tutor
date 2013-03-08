@@ -160,6 +160,11 @@ void AudioSync::setBarTimer(const QTime t)
 	bar->setTime(t);
 }
 
+
+void getBeginning()
+{
+}
+
 /**
  * @brief AudioSync::beginningChanged
  * @param t Temps du début

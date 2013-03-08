@@ -11,14 +11,40 @@ LogicalTrack::LogicalTrack() {
     audioFileName = "";
     mesure = 0;
     listPartTrack;
+    beginning = 0;
+    bar = 0;
+    end = 0;
+    timePerMesure = 4;
 }
 
+/**
+ * @brief LogicalTrack::LogicalTrack
+ *
+ * Constructeur obsolète initialisant de la classe LogicalTrack sans initialiser beginning, bar et mesure.
+ */
 LogicalTrack::LogicalTrack(QString newTrackName, QString newArtist, QString newAudoFileName, int newMesure, QList<PartTrack*> newList){
     trackName = newTrackName;
     artist = newArtist;
     audioFileName = newAudoFileName;
     mesure = newMesure;
     listPartTrack = newList;
+}
+
+/**
+ * @brief LogicalTrack::LogicalTrack
+ *
+ * Constructeur permettant l'initialisialisation correcte de la classe LogicalTrack.
+ */
+LogicalTrack::LogicalTrack(QString newTrackName, QString newArtist, QString newAudoFileName, int newMesure, QList<PartTrack*> newList, int newBar, int newEnd, int newBeginning, int newTimePerMesure){
+    trackName = newTrackName;
+    artist = newArtist;
+    audioFileName = newAudoFileName;
+    mesure = newMesure;
+    listPartTrack = newList;
+    bar = newBar;
+    end = newEnd;
+    beginning = newBeginning;
+    timePerMesure = newTimePerMesure;
 }
 
 /**
@@ -75,7 +101,6 @@ void LogicalTrack::setArtist(QString newArtist) {
 QString LogicalTrack::getArtist() {
 
     return artist;
-
 }
 
 /**
@@ -87,6 +112,20 @@ QString LogicalTrack::getArtist() {
 void LogicalTrack::setAudioFileName(QString newAudioFileName) {
 
     audioFileName = newAudioFileName;
+
+}
+
+void LogicalTrack::setBars(int nBar, int nBeginning, int nEnd){
+
+    bar = nBar;
+    beginning = nBeginning;
+    end = nEnd;
+
+}
+
+void LogicalTrack::setTimePerMesure(int nTPM){
+
+    timePerMesure = nTPM;
 
 }
 
@@ -121,6 +160,22 @@ void LogicalTrack::addPartTrackToList(PartTrack* newPartTrack) {
 QList<PartTrack*>& LogicalTrack::getPartTrackList()
 {
     return listPartTrack;
+}
+
+int LogicalTrack::getBeginning(){
+    return beginning;
+}
+
+int LogicalTrack::getBar(){
+    return bar;
+}
+
+int LogicalTrack::getEnd(){
+    return end;
+}
+
+int LogicalTrack::getTimePerMesure(){
+    return timePerMesure;
 }
 
 /**
