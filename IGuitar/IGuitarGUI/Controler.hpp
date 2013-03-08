@@ -8,10 +8,10 @@
 #include <ScoreManager.h>
 
 #include "PlayerScene.h"
-#include "myView.h"
+#include "MyView.h"
 #include "RenderArea.hpp"
-#include "playerchord.h"
-#include "audioconfiguration.h"
+#include "PlayerChord.h"
+#include "AudioConfiguration.h"
 #define PERCENT_OF_CORRECT_NOTES_TO_GO_TO_NEXT_PART 50.0
 #define CHORDS_IMAGES_LOCATION "./chordsImg"
 
@@ -58,7 +58,7 @@ private:
 	QWidget * parent;
     QTimer *m_timer;
 	PlayerScene *m_scene;
-	myView *m_view;
+    MyView *m_view;
 
 
     Configuration* m_configuration;

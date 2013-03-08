@@ -1,4 +1,4 @@
-#include "entiresong.h"
+#include "EntireSong.h"
 #include "Controler.hpp"
 #include <QGraphicsOpacityEffect>
 #include "PlayerScene.h"
@@ -85,6 +85,8 @@ EntireSong::EntireSong(QGraphicsItem *parent) :
 	lastRefresh = 0;
     controler->getChordList()->at(currentChord).fullSongItem->setBrush(Qt::yellow);
 	isCurrentChordValidated = false;
+    totalPlayedChords = 0;
+    totalValidatedChords = 0;
 }
 
 void EntireSong::nextChord() {
@@ -132,9 +134,12 @@ void EntireSong::validateChord(bool v)
 	if(v) {
         controler->getChordList()->at(currentChord).fullSongItem->setBrush(Qt::green);
 		isCurrentChordValidated = true;
+        totalValidatedChords++;
 	}
 	else
         controler->getChordList()->at(currentChord).fullSongItem->setBrush(Qt::red);
+    totalPlayedChords++;
+    ((PlayerScene*)scene())->updateStats(totalValidatedChords, totalPlayedChords);
 }
 
 QString EntireSong::getCurrentChord() const
@@ -145,6 +150,21 @@ QString EntireSong::getCurrentChord() const
 int EntireSong::getCurrentDuration() const
 {
     if(currentChord+1 < controler->getChordList()->size())
-        return controler->getChordList()->at(currentChord).getTime() - controler->getChordList()->at(currentChord+1).getTime();
-    return 2000;
+        return controler->getChordList()->at(currentChord+1).getTime() - controler->getChordList()->at(currentChord).getTime();
+    return 2000; //TODO
+}
+
+int EntireSong::getTotalValidatedChords() const
+{
+    return totalValidatedChords;
+}
+
+int EntireSong::getTotalPlayedChords() const
+{
+    return totalPlayedChords;
+}
+
+bool EntireSong::getIsCurrentChordValidated() const
+{
+    return isCurrentChordValidated;
 }

@@ -45,6 +45,11 @@ Controler::Controler()
 	restartEngine();
 }
 
+/**
+ * @brief Controler::ticTac
+ *
+ * Slot appelé à intervalle régulier pour permettre la mise à jour de l'interface et du scoreManager
+ */
 void Controler::ticTac() {
     if(m_scoreManager->isRunning()) {
 		m_scene->updateScene();
@@ -188,6 +193,12 @@ Controler::initListeners()
 
 // amoi
 
+/**
+ * @brief Controler::elapsedTime
+ * @return Le temps écoulé depuis la lecture du morceau
+ *
+ * Donne le temps écoulé depuis le début de la lecture du morceau.
+ */
 int Controler::elapsedTime() {
 	return clockOffset + globalClock.elapsed();
 }
@@ -209,6 +220,12 @@ void Controler::pauseClock() {
     clockOffset += globalClock.elapsed();
 }
 
+/**
+ * @brief Controler::getChordList
+ * @return La liste des accords
+ *
+ * Accesseur pour la liste des accords du morceau.
+ */
 QList<PlayerChord> *Controler::getChordList()
 {
     return &chordList;
@@ -280,7 +297,7 @@ void Controler::restartEngine()
 	if (m_view != 0) delete m_view;
 
 	m_scene = new PlayerScene(this);
-	m_view = new myView(m_scene);
+    m_view = new MyView(m_scene);
 
     m_timer->start(1000/Configuration::framesPerSec);
 
@@ -288,6 +305,12 @@ void Controler::restartEngine()
 	m_view->show();
 }
 
+/**
+ * @brief Controler::getTrack
+ * @return La logicalTrack utilisée
+ *
+ * Accesseur pour la logicalTrack courante.
+ */
 LogicalTrack* Controler::getTrack()
 {
     return m_track;

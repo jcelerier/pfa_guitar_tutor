@@ -1,4 +1,4 @@
-#include "buttonitem.h"
+#include "ButtonItem.h"
 
 /* Classe englobante pour les objets, afin qu'ils soient mis a l'echelle (verifier si c'est effectif)
  */

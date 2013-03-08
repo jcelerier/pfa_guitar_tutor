@@ -16,10 +16,15 @@ public:
     void validateChord(bool v);
     QString getCurrentChord() const;
     int getCurrentDuration() const;
+    int getTotalPlayedChords() const;
+    int getTotalValidatedChords() const;
+    bool getIsCurrentChordValidated() const;
 private:
     QList<QGraphicsRectItem*> cList;
     int currentChord;
     int lastRefresh;
+    int totalPlayedChords;
+    int totalValidatedChords;
     QGraphicsItemGroup* scrollingTextContainer;
     QGraphicsTextItem* timeText;
 

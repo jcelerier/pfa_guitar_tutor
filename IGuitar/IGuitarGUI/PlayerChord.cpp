@@ -1,4 +1,4 @@
-#include "playerchord.h"
+#include "PlayerChord.h"
 
 PlayerChord::PlayerChord()
 {

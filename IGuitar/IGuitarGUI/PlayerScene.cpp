@@ -72,22 +72,29 @@ void PlayerScene::disposeScene()
 	itemMap["avancmt"]->setPos(200, 400); // Position absolue par rapport au background
 
 	// Accord joue a la guitare
-	QFont playedFont("Roboto", 200);
-	itemMap["chordPlayed"] = addText("0", playedFont);
-	((QGraphicsTextItem*)itemMap["chordPlayed"])->setDefaultTextColor(QColor(0, 161, 42));
-	itemMap["chordPlayed"]->setPos(1180, 380);
+    QFont playedFont("Roboto", 200);
+    itemMap["chordPlayed"] = addText("0", playedFont);
+    ((QGraphicsTextItem*)itemMap["chordPlayed"])->setDefaultTextColor(QColor(0, 161, 42));
+    itemMap["chordPlayed"]->setPos(1180, 380);
 
 	// Menu
 	itemMap["menu"] = new MenuItem(itemMap["backgnd"]);
 	itemMap["menu"]->setVisible(false);
 	itemMap["menu"]->setPanelModality(QGraphicsItem::PanelModal);
 
+    // Statistiques
+    itemMap["totalPlayed"] = addText("0", robotoFont);
+    itemMap["totalPlayed"]->setPos(1340, 120);
+    ((QGraphicsTextItem*)itemMap["totalPlayed"])->setDefaultTextColor(QColor(255,255,225));
+    itemMap["totalValidated"] = addText("0", robotoFont);
+    itemMap["totalValidated"]->setPos(1340, 170);
+    ((QGraphicsTextItem*)itemMap["totalValidated"])->setDefaultTextColor(QColor(255,255,255));
 
-	// Options
-	itemMap["options"] = new ButtonItem(menuBtnImage, itemMap["backgnd"]);
-	itemMap["options"]->setPos(400, 760); // Position absolue par rapport au background
-	itemMap["options"]->setToolTip("Audio options");
-	connect((ButtonItem*)itemMap["options"], SIGNAL(pushed()), (Controler*) parent(), SLOT(openAudioOptions()));
+    // Options
+    itemMap["options"] = new ButtonItem(menuBtnImage, itemMap["backgnd"]);
+    itemMap["options"]->setPos(400, 760); // Position absolue par rapport au background
+    itemMap["options"]->setToolTip("Audio options");
+    connect((ButtonItem*)itemMap["options"], SIGNAL(pushed()), (Controler*) parent(), SLOT(openAudioOptions()));
 
 }
 
@@ -124,7 +131,8 @@ void PlayerScene::updateScene()
 
 void PlayerScene::setPlayedChord(QString playedChord) {
 	((QGraphicsTextItem*)itemMap["chordPlayed"])->setPlainText(playedChord);
-	if(playedChord == ((EntireSong*)itemMap["entireSong"])->getCurrentChord()) {
+    if(!((EntireSong*)itemMap["entireSong"])->getIsCurrentChordValidated() &&
+            playedChord == ((EntireSong*)itemMap["entireSong"])->getCurrentChord()) {
 		timeNoteSynchronized += (controler->elapsedTime() - lastTimeCheck);
 		if (((timeNoteSynchronized * 100.0)/currentNoteDuration) > 30 /*Adaptative*/) {
 			setCurrentChordValidated(true);
@@ -143,4 +151,10 @@ void PlayerScene::resetNoteCheck()
 void PlayerScene::setCurrentChordValidated(bool v)
 {
 	((EntireSong*)itemMap["entireSong"])->validateChord(v);
+}
+
+void PlayerScene::updateStats(int validated, int played)
+{
+    ((QGraphicsTextItem*)itemMap["totalValidated"])->setPlainText(QString::number(validated));
+    ((QGraphicsTextItem*)itemMap["totalPlayed"])->setPlainText(QString::number(played));
 }

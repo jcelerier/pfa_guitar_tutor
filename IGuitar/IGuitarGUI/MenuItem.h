@@ -2,7 +2,7 @@
 #define MENUITEM_H
 
 #include <QGraphicsRectItem>
-#include "buttonitem.h"
+#include "ButtonItem.h"
 #include "Configuration.h"
 
 class MenuItem : public QGraphicsObject

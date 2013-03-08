@@ -4,9 +4,9 @@
 #include <QGraphicsScene>
 #include <QtWidgets>
 #include <QMap>
-#include "buttonitem.h"
-#include "menuitem.h"
-#include "entiresong.h"
+#include "ButtonItem.h"
+#include "MenuItem.h"
+#include "EntireSong.h"
 #include "Configuration.h"
 
 class Controler;
@@ -20,7 +20,8 @@ public:
 	void mousePressEvent(QGraphicsSceneMouseEvent*);
 	QGraphicsItem* getItem(QString);
 	void setCurrentChordValidated(bool v);
-	void resetNoteCheck();
+    void resetNoteCheck();
+    void updateStats(int validated, int played);
 signals:
 
 public slots:

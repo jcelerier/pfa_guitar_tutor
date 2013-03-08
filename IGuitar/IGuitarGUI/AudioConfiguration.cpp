@@ -1,5 +1,5 @@
-#include "audioconfiguration.h"
-#include "ui_audioconfiguration.h"
+#include "AudioConfiguration.h"
+#include "ui_AudioConfiguration.h"
 
 #include <string>
 #include <QString>

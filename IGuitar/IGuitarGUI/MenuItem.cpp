@@ -1,4 +1,4 @@
-#include "menuitem.h"
+#include "MenuItem.h"
 
 MenuItem::MenuItem(QGraphicsItem *parent) :
 	QGraphicsObject(parent),

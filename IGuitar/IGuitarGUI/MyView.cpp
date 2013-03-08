@@ -1,6 +1,6 @@
-#include "myView.h"
+#include "MyView.h"
 
-myView::myView(QGraphicsScene * scene, QWidget * parent) :
+MyView::MyView(QGraphicsScene * scene, QWidget * parent) :
     QGraphicsView(scene, parent)
 {
     setSceneRect(0, 0, Configuration::originalWidth-20, Configuration::originalHeight-20);
@@ -19,7 +19,7 @@ myView::myView(QGraphicsScene * scene, QWidget * parent) :
     //showFullScreen();                                  // Plein ecran
 }
 
-void myView::keyPressEvent(QKeyEvent* event)
+void MyView::keyPressEvent(QKeyEvent* event)
 {
     QGraphicsView::keyPressEvent(event);
 

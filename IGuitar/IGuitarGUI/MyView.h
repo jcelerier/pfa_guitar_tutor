@@ -5,11 +5,11 @@
 
 #include "Configuration.h"
 
-class myView : public QGraphicsView
+class MyView : public QGraphicsView
 {
     Q_OBJECT
 public:
-    explicit myView(QGraphicsScene * scene, QWidget * parent = 0);
+    explicit MyView(QGraphicsScene * scene, QWidget * parent = 0);
     void keyPressEvent(QKeyEvent* event);
 signals:
     
