@@ -14,11 +14,14 @@
   */
 Controler::~Controler()
 {
-    delete m_musicManager;
-    delete m_scoreManager;
+    if(m_musicManager != 0) delete m_musicManager;
+    if(m_scoreManager != 0) delete m_scoreManager;
     delete m_timer;
     delete m_configuration;
     delete m_audioConfiguration;
+    if(m_scene != 0) delete m_scene;
+    if(m_view  != 0) delete m_view;
+    if(m_track != 0) delete m_track;
 }
 
 /**
@@ -32,7 +35,7 @@ Controler::Controler()
 	m_scene = 0;
 	m_scoreManager = 0;
 	m_musicManager = 0;
-	track = 0;
+    m_track = 0;
     m_timer = new QTimer(this);
 
     connect(m_timer, SIGNAL(timeout()), this, SLOT(ticTac()));
@@ -82,15 +85,15 @@ bool Controler::initSong() {
 		return false;
 	}
 
-	if(track != 0) delete track;
-	track = new LogicalTrack();
+    if(m_track != 0) delete m_track;
+    m_track = new LogicalTrack();
 
 	std::map<std::string, std::string> multiTracksMap;
 	std::vector<std::string> muteTracks;
 
-	TrackLoader::convertXmlToLogicalTrack(path, track);
+    TrackLoader::convertXmlToLogicalTrack(path, m_track);
 
-	multiTracksMap["all"] =  track->getAudioFileName().toStdString();
+    multiTracksMap["all"] =  m_track->getAudioFileName().toStdString();
 
 	if(m_musicManager != 0)
 	{
@@ -105,7 +108,7 @@ bool Controler::initSong() {
 	}
 	if(m_scoreManager != 0) delete m_scoreManager;
 	m_scoreManager = new ScoreManager(m_musicManager);
-	m_scoreManager->loadScore(track);
+    m_scoreManager->loadScore(m_track);
 
 	return true;
 }
@@ -124,7 +127,7 @@ void Controler::startSong()
 	// nécessaire pour pas que ça crash, pourquoi ? (jm)
 	usleep(100000);
 
-	m_scoreManager->setNextPart(track->getPartName(2).toStdString());
+    m_scoreManager->setNextPart(m_track->getPartName(2).toStdString());
     m_timer->start(1000/Configuration::framesPerSec);
 	//m_renderAreas.changeButtonMode(false);
 }
@@ -271,7 +274,7 @@ void Controler::restartEngine()
 	qDebug( ) << "there";
 
 
-	chordList = getChordList(track);
+    chordList = getChordList(m_track);
 
 	if (m_scene != 0) delete m_scene;
 	if (m_view != 0) delete m_view;
@@ -283,4 +286,9 @@ void Controler::restartEngine()
 
 	qDebug( ) << "ok fine";
 	m_view->show();
+}
+
+LogicalTrack* Controler::getTrack()
+{
+    return m_track;
 }
