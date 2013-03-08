@@ -34,7 +34,7 @@ public:
 	void pauseClock();
 
 	// va falloir que ça passe en private un jour ou l'autre tout ça <_<
-	QList<PlayerChord> chordList;
+    QList<PlayerChord>* getChordList();
 	int test;
 	LogicalTrack *track;
 	/////////////////////////////
@@ -75,6 +75,8 @@ private:
 	AudioConfiguration* audioConfiguration;
 
 	// amoi
+
+    QList<PlayerChord> chordList;
 
 	QTime globalClock;
 	int clockOffset;

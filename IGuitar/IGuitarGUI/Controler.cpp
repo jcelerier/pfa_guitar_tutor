@@ -198,7 +198,12 @@ void Controler::startClock() {
 }
 
 void Controler::pauseClock() {
-	clockOffset += globalClock.elapsed();
+    clockOffset += globalClock.elapsed();
+}
+
+QList<PlayerChord> *Controler::getChordList()
+{
+    return &chordList;
 }
 
 QList<PlayerChord> Controler::getChordList(LogicalTrack* trackName)
@@ -227,8 +232,8 @@ QList<PlayerChord> Controler::getChordList(LogicalTrack* trackName)
 			   chord += (*it2)->getChord();
 			   time = (*it2)->getDuration();
 
-			   tempChord->name = chord;
-			   tempChord->time = (int) time;
+               tempChord->setName(chord);
+               tempChord->setTime((int) time);
 
 			   if(chord != "n") {
 				   chList.append(*tempChord);

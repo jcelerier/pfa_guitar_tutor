@@ -14,7 +14,8 @@ public:
     void nextChord();
     virtual void advance ( int );
     void validateChord(bool v);
-    QString getCurrentChord();
+    QString getCurrentChord() const;
+    int getCurrentDuration() const;
 private:
     QList<QGraphicsRectItem*> cList;
     int currentChord;

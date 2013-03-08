@@ -46,7 +46,7 @@ EntireSong::EntireSong(QGraphicsItem *parent) :
 	QGraphicsTextItem* tempScrollingChord;
 
 	int i=0, j=0;
-	for (ite = controler->chordList.begin(); ite != controler->chordList.end(); ++ite)
+    for (ite = controler->getChordList()->begin(); ite != controler->getChordList()->end(); ++ite)
 	{
 
 		// Partie chanson entiere
@@ -59,7 +59,7 @@ EntireSong::EntireSong(QGraphicsItem *parent) :
 		tempText->setFont(chordFont);
 		tempText->setDefaultTextColor(QColor(14,153,204));
 		tempText->setTextWidth(355/4);
-		tempText->setHtml("<p align='center'>"+ite->name+"</p>");
+        tempText->setHtml("<p align='center'>"+ite->getName()+"</p>");
 		tempText->setPos(tempCase->rect().topLeft());
 		if(i==3)
 		{
@@ -74,8 +74,8 @@ EntireSong::EntireSong(QGraphicsItem *parent) :
 
 		tempScrollingChord = new QGraphicsTextItem(scrollingTextContainer);
 		tempScrollingChord->setFont(scrollingChordFont);
-		tempScrollingChord->setPos(ite->time*pixPerMsec, 0);
-		tempScrollingChord->setHtml("<font color=\"#ffffff\">"+ite->name+"</font>");
+        tempScrollingChord->setPos(ite->getTime()*pixPerMsec, 0);
+        tempScrollingChord->setHtml("<font color=\"#ffffff\">"+ite->getName()+"</font>");
 
 		ite->scrollingChordItem = tempScrollingChord;
 
@@ -83,7 +83,7 @@ EntireSong::EntireSong(QGraphicsItem *parent) :
 
 	// partie temporelle
 	lastRefresh = 0;
-	controler->chordList[currentChord].fullSongItem->setBrush(Qt::yellow);
+    controler->getChordList()->at(currentChord).fullSongItem->setBrush(Qt::yellow);
 	isCurrentChordValidated = false;
 }
 
@@ -93,8 +93,8 @@ void EntireSong::nextChord() {
 		validateChord(false);
 	isCurrentChordValidated = false;
 	currentChord++;
-	controler->chordList[currentChord].fullSongItem->setBrush(Qt::yellow);
-	if(currentChord>=controler->chordList.size())
+    controler->getChordList()->at(currentChord).fullSongItem->setBrush(Qt::yellow);
+    if(currentChord>=controler->getChordList()->size())
 		currentChord=0;
 }
 
@@ -107,10 +107,13 @@ void EntireSong::advance ( int phase ) {
 		textTrans.translate(-pixPerMsec*(currentTime-lastRefresh), 0);
 		scrollingTextContainer->setTransform(textTrans, true);
 
-		if(controler->chordList[currentChord+1].time<currentTime)
-		{
-			nextChord();
-		}
+        if(currentChord+1 < controler->getChordList()->size()) {
+            if(controler->getChordList()->at(currentChord+1).getTime()<currentTime)
+                nextChord();
+        }
+        else //Dernier accord du morceau
+            if(!isCurrentChordValidated)
+                validateChord(false);
 		lastRefresh = currentTime;
 	}
 }
@@ -127,14 +130,21 @@ QRectF EntireSong::boundingRect() const {
 void EntireSong::validateChord(bool v)
 {
 	if(v) {
-		controler->chordList[currentChord].fullSongItem->setBrush(Qt::green);
+        controler->getChordList()->at(currentChord).fullSongItem->setBrush(Qt::green);
 		isCurrentChordValidated = true;
 	}
 	else
-		controler->chordList[currentChord].fullSongItem->setBrush(Qt::red);
+        controler->getChordList()->at(currentChord).fullSongItem->setBrush(Qt::red);
 }
 
-QString EntireSong::getCurrentChord()
+QString EntireSong::getCurrentChord() const
 {
-	return controler->chordList[currentChord].getName();
+    return controler->getChordList()->at(currentChord).getName();
+}
+
+int EntireSong::getCurrentDuration() const
+{
+    if(currentChord+1 < controler->getChordList()->size())
+        return controler->getChordList()->at(currentChord).getTime() - controler->getChordList()->at(currentChord+1).getTime();
+    return 2000;
 }

@@ -137,7 +137,7 @@ void PlayerScene::resetNoteCheck()
 {
 	valideNote = false;
 	timeNoteSynchronized = 0;
-	currentNoteDuration = 2000;//((EntireSong*)itemMap["entireSong"])->getCurrentDuration();
+    currentNoteDuration = ((EntireSong*)itemMap["entireSong"])->getCurrentDuration();
 }
 
 void PlayerScene::setCurrentChordValidated(bool v)
