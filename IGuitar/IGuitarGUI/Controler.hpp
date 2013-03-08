@@ -9,7 +9,6 @@
 
 #include "PlayerScene.h"
 #include "MyView.h"
-#include "RenderArea.hpp"
 #include "PlayerChord.h"
 #include "AudioConfiguration.h"
 #define PERCENT_OF_CORRECT_NOTES_TO_GO_TO_NEXT_PART 50.0
@@ -22,27 +21,21 @@ class Controler : public QObject {
 public:
 	Controler();
 	~Controler();
-	void playScore(bool mute);
-	void stopScore();
+
 	int elapsedTime();
 	void startClock();
 	void pauseClock();
     QList<PlayerChord>* getChordList();
+	QList<PlayerChord> getChordList(LogicalTrack* trackName);
+
     LogicalTrack *getTrack();
+
 public slots:
 	void ticTac();
 	void openAudioOptions();
 	void restartEngine();
 
-
-protected:
-	virtual void timeOut();
-
-protected slots:
-	virtual void timeOutSlot();
-
 private:
-	void initListeners();
 	bool initSong();
 	void startSong();
 	void stopSong();
@@ -50,28 +43,20 @@ private:
 	ScoreManager* m_scoreManager;
 	MusicManager* m_musicManager;
 
-	QList<PlayerChord> getChordList(LogicalTrack* trackName);
-
-	bool m_mustPlay;
-	bool m_mustStop;
 	bool m_playing;
 	QWidget * parent;
     QTimer *m_timer;
 	PlayerScene *m_scene;
     MyView *m_view;
 
-
     Configuration* m_configuration;
     AudioConfiguration* m_audioConfiguration;
 
-	// amoi
     LogicalTrack *m_track;
     QList<PlayerChord> chordList;
 
 	QTime globalClock;
 	int clockOffset;
-
-
 
 };
 

@@ -118,7 +118,9 @@ void* MusicManager::initAudioDevice(PaDeviceIndex inputDevice, PaDeviceIndex out
 {
 	Pa_Initialize();
 
-	qDebug() << inputDevice << Pa_GetDeviceInfo(inputDevice)->name;
+	// cette partie commentée est pour pouvoir changer de device audio pour la lecture et l'écriture, par la suite.
+	// cf. audioconfiguration dans IGuitarGUI
+	/*qDebug() << inputDevice << Pa_GetDeviceInfo(inputDevice)->name;
 
 
 	if(inputDevice < 0)
@@ -128,8 +130,9 @@ void* MusicManager::initAudioDevice(PaDeviceIndex inputDevice, PaDeviceIndex out
 	if(outputDevice < 0)
 	{
 		outputDevice = Pa_GetDefaultOutputDevice();
-	}
-
+	}*/
+	inputDevice = Pa_GetDefaultInputDevice();
+	outputDevice = Pa_GetDefaultOutputDevice();
 	qDebug() << "inputDevice: " << inputDevice;
 	m_inputParameters.device = inputDevice;
 	if (m_inputParameters.device == paNoDevice) {
@@ -602,7 +605,7 @@ static int recordCallback( const void *inputBuffer, void *outputBuffer,
  * \fn void* musicManagerMainFunction(void* threadArg)
  * \brief Thread principal (lancé par run() appelé à la fin du constructeur de MusicManager). Ne fait PAS partie de la classe
  *
- * \param threadArg Instance de
+ * \param threadArg Instance de MusicManager
  * \return Rien
  */
 void* musicManagerMainFunction(void* threadArg)
@@ -615,7 +618,7 @@ void* musicManagerMainFunction(void* threadArg)
 		Pa_Sleep(100);
 	}
 
-	musicManager->terminateAudioDevice();
+	//musicManager->terminateAudioDevice();
 
 	musicManager->m_playData.waitStart = true;
 	musicManager->m_recordData.waitStart = true;

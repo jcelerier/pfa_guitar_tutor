@@ -19,7 +19,7 @@ INCLUDEPATH += . \
 }
 
 # Input
-HEADERS += RenderArea.hpp \
+HEADERS += \
 	SongSelection.hpp \
 	Configuration.h \
 	PlayerScene.h \
@@ -31,7 +31,7 @@ HEADERS += RenderArea.hpp \
     ButtonItem.h \
     AudioConfiguration.h
 
-SOURCES += main.cpp RenderArea.cpp \
+SOURCES += main.cpp \
 	SongSelection.cpp \
 	Configuration.cpp \
 	PlayerScene.cpp \
