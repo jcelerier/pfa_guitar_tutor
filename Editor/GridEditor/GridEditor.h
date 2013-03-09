@@ -41,6 +41,7 @@ class GridEditor : public QMainWindow
     Q_OBJECT
 friend class EditionSelector;
 
+int m_barsize;
     QSettings* settings;
 
 	AudioWindow* audioWindow;
@@ -75,6 +76,9 @@ public:
 	QString statusText();
     void startGrid(int);
 	void createGrid(int columns, int rows);
+
+	int getBarSize();
+
 private:
     void createMenu();
     void createActions();

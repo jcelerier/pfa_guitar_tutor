@@ -7,10 +7,14 @@ TrackProperties::TrackProperties(QWidget *parent) :
 	QDialog(parent),
 	ui(new Ui::TrackProperties)
 {
+	m_barsize = 1;
+	m_timeSignature = 4;
 	ui->setupUi(this);
 	connect(ui->t_timeSignature, SIGNAL(valueChanged(int)), this, SIGNAL(timeSignatureChanged(int)));
 	connect(ui->t_timeSignature, SIGNAL(valueChanged(int)), this, SLOT(coucou(int)));
+
 	accept();
+	qDebug() << "trackproperties construit";
 }
 
 void TrackProperties::coucou(int t)
@@ -57,7 +61,7 @@ QString TrackProperties::getTrack()
  * @brief TrackProperties::getBarSize
  * @return Taille d'une mesure en cases
  */
-unsigned int TrackProperties::getBarSize()
+int TrackProperties::getBarSize()
 {
 	return m_barsize;
 }

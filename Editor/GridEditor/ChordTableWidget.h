@@ -14,9 +14,14 @@ Last change on 08/05/12
 #include <QString>
 #include <QtWidgets/QAction>
 #include <QPoint>
+
 #include "CaseItem.h"
+#include "CaseItemDelegate.h"
+
 #include "PartSetter.h"
 #include "Track/LogicalTrack.h"
+
+class GridEditor;
 
 /**
  * @brief Grille d'accords
@@ -26,11 +31,12 @@ class ChordTableWidget : public QTableWidget
 	Q_OBJECT
 
 	friend class PartSetter;
+	friend class CaseItemDelegate;
 
-	QString* name;
 	QMenu* m_rightClickMenu;
 	CaseItem* m_currentItem;
 	CaseItem* m_lastPlayedCase;
+	CaseItemDelegate* m_caseItemDelegate;
 
 	QAction* m_properties, *m_playFromHere;
 
@@ -40,8 +46,7 @@ protected:
 
 public:
 	ChordTableWidget(int column, int row, QWidget *parent);
-	QString get_name() const;
-	void set_name(QString name);
+	~ChordTableWidget();
 
 	bool is_selection_empty();
 	bool is_row_selected();
@@ -50,6 +55,7 @@ public:
 
 	LogicalTrack* getLogicalTrack();
 	void setLogicalTrack(LogicalTrack* track);
+
 private:
 	QList<int> expand_list(QList<QList<int>*> list);
 

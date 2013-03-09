@@ -6,7 +6,6 @@ HelpWindow::HelpWindow(QWidget *parent) :
 {
 	page = new QWebView();
 	page->load(QUrl("qrc:/help/help.html"));
-	qDebug() << QUrl::fromLocalFile("qrc:/help/help.html").toString() <<page->page()->totalBytes();
 
 	close = new QPushButton(tr("Close"));
 

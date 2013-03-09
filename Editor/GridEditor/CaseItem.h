@@ -29,6 +29,7 @@ class CaseItem : public QTableWidgetItem
 		CaseItem(const bool partEditable = true);
 		CaseItem(const QTableWidgetItem& item);
 		~CaseItem();
+
 		void set_color(int r, int g, int b, int);
 		void set_chord(QString cw);
 		QColor* get_color() const;

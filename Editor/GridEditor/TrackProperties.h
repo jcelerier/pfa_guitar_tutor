@@ -20,7 +20,7 @@ class TrackProperties : public QDialog
         ~TrackProperties();
         QString getArtist();
         QString getTrack();
-        unsigned int getBarSize();
+		int getBarSize();
         unsigned int getTimeSignature();
 
 
@@ -43,7 +43,7 @@ class TrackProperties : public QDialog
         Ui::TrackProperties *ui;
         QString m_trackname;
         QString m_artist;
-        unsigned int m_barsize; //taille en cases d'une mesure, ou nombre d'accords par mesure si on préfère
+		int m_barsize; //taille en cases d'une mesure, ou nombre d'accords par mesure si on préfère
         int m_timeSignature;
         int timePerMesure;
 

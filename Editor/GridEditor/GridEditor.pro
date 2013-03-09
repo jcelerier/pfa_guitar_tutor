@@ -27,7 +27,8 @@ SOURCES += \
 	Main.cpp \
 	TempoEdit.cpp \
 	WaveformTimeBar.cpp \
-	WaveformTimeSlider.cpp
+	WaveformTimeSlider.cpp \
+    CaseItemDelegate.cpp
 
 HEADERS += \
 	CaseItem.h \
@@ -49,7 +50,8 @@ HEADERS += \
 	TimeEdit.h \
 	TempoEdit.h \
 	WaveformTimeBar.h \
-	WaveformTimeSlider.h
+	WaveformTimeSlider.h \
+    CaseItemDelegate.h
 
 TRANSLATIONS = GridEditor_fr.ts
 

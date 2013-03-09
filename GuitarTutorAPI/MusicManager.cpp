@@ -92,7 +92,6 @@ MusicManager::~MusicManager()
 	stop();
 	m_musicManagerThread->join();
 	delete m_multiTracks;
-	qDebug() << "MusicManager properly deleted";
 }
 
 
@@ -133,7 +132,7 @@ void* MusicManager::initAudioDevice(PaDeviceIndex inputDevice, PaDeviceIndex out
 	}*/
 	inputDevice = Pa_GetDefaultInputDevice();
 	outputDevice = Pa_GetDefaultOutputDevice();
-	qDebug() << "inputDevice: " << inputDevice;
+
 	m_inputParameters.device = inputDevice;
 	if (m_inputParameters.device == paNoDevice) {
 		std::cerr << "Error: No default input device." << std::endl;
@@ -142,13 +141,11 @@ void* MusicManager::initAudioDevice(PaDeviceIndex inputDevice, PaDeviceIndex out
 	}
 
 	const PaDeviceInfo *info = Pa_GetDeviceInfo(inputDevice);
-	qDebug() << "infos: nom" << info->name;
 	m_inputParameters.channelCount = 2;                    /* stereo input */
 	m_inputParameters.sampleFormat = PA_SAMPLE_TYPE;
 	m_inputParameters.suggestedLatency = Pa_GetDeviceInfo( m_inputParameters.device )->defaultLowInputLatency;
 	m_inputParameters.hostApiSpecificStreamInfo = NULL;
 
-	qDebug() << "coucou";
 
 	m_outputParameters.device = outputDevice;
 	if (m_outputParameters.device == paNoDevice) {

@@ -12,13 +12,13 @@ Last change on 08/05/12
  *
  * Constructeur de la grille d'accords.
  */
-GridEditor::GridEditor()
+GridEditor::GridEditor(): trackProperties(new TrackProperties(this))
 {
 	isPanelSet = false;
 	editorPanel = 0;
 	grid = 0;
 
-	trackProperties = new TrackProperties(this);
+	//trackProperties = new TrackProperties(this);
 	audioWindow = new AudioWindow(this);
 
 	status = statusBar();
@@ -63,6 +63,7 @@ GridEditor::~GridEditor() {
 		delete grid;
 		grid = 0;
 	}
+	delete trackProperties;
 	delete layout;
 	delete centralArea;
 	delete statusInfo; delete status;
@@ -308,6 +309,9 @@ void GridEditor::firstNewGrid()
 	trackProperties->setArtist(newGridDialog->getArtist());
 	trackProperties->setBarSize(newGridDialog->getBarSize());
 
+	m_barsize = trackProperties->getBarSize();
+	qDebug() << "barsize" << m_barsize;
+
 	createGrid(newGridDialog->getColumns() + 1, newGridDialog->getLines());
 }
 
@@ -333,11 +337,13 @@ void GridEditor::newGrid()
 	}
 	else
 	{
-		createGrid(newGridDialog->getColumns() + 1, newGridDialog->getLines());
-
 		trackProperties->setTrack(newGridDialog->getTrack());
 		trackProperties->setArtist(newGridDialog->getArtist());
 		trackProperties->setBarSize(newGridDialog->getBarSize());
+		m_barsize = trackProperties->getBarSize();
+		qDebug() << "barsize";
+
+		createGrid(newGridDialog->getColumns() + 1, newGridDialog->getLines());
 	}
 	delete newGridDialog;
 }
@@ -398,17 +404,25 @@ void GridEditor::fromXML()
 {
 	if(!saveBeforeQuit())
 		return;
-	LogicalTrack* track = new LogicalTrack;
+
 
 	QString file = QFileDialog::getOpenFileName(this, tr("Loading"), ".", tr("XML Files (*.xml)"), 0, QFileDialog::HideNameFilterDetails);
 	if(file == "")
 		return;
-	filename = file;
-	TrackLoader::convertXmlToLogicalTrack(file, track); //tester la valeur de retour et afficher dialog si échec
+
+	LogicalTrack* track = new LogicalTrack;
+	if(!TrackLoader::convertXmlToLogicalTrack(file, track))
+	{
+		QMessageBox::information(this, tr("Error"), tr("The file has not been loaded. Is it correct?"));
+		return;
+	}
+	filename = file; // ici seulement on a chargé un fichier valide
 
 	trackProperties->setTrack(track->getTrackName());
 	trackProperties->setArtist(track->getArtist());
 	trackProperties->setBarSize(track->getMesure());
+	m_barsize = trackProperties->getBarSize();
+	qDebug() << "barsize";
 
 	audioWindow->setAudioFileName(track->getAudioFileName()); //vérifier si chemin absolu
 	audioWindow->setAudioFile();
@@ -442,13 +456,13 @@ void GridEditor::about()
 QString GridEditor::statusText()
 {
 	QString text;
-	if( ! trackProperties->getTrack().isEmpty() )
+	if(! trackProperties->getTrack().isEmpty() )
 	{
 		text += tr("Track: ");
 		text += trackProperties->getTrack();
 		text += ". ";
 	}
-	if( ! trackProperties->getArtist().isEmpty() )
+	if(! trackProperties->getArtist().isEmpty() )
 	{
 		text += tr(". Artist: ");
 		text += trackProperties->getArtist();
@@ -525,3 +539,9 @@ void GridEditor::help()
 	helpWindow->exec();
 }
 
+
+int GridEditor::getBarSize()
+{
+	// pour une raison obscure, chie. return m_barsize;
+	return 2;
+}

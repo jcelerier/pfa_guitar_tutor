@@ -10,10 +10,12 @@ Last change on 08/05/12
 #include <QtGui>
 #include "CaseItem.h"
 #include "ChordTableWidget.h"
+
 #include "PartSetter.h"
 
 #include <Track/LogicalTrack.h>
 #include "Util.hpp"
+#include "GridEditor.h"
 
 /**
  * @brief ChordTableWidget::ChordTableWidget
@@ -24,12 +26,11 @@ Last change on 08/05/12
  */
 ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent) : QTableWidget(parent)
 {
-
-	setParent(parent);
 	setEnabled(false);
-	this->setColumnCount(column);
-	this->insert_row(0, row);
-	this->setHorizontalHeaderItem(this->columnCount() - 1, new QTableWidgetItem(tr("Annotation")));
+	setColumnCount(column);
+	insert_row(0, row);
+
+	setHorizontalHeaderItem(this->columnCount() - 1, new QTableWidgetItem(tr("Annotation")));
 	for (int c = 0 ; c < this->columnCount() - 1 ; c ++)
 		for (int r = 0 ; r < this->rowCount() ; r ++)
 		{
@@ -71,27 +72,23 @@ ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent) : QTabl
 	m_currentItem = (CaseItem*) this->item(0, 0);
 	m_lastPlayedCase = 0;
 	setCasePart("Intro");
+	m_caseItemDelegate = new CaseItemDelegate(this);
+	qDebug() << "Dans ChordTableWidget: " << ((GridEditor*)this->parent())->getBarSize();
+	setItemDelegate(m_caseItemDelegate);
 }
 
-/**
- * @brief ChordTableWidget::get_name
- * @return Le nom de la grille courante
- *
- * Retourne le nom de la grille d'accords courante.
- */
-QString ChordTableWidget::get_name() const {
-	return *name;
+ChordTableWidget::~ChordTableWidget()
+{
+
+	delete m_rightClickMenu;
+
+	delete m_properties;
+	delete m_playFromHere;
+
+	delete m_setPartDialog;
+	delete m_caseItemDelegate;
 }
 
-/**
- * @brief ChordTableWidget::set_name
- * @param name Nom de la grille courante
- *
- * Attribue un nom à la grille d'accords courante.
- */
-void ChordTableWidget::set_name(QString name) {
-	*(this->name) = name;
-}
 
 /**
  * @brief ChordTableWidget::is_selection_empty
@@ -741,3 +738,4 @@ void ChordTableWidget::itemChanged_slot(QTableWidgetItem *item)
 		}
 	}
 }
+

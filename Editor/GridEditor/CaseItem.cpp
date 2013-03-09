@@ -58,7 +58,16 @@ CaseItem::~CaseItem()
  */
 void CaseItem::set_color(int r, int g, int b, int a = 255) {
 	m_color->setRgb(r, g, b, a);
-	this->setBackgroundColor(m_color->toRgb());
+
+	if(r == 255 && g == 255 && b == 255) //ugly hack, plutot faire une surcharge
+	{
+		QPalette c;
+		this->setBackground(c.color(QPalette::Base).toRgb());
+	}
+	else
+	{
+		this->setBackgroundColor(m_color->toRgb());
+	}
 }
 
 /**
