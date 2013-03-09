@@ -8,10 +8,10 @@
 #include <unistd.h>
 
 /**
-  *@brief Controler::~Controler
-  *
-  *Destructeur par défaut
-  */
+ * @brief Controler::~Controler
+ *
+ * Destructeur par défaut
+ */
 Controler::~Controler()
 {
     if(m_musicManager != 0) delete m_musicManager;
@@ -24,10 +24,10 @@ Controler::~Controler()
 }
 
 /**
-  * @brief Controler::Controler
-  *
-  * Constructeur
-  */
+ * @brief Controler::Controler
+ *
+ * Constructeur
+ */
 Controler::Controler()
 {
 	m_view = 0;
@@ -70,10 +70,15 @@ void Controler::ticTac() {
     }
 }
 
+/**
+ * @brief Controler::initSong
+ * @return Vrai si et seulement si une track a été choisie par l'utilisateur.
+ *
+ * Demande la track à ouvrir et la charge dans le player.
+ */
 bool Controler::initSong()
 {
 	QString path = QFileDialog::getOpenFileName(0, tr("Loading"), ".", tr("XML Files (*.xml)"), 0, QFileDialog::HideNameFilterDetails);
-
 
 	if(path.isNull())
 	{
@@ -105,6 +110,11 @@ bool Controler::initSong()
 	return true;
 }
 
+/**
+ * @brief Controler::startSong
+ *
+ * Démarre la lecture de la partition et de la musique.
+ */
 void Controler::startSong()
 {
 	m_scoreManager->run();
@@ -124,6 +134,11 @@ void Controler::startSong()
     m_timer->start(1000/Configuration::framesPerSec);
 }
 
+/**
+ * @brief Controler::stopSong
+ *
+ * Suspend le player.
+ */
 void Controler::stopSong()
 {
     m_timer->stop();
@@ -165,6 +180,11 @@ int Controler::elapsedTime()
 	return clockOffset + globalClock.elapsed();
 }
 
+/**
+ * @brief Controler::startClock
+ *
+ * Démarre l'horloge.
+ */
 void Controler::startClock()
 {
 	if(!m_playing)
@@ -181,6 +201,11 @@ void Controler::startClock()
 	}
 }
 
+/**
+ * @brief Controler::pauseClock
+ *
+ * Pause l'horloge.
+ */
 void Controler::pauseClock()
 {
     clockOffset += globalClock.elapsed();
@@ -197,6 +222,13 @@ QList<PlayerChord> *Controler::getChordList()
     return &chordList;
 }
 
+/**
+ * @brief Controler::getChordList
+ * @param trackName Track
+ * @return La liste des accords de la track.
+ *
+ * Converti une LogicalTrack en une liste de PlayerChord.
+ */
 QList<PlayerChord> Controler::getChordList(LogicalTrack* trackName)
 {
    QList<PlayerChord> chList;

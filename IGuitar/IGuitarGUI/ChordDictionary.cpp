@@ -5,6 +5,13 @@
 
 #define CHORDS_PER_LINE 3
 
+/**
+ * @brief ChordDictionary::ChordDictionary
+ * @param chordList Liste des accords à mettre dans le dictionnaire
+ * @param parent Widget parent
+ *
+ * Constructeur.
+ */
 ChordDictionary::ChordDictionary(QList<PlayerChord>* chordList, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ChordDictionary)
@@ -15,11 +22,22 @@ ChordDictionary::ChordDictionary(QList<PlayerChord>* chordList, QWidget *parent)
     connect(ui->closeButton, SIGNAL(pressed()), this, SLOT(hide()));
 }
 
+/**
+ * @brief ChordDictionary::~ChordDictionary
+ *
+ * Destructeur.
+ */
 ChordDictionary::~ChordDictionary()
 {
     delete ui;
 }
 
+/**
+ * @brief ChordDictionary::initChordDictionary
+ * @param chordList Liste des accords à mettre dans le dictionnaire
+ *
+ * Construit l'interface du dictionnaire d'accords en plaçant les images des accords.
+ */
 void ChordDictionary::initChordDictionary(QList<PlayerChord>* chordList)
 {
     QList<PlayerChord>::iterator ite;
@@ -43,5 +61,4 @@ void ChordDictionary::initChordDictionary(QList<PlayerChord>* chordList)
             ui->layout->addWidget(label, i, j);
         }
     }
-
 }

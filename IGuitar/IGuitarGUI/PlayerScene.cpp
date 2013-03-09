@@ -1,10 +1,12 @@
 #include "PlayerScene.h"
 #include "Controler.hpp"
 
-/* Scene principale du player
+/**
+ * @brief PlayerScene::PlayerScene
+ * @param parent Element parent
+ *
+ * Constructeur.
  */
-
-
 PlayerScene::PlayerScene(QObject *parent) :
 	QGraphicsScene(parent),
 	windowSize(Configuration::getWindowSize()),
@@ -18,11 +20,21 @@ PlayerScene::PlayerScene(QObject *parent) :
     dictionary = new ChordDictionary(controler->getChordList());
 }
 
+/**
+ * @brief PlayerScene::~PlayerScene
+ *
+ * Destructeur.
+ */
 PlayerScene::~PlayerScene()
 {
     delete dictionary;
 }
 
+/**
+ * @brief PlayerScene::disposeScene
+ *
+ * Mise en place des différents éléments constitutifs de l'interface.
+ */
 void PlayerScene::disposeScene()
 {
 	//setSceneRect(0,0,1920,1080);
@@ -70,7 +82,6 @@ void PlayerScene::disposeScene()
 	itemMap["songAlbumImg"]->setPos(58,63);
 
 	// Chanson entière
-
 	itemMap["entireSong"] = new EntireSong(itemMap["backgnd"]);
 
 	// Barre avancement
@@ -105,26 +116,54 @@ void PlayerScene::disposeScene()
     connect((ButtonItem*)itemMap["dictionary"], SIGNAL(pushed()), this, SLOT(displayDictionary()));
 }
 
+/**
+ * @brief PlayerScene::getItem
+ * @param name Nom de l'élément à récupérer
+ * @return L'élement de l'interface demandé.
+ *
+ * Accesseur pour les différents éléments constitutifs de l'interface.
+ */
 QGraphicsItem* PlayerScene::getItem(QString name) {
 	return itemMap[name];
 }
 
+/**
+ * @brief PlayerScene::mousePressEvent
+ * @param e Evènement
+ *
+ * Se déclenche lors d'un clic souris.
+ */
 void PlayerScene::mousePressEvent(QGraphicsSceneMouseEvent*e)
 {
 	QGraphicsScene::mousePressEvent(e);
 }
 
+/**
+ * @brief PlayerScene::switchPlaying
+ *
+ * Alterne entre lecture et pause.
+ */
 void PlayerScene::switchPlaying()
 {
 	playing = !playing;
 	controler->startClock();
 }
 
+/**
+ * @brief PlayerScene::switchMenu
+ *
+ * Affiche ou cache le menu.
+ */
 void PlayerScene::switchMenu()
 {
 	itemMap["menu"]->setVisible(!itemMap["menu"]->isVisible());
 }
 
+/**
+ * @brief PlayerScene::updateScene
+ *
+ * Mise à jour de l'interface.
+ */
 void PlayerScene::updateScene()
 {
 	//qDebug() << "updating scene";
@@ -136,6 +175,12 @@ void PlayerScene::updateScene()
 	}
 }
 
+/**
+ * @brief PlayerScene::setPlayedChord
+ * @param playedChord Accord reconnu actuellement
+ *
+ * Affiche l'accord joué par l'utilisateur sur l'interface et met à jour la durée de synchronisation.
+ */
 void PlayerScene::setPlayedChord(QString playedChord) {
 	((QGraphicsTextItem*)itemMap["chordPlayed"])->setPlainText(playedChord);
     if(!((EntireSong*)itemMap["entireSong"])->getIsCurrentChordValidated() &&
@@ -148,6 +193,11 @@ void PlayerScene::setPlayedChord(QString playedChord) {
 	lastTimeCheck = controler->elapsedTime();
 }
 
+/**
+ * @brief PlayerScene::resetNoteCheck
+ *
+ * Remise à zéro des variables utilisées pour le calcul de la durée de synchronisation. Doit etre appelé à chaque changement d'accord dans la partition.
+ */
 void PlayerScene::resetNoteCheck()
 {
 	valideNote = false;
@@ -155,17 +205,35 @@ void PlayerScene::resetNoteCheck()
     currentNoteDuration = ((EntireSong*)itemMap["entireSong"])->getCurrentDuration();
 }
 
+/**
+ * @brief PlayerScene::setCurrentChordValidated
+ * @param v Vrai si et seulement si l'accord courant doit etre validé
+ *
+ * Demande la validation ou non de l'accord courant.
+ */
 void PlayerScene::setCurrentChordValidated(bool v)
 {
 	((EntireSong*)itemMap["entireSong"])->validateChord(v);
 }
 
+/**
+ * @brief PlayerScene::updateStats
+ * @param validated Nombre de notes jouées et validées
+ * @param played Nombre de notes jouées
+ *
+ * Met à jour les statistiques sur l'interface.
+ */
 void PlayerScene::updateStats(int validated, int played)
 {
     ((QGraphicsTextItem*)itemMap["totalValidated"])->setPlainText(QString::number(validated));
     ((QGraphicsTextItem*)itemMap["totalPlayed"])->setPlainText(QString::number(played));
 }
 
+/**
+ * @brief PlayerScene::displayDictionary
+ *
+ * Affiche le dictionnaire d'accords.
+ */
 void PlayerScene::displayDictionary()
 {
     dictionary->show();

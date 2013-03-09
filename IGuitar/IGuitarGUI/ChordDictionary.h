@@ -8,6 +8,9 @@ namespace Ui {
 class ChordDictionary;
 }
 
+/**
+ * @brief Interface du dictionnaire d'accords.
+ */
 class ChordDictionary : public QWidget
 {
     Q_OBJECT

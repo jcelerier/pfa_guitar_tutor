@@ -1,5 +1,11 @@
 #include "MenuItem.h"
 
+/**
+ * @brief MenuItem::MenuItem
+ * @param parent Element parent
+ *
+ * Constructeur.
+ */
 MenuItem::MenuItem(QGraphicsItem *parent) :
 	QGraphicsObject(parent),
 	width(350),
@@ -56,21 +62,41 @@ MenuItem::MenuItem(QGraphicsItem *parent) :
     ((QGraphicsTextItem*) menuMap["closeText"])->setHtml(tr("<p align='center'>QUIT</p>"));
 }
 
+/**
+ * @brief MenuItem::closeMenu
+ *
+ * Méthode a appeler pour fermer le menu.
+ */
 void MenuItem::closeMenu()
 {
 	this->setVisible(false);
 }
 
+/**
+ * @brief MenuItem::closeGame
+ *
+ * Quitte l'application.
+ */
 void MenuItem::closeGame()
 {
 	qApp->exit();
 }
 
-void MenuItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+/**
+ * @brief MenuItem::paint
+ *
+ * Non utilisée, mais nécessaire (méthode abstraite dans QGraphicsItem).
+ */
+void MenuItem::paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*){
 
 }
 
+/**
+ * @brief MenuItem::boundingRect
+ * @return La taille de l'écran.
+ *
+ * Retourne la taille de l'écran de l'utilisateur.
+ */
 QRectF MenuItem::boundingRect() const {
 	return Configuration::getWindowSize();
-
 }

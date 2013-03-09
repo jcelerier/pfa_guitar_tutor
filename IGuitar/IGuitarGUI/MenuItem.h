@@ -5,6 +5,9 @@
 #include "ButtonItem.h"
 #include "Configuration.h"
 
+/**
+ * @brief Menu de l'interface
+ */
 class MenuItem : public QGraphicsObject
 {
 Q_OBJECT
@@ -12,7 +15,7 @@ public:
     explicit MenuItem(QGraphicsItem *parent = 0);
 
     virtual QRectF boundingRect() const;
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget *widget = 0);
 signals:
     
 public slots:

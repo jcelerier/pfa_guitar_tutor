@@ -12,6 +12,9 @@
 
 class Controler;
 
+/**
+ * @brief Interface du player.
+ */
 class PlayerScene : public QGraphicsScene
 {
 	Q_OBJECT
