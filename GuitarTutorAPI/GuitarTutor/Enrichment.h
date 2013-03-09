@@ -41,7 +41,7 @@ class Enrichment : public QList<e_Enrichment>
         bool isEmpty() const;
 
 		void addEnrichment(const QString &newEnrich);
-        static const bool extractEnrichmentsFromStr(const QString &str_enr, Enrichment &e);
+        static bool extractEnrichmentsFromStr(const QString &str_enr, Enrichment &e);
 
 		QString toString();
 

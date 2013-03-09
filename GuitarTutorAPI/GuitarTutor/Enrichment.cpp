@@ -103,7 +103,7 @@ bool Enrichment::isEmpty() const{
  * "m" "sus2" "7"(l'ordre a changé). En effet, la liste retourné est toujours classé dans l'ordre :
  * M,m,+,-,sus2,sus4, b5,6,7,9,11,13. Et ceux quelque soit l'ordre de la chaine initial.
  */
-const bool Enrichment::extractEnrichmentsFromStr(QString const &str_enr, Enrichment &e)
+bool Enrichment::extractEnrichmentsFromStr(QString const &str_enr, Enrichment &e)
 {
     QString str = str_enr;
 

@@ -427,7 +427,7 @@ CSP::removeTemporalRelation(unsigned int relationId)
 //}
 
 bool
-CSP::performMoving(unsigned int boxesId, int x, int y, vector<unsigned int>& movedBoxes, unsigned int maxModification)
+CSP::performMoving(unsigned int boxesId, int x, int y, vector<unsigned int>& movedBoxes, unsigned int /*maxModification*/)
 {
 	int *varsIDs = new int[3];
 	int *values = new int[3];
@@ -1012,7 +1012,7 @@ void CSP::changeAllBoxMaxSceneWidth(int newValue)
 /*** PRIVATE ***/
 
 CSPLinearConstraint*
-CSP::addConstraint(vector<int> *varsIDs, vector<int> *varsCoeffs, BinaryRelationType type, int value, bool mustCallSolver)
+CSP::addConstraint(vector<int> *varsIDs, vector<int> *varsCoeffs, BinaryRelationType type, int value, bool /*mustCallSolver*/)
 {
 	int *iDs = new int[varsIDs->size()],  *coeffs = new int[varsIDs->size()];
 	for (unsigned int i=0; i<varsIDs->size(); i++) {
@@ -1031,7 +1031,7 @@ CSP::addConstraint(vector<int> *varsIDs, vector<int> *varsCoeffs, BinaryRelation
 }
 
 bool
-CSP::removeConstraint(CSPLinearConstraint *cst)
+CSP::removeConstraint(CSPLinearConstraint */*cst*/)
 {
 	//return _solver->removeConstraint(cst->getID());
 	return true;

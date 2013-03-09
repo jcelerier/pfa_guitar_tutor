@@ -204,5 +204,6 @@ Tonality BasicChord::extractTonalityFromStr(const QString str)
 const Enrichment& BasicChord::extractEnrichmentFromStr(QString const str_enr)
 {
     Enrichment e(str_enr);
-    return e;
+    Enrichment &e2 = e;
+    return e2;
 }

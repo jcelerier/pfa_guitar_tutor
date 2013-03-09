@@ -645,7 +645,7 @@ void PetriNet::removeWaitedTriggerPointMessageAction()
 	m_waitedTriggerPointMessageArgument = NULL;
 }
 
-void PetriNet::pushTransitionToCrossWhenAcceleration(Transition* t)
+void PetriNet::pushTransitionToCrossWhenAcceleration(Transition* /*t*/)
 {
 // This function is useless because the implementation is wrong
 // The GOTO and Acceleration will work without this function (but will

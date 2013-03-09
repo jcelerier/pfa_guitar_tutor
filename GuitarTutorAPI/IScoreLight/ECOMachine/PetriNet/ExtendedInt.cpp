@@ -382,7 +382,7 @@ ExtendedInt& ExtendedInt::operator++()
 	return *this;
 }
 
-ExtendedInt ExtendedInt::operator++(int a)
+ExtendedInt ExtendedInt::operator++(int /*a*/)
 {
 	ExtendedInt tmpExtendedInt = *this;
 	++(*this);
@@ -395,7 +395,7 @@ ExtendedInt& ExtendedInt::operator--()
 	return *this;
 }
 
-ExtendedInt ExtendedInt::operator--(int a)
+ExtendedInt ExtendedInt::operator--(int /*a*/)
 {
 	ExtendedInt tmpExtendedInt = *this;
 	--(*this);

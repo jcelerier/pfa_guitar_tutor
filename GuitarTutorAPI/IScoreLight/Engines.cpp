@@ -56,7 +56,7 @@ knowledge of the CeCILL-C license and that you accept its terms.
 
 using namespace std;
 
-void receiveNetworkMessageCallBack(void* arg, std::string message, std::string attribut, std::string& value)
+void receiveNetworkMessageCallBack(void* arg, std::string message, std::string /*attribut*/, std::string& value)
 {
 	std::string play = "/Transport/Play";
 	std::string stop = "/Transport/Stop";
@@ -137,7 +137,7 @@ void executionFinishedCallBack(void* arg)
 
 }
 
-void Engines::initializeObjects(unsigned int maxSceneWidth, std::string plugginsLocation)
+void Engines::initializeObjects(unsigned int maxSceneWidth, std::string /*plugginsLocation*/)
 {
 	m_implementation = new EnginesPrivate();
 

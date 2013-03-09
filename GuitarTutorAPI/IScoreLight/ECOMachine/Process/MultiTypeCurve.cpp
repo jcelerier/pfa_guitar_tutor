@@ -116,7 +116,7 @@ void MultiTypeCurve::computeFunction(int beginVal, int endVal, int duration, int
 		float xDiff = 0;
 		float yDiff = 0;
 		float currentCoeff = 0;
-		short currentType = CURVE_POW;
+        /*short currentType = CURVE_POW*/;
 
 		while (currentSample < nbSamples) {
 			if (currentSample == x[currentSection + 1]) {
@@ -126,7 +126,7 @@ void MultiTypeCurve::computeFunction(int beginVal, int endVal, int duration, int
 				yDiff = y[currentSection + 1] - y[currentSection];
 
 				currentCoeff = m_sectionCoeff[currentSection];
-				currentType = m_sectionType[currentSection];
+                //currentType = m_sectionType[currentSection];
 			}
 
 			if (xDiff != 0) {
@@ -205,7 +205,7 @@ void MultiTypeCurve::computeFunction(float beginVal, float endVal, int duration,
 		float xDiff = 0;
 		float yDiff = 0;
 		float currentCoeff = 0;
-		short currentType = CURVE_POW;
+        /*short currentType = CURVE_POW*/;
 
 		while (currentSample < nbSamples) {
 			if (currentSample == x[currentSection + 1]) {
@@ -215,7 +215,7 @@ void MultiTypeCurve::computeFunction(float beginVal, float endVal, int duration,
 				yDiff = y[currentSection + 1] - y[currentSection];
 
 				currentCoeff = m_sectionCoeff[currentSection];
-				currentType = m_sectionType[currentSection];
+                //currentType = m_sectionType[currentSection];
 			}
 
 			if (xDiff != 0) {
@@ -253,7 +253,7 @@ void MultiTypeCurve::computeFunction(float beginVal, float endVal, int duration,
 	}
 }
 
-void MultiTypeCurve::computeFunction(std::string beginVal, std::string endVal, int duration, int sampleBySecond, int storeFactor, bool avoidRedondance)
+void MultiTypeCurve::computeFunction(std::string beginVal, std::string /*endVal*/, int duration, int sampleBySecond, int storeFactor, bool avoidRedondance)
 {
 	m_creationDuration = duration;
 	m_nbSampleBySecond = sampleBySecond;

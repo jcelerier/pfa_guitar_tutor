@@ -22,7 +22,7 @@ class BasicChord
         static bool isValid(const QString& chord);
         static bool isValidForPlayer(const QString& chord);
 
-		const Enrichment &getEnrichment() const;
+        const Enrichment &getEnrichment() const;
 		const Tonality &getTonality() const;
 
         static Tonality extractTonalityFromStr(const QString str);

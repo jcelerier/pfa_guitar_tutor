@@ -53,7 +53,7 @@ bool ScoreManager::isCurrentChordValidated()
     return true;//m_validatedNoteInCurrentPart[m_currentNoteId];
 }
 
-void triggerCallBack(void* arg, bool state, unsigned int triggerId, unsigned int boxId, unsigned int controlPointIndex, std::string waitedString)
+void triggerCallBack(void* arg, bool state, unsigned int /*triggerId*/, unsigned int /*boxId*/, unsigned int /*controlPointIndex*/, std::string waitedString)
 {
 	ScoreManager* scoreManager = (ScoreManager*) arg;
 

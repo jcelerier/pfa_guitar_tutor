@@ -230,9 +230,9 @@ void ECOMachine::reset() {
 
 		m_petriNet = new PetriNet();
 
-		if (waitedTriggerPointMessageCallBack != NULL) {
+        //if (waitedTriggerPointMessageCallBack != NULL) { // Inutile, jamais NULL
 			m_petriNet->addWaitedTriggerPointMessageAction(this, &waitedTriggerPointMessageCallBack);
-		}
+        //}
 	}
 }
 

@@ -27,7 +27,7 @@ ButtonItem::ButtonItem(const QPixmap & pixmap, QGraphicsItem * parent):
  *
  * Méthode appelée lors d'un clic souris sur un bouton.
  */
-void ButtonItem::mousePressEvent(QGraphicsSceneMouseEvent*e)
+void ButtonItem::mousePressEvent(QGraphicsSceneMouseEvent*)
 {
     qDebug() << "button touched";
     emit pushed();

@@ -140,7 +140,7 @@ void* MusicManager::initAudioDevice(PaDeviceIndex inputDevice, PaDeviceIndex out
 		return NULL;
 	}
 
-	const PaDeviceInfo *info = Pa_GetDeviceInfo(inputDevice);
+    /*const PaDeviceInfo *info = */Pa_GetDeviceInfo(inputDevice);
 	m_inputParameters.channelCount = 2;                    /* stereo input */
 	m_inputParameters.sampleFormat = PA_SAMPLE_TYPE;
 	m_inputParameters.suggestedLatency = Pa_GetDeviceInfo( m_inputParameters.device )->defaultLowInputLatency;
@@ -548,7 +548,6 @@ static int recordCallback( const void *inputBuffer, void *outputBuffer,
 	const SAMPLE *rptr = (const SAMPLE*)inputBuffer;
 	SAMPLE *wptr = &data->recordedSamples[data->frameIndex * NUM_CHANNELS];
 	long framesToCalc;
-	long i;
 	int finished;
 
 	(void) outputBuffer; /* Prevent unused variable warnings. */
@@ -557,7 +556,7 @@ static int recordCallback( const void *inputBuffer, void *outputBuffer,
 	(void) userData;
 
 	if (data->waitStart) {
-		for( i = 0; i < (framesPerBuffer * NUM_CHANNELS); i++ )
+        for( unsigned long i = 0; i < (framesPerBuffer * NUM_CHANNELS); i++ )
 		{
 			*wptr++ = SAMPLE_SILENCE;
 		}
@@ -577,7 +576,7 @@ static int recordCallback( const void *inputBuffer, void *outputBuffer,
 
 	if( inputBuffer == NULL )
 	{
-		for( i=0; i<framesToCalc; i++ )
+        for( long i=0; i<framesToCalc; i++ )
 		{
 			*wptr++ = SAMPLE_SILENCE;  /* left */
 			if( NUM_CHANNELS == 2 ) *wptr++ = SAMPLE_SILENCE;  /* right */
@@ -585,7 +584,7 @@ static int recordCallback( const void *inputBuffer, void *outputBuffer,
 	}
 	else
 	{
-		for( i=0; i<framesToCalc; i++ )
+        for( long i=0; i<framesToCalc; i++ )
 		{
 			*wptr++ = *rptr++;  /* left */
 			if( NUM_CHANNELS == 2 ) *wptr++ = *rptr++;  /* right */

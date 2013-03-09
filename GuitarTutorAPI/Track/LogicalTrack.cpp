@@ -10,7 +10,6 @@ LogicalTrack::LogicalTrack() {
     artist = "";
     audioFileName = "";
     mesure = 0;
-    listPartTrack;
     beginning = 0;
     bar = 0;
     end = 0;
