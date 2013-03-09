@@ -335,7 +335,8 @@ void AudioSync::tempoClicked()
 
 void AudioSync::setTimeSignature(int t)
 {
-	qDebug() << "hello";
+	int previous = m_timeSignature;
 	m_timeSignature = t;
+	setBarTimer(MsecToTime(TimeToMsec(bar->time()) * m_timeSignature / previous));
 	updateTempo();
 }
