@@ -28,4 +28,7 @@
         <file alias="editor_startup">data/img/editor_startup.png</file>
         <file alias="editor_syncaudio">data/img/editor_syncaudio.png</file>
     </qresource>
+    <qresource prefix="/translations">
+        <file>GridEditor_fr.qm</file>
+    </qresource>
 </RCC>

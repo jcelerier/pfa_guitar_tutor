@@ -1,13 +1,3 @@
-/*
-Author: Fabien Fleurey
-Created on 28/02/12
-Last change on 14/04/12
-*/
-
-/**
- *
- */
-
 #include "CaseItem.h"
 #include <QtWidgets/QMenu>
 #include <QDebug>

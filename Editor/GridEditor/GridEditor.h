@@ -1,9 +1,3 @@
-/*
-Author: Fabien Fleurey
-Created on 28/02/12
-Last change on 08/05/12
-*/
-
 #ifndef GRIDEDITOR_H
 #define GRIDEDITOR_H
 
