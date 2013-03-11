@@ -4,7 +4,7 @@ TEMPLATE = app
 TARGET = GridEditor
 DESTDIR = ../../app/
 DEPENDPATH += .
-
+CONFIG += rtti
 
 SOURCES += \
 	CaseItem.cpp \
@@ -28,7 +28,7 @@ SOURCES += \
 	TempoEdit.cpp \
 	WaveformTimeBar.cpp \
 	WaveformTimeSlider.cpp \
-    CaseItemDelegate.cpp
+	CaseItemDelegate.cpp
 
 HEADERS += \
 	CaseItem.h \
@@ -51,7 +51,7 @@ HEADERS += \
 	TempoEdit.h \
 	WaveformTimeBar.h \
 	WaveformTimeSlider.h \
-    CaseItemDelegate.h
+	CaseItemDelegate.h
 
 TRANSLATIONS = GridEditor_fr.ts
 
@@ -87,4 +87,4 @@ FORMS += \
 # win32:QMAKE_POST_LINK += move GridEditor.exe ../../app/
 
 RESOURCES += \
-    EditorResources.qrc
+	EditorResources.qrc

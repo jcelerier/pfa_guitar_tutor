@@ -51,7 +51,7 @@ class WaveformTimeBar : public QWidget
 		QLabel* container;
 
 		QPoint oldMousePos, clickPos;
-		
+
 
 };
 

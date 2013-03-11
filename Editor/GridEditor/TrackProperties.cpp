@@ -11,15 +11,9 @@ TrackProperties::TrackProperties(QWidget *parent) :
 	m_timeSignature = 4;
 	ui->setupUi(this);
 	connect(ui->t_timeSignature, SIGNAL(valueChanged(int)), this, SIGNAL(timeSignatureChanged(int)));
-	connect(ui->t_timeSignature, SIGNAL(valueChanged(int)), this, SLOT(coucou(int)));
+	connect(ui->t_barsize, SIGNAL(valueChanged(int)), this, SIGNAL(barsizeChanged(int)));
 
 	accept();
-	qDebug() << "trackproperties construit";
-}
-
-void TrackProperties::coucou(int t)
-{
-	qDebug( ) << t;
 }
 
 TrackProperties::~TrackProperties()

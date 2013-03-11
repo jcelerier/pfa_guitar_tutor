@@ -214,7 +214,12 @@ void GridEditor::createGrid(int columns, int rows)
 
 	connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
 	connect(this, SIGNAL(sigTimeData(QTime)), grid, SLOT(isPlayingAt(QTime)));
+
+	connect(trackProperties, SIGNAL(barsizeChanged(int)), grid, SIGNAL(barsizeChanged(int)));
+
 	connect(chordTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
+
+
 	connect(addRowAction, SIGNAL(triggered()), grid, SLOT(insert_row()));
 	connect(addColumnAction, SIGNAL(triggered()), grid, SLOT(insert_column()));
 	connect(deleteColumnAction, SIGNAL(triggered()), grid, SLOT(delete_selected_column()));
@@ -310,7 +315,6 @@ void GridEditor::firstNewGrid()
 	trackProperties->setBarSize(newGridDialog->getBarSize());
 
 	m_barsize = trackProperties->getBarSize();
-	qDebug() << "barsize" << m_barsize;
 
 	createGrid(newGridDialog->getColumns() + 1, newGridDialog->getLines());
 }
@@ -341,7 +345,6 @@ void GridEditor::newGrid()
 		trackProperties->setArtist(newGridDialog->getArtist());
 		trackProperties->setBarSize(newGridDialog->getBarSize());
 		m_barsize = trackProperties->getBarSize();
-		qDebug() << "barsize";
 
 		createGrid(newGridDialog->getColumns() + 1, newGridDialog->getLines());
 	}
@@ -395,6 +398,11 @@ void GridEditor::toXML(QString filename)
 	delete validator;
 }
 
+void GridEditor::barsizeChanged(int barsize)
+{
+	m_barsize = barsize;
+}
+
 /**
  * @brief GridEditor::fromXML
  *
@@ -422,7 +430,6 @@ void GridEditor::fromXML()
 	trackProperties->setArtist(track->getArtist());
 	trackProperties->setBarSize(track->getMesure());
 	m_barsize = trackProperties->getBarSize();
-	qDebug() << "barsize";
 
 	audioWindow->setAudioFileName(track->getAudioFileName()); //vérifier si chemin absolu
 	audioWindow->setAudioFile();
@@ -464,7 +471,7 @@ QString GridEditor::statusText()
 	}
 	if(! trackProperties->getArtist().isEmpty() )
 	{
-		text += tr(". Artist: ");
+		text += tr("  Artist: ");
 		text += trackProperties->getArtist();
 		text += ".";
 	}
@@ -543,5 +550,5 @@ void GridEditor::help()
 int GridEditor::getBarSize()
 {
 	// pour une raison obscure, chie. return m_barsize;
-	return 2;
+	return m_barsize;
 }

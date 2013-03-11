@@ -13,39 +13,39 @@ class TrackProperties;
  */
 class TrackProperties : public QDialog
 {
-        Q_OBJECT
+		Q_OBJECT
 
-    public:
-        explicit TrackProperties(QWidget *parent = 0);
-        ~TrackProperties();
-        QString getArtist();
-        QString getTrack();
+	public:
+		explicit TrackProperties(QWidget *parent = 0);
+		~TrackProperties();
+		QString getArtist();
+		QString getTrack();
 		int getBarSize();
-        unsigned int getTimeSignature();
+		unsigned int getTimeSignature();
 
 
-        void setArtist(QString artist);
-        void setTrack(QString track);
-        void setBarSize(unsigned int barsize);
-        void setTimeSignature(int time);
-        void setTimePerMesure();
+		void setArtist(QString artist);
+		void setTrack(QString track);
+		void setBarSize(unsigned int barsize);
+		void setTimeSignature(int time);
+		void setTimePerMesure();
 
-    public slots:
-        void accept();
-        void coucou(int);
+	public slots:
+		void accept();
 
-    signals:
-        void timeSignatureChanged(int);
-        void trackChanged();
-        void artistChanged();
+	signals:
+		void barsizeChanged(int);
+		void timeSignatureChanged(int);
+		void trackChanged();
+		void artistChanged();
 
-    private:
-        Ui::TrackProperties *ui;
-        QString m_trackname;
-        QString m_artist;
+	private:
+		Ui::TrackProperties *ui;
+		QString m_trackname;
+		QString m_artist;
 		int m_barsize; //taille en cases d'une mesure, ou nombre d'accords par mesure si on préfère
-        int m_timeSignature;
-        int timePerMesure;
+		int m_timeSignature;
+		int timePerMesure;
 
 };
 

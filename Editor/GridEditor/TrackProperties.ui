@@ -136,7 +136,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Temps par mesure</string>
+    <string>Time signature : 3/4, 4/4...</string>
    </property>
   </widget>
  </widget>

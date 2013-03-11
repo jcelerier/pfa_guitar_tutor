@@ -61,6 +61,7 @@ private:
 
 signals:
 	void play(int);
+	void barsizeChanged(int);
 
 public slots:
 	void ShowContextMenu(const QPoint& pos);
