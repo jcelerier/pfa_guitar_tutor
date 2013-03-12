@@ -66,6 +66,8 @@ public:
 	void run();
 	void stop();
 	void start();
+	void pause();
+	void play();
 
 	bool isRunning() const;
 	void setMustStop(bool mustStop);

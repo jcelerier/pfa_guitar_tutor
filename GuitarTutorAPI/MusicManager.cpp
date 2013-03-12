@@ -5,10 +5,19 @@
  *      Author: raphael
  */
 
+// quatres actions : start, stop, pause, play
+// start : initialisation
+// play : lecture (on envoie les données)
+// pause : on envoie du silence
+// stop : on désinitialise, on revient à 0
+
 #include "MusicManager.h"
 
 #include <boost/thread.hpp>
 #include <QDebug>
+
+bool g__output_pause = false;
+bool g__output_pause_changed = false;
 
 static int recordCallback( const void *inputBuffer, void *outputBuffer,
 						   unsigned long framesPerBuffer,
@@ -56,7 +65,7 @@ MusicManager::MusicManager(std::map<std::string, std::string> & tracks,
 	m_playData.waitStart = true;
 	m_recordData.waitStart = true;
 
-	run();
+//	run();
 }
 
 /**
@@ -83,7 +92,7 @@ MusicManager::MusicManager(unsigned int timeToRecordInMs)
 	m_playData.waitStart = true;
 	m_recordData.waitStart = true;
 
-	run();
+//	run();
 }
 
 
@@ -140,7 +149,7 @@ void* MusicManager::initAudioDevice(PaDeviceIndex inputDevice, PaDeviceIndex out
 		return NULL;
 	}
 
-    /*const PaDeviceInfo *info = */Pa_GetDeviceInfo(inputDevice);
+	Pa_GetDeviceInfo(inputDevice);
 	m_inputParameters.channelCount = 2;                    /* stereo input */
 	m_inputParameters.sampleFormat = PA_SAMPLE_TYPE;
 	m_inputParameters.suggestedLatency = Pa_GetDeviceInfo( m_inputParameters.device )->defaultLowInputLatency;
@@ -159,7 +168,6 @@ void* MusicManager::initAudioDevice(PaDeviceIndex inputDevice, PaDeviceIndex out
 	m_outputParameters.suggestedLatency = Pa_GetDeviceInfo( m_outputParameters.device )->defaultLowOutputLatency;
 	m_outputParameters.hostApiSpecificStreamInfo = NULL;
 
-	qDebug() << "coucou bis";
 	return NULL;
 }
 
@@ -187,12 +195,12 @@ void* MusicManager::initAudioInput()
 			recordCallback,
 			&m_recordData );
 
-	printf("erreur: %s\n", Pa_GetErrorText(m_err));
-
+	//printf("erreur: %s\n", Pa_GetErrorText(m_err));
+/*
 	if( m_inputStream ) {
 		Pa_StartStream( m_inputStream );
 	}
-
+*/
 	return NULL;
 }
 
@@ -225,11 +233,11 @@ void* MusicManager::initAudioOutput()
 			&m_playData );
 
 	m_multiTracks->generateMusic();
-
+/*
 	if( m_playStream ) {
 		Pa_StartStream( m_playStream );
 	}
-
+*/
 	return NULL;
 }
 
@@ -301,6 +309,7 @@ void* MusicManager::changeFrameIndex(int newFrameIndex)
  */
 void* MusicManager::goToInMs(int millisecPos)
 {
+	qDebug() << "MusicManager::goToInMs()";
 	if (!isStarted()) {
 		start();
 	}
@@ -378,8 +387,13 @@ void MusicManager::saveRecordedData(std::string fileName)
  *
  * \return Rien
  */
+
+// utilisé pour le premier lancement !
 void MusicManager::run()
 {
+	qDebug() << "MusicManager::run()";
+	m_isRunning = true;
+
 	m_musicManagerThread = new boost::thread(&musicManagerMainFunction, this);
 //	pthread_create(&m_musicManagerThread, NULL, musicManagerMainFunction, this);
 }
@@ -392,6 +406,7 @@ void MusicManager::run()
  */
 void MusicManager::stop()
 {
+	qDebug() << "MusicManager::stop()";
 	m_mustStop = true;
 }
 
@@ -403,6 +418,14 @@ void MusicManager::stop()
  */
 void MusicManager::start()
 {
+	qDebug() << "MusicManager::start()";
+	/*if( m_playStream ) {
+		Pa_StartStream( m_playStream );
+	}
+
+	if( m_inputStream ) {
+		Pa_StartStream( m_inputStream );
+	}*/
 	m_playData.waitStart = false;
 	m_recordData.waitStart = false;
 }
@@ -468,7 +491,8 @@ static int playCallback( const void *inputBuffer,
 	(void) statusFlags;
 	(void) userData;
 
-	if (data->waitStart) {
+	if (data->waitStart || g__output_pause)
+	{
 		for( i = 0; i < (framesPerBuffer * NUM_CHANNELS); i++ )
 		{
 			//	std::cout << i << std::endl;
@@ -556,7 +580,7 @@ static int recordCallback( const void *inputBuffer, void *outputBuffer,
 	(void) userData;
 
 	if (data->waitStart) {
-        for( unsigned long i = 0; i < (framesPerBuffer * NUM_CHANNELS); i++ )
+		for( unsigned long i = 0; i < (framesPerBuffer * NUM_CHANNELS); i++ )
 		{
 			*wptr++ = SAMPLE_SILENCE;
 		}
@@ -576,7 +600,7 @@ static int recordCallback( const void *inputBuffer, void *outputBuffer,
 
 	if( inputBuffer == NULL )
 	{
-        for( long i=0; i<framesToCalc; i++ )
+		for( long i=0; i<framesToCalc; i++ )
 		{
 			*wptr++ = SAMPLE_SILENCE;  /* left */
 			if( NUM_CHANNELS == 2 ) *wptr++ = SAMPLE_SILENCE;  /* right */
@@ -584,7 +608,7 @@ static int recordCallback( const void *inputBuffer, void *outputBuffer,
 	}
 	else
 	{
-        for( long i=0; i<framesToCalc; i++ )
+		for( long i=0; i<framesToCalc; i++ )
 		{
 			*wptr++ = *rptr++;  /* left */
 			if( NUM_CHANNELS == 2 ) *wptr++ = *rptr++;  /* right */
@@ -606,19 +630,57 @@ static int recordCallback( const void *inputBuffer, void *outputBuffer,
  */
 void* musicManagerMainFunction(void* threadArg)
 {
+	qDebug()<< "musicManagerMainFunction";
 	MusicManager* musicManager = (MusicManager*) threadArg;
 
-	while ((!musicManager->m_mustStop)
-			&& (Pa_IsStreamActive(musicManager->m_playStream)))
+	if( musicManager->m_playStream ) {
+		Pa_StartStream( musicManager->m_playStream );
+	}
+
+	if( musicManager->m_inputStream ) {
+		Pa_StartStream( musicManager->m_inputStream );
+	}
+
+	while ((!musicManager->m_mustStop))
+		//	&& (Pa_IsStreamActive(musicManager->m_playStream)))
 	{
 		Pa_Sleep(100);
+		if(g__output_pause && g__output_pause_changed)
+		{
+			g__output_pause_changed = false;
+			Pa_StopStream(musicManager->m_playStream);
+			Pa_StopStream(musicManager->m_inputStream);
+		}
+		else if(!g__output_pause && g__output_pause_changed)
+		{
+			g__output_pause_changed = false;
+			Pa_StartStream(musicManager->m_playStream);
+			Pa_StartStream(musicManager->m_inputStream);
+		}
+
 	}
 
 	//musicManager->terminateAudioDevice();
+
+	Pa_StopStream(musicManager->m_playStream);
+	Pa_StopStream(musicManager->m_inputStream);
 
 	musicManager->m_playData.waitStart = true;
 	musicManager->m_recordData.waitStart = true;
 
 	musicManager->m_isRunning = false;
+	qDebug() << "leaving musicManagerMainFunction";
 	return NULL;
 }
+
+void MusicManager::pause()
+{
+	g__output_pause = true;
+	g__output_pause_changed = true;
+}
+void MusicManager::play()
+{
+	g__output_pause = false;
+	g__output_pause_changed = true;
+}
+

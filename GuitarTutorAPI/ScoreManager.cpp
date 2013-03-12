@@ -45,12 +45,12 @@ ScoreManager::~ScoreManager() {
 
 std::string ScoreManager::getCurrentChord()
 {
-    return (m_currentInputChord == "nc")?" ":m_currentInputChord;
+	return (m_currentInputChord == "nc")?" ":m_currentInputChord;
 }
 
 bool ScoreManager::isCurrentChordValidated()
 {
-    return true;//m_validatedNoteInCurrentPart[m_currentNoteId];
+	return true;//m_validatedNoteInCurrentPart[m_currentNoteId];
 }
 
 void triggerCallBack(void* arg, bool state, unsigned int /*triggerId*/, unsigned int /*boxId*/, unsigned int /*controlPointIndex*/, std::string waitedString)
@@ -115,20 +115,24 @@ void ScoreManager::update()
 	chroma_compute(m_chordControl, buffer, INPUT_FRAMES_PER_BUFFER);
 
 	m_currentInputChord = chord_compute(m_chordControl);
-    //qDebug() << QString(m_currentInputChord.c_str()) << "-" << QString(m_currentNote.c_str());
-    /*if (m_isAScoreToRun) {
+
+	// ci-dessous, la partie pour la validation qui permet de continuer ou non dans la partie suivante.
+	// à remettre quand ça fonctionnera.
+
+	//qDebug() << QString(m_currentInputChord.c_str()) << "-" << QString(m_currentNote.c_str());
+	/*if (m_isAScoreToRun) {
 		unsigned int currentTime = m_iscoreEngine->getCurrentExecutionTime();
 
 		if (m_currentInputChord == m_currentNote) {
 			m_matchingChordsTimeInNote += (currentTime - m_lastMatchingChordsCheckTime);
-            qDebug() << (m_matchingChordsTimeInNote * 100.0)/m_currentNoteDurationInScore;
-            if (((m_matchingChordsTimeInNote * 100.0)/m_currentNoteDurationInScore) > PERCENT_TO_VALIDATE_NOTE) {
+			qDebug() << (m_matchingChordsTimeInNote * 100.0)/m_currentNoteDurationInScore;
+			if (((m_matchingChordsTimeInNote * 100.0)/m_currentNoteDurationInScore) > PERCENT_TO_VALIDATE_NOTE) {
 				m_validatedNoteInCurrentPart[m_currentNoteId] = true;
 			}
-        }
+		}
 
 		m_lastMatchingChordsCheckTime = currentTime;
-    }*/
+	}*/
 }
 
 unsigned int ScoreManager::getValidatedNotesPercent()
@@ -341,7 +345,7 @@ std::string ScoreManager::ScoreToString(LogicalTrack* trackName )
 	for(it1 = partTrackList.begin(); it1 != partTrackList.end(); ++it1)
 	{
 		std::string current((*it1)->getPartName().toStdString());
-        text << "[" << (*it1)->getPartName().toStdString() << "]" << "\n";
+		text << "[" << (*it1)->getPartName().toStdString() << "]" << "\n";
 
 		QList<TrackChord*> gtc = (*it1)->getTrackChordsList(); //utilisée dans la boucle qui suit, plante si pas de passage par variable intermédiaire (pourquoi?) --- hamid
 
@@ -373,8 +377,8 @@ std::string ScoreManager::ScoreToString(LogicalTrack* trackName )
 
 bool ScoreManager::loadScore(LogicalTrack* trackName)
 {
-    logicalTrack = trackName;
-    //std::cout << ScoreToString(trackName) << std::flush;
+	logicalTrack = trackName;
+	//std::cout << ScoreToString(trackName) << std::flush;
 	std::ofstream file("tmp", std::ios::out);
 	file << ScoreToString(trackName);
 	file.close();
@@ -399,7 +403,7 @@ bool ScoreManager::loadScore(LogicalTrack* trackName)
 	std::string previousPart = " ";
 
 	QList<PartTrack*>::iterator it1;
-    QList<TrackChord*>::iterator it2;
+	QList<TrackChord*>::iterator it2;
 
 	QList<PartTrack*> partTrackList = trackName->getPartTrackList();
 
@@ -434,7 +438,7 @@ bool ScoreManager::loadScore(LogicalTrack* trackName)
 		previousPart = current;
 
 
-        QList<TrackChord*> gtc = (*it1)->getTrackChordsList(); //utilisée dans la boucle qui suit, plante si pas de passage par variable intermédiaire (pourquoi?) --- hamid
+		QList<TrackChord*> gtc = (*it1)->getTrackChordsList(); //utilisée dans la boucle qui suit, plante si pas de passage par variable intermédiaire (pourquoi?) --- hamid
 
 		for(it2 = gtc.begin(); it2 != gtc.end(); ++it2)
 		{
@@ -442,18 +446,18 @@ bool ScoreManager::loadScore(LogicalTrack* trackName)
 			for(int i = 0; i < (*it2)->getRepetition(); i++)
 			{
 				std::cout << "on rentre\n" << std::flush;
-                QString str_tmp("");
-                std::string s("");
-                std::string str("");
+				QString str_tmp("");
+				std::string s("");
+				std::string str("");
 
-                s += (*it2)->getChord().toStdString();
-                str_tmp.setNum((*it2)->getDuration());
-                str += str_tmp.toStdString() + " " + s;
+				s += (*it2)->getChord().toStdString();
+				str_tmp.setNum((*it2)->getDuration());
+				str += str_tmp.toStdString() + " " + s;
 
-                std::istringstream currentStream(str.data());
+				std::istringstream currentStream(str.data());
 				prevNote = currentNote;
 
-                currentStream >> currentNote.duration >> currentNote.name;
+				currentStream >> currentNote.duration >> currentNote.name;
 
 				m_scoreNotes[m_iscoreEngine->addBox(currentAbsoluteStart * 1000, currentNote.duration / 1000, currentBoxId)] = currentNote.name;
 
@@ -487,19 +491,38 @@ bool ScoreManager::isRunning()
 
 void ScoreManager::run()
 {
-	if (m_isAScoreToRun) {
-        //TODO: [] obligatoires pour les noms de parties si on utilise le fichier tmp
-        m_nextPart = "[" + logicalTrack->getPartName(1).toStdString() + "]";
+	qDebug() << "ScoreManager::run()";
+	if (m_isAScoreToRun)
+	{
+		//TODO: [] obligatoires pour les noms de parties si on utilise le fichier tmp
+		m_nextPart = "[" + logicalTrack->getPartName(1).toStdString() + "]";
 		m_iscoreEngine->play();
-	} else {
+		m_musicManager->run();
+
+	}
+	else
+	{
+		qDebug() << "ScoreManager::run() -> else";
+		m_iscoreEngine->play();
 		goToInMs(0);
 	}
+	m_musicManager->play();
+}
+void ScoreManager::pause()
+{
+	qDebug() << "ScoreManager::stop()";
+	//m_musicManager->setMustStop(true);
+	m_musicManager->pause();
+	m_iscoreEngine->stop();
+	m_isAScoreToRun = false;
 }
 
 void ScoreManager::stop()
 {
+	qDebug() << "ScoreManager::stop()";
 	m_musicManager->setMustStop(true);
 	m_iscoreEngine->stop();
+
 }
 
 std::string ScoreManager::getNextPart() const
