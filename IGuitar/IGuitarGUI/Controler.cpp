@@ -82,7 +82,7 @@ bool Controler::initSong()
 {
 	QString path = QFileDialog::getOpenFileName(0, tr("Loading"), ".", tr("XML Files (*.xml)"), 0, QFileDialog::HideNameFilterDetails);
 
-	if(path.isNull())
+    if(path.isNull())
 	{
 		return false;
 	}
