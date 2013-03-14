@@ -17,13 +17,13 @@ Last change on 28/02/12
  */
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
+	QApplication app(argc, argv);
 
-    QTranslator translator;
-    translator.load("GridEditor_fr");
-    app.installTranslator(&translator);
+	QTranslator translator;
+	translator.load(":/translations/GridEditor_fr");
+	app.installTranslator(&translator);
 
-    GridEditor win;
-    win.show();
-    return app.exec();
+	GridEditor win;
+	win.show();
+	return app.exec();
 }

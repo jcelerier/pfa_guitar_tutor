@@ -14,7 +14,7 @@ class NewGridDialog;
 class NewGridDialog : public QDialog
 {
 		Q_OBJECT
-		
+
 	public:
 		explicit NewGridDialog(QWidget *parent = 0);
 		~NewGridDialog();
@@ -24,10 +24,6 @@ class NewGridDialog : public QDialog
 
 		int getLines();
 		int getColumns();
-
-		/*void setArtist(QString artist);
-		void setTrack(QString track);
-		void setBarSize(int barsize);*/
 
 	public slots:
 		void accept();

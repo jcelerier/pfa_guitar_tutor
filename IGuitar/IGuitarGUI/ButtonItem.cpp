@@ -12,13 +12,13 @@
  */
 ButtonItem::ButtonItem(const QPixmap & pixmap, QGraphicsItem * parent):
    // QGraphicsPixmapItem(pixmap, parent)
-    QGraphicsObject(parent)
+	QGraphicsObject(parent)
 {
-    //setScale(Config::quotient);
-    setCursor(Qt::PointingHandCursor);
-    setToolTip("Je suis un item");
-    image = new QGraphicsPixmapItem(pixmap, this);
-    ((QGraphicsPixmapItem*) image)->setTransformationMode(Qt::SmoothTransformation);
+	//setScale(Config::quotient);
+	setCursor(Qt::PointingHandCursor);
+	setToolTip("Je suis un item");
+	image = new QGraphicsPixmapItem(pixmap, this);
+	((QGraphicsPixmapItem*) image)->setTransformationMode(Qt::SmoothTransformation);
 }
 
 /**
@@ -29,8 +29,8 @@ ButtonItem::ButtonItem(const QPixmap & pixmap, QGraphicsItem * parent):
  */
 void ButtonItem::mousePressEvent(QGraphicsSceneMouseEvent*)
 {
-    qDebug() << "button touched";
-    emit pushed();
+	qDebug() << "\n\nbutton touched";
+	emit pushed();
 }
 
 /**
@@ -49,6 +49,6 @@ void ButtonItem::paint(QPainter *, const QStyleOptionGraphicsItem *, QWidget *){
  * Retourne les contours du bouton.
  */
 QRectF ButtonItem::boundingRect() const {
-    return image->boundingRect();
+	return image->boundingRect();
 
 }

@@ -73,6 +73,9 @@ ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent) : QTabl
 	m_lastPlayedCase = 0;
 	setCasePart("Intro");
 	m_caseItemDelegate = new CaseItemDelegate(this);
+
+	connect(this, SIGNAL(barsizeChanged(int)), m_caseItemDelegate, SLOT(setBarsize(int)));
+
 	qDebug() << "Dans ChordTableWidget: " << ((GridEditor*)this->parent())->getBarSize();
 	setItemDelegate(m_caseItemDelegate);
 }

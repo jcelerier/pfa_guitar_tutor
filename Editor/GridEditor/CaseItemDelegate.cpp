@@ -8,7 +8,7 @@
 #include <QDebug>
 
 CaseItemDelegate::CaseItemDelegate(QWidget *parent) :
-	QStyledItemDelegate(parent)
+	QStyledItemDelegate(parent), m_barsize(1)
 {
 	m_barPen = new QPen(QBrush(Qt::black) , 2, Qt::SolidLine, Qt::RoundCap);
 	m_partFont = new QFont("Arial", 8, QFont::Bold);
@@ -54,7 +54,7 @@ void CaseItemDelegate::paintBar(QPainter *painter, const QRect& rect, CaseItem* 
 	painter->save();
 	int itemCount;
 	int chordPerBar = ((GridEditor*) ((ChordTableWidget*) parent())->parent())->getBarSize();// = (((ChordTableWidget*) parent())->parent())->getTrackProperties();//->getBarSize(); //coucou papy
-	qDebug() << chordPerBar;
+	qDebug() << "chordPerBar" << chordPerBar;
 	if(item->row() == 0)
 	{
 		itemCount = item->column();
@@ -73,18 +73,23 @@ void CaseItemDelegate::paintBar(QPainter *painter, const QRect& rect, CaseItem* 
 	painter->setPen(*m_barPen);
 	painter->translate(rect.x(), rect.y());
 
-	if(chordPerBar == 1)
+	if(m_barsize == 1)
 	{
 		painter->drawLine(QPoint(0, 0), QPoint(0, rect.height()));
 		painter->drawLine(QPoint(rect.width(), 0), QPoint(rect.width(), rect.height()));
 	}
-	else if(itemCount % chordPerBar == 0)
+	else if(itemCount % m_barsize == 0)
 	{
 		painter->drawLine(QPoint(0, 0), QPoint(0, rect.height()));
 	}
-	else if(itemCount % chordPerBar == chordPerBar - 1)
+	else if(itemCount % m_barsize == m_barsize - 1)
 	{
 		painter->drawLine(QPoint(rect.width(), 0), QPoint(rect.width(), rect.height()));
 	}
 	painter->restore();
+}
+
+void CaseItemDelegate::setBarsize(int s)
+{
+	m_barsize = s;
 }

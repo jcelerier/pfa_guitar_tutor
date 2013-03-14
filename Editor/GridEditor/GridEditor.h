@@ -1,9 +1,3 @@
-/*
-Author: Fabien Fleurey
-Created on 28/02/12
-Last change on 08/05/12
-*/
-
 #ifndef GRIDEDITOR_H
 #define GRIDEDITOR_H
 
@@ -38,72 +32,73 @@ Last change on 08/05/12
  */
 class GridEditor : public QMainWindow
 {
-    Q_OBJECT
+	Q_OBJECT
 friend class EditionSelector;
 
 int m_barsize;
-    QSettings* settings;
+	QSettings* settings;
 
 	AudioWindow* audioWindow;
 	TrackProperties* trackProperties;
 	NewGridDialog* newGridDialog;
 
-    QWidget* centralArea;
-    QGridLayout* layout;
-    ChordTableWidget* grid;
-    ChordTree* chordTree;
+	QWidget* centralArea;
+	QGridLayout* layout;
+	ChordTableWidget* grid;
+	ChordTree* chordTree;
 
-    QMenu *fileMenu, *editMenu, *aboutMenu;
+	QMenu *fileMenu, *editMenu, *aboutMenu;
 
-    QToolBar *toolBar;
-    QAction *quitAction, *aboutAction, *newAction, *saveAction, *helpAction,
-            *openAction, *addRowAction, *deleteRowAction, *saveAsAction,
+	QToolBar *toolBar;
+	QAction *quitAction, *aboutAction, *newAction, *saveAction, *helpAction,
+			*openAction, *addRowAction, *deleteRowAction, *saveAsAction,
 			*copyDownAction, *addColumnAction,
 			*deleteColumnAction, *openAudioWindowAction, *openTrackPropertiesAction;
-    EditionSelector *editionSelector;
+	EditionSelector *editionSelector;
 	EditorPanel *editorPanel;
 
 	QStatusBar* status;
 	QLabel* statusInfo;
 
-    bool isPanelSet;
+	bool isPanelSet;
 
-    QString filename;
+	QString filename;
 
 public:
-    GridEditor();
-    ~GridEditor();
+	GridEditor();
+	~GridEditor();
 	QString statusText();
-    void startGrid(int);
+	void startGrid(int);
 	void createGrid(int columns, int rows);
 
 	int getBarSize();
 
 private:
-    void createMenu();
-    void createActions();
-    void setActionsToMenu();
-    void createToolbar();
-    void createCentralWidget();
+	void createMenu();
+	void createActions();
+	void setActionsToMenu();
+	void createToolbar();
+	void createCentralWidget();
 	void connectActionToSlot();
-    bool saveBeforeQuit();
+	bool saveBeforeQuit();
 
 signals:
-    void sendTimeToChordWidget(QTime, QTime, QTime);
-    void play(int);
+	void sendTimeToChordWidget(QTime, QTime, QTime);
+	void play(int);
 	void propsChanged();
 	void sigTimeData(QTime);
 
 public slots:
+	void barsizeChanged(int);
 	void changeState();
 	void firstNewGrid();
 	void newGrid();
-    void save();
-    void toXML(QString filename = "");
+	void save();
+	void toXML(QString filename = "");
 	void fromXML();
-    void about();
+	void about();
 	void setStatusText();
-    void help();
+	void help();
 };
 
 #endif // GRIDEDITOR_H

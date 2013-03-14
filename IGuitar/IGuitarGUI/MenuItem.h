@@ -5,6 +5,7 @@
 #include "ButtonItem.h"
 #include "Configuration.h"
 
+
 /**
  * @brief Menu de l'interface
  */
@@ -21,6 +22,7 @@ signals:
 public slots:
     void closeMenu();
     void closeGame();
+    void loadSong();
 private:
     int width;
     int height;

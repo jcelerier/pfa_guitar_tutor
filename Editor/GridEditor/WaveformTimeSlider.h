@@ -1,5 +1,5 @@
-#ifndef WAVEFORMTIMEMOVER_H
-#define WAVEFORMTIMEMOVER_H
+#ifndef WAVEFORMTIMESLIDER_H
+#define WAVEFORMTIMESLIDER_H
 
 #include <QWidget>
 #include <QTime>
@@ -8,6 +8,7 @@ class WaveformTimeSlider : public QWidget
 		Q_OBJECT
 	public:
 		explicit WaveformTimeSlider(QString imagepath, int type, QWidget *parent = 0);
+		~WaveformTimeSlider();
 		int getTime();
 		void setTime(int);
 		void private_setTime(int);
@@ -17,6 +18,7 @@ class WaveformTimeSlider : public QWidget
 
 		QPixmap& getPixmap();
 		QRect getPixmapSize();
+
 	signals:
 		void timeChanged(int, QTime);
 
@@ -28,7 +30,7 @@ class WaveformTimeSlider : public QWidget
 		QPixmap m_pixmap;
 
 		int m_pos;
-		
+
 };
 
-#endif // WAVEFORMTIMEMOVER_H
+#endif // WAVEFORMTIMESLIDER_H

@@ -1,5 +1,5 @@
 #include "MenuItem.h"
-
+#include "Controler.hpp"
 /**
  * @brief MenuItem::MenuItem
  * @param parent Element parent
@@ -50,16 +50,28 @@ MenuItem::MenuItem(QGraphicsItem *parent) :
     ((QGraphicsTextItem*) menuMap["closeMenuText"])->setHtml(tr("<p align='center'>CONTINUE</p>"));
 
 	menuMap["close"] = new ButtonItem(menuBtnImage, rect);
-	menuMap["close"]->setPos(menuBack->rect().topLeft()+QPointF(width/2 -272/2,20+100));
+    menuMap["close"]->setPos(menuBack->rect().topLeft()+QPointF(width/2 -272/2,20+100+100));
     menuMap["close"]->setToolTip(tr("Quit"));
 	connect((ButtonItem*)menuMap["close"], SIGNAL(pushed()), this, SLOT(closeGame()));
 
 	menuMap["closeText"] = new QGraphicsTextItem(rect);
-	menuMap["closeText"]->setPos(menuBack->rect().topLeft()+QPointF(width/2 -272/2,20+20+100));
+    menuMap["closeText"]->setPos(menuBack->rect().topLeft()+QPointF(width/2 -272/2,20+20+100+100));
 	((QGraphicsTextItem*) menuMap["closeText"])->setTextWidth(272);
 	((QGraphicsTextItem*) menuMap["closeText"])->setDefaultTextColor(QColor(0,95,61));
 	((QGraphicsTextItem*) menuMap["closeText"])->setFont(eltFont);
     ((QGraphicsTextItem*) menuMap["closeText"])->setHtml(tr("<p align='center'>QUIT</p>"));
+
+    menuMap["closeText"] = new ButtonItem(menuBtnImage, rect);
+    menuMap["closeText"]->setPos(menuBack->rect().topLeft()+QPointF(width/2 -272/2,20+100));
+    menuMap["closeText"]->setToolTip(tr("Load"));
+    connect((ButtonItem*)menuMap["loadSong"], SIGNAL(pushed()), this, SLOT(loadSong()));
+
+    menuMap["closeText"] = new QGraphicsTextItem(rect);
+    menuMap["closeText"]->setPos(menuBack->rect().topLeft()+QPointF(width/2 -272/2,20+20+100));
+    ((QGraphicsTextItem*) menuMap["closeText"])->setTextWidth(272);
+    ((QGraphicsTextItem*) menuMap["closeText"])->setDefaultTextColor(QColor(0,95,61));
+    ((QGraphicsTextItem*) menuMap["closeText"])->setFont(eltFont);
+    ((QGraphicsTextItem*) menuMap["closeText"])->setHtml(tr("<p align='center'>LOAD</p>"));
 }
 
 /**
@@ -80,6 +92,18 @@ void MenuItem::closeMenu()
 void MenuItem::closeGame()
 {
 	qApp->exit();
+}
+
+/**
+ * @brief MenuItem::loadSong
+ *
+ * Ouvre la fenêtre de chargement d'un morceau.
+ */
+void MenuItem::loadSong()
+{
+
+    /*if(!Controler::initSong())
+        qDebug() << "Controler::initSong()";*/
 }
 
 /**

@@ -16,7 +16,7 @@
  *
  * Construit l'interface du lecteur audio.
  */
-SimpleMusicPlayer::SimpleMusicPlayer(QWidget* parent)
+SimpleMusicPlayer::SimpleMusicPlayer(QWidget* parent) : QWidget(parent)
 {
 	this->parent = parent;
 	layout = new QGridLayout();

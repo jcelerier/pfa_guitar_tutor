@@ -56,36 +56,37 @@ public:
 
 	std::string getCurrentChord();
 
-    bool loadScore(LogicalTrack* trackName);
+	bool loadScore(LogicalTrack* trackName);
 
 	void run();
+	void pause();
 
 	bool isRunning();
 	void goToInMs(unsigned int time);
 
 	friend void crossAction(void* arg, unsigned int boxNb, unsigned int controlPointIndex, std::vector<unsigned int>);
 	friend void triggerCallBack(void* arg, bool state, unsigned int triggerId, unsigned int boxId, unsigned int controlPointIndex, std::string waitedString);
-    std::string getNextPart() const;
-    void setNextPart(std::string m_nextPart);
-    std::string getCurrentPart() const;
+	std::string getNextPart() const;
+	void setNextPart(std::string m_nextPart);
+	std::string getCurrentPart() const;
 
-    unsigned int getValidatedNotesPercent();
-    void setToNaturalNextPart();
+	unsigned int getValidatedNotesPercent();
+	void setToNaturalNextPart();
 
-    void getScore(prioritizedScore& score, int relativeBegin, int relativeEnd);
+	void getScore(prioritizedScore& score, int relativeBegin, int relativeEnd);
 
-    void update();
+	void update();
 
-    void saveRecordedData(std::string fileName) {
-    	m_musicManager->saveRecordedData(fileName);
-    }
+	void saveRecordedData(std::string fileName) {
+		m_musicManager->saveRecordedData(fileName);
+	}
 
-    void stop();
+	void stop();
 
-    std::string ScoreToString(LogicalTrack *trackName);
-    bool isCurrentChordValidated();
+	std::string ScoreToString(LogicalTrack *trackName);
+	bool isCurrentChordValidated();
 private:
-    bool loadScore(std::string fileName);
+	bool loadScore(std::string fileName);
 	MusicManager* m_musicManager;
 	Engines* m_iscoreEngine;
 	std::string m_currentNote;
@@ -121,7 +122,7 @@ private:
 
 	std::vector<float> m_parts;
 
-    LogicalTrack* logicalTrack;
+	LogicalTrack* logicalTrack;
 };
 
 #endif /* SCOREMANAGER_H_ */
