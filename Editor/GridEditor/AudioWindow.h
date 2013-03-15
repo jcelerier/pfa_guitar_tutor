@@ -26,6 +26,9 @@ class AudioWindow : public QWidget
         QString getFilename();
         void setAudioFileName(QString file);
         void setWaveformData(Waveform* waveform, WaveformTimeBar* timeBar);
+        int getBar();
+        int getBeginning();
+        int getEnd();
 
 
     public slots:

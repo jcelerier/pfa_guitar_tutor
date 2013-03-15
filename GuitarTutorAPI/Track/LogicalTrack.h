@@ -10,7 +10,8 @@ public:
 
     LogicalTrack();
     LogicalTrack(QString newTrackName, QString newArtist, QString newAudoFileName, int newMesure, QList<PartTrack*> newList);
-    LogicalTrack(QString newTrackName, QString newArtist, QString newAudoFileName, int newMesure, QList<PartTrack*> newList, int newBar, int newEnd, int newBeginning, int newTimePerMesure);
+    LogicalTrack(QString newTrackName, QString newArtist, QString newAudoFileName, int newMesure, QList<PartTrack*> newList, int newBar, int newEnd, int newBeginning);
+                 //, int newTimePerMesure);
 
     ~LogicalTrack();
 

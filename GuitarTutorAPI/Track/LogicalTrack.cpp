@@ -34,7 +34,8 @@ LogicalTrack::LogicalTrack(QString newTrackName, QString newArtist, QString newA
  *
  * Constructeur permettant l'initialisialisation correcte de la classe LogicalTrack.
  */
-LogicalTrack::LogicalTrack(QString newTrackName, QString newArtist, QString newAudoFileName, int newMesure, QList<PartTrack*> newList, int newBar, int newEnd, int newBeginning, int newTimePerMesure){
+LogicalTrack::LogicalTrack(QString newTrackName, QString newArtist, QString newAudoFileName, int newMesure, QList<PartTrack*> newList, int newBar, int newEnd, int newBeginning){
+                           //, int newTimePerMesure){
     trackName = newTrackName;
     artist = newArtist;
     audioFileName = newAudoFileName;
@@ -43,7 +44,7 @@ LogicalTrack::LogicalTrack(QString newTrackName, QString newArtist, QString newA
     bar = newBar;
     end = newEnd;
     beginning = newBeginning;
-    timePerMesure = newTimePerMesure;
+//    timePerMesure = newTimePerMesure;
 }
 
 /**

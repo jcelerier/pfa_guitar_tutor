@@ -152,9 +152,9 @@ void APITest::testConvertLogicalTrackToXml(){
     partTracks.append(new PartTrack("refrain", chords2));
     partTracks.append(new PartTrack("couplet2", chords3));
 
-    LogicalTrack* piste = new LogicalTrack("numb", "Linkin Park", "numb.xml", 2, partTracks);
+    LogicalTrack* piste = new LogicalTrack("numb", "Linkin Park", "numb.xml", 2, partTracks, 10, 10, 10);
 
-    bool result = TrackLoader::convertLogicalTrackToXml(piste, "numb.xml");
+    bool result = TrackLoader::convertLogicalTrackToXml(piste, "lolilol.xml");
 
     QVERIFY2(result, "function failure");
 

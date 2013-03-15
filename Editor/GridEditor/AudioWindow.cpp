@@ -162,3 +162,24 @@ void AudioWindow::playFrom(int t)
 	player->play();
 	player->changePosition( t);
 }
+
+/**
+ * Retourne la valeur de la bar entrée par l'utilisateur
+ */
+int AudioWindow::getBar(){
+    return audioSync->getBar();
+}
+
+/**
+ * Retourne la valeur de la bar entrée par l'utilisateur
+ */
+int AudioWindow::getBeginning(){
+    return audioSync->getBeginning();
+}
+
+/**
+ * Retourne la valeur de la bar entrée par l'utilisateur
+ */
+int AudioWindow::getEnd(){
+    return audioSync->getEnd();
+}

@@ -340,3 +340,30 @@ void AudioSync::setTimeSignature(int t)
 	setBarTimer(MsecToTime(TimeToMsec(bar->time()) * m_timeSignature / previous));
 	updateTempo();
 }
+
+int AudioSync::getBar(){
+    QTime t = bar->time();
+    int ms = t.hour()*60*60*100;//conversion d'une heure en ms
+    ms += t.minute()*60*100;
+    ms += t.second()*100;
+    ms += t.msec();
+    return ms;
+}
+
+int AudioSync::getBeginning(){
+    QTime t = beginning->time();
+    int ms = t.hour()*60*60*100;//conversion d'une heure en ms
+    ms += t.minute()*60*100;
+    ms += t.second()*100;
+    ms += t.msec();
+    return ms;
+}
+
+int AudioSync::getEnd(){
+    QTime t = end->time();
+    int ms = t.hour()*60*60*100;//conversion d'une heure en ms
+    ms += t.minute()*60*100;
+    ms += t.second()*100;
+    ms += t.msec();
+    return ms;
+}

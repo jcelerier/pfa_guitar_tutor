@@ -24,6 +24,9 @@ bool TrackLoader::convertLogicalTrackToXml(LogicalTrack* currentTrack, QString f
     root.setAttribute("fichier", currentTrack->getAudioFileName());
 	root.setAttribute("line", currentTrack->getLine());
 	root.setAttribute("column", currentTrack->getColumn());
+    root.setAttribute("bar", currentTrack->getBar());
+    root.setAttribute("beginning", currentTrack->getBeginning());
+    root.setAttribute("end", currentTrack->getEnd());
 
     //ajout des parties
     QList<PartTrack*> partList = currentTrack->getPartTrackList();
