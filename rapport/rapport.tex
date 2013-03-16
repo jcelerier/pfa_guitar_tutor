@@ -1,9 +1,9 @@
-\documentclass[a4paper, 11pt]{article}
+\documentclass[a4paper,11pt]{article}
 
 
 \usepackage{geometry}
 \usepackage[utf8]{inputenc}
-\usepackage[french]{babel}
+\usepackage[francais]{babel}
 \usepackage[T1]{fontenc}
 \usepackage{tikz-uml}
 \usepackage{color}
@@ -36,6 +36,7 @@ belowskip=2em,
 \lstdefinelanguage{tikzuml}{language=[LaTeX]TeX, classoffset=0, morekeywords={umlbasiccomponent, umlprovidedinterface, umlrequiredinterface, umldelegateconnector, umlassemblyconnector, umlVHVassemblyconnector, umlHVHassemblyconnector, umlnote, umlusecase, umlactor, umlinherit, umlassoc, umlVHextend, umlinclude, umlstateinitial, umlbasicstate, umltrans, umlstatefinal, umlVHtrans, umlHVtrans, umldatabase, umlmulti, umlobject, umlfpart, umlcreatecall, umlclass, umlvirt, umlunicompo, umlimport, umlaggreg}, classoffset=1, morekeywords={umlcomponent, umlsystem, umlstate, umlseqdiag, umlcall, umlcallself, umlfragment, umlpackage}, classoffset=0,  sensitive=true, morecomment=[l]{\%}}
 
 \geometry{margin=2cm}
+\geometry{headheight=15pt}
 
 \usepackage{fancyhdr}
 \usepackage{fancyvrb} 
@@ -53,7 +54,7 @@ belowskip=2em,
 
     \textsc{\LARGE PFA - GuitarTutor}\\[2cm]
     Pacien \textsc{Boisson} \ \ \ Jean-Michaël \textsc{Célerier}  \ \ \ Julien \textsc{Chaumont}\\
-    Abdelhamid \textsc{Cherif} \ \ \ Alban \textsc{De Martin} \ \ \ Bastien \textsc{Meunier} \ \ \ Kun \textsc{Jiao}\\[3cm]
+    Abdelhamid \textsc{Cherif} \ \ \ Alban \textsc{De Martin} \ \ \ Kun \textsc{Jiao} \ \ \ Bastien \textsc{Meunier} \\[3cm]
     \textsc{\large 29/03/2013 }\\[1.5cm]
     \includegraphics[width=8cm]{logo.png}
 
@@ -179,6 +180,32 @@ Le choix d'utiliser la librairie Qt s'est fait très rapidement, tant les avanta
 
 \subsection{Développement agile}
 
+En accord avec les conseils de notre responsable pédagogique, nous avons rapidement opté pour l'utilisation d'une méthode de développement de type agile. Le PFA état en effet une excellente occasion pour s'essayer à ce genre de méthodes qui sont de plus en plus employées dans des cadres professionnels. 
+
+\subsubsection{Réunions clients}
+
+Dès le mois de novembre, nous avons mis en place un système de rendez-vous réguliers, généralement toutes les trois semaines avec nos clients. Ces réunions servaient tout d'abord à présenter le travail qui avait été effectué depuis le dernier rendez-vous, au travers d'une démonstration sur le logiciel en cours de développement. S'en suivait une discussion sur les différents points qui méritaient d'être relevés, afin de répartir les tâches en trois catégories: ce qui était fait et qui était validé, ce qui était fait mais restait à améliorer (ou à changer totalement), et enfin, ce qui restait à faire. Il ne restait alors qu'à fixer les objectifs à tenir d'ici le prochain rendez-vous.
+
+Les avantages de travailler de la sorte se sont révélés au cours du projet. Tout d'abord, la possibilité de discuter de manière régulière de nos avancées avec nos clients était particulièrement intéressante, car cela permet d'instaurer un dialogue entre demandeurs et réalisateurs. On peut notamment remarquer que le cahier des charges (cf annexes) comporte plusieurs points qui n'ont pas été réalisés, ou qui ont été réalisés différemment de ce qui était initialement prévu, pas à cause d'un manque de temps, mais grâce à ce dialogue qui a permis d'affiner et de changer les besoins exprimés au fur et à mesure du développement du projet.
+
+La figure \ref{agile} résume ce processus.
+
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics[width=450px]{methode_agile.png}
+\caption{Schéma du processus de développement agile}
+\label{agile}
+\end{center}
+\end{figure}
+
+\subsubsection{Organisation de l'équipe et du travail}
+
+De manière analogue au \textit{ScrumMaster} de la méthode Scrum, nous avons choisi au sein de notre équipe une personne en charge de veiller à la bonne application de notre méthode de développement. Sans se situer à un niveau supérieur aux autres, comme ce serait le cas pour un chef de projet, cette personne devait centraliser les travaux et les impressions de chacun pour aider à la répartition des tâches. Elle servait par ailleurs de \textit{représentant} de notre équipe pour nos clients et notre responsable pédagogique.
+
+Les tâches étaient ensuite attribuées selon les demandes du cycle courant et des préférences de chacun, généralement par binômes. Des réunions hebdomadaires permettaient de faire le point sur les difficultés rencontrées et l'avancement des différentes tâches, et éventuellement de réorganiser la répartition. En plus de cela, l'équipe était informée par mail des interrogations et des avancées entre deux réunions, ainsi que par l'intermédiaire de notre wiki que nous avons mis en place dès le début du projet.
+
+De manière générale, cette méthode de développement semble avoir bien fonctionné pour notre équipe au cours de ce projet.
+
 \clearpage
 
 \section*{Conclusion}
@@ -217,7 +244,7 @@ Le choix d'utiliser la librairie Qt s'est fait très rapidement, tant les avanta
 
 \clearpage
 
-\section*{Cahier des charges}
+\section*{Cahier des charges}\label{cdc}
 
 \textit{Ce document rédigé par nos soins constitue le cahier des charges qui a été validé par nos clients début janvier 2013.}
 
@@ -319,7 +346,7 @@ La partie jouable du projet est déjà fonctionnelle. Il faudra cependant veille
 \end{itemize}
 
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \begin{center}
 \includegraphics[width=450px]{interface_player_prototype.jpg}
 \caption{Prototype d'interface pour le player}
