@@ -104,7 +104,32 @@ Nous présenterons dans cette partie la structure du projet actuel, ainsi que ce
 
 \subsection{Le modèle MVC}
 
+Le modèle MVC, pour \textit{Modèle, Vue, Contrôleur}, constitue une architecture logicielle particulière qui se base sur la différenciation de deux parties dans un programme:
+\begin{itemize}
+ \item Les données (le modèle)
+ \item L'interface graphique (la vue)
+\end{itemize}
+Le contrôleur se place entre ces deux entités, en agissant comme relais en synchronisant les informations qui transitent de l'une à l'autre.
+
+L'avantage immédiat du modèle MVC est l'organisation du code qu'il induit, ainsi que la facilitation de la maintenance de celui-ci.
+
 \subsection{Editeur, Lecteur et API}
+
+Il nous a été conseillé dès le début du projet d'adopter le modèle MVC. En plus des avantages cités précédemment, cela nous permettait de découvrir le code existant, de mieux le comprendre, et de commencer à le réorganiser correctement. L'architecture qui a été retenue était de découper le projet en trois parties:
+\begin{itemize}
+ \item L'interface graphique du lecteur
+ \item L'interface graphique de l'éditeur
+ \item Le reste: l'API
+\end{itemize}
+L'idée était de mettre ce \textit{reste} dans une bibliothèque qui serait appelée à la fois par l'éditeur et par le lecteur (même si ce ne sont pas forcément les mêmes parties qui les intéressent). La figure \ref{mvc} résume cette organisation.
+
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics[width=450px]{mvc.png}
+\caption{Le modèle MVC dans notre code}
+\label{mvc}
+\end{center}
+\end{figure}
 
 \subsection{Diagramme de classes}
 
