@@ -170,11 +170,44 @@ Le choix d'utiliser la librairie Qt s'est fait très rapidement, tant les avanta
  \item Plusieurs d'entre nous avions déjà des connaissances sur cette librairie
 \end{itemize}
 
+Nous avons donc choisi d'adopter cette librairie dès les débuts du projet.
+
 \subsection{Utilisation de FMOD}
+
+
 
 \subsection{Format d'échange en XML}
 
 \subsection{Reprise des bases précédentes}
+
+Même s'il était au départ tentant de faire table rase et de recommencer le projet à zéro, tant la présentation du code existant laissait à désirer, nous avons fait l'effort de le remanier et de l'appréhender afin de pouvoir le réutiliser au maximum.
+
+\subsubsection{Sur l'éditeur}
+
+Nous avons gardé la base de l'interface de l'éditeur, à savoir le système de grilles, ainsi que le système d'arbre des accords. Nous avons ensuite ajouté peu à peu les différents éléments qui constituent aujourd'hui l'éditeur de grilles (voir figure \ref{av_ap_editeur}).
+
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics[width=225px]{ancien_editeur.png}
+\includegraphics[width=225px]{nouveau_editeur.png}
+\caption{L'éditeur de grilles, avant et après}
+\label{av_ap_editeur}
+\end{center}
+\end{figure}
+
+Nous avons fait le choix de penser en premier lieu à l'expérience utilisateur, en créant une interface qui soit à la fois accessible et esthétique. Nous avons par exemple apporté:
+\begin{itemize}
+ \item la traduction en Français de l'interface
+ \item la possibilité d'ajouter les accords au clavier, comme il serait tentant de faire
+ \item une meilleure visibilité du découpage en mesures et en parties de la grille
+ \item une barre d'outils pour les actions les plus fréquentes, ainsi que des raccourcis claviers
+ \item le rapprochement implicite entre la grille et le morceau (système d'onglets)
+ \item \dots
+\end{itemize}
+
+\subsubsection{Sur le lecteur}
+
+En ce qui concerne le lecteur, nous n'avons finalement changé que l'interface. La plupart des fichiers qui se trouvent aujourd'hui dans l'API, notamment \texttt{ScoreManager} et \texttt{MusicManager}, ainsi que la librairie \textit{IScoreLight}, n'a pas ou peu été retouchée. Comme indiqué précédemment, l'interface a, elle, été refaite à zéro.
 
 \subsection{Installateurs sur les différents systèmes d'exploitation}
 
