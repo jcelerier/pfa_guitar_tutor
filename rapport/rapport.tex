@@ -98,11 +98,13 @@ L'objectif de notre projet était donc de rendre le logiciel existant accessible
 
 \section{Architecture logicielle}
 
+Nous présenterons dans cette partie la structure du projet actuel, ainsi que celle de sa version d'origine.
+
 \subsection{Architecture du projet d'origine}
 
-\subsection{Editeur, Lecteur et API}
-
 \subsection{Le modèle MVC}
+
+\subsection{Editeur, Lecteur et API}
 
 \subsection{Diagramme de classes}
 
@@ -174,9 +176,11 @@ Nous avons donc choisi d'adopter cette librairie dès les débuts du projet.
 
 \subsection{Utilisation de FMOD}
 
-
+FMOD est la librairie audio qui est utilisée aujourd'hui dans l'éditeur. Là encore, c'était cette même librairie qui servait déjà dans l'ancienne version de l'éditeur, dans la partie qui traitait les fichiers audio. Nous aurions pu faire le choix d'utiliser libsndfile, comme c'est le cas dans le lecteur, mais il faut reconnaître que l'éditeur n'a pas besoin d'une gestion aussi bas niveau du son. FMOD nous a donc semblé être un bon choix, malgré le fait qu'il s'agisse d'un code propriétaire (nous n'avons pas eu de contre-indication de la part des clients à ce propos).
 
 \subsection{Format d'échange en XML}
+
+
 
 \subsection{Reprise des bases précédentes}
 
@@ -201,7 +205,7 @@ Nous avons fait le choix de penser en premier lieu à l'expérience utilisateur,
  \item la possibilité d'ajouter les accords au clavier, comme il serait tentant de faire
  \item une meilleure visibilité du découpage en mesures et en parties de la grille
  \item une barre d'outils pour les actions les plus fréquentes, ainsi que des raccourcis claviers
- \item le rapprochement implicite entre la grille et le morceau (système d'onglets)
+ \item le rapprochement implicite entre la grille et le morceau (système d'onglets, et fusion des deux anciens éditeurs en un seul)
  \item \dots
 \end{itemize}
 
