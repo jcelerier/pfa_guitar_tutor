@@ -117,8 +117,8 @@ void GridEditor::createActions(){
 	openAction->setIcon(QIcon(":/icons/open.png"));
 	addRowAction->setIcon(QIcon(":/icons/addrow.png"));
 	deleteRowAction->setIcon(QIcon(":/icons/deleterow.png"));
-	addColumnAction->setIcon(QIcon(":/icons/addrow.png"));
-	deleteColumnAction->setIcon(QIcon(":/icons/deleterow.png"));
+	addColumnAction->setIcon(QIcon(":/icons/addcolumn.png"));
+	deleteColumnAction->setIcon(QIcon(":/icons/deletecolumn.png"));
 	helpAction->setIcon(QIcon(":/icons/help.png"));
 
 	saveAction->setEnabled(false);
@@ -398,7 +398,7 @@ void GridEditor::toXML(QString filename)
 	track->setLine(grid->rowCount());
 	track->setColumn(grid->columnCount() - 1);
 	track->setAudioFileName(audioWindow->getFilename()); //vérifier si chemin absolu
-    track->setBars(audioWindow->getBar(), audioWindow->getBeginning(), audioWindow->getEnd());
+	track->setBars(audioWindow->getBar(), audioWindow->getBeginning(), audioWindow->getEnd());
 
 
 	TrackLoader::convertLogicalTrackToXml(track, filename);
