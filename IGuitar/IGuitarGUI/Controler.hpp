@@ -28,9 +28,7 @@ public:
 	void pauseClock();
     QList<PlayerChord>* getChordList();
 	QList<PlayerChord> getChordList(LogicalTrack* trackName);
-
     LogicalTrack *getTrack();
-
 public slots:
 	void ticTac();
 	void restartEngine();

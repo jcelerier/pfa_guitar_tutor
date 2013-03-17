@@ -52,7 +52,7 @@ Controler::Controler()
 void Controler::ticTac()
 {
 
-	if(m_scoreManager->isRunning())
+    if(m_playing)
 	{
 		m_scene->updateScene();
 
@@ -176,8 +176,8 @@ void Controler::startClock()
 {
 	if(!m_playing)
 	{
-		startSong();
-		globalClock.start();
+        m_scoreManager->run();
+        m_timer->start();
 		m_playing=true;
 	}
 	else
@@ -186,6 +186,7 @@ void Controler::startClock()
 		m_playing=false;
 //		restartEngine(); // à remplacer par une fonction qui fait juste redémarrer le morceau
 	}
+    globalClock.start();
 }
 
 /**

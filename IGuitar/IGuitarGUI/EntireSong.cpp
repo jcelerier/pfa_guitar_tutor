@@ -18,7 +18,7 @@ EntireSong::EntireSong(QGraphicsItem *parent) :
 {
 	controler = (Controler*) scene()->parent();
 
-	QPen borderPen(Qt::black, 3);
+    //QPen borderPen(Qt::black, 3);
 	QPen lightPen(Qt::black, 1);
 	QBrush innerCont(Qt::white);
 	QFont chordFont("Roboto", 36);

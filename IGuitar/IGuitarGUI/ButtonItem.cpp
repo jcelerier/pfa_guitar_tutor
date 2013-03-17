@@ -29,7 +29,6 @@ ButtonItem::ButtonItem(const QPixmap & pixmap, QGraphicsItem * parent):
  */
 void ButtonItem::mousePressEvent(QGraphicsSceneMouseEvent*)
 {
-	qDebug() << "\n\nbutton touched";
 	emit pushed();
 }
 

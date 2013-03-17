@@ -146,8 +146,16 @@ void PlayerScene::mousePressEvent(QGraphicsSceneMouseEvent*e)
  */
 void PlayerScene::switchPlaying()
 {
+    static bool isFirstPlay = true;
 	playing = !playing;
-	controler->startClock();
+    controler->startClock();
+    if(playing && !isFirstPlay) {
+        // Chanson entière
+        delete itemMap["entireSong"];
+        itemMap["entireSong"] = new EntireSong(itemMap["backgnd"]);
+        updateStats(0, 0);
+    }
+    isFirstPlay = false;
 }
 
 /**
@@ -189,9 +197,10 @@ void PlayerScene::setPlayedChord(QStringList playedChord) {
 		if (((timeNoteSynchronized * 100.0)/currentNoteDuration) > 30 /*Adaptative*/) {
 			setCurrentChordValidated(true);
 		}
+        //Affichage de la note attendue
         ((QGraphicsTextItem*)itemMap["chordPlayed"])->setPlainText(playedChord.at(playedChord.indexOf(((EntireSong*)itemMap["entireSong"])->getCurrentChord())));
 	}
-    else
+    else //Affichage d'une note au hasard parmis les résultats possibles
         ((QGraphicsTextItem*)itemMap["chordPlayed"])->setPlainText(playedChord.at(0));
 	lastTimeCheck = controler->elapsedTime();
 }
