@@ -90,6 +90,8 @@ DEPENDPATH += $$PWD/../../GuitarTutorAPI/portaudio
 PRE_TARGETDEPS += $$PWD/../../portaudio/lib/libportaudio.dll.a
 }
 
+TRANSLATIONS = IGuitarGUI_fr.ts
+
 #unix: QMAKE_POST_LINK += mv IGuitarGUI ../../app/
 #win32: QMAKE_POST_LINK += mv IGuitarGUI.exe ../../app/
 #macx: QMAKE_POST_LINK += mv IGuitarGUI.app ../../app/

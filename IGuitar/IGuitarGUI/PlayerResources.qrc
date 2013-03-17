@@ -40,4 +40,7 @@
         <file alias="Gd.png">chordsImg/Gd.png</file>
         <file alias="Gdm.png">chordsImg/Gdm.png</file>
     </qresource>
+    <qresource prefix="/translations">
+        <file>IGuitarGUI_fr.qm</file>
+    </qresource>
 </RCC>
