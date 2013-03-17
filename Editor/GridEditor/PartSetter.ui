@@ -115,7 +115,7 @@
       </property>
       <property name="icon">
        <iconset resource="EditorResources.qrc">
-        <normaloff>:/icons/icons/play.png</normaloff>:/icons/icons/play.png</iconset>
+        <normaloff>:/icons/play.png</normaloff>:/icons/play.png</iconset>
       </property>
      </widget>
     </item>

@@ -39,7 +39,6 @@ int m_barsize;
 	QSettings* settings;
 
 	AudioWindow* audioWindow;
-	TrackProperties* trackProperties;
 	NewGridDialog* newGridDialog;
 
 	QWidget* centralArea;
@@ -73,6 +72,8 @@ public:
 	void createGrid(int columns, int rows);
 
 	int getBarSize();
+
+	TrackProperties* trackProperties;
 
 private:
 	void createMenu();

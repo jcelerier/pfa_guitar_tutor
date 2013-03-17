@@ -33,6 +33,8 @@ class ChordTableWidget : public QTableWidget
 	friend class PartSetter;
 	friend class CaseItemDelegate;
 
+	int m_barsize;
+
 	QMenu* m_rightClickMenu;
 	CaseItem* m_currentItem;
 	CaseItem* m_lastPlayedCase;
@@ -86,6 +88,8 @@ public slots:
 	void isPlayingAt(QTime t);
 
 	void itemChanged_slot(QTableWidgetItem* item);
+
+	void setBarSize(int);
 
 	//void onClick(int row, int column);
 };

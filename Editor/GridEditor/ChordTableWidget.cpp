@@ -24,7 +24,7 @@ Last change on 08/05/12
  *
  * Initialise la grille d'accords à une taille donnée.
  */
-ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent) : QTableWidget(parent)
+ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent) : QTableWidget(parent), m_barsize(1)
 {
 	setEnabled(false);
 	setColumnCount(column);
@@ -74,9 +74,9 @@ ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent) : QTabl
 	setCasePart("Intro");
 	m_caseItemDelegate = new CaseItemDelegate(this);
 
-	connect(this, SIGNAL(barsizeChanged(int)), m_caseItemDelegate, SLOT(setBarsize(int)));
+	connect(this, SIGNAL(barsizeChanged(int)), m_caseItemDelegate, SLOT(setBarSize(int)));
+	connect(this, SIGNAL(barsizeChanged(int)), this, SLOT(setBarSize(int)));
 
-	qDebug() << "Dans ChordTableWidget: " << ((GridEditor*)this->parent())->getBarSize();
 	setItemDelegate(m_caseItemDelegate);
 }
 
@@ -513,17 +513,17 @@ bool ChordTableWidget::checkBeginningTimes()
  */
 void ChordTableWidget::setTimeInfo(const QTime beginning, const QTime bar, const QTime end)
 {
-	int barms = (bar.hour()*60*60*1000 + bar.minute()*60*1000 + bar.second()*1000 + bar.msec() - beginning.hour()*60*60*100 - beginning.minute()*60*1000 - beginning.second()*1000 - beginning.msec());
-	if(barms<0) {
+	if(bar < beginning || bar > end || end < beginning )
+	{
 		QMessageBox::warning(this, tr("Error with timers"), tr("The bar timer should be greater than the beginning timer."));
 		return;
 	}
-	int barmsec = barms%1000;
-	int barsec = ((barms-barmsec)/1000)%60;
-	int barmin = ((barms-barsec*1000-barmsec)/(1000*60))%60;
-	int barhour = ((barms-barmin*60*1000-barsec*1000-barmsec)/(1000*60*60));
-	int rmax = rowCount(), cmax = columnCount();
-	bool warningShown = false, modifyAllCases = false;
+
+	int rmax = rowCount(),
+		cmax = columnCount();
+	bool warningShown = false,
+		 modifyAllCases = false;
+
 	for (int r = 0 ; r < rmax ; r++)
 	{
 		for (int c = 0 ; c < cmax - 1 ; c ++)
@@ -533,31 +533,14 @@ void ChordTableWidget::setTimeInfo(const QTime beginning, const QTime bar, const
 				modifyAllCases = (QMessageBox::question(this, tr("Before doing something wrong"), tr("Some timers have already been set manually. Do you want to reset them too?"), QMessageBox::Yes | QMessageBox::No)) == QMessageBox::Yes;
 				warningShown = true;
 			}
-			int ms = beginning.msec(),
-					s = beginning.second(),
-					m = beginning.minute(),
-					h = beginning.hour();
-
-			ms += barmsec*(r*(cmax-1)+c);
-			s  += ms/1000;
-			ms %= 1000;
-
-			s  += barsec*(r*(cmax-1)+c);
-			m  += s/60;
-			s  %= 60;
-
-			m  += barmin*(r*(cmax-1)+c);
-			h  += m/60;
-			m  %= 60;
-
-			h  += barhour*(r*(cmax-1)+c);
-
-			if(QTime(h,m,s,ms)>end) {
+			QTime caseTime = MsecToTime((TimeToMsec(beginning) + TimeToMsec(bar) * (r * (cmax - 1) + c)) / m_barsize);
+			qDebug() << caseTime << TimeToMsec(beginning) + TimeToMsec(bar) * (r * (cmax - 1) + c) << m_barsize;
+			if(caseTime>end) {
 				QMessageBox::warning(this, tr("Error with timers"), tr("There are too many cells for the end timer you entered."));
 				return;
 			}
 			if(modifyAllCases || !((CaseItem*) item(r,c))->isTimerManuallySet())
-				((CaseItem*) item(r,c))->setBeginning(QTime(h,m,s,ms));
+				((CaseItem*) item(r,c))->setBeginning(caseTime);
 		}
 	}
 	checkBeginningTimes();
@@ -757,3 +740,8 @@ void ChordTableWidget::itemChanged_slot(QTableWidgetItem *item)
 	}
 }
 
+void ChordTableWidget::setBarSize(int t)
+{
+	qDebug() << "pouet";
+	m_barsize = t;
+}

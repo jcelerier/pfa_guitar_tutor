@@ -17,7 +17,7 @@ class CaseItemDelegate : public QStyledItemDelegate
 	signals:
 
 	public slots:
-		void setBarsize(int);
+		void setBarSize(int);
 
 
 	private:

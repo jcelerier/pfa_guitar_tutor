@@ -89,7 +89,7 @@ void CaseItemDelegate::paintBar(QPainter *painter, const QRect& rect, CaseItem* 
 	painter->restore();
 }
 
-void CaseItemDelegate::setBarsize(int s)
+void CaseItemDelegate::setBarSize(int s)
 {
 	m_barsize = s;
 }

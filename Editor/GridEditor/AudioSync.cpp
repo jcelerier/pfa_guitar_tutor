@@ -86,6 +86,11 @@ AudioSync::AudioSync(QWidget* parent) : QWidget(parent), m_timeSignature(4)
 	connect(sendButton, SIGNAL(clicked()), this, SLOT(sendData()));
 }
 
+/**
+ * @brief AudioSync::~AudioSync
+ *
+ * Destructeur.
+ */
 AudioSync::~AudioSync()
 {
 	delete bpm;
@@ -160,10 +165,6 @@ void AudioSync::setBarTimer(const QTime t)
 	bar->setTime(t);
 }
 
-
-void getBeginning()
-{
-}
 
 /**
  * @brief AudioSync::beginningChanged
@@ -262,8 +263,6 @@ void AudioSync::checkTimes()
 	}
 }
 
-
-
 /**
  * @brief AudioSync::tempoChanged
  * @param tempo
@@ -306,6 +305,13 @@ void AudioSync::sendData()
 		QMessageBox::information(this, tr("Your job is not done yet"), tr("The three timers have not been set yet."));
 }
 
+/**
+ * @brief AudioSync::recvTimer
+ * @param type Type de timer reçu (début, mesure, fin)
+ * @param t Temps
+ *
+ * Utilisé pour recevoir un timer (lorsqu'on bouge les WaveformTimeSlider)
+ */
 void AudioSync::recvTimer(int type, QTime t)
 {
 	if(type == TIMER_BEGINNING)
@@ -333,6 +339,12 @@ void AudioSync::tempoClicked()
 	bpm->setGood();
 }
 
+/**
+ * @brief AudioSync::setTimeSignature
+ * @param t Signature rythmique. ex: 1 pour 1/4, 2 pour 2/4, 4 pour 4/4...
+ *
+ * Utilisé pour appliquer la signature rythmique aux informations de temps.
+ */
 void AudioSync::setTimeSignature(int t)
 {
 	int previous = m_timeSignature;
@@ -342,28 +354,28 @@ void AudioSync::setTimeSignature(int t)
 }
 
 int AudioSync::getBar(){
-    QTime t = bar->time();
-    int ms = t.hour()*60*60*100;//conversion d'une heure en ms
-    ms += t.minute()*60*100;
-    ms += t.second()*100;
-    ms += t.msec();
-    return ms;
+	QTime t = bar->time();
+	int ms = t.hour()*60*60*100;//conversion d'une heure en ms
+	ms += t.minute()*60*100;
+	ms += t.second()*100;
+	ms += t.msec();
+	return ms;
 }
 
 int AudioSync::getBeginning(){
-    QTime t = beginning->time();
-    int ms = t.hour()*60*60*100;//conversion d'une heure en ms
-    ms += t.minute()*60*100;
-    ms += t.second()*100;
-    ms += t.msec();
-    return ms;
+	QTime t = beginning->time();
+	int ms = t.hour()*60*60*100;//conversion d'une heure en ms
+	ms += t.minute()*60*100;
+	ms += t.second()*100;
+	ms += t.msec();
+	return ms;
 }
 
 int AudioSync::getEnd(){
-    QTime t = end->time();
-    int ms = t.hour()*60*60*100;//conversion d'une heure en ms
-    ms += t.minute()*60*100;
-    ms += t.second()*100;
-    ms += t.msec();
-    return ms;
+	QTime t = end->time();
+	int ms = t.hour()*60*60*100;//conversion d'une heure en ms
+	ms += t.minute()*60*100;
+	ms += t.second()*100;
+	ms += t.msec();
+	return ms;
 }
