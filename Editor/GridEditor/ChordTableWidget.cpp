@@ -565,7 +565,7 @@ LogicalTrack* ChordTableWidget::getLogicalTrack()
 	CaseItem* currentCase = 0;
 	TrackChord* currentChord = 0;
 
-	QString prevChordText;
+	//QString prevChordText;
 
 	for(int i = 0; i < this->rowCount(); i++)
 	{
@@ -587,21 +587,20 @@ LogicalTrack* ChordTableWidget::getLogicalTrack()
 			}
 			else
 			{
-				if(currentCase->get_chord() != prevChordText)
+				//if(currentCase->get_chord() != prevChordText)
 				{
 					//on y ajoute l'accord de la case actuelle *//* calculer s'il y a des répétitions ---------------v
 					currentChord = new TrackChord(currentCase->get_chord(), TimeToMsec(currentCase->getBeginning()), 1);
 					part->AddChord(currentChord);
 				}
-				else
+				/*else
 				{
 					part->incrementCurrentChordRepetition();
-				}
+				}*/
 			}
 			// ajout des accords, faire attention aux cases vides.
 
-
-			prevChordText = currentCase->get_chord();
+			//prevChordText = currentCase->get_chord();
 		}
 	}
 	// on ajoute la dernière partie
@@ -640,14 +639,15 @@ void ChordTableWidget::setLogicalTrack(LogicalTrack* track)
 		chordsList = (*iPart)->getTrackChordsList();
 		for(iChord = chordsList.begin(); iChord < chordsList.end() && i < imax; ++iChord)
 		{
-			for(int repetitions = 0; repetitions < (*iChord)->getRepetition(); repetitions++)
+			//for(int repetitions = 0; repetitions < (*iChord)->getRepetition(); repetitions++)
 			{
+				qDebug() << "accord: " << (*iChord)->getChord();
 				// on stocke le nom de l'accord
 				if((*iChord)->getChord() != "n")
 					currentCase->set_chord((*iChord)->getChord());
 
 				//la durée de l'accord
-				currentCase->setBeginning(MsecToTime(int((*iChord)->getDuration())));
+				currentCase->setBeginning(MsecToTime(int((*iChord)->getDuration()) ));
 
 				//case suivante
 				if(j < jmax)

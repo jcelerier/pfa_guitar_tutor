@@ -352,7 +352,7 @@ std::string ScoreManager::ScoreToString(LogicalTrack* trackName )
 
 		for(it2 = gtc.begin(); it2 != gtc.end(); ++it2)
 		{
-			for(int i = 0; i < (*it2)->getRepetition(); i++)
+			//for(int i = 0; i < (*it2)->getRepetition(); i++)
 			{
 				QString str_tmp("");
 				std::string s("");
