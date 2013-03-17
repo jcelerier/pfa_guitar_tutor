@@ -1,4 +1,5 @@
 #include "MyView.h"
+#include "PlayerScene.h"
 
 MyView::MyView(QGraphicsScene * scene, QWidget * parent) :
     QGraphicsView(scene, parent)
@@ -36,6 +37,9 @@ void MyView::keyPressEvent(QKeyEvent* event)
         case Qt::Key_Right :
             scene()->advance();
             break;*/
+        case Qt::Key_Space :
+            ((PlayerScene*)scene())->switchPlaying();
+            break;
     }
     event->accept();
 }
