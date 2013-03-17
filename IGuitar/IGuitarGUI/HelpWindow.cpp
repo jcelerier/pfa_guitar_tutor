@@ -4,6 +4,7 @@
 HelpWindow::HelpWindow(QWidget *parent) :
 	QDialog(parent)
 {
+    setModal(true);
 	page = new QWebView();
 	page->load(QUrl("qrc:/help/help.html"));
 

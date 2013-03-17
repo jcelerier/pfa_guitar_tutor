@@ -20,15 +20,20 @@ MyView::MyView(QGraphicsScene * scene, QWidget * parent) :
     //showFullScreen();                                  // Plein ecran
 }
 
+/**
+ * @brief MyView::keyPressEvent
+ * @param event Evènement
+ *
+ * Gestion des touches du clavier sur l'interface.
+ */
 void MyView::keyPressEvent(QKeyEvent* event)
 {
     QGraphicsView::keyPressEvent(event);
 
-
     switch ( event->key() )
-     {
-        //Debug
-        /*case Qt::Key_Up :
+    {
+    //Debug
+    /*case Qt::Key_Up :
             scale(0.5,0.5);
             break;
         case Qt::Key_Down :
@@ -37,9 +42,16 @@ void MyView::keyPressEvent(QKeyEvent* event)
         case Qt::Key_Right :
             scene()->advance();
             break;*/
-        case Qt::Key_Space :
-            ((PlayerScene*)scene())->switchPlaying();
-            break;
+    case Qt::Key_Space :
+        ((PlayerScene*)scene())->switchPlaying();
+        break;
+    /*case Qt::Key_Tab : //Problème: le dico apparait en arrière plan
+        ((PlayerScene*)scene())->displayDictionary();
+        break;*/
+    case Qt::Key_Escape :
+        ((PlayerScene*)scene())->switchMenu();
+        break;
+
     }
     event->accept();
 }

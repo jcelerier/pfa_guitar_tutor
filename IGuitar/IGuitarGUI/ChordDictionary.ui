@@ -18,7 +18,7 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>141</width>
+     <width>261</width>
      <height>21</height>
     </rect>
    </property>
@@ -41,7 +41,7 @@
     <bool>false</bool>
    </property>
    <property name="alignment">
-    <set>Qt::AlignCenter</set>
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
    </property>
   </widget>
   <widget class="QScrollArea" name="scrollArea">

@@ -29,6 +29,13 @@ PlayerScene::PlayerScene(QObject *parent) :
 PlayerScene::~PlayerScene()
 {
     delete m_dictionary;
+    delete m_itemMap["menuBtn"];
+    delete m_itemMap["transport"];
+    delete m_itemMap["dictionary"];
+    delete m_itemMap["songAlbumImg"];
+    delete m_itemMap["entireSong"];
+    delete m_itemMap["avancmt"];
+    delete m_itemMap["menu"];
 }
 
 /**
