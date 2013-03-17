@@ -37,6 +37,7 @@ Controler::Controler()
 	m_track = 0;
 	m_currentPart.clear();
 	m_timer = new QTimer(this);
+	m_paused = false;
 
 	connect(m_timer, SIGNAL(timeout()), this, SLOT(ticTac()));
 	m_configuration = new Configuration();
@@ -82,7 +83,7 @@ bool Controler::initSong()
 {
 	QString path = QFileDialog::getOpenFileName(0, tr("Loading"), ".", tr("XML Files (*.xml)"), 0, QFileDialog::HideNameFilterDetails);
 
-    if(path.isNull())
+	if(path.isNull())
 	{
 		return false;
 	}
@@ -135,7 +136,13 @@ void Controler::startSong()
 		m_scoreManager->setNextPart(m_currentPart);
 	}*/
 
-	//m_timer->start(1000/Configuration::framesPerSec);
+	if(m_paused)
+	{
+		qDebug() << "globalClock: " << elapsedTime();
+		m_scoreManager->goToInMs(m_savedClock);
+	}
+	m_paused = true;
+	m_timer->start(1000/Configuration::framesPerSec);
 }
 
 /**
@@ -143,10 +150,9 @@ void Controler::startSong()
  *
  * Suspend le player.
  */
-void Controler::stopSong()
+void Controler::pauseSong()
 {
 	qDebug() << "Controler::stopSong()";
-	m_timer->stop();
 
 	if (m_scoreManager != 0)
 	{
@@ -177,11 +183,13 @@ void Controler::switchPlaying()
 	{
         m_scoreManager->run();
         m_timer->start();
+		startSong();
 		m_playing=true;
 	}
 	else
 	{
-		stopSong();
+		pauseClock();
+		pauseSong();
 		m_playing=false;
 //		restartEngine(); // à remplacer par une fonction qui fait juste redémarrer le morceau
 	}
@@ -195,7 +203,10 @@ void Controler::switchPlaying()
  */
 void Controler::pauseClock()
 {
+	m_timer->stop();
+
     m_clockOffset += m_globalClock.elapsed();
+    m_savedClock = m_clockOffset;
 }
 
 /**

@@ -26,9 +26,10 @@ public:
 	int elapsedTime();
     void switchPlaying();
 	void pauseClock();
-    QList<PlayerChord>* getChordList();
+	QList<PlayerChord>* getChordList();
 	QList<PlayerChord> getChordList(LogicalTrack* trackName);
     LogicalTrack *getTrack();
+
 public slots:
 	void ticTac();
 	void restartEngine();
@@ -36,18 +37,18 @@ public slots:
 private:
 	bool initSong();
 	void startSong();
-	void stopSong();
+	void pauseSong();
 
 	ScoreManager* m_scoreManager;
 	MusicManager* m_musicManager;
 
-	bool m_playing;
+	bool m_playing, m_paused;
 	QWidget * parent;
-    QTimer *m_timer;
+	QTimer *m_timer;
 	PlayerScene *m_scene;
-    MyView *m_view;
+	MyView *m_view;
 
-    Configuration* m_configuration;
+	Configuration* m_configuration;
 
     LogicalTrack *m_track;
     QList<PlayerChord> m_chordList;
@@ -55,6 +56,7 @@ private:
 	std::string m_currentPart;
     QTime m_globalClock;
     int m_clockOffset;
+    int m_savedClock;
 
 };
 
