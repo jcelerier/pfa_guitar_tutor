@@ -53,8 +53,8 @@ void CaseItemDelegate::paintBar(QPainter *painter, const QRect& rect, CaseItem* 
 {
 	painter->save();
 	int itemCount;
-	int chordPerBar = ((GridEditor*) ((ChordTableWidget*) parent())->parent())->getBarSize();// = (((ChordTableWidget*) parent())->parent())->getTrackProperties();//->getBarSize(); //coucou papy
-	qDebug() << "chordPerBar" << chordPerBar;
+//	int chordPerBar = ((GridEditor*) ((ChordTableWidget*) parent())->parent())->getBarSize();// = (((ChordTableWidget*) parent())->parent())->getTrackProperties();//->getBarSize(); //coucou papy
+
 	if(item->row() == 0)
 	{
 		itemCount = item->column();

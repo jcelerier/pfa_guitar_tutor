@@ -293,23 +293,29 @@ void ChordTableWidget::delete_selected_column() {
 
 	QList<QTableWidgetItem*> listItems = selectedItems();
 	//Suppression des doublons
-	for(int i=0; i<listItems.size(); i++) {
-		for(int j=i+1; j<listItems.size(); j++) {
-			if(listItems.value(i)->column() == listItems.value(j)->column()) {
+	for(int i=0; i<listItems.size(); i++)
+	{
+		for(int j=i+1; j<listItems.size(); j++)
+		{
+			if(listItems.value(i)->column() == listItems.value(j)->column())
+			{
 				listItems.removeAt(j);
 				j--;
 			}
 		}
 	}
 
-	if(listItems.count() == 1) {
+	if(listItems.count() == 1 && listItems.value(0)->column() != columnCount() - 1)
+	{
 		removeColumn(listItems.first()->column());
 	}
-	else if(listItems.count() > 1) {
+	else if(listItems.count() > 1)
+	{
 		QString listColumn;
 		listColumn.append(tr("Are you sure you want to delete columns "));
 
-		for(QList<QTableWidgetItem*>::Iterator i = listItems.begin(); i != listItems.end() ; i++) {
+		for(QList<QTableWidgetItem*>::Iterator i = listItems.begin(); i != listItems.end() ; i++)
+		{
 			listColumn.append(QString::number((**i).column()+1));
 			listColumn.append(", ");
 		}
@@ -317,10 +323,12 @@ void ChordTableWidget::delete_selected_column() {
 		listColumn.append("?");
 
 		int answer = QMessageBox::question(this, tr("Deleting columns"), listColumn, QMessageBox::Yes | QMessageBox::No);
-		if(answer == QMessageBox::Yes) {
-
-			for(QList<QTableWidgetItem*>::Iterator i = listItems.begin(); i != listItems.end() ; i++) {
-				if(columnCount() > 1) {
+		if(answer == QMessageBox::Yes)
+		{
+			for(QList<QTableWidgetItem*>::Iterator i = listItems.begin(); i != listItems.end() ; i++)
+			{
+				if(columnCount() > 1 && (**i).column() != columnCount() - 1)
+				{
 					removeColumn((**i).column());
 				}
 			}
@@ -562,6 +570,13 @@ void ChordTableWidget::setTimeInfo(const QTime beginning, const QTime bar, const
  */
 LogicalTrack* ChordTableWidget::getLogicalTrack()
 {
+	if(!((CaseItem*) this->item(0, 0))->isPartSet())
+	{
+		QMessageBox::critical(this, tr("Error"), tr("The first case must always have a part. To create a part, please refer to the help."));
+		QException ex;
+		ex.raise();
+	}
+
 	LogicalTrack* track = new LogicalTrack();
 	PartTrack* part = 0;
 	CaseItem* currentCase = 0;

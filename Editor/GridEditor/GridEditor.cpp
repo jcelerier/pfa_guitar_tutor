@@ -389,9 +389,16 @@ void GridEditor::toXML(QString filename)
 
 	if(validator->validate(filename, pos) != QValidator::Acceptable)
 		filename.append(".xml");
+	LogicalTrack* track = 0;
 
-	LogicalTrack* track = grid->getLogicalTrack();
-
+	try
+	{
+		track = grid->getLogicalTrack();
+	}
+	catch(QException& e)
+	{
+		return;
+	}
 	track->setTrackName(trackProperties->getTrack());
 	track->setArtist(trackProperties->getArtist());
 	track->setMesure(trackProperties->getBarSize());
