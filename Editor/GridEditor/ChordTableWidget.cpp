@@ -686,6 +686,7 @@ void ChordTableWidget::playFromHere()
  */
 void ChordTableWidget::isPlayingAt(QTime t)
 {
+	qDebug() << "On joue à " << t;
 	CaseItem* nextItem;
 
 	for(int i = 0; i< this->rowCount(); i++)
@@ -711,10 +712,12 @@ void ChordTableWidget::isPlayingAt(QTime t)
 						|| t <= nextItem->getBeginning()))
 			{
 				((CaseItem*) item(i, j))->play();
+				itemChanged_slot(item(i, j));
 
 				if(m_lastPlayedCase != 0 && m_lastPlayedCase != item(i, j))
 				{
-					m_lastPlayedCase->restoreColor();
+					m_lastPlayedCase->play(false);
+					itemChanged_slot(m_lastPlayedCase);
 				}
 
 				m_lastPlayedCase = (CaseItem*) item(i, j);
@@ -724,14 +727,25 @@ void ChordTableWidget::isPlayingAt(QTime t)
 	}
 }
 
-
+/**
+ * @brief ChordTableWidget::itemChanged_slot
+ * @param item Case dont on a changé le texte
+ *
+ * Méthode qui met la case dans un état bon ou mauvais.
+ */
 void ChordTableWidget::itemChanged_slot(QTableWidgetItem *item)
 {
+	qDebug() << "itemchanged_slot";
 	if(item->column() < columnCount() -1)
 	{
 		if(!BasicChord::isValidForPlayer(((CaseItem *)item)->get_chord()))
 		{
 			((CaseItem *)item)->setBadChordColor();
+		}
+		else if (((CaseItem *)item)->isBeingPlayed())
+		{
+			qDebug() << "\tisBeingPlayed";
+			((CaseItem *)item)->setPlayColor();
 		}
 		else
 		{
@@ -740,8 +754,14 @@ void ChordTableWidget::itemChanged_slot(QTableWidgetItem *item)
 	}
 }
 
+/**
+ * @brief ChordTableWidget::setBarSize
+ * @param t Nombre d'accords par mesure
+ *
+ * Cette méthode ne devrait pas exister. Mais faire un appel direct à la méthode getBarSize de TrackProperties
+ * qui est dans GridEditor fait une segfault pour des raisons obscures et mystérieuses que nous n'avons pu élucider.
+ */
 void ChordTableWidget::setBarSize(int t)
 {
-	qDebug() << "pouet";
 	m_barsize = t;
 }

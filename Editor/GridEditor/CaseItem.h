@@ -24,6 +24,7 @@ class CaseItem : public QTableWidgetItem
 	QTime m_beginningTimer;
 	bool m_timerManuallySet;
 	bool m_partEditable;
+	bool m_currentlyPlaying;
 
 	public:
 		CaseItem(const bool partEditable = true);
@@ -41,6 +42,8 @@ class CaseItem : public QTableWidgetItem
 		void setPart(QString);
 		void setBadChordColor();
 		void setBadTimeColor();
+		void setPlayColor();
+		bool isBeingPlayed();
 
 		void paintEvent(QPaintEvent* event);
 
@@ -51,7 +54,7 @@ class CaseItem : public QTableWidgetItem
 		bool isPartEditable();
 
 	public slots:
-		void play();
+		void play(bool value = true);
 		void restoreColor();
 };
 

@@ -15,6 +15,7 @@ CaseItem::CaseItem(const bool partEditable) :  QTableWidgetItem(), m_color(new Q
 
 	m_timerManuallySet = false;
 	m_partEditable = partEditable;
+	m_currentlyPlaying = false;
 
 	this->setBackgroundColor(m_color->toRgb());
 	this->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
@@ -182,11 +183,27 @@ bool CaseItem::isPartEditable()
  * @brief CaseItem::play
  *
  * Effectue les actions nécessaires lors de la lecture d'une case,
- * en l'occurence un passage en vert.
+ * Appelé depuis isPlayingAt
  */
-void CaseItem::play()
+void CaseItem::play(bool value)
+{
+	m_currentlyPlaying = value;
+}
+
+/**
+ * @brief CaseItem::setPlayColor
+ *
+ * Effectue les actions nécessaires lors de la lecture d'une case,
+ * Appelé depuis itemChanged_slot (qui est automatiquement appelé lorsqu'on appelle play depuis isPlayingAt)
+ */
+void CaseItem::setPlayColor()
 {
 	set_color(20, 250, 0);
+}
+
+bool CaseItem::isBeingPlayed()
+{
+	return m_currentlyPlaying;
 }
 
 /**
@@ -196,11 +213,11 @@ void CaseItem::play()
  */
 void CaseItem::restoreColor()
 {
-	if(isPartSet())
+	/*if(isPartSet())
 	{
 		set_color(220, 220, 255, 255);
 	}
-	else
+	else*/
 	{
 		set_color(255, 255, 255, 255);
 	}
