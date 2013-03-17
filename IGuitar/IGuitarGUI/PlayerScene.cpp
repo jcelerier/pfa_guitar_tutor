@@ -10,15 +10,15 @@
  */
 PlayerScene::PlayerScene(QObject *parent) :
 	QGraphicsScene(parent),
-	windowSize(Configuration::getWindowSize()),
-	playing(false)
+    m_windowSize(Configuration::getWindowSize()),
+    m_isPlaying(false)
 {
-	controler = (Controler*)parent;
+    m_controler = (Controler*)parent;
 	disposeScene();
 
 	resetNoteCheck();
 
-	dictionary = new ChordDictionary(controler->getChordList());
+    m_dictionary = new ChordDictionary(m_controler->getChordList());
 }
 
 /**
@@ -28,7 +28,7 @@ PlayerScene::PlayerScene(QObject *parent) :
  */
 PlayerScene::~PlayerScene()
 {
-	delete dictionary;
+    delete m_dictionary;
 }
 
 /**
@@ -48,73 +48,73 @@ void PlayerScene::disposeScene()
 
 	// Image de fond
 	QPixmap bgImg(":/images/bgwide.png");
-	itemMap["backgnd"] = addPixmap(bgImg);
-	((QGraphicsPixmapItem*) itemMap["backgnd"])->setTransformationMode(Qt::SmoothTransformation);
+    m_itemMap["backgnd"] = addPixmap(bgImg);
+    ((QGraphicsPixmapItem*) m_itemMap["backgnd"])->setTransformationMode(Qt::SmoothTransformation);
 
 	// Bouton de menu
 	QPixmap menuBtnImage(":/images/menu.png");
-	itemMap["menuBtn"] = new ButtonItem(menuBtnImage, itemMap["backgnd"]);
-	itemMap["menuBtn"]->setPos(820, 122); // Position absolue par rapport au background
-	itemMap["menuBtn"]->setToolTip(tr("Menu"));
-	connect((ButtonItem*)itemMap["menuBtn"], SIGNAL(pushed()), this, SLOT(switchMenu()));
+    m_itemMap["menuBtn"] = new ButtonItem(menuBtnImage, m_itemMap["backgnd"]);
+    m_itemMap["menuBtn"]->setPos(820, 122); // Position absolue par rapport au background
+    m_itemMap["menuBtn"]->setToolTip(tr("Menu"));
+    connect((ButtonItem*)m_itemMap["menuBtn"], SIGNAL(pushed()), this, SLOT(switchMenu()));
 
 	// Bouton de lecture/pause
 	QPixmap transportImage(":/images/transport.png");
-	itemMap["transport"] = new ButtonItem(transportImage, itemMap["backgnd"]);
-	itemMap["transport"]->setPos(40, 760); // Position absolue par rapport au background
-	itemMap["transport"]->setToolTip(tr("Play/Pause"));
-	connect((ButtonItem*)itemMap["transport"], SIGNAL(pushed()), this, SLOT(switchPlaying()));
+    m_itemMap["transport"] = new ButtonItem(transportImage, m_itemMap["backgnd"]);
+    m_itemMap["transport"]->setPos(40, 760); // Position absolue par rapport au background
+    m_itemMap["transport"]->setToolTip(tr("Play/Pause"));
+    connect((ButtonItem*)m_itemMap["transport"], SIGNAL(pushed()), this, SLOT(switchPlaying()));
 
 	// Titre de la chanson
-	itemMap["songTitle"] = addText("a", robotoFont);
-	itemMap["songTitle"]->setPos(200, 65);
-	((QGraphicsTextItem*)itemMap["songTitle"])->setTextWidth(520);
-	((QGraphicsTextItem*)itemMap["songTitle"])->setHtml("<p align=\"center\">"+controler->getTrack()->getTrackName()+"</p>");
+    m_itemMap["songTitle"] = addText("a", robotoFont);
+    m_itemMap["songTitle"]->setPos(200, 65);
+    ((QGraphicsTextItem*)m_itemMap["songTitle"])->setTextWidth(520);
+    ((QGraphicsTextItem*)m_itemMap["songTitle"])->setHtml("<p align=\"center\">"+m_controler->getTrack()->getTrackName()+"</p>");
 
 	// Artiste de la chanson
-	itemMap["songArtist"] = addText("a", robotoFont);
-	itemMap["songArtist"]->setPos(200, 115);
-	((QGraphicsTextItem*)itemMap["songArtist"])->setTextWidth(520);
-	((QGraphicsTextItem*)itemMap["songArtist"])->setHtml("<p align=\"center\">"+controler->getTrack()->getArtist()+"</p>");
+    m_itemMap["songArtist"] = addText("a", robotoFont);
+    m_itemMap["songArtist"]->setPos(200, 115);
+    ((QGraphicsTextItem*)m_itemMap["songArtist"])->setTextWidth(520);
+    ((QGraphicsTextItem*)m_itemMap["songArtist"])->setHtml("<p align=\"center\">"+m_controler->getTrack()->getArtist()+"</p>");
 
 	// Couverture d'album
 	QPixmap albumImage(":/images/noalbum.png");
-	itemMap["songAlbumImg"] = new QGraphicsPixmapItem(albumImage, itemMap["backgnd"]);
-	itemMap["songAlbumImg"]->setPos(58,63);
+    m_itemMap["songAlbumImg"] = new QGraphicsPixmapItem(albumImage, m_itemMap["backgnd"]);
+    m_itemMap["songAlbumImg"]->setPos(58,63);
 
 	// Chanson entière
-	itemMap["entireSong"] = new EntireSong(itemMap["backgnd"]);
+    m_itemMap["entireSong"] = new EntireSong(m_itemMap["backgnd"]);
 
 	// Barre avancement
 	QPixmap avancemntImage(":/images/barretemps.png");
-	itemMap["avancmt"] = new QGraphicsPixmapItem(avancemntImage, itemMap["backgnd"]);
-	itemMap["avancmt"]->setPos(200, 400); // Position absolue par rapport au background
+    m_itemMap["avancmt"] = new QGraphicsPixmapItem(avancemntImage, m_itemMap["backgnd"]);
+    m_itemMap["avancmt"]->setPos(200, 400); // Position absolue par rapport au background
 
 	// Accord joue a la guitare
 	QFont playedFont("Roboto", 200);
-	itemMap["chordPlayed"] = addText("0", playedFont);
-	((QGraphicsTextItem*)itemMap["chordPlayed"])->setDefaultTextColor(QColor(0, 161, 42));
-	itemMap["chordPlayed"]->setPos(1180, 380);
+    m_itemMap["chordPlayed"] = addText("0", playedFont);
+    ((QGraphicsTextItem*)m_itemMap["chordPlayed"])->setDefaultTextColor(QColor(0, 161, 42));
+    m_itemMap["chordPlayed"]->setPos(1180, 380);
 
 	// Menu
-	itemMap["menu"] = new MenuItem(itemMap["backgnd"]);
-	itemMap["menu"]->setVisible(false);
-	itemMap["menu"]->setPanelModality(QGraphicsItem::PanelModal);
+    m_itemMap["menu"] = new MenuItem(m_itemMap["backgnd"]);
+    m_itemMap["menu"]->setVisible(false);
+    m_itemMap["menu"]->setPanelModality(QGraphicsItem::PanelModal);
 
 	// Statistiques
-	itemMap["totalPlayed"] = addText("0", robotoFont);
-	itemMap["totalPlayed"]->setPos(1340, 120);
-	((QGraphicsTextItem*)itemMap["totalPlayed"])->setDefaultTextColor(QColor(255,255,225));
-	itemMap["totalValidated"] = addText("0", robotoFont);
-	itemMap["totalValidated"]->setPos(1340, 170);
-	((QGraphicsTextItem*)itemMap["totalValidated"])->setDefaultTextColor(QColor(255,255,255));
+    m_itemMap["totalPlayed"] = addText("0", robotoFont);
+    m_itemMap["totalPlayed"]->setPos(1340, 120);
+    ((QGraphicsTextItem*)m_itemMap["totalPlayed"])->setDefaultTextColor(QColor(255,255,225));
+    m_itemMap["totalValidated"] = addText("0", robotoFont);
+    m_itemMap["totalValidated"]->setPos(1340, 170);
+    ((QGraphicsTextItem*)m_itemMap["totalValidated"])->setDefaultTextColor(QColor(255,255,255));
 
 	// Dictionnaire d'accords
 	QPixmap dictionaryImage(":/images/dictionary.png");
-	itemMap["dictionary"] = new ButtonItem(dictionaryImage, itemMap["backgnd"]);
-	itemMap["dictionary"]->setPos(57, 650); // Position absolue par rapport au background
-	itemMap["dictionary"]->setToolTip(tr("Chord dictionary"));
-	connect((ButtonItem*)itemMap["dictionary"], SIGNAL(pushed()), this, SLOT(displayDictionary()));
+    m_itemMap["dictionary"] = new ButtonItem(dictionaryImage, m_itemMap["backgnd"]);
+    m_itemMap["dictionary"]->setPos(57, 650); // Position absolue par rapport au background
+    m_itemMap["dictionary"]->setToolTip(tr("Chord dictionary"));
+    connect((ButtonItem*)m_itemMap["dictionary"], SIGNAL(pushed()), this, SLOT(displayDictionary()));
 }
 
 /**
@@ -125,7 +125,7 @@ void PlayerScene::disposeScene()
  * Accesseur pour les différents éléments constitutifs de l'interface.
  */
 QGraphicsItem* PlayerScene::getItem(QString name) {
-	return itemMap[name];
+    return m_itemMap[name];
 }
 
 /**
@@ -147,12 +147,12 @@ void PlayerScene::mousePressEvent(QGraphicsSceneMouseEvent*e)
 void PlayerScene::switchPlaying()
 {
     static bool isFirstPlay = true;
-	playing = !playing;
-    controler->startClock();
-    if(playing && !isFirstPlay) {
+    m_isPlaying = !m_isPlaying;
+    m_controler->switchPlaying();
+    if(m_isPlaying && !isFirstPlay) {
         // Chanson entière
-        delete itemMap["entireSong"];
-        itemMap["entireSong"] = new EntireSong(itemMap["backgnd"]);
+        delete m_itemMap["entireSong"];
+        m_itemMap["entireSong"] = new EntireSong(m_itemMap["backgnd"]);
         updateStats(0, 0);
     }
     isFirstPlay = false;
@@ -165,7 +165,7 @@ void PlayerScene::switchPlaying()
  */
 void PlayerScene::switchMenu()
 {
-	itemMap["menu"]->setVisible(!itemMap["menu"]->isVisible());
+    m_itemMap["menu"]->setVisible(!m_itemMap["menu"]->isVisible());
 }
 
 /**
@@ -175,7 +175,7 @@ void PlayerScene::switchMenu()
  */
 void PlayerScene::updateScene()
 {
-	if(playing)
+    if(m_isPlaying)
 	{
 		/*QTransform textTrans;
 		textTrans.translate(-1,0);
@@ -191,18 +191,18 @@ void PlayerScene::updateScene()
  * Affiche l'accord joué par l'utilisateur sur l'interface et met à jour la durée de synchronisation.
  */
 void PlayerScene::setPlayedChord(QStringList playedChord) {
-	if(!((EntireSong*)itemMap["entireSong"])->getIsCurrentChordValidated() &&
-            playedChord.contains(((EntireSong*)itemMap["entireSong"])->getCurrentChord())) {
-		timeNoteSynchronized += (controler->elapsedTime() - lastTimeCheck);
-		if (((timeNoteSynchronized * 100.0)/currentNoteDuration) > 30 /*Adaptative*/) {
+    if(!((EntireSong*)m_itemMap["entireSong"])->getIsCurrentChordValidated() &&
+            playedChord.contains(((EntireSong*)m_itemMap["entireSong"])->getCurrentChord())) {
+        m_timeNoteSynchronized += (m_controler->elapsedTime() - m_lastTimeCheck);
+        if (((m_timeNoteSynchronized * 100.0)/m_currentNoteDuration) > 30 /*Adaptative*/) {
 			setCurrentChordValidated(true);
 		}
         //Affichage de la note attendue
-        ((QGraphicsTextItem*)itemMap["chordPlayed"])->setPlainText(playedChord.at(playedChord.indexOf(((EntireSong*)itemMap["entireSong"])->getCurrentChord())));
+        ((QGraphicsTextItem*)m_itemMap["chordPlayed"])->setPlainText(playedChord.at(playedChord.indexOf(((EntireSong*)m_itemMap["entireSong"])->getCurrentChord())));
 	}
     else //Affichage d'une note au hasard parmis les résultats possibles
-        ((QGraphicsTextItem*)itemMap["chordPlayed"])->setPlainText(playedChord.at(0));
-	lastTimeCheck = controler->elapsedTime();
+        ((QGraphicsTextItem*)m_itemMap["chordPlayed"])->setPlainText(playedChord.at(0));
+    m_lastTimeCheck = m_controler->elapsedTime();
 }
 
 /**
@@ -212,9 +212,8 @@ void PlayerScene::setPlayedChord(QStringList playedChord) {
  */
 void PlayerScene::resetNoteCheck()
 {
-	valideNote = false;
-	timeNoteSynchronized = 0;
-	currentNoteDuration = ((EntireSong*)itemMap["entireSong"])->getCurrentDuration();
+    m_timeNoteSynchronized = 0;
+    m_currentNoteDuration = ((EntireSong*)m_itemMap["entireSong"])->getCurrentDuration();
 }
 
 /**
@@ -225,7 +224,7 @@ void PlayerScene::resetNoteCheck()
  */
 void PlayerScene::setCurrentChordValidated(bool v)
 {
-	((EntireSong*)itemMap["entireSong"])->validateChord(v);
+    ((EntireSong*)m_itemMap["entireSong"])->validateChord(v);
 }
 
 /**
@@ -237,8 +236,8 @@ void PlayerScene::setCurrentChordValidated(bool v)
  */
 void PlayerScene::updateStats(int validated, int played)
 {
-	((QGraphicsTextItem*)itemMap["totalValidated"])->setPlainText(QString::number(validated));
-	((QGraphicsTextItem*)itemMap["totalPlayed"])->setPlainText(QString::number(played));
+    ((QGraphicsTextItem*)m_itemMap["totalValidated"])->setPlainText(QString::number(validated));
+    ((QGraphicsTextItem*)m_itemMap["totalPlayed"])->setPlainText(QString::number(played));
 }
 
 /**
@@ -248,5 +247,5 @@ void PlayerScene::updateStats(int validated, int played)
  */
 void PlayerScene::displayDictionary()
 {
-	dictionary->show();
+    m_dictionary->show();
 }

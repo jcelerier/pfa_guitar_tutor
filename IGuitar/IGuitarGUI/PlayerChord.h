@@ -14,10 +14,10 @@ public:
     void setFullSongItem(QGraphicsRectItem *r);
     void setScrollingChordItem(QGraphicsTextItem *r);
 private:
-    QString name;
-    int time;
-    QGraphicsRectItem* fullSongItem;
-    QGraphicsTextItem* scrollingChordItem;
+    QString m_name;
+    int m_time;
+    QGraphicsRectItem* m_fullSongItem;
+    QGraphicsTextItem* m_scrollingChordItem;
 
 };
 

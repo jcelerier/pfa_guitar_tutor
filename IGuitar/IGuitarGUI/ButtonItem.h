@@ -18,7 +18,7 @@ public:
 signals:
     void pushed();
 private:
-    QGraphicsPixmapItem* image;
+    QGraphicsPixmapItem* m_image;
 };
 
 #endif // MYITEM_H

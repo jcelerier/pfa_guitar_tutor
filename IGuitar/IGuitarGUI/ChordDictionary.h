@@ -21,7 +21,7 @@ public:
     void initChordDictionary(QList<PlayerChord>* chordList);
 private:
     Ui::ChordDictionary *ui;
-    int listSize;
+    int m_listSize;
 };
 
 #endif // CHORDDICTIONARY_H

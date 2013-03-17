@@ -44,9 +44,9 @@ class Configuration
 		QString m_audioOutput;
 
 		PaDeviceIndex m_inputIndex, m_outputIndex;
-		static int height;
-		static int width;
-		static float quotient;
+        static int m_height;
+        static int m_width;
+        static float m_quotient;
 
 
 };

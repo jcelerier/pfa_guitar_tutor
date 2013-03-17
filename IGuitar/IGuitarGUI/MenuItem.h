@@ -24,10 +24,10 @@ public slots:
     void closeGame();
     void loadSong();
 private:
-    int width;
-    int height;
-    QGraphicsRectItem * rect;
-    QMap <QString, QGraphicsItem*> menuMap;
+    int m_width;
+    int m_height;
+    QGraphicsRectItem * m_rect;
+    QMap <QString, QGraphicsItem*> m_menuMap;
 };
 
 #endif // MENUITEM_H

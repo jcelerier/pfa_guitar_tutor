@@ -20,18 +20,18 @@ public:
     int getTotalValidatedChords() const;
     bool getIsCurrentChordValidated() const;
 private:
-    QList<QGraphicsRectItem*> cList;
-    int currentChord;
-    int lastRefresh;
-    int totalPlayedChords;
-    int totalValidatedChords;
-    QGraphicsItemGroup* scrollingTextContainer;
-    QGraphicsTextItem* timeText;
+    QList<QGraphicsRectItem*> m_cList;
+    int m_currentChord;
+    int m_lastRefresh;
+    int m_totalPlayedChords;
+    int m_totalValidatedChords;
+    QGraphicsItemGroup* m_scrollingTextContainer;
+    QGraphicsTextItem* m_timeText;
 
-    float pixPerMsec;
+    float m_pixPerMsec;
 
-    Controler* controler;
-    bool isCurrentChordValidated;
+    Controler* m_controler;
+    bool m_isCurrentChordValidated;
     
 };
 

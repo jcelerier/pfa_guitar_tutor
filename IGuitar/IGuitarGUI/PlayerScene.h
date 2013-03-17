@@ -37,15 +37,14 @@ public slots:
     void displayDictionary();
 
 private:
-	QRect windowSize;
-	QMap <QString, QGraphicsItem*> itemMap;
-	bool playing;
-	bool valideNote;
-	int  timeNoteSynchronized;
-	int  lastTimeCheck;
-	int  currentNoteDuration;
-	Controler* controler;
-    ChordDictionary *dictionary;
+    QRect m_windowSize;
+    QMap <QString, QGraphicsItem*> m_itemMap;
+    bool m_isPlaying;
+    int  m_timeNoteSynchronized;
+    int  m_lastTimeCheck;
+    int  m_currentNoteDuration;
+    Controler* m_controler;
+    ChordDictionary *m_dictionary;
 	void disposeScene();
 
 };

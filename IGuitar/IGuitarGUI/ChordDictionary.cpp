@@ -47,7 +47,7 @@ void ChordDictionary::initChordDictionary(QList<PlayerChord>* chordList)
         chords << ite->getName();
     }
     chords.removeDuplicates();
-    listSize = chords.size();
+    m_listSize = chords.size();
 
     // Affichage des accords
     int numberOfLines = (chords.size()%CHORDS_PER_LINE == 0) ? chords.size()/CHORDS_PER_LINE : chords.size()/CHORDS_PER_LINE + 1;

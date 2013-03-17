@@ -163,16 +163,15 @@ void Controler::stopSong()
  */
 int Controler::elapsedTime()
 {
-	return clockOffset + globalClock.elapsed();
+    return m_clockOffset + m_globalClock.elapsed();
 }
 
 /**
- * @brief Controler::startClock
+ * @brief Controler::switchPlaying
  *
- * Démarre l'horloge. -- JM : le nom de la fonction correspond-il vraiment à ce qu'elle fait ?
- * On dirait plutôt la fonction qui gère l'alternance entre play / pause
+ * Alterne entre lecture et pause.
  */
-void Controler::startClock()
+void Controler::switchPlaying()
 {
 	if(!m_playing)
 	{
@@ -186,7 +185,7 @@ void Controler::startClock()
 		m_playing=false;
 //		restartEngine(); // à remplacer par une fonction qui fait juste redémarrer le morceau
 	}
-    globalClock.start();
+    m_globalClock.start();
 }
 
 /**
@@ -196,7 +195,7 @@ void Controler::startClock()
  */
 void Controler::pauseClock()
 {
-	clockOffset += globalClock.elapsed();
+    m_clockOffset += m_globalClock.elapsed();
 }
 
 /**
@@ -207,7 +206,7 @@ void Controler::pauseClock()
  */
 QList<PlayerChord> *Controler::getChordList()
 {
-	return &chordList;
+    return &m_chordList;
 }
 
 /**
@@ -262,7 +261,7 @@ QList<PlayerChord> Controler::getChordList(LogicalTrack* trackName)
 void Controler::restartEngine()
 {
 	m_timer->stop();
-	clockOffset = 0;
+    m_clockOffset = 0;
 
 	m_playing = false;
 
@@ -272,7 +271,7 @@ void Controler::restartEngine()
 		// note : ne pas appeler les méthodes de qApp (quit, exit...) car qApp->exec() n'est pas encore appelé
 	}
 
-	chordList = getChordList(m_track);
+    m_chordList = getChordList(m_track);
 
 	if (m_scene != 0) delete m_scene;
 	if (m_view != 0) delete m_view;

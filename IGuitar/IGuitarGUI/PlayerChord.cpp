@@ -8,7 +8,7 @@
  */
 QString PlayerChord::getName() const
 {
-    return name;
+    return m_name;
 }
 
 /**
@@ -19,7 +19,7 @@ QString PlayerChord::getName() const
  */
 int PlayerChord::getTime() const
 {
-    return time;
+    return m_time;
 }
 
 /**
@@ -29,7 +29,7 @@ int PlayerChord::getTime() const
  * Setter pour le nom de l'accord.
  */
 void PlayerChord::setName(const QString n) {
-    name = n;
+    m_name = n;
 }
 
 /**
@@ -39,7 +39,7 @@ void PlayerChord::setName(const QString n) {
  * Setter pour le temps de début de l'accord.
  */
 void PlayerChord::setTime(const int t) {
-    time = t;
+    m_time = t;
 }
 
 /**
@@ -50,7 +50,7 @@ void PlayerChord::setTime(const int t) {
  */
 QGraphicsRectItem *PlayerChord::getFullSongItem() const
 {
-    return fullSongItem;
+    return m_fullSongItem;
 }
 
 /**
@@ -61,7 +61,7 @@ QGraphicsRectItem *PlayerChord::getFullSongItem() const
  */
 void PlayerChord::setFullSongItem(QGraphicsRectItem* r)
 {
-    fullSongItem = r;
+    m_fullSongItem = r;
 }
 
 /**
@@ -72,6 +72,6 @@ void PlayerChord::setFullSongItem(QGraphicsRectItem* r)
  */
 void PlayerChord::setScrollingChordItem(QGraphicsTextItem* r)
 {
-    scrollingChordItem = r;
+    m_scrollingChordItem = r;
 }
 

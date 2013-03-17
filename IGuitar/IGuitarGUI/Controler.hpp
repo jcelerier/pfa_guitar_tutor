@@ -24,7 +24,7 @@ public:
 	~Controler();
 
 	int elapsedTime();
-	void startClock();
+    void switchPlaying();
 	void pauseClock();
     QList<PlayerChord>* getChordList();
 	QList<PlayerChord> getChordList(LogicalTrack* trackName);
@@ -50,11 +50,11 @@ private:
     Configuration* m_configuration;
 
     LogicalTrack *m_track;
-    QList<PlayerChord> chordList;
+    QList<PlayerChord> m_chordList;
 
 	std::string m_currentPart;
-	QTime globalClock;
-	int clockOffset;
+    QTime m_globalClock;
+    int m_clockOffset;
 
 };
 
