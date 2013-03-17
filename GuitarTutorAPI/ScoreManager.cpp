@@ -6,6 +6,7 @@
  */
 
 #include "ScoreManager.h"
+#include "GuitarTutor/Chord.h"
 
 #include <iostream>
 #include <fstream>
@@ -43,9 +44,9 @@ ScoreManager::~ScoreManager() {
 	delete m_musicManager;
 }
 
-std::string ScoreManager::getCurrentChord()
+QStringList ScoreManager::getCurrentChord()
 {
-	return (m_currentInputChord == "nc")?" ":m_currentInputChord;
+    return (m_currentInputChord.at(0) == "nc")? QStringList(" ") : m_currentInputChord;
 }
 
 bool ScoreManager::isCurrentChordValidated()
@@ -114,7 +115,7 @@ void ScoreManager::update()
 	/* Process */
 	chroma_compute(m_chordControl, buffer, INPUT_FRAMES_PER_BUFFER);
 
-	m_currentInputChord = chord_compute(m_chordControl);
+    m_currentInputChord = BasicChord::convertChordToStringList(chord_compute(m_chordControl));
 
 	// ci-dessous, la partie pour la validation qui permet de continuer ou non dans la partie suivante.
 	// à remettre quand ça fonctionnera.

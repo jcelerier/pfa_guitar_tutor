@@ -17,6 +17,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <QStringList>
 ///#include <Qt/qtest.h>
 
 
@@ -54,7 +55,7 @@ public:
 	ScoreManager(MusicManager*);
 	virtual ~ScoreManager();
 
-	std::string getCurrentChord();
+    QStringList getCurrentChord();
 
 	bool loadScore(LogicalTrack* trackName);
 
@@ -91,7 +92,7 @@ private:
 	Engines* m_iscoreEngine;
 	std::string m_currentNote;
 	unsigned int m_currentNoteId;
-	std::string m_currentInputChord;
+    QStringList m_currentInputChord;
 
 
 	bool m_isAScoreToRun;

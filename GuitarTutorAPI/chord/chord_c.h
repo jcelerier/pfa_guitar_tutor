@@ -12,8 +12,6 @@
 
 #define CHROMA_SIZE 36
 
-
-
 typedef
 struct chord_ctrl
 {
@@ -41,7 +39,7 @@ const char* chord_compute(chord_ctrl *c);
 /* Chord controler free */
 void chord_exit(chord_ctrl *c);
 
-const char* getChordName(int _chord);
+const char *getChordName(int _chord);
 
 
 #endif

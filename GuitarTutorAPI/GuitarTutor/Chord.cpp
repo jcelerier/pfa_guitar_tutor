@@ -67,7 +67,7 @@ bool BasicChord::isValid() const
  */
 bool BasicChord::isValidForPlayer(const QString &chord)
 {
-    QRegExp r("[A-G]#?m?");
+    QRegExp r("^[A-G][#b]?m?$");
     return (r.exactMatch(chord) || chord.isEmpty());
 }
 
@@ -206,4 +206,46 @@ const Enrichment& BasicChord::extractEnrichmentFromStr(QString const str_enr)
     Enrichment e(str_enr);
     Enrichment &e2 = e;
     return e2;
+}
+
+QStringList BasicChord::convertChordToStringList(const char* chord)
+{
+    QStringList result;
+    if(strcmp(chord, "C")==0 || strcmp(chord, "D")==0 || strcmp(chord, "F")==0 || strcmp(chord, "G")==0 ||
+            strcmp(chord, "A")==0)
+        result << chord;
+    else if(strcmp(chord, "C#") == 0)
+        result << "C#" << "Db";
+    else if(strcmp(chord, "D#") == 0)
+        result << "D#" << "Eb";
+    else if(strcmp(chord, "E") == 0)
+        result << "E" << "Fb";
+    else if(strcmp(chord, "F#") == 0)
+        result << "F#" << "Gb";
+    else if(strcmp(chord, "G#") == 0)
+        result << "G#" << "Ab";
+    else if(strcmp(chord, "A#") == 0)
+        result << "A#" << "Bb";
+    else if(strcmp(chord, "B") == 0)
+        result << "B" << "Cb";
+    else if(strcmp(chord, "Cm")==0 || strcmp(chord, "Dm")==0 || strcmp(chord, "Fm")==0 || strcmp(chord, "Gm")==0 ||
+            strcmp(chord, "Am")==0)
+        result << chord;
+    else if(strcmp(chord, "C#m") == 0)
+        result << "C#m" << "Dbm";
+    else if(strcmp(chord, "D#m") == 0)
+        result << "D#" << "Ebm";
+    else if(strcmp(chord, "Em") == 0)
+        result << "E" << "Fbm";
+    else if(strcmp(chord, "F#m") == 0)
+        result << "F#" << "Gbm";
+    else if(strcmp(chord, "G#m") == 0)
+        result << "G#m" << "Abm";
+    else if(strcmp(chord, "A#m") == 0)
+        result << "A#m" << "Bbm";
+    else if(strcmp(chord, "Bm") == 0)
+        result << "Bm" << "Cbm";
+    else
+        result << "";
+    return result;
 }

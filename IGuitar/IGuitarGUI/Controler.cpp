@@ -67,8 +67,8 @@ void Controler::ticTac()
 			m_scoreManager->setToNaturalNextPart();
 		}
 */
-		QString playedChord = QString(m_scoreManager->getCurrentChord().c_str());
-		m_scene->setPlayedChord(playedChord);
+        QStringList playedChord = m_scoreManager->getCurrentChord();
+        m_scene->setPlayedChord(playedChord);
 	}
 }
 

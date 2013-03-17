@@ -1,7 +1,7 @@
 #include "Enrichment.h"
 #include <QDebug>
 
-QStringList Enrichment::listOfEnrichmentString = QStringList() <<"M"<<"m"<<"+"<<"-"<<"sus2"<<"sus4"<<"b5"<<"6"<<"7"<<"9"<<"11"<<"13";
+QStringList Enrichment::listOfEnrichmentString = QStringList() <<""<<"m"/*<<"+"<<"-"<<"sus2"<<"sus4"<<"b5"<<"6"<<"7"<<"9"<<"11"<<"13"*/;
 
 /**
  * @brief Enrichment::Enrichment

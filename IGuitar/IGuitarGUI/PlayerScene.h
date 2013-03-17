@@ -31,7 +31,7 @@ signals:
 
 public slots:
 	void updateScene();
-	void setPlayedChord(QString);
+    void setPlayedChord(QStringList);
 	void switchPlaying();
 	void switchMenu();
     void displayDictionary();

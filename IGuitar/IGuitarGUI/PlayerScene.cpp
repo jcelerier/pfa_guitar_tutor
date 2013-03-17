@@ -182,15 +182,17 @@ void PlayerScene::updateScene()
  *
  * Affiche l'accord joué par l'utilisateur sur l'interface et met à jour la durée de synchronisation.
  */
-void PlayerScene::setPlayedChord(QString playedChord) {
-	((QGraphicsTextItem*)itemMap["chordPlayed"])->setPlainText(playedChord);
+void PlayerScene::setPlayedChord(QStringList playedChord) {
 	if(!((EntireSong*)itemMap["entireSong"])->getIsCurrentChordValidated() &&
-			playedChord == ((EntireSong*)itemMap["entireSong"])->getCurrentChord()) {
+            playedChord.contains(((EntireSong*)itemMap["entireSong"])->getCurrentChord())) {
 		timeNoteSynchronized += (controler->elapsedTime() - lastTimeCheck);
 		if (((timeNoteSynchronized * 100.0)/currentNoteDuration) > 30 /*Adaptative*/) {
 			setCurrentChordValidated(true);
 		}
+        ((QGraphicsTextItem*)itemMap["chordPlayed"])->setPlainText(playedChord.at(playedChord.indexOf(((EntireSong*)itemMap["entireSong"])->getCurrentChord())));
 	}
+    else
+        ((QGraphicsTextItem*)itemMap["chordPlayed"])->setPlainText(playedChord.at(0));
 	lastTimeCheck = controler->elapsedTime();
 }
 

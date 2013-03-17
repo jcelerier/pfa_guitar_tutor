@@ -138,7 +138,7 @@ int chroma_compute(chord_ctrl *c, double *samples, int sample_size)
  * @param c Accord à analyser
  * @return "NO_CHORD" en cas d'erreur, le nom de l'accord sinon
  */
-const char* chord_compute(chord_ctrl *c)
+const char *chord_compute(chord_ctrl *c)
 {
 	if (c->num_frames < ((double)c->frame/c->hop))
 	{
@@ -170,52 +170,52 @@ const char* getChordName(int _chord)
 	case 0:
 		return "C";
 	case 1:
-		return "C#";
+        return "C#";
 	case 2:
 		return "D";
 	case 3:
-		return "D#";
+        return "D#";
 	case 4:
-		return "E";
+        return "E";
 	case 5:
 		return "F";
 	case 6:
-		return "F#";
+        return "F#";
 	case 7:
 		return "G";
 	case 8:
-		return "G#";
+        return "G#";
 	case 9:
 		return "A";
 	case 10:
-		return "A#";
+        return "A#";
 	case 11:
-		return "B";
+        return "B";
 
 	case 100:
 		return "Cm";
 	case 101:
-		return "C#m";
+        return "C#m";
 	case 102:
-		return "Dm";
+        return "Dm";
 	case 103:
-		return "D#m";
+        return "D#m";
 	case 104:
-		return "Em";
+        return "Em";
 	case 105:
 		return "Fm";
 	case 106:
-		return "F#m";
+        return "F#m";
 	case 107:
 		return "Gm";
 	case 108:
-		return "G#m";
+        return "G#m";
 	case 109:
 		return "Am";
 	case 110:
-		return "A#m";
+        return "A#m";
 	case 111:
-		return "Bm";
+        return "Bm";
 	case 112:
 		return "nc";
 	}
