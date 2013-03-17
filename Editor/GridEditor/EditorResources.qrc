@@ -18,7 +18,7 @@
         <file alias="timer.png">icons/timer.png</file>
     </qresource>
     <qresource prefix="/help">
-        <file alias="help.html">data/help.html</file>
+        <file alias="help.html">data/help_editor.html</file>
         <file alias="design.css">data/design.css</file>
     </qresource>
     <qresource prefix="/help/img">

@@ -43,4 +43,9 @@
     <qresource prefix="/translations">
         <file>IGuitarGUI_fr.qm</file>
     </qresource>
+    <qresource prefix="/help">
+        <file alias="help.html">data/help_player.html</file>
+        <file alias="design.css">data/design.css</file>
+    </qresource>
+    <qresource prefix="/help/img"/>
 </RCC>

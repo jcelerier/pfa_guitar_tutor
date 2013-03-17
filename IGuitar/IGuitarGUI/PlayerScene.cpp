@@ -65,6 +65,13 @@ void PlayerScene::disposeScene()
     m_itemMap["transport"]->setToolTip(tr("Play/Pause"));
     connect((ButtonItem*)m_itemMap["transport"], SIGNAL(pushed()), this, SLOT(switchPlaying()));
 
+    // Dictionnaire d'accords
+    QPixmap dictionaryImage(":/images/dictionary.png");
+    m_itemMap["dictionary"] = new ButtonItem(dictionaryImage, m_itemMap["backgnd"]);
+    m_itemMap["dictionary"]->setPos(57, 650); // Position absolue par rapport au background
+    m_itemMap["dictionary"]->setToolTip(tr("Chord dictionary"));
+    connect((ButtonItem*)m_itemMap["dictionary"], SIGNAL(pushed()), this, SLOT(displayDictionary()));
+
 	// Titre de la chanson
     m_itemMap["songTitle"] = addText("a", robotoFont);
     m_itemMap["songTitle"]->setPos(200, 65);
@@ -108,13 +115,6 @@ void PlayerScene::disposeScene()
     m_itemMap["totalValidated"] = addText("0", robotoFont);
     m_itemMap["totalValidated"]->setPos(1340, 170);
     ((QGraphicsTextItem*)m_itemMap["totalValidated"])->setDefaultTextColor(QColor(255,255,255));
-
-	// Dictionnaire d'accords
-	QPixmap dictionaryImage(":/images/dictionary.png");
-    m_itemMap["dictionary"] = new ButtonItem(dictionaryImage, m_itemMap["backgnd"]);
-    m_itemMap["dictionary"]->setPos(57, 650); // Position absolue par rapport au background
-    m_itemMap["dictionary"]->setToolTip(tr("Chord dictionary"));
-    connect((ButtonItem*)m_itemMap["dictionary"], SIGNAL(pushed()), this, SLOT(displayDictionary()));
 }
 
 /**

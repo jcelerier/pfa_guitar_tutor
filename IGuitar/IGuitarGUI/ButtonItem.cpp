@@ -16,7 +16,6 @@ ButtonItem::ButtonItem(const QPixmap & pixmap, QGraphicsItem * parent):
 {
 	//setScale(Config::quotient);
 	setCursor(Qt::PointingHandCursor);
-	setToolTip("Je suis un item");
     m_image = new QGraphicsPixmapItem(pixmap, this);
     ((QGraphicsPixmapItem*) m_image)->setTransformationMode(Qt::SmoothTransformation);
 }

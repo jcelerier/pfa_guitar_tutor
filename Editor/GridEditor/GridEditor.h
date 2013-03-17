@@ -63,6 +63,7 @@ int m_barsize;
 	bool isPanelSet;
 
 	QString filename;
+    HelpWindow *helpWindow;
 
 public:
 	GridEditor();

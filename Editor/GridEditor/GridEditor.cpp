@@ -17,6 +17,7 @@ GridEditor::GridEditor(): trackProperties(new TrackProperties(this))
 	isPanelSet = false;
 	editorPanel = 0;
 	grid = 0;
+    helpWindow = 0;
 
 	//trackProperties = new TrackProperties(this);
 	audioWindow = new AudioWindow(this);
@@ -67,6 +68,10 @@ GridEditor::~GridEditor() {
 	delete layout;
 	delete centralArea;
 	delete statusInfo; delete status;
+    if(helpWindow != 0) {
+        delete helpWindow;
+        helpWindow = 0;
+    }
 }
 
 //---------------------------------------------------
@@ -544,7 +549,9 @@ void GridEditor::save()
  */
 void GridEditor::help()
 {
-	HelpWindow *helpWindow = new HelpWindow(this);
+    if(helpWindow != 0)
+        delete helpWindow;
+    helpWindow = new HelpWindow(this);
 	helpWindow->exec();
 }
 
