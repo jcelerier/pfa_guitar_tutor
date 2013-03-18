@@ -27,6 +27,7 @@ bool TrackLoader::convertLogicalTrackToXml(LogicalTrack* currentTrack, QString f
     root.setAttribute("bar", currentTrack->getBar());
     root.setAttribute("beginning", currentTrack->getBeginning());
     root.setAttribute("end", currentTrack->getEnd());
+    root.setAttribute("timePerMesure", currentTrack->getTimePerMesure());
 
     //ajout des parties
     QList<PartTrack*> partList = currentTrack->getPartTrackList();
@@ -100,40 +101,46 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
     QDomElement root = dom->documentElement();
 
     // Inscription des datas dans la structure de piste LogicalTrack
-	QString n, a, f, m, line, column;//Pour stocker les information du morceaux : n = nom, a = artiste, f = fichier, m = nbr mesures
+    QString n, a, f, m, line, column, bar, beginning, end, tmp;//Pour stocker les information du morceaux : n = nom, a = artiste, f = fichier, m = nbr mesures
+
     if(root.isNull()) { //Si le l'arborescence xml est vide
         delete currentTrack;
         qCritical("Pas d'information xml");
         return false;
     }
 
-//    //Si des informations sur le morceau sont absentes.
-//    if (((n = root.attribute("nom", 0)) == 0) ||
-//        ((a = root.attribute("artiste", 0)) == 0) ||
-//        ((f = root.attribute("fichier", 0)) == 0) ||
-//        ((line = root.attribute("line", 0)) == 0) ||
-//        ((column = root.attribute("column", 0)) == 0) ||
-//        ((m = root.attribute("casesMesure", 0)) == 0))
-//    {
-//        delete currentTrack;
-//        qCritical("Informations sur le morceau incompletes.");
-//        return false;
-//    }
-
-    //Si des informations sur le morceau sont absentes.
+    //Chargement sans vérification des noeuds.
     n = root.attribute("nom", 0);
     a = root.attribute("artiste", 0);
     f = root.attribute("fichier", 0);
     line = root.attribute("line", 0);
     column = root.attribute("column", 0);
     m = root.attribute("casesMesure", 0);
+    bar = root.attribute("bar", 0);
+    beginning = root.attribute("beginning", 0);
+    end = root.attribute("end", 0);
+    tmp =root.attribute("timePerMesure", 0);
 
     currentTrack->setTrackName(n);
     currentTrack->setArtist(a);
     currentTrack->setAudioFileName(f);
 	currentTrack->setLine(line.toInt());
 	currentTrack->setColumn(column.toInt());
+    currentTrack->setBars(bar.toInt(), beginning.toInt(), end.toInt());
+    currentTrack->setTimePerMesure(tmp.toInt());
 
+    //    //Chargement du morceau avec vérification des noeuds.
+    //    if (((n = root.attribute("nom", 0)) == 0) ||
+    //        ((a = root.attribute("artiste", 0)) == 0) ||
+    //        ((f = root.attribute("fichier", 0)) == 0) ||
+    //        ((line = root.attribute("line", 0)) == 0) ||
+    //        ((column = root.attribute("column", 0)) == 0) ||
+    //        ((m = root.attribute("casesMesure", 0)) == 0))
+    //    {
+    //        delete currentTrack;
+    //        qCritical("Informations sur le morceau incompletes.");
+    //        return false;
+    //    }
     if(m.toInt() <= 0){ // nbr de mesures incorrect(negatif ou nul)
         delete currentTrack;
         qCritical("Nbr de mesures incorrect");

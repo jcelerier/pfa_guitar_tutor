@@ -40,7 +40,7 @@ public:
     void activeButtons(bool active);
 
     void setBarTimer(const QTime);
-    void setBegginingTimer(const QTime);
+    void setBeginningTimer(const QTime);
     void setEndTimer(const QTime);
     int getBeginning();
     int getBar();

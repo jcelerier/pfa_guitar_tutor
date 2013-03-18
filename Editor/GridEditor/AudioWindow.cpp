@@ -118,7 +118,7 @@ void AudioWindow::refreshTimerAudioSync(int i)
 {
 	switch(i) {
 	case TIMER_BEGINNING:
-		audioSync->setBegginingTimer(player->getCurrentPosition());
+        audioSync->setBeginningTimer(player->getCurrentPosition());
 		break;
 	case TIMER_END:
 		audioSync->setEndTimer(player->getCurrentPosition());
@@ -163,6 +163,39 @@ void AudioWindow::playFrom(int t)
 {
 	player->play();
 	player->changePosition( t);
+}
+
+/**
+ * Entrée : Nombre de millisecondes correspondant à la position de la bar dans l'éditeur.
+ *
+ * Modifie la valeur de bar dans audioSync.
+ */
+void AudioWindow::setBar(const int bar){
+    QTime t(0, 0);
+    t = t.addMSecs(bar);
+    return audioSync->setBarTimer(t);
+}
+
+/**
+ * Entrée : Nombre de millisecondes correspondant à la position du beginning dans l'éditeur.
+ *
+ * Modifie la valeur de beginning dans audioSync
+ */
+void AudioWindow::setBeginning(const int begin){
+    QTime t(0, 0);
+    t = t.addMSecs(begin);
+    return audioSync->setBeginningTimer(t);
+}
+
+/**
+ * Entrée : Nombre de millisecondes correspondant à la position de end dans l'éditeur.
+ *
+ * Modifie la valeur de end dans audioSync
+ */
+void AudioWindow::setEnd(const int end){
+    QTime t(0, 0);
+    t = t.addMSecs(end);
+    return audioSync->setEndTimer(t);
 }
 
 /**

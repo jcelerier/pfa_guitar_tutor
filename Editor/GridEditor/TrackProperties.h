@@ -22,7 +22,7 @@ class TrackProperties : public QDialog
 		QString getTrack();
 		QString getComment();
 		int getBarSize();
-		unsigned int getTimeSignature();
+        int getTimeSignature();
 
 
 		void setArtist(QString artist);

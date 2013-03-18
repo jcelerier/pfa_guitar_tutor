@@ -138,7 +138,7 @@ void AudioSync::activeButtons(bool active)
  *
  * Appelé principalement lors de la pression du petit bouton à la droite du TimeEdit
  */
-void AudioSync::setBegginingTimer(const QTime t)
+void AudioSync::setBeginningTimer(const QTime t)
 {
 	beginning->setTime(t);
 }
@@ -355,27 +355,27 @@ void AudioSync::setTimeSignature(int t)
 
 int AudioSync::getBar(){
 	QTime t = bar->time();
-	int ms = t.hour()*60*60*100;//conversion d'une heure en ms
-	ms += t.minute()*60*100;
-	ms += t.second()*100;
+    int ms = t.hour()*60*60*1000;//conversion d'une heure en ms
+    ms += t.minute()*60*1000;
+    ms += t.second()*1000;
 	ms += t.msec();
 	return ms;
 }
 
 int AudioSync::getBeginning(){
-	QTime t = beginning->time();
-	int ms = t.hour()*60*60*100;//conversion d'une heure en ms
-	ms += t.minute()*60*100;
-	ms += t.second()*100;
+    QTime t = beginning->time();
+    int ms = t.hour()*60*60*1000;//conversion d'une heure en ms
+    ms += t.minute()*60*1000;
+    ms += t.second()*1000;
 	ms += t.msec();
 	return ms;
 }
 
 int AudioSync::getEnd(){
 	QTime t = end->time();
-	int ms = t.hour()*60*60*100;//conversion d'une heure en ms
-	ms += t.minute()*60*100;
-	ms += t.second()*100;
+    int ms = t.hour()*60*60*1000;//conversion d'une heure en ms
+    ms += t.minute()*60*1000;
+    ms += t.second()*1000;
 	ms += t.msec();
 	return ms;
 }

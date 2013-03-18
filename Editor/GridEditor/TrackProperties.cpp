@@ -64,9 +64,9 @@ int TrackProperties::getBarSize()
  * @brief TrackProperties::getTimeSignature
  * @return Nombre de temps par mesure (généralement 3 ou 4)
  */
-unsigned int TrackProperties::getTimeSignature()
+int TrackProperties::getTimeSignature()
 {
-	return ui->t_timeSignature->value();
+    return ui->t_timeSignature->value();
 }
 
 /**
