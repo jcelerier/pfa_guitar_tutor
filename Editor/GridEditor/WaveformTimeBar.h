@@ -3,7 +3,7 @@
 
 #include <QtWidgets>
 #include "WaveformTimeSlider.h"
-#include "Util.hpp"
+#include <Util.hpp>
 
 enum PrecisionLevel { SAMPLE, MILLISECOND, SECOND, MINUTE } ;
 class WaveformTimeBar : public QWidget

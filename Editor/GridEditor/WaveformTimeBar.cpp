@@ -37,7 +37,6 @@ WaveformTimeBar::WaveformTimeBar(const QTime& song_end, QWidget *parent) :
 	layout->addWidget(container);
 	this->setLayout(layout);
 
-	qDebug() << "begin_time : " << begin_slider->getTime() << bar_slider->getTime() << end_slider->getTime();
 }
 
 WaveformTimeBar::~WaveformTimeBar()
@@ -196,7 +195,6 @@ void WaveformTimeBar::drawSlider(WaveformTimeSlider* slider)
 
 void WaveformTimeBar::drawTimeSliders()
 {
-	qDebug() << "begin_time : " << begin_slider->getTime() << bar_slider->getTime() << end_slider->getTime();
 	drawSlider(begin_slider);
 	drawSlider(bar_slider);
 	drawSlider(end_slider);

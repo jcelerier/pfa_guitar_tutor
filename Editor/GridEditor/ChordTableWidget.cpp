@@ -14,7 +14,7 @@ Last change on 08/05/12
 #include "PartSetter.h"
 
 #include <Track/LogicalTrack.h>
-#include "Util.hpp"
+#include <Util.hpp>
 #include "GridEditor.h"
 
 /**

@@ -21,7 +21,6 @@ SOURCES += \
 	Waveform.cpp \
 	EditorPanel.cpp \
 	HelpWindow.cpp \
-	Util.cpp \
 	ZoomButtons.cpp \
 	TimeEdit.cpp \
 	Main.cpp \
@@ -46,7 +45,6 @@ HEADERS += \
 	Waveform.h \
 	EditorPanel.h \
 	HelpWindow.h \
-	Util.hpp \
 	ZoomButtons.h \
 	TimeEdit.h \
 	TempoEdit.h \
