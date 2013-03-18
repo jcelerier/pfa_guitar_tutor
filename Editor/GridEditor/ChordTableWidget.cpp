@@ -557,6 +557,7 @@ void ChordTableWidget::setTimeInfo(const QTime beginning, const QTime bar, const
 				((CaseItem*) item(r,c))->setBeginning(caseTime);
 		}
 	}
+	QMessageBox::information(this, tr("Ok"), tr("The time has been set up correctly"));
 	checkBeginningTimes();
 }
 
