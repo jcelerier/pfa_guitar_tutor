@@ -278,7 +278,7 @@ void Controler::restartEngine()
 
 	if(!initSong())
 	{
-		exit(0);
+        exit(0);
 		// note : ne pas appeler les méthodes de qApp (quit, exit...) car qApp->exec() n'est pas encore appelé
 	}
 

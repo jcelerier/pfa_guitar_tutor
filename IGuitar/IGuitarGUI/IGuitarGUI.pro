@@ -1,6 +1,6 @@
 TEMPLATE = app
 TARGET = IGuitarGUI
-DESTDIR = ../../app/
+DESTDIR = ../app/
 DEPENDPATH += .
 
 QT += xml core gui testlib widgets webkit webkitwidgets

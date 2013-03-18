@@ -14,11 +14,13 @@ PlayerScene::PlayerScene(QObject *parent) :
     m_isPlaying(false)
 {
     m_controler = (Controler*)parent;
+
 	disposeScene();
 
 	resetNoteCheck();
 
-    m_dictionary = new ChordDictionary(m_controler->getChordList());
+    //m_dictionary = new ChordDictionary(m_controler->getChordList());
+
 }
 
 /**
@@ -254,5 +256,5 @@ void PlayerScene::updateStats(int validated, int played)
  */
 void PlayerScene::displayDictionary()
 {
-    m_dictionary->show();
+    //m_dictionary->show();
 }
