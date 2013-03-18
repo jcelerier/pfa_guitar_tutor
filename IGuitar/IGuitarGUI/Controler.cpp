@@ -54,7 +54,7 @@ Controler::Controler()
 void Controler::ticTac()
 {
 
-	if(m_playing)
+    if(m_playing)
 	{
 		m_scene->updateScene();
 
@@ -69,8 +69,8 @@ void Controler::ticTac()
 			m_scoreManager->setToNaturalNextPart();
 		}
 */
-		QStringList playedChord = m_scoreManager->getCurrentChord();
-		m_scene->setPlayedChord(playedChord);
+        QStringList playedChord = m_scoreManager->getCurrentChord();
+        m_scene->setPlayedChord(playedChord);
 	}
 }
 
@@ -154,6 +154,8 @@ void Controler::startSong()
  */
 void Controler::pauseSong()
 {
+	qDebug() << "Controler::stopSong()";
+
 	if (m_scoreManager != 0)
 	{
 		m_currentPart = m_scoreManager->getCurrentPart();
@@ -169,7 +171,7 @@ void Controler::pauseSong()
  */
 int Controler::elapsedTime()
 {
-	return m_clockOffset + m_globalClock.elapsed();
+    return m_clockOffset + m_globalClock.elapsed();
 }
 
 /**
@@ -181,8 +183,8 @@ void Controler::switchPlaying()
 {
 	if(!m_playing)
 	{
-		m_scoreManager->run();
-		m_timer->start();
+        m_scoreManager->run();
+        m_timer->start();
 		startSong();
 		m_playing=true;
 	}
@@ -193,7 +195,7 @@ void Controler::switchPlaying()
 		m_playing=false;
 //		restartEngine(); // à remplacer par une fonction qui fait juste redémarrer le morceau
 	}
-	m_globalClock.start();
+    m_globalClock.start();
 }
 
 /**
@@ -205,8 +207,8 @@ void Controler::pauseClock()
 {
 	m_timer->stop();
 
-	m_clockOffset += m_globalClock.elapsed();
-	m_savedClock = m_clockOffset;
+    m_clockOffset += m_globalClock.elapsed();
+    m_savedClock = m_clockOffset;
 }
 
 /**
@@ -217,7 +219,7 @@ void Controler::pauseClock()
  */
 QList<PlayerChord> *Controler::getChordList()
 {
-	return &m_chordList;
+    return &m_chordList;
 }
 
 /**
@@ -273,7 +275,7 @@ QList<PlayerChord> Controler::getChordList(LogicalTrack* trackName)
 void Controler::restartEngine()
 {
 	m_timer->stop();
-	m_clockOffset = 0;
+    m_clockOffset = 0;
 
 	m_playing = false;
 
@@ -283,7 +285,7 @@ void Controler::restartEngine()
 		// note : ne pas appeler les méthodes de qApp (quit, exit...) car qApp->exec() n'est pas encore appelé
 	}
 
-	m_chordList = getChordList(m_track);
+    m_chordList = getChordList(m_track);
 
 	if (m_scene != 0) delete m_scene;
 	if (m_view != 0) delete m_view;

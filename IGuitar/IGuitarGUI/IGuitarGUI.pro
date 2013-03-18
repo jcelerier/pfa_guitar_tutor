@@ -1,6 +1,6 @@
 TEMPLATE = app
 TARGET = IGuitarGUI
-DESTDIR = ../app/
+DESTDIR = ../../app/
 DEPENDPATH += .
 
 QT += xml core gui testlib widgets webkit webkitwidgets
@@ -23,28 +23,28 @@ HEADERS += \
 	Configuration.h \
 	PlayerScene.h \
 	Controler.hpp \
-    PlayerChord.h \
-    MyView.h \
-    MenuItem.h \
-    EntireSong.h \
-    ButtonItem.h \
-    ChordDictionary.h \
-    HelpWindow.h
+	PlayerChord.h \
+	MyView.h \
+	MenuItem.h \
+	EntireSong.h \
+	ButtonItem.h \
+	ChordDictionary.h \
+	HelpWindow.h
 
 SOURCES += main.cpp \
 	Configuration.cpp \
 	PlayerScene.cpp \
 	Controler.cpp \
-    EntireSong.cpp \
-    MenuItem.cpp \
-    MyView.cpp \
-    PlayerChord.cpp \
-    ButtonItem.cpp \
-    ChordDictionary.cpp \
-    HelpWindow.cpp
+	EntireSong.cpp \
+	MenuItem.cpp \
+	MyView.cpp \
+	PlayerChord.cpp \
+	ButtonItem.cpp \
+	ChordDictionary.cpp \
+	HelpWindow.cpp
 
 FORMS += \
-    ChordDictionary.ui
+	ChordDictionary.ui
 
 
 unix:!symbian|win32: LIBS += -L$$PWD/../../libiguitar/ -lIGuitar
@@ -99,4 +99,4 @@ TRANSLATIONS = IGuitarGUI_fr.ts
 #macx: QMAKE_POST_LINK += mv IGuitarGUI.app ../../app/
 
 RESOURCES += \
-    PlayerResources.qrc
+	PlayerResources.qrc
