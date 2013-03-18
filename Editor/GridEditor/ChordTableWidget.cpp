@@ -14,7 +14,7 @@ Last change on 08/05/12
 #include "PartSetter.h"
 
 #include <Track/LogicalTrack.h>
-#include "Util.hpp"
+#include <Util.hpp>
 #include "GridEditor.h"
 
 /**
@@ -548,7 +548,7 @@ void ChordTableWidget::setTimeInfo(const QTime beginning, const QTime bar, const
 				warningShown = true;
 			}
 			QTime caseTime = MsecToTime((TimeToMsec(beginning) + TimeToMsec(bar) * (r * (cmax - 1) + c)) / m_barsize);
-			qDebug() << caseTime << TimeToMsec(beginning) + TimeToMsec(bar) * (r * (cmax - 1) + c) << m_barsize;
+
 			if(caseTime>end) {
 				QMessageBox::warning(this, tr("Error with timers"), tr("There are too many cells for the end timer you entered."));
 				return;
@@ -557,6 +557,7 @@ void ChordTableWidget::setTimeInfo(const QTime beginning, const QTime bar, const
 				((CaseItem*) item(r,c))->setBeginning(caseTime);
 		}
 	}
+	QMessageBox::information(this, tr("Ok"), tr("The time has been set up correctly"));
 	checkBeginningTimes();
 }
 
@@ -655,7 +656,6 @@ void ChordTableWidget::setLogicalTrack(LogicalTrack* track)
 		{
 			//for(int repetitions = 0; repetitions < (*iChord)->getRepetition(); repetitions++)
 			{
-				qDebug() << "accord: " << (*iChord)->getChord();
 				// on stocke le nom de l'accord
 				if((*iChord)->getChord() != "n")
 					currentCase->set_chord((*iChord)->getChord());
@@ -700,7 +700,6 @@ void ChordTableWidget::playFromHere()
  */
 void ChordTableWidget::isPlayingAt(QTime t)
 {
-	qDebug() << "On joue à " << t;
 	CaseItem* nextItem;
 
 	for(int i = 0; i< this->rowCount(); i++)
@@ -749,7 +748,6 @@ void ChordTableWidget::isPlayingAt(QTime t)
  */
 void ChordTableWidget::itemChanged_slot(QTableWidgetItem *item)
 {
-	qDebug() << "itemchanged_slot";
 	if(item->column() < columnCount() -1)
 	{
 		if(!BasicChord::isValidForPlayer(((CaseItem *)item)->get_chord()))
@@ -758,7 +756,6 @@ void ChordTableWidget::itemChanged_slot(QTableWidgetItem *item)
 		}
 		else if (((CaseItem *)item)->isBeingPlayed())
 		{
-			qDebug() << "\tisBeingPlayed";
 			((CaseItem *)item)->setPlayColor();
 		}
 		else

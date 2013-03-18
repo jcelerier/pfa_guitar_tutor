@@ -1,6 +1,6 @@
 #include "SimpleMusicPlayer.h"
 #include "AudioWindow.h"
-#include "Util.hpp"
+#include <Util.hpp>
 #include <QtWidgets/QMessageBox>
 #include <QDebug>
 

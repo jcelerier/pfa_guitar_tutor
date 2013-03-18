@@ -2,7 +2,7 @@
 #include <QDebug>
 
 TimeEdit::TimeEdit(QWidget *parent) :
-	QTimeEdit(parent)
+	QTimeEdit(QTime(0, 0, 0, 0), parent)
 {
 	badStyle = "QTimeEdit { background-color:#ffDDDD;color:#000000 }";
 

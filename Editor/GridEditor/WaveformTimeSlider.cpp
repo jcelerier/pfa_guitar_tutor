@@ -1,5 +1,5 @@
 #include "WaveformTimeSlider.h"
-#include "Util.hpp"
+#include <Util.hpp>
 #include <QDebug>
 
 WaveformTimeSlider::WaveformTimeSlider(QString imagepath, int type, QWidget *parent):

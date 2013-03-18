@@ -79,6 +79,7 @@ void AudioWindow::setAudioFile()
 	audioFile->setEnabled(true);
 	audioFile->setText(player->getSong());
 	audioSync->activeButtons(true);
+	waveformTimeBar->activate();
 }
 
 /**
@@ -103,6 +104,7 @@ void AudioWindow::resetAudioFile()
 	audioFile->setText("");
 	audioFile->setEnabled(false);
 	audioSync->activeButtons(false);
+	waveformTimeBar->deactivate();
 }
 
 /**
@@ -167,19 +169,19 @@ void AudioWindow::playFrom(int t)
  * Retourne la valeur de la bar entrée par l'utilisateur
  */
 int AudioWindow::getBar(){
-    return audioSync->getBar();
+	return audioSync->getBar();
 }
 
 /**
  * Retourne la valeur de la bar entrée par l'utilisateur
  */
 int AudioWindow::getBeginning(){
-    return audioSync->getBeginning();
+	return audioSync->getBeginning();
 }
 
 /**
  * Retourne la valeur de la bar entrée par l'utilisateur
  */
 int AudioWindow::getEnd(){
-    return audioSync->getEnd();
+	return audioSync->getEnd();
 }

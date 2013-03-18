@@ -2,7 +2,7 @@
 
 TEMPLATE = app
 TARGET = GridEditor
-DESTDIR = ../app/
+DESTDIR = ../../app/
 DEPENDPATH += .
 CONFIG += rtti
 
@@ -21,7 +21,6 @@ SOURCES += \
 	Waveform.cpp \
 	EditorPanel.cpp \
 	HelpWindow.cpp \
-	Util.cpp \
 	ZoomButtons.cpp \
 	TimeEdit.cpp \
 	Main.cpp \
@@ -46,7 +45,6 @@ HEADERS += \
 	Waveform.h \
 	EditorPanel.h \
 	HelpWindow.h \
-	Util.hpp \
 	ZoomButtons.h \
 	TimeEdit.h \
 	TempoEdit.h \
@@ -62,8 +60,8 @@ QT += core \
 	  xml \
 	  webkit \
 	  webkitwidgets \
-	  testlib \
-	  widgets
+	  widgets \
+#     testlib #désactiver pour ne pas avoir la console qui s'affiche
 
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../libiguitar/ -lIGuitar

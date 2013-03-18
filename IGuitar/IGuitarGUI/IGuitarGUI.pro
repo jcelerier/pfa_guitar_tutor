@@ -3,7 +3,7 @@ TARGET = IGuitarGUI
 DESTDIR = ../../app/
 DEPENDPATH += .
 
-QT += xml core gui testlib widgets webkit webkitwidgets multimedia
+QT += xml core gui widgets webkit webkitwidgets multimedia
 
 win32 {
 DEPENDPATH += . \
@@ -98,5 +98,5 @@ TRANSLATIONS = IGuitarGUI_fr.ts
 #win32: QMAKE_POST_LINK += mv IGuitarGUI.exe ../../app/
 #macx: QMAKE_POST_LINK += mv IGuitarGUI.app ../../app/
 
-RESOURCES += \
+RESOURCES +=  \
 	PlayerResources.qrc
