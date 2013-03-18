@@ -40,7 +40,6 @@
         <file alias="Fdm.png">chordsImg/Fdm.png</file>
         <file alias="Gd.png">chordsImg/Gd.png</file>
         <file alias="Gdm.png">chordsImg/Gdm.png</file>
-        <file alias="Roboto.ttf">fonts/Roboto.ttf</file>
     </qresource>
     <qresource prefix="/translations">
         <file>IGuitarGUI_fr.qm</file>
@@ -50,4 +49,7 @@
         <file alias="design.css">data/design.css</file>
     </qresource>
     <qresource prefix="/help/img"/>
+    <qresource prefix="/fonts">
+        <file alias="Roboto.ttf">fonts/Roboto.ttf</file>
+    </qresource>
 </RCC>
