@@ -418,9 +418,7 @@ void GridEditor::toXML(QString filename)
 	track->setLine(grid->rowCount());
 	track->setColumn(grid->columnCount() - 1);
 	track->setAudioFileName(audioWindow->getFilename()); //vérifier si chemin absolu
-    qDebug() << "Voila les valeurs des bars : " << audioWindow->getBar() << audioWindow->getBeginning() << audioWindow->getEnd();
 	track->setBars(audioWindow->getBar(), audioWindow->getBeginning(), audioWindow->getEnd());
-    track->setTimePerMesure(trackProperties->getTimeSignature());
 
 
 	TrackLoader::convertLogicalTrackToXml(track, filename);

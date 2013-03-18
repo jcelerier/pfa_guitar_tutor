@@ -28,7 +28,9 @@ bool TrackLoader::convertLogicalTrackToXml(LogicalTrack* currentTrack, QString f
     root.setAttribute("beginning", currentTrack->getBeginning());
     root.setAttribute("end", currentTrack->getEnd());
     root.setAttribute("timePerMesure", currentTrack->getTimePerMesure());
+    root.setAttribute("comment", currentTrack->getComment());
 
+    qDebug() << "Voila le comment : " << currentTrack->getComment();
     //ajout des parties
     QList<PartTrack*> partList = currentTrack->getPartTrackList();
 	QList<PartTrack*>::const_iterator iPart;
@@ -101,7 +103,7 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
     QDomElement root = dom->documentElement();
 
     // Inscription des datas dans la structure de piste LogicalTrack
-    QString n, a, f, m, line, column, bar, beginning, end, tmp;//Pour stocker les information du morceaux : n = nom, a = artiste, f = fichier, m = nbr mesures
+    QString n, a, f, m, line, column, bar, beginning, end, tmp, com;//Pour stocker les information du morceaux : n = nom, a = artiste, f = fichier, m = nbr mesures
 
     if(root.isNull()) { //Si le l'arborescence xml est vide
         delete currentTrack;
@@ -119,11 +121,13 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
     bar = root.attribute("bar", 0);
     beginning = root.attribute("beginning", 0);
     end = root.attribute("end", 0);
-    tmp =root.attribute("timePerMesure", 0);
+    tmp = root.attribute("timePerMesure", 0);
+    com = root.attribute("comment", 0);
 
     currentTrack->setTrackName(n);
     currentTrack->setArtist(a);
     currentTrack->setAudioFileName(f);
+    currentTrack->setComment(com);
 	currentTrack->setLine(line.toInt());
 	currentTrack->setColumn(column.toInt());
     currentTrack->setBars(bar.toInt(), beginning.toInt(), end.toInt());
