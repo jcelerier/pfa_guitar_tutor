@@ -17,8 +17,8 @@ GridEditor::GridEditor(): trackProperties(new TrackProperties(this))
 	isPanelSet = false;
 	editorPanel = 0;
 	grid = 0;
-    helpWindow = 0;
-
+	helpWindow = 0;
+	statePacket = 0;
 	//trackProperties = new TrackProperties(this);
 	audioWindow = new AudioWindow(this);
 
@@ -52,8 +52,10 @@ GridEditor::GridEditor(): trackProperties(new TrackProperties(this))
 GridEditor::~GridEditor() {
 	delete openAction; delete saveAction; delete addRowAction; delete copyDownAction; delete deleteRowAction; delete saveAsAction;
 	delete quitAction; delete aboutAction; delete newAction;  delete openAudioWindowAction;
-	delete openTrackPropertiesAction; delete addColumnAction; delete deleteColumnAction; delete helpAction; //peut être faire un dictionnaire d'actions qu'on puisse appeler par leur nom.
+	delete openTrackPropertiesAction; delete addColumnAction; delete deleteColumnAction; delete helpAction;
+	//peut être faire un dictionnaire d'actions qu'on puisse appeler par leur nom.
 	//ex. : actions["new"];
+	delete undoAction; delete redoAction;
 	delete fileMenu; delete editMenu;  delete aboutMenu;
 	delete toolBar;
 	delete settings;
@@ -68,10 +70,10 @@ GridEditor::~GridEditor() {
 	delete layout;
 	delete centralArea;
 	delete statusInfo; delete status;
-    if(helpWindow != 0) {
-        delete helpWindow;
-        helpWindow = 0;
-    }
+	if(helpWindow != 0) {
+		delete helpWindow;
+		helpWindow = 0;
+	}
 }
 
 //---------------------------------------------------
@@ -110,6 +112,9 @@ void GridEditor::createActions(){
 	openTrackPropertiesAction = new QAction(tr("Properties"), this);
 	helpAction = new QAction(tr("&Help"), this);
 
+	undoAction = new QAction(tr("&Undo"), this);
+	redoAction = new QAction(tr("&Redo"), this);
+
 	quitAction->setIcon(QIcon(":/icons/quit.png"));
 	aboutAction->setIcon(QIcon(":/icons/about.png"));
 	newAction->setIcon(QIcon(":/icons/new.png"));
@@ -144,13 +149,17 @@ void GridEditor::createActions(){
  *
  * Ajoute les actions au menu.
  */
-void GridEditor::setActionsToMenu() {
+void GridEditor::setActionsToMenu()
+{
 	fileMenu->addAction(newAction);
 	fileMenu->addAction(openAction);
 	fileMenu->addAction(saveAction);
 	fileMenu->addAction(saveAsAction);
 	fileMenu->addSeparator();
 	fileMenu->addAction(quitAction);
+	editMenu->addAction(undoAction);
+	editMenu->addAction(redoAction);
+	editMenu->addSeparator();
 	editMenu->addAction(addRowAction);
 	editMenu->addAction(deleteRowAction);
 	editMenu->addAction(addColumnAction);
@@ -277,6 +286,9 @@ void GridEditor::connectActionToSlot()
 	connect(openTrackPropertiesAction, SIGNAL(triggered()), trackProperties, SLOT(exec()));
 	connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
 	connect(helpAction, SIGNAL(triggered()), this, SLOT(help()));
+
+	connect(undoAction, SIGNAL(triggered()), this, SLOT(saveState()));
+	connect(redoAction, SIGNAL(triggered()), this, SLOT(restoreState()));
 
 	connect(this, SIGNAL(play(int)), audioWindow, SLOT(playFrom(int)));
 }
@@ -556,15 +568,23 @@ void GridEditor::save()
  */
 void GridEditor::help()
 {
-    if(helpWindow != 0)
-        delete helpWindow;
-    helpWindow = new HelpWindow(this);
+	if(helpWindow != 0)
+		delete helpWindow;
+	helpWindow = new HelpWindow(this);
 	helpWindow->exec();
 }
 
-
-int GridEditor::getBarSize()
+void GridEditor::saveState()
 {
-	// pour une raison obscure, chie. return m_barsize;
-	return m_barsize;
+	if(statePacket != 0) delete statePacket;
+	statePacket = new StatePacket(grid,
+								  MsecToTime(audioWindow->getBeginning()), MsecToTime(audioWindow->getBar()), MsecToTime(audioWindow->getEnd()),
+								  trackProperties->getArtist(), trackProperties->getTrack(),
+								  trackProperties->getBarSize(),(int) trackProperties->getTimeSignature());
+}
+
+void GridEditor::restoreState()
+{
+	createGrid(statePacket->grid->rowCount(), statePacket->grid->columnCount());
+	statePacket->grid->deepCopy(grid);
 }

@@ -58,6 +58,8 @@ public:
 	LogicalTrack* getLogicalTrack();
 	void setLogicalTrack(LogicalTrack* track);
 
+	void deepCopy(ChordTableWidget* target);
+
 private:
 	QList<int> expand_list(QList<QList<int>*> list);
 

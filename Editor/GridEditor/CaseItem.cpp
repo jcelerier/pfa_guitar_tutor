@@ -30,7 +30,9 @@ CaseItem::CaseItem(const bool partEditable) :  QTableWidgetItem(), m_color(new Q
  */
 CaseItem::CaseItem(const QTableWidgetItem& item) : QTableWidgetItem(item), m_color(new QColor(item.background().color()))
 {
-	this->text() = item.text();
+	this->text() = ((CaseItem) item).text();
+	this->m_part = ((CaseItem) item).m_part;
+	this->m_beginningTimer = ((CaseItem) item).m_beginningTimer;
 }
 
 CaseItem::~CaseItem()

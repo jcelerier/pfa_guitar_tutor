@@ -2,7 +2,7 @@
 
 TEMPLATE = app
 TARGET = GridEditor
-DESTDIR = ../../app/
+DESTDIR = ../app/
 DEPENDPATH += .
 CONFIG += rtti
 
@@ -28,7 +28,8 @@ SOURCES += \
 	TempoEdit.cpp \
 	WaveformTimeBar.cpp \
 	WaveformTimeSlider.cpp \
-	CaseItemDelegate.cpp
+	CaseItemDelegate.cpp \
+	StatePacket.cpp
 
 HEADERS += \
 	CaseItem.h \
@@ -51,7 +52,8 @@ HEADERS += \
 	TempoEdit.h \
 	WaveformTimeBar.h \
 	WaveformTimeSlider.h \
-	CaseItemDelegate.h
+	CaseItemDelegate.h \
+	StatePacket.h
 
 TRANSLATIONS = GridEditor_fr.ts
 

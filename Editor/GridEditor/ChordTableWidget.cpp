@@ -80,6 +80,20 @@ ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent) : QTabl
 	setItemDelegate(m_caseItemDelegate);
 }
 
+void ChordTableWidget::deepCopy(ChordTableWidget* target)
+{
+	target->setRowCount(rowCount());
+	target->setColumnCount(columnCount());
+
+	for(int i = 0; i < rowCount(); ++i)
+	{
+		for(int j = 0; j < columnCount(); ++j)
+		{
+			target->setItem(i, j, new CaseItem(this->item(i, j)));
+		}
+	}
+}
+
 ChordTableWidget::~ChordTableWidget()
 {
 

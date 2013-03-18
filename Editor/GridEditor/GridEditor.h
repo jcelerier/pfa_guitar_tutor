@@ -25,6 +25,7 @@
 #include "NewGridDialog.h"
 #include "Track/TrackLoader.h"
 #include "EditorPanel.h"
+#include "StatePacket.h"
 #include "HelpWindow.h"
 
 /**
@@ -32,75 +33,80 @@
  */
 class GridEditor : public QMainWindow
 {
-	Q_OBJECT
-friend class EditionSelector;
+		Q_OBJECT
+		friend class EditionSelector;
 
-int m_barsize;
-	QSettings* settings;
+		int m_barsize;
+		QSettings* settings;
 
-	AudioWindow* audioWindow;
-	NewGridDialog* newGridDialog;
+		AudioWindow* audioWindow;
+		NewGridDialog* newGridDialog;
 
-	QWidget* centralArea;
-	QGridLayout* layout;
-	ChordTableWidget* grid;
-	ChordTree* chordTree;
+		QWidget* centralArea;
+		QGridLayout* layout;
+		ChordTableWidget* grid;
+		ChordTree* chordTree;
 
-	QMenu *fileMenu, *editMenu, *aboutMenu;
+		QMenu *fileMenu, *editMenu, *aboutMenu;
 
-	QToolBar *toolBar;
-	QAction *quitAction, *aboutAction, *newAction, *saveAction, *helpAction,
-			*openAction, *addRowAction, *deleteRowAction, *saveAsAction,
-			*copyDownAction, *addColumnAction,
-			*deleteColumnAction, *openAudioWindowAction, *openTrackPropertiesAction;
-	EditionSelector *editionSelector;
-	EditorPanel *editorPanel;
+		QToolBar *toolBar;
+		QAction *quitAction, *aboutAction, *newAction, *saveAction, *helpAction,
+		*openAction, *addRowAction, *deleteRowAction, *saveAsAction,
+		*copyDownAction, *addColumnAction,
+		*deleteColumnAction, *openAudioWindowAction, *openTrackPropertiesAction,
+		*undoAction, *redoAction;
+		EditionSelector *editionSelector;
+		EditorPanel *editorPanel;
 
-	QStatusBar* status;
-	QLabel* statusInfo;
+		QStatusBar* status;
+		QLabel* statusInfo;
 
-	bool isPanelSet;
+		bool isPanelSet;
 
-	QString filename;
-    HelpWindow *helpWindow;
+		QString filename;
+		HelpWindow *helpWindow;
+		TrackProperties* trackProperties;
 
-public:
-	GridEditor();
-	~GridEditor();
-	QString statusText();
-	void startGrid(int);
-	void createGrid(int columns, int rows);
+		StatePacket *statePacket;
 
-	int getBarSize();
+	public:
+		GridEditor();
+		~GridEditor();
+		QString statusText();
+		void startGrid(int);
+		void createGrid(int columns, int rows);
 
-	TrackProperties* trackProperties;
 
-private:
-	void createMenu();
-	void createActions();
-	void setActionsToMenu();
-	void createToolbar();
-	void createCentralWidget();
-	void connectActionToSlot();
-	bool saveBeforeQuit();
 
-signals:
-	void sendTimeToChordWidget(QTime, QTime, QTime);
-	void play(int);
-	void propsChanged();
-	void sigTimeData(QTime);
+	private:
+		void createMenu();
+		void createActions();
+		void setActionsToMenu();
+		void createToolbar();
+		void createCentralWidget();
+		void connectActionToSlot();
+		bool saveBeforeQuit();
 
-public slots:
-	void barsizeChanged(int);
-	void changeState();
-	void firstNewGrid();
-	void newGrid();
-	void save();
-	void toXML(QString filename = "");
-	void fromXML();
-	void about();
-	void setStatusText();
-	void help();
+	signals:
+		void sendTimeToChordWidget(QTime, QTime, QTime);
+		void play(int);
+		void propsChanged();
+		void sigTimeData(QTime);
+
+	public slots:
+		void barsizeChanged(int);
+		void changeState();
+		void firstNewGrid();
+		void newGrid();
+		void save();
+		void toXML(QString filename = "");
+		void fromXML();
+		void about();
+		void setStatusText();
+		void help();
+
+		void saveState();
+		void restoreState();
 };
 
 #endif // GRIDEDITOR_H
