@@ -44,6 +44,7 @@ public:
 	int getBar();
 	int getEnd();
 	int getTimePerMesure();
+	int getBPM();
 
 	void addPartTrackToList(PartTrack* newPartTrack);
 	QString getPartName(int n);
