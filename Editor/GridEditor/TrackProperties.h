@@ -20,12 +20,14 @@ class TrackProperties : public QDialog
 		~TrackProperties();
 		QString getArtist();
 		QString getTrack();
+		QString getComment();
 		int getBarSize();
 		unsigned int getTimeSignature();
 
 
 		void setArtist(QString artist);
 		void setTrack(QString track);
+		void setComment(QString comment);
 		void setBarSize(unsigned int barsize);
 		void setTimeSignature(int time);
 		void setTimePerMesure();

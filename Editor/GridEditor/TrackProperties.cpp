@@ -39,7 +39,7 @@ void TrackProperties::accept()
  */
 QString TrackProperties::getArtist()
 {
-	return m_artist;
+	return ui->t_artist->text();
 }
 
 /**
@@ -48,7 +48,7 @@ QString TrackProperties::getArtist()
  */
 QString TrackProperties::getTrack()
 {
-	return m_trackname;
+	return ui->t_trackname->text();
 }
 
 /**
@@ -57,7 +57,7 @@ QString TrackProperties::getTrack()
  */
 int TrackProperties::getBarSize()
 {
-	return m_barsize;
+	return ui->t_barsize->value();
 }
 
 /**
@@ -66,7 +66,25 @@ int TrackProperties::getBarSize()
  */
 unsigned int TrackProperties::getTimeSignature()
 {
-	return m_timeSignature;
+	return ui->t_timeSignature->value();
+}
+
+/**
+ * @brief TrackProperties::getComment
+ * @return Commentaire sur le morceau
+ */
+QString TrackProperties::getComment()
+{
+	return ui->t_comment->text();
+}
+
+/** @brief TrackProperties::setComment
+*
+* Définit le commentaire
+*/
+void TrackProperties::setComment(QString t)
+{
+   ui->t_comment->setText(t);
 }
 
 /**

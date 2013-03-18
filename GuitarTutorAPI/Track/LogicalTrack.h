@@ -8,53 +8,56 @@ class LogicalTrack {
 
 public:
 
-    LogicalTrack();
-    LogicalTrack(QString newTrackName, QString newArtist, QString newAudoFileName, int newMesure, QList<PartTrack*> newList);
-    LogicalTrack(QString newTrackName, QString newArtist, QString newAudoFileName, int newMesure, QList<PartTrack*> newList, int newBar, int newEnd, int newBeginning);
-                 //, int newTimePerMesure);
+	LogicalTrack();
+	LogicalTrack(QString newTrackName, QString newArtist, QString newAudoFileName, int newMesure, QList<PartTrack*> newList);
+	LogicalTrack(QString newTrackName, QString newArtist, QString newAudoFileName, int newMesure, QList<PartTrack*> newList, int newBar, int newEnd, int newBeginning);
+				 //, int newTimePerMesure);
 
-    ~LogicalTrack();
+	~LogicalTrack();
 
-    void setTrackName(QString newTrackName);
-    QString getTrackName();
+	void setTrackName(QString newTrackName);
+	QString getTrackName();
 
-    void setArtist(QString newArtist);
-    QString getArtist();
+	void setArtist(QString newArtist);
+	QString getArtist();
 
-    void setAudioFileName(QString newAudioFileName);
-    QString getAudioFileName();
+	void setComment(QString comment);
+	QString getComment();
 
-    QList<PartTrack *> &getPartTrackList();
+	void setAudioFileName(QString newAudioFileName);
+	QString getAudioFileName();
 
-    void setMesure(int nb);
-    void setBars(int nBar, int nBeginning, int nEnd);
-    void setTimePerMesure(int nTPM);
+	QList<PartTrack *> &getPartTrackList();
 
-    int getMesure();
+	void setMesure(int nb);
+	void setBars(int nBar, int nBeginning, int nEnd);
+	void setTimePerMesure(int nTPM);
+
+	int getMesure();
 
 	void setLine(int);
 	void setColumn(int);
 
 	int getLine();
 	int getColumn();
-    int getBeginning();
-    int getBar();
-    int getEnd();
-    int getTimePerMesure();
+	int getBeginning();
+	int getBar();
+	int getEnd();
+	int getTimePerMesure();
 
-    void addPartTrackToList(PartTrack* newPartTrack);
-    QString getPartName(int n);
+	void addPartTrackToList(PartTrack* newPartTrack);
+	QString getPartName(int n);
 private:
-
-    QString trackName;
-    QString artist;
-    QString audioFileName;
-    int mesure;
+	QString comment;
+	QString trackName;
+	QString artist;
+	QString audioFileName;
+	int mesure;
 	int line, column;
-    int beginning, bar, end;
-    int timePerMesure;
+	int beginning, bar, end;
+	int timePerMesure;
 
-    QList<PartTrack*> listPartTrack;
+	QList<PartTrack*> listPartTrack;
 
 };
 
