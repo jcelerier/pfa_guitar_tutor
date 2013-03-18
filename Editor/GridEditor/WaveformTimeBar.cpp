@@ -7,6 +7,7 @@
 WaveformTimeBar::WaveformTimeBar(const QTime& song_end, QWidget *parent) :
 	QWidget(parent), begin(QTime(0, 0)), end(song_end)
 {
+	activated = false;
 	this->parent = parent;
 	begin_slider = new WaveformTimeSlider(":/icons/arrow_beg.png", TIMER_BEGINNING, this);
 	bar_slider = new WaveformTimeSlider(":/icons/arrow_bar.png", TIMER_BAR, this);
@@ -35,6 +36,8 @@ WaveformTimeBar::WaveformTimeBar(const QTime& song_end, QWidget *parent) :
 	container = new QLabel(" ");
 	layout->addWidget(container);
 	this->setLayout(layout);
+
+	qDebug() << "begin_time : " << begin_slider->getTime() << bar_slider->getTime() << end_slider->getTime();
 }
 
 WaveformTimeBar::~WaveformTimeBar()
@@ -51,7 +54,8 @@ WaveformTimeBar::~WaveformTimeBar()
 void WaveformTimeBar::draw()
 {
 	//drawText();
-	drawTimeSliders();
+	if(activated)
+		drawTimeSliders();
 }
 
 //**** inutilisé ****//
@@ -192,6 +196,7 @@ void WaveformTimeBar::drawSlider(WaveformTimeSlider* slider)
 
 void WaveformTimeBar::drawTimeSliders()
 {
+	qDebug() << "begin_time : " << begin_slider->getTime() << bar_slider->getTime() << end_slider->getTime();
 	drawSlider(begin_slider);
 	drawSlider(bar_slider);
 	drawSlider(end_slider);
@@ -287,4 +292,15 @@ void WaveformTimeBar::setPlayerTimer(QTime t)
 {
 	play_slider->setTime(QTimeToSample(t));
 	update();
+}
+
+
+void WaveformTimeBar::activate()
+{
+	activated = true;
+}
+
+void WaveformTimeBar::deactivate()
+{
+	activated = false;
 }

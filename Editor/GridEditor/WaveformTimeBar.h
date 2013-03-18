@@ -37,11 +37,15 @@ class WaveformTimeBar : public QWidget
 		void update();
 		void setTimer(int type, QTime t);
 		void setPlayerTimer(QTime t);
+		void activate();
+		void deactivate();
 
 	protected:
 		void paintEvent(QPaintEvent *event);
 
 	private:
+		bool activated;
+
 		WaveformTimeSlider* begin_slider, *bar_slider, *end_slider, *play_slider;
 		WaveformTimeSlider* clickedSlider;
 		QWidget* parent;
