@@ -4,6 +4,7 @@
 #include <QGraphicsScene>
 #include <QtWidgets>
 #include <QMap>
+#include <QSoundEffect>
 #include "ButtonItem.h"
 #include "MenuItem.h"
 #include "EntireSong.h"
@@ -36,18 +37,24 @@ public slots:
 	void switchPlaying();
 	void switchMenu();
     void displayDictionary();
-
+    void playCountdown();
 private:
     QRect m_windowSize;
-    QMap <QString, QGraphicsItem*> m_itemMap;
+    bool m_cntdownOver;
+    int m_cntdown;
     bool m_isPlaying;
+    QTimer* m_cntTimer;
+    QMap <QString, QGraphicsItem*> m_itemMap;
+    QSoundEffect* m_cntClick;
+    QSoundEffect* m_cntClickUp;
+
     int  m_timeNoteSynchronized;
     int  m_lastTimeCheck;
     int  m_currentNoteDuration;
     Controler* m_controler;
     ChordDictionary *m_dictionary;
 	void disposeScene();
-    void playCountdown();
+
 };
 
 #endif // MYSCENE_H

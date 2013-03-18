@@ -3,7 +3,7 @@ TARGET = IGuitarGUI
 DESTDIR = ../../app/
 DEPENDPATH += .
 
-QT += xml core gui testlib widgets webkit webkitwidgets
+QT += xml core gui testlib widgets webkit webkitwidgets multimedia
 
 win32 {
 DEPENDPATH += . \

@@ -36,7 +36,7 @@ Controler::Controler()
 	m_musicManager = 0;
 	m_track = 0;
 	m_currentPart.clear();
-	m_timer = new QTimer(this);
+    m_timer = new QTimer(this);
 	m_paused = false;
 
 	connect(m_timer, SIGNAL(timeout()), this, SLOT(ticTac()));
