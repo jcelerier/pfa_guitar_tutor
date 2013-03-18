@@ -31,13 +31,10 @@ PlayerScene::PlayerScene(QObject *parent) :
 PlayerScene::~PlayerScene()
 {
     delete m_dictionary;
-    delete m_itemMap["menuBtn"];
-    delete m_itemMap["transport"];
-    delete m_itemMap["dictionary"];
-    delete m_itemMap["songAlbumImg"];
-    delete m_itemMap["entireSong"];
-    delete m_itemMap["avancmt"];
-    delete m_itemMap["menu"];
+
+    QString key;
+    foreach(key, m_itemMap.keys())
+        delete m_itemMap[key];
 }
 
 /**
@@ -107,11 +104,10 @@ void PlayerScene::disposeScene()
     m_itemMap["avancmt"]->setPos(200, 400); // Position absolue par rapport au background
 
 	// Accord joue a la guitare
-
     QFont playedFont("Roboto", 150);
     m_itemMap["chordPlayed"] = addText("0", playedFont);
     ((QGraphicsTextItem*)m_itemMap["chordPlayed"])->setDefaultTextColor(QColor(0, 161, 42));
-    m_itemMap["chordPlayed"]->setPos(1150, 380);
+    m_itemMap["chordPlayed"]->setPos(1110, 380);
 
 	// Menu
     m_itemMap["menu"] = new MenuItem(m_itemMap["backgnd"]);
@@ -127,6 +123,11 @@ void PlayerScene::disposeScene()
     m_itemMap["totalValidated"] = addText("0", robotoFont);
     m_itemMap["totalValidated"]->setPos(1340, 170);
     ((QGraphicsTextItem*)m_itemMap["totalValidated"])->setDefaultTextColor(QColor(255,255,255));
+
+    m_itemMap["countDown"] = new QGraphicsTextItem("", m_itemMap["backgnd"]);
+    ((QGraphicsTextItem*)m_itemMap["countDown"])->setFont(playedFont);
+    ((QGraphicsTextItem*)m_itemMap["countDown"])->setPos(Configuration::originalWidth/2, Configuration::originalHeight/2);
+    ((QGraphicsTextItem*)m_itemMap["countDown"])->setDefaultTextColor(Qt::black);
 }
 
 /**
@@ -160,6 +161,8 @@ void PlayerScene::switchPlaying()
 {
     static bool isFirstPlay = true;
     m_isPlaying = !m_isPlaying;
+    if(m_isPlaying)
+        playCountdown();
     m_controler->switchPlaying();
     if(m_isPlaying && !isFirstPlay) {
         // Chanson entière
@@ -202,19 +205,24 @@ void PlayerScene::updateScene()
  *
  * Affiche l'accord joué par l'utilisateur sur l'interface et met à jour la durée de synchronisation.
  */
-void PlayerScene::setPlayedChord(QStringList playedChord) {
+void PlayerScene::setPlayedChord(QStringList playedChordList) {
+    QString playedChord;
+
     if(!((EntireSong*)m_itemMap["entireSong"])->getIsCurrentChordValidated() &&
-            playedChord.contains(((EntireSong*)m_itemMap["entireSong"])->getCurrentChord())) {
+            playedChordList.contains(((EntireSong*)m_itemMap["entireSong"])->getCurrentChord())) {
+
         m_timeNoteSynchronized += (m_controler->elapsedTime() - m_lastTimeCheck);
         if (((m_timeNoteSynchronized * 100.0)/m_currentNoteDuration) > 30 /*Adaptative*/) {
 			setCurrentChordValidated(true);
 		}
         //Affichage de la note attendue
         //((QGraphicsTextItem*)itemMap["chordPlayed"])->setHtml(playedChord[0]+"<sub>"+playedChord.mid(1)+"</sub>");
-        ((QGraphicsTextItem*)m_itemMap["chordPlayed"])->setPlainText(playedChord.at(playedChord.indexOf(((EntireSong*)m_itemMap["entireSong"])->getCurrentChord())));
+        playedChord = playedChordList.at(playedChordList.indexOf(((EntireSong*)m_itemMap["entireSong"])->getCurrentChord()));
 	}
     else //Affichage d'une note au hasard parmis les résultats possibles
-        ((QGraphicsTextItem*)m_itemMap["chordPlayed"])->setPlainText(playedChord.at(0));
+        playedChord = playedChordList.at(0);
+
+    ((QGraphicsTextItem*)m_itemMap["chordPlayed"])->setHtml(playedChord[0]+"<sub>"+playedChord.mid(1)+"</sub>");
     m_lastTimeCheck = m_controler->elapsedTime();
 }
 
@@ -267,3 +275,15 @@ Controler* PlayerScene::getControler() {
     return m_controler;
 }
 
+void PlayerScene::playCountdown() {
+    QMutex dummy;
+    dummy.lock();
+    QWaitCondition waitCondition;
+    unsigned long waitTime = 1000;
+
+    ((QGraphicsTextItem*)m_itemMap["countDown"])->setPlainText("2");
+    waitCondition.wait(&dummy, waitTime);
+    ((QGraphicsTextItem*)m_itemMap["countDown"])->setPlainText("1");
+    waitCondition.wait(&dummy, waitTime);
+    ((QGraphicsTextItem*)m_itemMap["countDown"])->setPlainText("");
+}

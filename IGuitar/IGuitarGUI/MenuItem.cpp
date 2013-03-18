@@ -75,9 +75,9 @@ MenuItem::MenuItem(QGraphicsItem *parent) :
 }
 
 /**
- * @brief MenuItem::closeMenu
+ * @brief MenuItem::addElt
  *
- * Méthode a appeler pour fermer le menu.
+ * Méthode a appeler pour ajouter un element au menu
  */
 
 void MenuItem::addElt(QString name, QString text) {

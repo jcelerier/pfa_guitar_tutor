@@ -9,6 +9,8 @@ int main(int argc, char *argv[]){
   translator.load(":/translations/IGuitarGUI_fr");
   app.installTranslator(&translator);
 
+  QFontDatabase::addApplicationFont(":/fonts/Roboto.ttf");
+
   QRect screenGeo = QApplication::desktop()->screenGeometry();
 
   Configuration::setWindowSize(screenGeo); // Ne fonctionne pas sur les multi ecran

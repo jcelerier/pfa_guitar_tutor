@@ -261,6 +261,7 @@ QList<PlayerChord> Controler::getChordList(LogicalTrack* trackName)
 			   if(chord != "n") {
 				   chList.append(*tempChord);
 			   }
+               delete tempChord;
 
 		   }
 	   }

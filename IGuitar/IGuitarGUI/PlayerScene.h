@@ -47,7 +47,7 @@ private:
     Controler* m_controler;
     ChordDictionary *m_dictionary;
 	void disposeScene();
-
+    void playCountdown();
 };
 
 #endif // MYSCENE_H
