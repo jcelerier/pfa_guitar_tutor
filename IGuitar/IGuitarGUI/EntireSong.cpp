@@ -3,7 +3,7 @@
 #include <QGraphicsOpacityEffect>
 #include "PlayerScene.h"
 
-#define PIXEL_PER_MSECOND 0.3
+#define PIXEL_PER_MSECOND 0.2
 
 /**
  * @brief EntireSong::EntireSong
@@ -21,7 +21,7 @@ EntireSong::EntireSong(QGraphicsItem *parent) :
     //QPen borderPen(Qt::black, 3);
 	QPen lightPen(Qt::black, 1);
 	QBrush innerCont(Qt::white);
-	QFont chordFont("Roboto", 36);
+    QFont chordFont("Roboto", 32);
 	QFont scrollingChordFont("Roboto", 60);
 
    /* QGraphicsRectItem* lineCont = new QGraphicsRectItem(1470, 108, 355, 53, this);
@@ -42,7 +42,7 @@ EntireSong::EntireSong(QGraphicsItem *parent) :
 	textMasking->setOpacityMask(brushMask);
 	maskingTextContainer->setGraphicsEffect(textMasking);
     m_scrollingTextContainer = new QGraphicsItemGroup(maskingTextContainer);
-    m_scrollingTextContainer->setPos(180, 440);
+    m_scrollingTextContainer->setPos(210, 440);
 
 
 	QList<PlayerChord>::iterator ite;
@@ -64,7 +64,7 @@ EntireSong::EntireSong(QGraphicsItem *parent) :
 		tempText->setFont(chordFont);
 		tempText->setDefaultTextColor(QColor(14,153,204));
 		tempText->setTextWidth(355/4);
-        tempText->setHtml("<p align='center'>"+ite->getName()+"</p>");
+        tempText->setHtml("<p align='center'>"+ite->getName()[0]+"<sub>"+ite->getName().mid(1)+"</sub>"+"</p>");
 		tempText->setPos(tempCase->rect().topLeft());
 		if(i==3)
 		{
@@ -84,11 +84,10 @@ EntireSong::EntireSong(QGraphicsItem *parent) :
 
         ite->setScrollingChordItem(tempScrollingChord);
 
-	}
-
+    }
 	// partie temporelle
     m_lastRefresh = 0;
-    m_controler->getChordList()->at(m_currentChord).getFullSongItem()->setBrush(Qt::yellow);
+    m_controler->getChordList()->at(m_currentChord).getFullSongItem()->setBrush(QColor(1, 174, 242));
     m_isCurrentChordValidated = false;
     m_totalPlayedChords = 0;
     m_totalValidatedChords = 0;
@@ -105,7 +104,7 @@ void EntireSong::nextChord() {
 		validateChord(false);
     m_isCurrentChordValidated = false;
     m_currentChord++;
-    m_controler->getChordList()->at(m_currentChord).getFullSongItem()->setBrush(Qt::yellow);
+    m_controler->getChordList()->at(m_currentChord).getFullSongItem()->setBrush(QColor(1, 174, 242));
     if(m_currentChord>=m_controler->getChordList()->size())
         m_currentChord=0;
 }
@@ -167,12 +166,12 @@ QRectF EntireSong::boundingRect() const {
 void EntireSong::validateChord(bool v)
 {
 	if(v) {
-        m_controler->getChordList()->at(m_currentChord).getFullSongItem()->setBrush(Qt::green);
+        m_controler->getChordList()->at(m_currentChord).getFullSongItem()->setBrush(QColor(101, 215, 78));
         m_isCurrentChordValidated = true;
         m_totalValidatedChords++;
 	}
 	else
-        m_controler->getChordList()->at(m_currentChord).getFullSongItem()->setBrush(Qt::red);
+        m_controler->getChordList()->at(m_currentChord).getFullSongItem()->setBrush(QColor(175, 22, 27));
     m_totalPlayedChords++;
     ((PlayerScene*)scene())->updateStats(m_totalValidatedChords, m_totalPlayedChords);
 }

@@ -29,10 +29,12 @@ public slots:
 private:
     int m_width;
     int m_height;
+    int m_nbElts;
     QGraphicsRectItem * m_rect;
     QMap <QString, QGraphicsItem*> m_menuMap;
     HelpWindow* m_helpWindow;
     QGraphicsRectItem* m_menuBack;
+    void addElt(QString, QString);
 };
 
 #endif // MENUITEM_H

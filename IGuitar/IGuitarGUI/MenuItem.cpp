@@ -27,7 +27,8 @@ MenuItem::~MenuItem() {
 MenuItem::MenuItem(QGraphicsItem *parent) :
 	QGraphicsObject(parent),
 	m_width(350),
-	m_height(500)
+    m_height(500),
+    m_nbElts(0)
 
 {
 	m_rect = new QGraphicsRectItem(this);
@@ -55,59 +56,53 @@ MenuItem::MenuItem(QGraphicsItem *parent) :
 
 	// Elements de menu
 	QPixmap menuBtnImage(":/images/btn_bg.png");
+    QPixmap closeBtnImage(":/images/cross.png");
 
-    //CONTINUE
-	m_menuMap["closeMenu"] = new ButtonItem(menuBtnImage, m_rect);
-    m_menuMap["closeMenu"]->setPos(m_menuBack->rect().topLeft()+QPointF(m_width/2 -272/2,20));
-    m_menuMap["closeMenu"]->setToolTip(tr("Continue"));
-	connect((ButtonItem*)m_menuMap["closeMenu"], SIGNAL(pushed()), this, SLOT(closeMenu()));
+    ButtonItem* closeBtn = new ButtonItem(closeBtnImage, m_rect);
+    closeBtn->setPos(m_menuBack->rect().topRight()-QPointF(17,17));
+    closeBtn->setToolTip(tr("Close"));
+    connect((ButtonItem*)closeBtn, SIGNAL(pushed()), this, SLOT(closeMenu()));
 
-	m_menuMap["closeMenuText"] = new QGraphicsTextItem(m_rect);
-    m_menuMap["closeMenuText"]->setPos(m_menuBack->rect().topLeft()+QPointF(m_width/2 -272/2,20+20));
-	((QGraphicsTextItem*) m_menuMap["closeMenuText"])->setTextWidth(272);
-	((QGraphicsTextItem*) m_menuMap["closeMenuText"])->setDefaultTextColor(QColor(0,95,61));
-	((QGraphicsTextItem*) m_menuMap["closeMenuText"])->setFont(eltFont);
-    ((QGraphicsTextItem*) m_menuMap["closeMenuText"])->setHtml(tr("<p align='center'>CONTINUE</p>"));
+    addElt("load", "CHARGER");
+    connect((ButtonItem*)m_menuMap["load"], SIGNAL(pushed()), this, SLOT(loadSong()));
 
-    //LOAD
-    m_menuMap["load"] = new ButtonItem(menuBtnImage, m_rect);
-    m_menuMap["load"]->setPos(m_menuBack->rect().topLeft()+QPointF(m_width/2 -272/2,20+100));
-    m_menuMap["load"]->setToolTip(tr("Load"));
-    connect((ButtonItem*)m_menuMap["loadSong"], SIGNAL(pushed()), this, SLOT(loadSong()));
-
-    m_menuMap["loadText"] = new QGraphicsTextItem(m_rect);
-    m_menuMap["loadText"]->setPos(m_menuBack->rect().topLeft()+QPointF(m_width/2 -272/2,20+20+100));
-    ((QGraphicsTextItem*) m_menuMap["loadText"])->setTextWidth(272);
-    ((QGraphicsTextItem*) m_menuMap["loadText"])->setDefaultTextColor(QColor(0,95,61));
-    ((QGraphicsTextItem*) m_menuMap["loadText"])->setFont(eltFont);
-    ((QGraphicsTextItem*) m_menuMap["loadText"])->setHtml(tr("<p align='center'>LOAD</p>"));
-
-    //HELP
-    m_menuMap["help"] = new ButtonItem(menuBtnImage, m_rect);
-    m_menuMap["help"]->setPos(m_menuBack->rect().topLeft()+QPointF(m_width/2 -272/2,20+200));
-    m_menuMap["help"]->setToolTip(tr("Help"));
+    addElt("help", "AIDE");
     connect((ButtonItem*)m_menuMap["help"], SIGNAL(pushed()), this, SLOT(help()));
 
-    m_menuMap["helpText"] = new QGraphicsTextItem(m_rect);
-    m_menuMap["helpText"]->setPos(m_menuBack->rect().topLeft()+QPointF(m_width/2 -272/2,20+20+200));
-    ((QGraphicsTextItem*) m_menuMap["helpText"])->setTextWidth(272);
-    ((QGraphicsTextItem*) m_menuMap["helpText"])->setDefaultTextColor(QColor(0,95,61));
-    ((QGraphicsTextItem*) m_menuMap["helpText"])->setFont(eltFont);
-    ((QGraphicsTextItem*) m_menuMap["helpText"])->setHtml(tr("<p align='center'>HELP</p>"));
+    addElt("close", "QUITTER");
+    connect((ButtonItem*)m_menuMap["close"], SIGNAL(pushed()), this, SLOT(closeGame()));
 
-    //QUIT
-	m_menuMap["close"] = new ButtonItem(menuBtnImage, m_rect);
-    m_menuMap["close"]->setPos(m_menuBack->rect().topLeft()+QPointF(m_width/2 -272/2,20+300));
-    m_menuMap["close"]->setToolTip(tr("Quit"));
-	connect((ButtonItem*)m_menuMap["close"], SIGNAL(pushed()), this, SLOT(closeGame()));
-
-	m_menuMap["closeText"] = new QGraphicsTextItem(m_rect);
-    m_menuMap["closeText"]->setPos(m_menuBack->rect().topLeft()+QPointF(m_width/2 -272/2,20+20+300));
-	((QGraphicsTextItem*) m_menuMap["closeText"])->setTextWidth(272);
-	((QGraphicsTextItem*) m_menuMap["closeText"])->setDefaultTextColor(QColor(0,95,61));
-	((QGraphicsTextItem*) m_menuMap["closeText"])->setFont(eltFont);
-    ((QGraphicsTextItem*) m_menuMap["closeText"])->setHtml(tr("<p align='center'>QUIT</p>"));
 }
+
+/**
+ * @brief MenuItem::addElt
+ *
+ * Méthode a appeler pour ajouter un element au menu
+ */
+
+void MenuItem::addElt(QString name, QString text) {
+    /*if(m_menuMap.contains(name))
+        return;*/
+
+    QFont eltFont("Roboto", 28);
+    eltFont.setWeight(QFont::Bold);
+    QPixmap menuBtnImage(":/images/btn_bg.png");
+
+    m_menuMap[name] = new ButtonItem(menuBtnImage, m_rect);
+    m_menuMap[name]->setPos(m_menuBack->rect().topLeft()+QPointF(m_width/2 -272/2, 20 + m_nbElts*100));
+    m_menuMap[name]->setToolTip(name);
+
+    m_menuMap[name+"Text"] = new QGraphicsTextItem(m_rect);
+    m_menuMap[name+"Text"]->setPos(m_menuBack->rect().topLeft()+QPointF(m_width/2 -272/2,20+20 + m_nbElts*100));
+    ((QGraphicsTextItem*) m_menuMap[name+"Text"])->setTextWidth(272);
+    ((QGraphicsTextItem*) m_menuMap[name+"Text"])->setDefaultTextColor(QColor(0,95,61));
+    ((QGraphicsTextItem*) m_menuMap[name+"Text"])->setFont(eltFont);
+    ((QGraphicsTextItem*) m_menuMap[name+"Text"])->setHtml("<p align='center'>"+text+"</p>");
+
+    m_nbElts++;
+
+}
+
 
 /**
  * @brief MenuItem::closeMenu
@@ -157,7 +152,7 @@ void MenuItem::paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*){
  * Retourne la taille de l'écran de l'utilisateur.
  */
 QRectF MenuItem::boundingRect() const {
-	return Configuration::getWindowSize();
+    return m_menuBack->rect();
 }
 
 void MenuItem::help()

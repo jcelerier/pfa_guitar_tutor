@@ -13,6 +13,7 @@
         <file alias="previous.png">images/previous.png</file>
         <file alias="transport.png">images/transport.png</file>
         <file alias="dictionary.png">images/dictionary.png</file>
+        <file alias="cross.png">images/cross.png</file>
     </qresource>
     <qresource prefix="/chordsImg">
         <file alias="A.png">chordsImg/A.png</file>
@@ -39,6 +40,7 @@
         <file alias="Fdm.png">chordsImg/Fdm.png</file>
         <file alias="Gd.png">chordsImg/Gd.png</file>
         <file alias="Gdm.png">chordsImg/Gdm.png</file>
+        <file alias="Roboto.ttf">fonts/Roboto.ttf</file>
     </qresource>
     <qresource prefix="/translations">
         <file>IGuitarGUI_fr.qm</file>

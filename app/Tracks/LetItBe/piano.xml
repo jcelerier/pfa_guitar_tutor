@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<morceau casesMesure="1" fichier="Tracks/LetItBe/piano.wav" artiste="GuitarTutor" column="4" line="8" nom="Piano">
+<morceau casesMesure="1" fichier="Tracks/LetItBe/piano.wav" artiste="Beatles" column="4" line="8" nom="Let It Be">
   <partie nom="Intro">
     <accord temps="0" repetition="1" nom="C"/>
     <accord temps="2000" repetition="1" nom="G"/>
