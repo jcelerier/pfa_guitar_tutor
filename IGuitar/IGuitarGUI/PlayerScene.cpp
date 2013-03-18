@@ -19,7 +19,7 @@ PlayerScene::PlayerScene(QObject *parent) :
 
 	resetNoteCheck();
 
-    //m_dictionary = new ChordDictionary(m_controler->getChordList());
+    m_dictionary = new ChordDictionary(m_controler->getChordList());
 
 }
 
@@ -159,18 +159,10 @@ void PlayerScene::mousePressEvent(QGraphicsSceneMouseEvent*e)
  */
 void PlayerScene::switchPlaying()
 {
-    static bool isFirstPlay = true;
     m_isPlaying = !m_isPlaying;
     if(m_isPlaying)
         playCountdown();
     m_controler->switchPlaying();
-    if(m_isPlaying && !isFirstPlay) {
-        // Chanson entière
-        delete m_itemMap["entireSong"];
-        m_itemMap["entireSong"] = new EntireSong(m_itemMap["backgnd"]);
-        updateStats(0, 0);
-    }
-    isFirstPlay = false;
 }
 
 /**
@@ -268,7 +260,7 @@ void PlayerScene::updateStats(int validated, int played)
  */
 void PlayerScene::displayDictionary()
 {
-    //m_dictionary->show();
+    m_dictionary->show();
 }
 
 Controler* PlayerScene::getControler() {
