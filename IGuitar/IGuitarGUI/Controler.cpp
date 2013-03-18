@@ -45,6 +45,7 @@ Controler::Controler()
 	restartEngine();
 }
 
+
 /**
  * @brief Controler::ticTac
  *
@@ -86,7 +87,7 @@ bool Controler::initSong()
 	if(path.isNull())
 	{
 		return false;
-	}
+    }
 
 	if(m_track != 0) delete m_track;
 	m_track = new LogicalTrack();
@@ -118,6 +119,7 @@ bool Controler::initSong()
  *
  * Démarre la lecture de la partition et de la musique.
  */
+
 void Controler::startSong()
 {
 	qDebug() << "Controler::startSong()";

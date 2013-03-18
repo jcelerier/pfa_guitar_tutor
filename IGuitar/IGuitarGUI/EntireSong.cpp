@@ -84,8 +84,7 @@ EntireSong::EntireSong(QGraphicsItem *parent) :
 
         ite->setScrollingChordItem(tempScrollingChord);
 
-	}
-
+    }
 	// partie temporelle
     m_lastRefresh = 0;
     m_controler->getChordList()->at(m_currentChord).getFullSongItem()->setBrush(Qt::yellow);

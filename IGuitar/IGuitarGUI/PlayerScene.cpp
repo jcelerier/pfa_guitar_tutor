@@ -107,19 +107,22 @@ void PlayerScene::disposeScene()
     m_itemMap["avancmt"]->setPos(200, 400); // Position absolue par rapport au background
 
 	// Accord joue a la guitare
-	QFont playedFont("Roboto", 200);
+
+    QFont playedFont("Roboto", 150);
     m_itemMap["chordPlayed"] = addText("0", playedFont);
     ((QGraphicsTextItem*)m_itemMap["chordPlayed"])->setDefaultTextColor(QColor(0, 161, 42));
-    m_itemMap["chordPlayed"]->setPos(1180, 380);
+    m_itemMap["chordPlayed"]->setPos(1150, 380);
 
 	// Menu
     m_itemMap["menu"] = new MenuItem(m_itemMap["backgnd"]);
     m_itemMap["menu"]->setVisible(false);
     m_itemMap["menu"]->setPanelModality(QGraphicsItem::PanelModal);
 
+
 	// Statistiques
-    m_itemMap["totalPlayed"] = addText("0", robotoFont);
-    m_itemMap["totalPlayed"]->setPos(1340, 120);
+    m_itemMap["totalPlayed"] = new QGraphicsTextItem("0", m_itemMap["backgnd"]);
+    ((QGraphicsTextItem*)m_itemMap["totalPlayed"])->setFont(robotoFont);
+    m_itemMap["totalPlayed"]->setPos(1340, 110);
     ((QGraphicsTextItem*)m_itemMap["totalPlayed"])->setDefaultTextColor(QColor(255,255,225));
     m_itemMap["totalValidated"] = addText("0", robotoFont);
     m_itemMap["totalValidated"]->setPos(1340, 170);
@@ -207,6 +210,7 @@ void PlayerScene::setPlayedChord(QStringList playedChord) {
 			setCurrentChordValidated(true);
 		}
         //Affichage de la note attendue
+        //((QGraphicsTextItem*)itemMap["chordPlayed"])->setHtml(playedChord[0]+"<sub>"+playedChord.mid(1)+"</sub>");
         ((QGraphicsTextItem*)m_itemMap["chordPlayed"])->setPlainText(playedChord.at(playedChord.indexOf(((EntireSong*)m_itemMap["entireSong"])->getCurrentChord())));
 	}
     else //Affichage d'une note au hasard parmis les résultats possibles
@@ -258,3 +262,8 @@ void PlayerScene::displayDictionary()
 {
     //m_dictionary->show();
 }
+
+Controler* PlayerScene::getControler() {
+    return m_controler;
+}
+

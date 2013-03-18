@@ -27,6 +27,7 @@ public:
     void resetNoteCheck();
     void updateStats(int validated, int played);
     ~PlayerScene();
+    Controler* getControler();
 signals:
 
 public slots:
