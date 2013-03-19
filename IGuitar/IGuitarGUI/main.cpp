@@ -14,7 +14,7 @@ int main(int argc, char *argv[]){
   QRect screenGeo = QApplication::desktop()->screenGeometry();
 
   Configuration::setWindowSize(screenGeo); // Ne fonctionne pas sur les multi ecran
-  new Controler();
+  Controler c; // sinon le destructeur n'est pas appelé
 
   return app.exec();
 }

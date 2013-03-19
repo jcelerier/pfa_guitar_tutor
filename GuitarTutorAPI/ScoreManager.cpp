@@ -352,7 +352,7 @@ std::string ScoreManager::ScoreToString(LogicalTrack* trackName )
 
 		for(it2 = gtc.begin(); it2 != gtc.end(); ++it2)
 		{
-			//for(int i = 0; i < (*it2)->getRepetition(); i++)
+			//for(int i = 0; i < (*it2)->getRepetition(); i++) //les répétitions sont désactivées car ça foutait la merde.
 			{
 				QString str_tmp("");
 				std::string s("");
@@ -379,110 +379,11 @@ std::string ScoreManager::ScoreToString(LogicalTrack* trackName )
 bool ScoreManager::loadScore(LogicalTrack* trackName)
 {
 	logicalTrack = trackName;
-	//std::cout << ScoreToString(trackName) << std::flush;
+
 	std::ofstream file("tmp", std::ios::out);
 	file << ScoreToString(trackName);
 	file.close();
 	return loadScore("tmp");
-/*
-	NoteData currentNote;
-	NoteData prevNote;
-
-	unsigned int currentBoxId = NO_ID;
-
-	m_mainBoxId = m_iscoreEngine->addBox(0, 500000, ROOT_BOX_ID);
-	m_iscoreEngine->addCrossingCtrlPointCallback(this, crossAction);
-	m_iscoreEngine->addCrossingTrgPointCallback(this, triggerCallBack);
-
-	unsigned int mainTriggerPointIdEnd = m_iscoreEngine->addTriggerPoint(ROOT_BOX_ID);
-	m_iscoreEngine->setTriggerPointMessage(mainTriggerPointIdEnd, SCORE_END);
-	m_iscoreEngine->assignCtrlPointToTriggerPoint(mainTriggerPointIdEnd, m_mainBoxId, END_CONTROL_POINT_INDEX);
-
-	float currentRelativeStart = 0;
-	float currentAbsoluteStart = 0;
-
-	std::string previousPart = " ";
-
-	QList<PartTrack*>::iterator it1;
-	QList<TrackChord*>::iterator it2;
-
-	QList<PartTrack*> partTrackList = trackName->getPartTrackList();
-
-	for(it1 = partTrackList.begin(); it1 != partTrackList.end(); ++it1)
-	{
-		std::cout << "ici  " << std::flush;
-		std::string current((*it1)->getPartName().toStdString ());
-
-		if (currentAbsoluteStart != 0)
-		{
-			std::vector<unsigned int> movedBox;
-			m_iscoreEngine->performBoxEditing(currentBoxId, 0, currentRelativeStart * 1000, movedBox);
-		}
-
-		currentRelativeStart = 0;
-		currentBoxId = m_iscoreEngine->addBox(0, 400000, m_mainBoxId);
-
-		m_partsBeginInMs[currentBoxId] = currentAbsoluteStart;
-
-		unsigned int currentTriggerPointId = m_iscoreEngine->addTriggerPoint(m_mainBoxId);
-		m_iscoreEngine->setTriggerPointMessage(currentTriggerPointId, current);
-		m_iscoreEngine->assignCtrlPointToTriggerPoint(currentTriggerPointId, currentBoxId, BEGIN_CONTROL_POINT_INDEX);
-
-		m_partNameToBoxId[current] = currentBoxId;
-
-		if (previousPart != " ")
-		{
-			m_nextPartName[previousPart] = current;
-			std::cout << previousPart << " " << current << std::endl;
-		}
-
-		previousPart = current;
-
-
-		QList<TrackChord*> gtc = (*it1)->getTrackChordsList(); //utilisée dans la boucle qui suit, plante si pas de passage par variable intermédiaire (pourquoi?) --- hamid
-
-		for(it2 = gtc.begin(); it2 != gtc.end(); ++it2)
-		{
-			std::cout << " 1ère ||| " << std::flush;
-			for(int i = 0; i < (*it2)->getRepetition(); i++)
-			{
-				std::cout << "on rentre\n" << std::flush;
-				QString str_tmp("");
-				std::string s("");
-				std::string str("");
-
-				s += (*it2)->getChord().toStdString();
-				str_tmp.setNum((*it2)->getDuration());
-				str += str_tmp.toStdString() + " " + s;
-
-				std::istringstream currentStream(str.data());
-				prevNote = currentNote;
-
-				currentStream >> currentNote.duration >> currentNote.name;
-
-				m_scoreNotes[m_iscoreEngine->addBox(currentAbsoluteStart * 1000, currentNote.duration / 1000, currentBoxId)] = currentNote.name;
-
-
-				currentRelativeStart = (currentNote.duration - prevNote.duration) / 1000;
-				currentAbsoluteStart = currentNote.duration / 1000;
-
-				std::cout << "currentNote.name = " << currentNote.name
-						  << "\ncurrentNote.duration = " << currentNote.duration
-						  << "\nlength = "<< currentRelativeStart
-						  << std::endl;
-
-				std::cout << "répétition: " <<  (*it2)->getRepetition()
-						  << "   i: " << i << std::endl << std::endl;
-		   }
-
-		}
-	}
-
-	m_isAScoreToRun = true;
-
-*/
-
-//	return true;
 }
 
 bool ScoreManager::isRunning()

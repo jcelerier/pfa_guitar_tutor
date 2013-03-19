@@ -31,7 +31,7 @@ PlayerScene::PlayerScene(QObject *parent) :
     m_cntClickUp->setSource(QUrl("qrc:/sounds/MetronomeUp.wav"));
     m_cntClickUp->setVolume(0.60f);
 
-    m_dictionary = new ChordDictionary(m_controler->getChordList());
+	//m_dictionary = new ChordDictionary(m_controler->getChordList());
 
 }
 
@@ -42,7 +42,7 @@ PlayerScene::PlayerScene(QObject *parent) :
  */
 PlayerScene::~PlayerScene()
 {
-    delete m_dictionary;
+   // delete m_dictionary;
     delete m_cntTimer;
 
     QString key;
@@ -89,7 +89,7 @@ void PlayerScene::disposeScene()
     m_itemMap["dictionary"] = new ButtonItem(dictionaryImage, m_itemMap["backgnd"]);
     m_itemMap["dictionary"]->setPos(57, 650); // Position absolue par rapport au background
     m_itemMap["dictionary"]->setToolTip(tr("Chord dictionary"));
-    connect((ButtonItem*)m_itemMap["dictionary"], SIGNAL(pushed()), this, SLOT(displayDictionary()));
+	connect((ButtonItem*)m_itemMap["dictionary"], SIGNAL(pushed()), this, SLOT(displayDictionary()));
 
 	// Titre de la chanson
     m_itemMap["songTitle"] = addText("a", robotoFont);
@@ -282,7 +282,7 @@ void PlayerScene::updateStats(int validated, int played)
  */
 void PlayerScene::displayDictionary()
 {
-    m_dictionary->show();
+	//m_dictionary->show();
 }
 
 Controler* PlayerScene::getControler() {

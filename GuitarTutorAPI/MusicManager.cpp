@@ -101,6 +101,8 @@ MusicManager::~MusicManager()
 	stop();
 	m_musicManagerThread->join();
 	delete m_multiTracks;
+
+	qDebug() << "MusicManager properly deleted";
 }
 
 
@@ -149,7 +151,7 @@ void* MusicManager::initAudioDevice(PaDeviceIndex inputDevice, PaDeviceIndex out
 		return NULL;
 	}
 
-	Pa_GetDeviceInfo(inputDevice);
+
 	m_inputParameters.channelCount = 2;                    /* stereo input */
 	m_inputParameters.sampleFormat = PA_SAMPLE_TYPE;
 	m_inputParameters.suggestedLatency = Pa_GetDeviceInfo( m_inputParameters.device )->defaultLowInputLatency;
@@ -195,7 +197,7 @@ void* MusicManager::initAudioInput()
 			recordCallback,
 			&m_recordData );
 
-	//printf("erreur: %s\n", Pa_GetErrorText(m_err));
+	printf("erreur: %s.\n", Pa_GetErrorText(m_err));
 /*
 	if( m_inputStream ) {
 		Pa_StartStream( m_inputStream );
@@ -311,7 +313,7 @@ void* MusicManager::goToInMs(int millisecPos)
 {
 	qDebug() << "MusicManager::goToInMs()";
 	if (!isStarted()) {
-		start();
+		//start();
 	}
 
 	return changeFrameIndex(SAMPLE_RATE/1000 * millisecPos);
@@ -564,10 +566,10 @@ static int recordCallback( const void *inputBuffer, void *outputBuffer,
 {
 	soundData *data = (soundData*)userData;
 	unsigned long framesLeft = data->maxFrameIndex - data->frameIndex;
-	if (framesLeft <= 0) {
+	if (framesLeft <= 0)
+	{
 		return paComplete;
 	}
-
 
 	const SAMPLE *rptr = (const SAMPLE*)inputBuffer;
 	SAMPLE *wptr = &data->recordedSamples[data->frameIndex * NUM_CHANNELS];
@@ -579,7 +581,8 @@ static int recordCallback( const void *inputBuffer, void *outputBuffer,
 	(void) statusFlags;
 	(void) userData;
 
-	if (data->waitStart) {
+	if (data->waitStart)
+	{
 		for( unsigned long i = 0; i < (framesPerBuffer * NUM_CHANNELS); i++ )
 		{
 			*wptr++ = SAMPLE_SILENCE;
@@ -632,7 +635,7 @@ void* musicManagerMainFunction(void* threadArg)
 {
 	qDebug()<< "musicManagerMainFunction";
 	MusicManager* musicManager = (MusicManager*) threadArg;
-
+/*
 	if( musicManager->m_playStream ) {
 		Pa_StartStream( musicManager->m_playStream );
 	}
@@ -640,18 +643,18 @@ void* musicManagerMainFunction(void* threadArg)
 	if( musicManager->m_inputStream ) {
 		Pa_StartStream( musicManager->m_inputStream );
 	}
-
-	while ((!musicManager->m_mustStop))
+*/
+	while (!musicManager->m_mustStop)
 		//	&& (Pa_IsStreamActive(musicManager->m_playStream)))
 	{
 		Pa_Sleep(100);
-		if(g__output_pause && g__output_pause_changed)
+		if(g__output_pause_changed && g__output_pause )
 		{
 			g__output_pause_changed = false;
 			Pa_StopStream(musicManager->m_playStream);
 			Pa_StopStream(musicManager->m_inputStream);
 		}
-		else if(!g__output_pause && g__output_pause_changed)
+		else if(g__output_pause_changed && !g__output_pause)
 		{
 			g__output_pause_changed = false;
 			Pa_StartStream(musicManager->m_playStream);

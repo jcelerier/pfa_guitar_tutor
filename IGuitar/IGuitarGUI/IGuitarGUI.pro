@@ -3,7 +3,7 @@ TARGET = IGuitarGUI
 DESTDIR = ../../app/
 DEPENDPATH += .
 
-QT += xml core gui widgets webkit webkitwidgets multimedia
+QT += xml core gui widgets webkit webkitwidgets testlib multimedia
 
 win32 {
 DEPENDPATH += . \
@@ -29,7 +29,8 @@ HEADERS += \
 	EntireSong.h \
 	ButtonItem.h \
 	ChordDictionary.h \
-	HelpWindow.h
+	HelpWindow.h \
+    SongManager.h
 
 SOURCES += main.cpp \
 	Configuration.cpp \
@@ -41,7 +42,8 @@ SOURCES += main.cpp \
 	PlayerChord.cpp \
 	ButtonItem.cpp \
 	ChordDictionary.cpp \
-	HelpWindow.cpp
+	HelpWindow.cpp \
+    SongManager.cpp
 
 FORMS += \
 	ChordDictionary.ui

@@ -47,6 +47,8 @@ public:
 	int getTimePerMesure();
 	int getBPM();
 
+	int getPositionOfChordInMs(TrackChord*);
+
 
 	void addPartTrackToList(PartTrack* newPartTrack);
 	QString getPartName(int n);

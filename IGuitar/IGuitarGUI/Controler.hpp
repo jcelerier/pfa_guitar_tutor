@@ -7,6 +7,8 @@
 #include <MusicManager.h>
 #include <ScoreManager.h>
 
+#include "SongManager.h"
+
 #include "MyView.h"
 #include "PlayerChord.h"
 #include "PlayerScene.h"
@@ -40,6 +42,7 @@ private:
 	void pauseSong();
 
 	ScoreManager* m_scoreManager;
+	SongManager* m_songManager;
 	MusicManager* m_musicManager;
 
 	bool m_playing, m_paused;
