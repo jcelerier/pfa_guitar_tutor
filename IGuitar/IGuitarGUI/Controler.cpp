@@ -41,15 +41,17 @@ Controler::Controler()
 
 	m_songManager = new SongManager(this);
 	connect(m_timer, SIGNAL(timeout()), this, SLOT(ticTac()));
-	m_configuration = new Configuration();
+    connect(m_timer, SIGNAL(timeout()), m_songManager, SLOT(checkTime()));
+    connect(m_timer, SIGNAL(timeout()), m_songManager, SLOT(compareChordWithPlayed()));
 
 	connect(m_songManager, SIGNAL(updateChord(TrackChord*)), this, SLOT(currentChordSlot(TrackChord*)));
 	connect(m_songManager, SIGNAL(lastChordCorrectness(double)), this, SLOT(victoryPercent(double)));
 
-	connect(m_timer, SIGNAL(timeout()), m_songManager, SLOT(checkTime()));
-	connect(m_timer, SIGNAL(timeout()), m_songManager, SLOT(compareChordWithPlayed()));
+    m_configuration = new Configuration();
 
 	restartEngine();
+
+    connect(m_songManager, SIGNAL(updateChord(TrackChord*)), m_scene, SLOT(goToChord(TrackChord*)));
 }
 
 
@@ -139,6 +141,7 @@ void Controler::startSong()
 	m_songManager->play();
 	m_timer->start(1000/Configuration::framesPerSec);
 	m_playing=true;
+    m_globalClock.start();
 }
 
 /**
@@ -149,6 +152,7 @@ void Controler::startSong()
 void Controler::pauseSong()
 {
 	pauseClock();
+    m_timer->stop();
 	m_songManager->pause();
 	m_playing=false;
 }
@@ -156,6 +160,8 @@ void Controler::pauseSong()
 void Controler::stopSong()
 {
 	pauseClock();
+    m_timer->stop();
+    m_clockOffset = 0;
 	m_songManager->stop();
 	m_playing=false;
 }
@@ -248,6 +254,7 @@ QList<PlayerChord> Controler::getChordList(LogicalTrack* trackName)
 
 				tempChord->setName(chord);
 				tempChord->setTime((int) time);
+                tempChord->setTrackChord(*it2);
 
 				if(chord != "n") {
 					chList.append(*tempChord);

@@ -233,3 +233,18 @@ bool EntireSong::getIsCurrentChordValidated() const
 {
 	return m_isCurrentChordValidated;
 }
+
+/**
+ * @brief EntireSong::setCurrentChord
+ *
+ * Actualise l'affichage avec l'accord en cours.
+ */
+void EntireSong::setCurrentChord(int cc)
+{
+    for(int i=0; i<m_controler->getChordList()->size(); i++) {
+        m_controler->getChordList()->at(i).getFullSongItem()->setBrush(QColor(255, 255, 255));
+    }
+    for(int i=0; i<cc-1; i++) {
+        m_controler->getChordList()->at(i).getFullSongItem()->setBrush(QColor(175, 22, 27)); // ne verifie pas encore si a été validé ou non
+    }
+}
