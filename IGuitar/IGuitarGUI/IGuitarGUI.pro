@@ -7,11 +7,9 @@ QT += xml core gui widgets webkit webkitwidgets testlib multimedia
 
 win32 {
 DEPENDPATH += . \
-			  ../../libsndfile/lib \
 			  ../../portaudio/lib
 
 INCLUDEPATH += . \
-			   ../../libsndfile/include
 
 
 }
@@ -59,17 +57,10 @@ PRE_TARGETDEPS += $$PWD/../../libiguitar/libIGuitar.a
 macx: QMAKE_CFLAGS_X86_64 += -mmacosx-version-min=10.7
 macx: QMAKE_CXXFLAGS_X86_64 = $$QMAKE_CFLAGS_X86_64
 
-unix|macx: LIBS += -lsndfile -lportaudio
+unix|macx: LIBS += -lportaudio
 LIBS += -L$$PWD/../../fmod/api/lib/ -lfmodex
 ## Partie sur les librairies :
 win32 {
-#libsndfile
-unix:!symbian|win32: LIBS += -L$$PWD/../../libsndfile/lib -lsndfile
-
-INCLUDEPATH += $$PWD/../../libsndfile/include
-DEPENDPATH += $$PWD/../../libsndfile/lib
-
-PRE_TARGETDEPS += $$PWD/../../libsndfile/lib/libsndfile.a
 
 #portaudio
 LIBS += -L$$PWD/../../portaudio/lib/ -lportaudio
