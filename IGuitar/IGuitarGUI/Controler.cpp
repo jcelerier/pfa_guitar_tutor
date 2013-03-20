@@ -48,17 +48,18 @@ Controler::Controler()
 	connect(m_songManager, SIGNAL(updateChord(TrackChord*)), this, SLOT(currentChordSlot(TrackChord*)));
 	connect(m_songManager, SIGNAL(lastChordCorrectness(double)), this, SLOT(victoryPercent(double)));
 
+
 	restartEngine();
 }
 
 void Controler::currentChordSlot(TrackChord* c)
 {
-	qDebug() << c->getChord();
+	//qDebug() << c->getChord();
 }
 
 void Controler::victoryPercent(double d)
 {
-	qDebug() << "réussite : " << d *100 << "%";
+	//qDebug() << "réussite : " << d *100 << "%";
 }
 
 /**
@@ -68,14 +69,10 @@ void Controler::victoryPercent(double d)
  */
 void Controler::ticTac()
 {
-
 	if(m_playing)
 	{
 		m_scene->updateScene();
 
-
-	   /* QStringList playedChord = m_scoreManager->getCurrentChord();
-		m_scene->setPlayedChord(playedChord);*/
 	}
 }
 
@@ -115,9 +112,7 @@ bool Controler::initSong()
 
 void Controler::startSong()
 {
-	qDebug() << "Controler::startSong()";
 	m_songManager->play();
-
 
 	m_timer->start(1000/Configuration::framesPerSec);
 }
@@ -129,9 +124,12 @@ void Controler::startSong()
  */
 void Controler::pauseSong()
 {
-	qDebug() << "Controler::pauseSong()";
 	m_songManager->pause();
+}
 
+void Controler::stopSong()
+{
+	m_songManager->stop();
 }
 
 /**
@@ -154,7 +152,6 @@ void Controler::switchPlaying()
 {
 	if(!m_playing)
 	{
- //       m_scoreManager->run();
 		m_timer->start();
 		startSong();
 		m_playing=true;
@@ -202,42 +199,42 @@ QList<PlayerChord> *Controler::getChordList()
  */
 QList<PlayerChord> Controler::getChordList(LogicalTrack* trackName)
 {
-   QList<PlayerChord> chList;
-   PlayerChord* tempChord;
+	QList<PlayerChord> chList;
+	PlayerChord* tempChord;
 
-   QList<PartTrack*>::iterator it1;
-   QList<TrackChord*>::iterator it2;
+	QList<PartTrack*>::iterator it1;
+	QList<TrackChord*>::iterator it2;
 
-   QList<PartTrack*> partTrackList = trackName->getPartTrackList();
+	QList<PartTrack*> partTrackList = trackName->getPartTrackList();
 
-   for(it1 = partTrackList.begin(); it1 != partTrackList.end(); ++it1)
-   {
+	for(it1 = partTrackList.begin(); it1 != partTrackList.end(); ++it1)
+	{
 
-	   QList<TrackChord*> gtc = (*it1)->getTrackChordsList(); //utilisée dans la boucle qui suit, plante si pas de passage par variable intermédiaire (pourquoi?) --- hamid
+		QList<TrackChord*> gtc = (*it1)->getTrackChordsList(); //utilisée dans la boucle qui suit, plante si pas de passage par variable intermédiaire (pourquoi?) --- hamid
 
-	   for(it2 = gtc.begin(); it2 != gtc.end(); ++it2)
-	   {
-		   for(int i = 0; i < (*it2)->getRepetition(); i++)
-		   {
-			   tempChord = new PlayerChord();
-			   qreal time;
-			   QString chord("");
+		for(it2 = gtc.begin(); it2 != gtc.end(); ++it2)
+		{
+			for(int i = 0; i < (*it2)->getRepetition(); i++)
+			{
+				tempChord = new PlayerChord();
+				qreal time;
+				QString chord("");
 
-			   chord += (*it2)->getChord();
-			   time = (*it2)->getBeginningInMs();
+				chord += (*it2)->getChord();
+				time = (*it2)->getBeginningInMs();
 
-			   tempChord->setName(chord);
-			   tempChord->setTime((int) time);
+				tempChord->setName(chord);
+				tempChord->setTime((int) time);
 
-			   if(chord != "n") {
-				   chList.append(*tempChord);
-			   }
-			   delete tempChord;
+				if(chord != "n") {
+					chList.append(*tempChord);
+				}
+				delete tempChord;
 
-		   }
-	   }
-   }
-   return chList;
+			}
+		}
+	}
+	return chList;
 }
 
 // l'idéal serait de ne pas faire reset la view et juste de mettre à jour les infos
@@ -264,6 +261,7 @@ void Controler::restartEngine()
 	m_scene = new PlayerScene(this);
 	m_view = new MyView(m_scene);
 
+	connect(m_songManager, SIGNAL(currentlyPlayedChord(BasicChord)), m_scene, SLOT(setPlayedChord(BasicChord)));
 	m_timer->start(1000/Configuration::framesPerSec);
 
 	m_view->show();

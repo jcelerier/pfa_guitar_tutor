@@ -44,6 +44,7 @@ private:
 	bool initSong();
 	void startSong();
 	void pauseSong();
+	void stopSong();
 
 	ScoreManager* m_scoreManager;
 	SongManager* m_songManager;

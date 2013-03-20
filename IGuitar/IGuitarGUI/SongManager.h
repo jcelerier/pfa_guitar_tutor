@@ -38,6 +38,7 @@ class SongManager: public QObject
 		void checkTime();
 
 	signals:
+		void currentlyPlayedChord(BasicChord);
 		void updateChord(TrackChord*);
 		void lastChordCorrectness(double);
 

@@ -80,8 +80,9 @@ void SongManager::pause()
 
 	//if(PAUSE_COMPORTMENT == 0)
 	{
-		//goToChord(m_currentPart->getTrackChordsList()[0]);
-		goToChord(m_currentChord);
+		//ne rien faire si on veut repartir du même endroit
+		//goToChord(m_currentPart->getTrackChordsList()[0]); // pour repartir du début de la partie
+		goToChord(m_currentChord); // pour repartir du début de l'accord en cours.
 	}
 }
 
@@ -155,11 +156,11 @@ void SongManager::compareChordWithPlayed()
 
 	if(m_currentInputChord != 0) delete m_currentInputChord;
 	m_currentInputChord = new BasicChord(chord_compute(m_chordControl));
+	emit currentlyPlayedChord(*m_currentInputChord);
 
 	if( m_currentInputChord->toString() == m_currentChord->getChord() )
 	{
 		++number_of_valid_chord_checks;
-		qDebug() << "hiya";
 	}
 }
 

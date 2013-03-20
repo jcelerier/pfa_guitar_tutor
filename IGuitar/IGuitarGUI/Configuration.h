@@ -53,6 +53,9 @@ class Configuration
 		static int m_width;
 		static float m_quotient;
 
+		int pause_setting;
+		int percent_to_go_to_next_part;
+
 
 };
 

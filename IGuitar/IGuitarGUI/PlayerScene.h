@@ -5,6 +5,7 @@
 #include <QtWidgets>
 #include <QMap>
 #include <QSoundEffect>
+#include <GuitarTutor/Chord.h>
 #include "ButtonItem.h"
 #include "MenuItem.h"
 #include "EntireSong.h"
@@ -25,34 +26,34 @@ public:
 	void mousePressEvent(QGraphicsSceneMouseEvent*);
 	QGraphicsItem* getItem(QString);
 	void setCurrentChordValidated(bool v);
-    void resetNoteCheck();
-    void updateStats(int validated, int played);
-    ~PlayerScene();
-    Controler* getControler();
+	void resetNoteCheck();
+	void updateStats(int validated, int played);
+	~PlayerScene();
+	Controler* getControler();
 signals:
 
 public slots:
 	void updateScene();
-    void setPlayedChord(QStringList);
+	void setPlayedChord(BasicChord ch);
 	void switchPlaying();
 	void switchMenu();
-    void displayDictionary();
-    void playCountdown();
+	void displayDictionary();
+	void playCountdown();
 private:
-    QRect m_windowSize;
-    bool m_cntdownOver;
-    int m_cntdown;
-    bool m_isPlaying;
-    QTimer* m_cntTimer;
-    QMap <QString, QGraphicsItem*> m_itemMap;
-    QSoundEffect* m_cntClick;
-    QSoundEffect* m_cntClickUp;
+	QRect m_windowSize;
+	bool m_cntdownOver;
+	int m_cntdown;
+	bool m_isPlaying;
+	QTimer* m_cntTimer;
+	QMap <QString, QGraphicsItem*> m_itemMap;
+	QSoundEffect* m_cntClick;
+	QSoundEffect* m_cntClickUp;
 
-    int  m_timeNoteSynchronized;
-    int  m_lastTimeCheck;
-    int  m_currentNoteDuration;
-    Controler* m_controler;
-    ChordDictionary *m_dictionary;
+	int  m_timeNoteSynchronized;
+	int  m_lastTimeCheck;
+	int  m_currentNoteDuration;
+	Controler* m_controler;
+	ChordDictionary *m_dictionary;
 	void disposeScene();
 
 };
