@@ -11,7 +11,7 @@
 #include <Track/LogicalTrack.h>
 
 
-#define PAUSE_COMPORTMENT 0
+#define PAUSE_COMPORTMENT 0 //cf configuration
 
 class SongManager: public QObject
 
@@ -22,26 +22,21 @@ class SongManager: public QObject
 		~SongManager();
 
 		void load(LogicalTrack* track);
-
-		void play();
-		void pause();
-		void stop();
 		void mute(bool);
-
-		void goToChord(TrackChord*);
-
-		int elapsedTimeSinceBeginningOfSong();
-		BasicChord* getPlayedInputChord();
 
 	public slots:
 		void compareChordWithPlayed();
 		void checkTime();
+		void goToChord(TrackChord*);
+
+		void play();
+		void pause();
+		void stop();
 
 	signals:
 		void currentlyPlayedChord(BasicChord);
 		void updateChord(TrackChord*);
 		void lastChordCorrectness(double);
-
 
 	private:
 		LogicalTrack* m_track;
@@ -53,10 +48,6 @@ class SongManager: public QObject
 		BasicChord* m_currentInputChord;
 
 		chord_ctrl* m_chordControl;
-
-
-		boost::thread *t_compareChordWithPlayed;
-		boost::thread *t_checkTimer;
 
 		QTimer m_timer;
 		QTime m_time;

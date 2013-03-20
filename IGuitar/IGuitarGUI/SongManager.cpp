@@ -13,9 +13,6 @@ SongManager::SongManager():
 	m_currentInputChord(0),
 	m_chordControl(new chord_ctrl()),
 
-	t_compareChordWithPlayed(0),
-	t_checkTimer(0),
-
 	number_of_valid_chord_checks(0),
 	number_of_chord_checks(0),
 
@@ -94,11 +91,6 @@ void SongManager::stop()
 	m_musicManager->pause();
 
 	goToChord(m_track->getPartTrackList()[0]->getTrackChordsList()[0]);
-}
-
-int SongManager::elapsedTimeSinceBeginningOfSong()
-{
-	return elapsedTime;
 }
 
 // on coupe le son
