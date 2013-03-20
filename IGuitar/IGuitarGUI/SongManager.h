@@ -30,6 +30,7 @@ class SongManager: public QObject
 
 		void goToChord(TrackChord*);
 
+		int elapsedTimeSinceBeginningOfSong();
 		BasicChord* getPlayedInputChord();
 
 	public slots:
@@ -38,7 +39,7 @@ class SongManager: public QObject
 
 	signals:
 		void updateChord(TrackChord*);
-		void lastChordCorrectness(int);
+		void lastChordCorrectness(double);
 
 
 	private:
@@ -59,7 +60,11 @@ class SongManager: public QObject
 		QTimer m_timer;
 		QTime m_time;
 
+		int number_of_valid_chord_checks;
+		int number_of_chord_checks;
+
 		int precision_in_ms;
+		int elapsedTime;
 
 };
 

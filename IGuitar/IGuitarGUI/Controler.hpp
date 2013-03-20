@@ -26,15 +26,19 @@ public:
 	~Controler();
 
 	int elapsedTime();
-    void switchPlaying();
+	void switchPlaying();
 	void pauseClock();
 	QList<PlayerChord>* getChordList();
 	QList<PlayerChord> getChordList(LogicalTrack* trackName);
-    LogicalTrack *getTrack();
+	LogicalTrack *getTrack();
 
 public slots:
 	void ticTac();
 	void restartEngine();
+
+	void currentChordSlot(TrackChord*);
+	void victoryPercent(double);
+
 
 private:
 	bool initSong();
@@ -53,13 +57,13 @@ private:
 
 	Configuration* m_configuration;
 
-    LogicalTrack *m_track;
-    QList<PlayerChord> m_chordList;
+	LogicalTrack *m_track;
+	QList<PlayerChord> m_chordList;
 
 	std::string m_currentPart;
-    QTime m_globalClock;
-    int m_clockOffset;
-    int m_savedClock;
+	QTime m_globalClock;
+	int m_clockOffset;
+	int m_savedClock;
 
 };
 

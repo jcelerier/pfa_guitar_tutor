@@ -21,6 +21,8 @@ Controler::~Controler()
 	if(m_scene != 0) delete m_scene;
 	if(m_view  != 0) delete m_view;
 	if(m_track != 0) delete m_track;
+
+	qDebug() << "controler properly deleted";
 }
 
 /**
@@ -36,16 +38,28 @@ Controler::Controler()
 	m_musicManager = 0;
 	m_track = 0;
 	m_currentPart.clear();
-    m_timer = new QTimer(this);
+	m_timer = new QTimer(this);
 	m_paused = false;
 
 	m_songManager = new SongManager();
 	connect(m_timer, SIGNAL(timeout()), this, SLOT(ticTac()));
 	m_configuration = new Configuration();
 
+	connect(m_songManager, SIGNAL(updateChord(TrackChord*)), this, SLOT(currentChordSlot(TrackChord*)));
+	connect(m_songManager, SIGNAL(lastChordCorrectness(double)), this, SLOT(victoryPercent(double)));
+
 	restartEngine();
 }
 
+void Controler::currentChordSlot(TrackChord* c)
+{
+	qDebug() << c->getChord();
+}
+
+void Controler::victoryPercent(double d)
+{
+	qDebug() << "réussite : " << d *100 << "%";
+}
 
 /**
  * @brief Controler::ticTac
@@ -55,7 +69,7 @@ Controler::Controler()
 void Controler::ticTac()
 {
 
-    if(m_playing)
+	if(m_playing)
 	{
 		m_scene->updateScene();
 
@@ -78,7 +92,7 @@ bool Controler::initSong()
 	if(path.isNull())
 	{
 		return false;
-    }
+	}
 
 	if(m_track != 0) delete m_track;
 	m_track = new LogicalTrack();
@@ -128,7 +142,7 @@ void Controler::pauseSong()
  */
 int Controler::elapsedTime()
 {
-    return m_clockOffset + m_globalClock.elapsed();
+	return m_clockOffset + m_globalClock.elapsed();
 }
 
 /**
@@ -141,7 +155,7 @@ void Controler::switchPlaying()
 	if(!m_playing)
 	{
  //       m_scoreManager->run();
-        m_timer->start();
+		m_timer->start();
 		startSong();
 		m_playing=true;
 	}
@@ -152,7 +166,7 @@ void Controler::switchPlaying()
 		m_playing=false;
 
 	}
-    m_globalClock.start();
+	m_globalClock.start();
 }
 
 /**
@@ -164,8 +178,8 @@ void Controler::pauseClock()
 {
 	m_timer->stop();
 
-    m_clockOffset += m_globalClock.elapsed();
-    m_savedClock = m_clockOffset;
+	m_clockOffset += m_globalClock.elapsed();
+	m_savedClock = m_clockOffset;
 }
 
 /**
@@ -176,7 +190,7 @@ void Controler::pauseClock()
  */
 QList<PlayerChord> *Controler::getChordList()
 {
-    return &m_chordList;
+	return &m_chordList;
 }
 
 /**
@@ -210,7 +224,7 @@ QList<PlayerChord> Controler::getChordList(LogicalTrack* trackName)
 			   QString chord("");
 
 			   chord += (*it2)->getChord();
-			   time = (*it2)->getDuration();
+			   time = (*it2)->getBeginningInMs();
 
 			   tempChord->setName(chord);
 			   tempChord->setTime((int) time);
@@ -218,7 +232,7 @@ QList<PlayerChord> Controler::getChordList(LogicalTrack* trackName)
 			   if(chord != "n") {
 				   chList.append(*tempChord);
 			   }
-               delete tempChord;
+			   delete tempChord;
 
 		   }
 	   }
@@ -232,17 +246,17 @@ QList<PlayerChord> Controler::getChordList(LogicalTrack* trackName)
 void Controler::restartEngine()
 {
 	m_timer->stop();
-    m_clockOffset = 0;
+	m_clockOffset = 0;
 
 	m_playing = false;
 
 	if(!initSong())
 	{
-        exit(0);
+		exit(0);
 		// note : ne pas appeler les méthodes de qApp (quit, exit...) car qApp->exec() n'est pas encore appelé
 	}
 
-    m_chordList = getChordList(m_track);
+	m_chordList = getChordList(m_track);
 
 	if (m_scene != 0) delete m_scene;
 	if (m_view != 0) delete m_view;

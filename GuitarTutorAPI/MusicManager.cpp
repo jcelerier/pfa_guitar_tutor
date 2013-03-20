@@ -99,6 +99,7 @@ MusicManager::MusicManager(unsigned int timeToRecordInMs)
 MusicManager::~MusicManager()
 {
 	stop();
+
 	m_musicManagerThread->join();
 	delete m_multiTracks;
 

@@ -3,7 +3,7 @@
 #include <map>
 #include <vector>
 #include <string>
-
+#include <unistd.h>
 
 SongManager::SongManager():
 	m_track(0),
@@ -15,7 +15,12 @@ SongManager::SongManager():
 
 	t_compareChordWithPlayed(0),
 	t_checkTimer(0),
-	precision_in_ms(100)
+
+	number_of_valid_chord_checks(0),
+	number_of_chord_checks(0),
+
+	precision_in_ms(100),
+	elapsedTime(0)
 
 {
 	m_timer.setInterval(precision_in_ms);
@@ -27,17 +32,16 @@ SongManager::SongManager():
 SongManager::~SongManager()
 {
 	delete m_chordControl;
-
-	m_musicManager->stop();
-	while (m_musicManager->isRunning()) {
-		usleep(100);
-	}
-
 	delete m_musicManager;
+
+	qDebug() << "songmanager properly deleted";
 }
+
 
 void SongManager::load(LogicalTrack* track)
 {
+	elapsedTime = 0;
+	number_of_valid_chord_checks = 0;
 	m_track = track;
 
 	std::map<std::string, std::string> multiTracksMap;
@@ -45,13 +49,13 @@ void SongManager::load(LogicalTrack* track)
 
 	multiTracksMap["all"] =  m_track->getAudioFileName().toStdString();
 
+	if(m_musicManager != 0 )
+	{
+		delete m_musicManager;
+		sleep(2); //sécurité pour portaudio
+	}
 
-	m_musicManager = new MusicManager(
-				multiTracksMap,
-				muteTracks,
-				-1,
-				-1);
-
+	m_musicManager = new MusicManager(multiTracksMap, muteTracks, -1, -1);
 
 	m_musicManager->run();
 	goToChord(m_track->getPartTrackList()[0]->getTrackChordsList()[0]);
@@ -76,7 +80,8 @@ void SongManager::pause()
 
 	//if(PAUSE_COMPORTMENT == 0)
 	{
-		goToChord(m_currentPart->getTrackChordsList()[0]);
+		//goToChord(m_currentPart->getTrackChordsList()[0]);
+		goToChord(m_currentChord);
 	}
 }
 
@@ -84,9 +89,15 @@ void SongManager::pause()
 void SongManager::stop()
 {
 	m_timer.stop();
+	elapsedTime = 0;
 	m_musicManager->pause();
 
 	goToChord(m_track->getPartTrackList()[0]->getTrackChordsList()[0]);
+}
+
+int SongManager::elapsedTimeSinceBeginningOfSong()
+{
+	return elapsedTime;
 }
 
 // on coupe le son
@@ -107,22 +118,24 @@ void SongManager::goToChord(TrackChord* chord)
 		iPart != m_track->getPartTrackList().end();
 		++iPart)
 	{
-		 QList<TrackChord*> gtc = (*iPart)->getTrackChordsList();
-		 for(iChord = gtc.begin(); iChord != gtc.end(); ++iChord)
-		 {
-			 msPosition += (*iChord)->getDuration(); // vérifier si on n'a pas un décalage avec le début.
-			 if(((TrackChord*) *iChord) == chord)
-			 {
-				 qDebug() << "partie: " << (*iPart)->getPartName() << "   accord: " << (*iChord)->toString();
-				 qDebug() << "position en ms: " << msPosition;
-				 m_currentPart = *iPart;
-				 m_currentChord = *iChord;
+		QList<TrackChord*> gtc = (*iPart)->getTrackChordsList();
+		for(iChord = gtc.begin();
+			iChord != gtc.end();
+			++iChord)
+		{
+			msPosition = (*iChord)->getBeginningInMs();
+			if(((TrackChord*) *iChord) == chord)
+			{
+				m_currentPart = *iPart;
+				m_currentChord = *iChord;
 
-				 m_musicManager->goToInMs(msPosition);
-				 return;
-			 }
-		 }
+				m_musicManager->goToInMs(msPosition);
+				emit updateChord(m_currentChord);
 
+				elapsedTime = msPosition;
+				return;
+			}
+		}
 	}
 
 	qDebug() << "ALERT: goToChord went to end. UNDEFINED COMPORTMENT";
@@ -132,6 +145,7 @@ void SongManager::goToChord(TrackChord* chord)
 // compare la note jouée avec la note actuelle. incrémente le pourcentage de réussite si réussi. (à voir en fonction du nombre d'appels dans l'accord)
 void SongManager::compareChordWithPlayed()
 {
+	++number_of_chord_checks;
 	double buffer[INPUT_FRAMES_PER_BUFFER];
 	chord_init(m_chordControl, SAMPLE_RATE, INPUT_FRAMES_PER_BUFFER, INPUT_FRAMES_PER_BUFFER);
 
@@ -142,11 +156,62 @@ void SongManager::compareChordWithPlayed()
 	if(m_currentInputChord != 0) delete m_currentInputChord;
 	m_currentInputChord = new BasicChord(chord_compute(m_chordControl));
 
-	qDebug() << "m_currentInputChord :" <<  m_currentInputChord->toString() << "chord_control: " << chord_compute(m_chordControl);
-
+	if( m_currentInputChord->toString() == m_currentChord->getChord() )
+	{
+		++number_of_valid_chord_checks;
+		qDebug() << "hiya";
+	}
 }
 
+// vérifie dans quel accord on se situe et met à jour.
 void SongManager::checkTime()
 {
+	elapsedTime += m_time.restart();
 
+	int msPrevPosition = 0;
+	int msPosition = 0;
+
+	QList<PartTrack*>::iterator iPart;
+	QList<TrackChord*>::iterator iChord;
+
+	for(iPart = m_track->getPartTrackList().begin();
+		iPart != m_track->getPartTrackList().end();
+		++iPart)
+	{
+		QList<TrackChord*> gtc = (*iPart)->getTrackChordsList();
+		for(iChord = gtc.begin();
+			iChord != gtc.end();
+			++iChord)
+		{
+			if((iChord + 1) != gtc.end())
+			{
+				msPosition = (*(iChord + 1))->getBeginningInMs(); // vérifier si on n'a pas un décalage avec le début.
+			}
+			else if ((iPart + 1)  != m_track->getPartTrackList().end())
+			{
+				msPosition = (*(*(iPart + 1))->getTrackChordsList().begin())->getBeginningInMs();
+			}
+			else
+			{
+				return;
+			}
+
+			if(msPrevPosition <= elapsedTime && elapsedTime < msPosition)
+			{
+				if(m_currentChord != *iChord)
+				{
+					emit lastChordCorrectness((double) number_of_valid_chord_checks / (double)number_of_chord_checks);
+					emit updateChord(*iChord);
+
+					number_of_chord_checks = 0;
+					number_of_valid_chord_checks = 0;
+				}
+				m_currentPart = *iPart;
+				m_currentChord = *iChord;
+
+				return;
+			}
+			msPrevPosition = msPosition;
+		}
+	}
 }

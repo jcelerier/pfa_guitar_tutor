@@ -8,6 +8,11 @@
 #define ORIGINAL_WIDTH 1920
 #define ORIGINAL_HEIGHT 1080
 
+#define PAUSE_TO_SAME_TIME 0
+#define PAUSE_TO_LAST_CHORD 1
+#define PAUSE_TO_LAST_PART 2
+
+
 class Configuration
 {
 	public:
@@ -44,9 +49,9 @@ class Configuration
 		QString m_audioOutput;
 
 		PaDeviceIndex m_inputIndex, m_outputIndex;
-        static int m_height;
-        static int m_width;
-        static float m_quotient;
+		static int m_height;
+		static int m_width;
+		static float m_quotient;
 
 
 };

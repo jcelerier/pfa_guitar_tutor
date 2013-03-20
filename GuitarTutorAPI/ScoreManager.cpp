@@ -46,7 +46,7 @@ ScoreManager::~ScoreManager() {
 
 QStringList ScoreManager::getCurrentChord()
 {
-    return (m_currentInputChord.at(0) == "nc")? QStringList(" ") : m_currentInputChord;
+	return (m_currentInputChord.at(0) == "nc")? QStringList(" ") : m_currentInputChord;
 }
 
 bool ScoreManager::isCurrentChordValidated()
@@ -115,7 +115,7 @@ void ScoreManager::update()
 	/* Process */
 	chroma_compute(m_chordControl, buffer, INPUT_FRAMES_PER_BUFFER);
 
-    m_currentInputChord = BasicChord::convertChordToStringList(chord_compute(m_chordControl));
+	m_currentInputChord = BasicChord::convertChordToStringList(chord_compute(m_chordControl));
 
 	// ci-dessous, la partie pour la validation qui permet de continuer ou non dans la partie suivante.
 	// à remettre quand ça fonctionnera.
@@ -359,7 +359,7 @@ std::string ScoreManager::ScoreToString(LogicalTrack* trackName )
 				std::string str("");
 
 				s += (*it2)->getChord().toStdString();
-				str_tmp.setNum((*it2)->getDuration());
+				str_tmp.setNum((*it2)->getBeginningInMs());
 				str += str_tmp.toStdString() + " " + s;
 
 				std::istringstream currentStream(str.data());

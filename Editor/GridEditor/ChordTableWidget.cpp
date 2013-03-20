@@ -661,7 +661,7 @@ void ChordTableWidget::setLogicalTrack(LogicalTrack* track)
 					currentCase->set_chord((*iChord)->getChord());
 
 				//la durée de l'accord
-				currentCase->setBeginning(MsecToTime(int((*iChord)->getDuration()) ));
+				currentCase->setBeginning(MsecToTime(int((*iChord)->getBeginningInMs()) ));
 
 				//case suivante
 				if(j < jmax)

@@ -7,9 +7,9 @@ TrackChord::TrackChord()
 
 TrackChord::TrackChord(QString nom, qreal d, int rep) {
 
-    duration = d;
-    repetition = rep;
-    currentChord = new BasicChord(nom);
+	beginning_in_ms = d;
+	repetition = rep;
+	currentChord = new BasicChord(nom);
 }
 
 
@@ -26,7 +26,7 @@ TrackChord::~TrackChord()
  */
 void TrackChord::setRepetition(int newRepetition) {
 
-    repetition = newRepetition;
+	repetition = newRepetition;
 }
 
 /**
@@ -36,13 +36,13 @@ void TrackChord::setRepetition(int newRepetition) {
  */
 int TrackChord::getRepetition() {
 
-    return repetition;
+	return repetition;
 }
 
 
-qreal TrackChord::getDuration() {
+qreal TrackChord::getBeginningInMs() {
 
-    return duration;
+	return beginning_in_ms;
 }
 
 /**
@@ -50,16 +50,16 @@ qreal TrackChord::getDuration() {
  *@return QString : accord
  */
 QString TrackChord::getChord(){
-    return currentChord->toString();
+	return currentChord->toString();
 }
 
 QString TrackChord::toString(){
 
-    QString info = ("Accord = ");
-    info.append(currentChord->toString());
-    info.append(" Duration = ");
-    info.append(QString::number(duration, 'e'));
-    info.append(" repetition = ");
-    info.append(repetition);
-    return info;
+	QString info = ("Accord = ");
+	info.append(currentChord->toString());
+	info.append(" Duration = ");
+	info.append(QString::number(beginning_in_ms, 'e'));
+	info.append(" repetition = ");
+	info.append(repetition);
+	return info;
 }
