@@ -18,7 +18,7 @@ class SongManager: public QObject
 {
 		Q_OBJECT
 	public:
-		SongManager();
+		SongManager(QObject* parent);
 		~SongManager();
 
 		void load(LogicalTrack* track);
@@ -46,10 +46,8 @@ class SongManager: public QObject
 		TrackChord* m_currentChord;
 
 		BasicChord* m_currentInputChord;
-
 		chord_ctrl* m_chordControl;
 
-		QTimer m_timer;
 		QTime m_time;
 
 		int number_of_valid_chord_checks;

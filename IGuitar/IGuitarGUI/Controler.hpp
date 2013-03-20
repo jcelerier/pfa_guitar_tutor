@@ -3,10 +3,6 @@
 
 #include <QString>
 
-#include <MultiTracks.h>
-#include <MusicManager.h>
-#include <ScoreManager.h>
-
 #include "SongManager.h"
 
 #include "MyView.h"
@@ -33,6 +29,9 @@ public:
 	void mute();
 	void unmute();
 
+	Configuration* getConfiguration();
+
+
 	QList<PlayerChord>* getChordList();
 	QList<PlayerChord> getChordList(LogicalTrack* trackName);
 	LogicalTrack *getTrack();
@@ -51,11 +50,7 @@ private:
 	void pauseSong();
 	void stopSong();
 
-
-
-	ScoreManager* m_scoreManager;
 	SongManager* m_songManager;
-	MusicManager* m_musicManager;
 
 	bool m_playing, m_paused;
 	QWidget * parent;

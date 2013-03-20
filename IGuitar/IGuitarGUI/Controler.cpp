@@ -2,10 +2,10 @@
 
 #include <QFrame>
 #include <QHBoxLayout>
-#include <QDebug>
 #include <QTimer>
 #include <string>
 #include <unistd.h>
+#include <Track/TrackLoader.h>
 
 /**
  * @brief Controler::~Controler
@@ -19,12 +19,8 @@ Controler::~Controler()
 
 	delete m_songManager;
 	if(m_scene != 0) delete m_scene;
-	qDebug() << "scene properly deleted";
 	if(m_view  != 0) delete m_view;
-	qDebug() << "view  properly deleted";
 	if(m_track != 0) delete m_track;
-
-	qDebug() << "controler properly deleted";
 }
 
 /**
@@ -36,15 +32,13 @@ Controler::Controler()
 {
 	m_view = 0;
 	m_scene = 0;
-	m_scoreManager = 0;
-	m_musicManager = 0;
 	m_track = 0;
 	m_currentPart.clear();
 	m_timer = new QTimer(this);
 	m_paused = false;
 	m_muted = false;
 
-	m_songManager = new SongManager();
+	m_songManager = new SongManager(this);
 	connect(m_timer, SIGNAL(timeout()), this, SLOT(ticTac()));
 	m_configuration = new Configuration();
 
@@ -55,6 +49,12 @@ Controler::Controler()
 	connect(m_timer, SIGNAL(timeout()), m_songManager, SLOT(compareChordWithPlayed()));
 
 	restartEngine();
+}
+
+
+Configuration* Controler::getConfiguration()
+{
+	return m_configuration;
 }
 
 void Controler::currentChordSlot(TrackChord* c)

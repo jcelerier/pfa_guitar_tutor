@@ -1,5 +1,4 @@
 #include "Configuration.h"
-#include <QDebug>
 
 int Configuration::m_width = 1366;
 int Configuration::m_height = 768;
@@ -14,6 +13,7 @@ Configuration::Configuration()
 {
 	m_inputIndex = 0;
 	m_outputIndex = 0;
+	pause_setting = PAUSE_TO_LAST_CHORD;
 }
 
 float Configuration::getQuotient()
@@ -89,4 +89,25 @@ void Configuration::setInputIndex(int i)
 void Configuration::setOutputIndex(int i)
 {
 	m_outputIndex = i;
+}
+
+
+int Configuration::getPauseSetting()
+{
+	return pause_setting;
+}
+
+void Configuration::setPauseSetting(int s)
+{
+	pause_setting = s;
+}
+
+int Configuration::getDifficulty()
+{
+	return percent_to_go_to_next_part;
+}
+
+void Configuration::setDiffuclty(int d)
+{
+	percent_to_go_to_next_part = d;
 }

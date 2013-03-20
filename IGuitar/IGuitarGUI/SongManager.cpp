@@ -1,11 +1,12 @@
 #include "SongManager.h"
-#include <QDebug>
+#include "Configuration.h"
+#include "Controler.hpp"
 #include <map>
 #include <vector>
 #include <string>
 #include <unistd.h>
 
-SongManager::SongManager():
+SongManager::SongManager(QObject* parent): QObject(parent),
 	m_track(0),
 	m_musicManager(0),
 	m_currentPart(0),
@@ -20,16 +21,12 @@ SongManager::SongManager():
 	elapsedTime(0)
 
 {
-	m_timer.setInterval(precision_in_ms);
-
 }
 
 SongManager::~SongManager()
 {
 	delete m_chordControl;
 	delete m_musicManager;
-
-	qDebug() << "songmanager properly deleted";
 }
 
 
@@ -69,12 +66,18 @@ void SongManager::pause()
 {
 	m_musicManager->pause();
 
-	//if(PAUSE_COMPORTMENT == 0)
+	switch(((Controler*)parent())->getConfiguration()->getPauseSetting())
 	{
-		//ne rien faire si on veut repartir du même endroit
-		//goToChord(m_currentPart->getTrackChordsList()[0]); // pour repartir du début de la partie
-		qDebug() << "accord de pause: " << m_currentChord->getChord();
-		goToChord(m_currentChord); // pour repartir du début de l'accord en cours.
+		case PAUSE_TO_SAME_TIME:
+			break;
+		case PAUSE_TO_LAST_CHORD:
+			goToChord(m_currentChord);
+			break;
+		case PAUSE_TO_LAST_PART:
+			goToChord(m_currentPart->getTrackChordsList()[0]);
+			break;
+		default:
+			break;
 	}
 }
 
@@ -125,8 +128,7 @@ void SongManager::goToChord(TrackChord* chord)
 		}
 	}
 
-	qDebug() << "ALERT: goToChord went to end. UNDEFINED COMPORTMENT";
-
+	// normalement on n'est pas sensé arriver ici
 }
 
 // compare la note jouée avec la note actuelle. incrémente le pourcentage de réussite si réussi. (à voir en fonction du nombre d'appels dans l'accord)

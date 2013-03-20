@@ -1,6 +1,5 @@
 #include "PlayerScene.h"
 #include "Controler.hpp"
-#include <QDebug>
 
 /**
  * @brief PlayerScene::PlayerScene
@@ -314,7 +313,6 @@ void PlayerScene::playCountdown() {
 			m_cntClick->play();
 		num.setNum(m_cntdown);
 		((QGraphicsTextItem*)m_itemMap["countDown"])->setPlainText(num);
-		qDebug() << num;
 		m_cntdown--;
 	}
 	else {

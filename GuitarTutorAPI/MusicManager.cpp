@@ -92,8 +92,9 @@ MusicManager::MusicManager(unsigned int timeToRecordInMs)
 MusicManager::~MusicManager()
 {
 	stop();
-
+	terminateAudioDevice();
 	m_musicManagerThread->join();
+
 	delete m_multiTracks;
 }
 
@@ -235,7 +236,6 @@ void* MusicManager::initAudioOutput()
  */
 void* MusicManager::terminateAudioDevice()
 {
-	std::cout << "terminate" << std::endl;
 	Pa_AbortStream(m_playStream);
 	Pa_AbortStream(m_inputStream);
 	m_err = Pa_Terminate();
@@ -629,17 +629,8 @@ static int recordCallback( const void *inputBuffer, void *outputBuffer,
  */
 void* musicManagerMainFunction(void* threadArg)
 {
-	qDebug()<< "musicManagerMainFunction";
 	MusicManager* musicManager = (MusicManager*) threadArg;
-/*
-	if( musicManager->m_playStream ) {
-		Pa_StartStream( musicManager->m_playStream );
-	}
 
-	if( musicManager->m_inputStream ) {
-		Pa_StartStream( musicManager->m_inputStream );
-	}
-*/
 	while (!musicManager->m_mustStop)
 		//	&& (Pa_IsStreamActive(musicManager->m_playStream)))
 	{
@@ -659,7 +650,6 @@ void* musicManagerMainFunction(void* threadArg)
 
 	}
 
-	//musicManager->terminateAudioDevice();
 
 	Pa_StopStream(musicManager->m_playStream);
 	Pa_StopStream(musicManager->m_inputStream);
@@ -668,7 +658,6 @@ void* musicManagerMainFunction(void* threadArg)
 	musicManager->m_recordData.waitStart = true;
 
 	musicManager->m_isRunning = false;
-	qDebug() << "leaving musicManagerMainFunction";
 	return NULL;
 }
 

@@ -1,10 +1,9 @@
 #include "HelpWindow.h"
-#include <QDebug>
 #include <QDir>
 HelpWindow::HelpWindow(QWidget *parent) :
 	QDialog(parent)
 {
-    setModal(true);
+	setModal(true);
 	page = new QWebView();
 	page->load(QUrl("qrc:/help/help.html"));
 

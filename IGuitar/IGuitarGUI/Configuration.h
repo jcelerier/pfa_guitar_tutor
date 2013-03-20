@@ -32,6 +32,12 @@ class Configuration
 		int getInputIndex();
 		int getOutputIndex();
 
+		int getPauseSetting();
+		void setPauseSetting(int);
+
+		int getDifficulty();
+		void setDiffuclty(int);
+
 
 		//private, please ?
 		static int const framesPerSec=30;
