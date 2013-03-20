@@ -60,7 +60,7 @@ QT += core \
 	  xml \
 	  webkit \
 	  webkitwidgets \
-	  widgets \
+          widgets
 #     testlib #désactiver pour ne pas avoir la console qui s'affiche
 
 

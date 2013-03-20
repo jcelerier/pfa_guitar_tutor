@@ -32,15 +32,15 @@ static int playCallback( const void *inputBuffer, void *outputBuffer,
 
 void* musicManagerMainFunction(void* threadArg);
 /**
- * \fn MusicManager::MusicManager(std::map<std::string, std::string> & tracks, std::vector<std::string>& muteTracks)
+ * \fn MusicManager::MusicManager(QMap<QString, QString> & tracks, QVector<QString>& muteTracks)
  * \brief Constructeur de MusicManager
  *
  * \param tracks Liste des pistes qui seront chargées par l'objet (mapping)
  * \param muteTracks Pistes silencieuses ?
  * \return Rien
  */
-MusicManager::MusicManager(std::map<std::string, std::string> & tracks,
-						   std::vector<std::string>& muteTracks,
+MusicManager::MusicManager(QMap<QString, QString> & tracks,
+                           QVector<QString>& muteTracks,
 						   PaDeviceIndex inputDevice,
 						   PaDeviceIndex outputDevice)
 	:m_isRunning(false), m_mustStop(false), m_tracksName(tracks), m_input(inputDevice), m_output(outputDevice)
@@ -49,7 +49,7 @@ MusicManager::MusicManager(std::map<std::string, std::string> & tracks,
 
 	m_multiTracks = new MultiTracks(m_tracksName);
 
-	for (unsigned int i = 0; i < muteTracks.size(); ++i) {
+    for (int i = 0; i < muteTracks.size(); ++i) {
 		m_multiTracks->changeTrackMuteState(muteTracks[i], true);
 	}
 
@@ -145,7 +145,7 @@ void* MusicManager::initAudioDevice(PaDeviceIndex inputDevice, PaDeviceIndex out
 
 	m_inputParameters.device = inputDevice;
 	if (m_inputParameters.device == paNoDevice) {
-		std::cerr << "Error: No default input device." << std::endl;
+        qDebug() << "Error: No default input device.";
 		m_isRunning = false;
 		return NULL;
 	}
@@ -159,7 +159,7 @@ void* MusicManager::initAudioDevice(PaDeviceIndex inputDevice, PaDeviceIndex out
 
 	m_outputParameters.device = outputDevice;
 	if (m_outputParameters.device == paNoDevice) {
-		std::cerr << "Error: No default output device." << std::endl;
+        qDebug() << "Error: No default output device.";
 
 		m_isRunning = false;
 		return NULL;
@@ -217,7 +217,7 @@ void* MusicManager::initAudioOutput()
 	m_playData.crossFadeCurrentValue = 0;
 	m_playData.musicManager = this;
 
-	std::cout << std::endl << "=== Now playing. ===" << std::endl;
+    qDebug() << "\n=== Now playing. ===";
 	m_err = Pa_OpenStream(
 			&m_playStream,
 			NULL, /* no input */
@@ -252,9 +252,9 @@ void* MusicManager::terminateAudioDevice()
 	}
 	if( m_err != paNoError )
 	{
-		std::cerr <<  "An error occured while using the portaudio stream" << std::endl;
-		std::cerr <<  "Error number: " << m_err << std::endl;
-		std::cerr <<  "Error message: " << Pa_GetErrorText( m_err ) << std::endl;
+        qDebug() <<  "An error occured while using the portaudio stream";
+        qDebug() <<  "Error number: " << m_err;
+        qDebug() <<  "Error message: " << Pa_GetErrorText( m_err );
 		m_err = 1;          /* Always return 0 or 1, but no other return codes. */
 	}
 
@@ -338,14 +338,14 @@ void MusicManager::fillBufferWithLastInputValues(double* buffer, unsigned int si
 
 
 /**
- * \fn void MusicManager::saveRecordedData(std::string fileName)
+ * \fn void MusicManager::saveRecordedData(QString fileName)
  * \brief Méthode qui sauvegarde toutes les données enregistrées
  *
  * \param fileName Nom du fichier sauvegardé
  * \return Rien
  */
 /*
-void MusicManager::saveRecordedData(std::string fileName)
+void MusicManager::saveRecordedData(QString fileName)
 {
 	// On renseigne les paramètres du fichier à créer
 	SF_INFO fileInfos;
@@ -364,7 +364,6 @@ void MusicManager::saveRecordedData(std::string fileName)
 	// Fermeture du fichier
 	sf_close(file);
 
-	std::cout << "Save complete on " << fileName << std::endl;
 }
 */
 
@@ -486,7 +485,6 @@ static int playCallback( const void *inputBuffer,
 	{
 		for( i = 0; i < (framesPerBuffer * NUM_CHANNELS); i++ )
 		{
-			//	std::cout << i << std::endl;
 			*wptr++ = SAMPLE_SILENCE;
 		}
 		return paContinue;

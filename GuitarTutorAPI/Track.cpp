@@ -6,7 +6,7 @@
  */
 
 #include "Track.h"
-#include <vector>
+#include <QVector>
 #include <QDebug>
 #include <cmath>
 
@@ -30,7 +30,7 @@ Track::Track()
  *
  * Constructeur de Track: prend en paramètre le nom du fichier, le met à jour dans Track, m_isMute reçoi false. Ensuite, charge le fichier.
  */
-Track::Track(std::string fileName) {
+Track::Track(QString fileName) {
 	m_fileName = fileName;
 	m_isMute = false;
 
@@ -127,11 +127,11 @@ int Track::load()
 	FMOD_System_Create(&system);
 	FMOD_System_Init(system, 2, FMOD_INIT_NORMAL, NULL);
 
-	FMOD_RESULT result = FMOD_System_CreateSound(system, m_fileName.c_str(), FMOD_SOFTWARE | FMOD_2D |  FMOD_CREATESAMPLE, 0, &music);
+    FMOD_RESULT result = FMOD_System_CreateSound(system, m_fileName.toStdString().c_str(), FMOD_SOFTWARE | FMOD_2D |  FMOD_CREATESAMPLE, 0, &music);
 
 	if (result != FMOD_OK)
 	{
-		qDebug() << m_fileName.c_str();
+        qDebug() << m_fileName;
 		return false;
 	}
 

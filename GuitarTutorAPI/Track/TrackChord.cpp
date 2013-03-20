@@ -1,5 +1,5 @@
 #include "TrackChord.h"
-#include<QDebug>
+#include <QDebug>
 
 TrackChord::TrackChord()
 {

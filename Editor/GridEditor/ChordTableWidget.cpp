@@ -437,10 +437,10 @@ void ChordTableWidget::setCaseAndFollowersBeginning(QTime t)
 	QTime b_t = m_currentItem->getBeginning();
 
 	// on ajoutera à chaque case la différence entre l'ancien et le nouveau temps
-	QTime add_t(std::abs(t.hour() - b_t.hour()),
-				std::abs(t.minute() - b_t.minute()),
-				std::abs(t.second() - b_t.second()),
-				std::abs(t.msec() - b_t.msec()));
+    QTime add_t(qAbs(t.hour() - b_t.hour()),
+                qAbs(t.minute() - b_t.minute()),
+                qAbs(t.second() - b_t.second()),
+                qAbs(t.msec() - b_t.msec()));
 
 	for(int i = minRow; i < this->rowCount(); i++)
 	{

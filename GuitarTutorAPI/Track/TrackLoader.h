@@ -5,9 +5,6 @@
 #include <QList>
 #include <QtXml>
 #include <QFile>
-//#include <Qt/qtest.h>
-
-using namespace std;
 
 #include "LogicalTrack.h"
 #include "PartTrack.h"

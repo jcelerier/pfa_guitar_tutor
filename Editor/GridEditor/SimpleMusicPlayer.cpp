@@ -347,12 +347,12 @@ void SimpleMusicPlayer::zoomOut(QPoint clickPos)
 	float sample = clickPercent * (waveEnd - waveBegin) + waveBegin;
 	const int zoomFactor = ZOOM_FACTOR;
 
-	waveBegin = std::max(0,
-						 std::min(waveBegin - (int) ((sample - (float) waveBegin) / (float) zoomFactor),
+    waveBegin = qMax(0,
+                         qMin(waveBegin - (int) ((sample - (float) waveBegin) / (float) zoomFactor),
 								  (int) player->getTotalLengthInSamples() - 10000));
-	waveEnd = std::max(waveBegin + 10000,
-					   std::min((signed) player->getTotalLengthInSamples(),
-								waveEnd + std::max((int) ((waveEnd - sample) / zoomFactor),
+    waveEnd = qMax(waveBegin + 10000,
+                       qMin((signed) player->getTotalLengthInSamples(),
+                                waveEnd + qMax((int) ((waveEnd - sample) / zoomFactor),
 												   0)));
 
 	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());

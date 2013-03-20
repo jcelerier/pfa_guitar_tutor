@@ -1,10 +1,9 @@
 #include "SongManager.h"
 #include "Configuration.h"
 #include "Controler.hpp"
-#include <map>
-#include <vector>
-#include <string>
-#include <unistd.h>
+#include <QMap>
+#include <QVector>
+#include <QString>
 
 SongManager::SongManager(QObject* parent): QObject(parent),
 	m_track(0),
@@ -36,15 +35,15 @@ void SongManager::load(LogicalTrack* track)
 	number_of_valid_chord_checks = 0;
 	m_track = track;
 
-	std::map<std::string, std::string> multiTracksMap;
-	std::vector<std::string> muteTracks;
+    QMap<QString, QString> multiTracksMap;
+    QVector<QString> muteTracks;
 
-	multiTracksMap["all"] =  m_track->getAudioFileName().toStdString();
+    multiTracksMap["all"] =  m_track->getAudioFileName();
 
 	if(m_musicManager != 0 )
 	{
 		delete m_musicManager;
-		sleep(2); //sécurité pour portaudio
+        QTest::qSleep(2000); //sécurité pour portaudio
 	}
 
 	m_musicManager = new MusicManager(multiTracksMap, muteTracks, -1, -1);
@@ -101,8 +100,8 @@ void SongManager::goToChord(TrackChord* chord)
 {
 	int msPosition = 0;
 	// on doit trouver la partie de l'accord
-	QList<PartTrack*>::iterator iPart;
-	QList<TrackChord*>::iterator iChord;
+    QList<PartTrack*>::Iterator iPart;
+    QList<TrackChord*>::Iterator iChord;
 
 	for(iPart = m_track->getPartTrackList().begin();
 		iPart != m_track->getPartTrackList().end();
@@ -160,8 +159,8 @@ void SongManager::checkTime()
 	int msPrevPosition = 0;
 	int msPosition = 0;
 
-	QList<PartTrack*>::iterator iPart;
-	QList<TrackChord*>::iterator iChord;
+    QList<PartTrack*>::Iterator iPart;
+    QList<TrackChord*>::Iterator iChord;
 
 	for(iPart = m_track->getPartTrackList().begin();
 		iPart != m_track->getPartTrackList().end();

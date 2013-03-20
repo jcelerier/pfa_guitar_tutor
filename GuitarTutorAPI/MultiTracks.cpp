@@ -6,17 +6,17 @@
  */
 
 #include "MultiTracks.h"
-#include "limits.h"
+#include <climits>
 
-MultiTracks::MultiTracks(std::map<std::string, std::string>& tracks)
+MultiTracks::MultiTracks(QMap<QString, QString>& tracks)
 {
 	m_bufferSize = INT_MAX;
 
-	std::map<std::string, std::string>::iterator it = tracks.begin();
+    QMap<QString, QString>::Iterator it = tracks.begin();
 
 	while (it != tracks.end()) {
-		Track currentTrack(it->second);
-		m_tracks[it->first] = currentTrack;
+        Track currentTrack(it.value());
+        m_tracks[it.key()] = currentTrack;
 
 		if (currentTrack.getFramesCount() < m_bufferSize) {
 			m_bufferSize = currentTrack.getFramesCount();
@@ -44,22 +44,23 @@ MultiTracks::~MultiTracks() {
 	//delete [] m_buffer;
 }
 
-void MultiTracks::changeTrackMuteState(std::string trackName, bool muteState)
+void MultiTracks::changeTrackMuteState(QString trackName, bool muteState)
 {
-	std::map<std::string, Track>::iterator iter = m_tracks.find(trackName);
+    QMap<QString, Track>::Iterator iter = m_tracks.find(trackName);
 	if(iter != m_tracks.end())
 	{
 		m_tracks[trackName].setMuteState(muteState);
 	}
 }
 
-bool MultiTracks::isTrackMute(std::string trackName)
+bool MultiTracks::isTrackMute(QString trackName)
 {
-	std::map<std::string, Track>::iterator iter = m_tracks.find(trackName);
+    QMap<QString, Track>::Iterator iter = m_tracks.find(trackName);
 	if(iter != m_tracks.end())
 	{
 		return m_tracks[trackName].isMute();
 	}
+    return true;
 }
 
 float* MultiTracks::getBuffer() const
@@ -73,12 +74,12 @@ void MultiTracks::generateMusic()
 		m_buffer[i] = 0;
 	}
 
-	std::map<std::string, Track>::iterator it = m_tracks.begin();
+    QMap<QString, Track>::Iterator it = m_tracks.begin();
 
 	while (it != m_tracks.end()) {
-		if (!it->second.isMute()) {
+        if (!it.value().isMute()) {
 			for (int i = 0; i < m_bufferSize * m_nbChannels; ++i) {
-				m_buffer[i] += it->second.getBuffer()[i];
+                m_buffer[i] += it.value().getBuffer()[i];
 			}
 
 		}

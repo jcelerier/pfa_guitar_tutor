@@ -3,8 +3,7 @@
 #include <QFrame>
 #include <QHBoxLayout>
 #include <QTimer>
-#include <string>
-#include <unistd.h>
+#include <QString>
 #include <Track/TrackLoader.h>
 
 /**

@@ -8,8 +8,9 @@
 #ifndef MUSICMANAGER_H_
 #define MUSICMANAGER_H_
 
-#include <map>
-#include <string>
+#include <QMap>
+#include <QString>
+#include <QVector>
 
 #include "MultiTracks.h"
 #include <portaudio.h>
@@ -45,8 +46,8 @@ soundData;
 
 class MusicManager {
 public:
-	MusicManager(std::map<std::string, std::string> & tracks,
-				 std::vector<std::string>& muteTracks,
+    MusicManager(QMap<QString, QString> & tracks,
+                 QVector<QString>& muteTracks,
 				 PaDeviceIndex inputDevice = -1,
 				 PaDeviceIndex outputDevice = -1);
 
@@ -70,17 +71,17 @@ public:
 	friend void* musicManagerMainFunction(void* threadArg);
 
 	bool isStarted();
-	std::string getCurrentChord() const;
+    QString getCurrentChord() const;
 
 	void fillBufferWithLastInputValues(double* buffer, unsigned int size);
 
-	void saveRecordedData(std::string fileName);
+    void saveRecordedData(QString fileName);
 
 private:
 
 	bool m_isRunning;
 	bool m_mustStop;
-	std::map<std::string,std::string> m_tracksName;
+    QMap<QString,QString> m_tracksName;
 
 
 #if defined(__MINGW32__) || defined(__linux__) || defined(TARGET_OS_MAC)
@@ -102,7 +103,7 @@ private:
 	soundData m_playData;
 	soundData m_recordData;
 
-	std::string m_currentChord;
+    QString m_currentChord;
 
 	void* initAudioDevice(PaDeviceIndex inputDevice = -1, PaDeviceIndex outputDevice = -1);
 	void* initAudioInput();
