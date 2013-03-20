@@ -67,16 +67,18 @@ void Controler::currentChordSlot(TrackChord* chord)
 		++iPart)
 
 	{
-		// si on est à un début de partie
+		// si on est à un début de partie (autre que la première), qu'on loop, et qu'on a mal joué
 		if(chord == (*iPart)->getTrackChordsList()[0]
 		&& chord != m_track->getPartTrackList()[0]->getTrackChordsList()[0]
 		&& m_configuration->getLoopSetting()
 		&& well_played_chords_in_current_part < (*iPart)->getTrackChordsList().count() )
 		{
 			m_songManager->goToChord((*(iPart - 1))->getTrackChordsList()[0]);
+			well_played_chords_in_current_part = 0;
 		}
 	}
-	//qDebug() << c->getChord();
+
+	qDebug() << "coucou: " << chord->getChord();
 }
 
 void Controler::victoryPercent(double d)
@@ -190,7 +192,7 @@ void Controler::switchPlaying()
 /**
  * @brief Controler::pauseClock
  *
- * Pause l'horloge. -- JM : de même
+ * Pause l'horloge.
  */
 void Controler::pauseClock()
 {

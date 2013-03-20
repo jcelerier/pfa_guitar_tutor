@@ -338,6 +338,7 @@ void MusicManager::fillBufferWithLastInputValues(double* buffer, unsigned int si
  * \param fileName Nom du fichier sauvegardé
  * \return Rien
  */
+/*
 void MusicManager::saveRecordedData(std::string fileName)
 {
 	// On renseigne les paramètres du fichier à créer
@@ -359,7 +360,7 @@ void MusicManager::saveRecordedData(std::string fileName)
 
 	std::cout << "Save complete on " << fileName << std::endl;
 }
-
+*/
 
 /**
  * \fn void MusicManager::run()

@@ -4,14 +4,11 @@
 #include <QObject>
 #include <QTime>
 #include <QTimer>
-#include <boost/thread.hpp>
 
 #include <MusicManager.h>
 #include <GuitarTutor/Chord.h>
 #include <Track/LogicalTrack.h>
 
-
-#define PAUSE_COMPORTMENT 0 //cf configuration
 
 class SongManager: public QObject
 
