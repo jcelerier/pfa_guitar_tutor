@@ -97,7 +97,7 @@ MusicManager::~MusicManager()
 	pthread_join(m_musicManagerThread, NULL);
 #endif
 #if defined(_WIN32) &&! defined(__MINGW32__)
-
+	WaitForSingleObject(m_musicManagerThread, INFINITE);
 #endif
 	//m_musicManagerThread->join();
 
@@ -384,7 +384,7 @@ void MusicManager::run()
 	pthread_create(&m_musicManagerThread, NULL, &musicManagerMainFunction, this);
 #endif
 #if defined(_WIN32) &&! defined(__MINGW32__)
-
+	m_musicManagerThread = CreateThread(NULL, 0, musicManagerMainFunction, this, 0, 0);
 #endif
 
 //	m_musicManagerThread = new boost::thread(&musicManagerMainFunction, this);

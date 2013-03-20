@@ -10,8 +10,8 @@
 
 #include <string>
 #include <iostream>
-#include <sndfile.h>
 #include <vector>
+#include "../fmod/api/inc/fmod.h"
 
 #define SAMPLE_RATE  (44100)
 #define OUTPUT_FRAMES_PER_BUFFER (512)
@@ -39,7 +39,7 @@ public:
 	bool isMute();
 	void setMuteState(bool isMute);
 
-	float* getBuffer() const;
+	float *getBuffer() const;
 	int getChannelsCount() const;
 	int getFramesCount() const;
 	void setFramesCount(int m_framesCount);
@@ -47,7 +47,7 @@ public:
 private:
 	bool m_isMute;
 	int m_channelsCount;
-	int m_framesCount;
+	unsigned int m_framesCount;
 
 	std::vector<float> m_tempBuffer;
 
