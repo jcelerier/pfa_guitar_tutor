@@ -33,7 +33,8 @@ Controler::Controler()
 	m_view = 0;
 	m_scene = 0;
 	m_track = 0;
-	m_currentPart.clear();
+	played_chords_in_current_part = 0;
+	well_played_chords_in_current_part = 0;
 	m_timer = new QTimer(this);
 	m_paused = false;
 	m_muted = false;
@@ -57,14 +58,34 @@ Configuration* Controler::getConfiguration()
 	return m_configuration;
 }
 
-void Controler::currentChordSlot(TrackChord* c)
+void Controler::currentChordSlot(TrackChord* chord)
 {
+	QList<PartTrack*>::iterator iPart;
+
+	for(iPart = m_track->getPartTrackList().begin();
+		iPart != m_track->getPartTrackList().end();
+		++iPart)
+
+	{
+		// si on est à un début de partie
+		if(chord == (*iPart)->getTrackChordsList()[0]
+		&& chord != m_track->getPartTrackList()[0]->getTrackChordsList()[0]
+		&& m_configuration->getLoopSetting()
+		&& well_played_chords_in_current_part < (*iPart)->getTrackChordsList().count() )
+		{
+			m_songManager->goToChord((*(iPart - 1))->getTrackChordsList()[0]);
+		}
+	}
 	//qDebug() << c->getChord();
 }
 
 void Controler::victoryPercent(double d)
 {
 	//qDebug() << "réussite : " << d *100 << "%";
+	if(d * 100 > m_configuration->getDifficulty())
+	{
+		++well_played_chords_in_current_part;
+	}
 }
 
 /**

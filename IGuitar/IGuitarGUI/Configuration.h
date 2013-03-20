@@ -38,6 +38,8 @@ class Configuration
 		int getDifficulty();
 		void setDiffuclty(int);
 
+		bool getLoopSetting();
+		void setLoopSetting(bool);
 
 		//private, please ?
 		static int const framesPerSec=60;
@@ -61,6 +63,8 @@ class Configuration
 
 		int pause_setting;
 		int percent_to_go_to_next_part;
+
+		bool loop_on_failure;
 
 
 };

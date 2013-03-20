@@ -29,6 +29,11 @@ public:
 	void mute();
 	void unmute();
 
+	bool initSong();
+	void startSong();
+	void pauseSong();
+	void stopSong();
+
 	Configuration* getConfiguration();
 
 
@@ -45,11 +50,6 @@ public slots:
 
 
 private:
-	bool initSong();
-	void startSong();
-	void pauseSong();
-	void stopSong();
-
 	SongManager* m_songManager;
 
 	bool m_playing, m_paused;
@@ -63,12 +63,14 @@ private:
 	LogicalTrack *m_track;
 	QList<PlayerChord> m_chordList;
 
-	std::string m_currentPart;
 	QTime m_globalClock;
 	int m_clockOffset;
 	int m_savedClock;
 
 	bool m_muted;
+
+	int well_played_chords_in_current_part;
+	int played_chords_in_current_part;
 };
 
 #endif /* MAINWINDOW_HPP */
