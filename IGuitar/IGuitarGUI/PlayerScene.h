@@ -37,6 +37,10 @@ public slots:
 	void setPlayedChord(BasicChord ch);
 
 	void switchPlaying();
+    void play();
+    void pause();
+    void stop();
+    void back();
 	void switchMenu();
 	void switchMute();
 

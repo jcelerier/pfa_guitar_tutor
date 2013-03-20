@@ -14,6 +14,10 @@
         <file alias="transport.png">images/transport.png</file>
         <file alias="dictionary.png">images/dictionary.png</file>
         <file alias="cross.png">images/cross.png</file>
+        <file alias="stop.png">images/stop.png</file>
+        <file alias="play.png">images/play.png</file>
+        <file alias="pause.png">images/pause.png</file>
+        <file alias="back.png">images/back.png</file>
     </qresource>
     <qresource prefix="/chordsImg">
         <file alias="A.png">chordsImg/A.png</file>
