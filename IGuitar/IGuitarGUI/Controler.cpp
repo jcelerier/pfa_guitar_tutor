@@ -77,7 +77,6 @@ void Controler::ticTac()
 	if(m_playing)
 	{
 		m_scene->updateScene();
-
 	}
 }
 

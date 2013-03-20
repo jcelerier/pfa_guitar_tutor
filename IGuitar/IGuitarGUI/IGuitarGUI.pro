@@ -30,7 +30,7 @@ HEADERS += \
 	ButtonItem.h \
 	ChordDictionary.h \
 	HelpWindow.h \
-    SongManager.h
+	SongManager.h
 
 SOURCES += main.cpp \
 	Configuration.cpp \
@@ -43,7 +43,7 @@ SOURCES += main.cpp \
 	ButtonItem.cpp \
 	ChordDictionary.cpp \
 	HelpWindow.cpp \
-    SongManager.cpp
+	SongManager.cpp
 
 FORMS += \
 	ChordDictionary.ui

@@ -40,7 +40,7 @@ class Configuration
 
 
 		//private, please ?
-		static int const framesPerSec=30;
+		static int const framesPerSec=60;
 		static int const originalWidth=ORIGINAL_WIDTH;
 		static int const originalHeight=ORIGINAL_HEIGHT;
 
