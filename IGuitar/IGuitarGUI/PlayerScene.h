@@ -35,6 +35,7 @@ signals:
 public slots:
 	void updateScene();
 	void setPlayedChord(BasicChord ch);
+    void goToChord(TrackChord*);
 
 	void switchPlaying();
     void play();

@@ -19,6 +19,8 @@ public:
     int getTotalPlayedChords() const;
     int getTotalValidatedChords() const;
     bool getIsCurrentChordValidated() const;
+    void setCurrentChord(int);
+
 private:
     QList<QGraphicsRectItem*> m_cList;
     int m_currentChord;

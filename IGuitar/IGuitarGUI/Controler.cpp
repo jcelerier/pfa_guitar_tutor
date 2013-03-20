@@ -50,6 +50,8 @@ Controler::Controler()
     m_configuration = new Configuration();
 
 	restartEngine();
+
+    connect(m_songManager, SIGNAL(updateChord(TrackChord*)), m_scene, SLOT(goToChord(TrackChord*)));
 }
 
 
@@ -250,6 +252,7 @@ QList<PlayerChord> Controler::getChordList(LogicalTrack* trackName)
 
 				tempChord->setName(chord);
 				tempChord->setTime((int) time);
+                tempChord->setTrackChord(*it2);
 
 				if(chord != "n") {
 					chList.append(*tempChord);

@@ -2,6 +2,7 @@
 #define PLAYERCHORD_H
 
 #include <QGraphicsItem>
+#include <Track/TrackChord.h>
 
 class PlayerChord
 {
@@ -13,11 +14,16 @@ public:
     QGraphicsRectItem* getFullSongItem() const;
     void setFullSongItem(QGraphicsRectItem *r);
     void setScrollingChordItem(QGraphicsTextItem *r);
+
+    TrackChord* getTrackChord() const;
+    void setTrackChord(TrackChord*);
+
 private:
     QString m_name;
     int m_time;
     QGraphicsRectItem* m_fullSongItem;
     QGraphicsTextItem* m_scrollingChordItem;
+    TrackChord* m_trackChord;
 
 };
 

@@ -75,3 +75,24 @@ void PlayerChord::setScrollingChordItem(QGraphicsTextItem* r)
     m_scrollingChordItem = r;
 }
 
+/**
+ * @brief PlayerChord::getTrackChord
+ * @return Le trackChord correspondant a cet accord.
+ *
+ * Getter pour l'élément identifiant dans le controler.
+ */
+TrackChord *PlayerChord::getTrackChord() const
+{
+    return m_trackChord;
+}
+
+/**
+ * @brief PlayerChord::setFullSongItem
+ * @param r Nouvel élément de l'interface.
+ *
+ * Setter pour l'élément récapitulatif du morceau dans l'interface.
+ */
+void PlayerChord::setTrackChord(TrackChord* r)
+{
+   m_trackChord = r;
+}

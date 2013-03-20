@@ -380,3 +380,19 @@ void PlayerScene::playCountdown() {
         switchPlaying();
     }
 }
+
+
+void PlayerScene::goToChord(TrackChord* tc) {
+    int nChord;
+
+    for(int i=0; i<m_controler->getChordList()->size(); i++) {
+        if(tc == m_controler->getChordList()->at(i).getTrackChord()) {
+            nChord = i;
+            break;
+        }
+    }
+
+    ((EntireSong*)m_itemMap["entireSong"])->setCurrentChord(nChord);
+
+
+}
