@@ -88,9 +88,9 @@ void SongManager::stop()
 }
 
 // on coupe le son
-void SongManager::mute(bool)
+void SongManager::mute(bool b)
 {
-
+	m_musicManager->mute(b);
 }
 
 // on set les accords et parties à ce qui correspond

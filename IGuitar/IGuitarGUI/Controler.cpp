@@ -40,6 +40,7 @@ Controler::Controler()
 	m_currentPart.clear();
 	m_timer = new QTimer(this);
 	m_paused = false;
+	m_muted = false;
 
 	m_songManager = new SongManager();
 	connect(m_timer, SIGNAL(timeout()), this, SLOT(ticTac()));
@@ -233,6 +234,23 @@ QList<PlayerChord> Controler::getChordList(LogicalTrack* trackName)
 		}
 	}
 	return chList;
+}
+
+void Controler::mute()
+{
+	m_songManager->mute(true);
+	m_muted = true;
+}
+
+void Controler::unmute()
+{
+	m_songManager->mute(false);
+	m_muted = false;
+}
+
+bool Controler::muteState()
+{
+	return m_muted;
 }
 
 // l'idéal serait de ne pas faire reset la view et juste de mettre à jour les infos

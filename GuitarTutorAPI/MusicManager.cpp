@@ -48,14 +48,12 @@ MusicManager::MusicManager(std::map<std::string, std::string> & tracks,
 {
 	m_err = paNoError;
 
-	std::cout << "Tracks Loading..." << std::endl;
 	m_multiTracks = new MultiTracks(m_tracksName);
 
 	for (unsigned int i = 0; i < muteTracks.size(); ++i) {
 		m_multiTracks->changeTrackMuteState(muteTracks[i], true);
 	}
 
-	std::cout << "Audio Device Initialization" << std::endl;
 	initAudioDevice(m_input, m_output);
 	initAudioInput();
 	initAudioOutput();
@@ -64,8 +62,6 @@ MusicManager::MusicManager(std::map<std::string, std::string> & tracks,
 	m_isRunning = true;
 	m_playData.waitStart = true;
 	m_recordData.waitStart = true;
-
-//	run();
 }
 
 /**
@@ -82,7 +78,6 @@ MusicManager::MusicManager(unsigned int timeToRecordInMs)
 
 	m_multiTracks = new MultiTracks(timeToRecordInMs);
 
-	std::cout << "Audio Device Initialization" << std::endl;
 	initAudioDevice(m_input, m_output);
 	initAudioInput();
 	initAudioOutput();
@@ -91,8 +86,6 @@ MusicManager::MusicManager(unsigned int timeToRecordInMs)
 	m_isRunning = true;
 	m_playData.waitStart = true;
 	m_recordData.waitStart = true;
-
-//	run();
 }
 
 
@@ -102,8 +95,6 @@ MusicManager::~MusicManager()
 
 	m_musicManagerThread->join();
 	delete m_multiTracks;
-
-	qDebug() << "MusicManager properly deleted";
 }
 
 
@@ -198,12 +189,6 @@ void* MusicManager::initAudioInput()
 			recordCallback,
 			&m_recordData );
 
-	printf("erreur: %s.\n", Pa_GetErrorText(m_err));
-/*
-	if( m_inputStream ) {
-		Pa_StartStream( m_inputStream );
-	}
-*/
 	return NULL;
 }
 
@@ -223,6 +208,7 @@ void* MusicManager::initAudioOutput()
 	m_playData.maxFrameIndex = m_multiTracks->getBufferSize();
 
 	m_playData.crossFadeCurrentValue = 0;
+	m_playData.musicManager = this;
 
 	std::cout << std::endl << "=== Now playing. ===" << std::endl;
 	m_err = Pa_OpenStream(
@@ -236,11 +222,7 @@ void* MusicManager::initAudioOutput()
 			&m_playData );
 
 	m_multiTracks->generateMusic();
-/*
-	if( m_playStream ) {
-		Pa_StartStream( m_playStream );
-	}
-*/
+
 	return NULL;
 }
 
@@ -312,11 +294,6 @@ void* MusicManager::changeFrameIndex(int newFrameIndex)
  */
 void* MusicManager::goToInMs(int millisecPos)
 {
-	qDebug() << "MusicManager::goToInMs()";
-	if (!isStarted()) {
-		//start();
-	}
-
 	return changeFrameIndex(SAMPLE_RATE/1000 * millisecPos);
 }
 
@@ -394,11 +371,9 @@ void MusicManager::saveRecordedData(std::string fileName)
 // utilisé pour le premier lancement !
 void MusicManager::run()
 {
-	qDebug() << "MusicManager::run()";
 	m_isRunning = true;
 
 	m_musicManagerThread = new boost::thread(&musicManagerMainFunction, this);
-//	pthread_create(&m_musicManagerThread, NULL, musicManagerMainFunction, this);
 }
 
 /**
@@ -409,7 +384,6 @@ void MusicManager::run()
  */
 void MusicManager::stop()
 {
-	qDebug() << "MusicManager::stop()";
 	m_mustStop = true;
 }
 
@@ -421,17 +395,15 @@ void MusicManager::stop()
  */
 void MusicManager::start()
 {
-	qDebug() << "MusicManager::start()";
-	/*if( m_playStream ) {
-		Pa_StartStream( m_playStream );
-	}
-
-	if( m_inputStream ) {
-		Pa_StartStream( m_inputStream );
-	}*/
 	m_playData.waitStart = false;
 	m_recordData.waitStart = false;
 }
+
+void MusicManager::mute(bool b)
+{
+	m_multiTracks->changeTrackMuteState("all", b);
+}
+
 
 /**
  * \fn bool MusicManager::isRunning() const
@@ -489,10 +461,12 @@ static int playCallback( const void *inputBuffer,
 	int finished;
 	unsigned int framesLeft = data->maxFrameIndex - data->frameIndex;
 
+	MusicManager* musicManager = data->musicManager;
 	(void) inputBuffer; /* Prevent unused variable warnings. */
 	(void) timeInfo;
 	(void) statusFlags;
 	(void) userData;
+
 
 	if (data->waitStart || g__output_pause)
 	{
@@ -509,14 +483,25 @@ static int playCallback( const void *inputBuffer,
 		/* final buffer... */
 		for( i=0; i<framesLeft; i++ )
 		{
-			*wptr++ = *rptr++;  /* left */
-			if( data->nbChannels == 2 ) *wptr++ = *rptr++;  /* right */
+			if(!musicManager->getMultiTracks()->isTrackMute("all"))
+			{
+				*wptr++ = *rptr++;  /* left */
+				if( data->nbChannels == 2 ) *wptr++ = *rptr++;  /* right */
+			}
+			else
+			{
+				*wptr++ = SAMPLE_SILENCE;
+				if( data->nbChannels == 2 ) *wptr++ = SAMPLE_SILENCE;
+				*rptr += 2;
+			}
 		}
+
 		for( ; i<framesPerBuffer; i++ )
 		{
-			*wptr++ = 0;  /* left */
-			if( data->nbChannels == 2 ) *wptr++ = 0;  /* right */
+			*wptr++ = SAMPLE_SILENCE;  /* left */
+			if( data->nbChannels == 2 ) *wptr++ = SAMPLE_SILENCE;  /* right */
 		}
+
 		data->frameIndex += framesLeft;
 		finished = paComplete;
 	}
@@ -524,16 +509,26 @@ static int playCallback( const void *inputBuffer,
 	{
 		for( i=0; i<framesPerBuffer; i++ )
 		{
-			for ( j = 0; j < data->nbChannels; j++) {
-				*wptr = (1. - data->crossFadeCurrentValue) * *rptr + (data->crossFadeCurrentValue) * data->recordedSamples[data->crossFadeframeIndex];
+			if(!musicManager->getMultiTracks()->isTrackMute("all"))
+			{
+				for ( j = 0; j < data->nbChannels; j++)
+				{
+					*wptr = (1. - data->crossFadeCurrentValue) * *rptr + (data->crossFadeCurrentValue) * data->recordedSamples[data->crossFadeframeIndex];
 
-				data->crossFadeCurrentValue -= 1. / (float) data->NB_CROSSFADE_FRAMES;
+					data->crossFadeCurrentValue -= 1. / (float) data->NB_CROSSFADE_FRAMES;
 
-				if (data->crossFadeCurrentValue < 0) { data->crossFadeCurrentValue = 0; }
-				if (data->crossFadeCurrentValue != 0) { data->crossFadeframeIndex++; }
+					if (data->crossFadeCurrentValue < 0) { data->crossFadeCurrentValue = 0; }
+					if (data->crossFadeCurrentValue != 0) { data->crossFadeframeIndex++; }
 
-				wptr++;
-				rptr++;
+					wptr++;
+					rptr++;
+				}
+			}
+			else
+			{
+				*wptr++ = SAMPLE_SILENCE;
+				if( data->nbChannels == 2 ) *wptr++ = SAMPLE_SILENCE;
+				*rptr += 2;
 			}
 			//			if( data->nbChannels == 2 ) *wptr++ = *rptr++;  /* right */
 		}

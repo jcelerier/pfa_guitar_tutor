@@ -35,10 +35,14 @@ signals:
 public slots:
 	void updateScene();
 	void setPlayedChord(BasicChord ch);
+
 	void switchPlaying();
 	void switchMenu();
+	void switchMute();
+
 	void displayDictionary();
 	void playCountdown();
+
 private:
 	QRect m_windowSize;
 	bool m_cntdownOver;

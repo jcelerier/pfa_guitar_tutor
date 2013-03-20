@@ -47,14 +47,24 @@ MultiTracks::~MultiTracks() {
 void MultiTracks::changeTrackMuteState(std::string trackName, bool muteState)
 {
 	std::map<std::string, Track>::iterator iter = m_tracks.find(trackName);
-	if(iter != m_tracks.end())  {
+	if(iter != m_tracks.end())
+	{
 		m_tracks[trackName].setMuteState(muteState);
+	}
+}
+
+bool MultiTracks::isTrackMute(std::string trackName)
+{
+	std::map<std::string, Track>::iterator iter = m_tracks.find(trackName);
+	if(iter != m_tracks.end())
+	{
+		return m_tracks[trackName].isMute();
 	}
 }
 
 float* MultiTracks::getBuffer() const
 {
-    return m_buffer;
+	return m_buffer;
 }
 
 void MultiTracks::generateMusic()
@@ -78,12 +88,12 @@ void MultiTracks::generateMusic()
 
 int MultiTracks::getBufferSize() const
 {
-    return m_bufferSize;
+	return m_bufferSize;
 }
 
 int MultiTracks::getNbChannels() const
 {
-    return m_nbChannels;
+	return m_nbChannels;
 }
 
 

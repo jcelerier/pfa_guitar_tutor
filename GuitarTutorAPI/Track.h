@@ -36,7 +36,7 @@ public:
 	Track(unsigned int silenceTrackTime);
 	virtual ~Track();
 
-	bool isMute() const;
+	bool isMute();
 	void setMuteState(bool isMute);
 
 	float* getBuffer() const;

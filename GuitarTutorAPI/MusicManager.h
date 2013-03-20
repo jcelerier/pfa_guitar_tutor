@@ -38,7 +38,7 @@ extern "C" {
 //#define SAMPLE_SILENCE  (128)
 //#define PRINTF_S_FORMAT "%d"
 
-
+class MusicManager;
 typedef struct
 {
 	static const unsigned short NB_CROSSFADE_FRAMES = 256;
@@ -49,6 +49,8 @@ typedef struct
 	unsigned int 		 		nbChannels;
 	SAMPLE      				*recordedSamples;
 	bool						waitStart;
+
+	MusicManager* musicManager;
 }
 soundData;
 
@@ -68,6 +70,7 @@ public:
 	void start();
 	void pause();
 	void play();
+	void mute(bool b);
 
 	bool isRunning() const;
 	void setMustStop(bool mustStop);

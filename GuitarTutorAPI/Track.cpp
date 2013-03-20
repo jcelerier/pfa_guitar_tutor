@@ -168,7 +168,7 @@ int Track::load()
  *
  *Retourne m_isMute de Track
  */
-bool Track::isMute() const
+bool Track::isMute()
 {
 	return m_isMute;
 }

@@ -187,6 +187,18 @@ void PlayerScene::switchPlaying()
 	m_controler->switchPlaying();
 }
 
+void PlayerScene::switchMute()
+{
+	if(m_controler->muteState())
+	{
+		m_controler->unmute();
+	}
+	else
+	{
+		m_controler->mute();
+	}
+}
+
 /**
  * @brief PlayerScene::switchMenu
  *

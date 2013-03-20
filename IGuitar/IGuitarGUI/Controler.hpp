@@ -28,6 +28,11 @@ public:
 	int elapsedTime();
 	void switchPlaying();
 	void pauseClock();
+
+	bool muteState();
+	void mute();
+	void unmute();
+
 	QList<PlayerChord>* getChordList();
 	QList<PlayerChord> getChordList(LogicalTrack* trackName);
 	LogicalTrack *getTrack();
@@ -45,6 +50,8 @@ private:
 	void startSong();
 	void pauseSong();
 	void stopSong();
+
+
 
 	ScoreManager* m_scoreManager;
 	SongManager* m_songManager;
@@ -66,6 +73,7 @@ private:
 	int m_clockOffset;
 	int m_savedClock;
 
+	bool m_muted;
 };
 
 #endif /* MAINWINDOW_HPP */
