@@ -58,8 +58,8 @@ macx: QMAKE_CFLAGS_X86_64 += -mmacosx-version-min=10.7
 macx: QMAKE_CXXFLAGS_X86_64 = $$QMAKE_CFLAGS_X86_64
 
 unix|macx: LIBS += -lportaudio
-LIBS += -L$$PWD/../../fmod/api/lib/ -lfmodex
-win32|unix: LIBS += -lfmodex64-4.44.00
+win32:LIBS += -L$$PWD/../../fmod/api/lib/ -lfmodex
+unix:LIBS += -lfmodex64-4.44.00
 ## Partie sur les librairies :
 win32 {
 
