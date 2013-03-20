@@ -31,7 +31,7 @@ PlayerScene::PlayerScene(QObject *parent) :
 	m_cntClickUp->setSource(QUrl("qrc:/sounds/MetronomeUp.wav"));
 	m_cntClickUp->setVolume(0.60f);
 
-	//m_dictionary = new ChordDictionary(m_controler->getChordList());
+	m_dictionary = new ChordDictionary(m_controler->getChordList());
 
 }
 
@@ -42,13 +42,14 @@ PlayerScene::PlayerScene(QObject *parent) :
  */
 PlayerScene::~PlayerScene()
 {
-   // delete m_dictionary;
+	delete m_dictionary;
 	delete m_cntTimer;
 
-	QString key;
-	foreach(key, m_itemMap.keys())
-		delete m_itemMap[key];
-}
+	delete m_itemMap["backgnd"];
+	delete m_itemMap["chordPlayed"];
+	delete m_itemMap["songArtist"];
+	delete m_itemMap["songTitle"];
+	delete m_itemMap["totalValidated"];}
 
 /**
  * @brief PlayerScene::disposeScene
@@ -133,6 +134,7 @@ void PlayerScene::disposeScene()
 	((QGraphicsTextItem*)m_itemMap["totalPlayed"])->setFont(robotoFont);
 	m_itemMap["totalPlayed"]->setPos(1340, 115);
 	((QGraphicsTextItem*)m_itemMap["totalPlayed"])->setDefaultTextColor(QColor(255,255,225));
+
 	m_itemMap["totalValidated"] = addText("0", robotoFont);
 	m_itemMap["totalValidated"]->setPos(1340, 173);
 	((QGraphicsTextItem*)m_itemMap["totalValidated"])->setDefaultTextColor(QColor(255,255,255));
@@ -296,7 +298,7 @@ void PlayerScene::updateStats(int validated, int played)
  */
 void PlayerScene::displayDictionary()
 {
-	//m_dictionary->show();
+	m_dictionary->show();
 }
 
 Controler* PlayerScene::getControler() {

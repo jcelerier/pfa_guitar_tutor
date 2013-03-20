@@ -19,7 +19,9 @@ Controler::~Controler()
 
 	delete m_songManager;
 	if(m_scene != 0) delete m_scene;
+	qDebug() << "scene properly deleted";
 	if(m_view  != 0) delete m_view;
+	qDebug() << "view  properly deleted";
 	if(m_track != 0) delete m_track;
 
 	qDebug() << "controler properly deleted";
