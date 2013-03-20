@@ -88,6 +88,8 @@ void PlayerScene::disposeScene()
 	m_itemMap["transport"]->setToolTip(tr("Play/Pause"));
 	connect((ButtonItem*)m_itemMap["transport"], SIGNAL(pushed()), this, SLOT(play()));
 
+	// JM : c'est normal que ça soit la meme entrée de dictionnaire "transport" qui reçoive tous les new ?
+	// Ca les écrase pas ?
 	m_itemMap["transport"] = new ButtonItem(pauseImage, m_itemMap["backgnd"]);
 	m_itemMap["transport"]->setPos(170, 860); // Position absolue par rapport au background
 	m_itemMap["transport"]->setToolTip(tr("Play/Pause"));
