@@ -22,8 +22,6 @@ SongManager::SongManager():
 {
 	m_timer.setInterval(precision_in_ms);
 
-	connect(&m_timer, SIGNAL(timeout()), this, SLOT(checkTime()));
-	connect(&m_timer, SIGNAL(timeout()), this, SLOT(compareChordWithPlayed()));
 }
 
 SongManager::~SongManager()
@@ -61,9 +59,6 @@ void SongManager::load(LogicalTrack* track)
 // on démarre le timer, la lecture, et on réactive les threads
 void SongManager::play()
 {
-	m_time.start();
-	m_timer.start();
-
 	m_musicManager->start();
 	m_musicManager->play();
 }
@@ -72,13 +67,13 @@ void SongManager::play()
 // (permettre une configuration du comportement) : partie / accord / rien
 void SongManager::pause()
 {
-	m_timer.stop();
 	m_musicManager->pause();
 
 	//if(PAUSE_COMPORTMENT == 0)
 	{
 		//ne rien faire si on veut repartir du même endroit
 		//goToChord(m_currentPart->getTrackChordsList()[0]); // pour repartir du début de la partie
+		qDebug() << "accord de pause: " << m_currentChord->getChord();
 		goToChord(m_currentChord); // pour repartir du début de l'accord en cours.
 	}
 }
@@ -86,7 +81,6 @@ void SongManager::pause()
 // on stoppe timer, lecture, threads et on revient au début
 void SongManager::stop()
 {
-	m_timer.stop();
 	elapsedTime = 0;
 	m_musicManager->pause();
 

@@ -221,7 +221,6 @@ void PlayerScene::updateScene()
  */
 void PlayerScene::setPlayedChord(BasicChord ch)
 {
-	qDebug() << "setPlayedChord" << ch.toString().toLatin1();
 	QStringList playedChordList = BasicChord::convertChordToStringList(ch.toString().toLatin1());
 	QString playedChord;
 

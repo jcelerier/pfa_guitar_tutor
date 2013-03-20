@@ -48,6 +48,8 @@ Controler::Controler()
 	connect(m_songManager, SIGNAL(updateChord(TrackChord*)), this, SLOT(currentChordSlot(TrackChord*)));
 	connect(m_songManager, SIGNAL(lastChordCorrectness(double)), this, SLOT(victoryPercent(double)));
 
+	connect(m_timer, SIGNAL(timeout()), m_songManager, SLOT(checkTime()));
+	connect(m_timer, SIGNAL(timeout()), m_songManager, SLOT(compareChordWithPlayed()));
 
 	restartEngine();
 }
@@ -98,9 +100,6 @@ bool Controler::initSong()
 
 	m_songManager->load(m_track);
 
-
-	//load ici
-
 	return true;
 }
 
@@ -113,8 +112,8 @@ bool Controler::initSong()
 void Controler::startSong()
 {
 	m_songManager->play();
-
 	m_timer->start(1000/Configuration::framesPerSec);
+	m_playing=true;
 }
 
 /**
@@ -124,12 +123,16 @@ void Controler::startSong()
  */
 void Controler::pauseSong()
 {
+	pauseClock();
 	m_songManager->pause();
+	m_playing=false;
 }
 
 void Controler::stopSong()
 {
+	pauseClock();
 	m_songManager->stop();
+	m_playing=false;
 }
 
 /**
@@ -152,16 +155,11 @@ void Controler::switchPlaying()
 {
 	if(!m_playing)
 	{
-		m_timer->start();
 		startSong();
-		m_playing=true;
 	}
 	else
 	{
-		pauseClock();
 		pauseSong();
-		m_playing=false;
-
 	}
 	m_globalClock.start();
 }
@@ -262,7 +260,6 @@ void Controler::restartEngine()
 	m_view = new MyView(m_scene);
 
 	connect(m_songManager, SIGNAL(currentlyPlayedChord(BasicChord)), m_scene, SLOT(setPlayedChord(BasicChord)));
-	m_timer->start(1000/Configuration::framesPerSec);
 
 	m_view->show();
 }
