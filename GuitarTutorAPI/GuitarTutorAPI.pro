@@ -12,13 +12,11 @@ win32 {
 CONFIG += rtti
 DEPENDPATH +=  . \
 			  ../libsndfile/lib \
-			  ../boost/lib \
 			  ../portaudio/lib \
 			  ../fmod/api/lib
 
 INCLUDEPATH += . \
 			   ../libsndfile/include \
-			   ../boost/include \
 			   ../fmod/api/inc
 }
 
@@ -84,7 +82,7 @@ SOURCES += MultiTracks.cpp \
 macx: QMAKE_CFLAGS_X86_64 += -mmacosx-version-min=10.7
 macx: QMAKE_CXXFLAGS_X86_64 = $$QMAKE_CFLAGS_X86_64
 
-LIBS += -lsndfile -lboost -lportaudio
+LIBS += -lsndfile -lportaudio
 macx: LIBS += -lfmodex
 win32:QMAKE_LFLAGS += -shared
 win32:CONFIG += -dll

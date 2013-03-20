@@ -10,33 +10,22 @@
 
 #include <map>
 #include <string>
-#include <boost/thread.hpp>
-#include <sndfile.h>
 
 #include "MultiTracks.h"
 #include <portaudio.h>
+
+#if defined(__MINGW32__) || defined(__linux__) || defined(TARGET_OS_MAC)
+#include <pthread.h>
+#endif
+#if defined(_WIN32) &&! defined(__MINGW32__)
+#include <Windows.h>
+#endif
+
 
 extern "C" {
 #include "chord/chord_c.h"
 }
 
-
-
-//#elif 1
-//#define PA_SAMPLE_TYPE  paInt16
-//typedef short SAMPLE;
-//#define SAMPLE_SILENCE  (0)
-//#define PRINTF_S_FORMAT "%d"
-//#elif 0
-//#define PA_SAMPLE_TYPE  paInt8
-//typedef char SAMPLE;
-//#define SAMPLE_SILENCE  (0)
-//#define PRINTF_S_FORMAT "%d"
-//#else
-//#define PA_SAMPLE_TYPE  paUInt8
-//typedef unsigned char SAMPLE;
-//#define SAMPLE_SILENCE  (128)
-//#define PRINTF_S_FORMAT "%d"
 
 class MusicManager;
 typedef struct
@@ -92,7 +81,15 @@ private:
 	bool m_isRunning;
 	bool m_mustStop;
 	std::map<std::string,std::string> m_tracksName;
-	boost::thread * m_musicManagerThread;
+
+
+#if defined(__MINGW32__) || defined(__linux__) || defined(TARGET_OS_MAC)
+	pthread_t m_musicManagerThread;
+#endif
+#if defined(_WIN32) &&! defined(__MINGW32__)
+	HANDLE m_musicManagerThread;
+#endif
+
 	MultiTracks *m_multiTracks;
 
 	PaDeviceIndex m_input, m_output;

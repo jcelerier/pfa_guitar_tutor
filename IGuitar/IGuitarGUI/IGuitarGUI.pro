@@ -8,12 +8,10 @@ QT += xml core gui widgets webkit webkitwidgets testlib multimedia
 win32 {
 DEPENDPATH += . \
 			  ../../libsndfile/lib \
-			  ../../boost/lib \
 			  ../../portaudio/lib
 
 INCLUDEPATH += . \
-			   ../../libsndfile/include \
-			   ../../boost/include
+			   ../../libsndfile/include
 
 
 }
@@ -61,8 +59,7 @@ PRE_TARGETDEPS += $$PWD/../../libiguitar/libIGuitar.a
 macx: QMAKE_CFLAGS_X86_64 += -mmacosx-version-min=10.7
 macx: QMAKE_CXXFLAGS_X86_64 = $$QMAKE_CFLAGS_X86_64
 
-unix|macx: LIBS += -lsndfile -lportaudio -lboost_thread-mt
-macx: LIBS += -lboost_system-mt
+unix|macx: LIBS += -lsndfile -lportaudio
 
 ## Partie sur les librairies :
 win32 {
@@ -73,17 +70,6 @@ INCLUDEPATH += $$PWD/../../libsndfile/include
 DEPENDPATH += $$PWD/../../libsndfile/lib
 
 PRE_TARGETDEPS += $$PWD/../../libsndfile/lib/libsndfile.a
-
-
-
-#boost::thread
-LIBS += -L$$PWD/../../boost/lib/ -lboost_thread-mgw47-mt-1_53 -lboost_system-mgw47-mt-1_53
-
-INCLUDEPATH += $$PWD/../../boost/include
-DEPENDPATH += $$PWD/../../boost/include
-
-PRE_TARGETDEPS += $$PWD/../../boost/lib/libboost_thread-mgw47-mt-1_53.dll.a $$PWD/../../boost/lib/libboost_system-mgw47-mt-1_53.dll.a
-
 
 #portaudio
 LIBS += -L$$PWD/../../portaudio/lib/ -lportaudio

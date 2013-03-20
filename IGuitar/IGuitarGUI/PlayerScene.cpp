@@ -30,7 +30,7 @@ PlayerScene::PlayerScene(QObject *parent) :
 	m_cntClickUp->setSource(QUrl("qrc:/sounds/MetronomeUp.wav"));
 	m_cntClickUp->setVolume(0.60f);
 
-    //m_dictionary = new ChordDictionary(m_controler->getChordList());
+	//m_dictionary = new ChordDictionary(m_controler->getChordList());
 
 }
 
@@ -59,7 +59,7 @@ void PlayerScene::disposeScene()
 {
 	//setSceneRect(0,0,1920,1080);
 	// Police
-    QFont titleFont("Roboto",20);
+	QFont titleFont("Roboto",20);
 
 	// Couleur de fond
 	QColor bgColor(34, 14, 30);
@@ -77,31 +77,31 @@ void PlayerScene::disposeScene()
 	m_itemMap["menuBtn"]->setToolTip(tr("Menu"));
 	connect((ButtonItem*)m_itemMap["menuBtn"], SIGNAL(pushed()), this, SLOT(switchMenu()));
 
-    // Transport
-    QPixmap playImage(":/images/play.png");
-    QPixmap pauseImage(":/images/pause.png");
-    QPixmap stopImage(":/images/stop.png");
-    QPixmap backImage(":/images/back.png");
+	// Transport
+	QPixmap playImage(":/images/play.png");
+	QPixmap pauseImage(":/images/pause.png");
+	QPixmap stopImage(":/images/stop.png");
+	QPixmap backImage(":/images/back.png");
 
-    m_itemMap["transport"] = new ButtonItem(playImage, m_itemMap["backgnd"]);
-    m_itemMap["transport"]->setPos(40, 860); // Position absolue par rapport au background
+	m_itemMap["transport"] = new ButtonItem(playImage, m_itemMap["backgnd"]);
+	m_itemMap["transport"]->setPos(40, 860); // Position absolue par rapport au background
 	m_itemMap["transport"]->setToolTip(tr("Play/Pause"));
-    connect((ButtonItem*)m_itemMap["transport"], SIGNAL(pushed()), this, SLOT(play()));
+	connect((ButtonItem*)m_itemMap["transport"], SIGNAL(pushed()), this, SLOT(play()));
 
-    m_itemMap["transport"] = new ButtonItem(pauseImage, m_itemMap["backgnd"]);
-    m_itemMap["transport"]->setPos(170, 860); // Position absolue par rapport au background
-    m_itemMap["transport"]->setToolTip(tr("Play/Pause"));
-    connect((ButtonItem*)m_itemMap["transport"], SIGNAL(pushed()), this, SLOT(pause()));
+	m_itemMap["transport"] = new ButtonItem(pauseImage, m_itemMap["backgnd"]);
+	m_itemMap["transport"]->setPos(170, 860); // Position absolue par rapport au background
+	m_itemMap["transport"]->setToolTip(tr("Play/Pause"));
+	connect((ButtonItem*)m_itemMap["transport"], SIGNAL(pushed()), this, SLOT(pause()));
 
-    m_itemMap["transport"] = new ButtonItem(stopImage, m_itemMap["backgnd"]);
-    m_itemMap["transport"]->setPos(300, 860); // Position absolue par rapport au background
-    m_itemMap["transport"]->setToolTip(tr("Play/Pause"));
-    connect((ButtonItem*)m_itemMap["transport"], SIGNAL(pushed()), this, SLOT(stop()));
+	m_itemMap["transport"] = new ButtonItem(stopImage, m_itemMap["backgnd"]);
+	m_itemMap["transport"]->setPos(300, 860); // Position absolue par rapport au background
+	m_itemMap["transport"]->setToolTip(tr("Play/Pause"));
+	connect((ButtonItem*)m_itemMap["transport"], SIGNAL(pushed()), this, SLOT(stop()));
 
-    m_itemMap["transport"] = new ButtonItem(backImage, m_itemMap["backgnd"]);
-    m_itemMap["transport"]->setPos(470, 860); // Position absolue par rapport au background
-    m_itemMap["transport"]->setToolTip(tr("Play/Pause"));
-    connect((ButtonItem*)m_itemMap["transport"], SIGNAL(pushed()), this, SLOT(back()));
+	m_itemMap["transport"] = new ButtonItem(backImage, m_itemMap["backgnd"]);
+	m_itemMap["transport"]->setPos(470, 860); // Position absolue par rapport au background
+	m_itemMap["transport"]->setToolTip(tr("Play/Pause"));
+	connect((ButtonItem*)m_itemMap["transport"], SIGNAL(pushed()), this, SLOT(back()));
 
 
 	// Dictionnaire d'accords
@@ -112,13 +112,13 @@ void PlayerScene::disposeScene()
 	connect((ButtonItem*)m_itemMap["dictionary"], SIGNAL(pushed()), this, SLOT(displayDictionary()));
 
 	// Titre de la chanson
-    m_itemMap["songTitle"] = addText("Title", titleFont);
+	m_itemMap["songTitle"] = addText("Title", titleFont);
 	m_itemMap["songTitle"]->setPos(200, 65);
 	((QGraphicsTextItem*)m_itemMap["songTitle"])->setTextWidth(520);
 	((QGraphicsTextItem*)m_itemMap["songTitle"])->setHtml("<p align=\"center\">"+m_controler->getTrack()->getTrackName()+"</p>");
 
 	// Artiste de la chanson
-    m_itemMap["songArtist"] = addText("Artist", titleFont);
+	m_itemMap["songArtist"] = addText("Artist", titleFont);
 	m_itemMap["songArtist"]->setPos(200, 115);
 	((QGraphicsTextItem*)m_itemMap["songArtist"])->setTextWidth(520);
 	((QGraphicsTextItem*)m_itemMap["songArtist"])->setHtml("<p align=\"center\">"+m_controler->getTrack()->getArtist()+"</p>");
@@ -149,24 +149,24 @@ void PlayerScene::disposeScene()
 
 
 	// Statistiques
-    QFont statsFont("Roboto",28);
-    m_itemMap["totalPlayed"] = new QGraphicsTextItem("", m_itemMap["backgnd"]);
-    ((QGraphicsTextItem*)m_itemMap["totalPlayed"])->setFont(statsFont);
-    m_itemMap["totalPlayed"]->setPos(1210, 125);
-    ((QGraphicsTextItem*)m_itemMap["totalPlayed"])->setTextWidth(100);
-    ((QGraphicsTextItem*)m_itemMap["totalPlayed"])->setDefaultTextColor(QColor(101, 215, 78));
+	QFont statsFont("Roboto",28);
+	m_itemMap["totalPlayed"] = new QGraphicsTextItem("", m_itemMap["backgnd"]);
+	((QGraphicsTextItem*)m_itemMap["totalPlayed"])->setFont(statsFont);
+	m_itemMap["totalPlayed"]->setPos(1210, 125);
+	((QGraphicsTextItem*)m_itemMap["totalPlayed"])->setTextWidth(100);
+	((QGraphicsTextItem*)m_itemMap["totalPlayed"])->setDefaultTextColor(QColor(101, 215, 78));
 
-    m_itemMap["totalValidated"] = addText("", statsFont);
-    m_itemMap["totalValidated"]->setPos(1210, 210);
-    ((QGraphicsTextItem*)m_itemMap["totalValidated"])->setTextWidth(100);
-    ((QGraphicsTextItem*)m_itemMap["totalValidated"])->setDefaultTextColor(QColor(101, 215, 78));
+	m_itemMap["totalValidated"] = addText("", statsFont);
+	m_itemMap["totalValidated"]->setPos(1210, 210);
+	((QGraphicsTextItem*)m_itemMap["totalValidated"])->setTextWidth(100);
+	((QGraphicsTextItem*)m_itemMap["totalValidated"])->setDefaultTextColor(QColor(101, 215, 78));
 
-    // Decompte de lecture
+	// Decompte de lecture
 	QFont countFont("Roboto", 90);
 	m_itemMap["countDown"] = new QGraphicsTextItem("", m_itemMap["backgnd"]);
 	((QGraphicsTextItem*)m_itemMap["countDown"])->setFont(countFont);
-    ((QGraphicsTextItem*)m_itemMap["countDown"])->setPos(300-45, 680-45);
-    ((QGraphicsTextItem*)m_itemMap["countDown"])->setDefaultTextColor(Qt::white);
+	((QGraphicsTextItem*)m_itemMap["countDown"])->setPos(300-45, 680-45);
+	((QGraphicsTextItem*)m_itemMap["countDown"])->setDefaultTextColor(Qt::white);
 }
 
 /**
@@ -214,35 +214,35 @@ void PlayerScene::switchPlaying()
 
 void PlayerScene::play()
 {
-    if(!m_isPlaying) {
-        if(!m_cntdownOver) {
-            m_cntdown = 4;
-            playCountdown();
-            m_cntTimer->start(1000);
-            return;
-        }
-        if(m_cntdownOver)
-            m_cntdownOver = false;
+	if(!m_isPlaying) {
+		if(!m_cntdownOver) {
+			m_cntdown = 4;
+			playCountdown();
+			m_cntTimer->start(1000);
+			return;
+		}
+		if(m_cntdownOver)
+			m_cntdownOver = false;
 
-        m_isPlaying = true;
-        m_controler->startSong();
-    }
+		m_isPlaying = true;
+		m_controler->startSong();
+	}
 }
 void PlayerScene::pause()
 {
-    m_isPlaying = false;
-    m_controler->pauseSong();
+	m_isPlaying = false;
+	m_controler->pauseSong();
 }
 void PlayerScene::stop()
 {
-    m_isPlaying = false;
-    m_controler->stopSong();
+	m_isPlaying = false;
+	m_controler->stopSong();
 }
 void PlayerScene::back()
 {
-    m_isPlaying = false;
-    m_controler->stopSong();
-    play();
+	m_isPlaying = false;
+	m_controler->stopSong();
+	play();
 }
 
 void PlayerScene::switchMute()
@@ -343,8 +343,8 @@ void PlayerScene::setCurrentChordValidated(bool v)
  */
 void PlayerScene::updateStats(int validated, int played)
 {
-    ((QGraphicsTextItem*)m_itemMap["totalValidated"])->setHtml("<p align=\"center\">"+QString::number(validated)+"</p>");
-    ((QGraphicsTextItem*)m_itemMap["totalPlayed"])->setHtml("<p align=\"center\">"+QString::number(played)+"</p>");
+	((QGraphicsTextItem*)m_itemMap["totalValidated"])->setHtml("<p align=\"center\">"+QString::number(validated)+"</p>");
+	((QGraphicsTextItem*)m_itemMap["totalPlayed"])->setHtml("<p align=\"center\">"+QString::number(played)+"</p>");
 }
 
 /**
@@ -362,37 +362,37 @@ Controler* PlayerScene::getControler() {
 }
 
 void PlayerScene::playCountdown() {
-    QString num;
-    if(m_cntdown > 0) {
-        if(m_cntdown == 4)
-            m_cntClickUp->play();
-        else
-            m_cntClick->play();
-        num.setNum(m_cntdown);
-        ((QGraphicsTextItem*)m_itemMap["countDown"])->setPlainText(num);
-        qDebug() << num;
-        m_cntdown--;
-    }
-    else {
-        m_cntdownOver = true;
-        m_cntTimer->stop();
-        ((QGraphicsTextItem*)m_itemMap["countDown"])->setPlainText("");
-        switchPlaying();
-    }
+	QString num;
+	if(m_cntdown > 0) {
+		if(m_cntdown == 4)
+			m_cntClickUp->play();
+		else
+			m_cntClick->play();
+		num.setNum(m_cntdown);
+		((QGraphicsTextItem*)m_itemMap["countDown"])->setPlainText(num);
+		qDebug() << num;
+		m_cntdown--;
+	}
+	else {
+		m_cntdownOver = true;
+		m_cntTimer->stop();
+		((QGraphicsTextItem*)m_itemMap["countDown"])->setPlainText("");
+		switchPlaying();
+	}
 }
 
 
 void PlayerScene::goToChord(TrackChord* tc) {
-    int nChord;
+	int nChord = 0;
 
-    for(int i=0; i<m_controler->getChordList()->size(); i++) {
-        if(tc == m_controler->getChordList()->at(i).getTrackChord()) {
-            nChord = i;
-            break;
-        }
-    }
+	for(int i=0; i<m_controler->getChordList()->size(); i++) {
+		if(tc == m_controler->getChordList()->at(i).getTrackChord()) {
+			nChord = i;
+			break;
+		}
+	}
 
-    ((EntireSong*)m_itemMap["entireSong"])->setCurrentChord(nChord);
+	((EntireSong*)m_itemMap["entireSong"])->setCurrentChord(nChord);
 
 
 }

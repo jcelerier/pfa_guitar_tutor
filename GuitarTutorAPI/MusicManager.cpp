@@ -13,7 +13,6 @@
 
 #include "MusicManager.h"
 
-#include <boost/thread.hpp>
 #include <QDebug>
 
 bool g__output_pause = false;
@@ -93,7 +92,14 @@ MusicManager::~MusicManager()
 {
 	stop();
 	terminateAudioDevice();
-	m_musicManagerThread->join();
+
+#if defined(__MINGW32__) || defined(__linux__) || defined(TARGET_OS_MAC)
+	pthread_join(m_musicManagerThread, NULL);
+#endif
+#if defined(_WIN32) &&! defined(__MINGW32__)
+
+#endif
+	//m_musicManagerThread->join();
 
 	delete m_multiTracks;
 }
@@ -374,7 +380,14 @@ void MusicManager::run()
 {
 	m_isRunning = true;
 
-	m_musicManagerThread = new boost::thread(&musicManagerMainFunction, this);
+#if defined(__MINGW32__) || defined(__linux__) || defined(TARGET_OS_MAC)
+	pthread_create(&m_musicManagerThread, NULL, &musicManagerMainFunction, this);
+#endif
+#if defined(_WIN32) &&! defined(__MINGW32__)
+
+#endif
+
+//	m_musicManagerThread = new boost::thread(&musicManagerMainFunction, this);
 }
 
 /**
