@@ -29,12 +29,12 @@
         <translation>Calculer</translation>
     </message>
     <message>
-        <location filename="AudioSync.cpp" line="306"/>
+        <location filename="AudioSync.cpp" line="305"/>
         <source>Your job is not done yet</source>
         <translation>Il reste des choses à faire</translation>
     </message>
     <message>
-        <location filename="AudioSync.cpp" line="306"/>
+        <location filename="AudioSync.cpp" line="305"/>
         <source>The three timers have not been set yet.</source>
         <translation>Les trois temps début, mesure et fin  n&apos;ont pas été correctement positionnés.</translation>
     </message>
@@ -42,22 +42,22 @@
 <context>
     <name>AudioWindow</name>
     <message>
-        <location filename="AudioWindow.cpp" line="8"/>
+        <location filename="AudioWindow.cpp" line="14"/>
         <source>Audio file</source>
         <translation>Fichier audio</translation>
     </message>
     <message>
-        <location filename="AudioWindow.cpp" line="12"/>
+        <location filename="AudioWindow.cpp" line="18"/>
         <source>Browse</source>
         <translation>Parcourir</translation>
     </message>
     <message>
-        <location filename="AudioWindow.cpp" line="137"/>
+        <location filename="AudioWindow.cpp" line="150"/>
         <source>Open a file</source>
         <translation>Ouvrir un fichier</translation>
     </message>
     <message>
-        <location filename="AudioWindow.cpp" line="137"/>
+        <location filename="AudioWindow.cpp" line="150"/>
         <source>Music (*.mp3 *.ogg *.wma *.wav)</source>
         <translation>Musique (*.mp3 *.ogg *.wma *.wav)</translation>
     </message>
@@ -80,62 +80,72 @@
         <translation>Jouer à partir d&apos;ici</translation>
     </message>
     <message>
-        <location filename="ChordTableWidget.cpp" line="266"/>
+        <location filename="ChordTableWidget.cpp" line="285"/>
         <source>Are you sure you want to delete lines </source>
         <translation>Êtes-vous sûr de vouloir supprimer les lignes </translation>
     </message>
     <message>
-        <location filename="ChordTableWidget.cpp" line="275"/>
+        <location filename="ChordTableWidget.cpp" line="294"/>
         <source>Deleting lines</source>
         <translation>Suppression de lignes</translation>
     </message>
     <message>
-        <location filename="ChordTableWidget.cpp" line="315"/>
+        <location filename="ChordTableWidget.cpp" line="334"/>
         <source>Are you sure you want to delete columns </source>
         <translation>Êtes-vous sûr de vouloir supprimer les colonnes </translation>
     </message>
     <message>
-        <location filename="ChordTableWidget.cpp" line="325"/>
+        <location filename="ChordTableWidget.cpp" line="344"/>
         <source>Deleting columns</source>
         <translation>Suppression de colonnes</translation>
     </message>
     <message>
-        <location filename="ChordTableWidget.cpp" line="518"/>
+        <location filename="ChordTableWidget.cpp" line="535"/>
         <location filename="ChordTableWidget.cpp" line="556"/>
         <source>Error with timers</source>
         <translation>Erreur avec les timers</translation>
     </message>
     <message>
-        <location filename="ChordTableWidget.cpp" line="518"/>
+        <location filename="ChordTableWidget.cpp" line="535"/>
         <source>The bar timer should be greater than the beginning timer.</source>
         <translation>Le timer de mesure devrait être plus grand que le timer de début.</translation>
     </message>
     <message>
-        <location filename="ChordTableWidget.cpp" line="533"/>
+        <location filename="ChordTableWidget.cpp" line="550"/>
         <source>Before doing something wrong</source>
         <translation>Attention</translation>
     </message>
     <message>
         <location filename="ChordTableWidget.cpp" line="556"/>
         <source>There are too many cells for the end timer you entered.</source>
-        <translation>Il y a trop de cases dans la grille : certaines resteront intialisées. Pour régler ce problème, augmenter le timer de fin ou réduire le nombre de cases.</translation>
+        <translation>Il y a trop de cases dans la grille : certaines ne seront pas modifiées. Pour régler ce problème, augmentez le timer de fin ou réduisez le nombre de cases dans le morceau.</translation>
     </message>
     <message>
-        <location filename="ChordTableWidget.cpp" line="575"/>
+        <location filename="ChordTableWidget.cpp" line="563"/>
+        <source>Ok</source>
+        <translation>Ok</translation>
+    </message>
+    <message>
+        <location filename="ChordTableWidget.cpp" line="563"/>
+        <source>The time has been set up correctly</source>
+        <translation>La grille a été mise à jour</translation>
+    </message>
+    <message>
+        <location filename="ChordTableWidget.cpp" line="576"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="ChordTableWidget.cpp" line="575"/>
+        <location filename="ChordTableWidget.cpp" line="576"/>
         <source>The first case must always have a part. To create a part, please refer to the help.</source>
-        <translation>La première case doit toujours contenir une partie. Pour créer une partie, prière de se référer à l&apos;aide.</translation>
+        <translation>La première case doit toujours contenir une partie. Pour créer une partie, vous pouvez vous référer à l&apos;aide.</translation>
     </message>
     <message>
         <source>Before doing stupid things</source>
         <translation type="obsolete">Avant de faire des bêtises</translation>
     </message>
     <message>
-        <location filename="ChordTableWidget.cpp" line="533"/>
+        <location filename="ChordTableWidget.cpp" line="550"/>
         <source>Some timers have already been set manually. Do you want to reset them too?</source>
         <translation>Certains marqueurs ont été réglés manuellement. Voulez-vous les recalculer eux-aussi?</translation>
     </message>
@@ -162,7 +172,7 @@
     <message>
         <location filename="EditionSelector.cpp" line="30"/>
         <source>Press Load to load a file</source>
-        <translation>Appuyer sur &quot;Charger&quot; pour charger un fichier</translation>
+        <translation>Cliquez sur &quot;Charger&quot; pour charger un fichier</translation>
     </message>
     <message>
         <location filename="EditionSelector.cpp" line="32"/>
@@ -177,7 +187,7 @@
     <message>
         <location filename="EditionSelector.cpp" line="43"/>
         <source>Open a grid</source>
-        <translation></translation>
+        <translation>Ouvrir une grille</translation>
     </message>
     <message>
         <source>Show this screen at startup</source>
@@ -217,12 +227,12 @@
 <context>
     <name>GridEditor</name>
     <message>
-        <location filename="GridEditor.cpp" line="82"/>
+        <location filename="GridEditor.cpp" line="89"/>
         <source>&amp;File</source>
         <translation>&amp;Fichier</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="83"/>
+        <location filename="GridEditor.cpp" line="90"/>
         <source>&amp;Edit</source>
         <translation>&amp;Edition</translation>
     </message>
@@ -231,102 +241,112 @@
         <translation type="obsolete">&amp;Options</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="84"/>
+        <location filename="GridEditor.cpp" line="91"/>
         <source>&amp;About</source>
         <translation>&amp;A propos</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="93"/>
+        <location filename="GridEditor.cpp" line="100"/>
         <source>&amp;Quit</source>
         <translation>&amp;Quitter</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="94"/>
+        <location filename="GridEditor.cpp" line="101"/>
         <source>About</source>
         <translation>A propos</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="95"/>
+        <location filename="GridEditor.cpp" line="102"/>
         <source>&amp;New</source>
         <translation>&amp;Nouveau</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="96"/>
+        <location filename="GridEditor.cpp" line="103"/>
         <source>&amp;Save</source>
         <translation>Enregi&amp;strer</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="97"/>
+        <location filename="GridEditor.cpp" line="104"/>
         <source>Save as</source>
-        <translation>Sauver sous</translation>
+        <translation>Enregistrer sous</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="98"/>
+        <location filename="GridEditor.cpp" line="105"/>
         <source>&amp;Open</source>
         <translation>&amp;Ouvrir</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="99"/>
+        <location filename="GridEditor.cpp" line="106"/>
         <source>Add row</source>
         <translation>Ajouter une ligne</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="100"/>
+        <location filename="GridEditor.cpp" line="107"/>
         <source>Delete row</source>
         <translation>Supprimer une ligne</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="101"/>
+        <location filename="GridEditor.cpp" line="108"/>
         <source>Add column</source>
         <translation>Ajouter une colonne</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="102"/>
+        <location filename="GridEditor.cpp" line="109"/>
         <source>Delete column</source>
         <translation>Supprimer une colonne</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="103"/>
+        <location filename="GridEditor.cpp" line="110"/>
         <source>&amp;Copy down</source>
         <translation>&amp;Copier</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="426"/>
+        <location filename="GridEditor.cpp" line="115"/>
+        <source>&amp;Undo</source>
+        <translation>&amp;Annuler</translation>
+    </message>
+    <message>
+        <location filename="GridEditor.cpp" line="116"/>
+        <source>&amp;Redo</source>
+        <translation>&amp;Refaire</translation>
+    </message>
+    <message>
+        <location filename="GridEditor.cpp" line="446"/>
         <source>Loading</source>
         <translation>Chargement</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="433"/>
+        <location filename="GridEditor.cpp" line="453"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="433"/>
+        <location filename="GridEditor.cpp" line="453"/>
         <source>The file has not been loaded. Is it correct?</source>
         <translation>Le fichier n&apos;a pas été chargé. Est-il correct?</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="463"/>
+        <location filename="GridEditor.cpp" line="485"/>
         <source>About GridEditor</source>
         <translation>A propos de GridEditor</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="463"/>
+        <location filename="GridEditor.cpp" line="485"/>
         <source>Editor for the GuitarTutor software suite.</source>
         <translation>Editeur pour la suite logicielle GuitarTutor.</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="477"/>
+        <location filename="GridEditor.cpp" line="499"/>
         <source>Track: </source>
-        <translation type="unfinished">Piste: </translation>
+        <translation>Piste: </translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="483"/>
+        <location filename="GridEditor.cpp" line="505"/>
         <source>  Artist: </source>
-        <translation type="unfinished">  Artiste: </translation>
+        <translation>  Artiste: </translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="514"/>
+        <location filename="GridEditor.cpp" line="536"/>
         <source>The document has been modified</source>
         <translation>Le document a été modifié</translation>
     </message>
@@ -335,22 +355,22 @@
         <translation type="obsolete">Renommer</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="104"/>
+        <location filename="GridEditor.cpp" line="111"/>
         <source>Audio</source>
         <translation>Audio</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="105"/>
+        <location filename="GridEditor.cpp" line="112"/>
         <source>Properties</source>
         <translation>Propriétés</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="106"/>
+        <location filename="GridEditor.cpp" line="113"/>
         <source>&amp;Help</source>
         <translation>&amp;Aide</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="164"/>
+        <location filename="GridEditor.cpp" line="178"/>
         <source>Tool bar</source>
         <translation>Barre d&apos;outils</translation>
     </message>
@@ -359,13 +379,13 @@
         <translation type="obsolete">Le document a été modifié.</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="515"/>
+        <location filename="GridEditor.cpp" line="537"/>
         <source>Do you want to save your changes?</source>
         <translation>Voulez-vous enregistrer vos modifications?</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="383"/>
-        <location filename="GridEditor.cpp" line="426"/>
+        <location filename="GridEditor.cpp" line="400"/>
+        <location filename="GridEditor.cpp" line="446"/>
         <source>XML Files (*.xml)</source>
         <translation>Fichiers XML (*.xml)</translation>
     </message>
@@ -439,7 +459,7 @@ Nombre de colonnes:</translation>
 <context>
     <name>HelpWindow</name>
     <message>
-        <location filename="HelpWindow.cpp" line="10"/>
+        <location filename="HelpWindow.cpp" line="17"/>
         <source>Close</source>
         <translation>Fermer</translation>
     </message>
@@ -515,12 +535,12 @@ Nombre de colonnes:</translation>
         <translation>Propriétés de la case</translation>
     </message>
     <message>
-        <location filename="PartSetter.cpp" line="68"/>
+        <location filename="PartSetter.cpp" line="79"/>
         <source>First part</source>
         <translation>Première partie</translation>
     </message>
     <message>
-        <location filename="PartSetter.cpp" line="68"/>
+        <location filename="PartSetter.cpp" line="79"/>
         <source>You must give a part name to the first cell.</source>
         <translation>La première case doit avoir un nom de partie.</translation>
     </message>
@@ -589,6 +609,11 @@ Nombre de colonnes:</translation>
         <location filename="TrackProperties.ui" line="139"/>
         <source>Time signature : 3/4, 4/4...</source>
         <translation>Signature rythmique : 3/4, 4/4...</translation>
+    </message>
+    <message>
+        <location filename="TrackProperties.ui" line="152"/>
+        <source>Comment</source>
+        <translation>Commentaires</translation>
     </message>
 </context>
 </TS>
