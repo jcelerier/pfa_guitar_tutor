@@ -19,9 +19,7 @@ PlayerScene::PlayerScene(QObject *parent) :
 	m_cntTimer = new QTimer(this);
 	connect(m_cntTimer, SIGNAL(timeout()), this, SLOT(playCountdown()));
 
-	disposeScene();
-
-	resetNoteCheck();
+    disposeScene();
 
 	m_cntClick = new QSoundEffect();
 	m_cntClick->setSource(QUrl("qrc:/sounds/Metronome.wav"));
@@ -278,13 +276,9 @@ void PlayerScene::switchMenu()
  */
 void PlayerScene::updateScene()
 {
-	if(m_isPlaying)
-	{
-		/*QTransform textTrans;
-		textTrans.translate(-1,0);
-		itemMap["texteAccords"]->setTransform(textTrans, true);*/
+    if(m_isPlaying)
 		advance();
-	}
+
 }
 
 /**
@@ -298,13 +292,7 @@ void PlayerScene::setPlayedChord(BasicChord ch)
 	QStringList playedChordList = BasicChord::convertChordToStringList(ch.toString().toLatin1());
 	QString playedChord;
 
-	if(!((EntireSong*)m_itemMap["entireSong"])->getIsCurrentChordValidated() &&
-			playedChordList.contains(((EntireSong*)m_itemMap["entireSong"])->getCurrentChord())) {
-
-		m_timeNoteSynchronized += (m_controler->elapsedTime() - m_lastTimeCheck);
-		if (((m_timeNoteSynchronized * 100.0)/m_currentNoteDuration) > 30 /*Adaptative*/) {
-			setCurrentChordValidated(true);
-		}
+    if(playedChordList.contains(((EntireSong*)m_itemMap["entireSong"])->getCurrentChord())) {
 		//Affichage de la note attendue
 		//((QGraphicsTextItem*)itemMap["chordPlayed"])->setHtml(playedChord[0]+"<sub>"+playedChord.mid(1)+"</sub>");
 		playedChord = ((EntireSong*)m_itemMap["entireSong"])->getCurrentChord();
@@ -312,31 +300,9 @@ void PlayerScene::setPlayedChord(BasicChord ch)
 	else //Affichage d'une note au hasard parmis les résultats possibles
 		playedChord = playedChordList.at(0);
 
-	((QGraphicsTextItem*)m_itemMap["chordPlayed"])->setHtml(playedChord[0]+"<sub>"+playedChord.mid(1)+"</sub>");
-	m_lastTimeCheck = m_controler->elapsedTime();
+    ((QGraphicsTextItem*)m_itemMap["chordPlayed"])->setHtml(playedChord[0]+"<sub>"+playedChord.mid(1)+"</sub>");
 }
 
-/**
- * @brief PlayerScene::resetNoteCheck
- *
- * Remise à zéro des variables utilisées pour le calcul de la durée de synchronisation. Doit etre appelé à chaque changement d'accord dans la partition.
- */
-void PlayerScene::resetNoteCheck()
-{
-	m_timeNoteSynchronized = 0;
-	m_currentNoteDuration = ((EntireSong*)m_itemMap["entireSong"])->getCurrentDuration();
-}
-
-/**
- * @brief PlayerScene::setCurrentChordValidated
- * @param v Vrai si et seulement si l'accord courant doit etre validé
- *
- * Demande la validation ou non de l'accord courant.
- */
-void PlayerScene::setCurrentChordValidated(bool v)
-{
-	((EntireSong*)m_itemMap["entireSong"])->validateChord(v);
-}
 
 /**
  * @brief PlayerScene::updateStats
@@ -394,7 +360,7 @@ void PlayerScene::goToChord(TrackChord* tc) {
 			nChord = i;
 			break;
 		}
-	}
+    }
 
 	((EntireSong*)m_itemMap["entireSong"])->setCurrentChord(nChord);
 

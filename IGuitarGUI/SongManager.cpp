@@ -155,6 +155,7 @@ void SongManager::goToChord(TrackChord* chord)
 
 				m_musicManager->goToInMs(msPosition);
 				emit updateChord(m_currentChord);
+                emit nonNaturalChange(m_currentChord);
 
 				elapsedTime = msPosition;
 				return;

@@ -24,9 +24,7 @@ public:
 private:
 	QList<QGraphicsRectItem*> m_cList;
 	int m_currentChord;
-	int m_lastRefresh;
-	int m_totalPlayedChords;
-	int m_totalValidatedChords;
+    int m_lastRefresh;
 	QGraphicsItemGroup* m_scrollingTextContainer;
 	QGraphicsTextItem* m_timeText;
 

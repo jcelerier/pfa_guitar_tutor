@@ -24,8 +24,8 @@ public:
 	TrackChord* getTrackChord() const;
 	void setTrackChord(TrackChord*);
 
-	void validate(bool b = true);
-	bool isValidated();
+    void validate(bool b=true);
+    bool isValidated() const;
 
 private:
 	QString m_name;

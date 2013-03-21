@@ -108,7 +108,7 @@ void PlayerChord::validate(bool b)
 	m_validated = b;
 }
 
-bool PlayerChord::isValidated()
+bool PlayerChord::isValidated() const
 {
 	return m_validated;
 }

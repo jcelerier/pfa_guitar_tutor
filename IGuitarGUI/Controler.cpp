@@ -34,6 +34,9 @@ Controler::Controler()
 	m_track = 0;
 	played_chords_in_current_part = 0;
 	well_played_chords_in_current_part = 0;
+
+    m_totalPlayedChords = 0;
+    m_totalValidatedChords = 0;
 	m_timer = new QTimer(this);
 	m_paused = false;
 	m_muted = false;
@@ -43,6 +46,7 @@ Controler::Controler()
 	connect(m_timer, SIGNAL(timeout()), m_songManager, SLOT(checkTime()));
 	connect(m_timer, SIGNAL(timeout()), m_songManager, SLOT(compareChordWithPlayed()));
 
+    connect(m_songManager, SIGNAL(nonNaturalChange(TrackChord*)), this, SLOT(resetValidatedNotes(TrackChord*)));
 	connect(m_songManager, SIGNAL(updateChord(TrackChord*)), this, SLOT(currentChordSlot(TrackChord*)));
 	connect(m_songManager, SIGNAL(lastChordCorrectness(TrackChord*, double)), this, SLOT(victoryPercent(TrackChord*, double)));
 
@@ -50,7 +54,8 @@ Controler::Controler()
 
 	restartEngine();
 
-	connect(m_songManager, SIGNAL(updateChord(TrackChord*)), m_scene, SLOT(goToChord(TrackChord*)));
+    connect(m_songManager, SIGNAL(nonNaturalChange(TrackChord*)), m_scene, SLOT(goToChord(TrackChord*)));
+
 }
 
 /**
@@ -80,7 +85,7 @@ void Controler::currentChordSlot(TrackChord* chord)
 	{
 		// si on est à un début de partie (autre que la première), qu'on loop, et qu'on a mal joué
 		if(chord == (*iPart)->getTrackChordsList()[0]
-		&& chord != m_track->getPartTrackList()[0]->getTrackChordsList()[0]
+        && chord != m_track->getPartTrackList()[0]->getTrackChordsList()[0]
 		&& m_configuration->getLoopSetting()
 		&& well_played_chords_in_current_part < (*iPart)->getTrackChordsList().count() )
 		{
@@ -88,7 +93,36 @@ void Controler::currentChordSlot(TrackChord* chord)
 			well_played_chords_in_current_part = 0;
 		}
 	}
+
+    m_totalPlayedChords++;
+    m_scene->updateStats(m_totalValidatedChords, m_totalPlayedChords);
 }
+
+void Controler::resetValidatedNotes(TrackChord* chord)
+{
+    QList<PlayerChord>::iterator iChord;
+
+    bool toReset = false;
+    int validatedToDelete = 0;
+
+    for(iChord = m_chordList.begin();
+        iChord != m_chordList.end();
+        ++iChord)
+
+    {
+        if(chord == iChord->getTrackChord())
+            toReset=true;
+        if(toReset) {
+            if(iChord->isValidated())
+            validatedToDelete ++;
+
+            iChord->validate(false);
+
+        }
+    }
+    m_totalPlayedChords -= validatedToDelete;
+}
+
 
 /**
  * @brief Controler::victoryPercent
@@ -106,6 +140,7 @@ void Controler::victoryPercent(TrackChord* chord, double d)
 			if(p_chord.getTrackChord() == chord)
 			{
 				p_chord.validate();
+                m_totalValidatedChords++;
 				break;
 			}
 		}

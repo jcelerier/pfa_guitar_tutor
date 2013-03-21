@@ -238,6 +238,6 @@ QString LogicalTrack::getComment()
 
 int LogicalTrack::getBPM()
 {
-	return getTimePerMesure() * 60000 / (getBar() - getBeginning());
+    return getTimePerMesure() * 60000 / (getBar() - getBeginning());
 }
 

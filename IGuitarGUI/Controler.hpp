@@ -52,6 +52,7 @@ public slots:
 	void restartEngine();
 
 	void currentChordSlot(TrackChord*);
+    void resetValidatedNotes(TrackChord*);
 	void victoryPercent(TrackChord*, double);
 
 
@@ -72,6 +73,9 @@ private:
 	QTime m_globalClock;
 	int m_clockOffset;
 	int m_savedClock;
+
+    int m_totalPlayedChords;
+    int m_totalValidatedChords;
 
 	bool m_muted;
 

@@ -24,9 +24,7 @@ class PlayerScene : public QGraphicsScene
 public:
 	explicit PlayerScene(QObject *parent = 0);
 	void mousePressEvent(QGraphicsSceneMouseEvent*);
-	QGraphicsItem* getItem(QString);
-	void setCurrentChordValidated(bool v);
-	void resetNoteCheck();
+    QGraphicsItem* getItem(QString);
 	void updateStats(int validated, int played);
 	~PlayerScene();
 	Controler* getControler();

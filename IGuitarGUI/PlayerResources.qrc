@@ -58,6 +58,9 @@
         <file alias="MetronomeUp.wav">sounds/MetronomeUp.wav</file>
     </qresource>
     <qresource prefix="/fonts">
-        <file alias="Roboto.ttf">fonts/Roboto.ttf</file>
+        <file alias="Roboto-Regular.ttf">fonts/Roboto-Regular.ttf</file>
+        <file alias="Roboto-Italic.ttf">fonts/Roboto-Italic.ttf</file>
+        <file alias="Roboto-BoldCondensed.ttf">fonts/Roboto-BoldCondensed.ttf</file>
+        <file alias="Roboto-Black.ttf">fonts/Roboto-Black.ttf</file>
     </qresource>
 </RCC>

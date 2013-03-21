@@ -26,7 +26,6 @@ private:
 	qreal beginning_in_ms;
 	int repetition;
 
-
 	int m_num;
 	PartTrack* m_part;
 
