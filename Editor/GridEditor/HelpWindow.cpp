@@ -1,6 +1,13 @@
 #include "HelpWindow.h"
 #include <QDebug>
 #include <QDir>
+
+/**
+ * @brief HelpWindow::HelpWindow
+ * @param parent Widget parent
+ *
+ * Crée la fenetre d'aide utilisateur.
+ */
 HelpWindow::HelpWindow(QWidget *parent) :
 	QDialog(parent)
 {
@@ -18,6 +25,11 @@ HelpWindow::HelpWindow(QWidget *parent) :
 	connect(close, SIGNAL(clicked()), this, SLOT(accept()));
 }
 
+/**
+ * @brief HelpWindow::~HelpWindow
+ *
+ * Destructeur.
+ */
 HelpWindow::~HelpWindow()
 {
 	delete layout;

@@ -3,6 +3,10 @@
 
 #include <QDebug>
 
+/**
+ * @brief TrackProperties::TrackProperties
+ * @param parent Widget parent
+ */
 TrackProperties::TrackProperties(QWidget *parent) :
 	QDialog(parent),
 	ui(new Ui::TrackProperties)
@@ -16,6 +20,9 @@ TrackProperties::TrackProperties(QWidget *parent) :
 	accept();
 }
 
+/**
+ * @brief TrackProperties::~TrackProperties
+ */
 TrackProperties::~TrackProperties()
 {
 	delete ui;

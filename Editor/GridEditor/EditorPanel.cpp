@@ -78,3 +78,13 @@ void EditorPanel::updateGrid(ChordTableWidget *chordTable)
 	vboxTable->addWidget(chordTable);
 	grid = chordTable;
 }
+
+/**
+ * @brief EditorPanel::~EditorPanel
+ *
+ * Destructeur.
+ */
+EditorPanel::~EditorPanel() {
+    delete mainLayout;
+    delete tabs;
+}

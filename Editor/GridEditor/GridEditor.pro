@@ -60,8 +60,8 @@ QT += core \
 	  xml \
 	  webkit \
 	  webkitwidgets \
-          widgets
-#     testlib #désactiver pour ne pas avoir la console qui s'affiche
+          widgets \
+    testlib #désactiver pour ne pas avoir la console qui s'affiche
 
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../libiguitar/ -lIGuitar

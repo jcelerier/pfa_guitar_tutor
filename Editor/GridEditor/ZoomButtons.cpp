@@ -1,5 +1,9 @@
 #include "ZoomButtons.h"
 
+/**
+ * @brief ZoomButtons::ZoomButtons
+ * @param parent
+ */
 ZoomButtons::ZoomButtons(QWidget *parent) :
 	QWidget(parent)
 {

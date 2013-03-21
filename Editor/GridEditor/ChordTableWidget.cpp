@@ -94,6 +94,11 @@ void ChordTableWidget::deepCopy(ChordTableWidget* target)
 	}
 }
 
+/**
+ * @brief ChordTableWidget::~ChordTableWidget
+ *
+ * Destructeur.
+ */
 ChordTableWidget::~ChordTableWidget()
 {
 
@@ -396,8 +401,6 @@ void ChordTableWidget::ShowContextMenu(const QPoint& pos) // this is a slot
 	}
 }
 
-/////// TODO:
-/////// Afficher le nom de partie façon GP dans les cases. (genre en petit, gras, rouge...)
 /**
  * @brief ChordTableWidget::setCasePart
  * @param text Texte à mettre.

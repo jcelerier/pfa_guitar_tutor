@@ -1,6 +1,12 @@
 #include "NewGridDialog.h"
 #include "ui_NewGridDialog.h"
 
+/**
+ * @brief NewGridDialog::NewGridDialog
+ * @param parent Widget parent
+ *
+ * Constructeur.
+ */
 NewGridDialog::NewGridDialog(QWidget *parent) :
 	QDialog(parent),
 	ui(new Ui::NewGridDialog)
@@ -27,7 +33,11 @@ void NewGridDialog::accept()
 	done(QDialog::Accepted);
 }
 
-
+/**
+ * @brief NewGridDialog::~NewGridDialog
+ *
+ * Destructeur.
+ */
 NewGridDialog::~NewGridDialog()
 {
 	delete ui;

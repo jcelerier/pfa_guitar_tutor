@@ -177,7 +177,7 @@ void Waveform::simpleDrawColumn(int col, int value, QPen* pen)
  * Dessine une colonne de la waveform à proprement parler, toutes ces variables sont nécessaires
  * pour savoir si on la met en clair ou foncé
  */
-void Waveform::drawColumn(int col, int beg, int end, int smp_begin, int smp_end, int pos_begin, int pos_end)
+void Waveform::drawColumn(int col, int beg, int /*end*/, int smp_begin, int smp_end, int pos_begin, int pos_end)
 {
     unsigned int value = qMin((unsigned int) abs(m_spectrum[col] / m_reductionFactor), m_height);
 

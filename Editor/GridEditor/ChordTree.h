@@ -12,6 +12,7 @@
 class ChordTree : public QTreeWidget
 {
     Q_OBJECT
+    QTreeWidgetItem* m_children;
 public:
     ChordTree();
     QTreeWidgetItem *buildChordItem(const QString tonality);

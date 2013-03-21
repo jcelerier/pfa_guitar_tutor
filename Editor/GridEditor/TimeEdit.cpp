@@ -1,6 +1,10 @@
 #include "TimeEdit.h"
 #include <QDebug>
 
+/**
+ * @brief TimeEdit::TimeEdit
+ * @param parent Widget parent
+ */
 TimeEdit::TimeEdit(QWidget *parent) :
 	QTimeEdit(QTime(0, 0, 0, 0), parent)
 {

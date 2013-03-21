@@ -477,7 +477,11 @@ void SimpleMusicPlayer::waveBarZoom()
 	}
 }
 
-
+/**
+ * @brief SimpleMusicPlayer::waveUpdate
+ *
+ * Mise à jour de la forme d'onde.
+ */
 void SimpleMusicPlayer::waveUpdate()
 {
 	waveform->update();

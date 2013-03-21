@@ -35,6 +35,11 @@ CaseItem::CaseItem(const QTableWidgetItem& item) : QTableWidgetItem(item), m_col
 	this->m_beginningTimer = ((CaseItem) item).m_beginningTimer;
 }
 
+/**
+ * @brief CaseItem::~CaseItem
+ *
+ * Destructeur.
+ */
 CaseItem::~CaseItem()
 {
 	delete m_color;
@@ -49,8 +54,8 @@ CaseItem::~CaseItem()
  *
  * Configure la couleur de la case.
  */
-void CaseItem::set_color(int r, int g, int b, int a = 255) {
-	m_color->setRgb(r, g, b, a);
+void CaseItem::set_color(int r, int g, int b, int a) {
+    m_color->setRgb(r, g, b, a);
 
 	if(r == 255 && g == 255 && b == 255) //ugly hack, plutot faire une surcharge
 	{
@@ -203,6 +208,10 @@ void CaseItem::setPlayColor()
 	set_color(20, 250, 0);
 }
 
+/**
+ * @brief CaseItem::isBeingPlayed
+ * @return Vrai si et seulement si la case actuelle contient l'accord qui est actuellement joué.
+ */
 bool CaseItem::isBeingPlayed()
 {
 	return m_currentlyPlaying;
@@ -215,21 +224,24 @@ bool CaseItem::isBeingPlayed()
  */
 void CaseItem::restoreColor()
 {
-	/*if(isPartSet())
-	{
-		set_color(220, 220, 255, 255);
-	}
-	else*/
-	{
-		set_color(255, 255, 255, 255);
-	}
+    set_color(255, 255, 255, 255);
 }
 
+/**
+ * @brief CaseItem::setBadChordColor
+ *
+ * Attribue une couleur pour les cases contenant des accords non valides.
+ */
 void CaseItem::setBadChordColor()
 {
 	set_color(255, 150, 150);
 }
 
+/**
+ * @brief CaseItem::setBadTimeColor
+ *
+ * Attribue une couleur pour les cases contenant des informations de temps non valides.
+ */
 void CaseItem::setBadTimeColor()
 {
 	set_color(255, 165, 0);
