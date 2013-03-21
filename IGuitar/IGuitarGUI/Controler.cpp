@@ -53,12 +53,22 @@ Controler::Controler()
 	connect(m_songManager, SIGNAL(updateChord(TrackChord*)), m_scene, SLOT(goToChord(TrackChord*)));
 }
 
-
+/**
+ * @brief Controler::getConfiguration
+ * @return La classe de configuration
+ */
 Configuration* Controler::getConfiguration()
 {
 	return m_configuration;
 }
 
+/**
+ * @brief Controler::currentChordSlot
+ * @param chord Le nouvel accord
+ *
+ * Ce slot reçoit à chaque fois l'accord dans lequel on entre.
+ * Il effectue la vérification pour savoir si on passe à la partie suivante.
+ */
 void Controler::currentChordSlot(TrackChord* chord)
 {
 	QList<PartTrack*>::iterator iPart;
@@ -82,6 +92,12 @@ void Controler::currentChordSlot(TrackChord* chord)
 	qDebug() << "coucou: " << chord->getChord();
 }
 
+/**
+ * @brief Controler::victoryPercent
+ * @param d Pourcentage de réussite de l'accord précédent.
+ *
+ * Si ce pourcentage est supérieur à celui défini dans la configuration, on ajoute une réussite.
+ */
 void Controler::victoryPercent(double d)
 {
 	//qDebug() << "réussite : " << d *100 << "%";
@@ -144,7 +160,7 @@ void Controler::startSong()
 }
 
 /**
- * @brief Controler::stopSong
+ * @brief Controler::pauseSong
  *
  * Suspend le player.
  */
@@ -156,6 +172,11 @@ void Controler::pauseSong()
 	m_playing=false;
 }
 
+/**
+ * @brief Controler::stopSong
+ *
+ * Arr$ete le morceau
+ */
 void Controler::stopSong()
 {
 	pauseClock();
@@ -266,18 +287,32 @@ QList<PlayerChord> Controler::getChordList(LogicalTrack* trackName)
 	return chList;
 }
 
+/**
+ * @brief Controler::mute
+ *
+ * Coupe le son
+ */
 void Controler::mute()
 {
 	m_songManager->mute(true);
 	m_muted = true;
 }
 
+/**
+ * @brief Controler::unmute
+ *
+ * Remet le son
+ */
 void Controler::unmute()
 {
 	m_songManager->mute(false);
 	m_muted = false;
 }
 
+/**
+ * @brief Controler::muteState
+ * @return Etat du son (coupé ou non)
+ */
 bool Controler::muteState()
 {
 	return m_muted;

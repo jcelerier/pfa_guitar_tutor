@@ -13,6 +13,11 @@
 #define PAUSE_TO_LAST_PART 2
 
 
+/**
+ * @brief The Configuration class
+ *
+ * Classe qui contient la configuration.
+ */
 class Configuration
 {
 	public:

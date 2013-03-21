@@ -5,6 +5,12 @@
 #include <QVector>
 #include <QString>
 
+/**
+ * @brief SongManager::SongManager
+ * @param parent
+ *
+ * Constructeur du gestionnaire de partition
+ */
 SongManager::SongManager(QObject* parent): QObject(parent),
 	m_track(0),
 	m_musicManager(0),
@@ -29,21 +35,27 @@ SongManager::~SongManager()
 }
 
 
+/**
+ * @brief SongManager::load
+ * @param track LogicalTrack à charger.
+ *
+ * Charge un morceau. Attention, simple recopie de pointeur : ne pas faire de delete.
+ */
 void SongManager::load(LogicalTrack* track)
 {
 	elapsedTime = 0;
 	number_of_valid_chord_checks = 0;
 	m_track = track;
 
-    QMap<QString, QString> multiTracksMap;
-    QVector<QString> muteTracks;
+	QMap<QString, QString> multiTracksMap;
+	QVector<QString> muteTracks;
 
-    multiTracksMap["all"] =  m_track->getAudioFileName();
+	multiTracksMap["all"] =  m_track->getAudioFileName();
 
 	if(m_musicManager != 0 )
 	{
 		delete m_musicManager;
-        QTest::qSleep(2000); //sécurité pour portaudio
+		QTest::qSleep(2000); //sécurité pour portaudio
 	}
 
 	m_musicManager = new MusicManager(multiTracksMap, muteTracks, -1, -1);
@@ -52,15 +64,25 @@ void SongManager::load(LogicalTrack* track)
 	goToChord(m_track->getPartTrackList()[0]->getTrackChordsList()[0]);
 }
 
-// on démarre le timer, la lecture, et on réactive les threads
+/**
+ * @brief SongManager::play
+ *
+ * Démarre la lecture. Normalement le timer est activé depuis le controleur.
+ */
 void SongManager::play()
 {
 	m_musicManager->start();
 	m_musicManager->play();
 }
 
-// on stoppe timer, lecture, threads et on revient à l'accord précédent
-// (permettre une configuration du comportement) : partie / accord / rien
+/**
+ * @brief SongManager::pause
+ *
+ * Pause la lecture et mets le player dans l'état défini dans la configuration :
+ * -> On reprend au même instant
+ * -> On reprend au début de l'accord qu'on jouait
+ * -> On reprend au début de la partie
+ */
 void SongManager::pause()
 {
 	m_musicManager->pause();
@@ -80,28 +102,41 @@ void SongManager::pause()
 	}
 }
 
-// on stoppe timer, lecture, threads et on revient au début
+/**
+ * @brief SongManager::stop
+ *
+ * Arrête la lecture et remet au début.
+ */
 void SongManager::stop()
 {
-	elapsedTime = 0;
 	m_musicManager->pause();
 
 	goToChord(m_track->getPartTrackList()[0]->getTrackChordsList()[0]);
 }
 
-// on coupe le son
+/**
+ * @brief SongManager::mute
+ * @param b Booléen : true si on coupe le son.
+ *
+ * Gère le mutage - démutage du son.
+ */
 void SongManager::mute(bool b)
 {
 	m_musicManager->mute(b);
 }
 
-// on set les accords et parties à ce qui correspond
+/**
+ * @brief SongManager::goToChord
+ * @param chord Accord ou on veut se déplacer
+ *
+ * Déplace la lecture à l'accord passé en paramètre
+ */
 void SongManager::goToChord(TrackChord* chord)
 {
 	int msPosition = 0;
 	// on doit trouver la partie de l'accord
-    QList<PartTrack*>::Iterator iPart;
-    QList<TrackChord*>::Iterator iChord;
+	QList<PartTrack*>::Iterator iPart;
+	QList<TrackChord*>::Iterator iChord;
 
 	for(iPart = m_track->getPartTrackList().begin();
 		iPart != m_track->getPartTrackList().end();
@@ -130,7 +165,17 @@ void SongManager::goToChord(TrackChord* chord)
 	// normalement on n'est pas sensé arriver ici
 }
 
-// compare la note jouée avec la note actuelle. incrémente le pourcentage de réussite si réussi. (à voir en fonction du nombre d'appels dans l'accord)
+
+
+/**
+ * @brief SongManager::compareChordWithPlayed
+ *
+ * Compare la note jouée avec la note actuelle.
+ * Incrémente le pourcentage de réussite si réussi.
+ * (à voir en fonction du nombre d'appels dans l'accord).
+ *
+ * Emet un signal à chaque fois.
+ */
 void SongManager::compareChordWithPlayed()
 {
 	++number_of_chord_checks;
@@ -151,7 +196,12 @@ void SongManager::compareChordWithPlayed()
 	}
 }
 
-// vérifie dans quel accord on se situe et met à jour.
+
+/**
+ * @brief SongManager::checkTime
+ *
+ * Vérifie à chaque tick dans quel accord on se trouve.
+ */
 void SongManager::checkTime()
 {
 	elapsedTime += m_time.restart();
@@ -159,8 +209,8 @@ void SongManager::checkTime()
 	int msPrevPosition = 0;
 	int msPosition = 0;
 
-    QList<PartTrack*>::Iterator iPart;
-    QList<TrackChord*>::Iterator iChord;
+	QList<PartTrack*>::Iterator iPart;
+	QList<TrackChord*>::Iterator iChord;
 
 	for(iPart = m_track->getPartTrackList().begin();
 		iPart != m_track->getPartTrackList().end();
@@ -184,19 +234,24 @@ void SongManager::checkTime()
 				return;
 			}
 
+			// Si le temps écoulé est dans l'accord listé
 			if(msPrevPosition <= elapsedTime && elapsedTime < msPosition)
 			{
+				// Si cet accord est différend de l'accord actuel
 				if(m_currentChord != *iChord)
 				{
+					// On émet la réussite de l'accord précédent
 					emit lastChordCorrectness((double) number_of_valid_chord_checks / (double)number_of_chord_checks);
+
+					// On émet le nouvel accord
 					emit updateChord(*iChord);
 
 					number_of_chord_checks = 0;
 					number_of_valid_chord_checks = 0;
-				}
-				m_currentPart = *iPart;
-				m_currentChord = *iChord;
 
+					m_currentPart = *iPart;
+					m_currentChord = *iChord;
+				}
 				return;
 			}
 			msPrevPosition = msPosition;

@@ -13,6 +13,12 @@
 #define PERCENT_OF_CORRECT_NOTES_TO_GO_TO_NEXT_PART 50.0
 #define CHORDS_IMAGES_LOCATION "./chordsImg"
 
+
+/**
+ * @brief The Controler class
+ *
+ * Classe contrôleur du player.
+ */
 class Controler : public QObject {
 
 	Q_OBJECT

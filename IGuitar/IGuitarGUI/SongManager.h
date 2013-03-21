@@ -9,7 +9,12 @@
 #include <GuitarTutor/Chord.h>
 #include <Track/LogicalTrack.h>
 
-
+/**
+ * @brief The SongManager class
+ *
+ * Classe qui gère le transport dans la partition. Contrôle la lecture audio de manière
+ * à ce que l'audio soit synchronisé avec ces informations.
+ */
 class SongManager: public QObject
 
 {
