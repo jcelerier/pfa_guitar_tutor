@@ -90,20 +90,20 @@ void PlayerScene::disposeScene()
 
 	// JM : c'est normal que ça soit la meme entrée de dictionnaire "transport" qui reçoive tous les new ?
 	// Ca les écrase pas ?
-	m_itemMap["transport"] = new ButtonItem(pauseImage, m_itemMap["backgnd"]);
-	m_itemMap["transport"]->setPos(170, 860); // Position absolue par rapport au background
-	m_itemMap["transport"]->setToolTip(tr("Play/Pause"));
-	connect((ButtonItem*)m_itemMap["transport"], SIGNAL(pushed()), this, SLOT(pause()));
+	m_itemMap["pause"] = new ButtonItem(pauseImage, m_itemMap["backgnd"]);
+	m_itemMap["pause"]->setPos(170, 860); // Position absolue par rapport au background
+	m_itemMap["pause"]->setToolTip(tr("Play/Pause"));
+	connect((ButtonItem*)m_itemMap["pause"], SIGNAL(pushed()), this, SLOT(pause()));
 
-	m_itemMap["transport"] = new ButtonItem(stopImage, m_itemMap["backgnd"]);
-	m_itemMap["transport"]->setPos(300, 860); // Position absolue par rapport au background
-	m_itemMap["transport"]->setToolTip(tr("Play/Pause"));
-	connect((ButtonItem*)m_itemMap["transport"], SIGNAL(pushed()), this, SLOT(stop()));
+	m_itemMap["stop"] = new ButtonItem(stopImage, m_itemMap["backgnd"]);
+	m_itemMap["stop"]->setPos(300, 860); // Position absolue par rapport au background
+	m_itemMap["stop"]->setToolTip(tr("Play/Pause"));
+	connect((ButtonItem*)m_itemMap["stop"], SIGNAL(pushed()), this, SLOT(stop()));
 
-	m_itemMap["transport"] = new ButtonItem(backImage, m_itemMap["backgnd"]);
-	m_itemMap["transport"]->setPos(470, 860); // Position absolue par rapport au background
-	m_itemMap["transport"]->setToolTip(tr("Play/Pause"));
-	connect((ButtonItem*)m_itemMap["transport"], SIGNAL(pushed()), this, SLOT(back()));
+	m_itemMap["back"] = new ButtonItem(backImage, m_itemMap["backgnd"]);
+	m_itemMap["back"]->setPos(470, 860); // Position absolue par rapport au background
+	m_itemMap["back"]->setToolTip(tr("Play/Pause"));
+	connect((ButtonItem*)m_itemMap["back"], SIGNAL(pushed()), this, SLOT(back()));
 
 
 	// Dictionnaire d'accords
@@ -140,15 +140,10 @@ void PlayerScene::disposeScene()
 
 	// Accord joue a la guitare
 	QFont playedFont("Roboto", 130/*150*/);
-	m_itemMap["chordPlayed"] = addText("", playedFont);
+	m_itemMap["chordPlayed"] = new QGraphicsTextItem("", m_itemMap["backgnd"]);
+	((QGraphicsTextItem*)m_itemMap["chordPlayed"])->setFont(playedFont);
 	((QGraphicsTextItem*)m_itemMap["chordPlayed"])->setDefaultTextColor(QColor(0, 161, 42));
 	m_itemMap["chordPlayed"]->setPos(1110, 380);
-
-	// Menu
-	m_itemMap["menu"] = new MenuItem(m_itemMap["backgnd"]);
-	m_itemMap["menu"]->setVisible(false);
-	m_itemMap["menu"]->setPanelModality(QGraphicsItem::PanelModal);
-
 
 	// Statistiques
 	QFont statsFont("Roboto",28);
@@ -158,7 +153,8 @@ void PlayerScene::disposeScene()
 	((QGraphicsTextItem*)m_itemMap["totalPlayed"])->setTextWidth(100);
 	((QGraphicsTextItem*)m_itemMap["totalPlayed"])->setDefaultTextColor(QColor(101, 215, 78));
 
-	m_itemMap["totalValidated"] = addText("", statsFont);
+	m_itemMap["totalValidated"] = new QGraphicsTextItem("", m_itemMap["backgnd"]);
+	((QGraphicsTextItem*)m_itemMap["totalValidated"])->setFont(statsFont);
 	m_itemMap["totalValidated"]->setPos(1210, 210);
 	((QGraphicsTextItem*)m_itemMap["totalValidated"])->setTextWidth(100);
 	((QGraphicsTextItem*)m_itemMap["totalValidated"])->setDefaultTextColor(QColor(101, 215, 78));
@@ -169,6 +165,12 @@ void PlayerScene::disposeScene()
 	((QGraphicsTextItem*)m_itemMap["countDown"])->setFont(countFont);
 	((QGraphicsTextItem*)m_itemMap["countDown"])->setPos(300-45, 680-45);
 	((QGraphicsTextItem*)m_itemMap["countDown"])->setDefaultTextColor(Qt::white);
+
+
+	// Menu
+	m_itemMap["menu"] = new MenuItem(m_itemMap["backgnd"]);
+	m_itemMap["menu"]->setVisible(false);
+	m_itemMap["menu"]->setPanelModality(QGraphicsItem::SceneModal);
 }
 
 /**

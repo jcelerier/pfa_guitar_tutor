@@ -1,13 +1,13 @@
 TEMPLATE = app
 TARGET = IGuitarGUI
-DESTDIR = ../../app/
+DESTDIR = ../app/
 DEPENDPATH += .
 
 QT += xml core gui widgets webkit webkitwidgets testlib multimedia
 
 win32 {
 DEPENDPATH += . \
-			  ../../portaudio/lib
+			  ../portaudio/lib
 
 INCLUDEPATH += . \
 
@@ -45,31 +45,30 @@ FORMS += \
 	ChordDictionary.ui
 
 
-unix:!symbian|win32: LIBS += -L$$PWD/../../libiguitar/ -lIGuitar
+unix:!symbian|win32: LIBS += -L$$PWD/../libiguitar/ -lIGuitar
 
-INCLUDEPATH += $$PWD/../../GuitarTutorAPI
-DEPENDPATH += $$PWD/../../libiguitar
+INCLUDEPATH += $$PWD/../GuitarTutorAPI
+DEPENDPATH += $$PWD/../libiguitar
 
-#win32: PRE_TARGETDEPS += $$PWD/../../libiguitar/IGuitar.lib
 #else:unix:
-PRE_TARGETDEPS += $$PWD/../../libiguitar/libIGuitar.a
+PRE_TARGETDEPS += $$PWD/../libiguitar/libIGuitar.a
 
 macx: QMAKE_CFLAGS_X86_64 += -mmacosx-version-min=10.7
 macx: QMAKE_CXXFLAGS_X86_64 = $$QMAKE_CFLAGS_X86_64
 
 unix|macx: LIBS += -lportaudio
-win32:LIBS += -L$$PWD/../../fmod/api/lib/ -lfmodex
+win32:LIBS += -L$$PWD/../fmod/api/lib/ -lfmodex
 unix:LIBS += -lfmodex64-4.44.00
 ## Partie sur les librairies :
 win32 {
 
 #portaudio
-LIBS += -L$$PWD/../../portaudio/lib/ -lportaudio
+LIBS += -L$$PWD/../portaudio/lib/ -lportaudio
 
-INCLUDEPATH += $$PWD/../../GuitarTutorAPI/portaudio
-DEPENDPATH += $$PWD/../../GuitarTutorAPI/portaudio
+INCLUDEPATH += $$PWD/../GuitarTutorAPI/portaudio
+DEPENDPATH += $$PWD/../GuitarTutorAPI/portaudio
 
-PRE_TARGETDEPS += $$PWD/../../portaudio/lib/libportaudio.dll.a
+PRE_TARGETDEPS += $$PWD/../portaudio/lib/libportaudio.dll.a
 }
 
 TRANSLATIONS = IGuitarGUI_fr.ts
