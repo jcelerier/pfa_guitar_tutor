@@ -1,17 +1,17 @@
 body {
-  width: 80%;
-  min-width: 1024px;
-  max-width: 1500px;
+  width: 100%;
+  min-width: 900px;
+  max-width: 900px;
   margin: auto;
-  padding-top: 50px;
+  padding: 50px 50px;
 }
 
 nav {
   position: fixed;
   top: 0px;
-  width: 80%;
-  min-width: 1024px;
-  max-width: 1500px;
+  width: 100%;
+  min-width: 900px;
+  max-width: 900px;
   padding: 0px;
 }
 
@@ -19,8 +19,8 @@ nav {
 
 #menu_ul {
   margin: 0px;
-  min-width: 1024px;
-  max-width: 1500px;
+  min-width: 900px;
+  max-width: 900px;
   padding: 0px;
 }
 nav ul {
@@ -105,12 +105,14 @@ nav ul li ul {
 
 
 section {
+  border-top: 1px solid black;
   text-align: justify;
+  margin-top: 50px;
 }
 .subsection {
-  min-width: 900px;
-  max-width: 1400px;
-  margin: 0px 5% 10px 5%;
+  min-width: 700px;
+  max-width: 900px;
+  margin: 20px 5% 30px 5%;
   padding: 10px;
   border-left: 2px solid #191970;
   border-top: 2px solid #191970;

@@ -20,6 +20,9 @@ HelpWindow::HelpWindow(QWidget *parent) :
 	layout->addWidget(page);
 	layout->addWidget(close);
 
+    setMinimumWidth(1100);
+    setMaximumWidth(1100);
+
 	setLayout(layout);
 
 	connect(close, SIGNAL(clicked()), this, SLOT(accept()));
