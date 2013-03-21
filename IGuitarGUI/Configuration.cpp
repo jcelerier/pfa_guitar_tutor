@@ -1,7 +1,7 @@
 #include "Configuration.h"
 
-int Configuration::m_width = 1366;
-int Configuration::m_height = 768;
+int Configuration::m_width = 1920;
+int Configuration::m_height = 1080;
 
 /*
 int Configuration::width = 1920;
@@ -33,14 +33,12 @@ void Configuration::setWindowSize(int w, int h)
 {
    Configuration::m_width = w;
    Configuration::m_height = h;
-   Configuration::m_quotient = float(Configuration::m_height)/float(Configuration::originalHeight);
+   Configuration::m_quotient = float(Configuration::m_width)/float(Configuration::originalWidth);
 }
 
 void Configuration::setWindowSize(QRect qr)
 {
-   Configuration::m_width = qr.width();
-   Configuration::m_height = qr.height();
-   Configuration::m_quotient = float(Configuration::m_height)/float(Configuration::originalHeight);
+   setWindowSize(qr.width(), qr.height());
 }
 
 void Configuration::setSongName(QString songName)

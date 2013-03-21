@@ -9,7 +9,10 @@ int main(int argc, char *argv[]){
   translator.load(":/translations/IGuitarGUI_fr");
   app.installTranslator(&translator);
 
-  QFontDatabase::addApplicationFont(":/fonts/Roboto.ttf");
+  QFontDatabase::addApplicationFont(":/fonts/Roboto-Regular.ttf");
+  QFontDatabase::addApplicationFont(":/fonts/Roboto-Black.ttf");
+  QFontDatabase::addApplicationFont(":/fonts/Roboto-BoldCondensed.ttf");
+  QFontDatabase::addApplicationFont(":/fonts/Roboto-Italic.ttf");
 
   QRect screenGeo = QApplication::desktop()->screenGeometry();
 

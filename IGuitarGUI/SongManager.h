@@ -38,7 +38,9 @@ class SongManager: public QObject
 	signals:
 		void currentlyPlayedChord(BasicChord);
 		void updateChord(TrackChord*);
-		void lastChordCorrectness(TrackChord*, double);
+        void nonNaturalChange(TrackChord*);
+        void lastChordCorrectness(TrackChord*, double);
+
 
 	private:
 		LogicalTrack* m_track;
