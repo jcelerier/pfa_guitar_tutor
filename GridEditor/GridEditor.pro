@@ -2,7 +2,7 @@
 
 TEMPLATE = app
 TARGET = GridEditor
-DESTDIR = ../../app/
+DESTDIR = ../app/
 DEPENDPATH += .
 CONFIG += rtti
 
@@ -60,31 +60,26 @@ QT += core \
 	  xml \
 	  webkit \
 	  webkitwidgets \
-          widgets \
-    testlib #désactiver pour ne pas avoir la console qui s'affiche
+	  widgets \
+	  testlib #désactiver pour ne pas avoir la console qui s'affiche
 
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../libiguitar/ -lIGuitar
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../libiguitar/ -lIGuitar
-else:unix: LIBS += -L$$PWD/../../libiguitar/ -lIGuitar
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../libiguitar/ -lIGuitar
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../libiguitar/ -lIGuitar
+else:unix: LIBS += -L$$PWD/../libiguitar/ -lIGuitar
 
-INCLUDEPATH += $$PWD/../../GuitarTutorAPI $$PWD/../../GuitarTutorAPI/GuitarTutor
-DEPENDPATH += $$PWD/../../libiguitar
+INCLUDEPATH += $$PWD/../GuitarTutorAPI $$PWD/../GuitarTutorAPI/GuitarTutor
+DEPENDPATH += $$PWD/../libiguitar
 
 
 macx: LIBS += -lfmodex
 unix:!macx: LIBS += -lfmodex64-4.44.00
-win32: LIBS += -L$$PWD/../../fmod/api/lib/ -lfmodex
+win32: LIBS += -L$$PWD/../fmod/api/lib/ -lfmodex
 
 FORMS += \
 	PartSetter.ui \
 	TrackProperties.ui \
 	NewGridDialog.ui
-
-
-#unix:QMAKE_POST_LINK += mv GridEditor ../../app/
-#macx:QMAKE_POST_LINK += mv GridEditor.app ../../app/
-# win32:QMAKE_POST_LINK += move GridEditor.exe ../../app/
 
 RESOURCES += \
 	EditorResources.qrc
