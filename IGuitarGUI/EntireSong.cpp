@@ -97,6 +97,10 @@ EntireSong::EntireSong(QGraphicsItem *parent) :
  * Fonction appelée lors du début d'un nouvel accord. Elle gère la validation de l'accord qui vient de s'écouler.
  */
 void EntireSong::nextChord() {
+    if( m_controler->getChordList()->at(m_currentChord).isValidated() )
+        m_controler->getChordList()->at(m_currentChord).getFullSongItem()->setBrush(QColor(175, 22, 27));
+    else
+        m_controler->getChordList()->at(m_currentChord).getFullSongItem()->setBrush(QColor(175, 0, 0));
 	m_currentChord++;
 	m_controler->getChordList()->at(m_currentChord).getFullSongItem()->setBrush(QColor(1, 174, 242));
 	if(m_currentChord>=m_controler->getChordList()->size())
