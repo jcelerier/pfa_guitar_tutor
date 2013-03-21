@@ -64,7 +64,7 @@ MenuItem::MenuItem(QGraphicsItem *parent) :
 	connect((ButtonItem*)closeBtn, SIGNAL(pushed()), this, SLOT(closeMenu()));
 
 	addElt("load", "CHARGER");
-	connect((ButtonItem*)m_menuMap["load"], SIGNAL(pushed()), this, SLOT(loadSong()));
+	connect((ButtonItem*)m_menuMap["load"], SIGNAL(pushed()), (Controler*) scene()->parent(), SLOT(initSong()));
 
 	addElt("help", "AIDE");
 	connect((ButtonItem*)m_menuMap["help"], SIGNAL(pushed()), this, SLOT(help()));
@@ -122,18 +122,6 @@ void MenuItem::closeMenu()
 void MenuItem::closeGame()
 {
 	qApp->exit();
-}
-
-/**
- * @brief MenuItem::loadSong
- *
- * Ouvre la fenêtre de chargement d'un morceau.
- */
-void MenuItem::loadSong()
-{
-
-	/*if(!Controler::initSong())
-		qDebug() << "Controler::initSong()";*/
 }
 
 /**

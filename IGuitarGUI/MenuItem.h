@@ -14,27 +14,28 @@ class MenuItem : public QGraphicsObject
 {
 Q_OBJECT
 public:
-    explicit MenuItem(QGraphicsItem *parent = 0);
+	explicit MenuItem(QGraphicsItem *parent = 0);
 
-    virtual QRectF boundingRect() const;
-    virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget *widget = 0);
-    ~MenuItem();
+	virtual QRectF boundingRect() const;
+	virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget *widget = 0);
+	~MenuItem();
 signals:
-    
+
+	void loadSong();
 public slots:
-    void closeMenu();
-    void closeGame();
-    void loadSong();
-    void help();
+	void closeMenu();
+	void closeGame();
+
+	void help();
 private:
-    int m_width;
-    int m_height;
-    int m_nbElts;
-    QGraphicsRectItem * m_rect;
-    QMap <QString, QGraphicsItem*> m_menuMap;
-    HelpWindow* m_helpWindow;
-    QGraphicsRectItem* m_menuBack;
-    void addElt(QString, QString);
+	int m_width;
+	int m_height;
+	int m_nbElts;
+	QGraphicsRectItem * m_rect;
+	QMap <QString, QGraphicsItem*> m_menuMap;
+	HelpWindow* m_helpWindow;
+	QGraphicsRectItem* m_menuBack;
+	void addElt(QString, QString);
 };
 
 #endif // MENUITEM_H
