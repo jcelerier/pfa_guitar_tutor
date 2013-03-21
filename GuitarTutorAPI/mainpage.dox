@@ -17,6 +17,7 @@ Puis, il faut copier le dossier api dans fmod/ sur le dépôt git.
 Pour les UNIX-like, il est aussi possible d'installer fmod depuis les dépôts, si disponible.
 Il est préférable d'utiliser QtCreator pour ouvrir les projets.
 
-L'API est placée dans libiguitar lors de sa compilation
+L'API est placée dans libiguitar lors de sa compilation.
+Les logiciels sont placés dans app.
 
 */
