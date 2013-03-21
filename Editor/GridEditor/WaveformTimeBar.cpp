@@ -81,7 +81,7 @@ void WaveformTimeBar::drawText()
 
 
 
-void WaveformTimeBar::paintEvent(QPaintEvent  *event )
+void WaveformTimeBar::paintEvent(QPaintEvent */*event*/)
 {
 	painter->begin(this);
 	painter->setPen(Qt::black);

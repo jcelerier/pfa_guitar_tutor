@@ -1,6 +1,12 @@
 #include "AudioWindow.h"
 #include <QFileDialog>
 
+/**
+ * @brief AudioWindow::AudioWindow
+ * @param parent Widget parent
+ *
+ * Constructeur.
+ */
 AudioWindow::AudioWindow(QWidget * parent)
 {
 	this->parent = parent;
@@ -48,6 +54,11 @@ AudioWindow::AudioWindow(QWidget * parent)
 	this->setLayout(layout);
 }
 
+/**
+ * @brief AudioWindow::~AudioWindow
+ *
+ * Destructeur.
+ */
 AudioWindow::~AudioWindow()
 {
 	delete player;
@@ -61,7 +72,7 @@ AudioWindow::~AudioWindow()
 
 /**
  * @brief AudioWindow::setWaveform
- * @param waveform une forme d'onde
+ * @param waveform Une forme d'onde
  */
 void AudioWindow::setWaveformData(Waveform* waveform, WaveformTimeBar* timeBar)
 {

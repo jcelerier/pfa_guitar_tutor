@@ -2,6 +2,12 @@
 #include "ui_PartSetter.h"
 #include "ChordTableWidget.h"
 
+/**
+ * @brief PartSetter::PartSetter
+ * @param parent Widget parent
+ *
+ * Constructeur.
+ */
 PartSetter::PartSetter(QWidget *parent) :
 	QDialog(parent),
 	ui(new Ui::PartSetter)
@@ -15,6 +21,11 @@ PartSetter::PartSetter(QWidget *parent) :
 	//ui->pushButton->addAction(((ChordTableWidget*) parent)->m_playFromHere);
 }
 
+/**
+ * @brief PartSetter::~PartSetter
+ *
+ * Destructeur.
+ */
 PartSetter::~PartSetter()
 {
 	delete ui;

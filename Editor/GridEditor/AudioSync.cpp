@@ -353,6 +353,12 @@ void AudioSync::setTimeSignature(int t)
 	updateTempo();
 }
 
+/**
+ * @brief AudioSync::getBar
+ * @return Le temps de fin de la première mesure en ms.
+ *
+ * Retourne le temps de fin de la première mesure en ms.
+ */
 int AudioSync::getBar(){
 	QTime t = bar->time();
     int ms = t.hour()*60*60*1000;//conversion d'une heure en ms
@@ -362,6 +368,12 @@ int AudioSync::getBar(){
 	return ms;
 }
 
+/**
+ * @brief AudioSync::getBeginning
+ * @return Le temps de début de la première mesure en ms.
+ *
+ * Retourne le temps de début de la première mesure en ms.
+ */
 int AudioSync::getBeginning(){
     QTime t = beginning->time();
     int ms = t.hour()*60*60*1000;//conversion d'une heure en ms
@@ -371,6 +383,12 @@ int AudioSync::getBeginning(){
 	return ms;
 }
 
+/**
+ * @brief AudioSync::getEnd
+ * @return Le temps de fin du morceau en ms.
+ *
+ * Retourne le temps de fin du morceau en ms.
+ */
 int AudioSync::getEnd(){
 	QTime t = end->time();
     int ms = t.hour()*60*60*1000;//conversion d'une heure en ms

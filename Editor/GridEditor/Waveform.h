@@ -11,7 +11,7 @@
 #include "MusicPlayer.h"
 
 /**
- * @brief Affichage d'une forme  d'onde
+ * @brief Affichage d'une forme d'onde
  */
 class Waveform : public QLabel
 {

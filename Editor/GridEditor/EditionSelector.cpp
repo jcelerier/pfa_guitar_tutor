@@ -50,7 +50,11 @@ EditionSelector::EditionSelector(QWidget *parent) :
 	connect(buttonOpen, SIGNAL(clicked()), parent, SLOT(fromXML()));
 }
 
-
+/**
+ * @brief EditionSelector::~EditionSelector
+ *
+ * Destructeur.
+ */
 EditionSelector::~EditionSelector()
 {
 	delete presentation;

@@ -30,7 +30,7 @@ class EditorPanel : public QWidget
 public:
 	explicit EditorPanel(ChordTableWidget* chordTable, AudioWindow *audioWindow, TrackProperties* trackProperties, QWidget *parent);
 	void updateGrid(ChordTableWidget* chordTable);
-
+    ~EditorPanel();
 signals:
 		
 	public slots:
