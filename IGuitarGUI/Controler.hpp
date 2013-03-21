@@ -35,7 +35,7 @@ public:
 	void mute();
 	void unmute();
 
-	bool initSong();
+
 	void startSong();
 	void pauseSong();
 	void stopSong();
@@ -50,6 +50,7 @@ public:
 public slots:
 	void ticTac();
 	void restartEngine();
+    bool initSong();
 
 	void currentChordSlot(TrackChord*);
     void resetValidatedNotes(TrackChord*);
@@ -71,8 +72,7 @@ private:
 	QList<PlayerChord> m_chordList;
 
 	QTime m_globalClock;
-	int m_clockOffset;
-	int m_savedClock;
+    int m_clockOffset;
 
     int m_totalPlayedChords;
     int m_totalValidatedChords;

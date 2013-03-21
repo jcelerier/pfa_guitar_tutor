@@ -183,6 +183,9 @@ bool Controler::initSong()
 	TrackLoader::convertXmlToLogicalTrack(path, m_track);
 
 	m_songManager->load(m_track);
+    m_chordList = getChordList(m_track);
+
+    m_scene->loadSong();
 
 	return true;
 }
@@ -208,7 +211,7 @@ void Controler::startSong()
  */
 void Controler::pauseSong()
 {
-	pauseClock();
+    m_clockOffset += m_globalClock.elapsed();
 	m_timer->stop();
 	m_songManager->pause();
 	m_playing=false;
@@ -221,7 +224,7 @@ void Controler::pauseSong()
  */
 void Controler::stopSong()
 {
-	pauseClock();
+    m_clockOffset += m_globalClock.elapsed();
 	m_timer->stop();
 	m_clockOffset = 0;
 	m_songManager->stop();
@@ -264,10 +267,7 @@ void Controler::switchPlaying()
  */
 void Controler::pauseClock()
 {
-	m_timer->stop();
 
-	m_clockOffset += m_globalClock.elapsed();
-	m_savedClock = m_clockOffset;
 }
 
 /**
@@ -370,19 +370,21 @@ void Controler::restartEngine()
 
 	m_playing = false;
 
-	if(!initSong())
-	{
-		exit(0);
-		// note : ne pas appeler les méthodes de qApp (quit, exit...) car qApp->exec() n'est pas encore appelé
-	}
 
-	m_chordList = getChordList(m_track);
+
 
 	if (m_scene != 0) delete m_scene;
 	if (m_view != 0) delete m_view;
 
 	m_scene = new PlayerScene(this);
 	m_view = new MyView(m_scene);
+
+    if(!initSong())
+    {
+        exit(0);
+        // note : ne pas appeler les méthodes de qApp (quit, exit...) car qApp->exec() n'est pas encore appelé
+    }
+
 
 	connect(m_songManager, SIGNAL(currentlyPlayedChord(BasicChord)), m_scene, SLOT(setPlayedChord(BasicChord)));
 

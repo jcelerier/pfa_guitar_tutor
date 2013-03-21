@@ -27,6 +27,7 @@ private:
     int m_lastRefresh;
 	QGraphicsItemGroup* m_scrollingTextContainer;
 	QGraphicsTextItem* m_timeText;
+    QPointF m_initialPos;
 
 	float m_pixPerMsec;
 

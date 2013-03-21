@@ -42,11 +42,8 @@ PlayerScene::~PlayerScene()
 	delete m_dictionary;
 	delete m_cntTimer;
 
-	delete m_itemMap["backgnd"];
-	delete m_itemMap["chordPlayed"];
-	delete m_itemMap["songArtist"];
-	delete m_itemMap["songTitle"];
-	delete m_itemMap["totalValidated"];}
+    delete m_itemMap["backgnd"];
+}
 
 /**
  * @brief PlayerScene::disposeScene
@@ -81,13 +78,11 @@ void PlayerScene::disposeScene()
 	QPixmap stopImage(":/images/stop.png");
 	QPixmap backImage(":/images/back.png");
 
-	m_itemMap["transport"] = new ButtonItem(playImage, m_itemMap["backgnd"]);
-	m_itemMap["transport"]->setPos(40, 860); // Position absolue par rapport au background
-	m_itemMap["transport"]->setToolTip(tr("Play/Pause"));
-	connect((ButtonItem*)m_itemMap["transport"], SIGNAL(pushed()), this, SLOT(play()));
+    m_itemMap["play"] = new ButtonItem(playImage, m_itemMap["backgnd"]);
+    m_itemMap["play"]->setPos(40, 860); // Position absolue par rapport au background
+    m_itemMap["play"]->setToolTip(tr("Play/Pause"));
+    connect((ButtonItem*)m_itemMap["play"], SIGNAL(pushed()), this, SLOT(play()));
 
-	// JM : c'est normal que ça soit la meme entrée de dictionnaire "transport" qui reçoive tous les new ?
-	// Ca les écrase pas ?
 	m_itemMap["pause"] = new ButtonItem(pauseImage, m_itemMap["backgnd"]);
 	m_itemMap["pause"]->setPos(170, 860); // Position absolue par rapport au background
 	m_itemMap["pause"]->setToolTip(tr("Play/Pause"));
@@ -114,22 +109,17 @@ void PlayerScene::disposeScene()
 	// Titre de la chanson
 	m_itemMap["songTitle"] = addText("Title", titleFont);
 	m_itemMap["songTitle"]->setPos(200, 65);
-	((QGraphicsTextItem*)m_itemMap["songTitle"])->setTextWidth(520);
-	((QGraphicsTextItem*)m_itemMap["songTitle"])->setHtml("<p align=\"center\">"+m_controler->getTrack()->getTrackName()+"</p>");
+    ((QGraphicsTextItem*)m_itemMap["songTitle"])->setTextWidth(520);
 
 	// Artiste de la chanson
 	m_itemMap["songArtist"] = addText("Artist", titleFont);
 	m_itemMap["songArtist"]->setPos(200, 115);
-	((QGraphicsTextItem*)m_itemMap["songArtist"])->setTextWidth(520);
-	((QGraphicsTextItem*)m_itemMap["songArtist"])->setHtml("<p align=\"center\">"+m_controler->getTrack()->getArtist()+"</p>");
+    ((QGraphicsTextItem*)m_itemMap["songArtist"])->setTextWidth(520);
 
 	// Couverture d'album
 	QPixmap albumImage(":/images/noalbum.png");
 	m_itemMap["songAlbumImg"] = new QGraphicsPixmapItem(albumImage, m_itemMap["backgnd"]);
 	m_itemMap["songAlbumImg"]->setPos(58,63);
-
-	// Chanson entière
-	m_itemMap["entireSong"] = new EntireSong(m_itemMap["backgnd"]);
 
 	// Barre avancement
 	QPixmap avancemntImage(":/images/barretemps.png");
@@ -324,7 +314,7 @@ void PlayerScene::updateStats(int validated, int played)
  */
 void PlayerScene::displayDictionary()
 {
-	m_dictionary->show();
+    //m_dictionary->show();
 }
 
 Controler* PlayerScene::getControler() {
@@ -340,7 +330,6 @@ void PlayerScene::playCountdown() {
 			m_cntClick->play();
 		num.setNum(m_cntdown);
 		((QGraphicsTextItem*)m_itemMap["countDown"])->setPlainText(num);
-		qDebug() << num;
 		m_cntdown--;
 	}
 	else {
@@ -364,5 +353,17 @@ void PlayerScene::goToChord(TrackChord* tc) {
 
 	((EntireSong*)m_itemMap["entireSong"])->setCurrentChord(nChord);
 
+
+}
+
+void PlayerScene::loadSong() {
+    if(m_itemMap["entireSong"] != 0)
+        delete m_itemMap["entireSong"];
+
+    ((QGraphicsTextItem*)m_itemMap["songTitle"])->setHtml("<p align=\"center\">"+m_controler->getTrack()->getTrackName()+"</p>");
+    ((QGraphicsTextItem*)m_itemMap["songArtist"])->setHtml("<p align=\"center\">"+m_controler->getTrack()->getArtist()+"</p>");
+    // Chanson entière
+    m_itemMap["entireSong"] = new EntireSong(m_itemMap["backgnd"]);
+    m_itemMap["entireSong"]->setZValue(1);
 
 }

@@ -41,8 +41,10 @@ EntireSong::EntireSong(QGraphicsItem *parent) :
 	textMasking->setOpacity(0.9);
 	textMasking->setOpacityMask(brushMask);
 	maskingTextContainer->setGraphicsEffect(textMasking);
-	m_scrollingTextContainer = new QGraphicsItemGroup(maskingTextContainer);
-	m_scrollingTextContainer->setPos(210, 440);
+    m_scrollingTextContainer = new QGraphicsItemGroup(maskingTextContainer);
+
+    m_initialPos = QPointF(qreal(210), qreal(440));
+    m_scrollingTextContainer->setPos(m_initialPos);
 
 
 	QList<PlayerChord>::iterator ite;
@@ -101,10 +103,9 @@ void EntireSong::nextChord() {
         m_controler->getChordList()->at(m_currentChord).getFullSongItem()->setBrush(QColor(175, 22, 27));
     else
         m_controler->getChordList()->at(m_currentChord).getFullSongItem()->setBrush(QColor(175, 0, 0));
+
 	m_currentChord++;
 	m_controler->getChordList()->at(m_currentChord).getFullSongItem()->setBrush(QColor(1, 174, 242));
-	if(m_currentChord>=m_controler->getChordList()->size())
-		m_currentChord=0;
 }
 
 /**
@@ -204,4 +205,12 @@ void EntireSong::setCurrentChord(int cc)
 
     m_currentChord = cc;
     m_controler->getChordList()->at(cc).getFullSongItem()->setBrush(QColor(1, 174, 242));
+
+    m_lastRefresh = m_controler->getChordList()->at(cc).getTime();
+    QPointF newPos(m_initialPos);
+    qDebug() <<  newPos.rx() << newPos.ry();
+    newPos += QPointF(m_pixPerMsec * m_controler->getChordList()->at(cc).getTime(), 0);
+    QTransform tr;
+    m_scrollingTextContainer->setPos(newPos);
+    m_scrollingTextContainer->setTransform(tr);
 }
