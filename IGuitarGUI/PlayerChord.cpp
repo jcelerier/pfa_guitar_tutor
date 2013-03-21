@@ -1,5 +1,11 @@
 #include "PlayerChord.h"
 
+PlayerChord::PlayerChord()
+{
+	m_validated = false;
+}
+
+
 /**
  * @brief PlayerChord::getName
  * @return Le nom de l'accord.
@@ -8,7 +14,7 @@
  */
 QString PlayerChord::getName() const
 {
-    return m_name;
+	return m_name;
 }
 
 /**
@@ -19,7 +25,7 @@ QString PlayerChord::getName() const
  */
 int PlayerChord::getTime() const
 {
-    return m_time;
+	return m_time;
 }
 
 /**
@@ -29,7 +35,7 @@ int PlayerChord::getTime() const
  * Setter pour le nom de l'accord.
  */
 void PlayerChord::setName(const QString n) {
-    m_name = n;
+	m_name = n;
 }
 
 /**
@@ -39,7 +45,7 @@ void PlayerChord::setName(const QString n) {
  * Setter pour le temps de début de l'accord.
  */
 void PlayerChord::setTime(const int t) {
-    m_time = t;
+	m_time = t;
 }
 
 /**
@@ -50,7 +56,7 @@ void PlayerChord::setTime(const int t) {
  */
 QGraphicsRectItem *PlayerChord::getFullSongItem() const
 {
-    return m_fullSongItem;
+	return m_fullSongItem;
 }
 
 /**
@@ -61,7 +67,7 @@ QGraphicsRectItem *PlayerChord::getFullSongItem() const
  */
 void PlayerChord::setFullSongItem(QGraphicsRectItem* r)
 {
-    m_fullSongItem = r;
+	m_fullSongItem = r;
 }
 
 /**
@@ -72,7 +78,7 @@ void PlayerChord::setFullSongItem(QGraphicsRectItem* r)
  */
 void PlayerChord::setScrollingChordItem(QGraphicsTextItem* r)
 {
-    m_scrollingChordItem = r;
+	m_scrollingChordItem = r;
 }
 
 /**
@@ -83,7 +89,7 @@ void PlayerChord::setScrollingChordItem(QGraphicsTextItem* r)
  */
 TrackChord *PlayerChord::getTrackChord() const
 {
-    return m_trackChord;
+	return m_trackChord;
 }
 
 /**
@@ -95,4 +101,14 @@ TrackChord *PlayerChord::getTrackChord() const
 void PlayerChord::setTrackChord(TrackChord* r)
 {
    m_trackChord = r;
+}
+
+void PlayerChord::validate(bool b)
+{
+	m_validated = b;
+}
+
+bool PlayerChord::isValidated()
+{
+	return m_validated;
 }

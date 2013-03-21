@@ -44,7 +44,7 @@ Controler::Controler()
 	connect(m_timer, SIGNAL(timeout()), m_songManager, SLOT(compareChordWithPlayed()));
 
 	connect(m_songManager, SIGNAL(updateChord(TrackChord*)), this, SLOT(currentChordSlot(TrackChord*)));
-	connect(m_songManager, SIGNAL(lastChordCorrectness(double)), this, SLOT(victoryPercent(double)));
+	connect(m_songManager, SIGNAL(lastChordCorrectness(TrackChord*, double)), this, SLOT(victoryPercent(TrackChord*, double)));
 
 	m_configuration = new Configuration();
 
@@ -88,8 +88,6 @@ void Controler::currentChordSlot(TrackChord* chord)
 			well_played_chords_in_current_part = 0;
 		}
 	}
-
-	qDebug() << "coucou: " << chord->getChord();
 }
 
 /**
@@ -98,11 +96,20 @@ void Controler::currentChordSlot(TrackChord* chord)
  *
  * Si ce pourcentage est supérieur à celui défini dans la configuration, on ajoute une réussite.
  */
-void Controler::victoryPercent(double d)
+void Controler::victoryPercent(TrackChord* chord, double d)
 {
 	//qDebug() << "réussite : " << d *100 << "%";
 	if(d * 100 > m_configuration->getDifficulty())
 	{
+		foreach(PlayerChord p_chord, m_chordList)
+		{
+			if(p_chord.getTrackChord() == chord)
+			{
+				p_chord.validate();
+				break;
+			}
+		}
+
 		++well_played_chords_in_current_part;
 	}
 }

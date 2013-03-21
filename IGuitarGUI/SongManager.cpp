@@ -241,7 +241,7 @@ void SongManager::checkTime()
 				if(m_currentChord != *iChord)
 				{
 					// On émet la réussite de l'accord précédent
-					emit lastChordCorrectness((double) number_of_valid_chord_checks / (double)number_of_chord_checks);
+					emit lastChordCorrectness(m_currentChord, (double) number_of_valid_chord_checks / (double)number_of_chord_checks);
 
 					// On émet le nouvel accord
 					emit updateChord(*iChord);

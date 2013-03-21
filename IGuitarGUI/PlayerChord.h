@@ -12,6 +12,7 @@
 class PlayerChord
 {
 public:
+	PlayerChord();
 	QString getName() const;
 	int getTime() const;
 	void setName(const QString n);
@@ -23,6 +24,9 @@ public:
 	TrackChord* getTrackChord() const;
 	void setTrackChord(TrackChord*);
 
+	void validate(bool b = true);
+	bool isValidated();
+
 private:
 	QString m_name;
 	int m_time;
@@ -30,6 +34,7 @@ private:
 	QGraphicsTextItem* m_scrollingChordItem;
 	TrackChord* m_trackChord;
 
+	bool m_validated;
 };
 
 #endif // PLAYERCHORD_H

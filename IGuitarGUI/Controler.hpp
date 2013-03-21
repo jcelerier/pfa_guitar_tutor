@@ -52,7 +52,7 @@ public slots:
 	void restartEngine();
 
 	void currentChordSlot(TrackChord*);
-	void victoryPercent(double);
+	void victoryPercent(TrackChord*, double);
 
 
 private:
