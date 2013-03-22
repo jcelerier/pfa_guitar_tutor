@@ -37,6 +37,8 @@ Controler::Controler()
 
 	m_totalPlayedChords = 0;
 	m_totalValidatedChords = 0;
+
+	is_at_beginning = 0;
 	m_timer = new QTimer(this);
 	m_paused = false;
 	m_muted = false;
@@ -153,16 +155,19 @@ void Controler::resetValidatedNotes(TrackChord* chord)
  */
 void Controler::victoryPercent(TrackChord* chord, double d)
 {
-	chord->setPlaying(false);
-	if(d * 100 > m_configuration->getDifficulty())
+	if(chord != 0)
 	{
-		chord->validate();
-		m_totalValidatedChords++;
+		chord->setPlaying(false);
+		if(d * 100 > m_configuration->getDifficulty())
+		{
+			chord->validate();
+			m_totalValidatedChords++;
 
-		++well_played_chords_in_current_part;
-	}
+			++well_played_chords_in_current_part;
+		}
 	chord->setPlayed();
 	emit repaintSong();
+	}
 }
 
 /**
@@ -221,6 +226,12 @@ bool Controler::initSong()
 
 void Controler::startSong()
 {
+	if(is_at_beginning)
+	{
+		m_songManager->goToChord(m_track->getPartTrackList()[0]->getTrackChordsList()[0]);
+		is_at_beginning = false;
+	}
+
 	m_songManager->play();
 	m_timer->start(1000/Configuration::framesPerSec);
 	m_playing=true;
@@ -252,6 +263,7 @@ void Controler::stopSong()
 	m_clockOffset = 0;
 	m_songManager->stop();
 	m_playing=false;
+	is_at_beginning = true;
 }
 
 /**
@@ -399,12 +411,12 @@ void Controler::restartEngine()
 	m_scene = new PlayerScene(this);
 	m_view = new MyView(m_scene);
 
-	if(!initSong())
+/*	if(!initSong())
 	{
 		exit(0);
 		// note : ne pas appeler les méthodes de qApp (quit, exit...) car qApp->exec() n'est pas encore appelé
 	}
-
+*/
 
 	connect(m_songManager, SIGNAL(currentlyPlayedChord(BasicChord)), m_scene, SLOT(setPlayedChord(BasicChord)));
 
@@ -420,4 +432,9 @@ void Controler::restartEngine()
 LogicalTrack* Controler::getTrack()
 {
 	return m_track;
+}
+
+TrackChord* Controler::getFirstChord()
+{
+	return m_track->getFirstChord();
 }

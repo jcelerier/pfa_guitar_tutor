@@ -12,26 +12,26 @@
  * Constructeur du gestionnaire de partition
  */
 SongManager::SongManager(QObject* parent): QObject(parent),
-    m_track(0),
-    m_musicManager(0),
-    m_currentPart(0),
-    m_currentChord(0),
-    m_currentInputChord(0),
-    m_chordControl(new chord_ctrl()),
+	m_track(0),
+	m_musicManager(0),
+	m_currentPart(0),
+	m_currentChord(0),
+	m_currentInputChord(0),
+	m_chordControl(new chord_ctrl()),
 
-    number_of_valid_chord_checks(0),
-    number_of_chord_checks(0),
+	number_of_valid_chord_checks(0),
+	number_of_chord_checks(0),
 
-    precision_in_ms(100),
-    m_elapsedTime(0)
+	precision_in_ms(100),
+	m_elapsedTime(0)
 
 {
 }
 
 SongManager::~SongManager()
 {
-    delete m_chordControl;
-    delete m_musicManager;
+	delete m_chordControl;
+	delete m_musicManager;
 }
 
 
@@ -43,25 +43,24 @@ SongManager::~SongManager()
  */
 void SongManager::load(LogicalTrack* track)
 {
-    m_elapsedTime = 0;
-    number_of_valid_chord_checks = 0;
-    m_track = track;
+	m_elapsedTime = 0;
+	number_of_valid_chord_checks = 0;
+	m_track = track;
 
-    QMap<QString, QString> multiTracksMap;
-    QVector<QString> muteTracks;
+	QMap<QString, QString> multiTracksMap;
+	QVector<QString> muteTracks;
 
-    multiTracksMap["all"] =  m_track->getAudioFileName();
+	multiTracksMap["all"] =  m_track->getAudioFileName();
 
-    if(m_musicManager != 0 )
-    {
-        delete m_musicManager;
-        QTest::qSleep(2000); //sécurité pour portaudio
-    }
+	if(m_musicManager != 0 )
+	{
+		delete m_musicManager;
+		QTest::qSleep(2000); //sécurité pour portaudio
+	}
 
-    m_musicManager = new MusicManager(multiTracksMap, muteTracks, -1, -1);
+	m_musicManager = new MusicManager(multiTracksMap, muteTracks, -1, -1);
 
-    m_musicManager->run();
-    goToChord(m_track->getPartTrackList()[0]->getTrackChordsList()[0]);
+	m_musicManager->run();
 }
 
 /**
@@ -71,8 +70,8 @@ void SongManager::load(LogicalTrack* track)
  */
 void SongManager::play()
 {
-    m_musicManager->start();
-    m_musicManager->play();
+	m_musicManager->start();
+	m_musicManager->play();
 }
 
 /**
@@ -85,21 +84,21 @@ void SongManager::play()
  */
 void SongManager::pause()
 {
-    m_musicManager->pause();
+	m_musicManager->pause();
 
-    switch(((Controler*)parent())->getConfiguration()->getPauseSetting())
-    {
-    case PAUSE_TO_SAME_TIME:
-        break;
-    case PAUSE_TO_LAST_CHORD:
-        goToChord(m_currentChord);
-        break;
-    case PAUSE_TO_LAST_PART:
-        goToChord(m_currentPart->getTrackChordsList()[0]);
-        break;
-    default:
-        break;
-    }
+	switch(((Controler*)parent())->getConfiguration()->getPauseSetting())
+	{
+	case PAUSE_TO_SAME_TIME:
+		break;
+	case PAUSE_TO_LAST_CHORD:
+		goToChord(m_currentChord);
+		break;
+	case PAUSE_TO_LAST_PART:
+		goToChord(m_currentPart->getTrackChordsList()[0]);
+		break;
+	default:
+		break;
+	}
 }
 
 /**
@@ -109,9 +108,9 @@ void SongManager::pause()
  */
 void SongManager::stop()
 {
-    m_musicManager->pause();
+	m_musicManager->pause();
 
-    goToChord(m_track->getPartTrackList()[0]->getTrackChordsList()[0]);
+	goToChord(m_track->getPartTrackList()[0]->getTrackChordsList()[0]);
 }
 
 /**
@@ -122,7 +121,7 @@ void SongManager::stop()
  */
 void SongManager::mute(bool b)
 {
-    m_musicManager->mute(b);
+	m_musicManager->mute(b);
 }
 
 /**
@@ -133,28 +132,28 @@ void SongManager::mute(bool b)
  */
 void SongManager::goToChord(TrackChord* chord)
 {
-    int msPosition = chord->getBeginningInMs();
-    m_musicManager->goToInMs(msPosition);
-    m_elapsedTime = msPosition;
+	int msPosition = chord->getBeginningInMs();
+	m_musicManager->goToInMs(msPosition);
+	m_elapsedTime = msPosition;
 
-    // on doit trouver la partie de l'accord
-    TrackChord* iChord = m_track->getPartTrackList()[0]->getTrackChordsList()[0];
-    do
-    {
-        if(iChord == chord)
-        {
-            m_currentPart = chord->part();
-            m_currentChord = chord;
+	// on doit trouver la partie de l'accord
+	TrackChord* iChord = m_track->getPartTrackList()[0]->getTrackChordsList()[0];
+	do
+	{
+		if(iChord == chord)
+		{
+			m_currentPart = chord->part();
+			m_currentChord = chord;
 
-            emit nonNaturalChange(m_currentChord);
-            emit updateChord(m_currentChord);
+			emit nonNaturalChange(m_currentChord);
+			emit updateChord(m_currentChord);
 
-            return;
-        }
+			return;
+		}
 
-    } while((iChord = iChord->next()) != 0);
+	} while((iChord = iChord->next()) != 0);
 
-    // normalement on n'est pas sensé arriver ici
+	// normalement on n'est pas sensé arriver ici
 }
 
 
@@ -170,22 +169,22 @@ void SongManager::goToChord(TrackChord* chord)
  */
 void SongManager::compareChordWithPlayed()
 {
-    ++number_of_chord_checks;
-    double buffer[INPUT_FRAMES_PER_BUFFER];
-    chord_init(m_chordControl, SAMPLE_RATE, INPUT_FRAMES_PER_BUFFER, INPUT_FRAMES_PER_BUFFER);
+	++number_of_chord_checks;
+	double buffer[INPUT_FRAMES_PER_BUFFER];
+	chord_init(m_chordControl, SAMPLE_RATE, INPUT_FRAMES_PER_BUFFER, INPUT_FRAMES_PER_BUFFER);
 
-    m_musicManager->fillBufferWithLastInputValues(buffer, INPUT_FRAMES_PER_BUFFER);
+	m_musicManager->fillBufferWithLastInputValues(buffer, INPUT_FRAMES_PER_BUFFER);
 
-    chroma_compute(m_chordControl, buffer, INPUT_FRAMES_PER_BUFFER);
+	chroma_compute(m_chordControl, buffer, INPUT_FRAMES_PER_BUFFER);
 
-    if(m_currentInputChord != 0) delete m_currentInputChord;
-    m_currentInputChord = new BasicChord(chord_compute(m_chordControl));
-    emit currentlyPlayedChord(*m_currentInputChord);
+	if(m_currentInputChord != 0) delete m_currentInputChord;
+	m_currentInputChord = new BasicChord(chord_compute(m_chordControl));
+	emit currentlyPlayedChord(*m_currentInputChord);
 
-    if( m_currentInputChord->toString() == m_currentChord->getChord() )
-    {
-        ++number_of_valid_chord_checks;
-    }
+	if( m_currentInputChord->toString() == m_currentChord->getChord() )
+	{
+		++number_of_valid_chord_checks;
+	}
 }
 
 
@@ -196,45 +195,45 @@ void SongManager::compareChordWithPlayed()
  */
 void SongManager::checkTime()
 {
-    m_elapsedTime += m_time.restart();
+	m_elapsedTime += m_time.restart();
 
-    int msPrevPosition = 0;
-    int msPosition = 0;
+	int msPrevPosition = 0;
+	int msPosition = 0;
 
-    TrackChord* iChord = m_track->getPartTrackList()[0]->getTrackChordsList()[0];
-    do
-    {
-        msPrevPosition = iChord->getBeginningInMs();
+	TrackChord* iChord = m_track->getPartTrackList()[0]->getTrackChordsList()[0];
+	do
+	{
+		msPrevPosition = iChord->getBeginningInMs();
 
-        if(iChord->next() != 0)
-        {
-            msPosition = iChord->next()->getBeginningInMs(); // vérifier si on n'a pas un décalage avec le début.
-        }
-        else
-        {
-            msPosition = m_track->getEnd();
-        }
+		if(iChord->next() != 0)
+		{
+			msPosition = iChord->next()->getBeginningInMs(); // vérifier si on n'a pas un décalage avec le début.
+		}
+		else
+		{
+			msPosition = m_track->getEnd();
+		}
 
-        // Si le temps écoulé est dans l'accord listé
-        if(msPrevPosition <= m_elapsedTime && m_elapsedTime < msPosition)
-        {
-            // Si cet accord est différend de l'accord actuel
-            if(m_currentChord != iChord)
-            {
-                // On émet la réussite de l'accord précédent
-                emit lastChordCorrectness(m_currentChord, (double) number_of_valid_chord_checks / (double)number_of_chord_checks);
+		// Si le temps écoulé est dans l'accord listé
+		if(msPrevPosition <= m_elapsedTime && m_elapsedTime < msPosition)
+		{
+			// Si cet accord est différend de l'accord actuel
+			if(m_currentChord != iChord)
+			{
+				// On émet la réussite de l'accord précédent
+				emit lastChordCorrectness(m_currentChord, (double) number_of_valid_chord_checks / (double)number_of_chord_checks);
 
-                // On émet le nouvel accord
-                emit updateChord(iChord);
+				// On émet le nouvel accord
+				emit updateChord(iChord);
 
-                number_of_chord_checks = 0;
-                number_of_valid_chord_checks = 0;
+				number_of_chord_checks = 0;
+				number_of_valid_chord_checks = 0;
 
-                m_currentPart =iChord->part();
-                m_currentChord = iChord;
-            }
-            return;
-        }
-    } while((iChord = iChord->next()) != 0);
+				m_currentPart =iChord->part();
+				m_currentChord = iChord;
+			}
+			return;
+		}
+	} while((iChord = iChord->next()) != 0);
 
 }

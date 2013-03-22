@@ -46,6 +46,7 @@ public:
 	QList<PlayerChord>* getChordList();
 	QList<PlayerChord> getChordList(LogicalTrack* trackName);
 	LogicalTrack *getTrack();
+	TrackChord* getFirstChord();
 
 public slots:
 	void ticTac();
@@ -82,6 +83,8 @@ private:
 
 	int well_played_chords_in_current_part;
 	int played_chords_in_current_part;
+
+	bool is_at_beginning;
 };
 
 #endif /* MAINWINDOW_HPP */
