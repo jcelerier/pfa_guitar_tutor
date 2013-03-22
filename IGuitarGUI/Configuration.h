@@ -12,6 +12,9 @@
 #define PAUSE_TO_LAST_CHORD 1
 #define PAUSE_TO_LAST_PART 2
 
+#define PERCENT_TO_VALIDATE_EASY 30
+#define PERCENT_TO_VALIDATE_MEDIUM 50
+#define PERCENT_TO_VALIDATE_HARD 70
 
 /**
  * @brief The Configuration class
@@ -34,16 +37,16 @@ class Configuration
 
 		void setInputIndex(int);
 		void setOutputIndex(int);
-		int getInputIndex();
-		int getOutputIndex();
+        int getInputIndex() const;
+        int getOutputIndex() const;
 
-		int getPauseSetting();
+        int getPauseSetting() const;
 		void setPauseSetting(int);
 
-		int getDifficulty();
-		void setDiffuclty(int);
+        int getDifficulty() const;
+        void setDifficulty(int d);
 
-		bool getLoopSetting();
+        bool getLoopSetting() const;
 		void setLoopSetting(bool);
 
 		//private, please ?
@@ -56,7 +59,7 @@ class Configuration
 		static void setWindowSize(QRect qr);
 		static void setWindowSize(int w, int h);
 
-	private:
+private:
 		QString m_currentSongName;
 		QString m_audioInput;
 		QString m_audioOutput;

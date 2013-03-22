@@ -1,7 +1,7 @@
 #include "ConfigPanel.h"
 #include "ui_ConfigPanel.h"
 
-ConfigPanel::ConfigPanel(bool isLoopingActive, Difficulty difficulty, ContinueMode continueMode, QWidget *parent) :
+ConfigPanel::ConfigPanel(bool isLoopingActive, int difficulty, int continueMode, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ConfigPanel),
     m_isLoopingActive(isLoopingActive),
@@ -18,14 +18,18 @@ ConfigPanel::ConfigPanel(bool isLoopingActive, Difficulty difficulty, ContinueMo
     ui->activateLoop->setChecked(m_isLoopingActive);
 
     switch(m_difficulty){
-    case EASY:
+    case PERCENT_TO_VALIDATE_EASY:
         ui->easyMode->setChecked(true);
         break;
-    case MEDIUM:
+    case PERCENT_TO_VALIDATE_MEDIUM:
         ui->easyMode->setChecked(true);
         break;
-    case HARD:
+    case PERCENT_TO_VALIDATE_HARD:
         ui->hardMode->setChecked(true);
+        break;
+    default:
+        qDebug() << "Bad difficulty";
+        break;
     }
 
     this->setWindowModality(Qt::WindowModal);
@@ -36,11 +40,11 @@ ConfigPanel::~ConfigPanel()
     delete ui;
 }
 
-Difficulty ConfigPanel::getDifficulty() const {
+int ConfigPanel::getDifficulty() const {
     return m_difficulty;
 }
 
-ContinueMode ConfigPanel::getContinueMode() const {
+int ConfigPanel::getContinueMode() const {
     return m_continueMode;
 }
 
@@ -50,7 +54,12 @@ bool ConfigPanel::isLoopingActive() const {
 
 void ConfigPanel::saveData()
 {
-    m_difficulty = (ui->easyMode->isChecked()) ? EASY : ((ui->mediumMode->isChecked()) ? MEDIUM : HARD);
-    m_continueMode = (ui->continueType->currentIndex() == 0) ? DIRECT : ((ui->continueType->currentIndex() == 1) ? CHORD : PART);
+    m_difficulty = (ui->easyMode->isChecked()) ? PERCENT_TO_VALIDATE_EASY :
+                                                 ((ui->mediumMode->isChecked()) ? PERCENT_TO_VALIDATE_MEDIUM : PERCENT_TO_VALIDATE_HARD);
+    m_continueMode = ui->continueType->currentIndex();
     m_isLoopingActive = ui->activateLoop->isChecked();
+
+    hide();
+
+    emit configChanged(m_isLoopingActive, m_difficulty, m_continueMode);
 }
