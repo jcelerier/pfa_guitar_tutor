@@ -86,7 +86,7 @@ public slots:
 
 	void playFromHere();
 
-	void setTimeInfo(const QTime beginning, const QTime bar, const QTime end);
+    void setTimeInfo(const QTime beginning, const QTime bar, const QTime end);
 	void isPlayingAt(QTime t);
 
 	void itemChanged_slot(QTableWidgetItem* item);

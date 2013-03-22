@@ -11,6 +11,7 @@
 #include "EntireSongBis.h"
 #include "Configuration.h"
 #include "ChordDictionary.h"
+#include "ConfigPanel.h"
 
 class Controler;
 
@@ -45,6 +46,7 @@ public slots:
 	void switchMute();
 
 	void displayDictionary();
+    void displayOptions();
 	void playCountdown();
 
 private:
@@ -62,6 +64,7 @@ private:
 	int  m_currentNoteDuration;
 	Controler* m_controler;
 	ChordDictionary *m_dictionary;
+    ConfigPanel *m_configPanel;
 	void disposeScene();
 
 };

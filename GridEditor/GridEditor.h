@@ -75,10 +75,7 @@ class GridEditor : public QMainWindow
 		QString statusText();
 		void startGrid(int);
 		void createGrid(int columns, int rows);
-
-
-
-	private:
+private:
 		void createMenu();
 		void createActions();
 		void setActionsToMenu();

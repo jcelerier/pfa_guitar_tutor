@@ -226,7 +226,7 @@ void GridEditor::createGrid(int columns, int rows)
 	connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
 	connect(grid, SIGNAL(play(int)), this, SIGNAL(play(int)));
 
-	connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
+    connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
 	connect(this, SIGNAL(sigTimeData(QTime)), grid, SLOT(isPlayingAt(QTime)));
 
 	connect(trackProperties, SIGNAL(barsizeChanged(int)), grid, SIGNAL(barsizeChanged(int)));
@@ -591,3 +591,4 @@ void GridEditor::restoreState()
 	createGrid(statePacket->grid->rowCount(), statePacket->grid->columnCount());
 	statePacket->grid->deepCopy(grid);
 }
+
