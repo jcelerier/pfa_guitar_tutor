@@ -10,7 +10,7 @@ class TrackChord {
 public:
 
 	TrackChord();
-	TrackChord(QString nom, qreal d, int rep, TrackChord* previous, TrackChord* next, PartTrack* part);
+	TrackChord(QString nom, qreal d, int rep, TrackChord* previous = 0, TrackChord* next = 0, PartTrack* part = 0);
 	~TrackChord();
 
 	void setRepetition(int newRepetition);
