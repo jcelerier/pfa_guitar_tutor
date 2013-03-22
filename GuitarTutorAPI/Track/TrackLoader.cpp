@@ -24,13 +24,17 @@ bool TrackLoader::convertLogicalTrackToXml(LogicalTrack* currentTrack, QString f
 	root.setAttribute("fichier", currentTrack->getAudioFileName());
 	root.setAttribute("line", currentTrack->getLine());
 	root.setAttribute("column", currentTrack->getColumn());
-	root.setAttribute("bar", currentTrack->getBar());
-	root.setAttribute("beginning", currentTrack->getBeginning());
-	root.setAttribute("end", currentTrack->getEnd());
-	root.setAttribute("timePerMesure", currentTrack->getTimePerMesure());
 
-	//ajout des parties
-	QList<PartTrack*> partList = currentTrack->getPartTrackList();
+    root.setAttribute("bar", currentTrack->getBar());
+    root.setAttribute("beginning", currentTrack->getBeginning());
+    root.setAttribute("end", currentTrack->getEnd());
+    root.setAttribute("timeSignature", currentTrack->getTimeSignature());
+    root.setAttribute("comment", currentTrack->getComment());
+
+    qDebug() << "Voila le comment : " << currentTrack->getComment();
+    //ajout des parties
+    QList<PartTrack*> partList = currentTrack->getPartTrackList();
+
 	QList<PartTrack*>::const_iterator iPart;
 
 	for(iPart = partList.begin(); iPart < partList.end(); ++iPart)
@@ -82,56 +86,59 @@ bool TrackLoader::convertLogicalTrackToXml(LogicalTrack* currentTrack, QString f
 */
 bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* currentTrack) {
 
-	TrackChord* previousChord = 0;
-	TrackChord * currentChord = 0;
-	PartTrack* previousPart = 0;
-	PartTrack* currentPart = 0;
-	QDomDocument *dom = new QDomDocument(xmlFileName); // Structure contenant le XML préalablement chargé
-	QFile xmlDoc(xmlFileName); // Ouverture du fichier XML
+    TrackChord* previousChord = 0;
+    TrackChord * currentChord = 0;
+    PartTrack* previousPart = 0;
+    PartTrack* currentPart = 0;
 
-	if(!xmlDoc.open(QIODevice::ReadOnly)) { // Erreur à l'ouverture du .xml ?
-		qCritical("Erreur ouverture XML");
-		return false;
-	}
+    QDomDocument *dom = new QDomDocument(xmlFileName); // Structure contenant le XML préalablement chargé
+    QFile xmlDoc(xmlFileName); // Ouverture du fichier XML
 
-	if (!dom->setContent(&xmlDoc)) { // Impossibilité de linker le fichier .xml ouvert au QDomDocument ?
-		xmlDoc.close();
-		qCritical("erreur linkage .xml au QDomDocument");
-		return false;
-	}
+    if(!xmlDoc.open(QIODevice::ReadOnly)) { // Erreur à l'ouverture du .xml ?
+        qCritical("Erreur ouverture XML");
+        return false;
+    }
 
-	xmlDoc.close(); // Fermeture du document xml maintenant contenu dans un QDomDocument
+    if (!dom->setContent(&xmlDoc)) { // Impossibilité de linker le fichier .xml ouvert au QDomDocument ?
+        xmlDoc.close();
+        qCritical("erreur linkage .xml au QDomDocument");
+        return false;
+    }
 
-	QDomElement root = dom->documentElement();
+    xmlDoc.close(); // Fermeture du document xml maintenant contenu dans un QDomDocument
 
-	// Inscription des datas dans la structure de piste LogicalTrack
-	QString n, a, f, m, line, column, bar, beginning, end, tmp;//Pour stocker les information du morceaux : n = nom, a = artiste, f = fichier, m = nbr mesures
+    QDomElement root = dom->documentElement();
 
-	if(root.isNull()) { //Si le l'arborescence xml est vide
-		delete currentTrack;
-		qCritical("Pas d'information xml");
-		return false;
-	}
+    // Inscription des datas dans la structure de piste LogicalTrack
+    QString n, a, f, m, line, column, bar, beginning, end, tmp, com;//Pour stocker les information du morceaux : n = nom, a = artiste, f = fichier, m = nbr mesures
 
-	//Chargement sans vérification des noeuds.
-	n = root.attribute("nom", 0);
-	a = root.attribute("artiste", 0);
-	f = root.attribute("fichier", 0);
-	line = root.attribute("line", 0);
-	column = root.attribute("column", 0);
-	m = root.attribute("casesMesure", 0);
-	bar = root.attribute("bar", 0);
-	beginning = root.attribute("beginning", 0);
-	end = root.attribute("end", 0);
-	tmp =root.attribute("timePerMesure", 0);
+    if(root.isNull()) { //Si le l'arborescence xml est vide
+        delete currentTrack;
+        qCritical("Pas d'information xml");
+        return false;
+    }
 
-	currentTrack->setTrackName(n);
-	currentTrack->setArtist(a);
-	currentTrack->setAudioFileName(f);
+    //Chargement sans vérification des noeuds.
+    n = root.attribute("nom", 0);
+    a = root.attribute("artiste", 0);
+    f = root.attribute("fichier", 0);
+    line = root.attribute("line", 0);
+    column = root.attribute("column", 0);
+    m = root.attribute("casesMesure", 0);
+    bar = root.attribute("bar", 0);
+    beginning = root.attribute("beginning", 0);
+    end = root.attribute("end", 0);
+    tmp = root.attribute("timeSignature", 0);
+    com = root.attribute("comment", 0);
+
+    currentTrack->setTrackName(n);
+    currentTrack->setArtist(a);
+    currentTrack->setAudioFileName(f);
+    currentTrack->setComment(com);
 	currentTrack->setLine(line.toInt());
 	currentTrack->setColumn(column.toInt());
 	currentTrack->setBars(bar.toInt(), beginning.toInt(), end.toInt());
-	currentTrack->setTimePerMesure(tmp.toInt());
+    currentTrack->setTimeSignature(tmp.toInt());
 
 	//    //Chargement du morceau avec vérification des noeuds.
 	//    if (((n = root.attribute("nom", 0)) == 0) ||
