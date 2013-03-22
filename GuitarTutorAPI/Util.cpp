@@ -38,3 +38,7 @@ QTime SampleToQTime(int smp)
 {
 	return MsecToTime(smp / 44.1);
 }
+
+QString stringToSub(QString str) {
+    return str[0]+"<sub>"+str.mid(1)+"</sub>";
+}

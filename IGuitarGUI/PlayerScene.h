@@ -8,7 +8,8 @@
 #include <GuitarTutor/Chord.h>
 #include "ButtonItem.h"
 #include "MenuItem.h"
-#include "EntireSongBis.h"
+#include "ScrollingItem.h"
+#include "EntireSong.h"
 #include "Configuration.h"
 #include "ChordDictionary.h"
 #include "ConfigPanel.h"
@@ -29,21 +30,22 @@ public:
 	void updateStats(int validated, int played);
 	~PlayerScene();
 	Controler* getControler();
-	void loadSong(LogicalTrack* track);
+    void loadSong(LogicalTrack* track);
 signals:
 
 public slots:
 	void updateScene();
 	void setPlayedChord(BasicChord ch);
-	void goToChord(TrackChord*);
+    void setSceneToChord(TrackChord*);
+    void updateConfiguration(bool isLoopingActive, int difficulty, int continueMode);
 
-	void switchPlaying();
-	void play();
-	void pause();
-	void stop();
-	void back();
+    void play();
+    void pause();
+    void stop();
+    void back();
 	void switchMenu();
 	void switchMute();
+    void switchPlay();
 
 	void displayDictionary();
     void displayOptions();
@@ -66,6 +68,7 @@ private:
 	ChordDictionary *m_dictionary;
     ConfigPanel *m_configPanel;
 	void disposeScene();
+    TrackChord* m_lastChord;
 
 };
 

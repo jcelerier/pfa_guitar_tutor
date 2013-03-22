@@ -2,27 +2,34 @@
 #define CONFIGPANEL_H
 
 #include <QWidget>
-
-enum Difficulty { EASY, MEDIUM, HARD };
-enum ContinueMode { DIRECT, CHORD, PART };
+#include "Configuration.h"
 
 namespace Ui {
 class ConfigPanel;
 }
 
+/**
+ * @brief Affiche un widget permettant le réglage de certains paramètres du player.
+ */
 class ConfigPanel : public QWidget
 {
     Q_OBJECT
     
 public:
-    explicit ConfigPanel(bool isLoopingActive = true, enum Difficulty difficulty = EASY, enum ContinueMode continueMode = DIRECT, QWidget *parent = 0);
+    explicit ConfigPanel(bool isLoopingActive = true, int difficulty = PERCENT_TO_VALIDATE_EASY, int continueMode = PAUSE_TO_SAME_TIME, QWidget *parent = 0);
     ~ConfigPanel();
-    
+    int getDifficulty() const;
+    bool isLoopingActive() const;
+    int getContinueMode() const;
+public slots:
+    void saveData();
+signals:
+    void configChanged(bool, int, int);
 private:
     Ui::ConfigPanel *ui;
     bool m_isLoopingActive;
-    enum Difficulty m_difficulty;
-    enum ContinueMode m_continueMode;
+    int m_difficulty;
+    int m_continueMode;
 };
 
 #endif // CONFIGPANEL_H

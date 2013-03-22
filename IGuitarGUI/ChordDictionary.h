@@ -16,7 +16,7 @@ class ChordDictionary : public QWidget
     Q_OBJECT
     
 public:
-    explicit ChordDictionary(QList<PlayerChord> *chordList, QWidget *parent = 0);
+    explicit ChordDictionary(QWidget *parent = 0);
     ~ChordDictionary();
     void initChordDictionary(QList<PlayerChord>* chordList);
 private:

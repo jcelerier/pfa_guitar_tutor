@@ -29,7 +29,7 @@
   <widget class="QPushButton" name="okButton">
    <property name="geometry">
     <rect>
-     <x>170</x>
+     <x>180</x>
      <y>250</y>
      <width>97</width>
      <height>27</height>
@@ -45,7 +45,7 @@
      <x>20</x>
      <y>10</y>
      <width>361</width>
-     <height>231</height>
+     <height>114</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
@@ -54,85 +54,105 @@
       <property name="title">
        <string>Difficulté</string>
       </property>
-      <widget class="QWidget" name="verticalLayoutWidget">
+      <widget class="QRadioButton" name="easyMode">
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>160</width>
-         <height>80</height>
-        </rect>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <item>
-         <widget class="QRadioButton" name="easyMode">
-          <property name="text">
-           <string>Facile</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="mediumMode">
-          <property name="text">
-           <string>Moyen</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="hardMode">
-          <property name="text">
-           <string>Difficile</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QCheckBox" name="activateLoop">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>110</y>
-         <width>201</width>
-         <height>31</height>
+         <x>0</x>
+         <y>30</y>
+         <width>359</width>
+         <height>22</height>
         </rect>
        </property>
        <property name="text">
-        <string>Boucler sur les parties</string>
+        <string>Facile</string>
        </property>
        <property name="checked">
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QComboBox" name="continueType">
+      <widget class="QRadioButton" name="mediumMode">
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>180</y>
-         <width>321</width>
-         <height>27</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_2">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>150</y>
-         <width>141</width>
-         <height>17</height>
+         <x>0</x>
+         <y>50</y>
+         <width>359</width>
+         <height>22</height>
         </rect>
        </property>
        <property name="text">
-        <string>Type de reprise</string>
+        <string>Moyen</string>
        </property>
       </widget>
+      <widget class="QRadioButton" name="hardMode">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>70</y>
+         <width>359</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Difficile</string>
+       </property>
+      </widget>
+      <zorder>easyMode</zorder>
+      <zorder>mediumMode</zorder>
+      <zorder>hardMode</zorder>
+      <zorder>easyMode</zorder>
+      <zorder>mediumMode</zorder>
+      <zorder>hardMode</zorder>
      </widget>
     </item>
    </layout>
   </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>180</y>
+     <width>141</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Type de reprise</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="activateLoop">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>130</y>
+     <width>201</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Boucler sur les parties</string>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="continueType">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>210</y>
+     <width>301</width>
+     <height>27</height>
+    </rect>
+   </property>
+  </widget>
+  <zorder>cancelButton</zorder>
+  <zorder>okButton</zorder>
+  <zorder>gridLayoutWidget</zorder>
+  <zorder>continueType</zorder>
+  <zorder>label_2</zorder>
+  <zorder>label_2</zorder>
+  <zorder>activateLoop</zorder>
+  <zorder>continueType</zorder>
  </widget>
  <resources/>
  <connections>
@@ -144,7 +164,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>338</x>
-     <y>293</y>
+     <y>263</y>
     </hint>
     <hint type="destinationlabel">
      <x>199</x>
@@ -152,5 +172,24 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>okButton</sender>
+   <signal>pressed()</signal>
+   <receiver>ConfigPanel</receiver>
+   <slot>saveData()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>228</x>
+     <y>263</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>352</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <slots>
+  <slot>saveData()</slot>
+ </slots>
 </ui>

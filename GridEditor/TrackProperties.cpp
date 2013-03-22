@@ -11,9 +11,9 @@ TrackProperties::TrackProperties(QWidget *parent) :
 	QDialog(parent),
 	ui(new Ui::TrackProperties)
 {
-	m_barsize = 1;
-	m_timeSignature = 4;
 	ui->setupUi(this);
+    ui->t_barsize->setValue(1);
+    ui->t_timeSignature->setValue(4);
 	connect(ui->t_timeSignature, SIGNAL(valueChanged(int)), this, SIGNAL(timeSignatureChanged(int)));
 	connect(ui->t_barsize, SIGNAL(valueChanged(int)), this, SIGNAL(barsizeChanged(int)));
 
@@ -37,7 +37,9 @@ void TrackProperties::accept()
 {
 	setTrack(ui->t_trackname->text());
 	setArtist(ui->t_artist->text());
-	m_barsize = ui->t_barsize->value();
+    setBarSize(ui->t_barsize->value());
+    setComment(ui->t_comment->text());
+    setTimeSignature(ui->t_timeSignature->value());
 }
 
 /**
@@ -100,7 +102,6 @@ void TrackProperties::setComment(QString t)
  */
 void TrackProperties::setArtist(QString artist)
 {
-	m_artist = artist;
 	ui->t_artist->setText(artist);
 	emit artistChanged();
 }
@@ -111,7 +112,6 @@ void TrackProperties::setArtist(QString artist)
  */
 void TrackProperties::setTrack(QString track)
 {
-	m_trackname = track;
 	ui->t_trackname->setText(track);
 	emit trackChanged();
 }
@@ -122,8 +122,8 @@ void TrackProperties::setTrack(QString track)
  */
 void TrackProperties::setBarSize(unsigned int barsize)
 {
-	m_barsize = barsize;
 	ui->t_barsize->setValue(barsize);
+    emit barsizeChanged(barsize);
 }
 
 /**
@@ -132,22 +132,6 @@ void TrackProperties::setBarSize(unsigned int barsize)
  */
 void TrackProperties::setTimeSignature(int time)
 {
-	m_timeSignature = time;
-	ui->t_barsize->setValue(time);
+    ui->t_timeSignature->setValue(time);
 }
 
-//void TrackProperties::setBar(int nBar){
-//    bar = nBar;
-//}
-
-//void TrackProperties::setEnd(int nEnd){
-//    end = nEnd;
-//}
-
-//void TrackProperties::setBeginning(int nbeginning){
-//    beginning = nbeginning;
-//}
-
-//void TrackProperties::setTimePerMesure(){
-//    timePerMesure = nTimePerMesure;
-//}

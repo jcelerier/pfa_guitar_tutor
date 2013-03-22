@@ -5,6 +5,7 @@
 #include <QTimer>
 #include <QString>
 #include <Track/TrackLoader.h>
+#include <PlayerScene.h>
 
 /**
  * @brief Controler::~Controler
@@ -29,43 +30,40 @@ Controler::~Controler()
  */
 Controler::Controler()
 {
+	m_view = 0;
+	m_scene = 0;
+	m_clockOffset = 0;
 	m_track = 0;
 	played_chords_in_current_part = 0;
 	well_played_chords_in_current_part = 0;
+
 	m_totalPlayedChords = 0;
 	m_totalValidatedChords = 0;
+
 	is_at_beginning = 0;
-
-	m_clockOffset = 0;
-
+	m_timer = new QTimer(this);
 	m_paused = false;
 	m_muted = false;
 	m_playing = false;
 
-	m_timer = new QTimer(this);
-	m_scene = new PlayerScene(this);
-	m_view = new MyView(m_scene);
-	m_songManager = new SongManager(this);
 	m_configuration = new Configuration();
 
+	m_scene = new PlayerScene(this);
+	m_view = new MyView(m_scene);
+
+	m_songManager = new SongManager(this);
 	connect(m_timer, SIGNAL(timeout()), this, SLOT(ticTac()));
 	connect(m_timer, SIGNAL(timeout()), m_songManager, SLOT(checkTime()));
 	connect(m_timer, SIGNAL(timeout()), m_songManager, SLOT(compareChordWithPlayed()));
 
-	connect(m_songManager, SIGNAL(nonNaturalChange(TrackChord*)), this, SLOT(resetValidatedNotes(TrackChord*)));
+	connect(m_songManager, SIGNAL(nonNaturalChange(TrackChord*)), this, SLOT(setChordPosition(TrackChord*)));
 	connect(m_songManager, SIGNAL(updateChord(TrackChord*)), this, SLOT(currentChordSlot(TrackChord*)));
 	connect(m_songManager, SIGNAL(lastChordCorrectness(TrackChord*, double)), this, SLOT(victoryPercent(TrackChord*, double)));
-
-	if(!initSong())
-	{
-		exit(0);
-		// note : ne pas appeler les méthodes de qApp (quit, exit...) car qApp->exec() n'est pas encore appelé
-	}
-
 	connect(m_songManager, SIGNAL(currentlyPlayedChord(BasicChord)), m_scene, SLOT(setPlayedChord(BasicChord)));
-	connect(m_songManager, SIGNAL(nonNaturalChange(TrackChord*)), m_scene, SLOT(goToChord(TrackChord*)));
+
 
 	m_view->show();
+
 }
 
 /**
@@ -86,19 +84,10 @@ Configuration* Controler::getConfiguration()
  */
 void Controler::currentChordSlot(TrackChord* chord)
 {
-	TrackChord* iChord = chord;
-	do
-	{
-		iChord->setPlayed(false);
-		iChord->setPlaying(false);
-		iChord->validate(false);
-
-	} while((iChord = iChord->next()) != 0);
-
 	chord->setPlaying();
 	QList<PartTrack*>::iterator iPart;
 
-	for(iPart = m_track->getPartTrackList().begin();
+	/*for(iPart = m_track->getPartTrackList().begin();
 		iPart != m_track->getPartTrackList().end();
 		++iPart)
 
@@ -123,34 +112,37 @@ void Controler::currentChordSlot(TrackChord* chord)
 
 			well_played_chords_in_current_part = 0;
 		}
-	}
+	}*/
+	/*
+	// bouclage sur parties
+	if(chord == chord->part()->getTrackChordsList()[0]
+			&& chord != m_track->getPartTrackList()[0]->getTrackChordsList()[0]
+			&& m_configuration->getLoopSetting()
+			&& well_played_chords_in_current_part < (*iPart)->getTrackChordsList().count() )
+		m_songManager->goToChord(chord->part()->previous()->getTrackChordsList()[0]);*/
 
 	m_totalPlayedChords++;
 	m_scene->updateStats(m_totalValidatedChords, m_totalPlayedChords);
+	m_scene->setSceneToChord(chord);
 }
 
-void Controler::resetValidatedNotes(TrackChord* chord)
+void Controler::setChordPosition(TrackChord* chord)
 {
-	QList<PlayerChord>::iterator iChord;
 
-	bool toReset = false;
 	int validatedToDelete = 0;
-
-	for(iChord = m_chordList.begin();
-		iChord != m_chordList.end();
-		++iChord)
-
+	TrackChord* iChord = chord;
+	do
 	{
-		if(chord == iChord->getTrackChord())
-			toReset=true;
-		if(toReset) {
-			if(iChord->isValidated())
-				validatedToDelete ++;
+		if(iChord->isValidated())
+			validatedToDelete ++;
 
-			iChord->validate(false);
+		iChord->setPlayed(false);
+		iChord->setPlaying(false);
+		iChord->validate(false);
 
-		}
-	}
+	} while((iChord = iChord->next()) != 0);
+
+
 	m_totalPlayedChords -= validatedToDelete;
 }
 
@@ -174,7 +166,6 @@ void Controler::victoryPercent(TrackChord* chord, double d)
 			++well_played_chords_in_current_part;
 		}
 	chord->setPlayed();
-	emit repaintSong();
 	}
 }
 
@@ -211,9 +202,14 @@ bool Controler::initSong()
 
 	TrackLoader::convertXmlToLogicalTrack(path, m_track);
 
-	m_songManager->load(m_track);
-	m_chordList = getChordList(m_track);
+	/* Boucle de base pour la lecture des Track;
+	TrackChord* iChord = m_track->getPartTrackList()[0]->getTrackChordsList()[0];
+	do
+	{
 
+	} while((iChord = iChord->next()) != 0);
+	*/
+	m_songManager->load(m_track);
 	m_scene->loadSong(m_track);
 
 	return true;
@@ -233,10 +229,11 @@ void Controler::startSong()
 		is_at_beginning = false;
 	}
 
+
+	m_globalClock.start();
 	m_songManager->play();
 	m_timer->start(1000/Configuration::framesPerSec);
 	m_playing=true;
-	m_globalClock.start();
 }
 
 /**
@@ -307,65 +304,6 @@ void Controler::pauseClock()
 }
 
 /**
- * @brief Controler::getChordList
- * @return La liste des accords
- *
- * Accesseur pour la liste des accords du morceau.
- */
-QList<PlayerChord> *Controler::getChordList()
-{
-	return &m_chordList;
-}
-
-/**
- * @brief Controler::getChordList
- * @param trackName Track
- * @return La liste des accords de la track.
- *
- * Converti une LogicalTrack en une liste de PlayerChord.
- */
-QList<PlayerChord> Controler::getChordList(LogicalTrack* trackName)
-{
-	QList<PlayerChord> chList;
-	PlayerChord* tempChord;
-
-	QList<PartTrack*>::iterator it1;
-	QList<TrackChord*>::iterator it2;
-
-	QList<PartTrack*> partTrackList = trackName->getPartTrackList();
-
-	for(it1 = partTrackList.begin(); it1 != partTrackList.end(); ++it1)
-	{
-
-		QList<TrackChord*> gtc = (*it1)->getTrackChordsList(); //utilisée dans la boucle qui suit, plante si pas de passage par variable intermédiaire (pourquoi?) --- hamid
-
-		for(it2 = gtc.begin(); it2 != gtc.end(); ++it2)
-		{
-			for(int i = 0; i < (*it2)->getRepetition(); i++)
-			{
-				tempChord = new PlayerChord();
-				qreal time;
-				QString chord("");
-
-				chord += (*it2)->getChord();
-				time = (*it2)->getBeginningInMs();
-
-				tempChord->setName(chord);
-				tempChord->setTime((int) time);
-				tempChord->setTrackChord(*it2);
-
-				if(chord != "n") {
-					chList.append(*tempChord);
-				}
-				delete tempChord;
-
-			}
-		}
-	}
-	return chList;
-}
-
-/**
  * @brief Controler::mute
  *
  * Coupe le son
@@ -396,6 +334,10 @@ bool Controler::muteState()
 	return m_muted;
 }
 
+// l'idéal serait de ne pas faire reset la view et juste de mettre à jour les infos
+// mais comme LogicalTrack est utilisé directement on ne peut pas pour l'instant
+// il faut aussi faire gaffe à la désactivation de portaudio dans MusicManager
+
 /**
  * @brief Controler::getTrack
  * @return La logicalTrack utilisée
@@ -410,4 +352,10 @@ LogicalTrack* Controler::getTrack()
 TrackChord* Controler::getFirstChord()
 {
 	return m_track->getFirstChord();
+}
+
+
+TrackChord* Controler::getCurrentChord()
+{
+	return m_songManager->getCurrentChord();
 }

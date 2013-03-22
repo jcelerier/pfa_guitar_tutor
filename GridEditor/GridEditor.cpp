@@ -29,8 +29,8 @@ GridEditor::GridEditor(): trackProperties(new TrackProperties(this))
 
 	editorPanel = new EditorPanel(grid, audioWindow, trackProperties, this);
 
-	setWindowTitle("GridEditor");
-	resize(800, 600); //Taille de la fenêtre
+    setWindowTitle("GridEditor");
+    resize(800, 600); //Taille de la fenêtre
 	createMenu();
 	createActions();
 	setActionsToMenu();
@@ -263,7 +263,7 @@ void GridEditor::createGrid(int columns, int rows)
 
 		layout->addWidget(editorPanel, 0, 1);
 		isPanelSet = true;
-	}
+    }
 }
 
 /**
@@ -339,6 +339,7 @@ void GridEditor::firstNewGrid()
 
 /**
  * @brief GridEditor::newGrid
+ *
  * Méthode prévue pour les nouvelles grilles (action Nouveau) subséquentes, car affiche dans une fenêtre.
  */
 void GridEditor::newGrid()
@@ -415,6 +416,7 @@ void GridEditor::toXML(QString filename)
 	track->setArtist(trackProperties->getArtist());
 	track->setMesure(trackProperties->getBarSize());
 	track->setComment(trackProperties->getComment());
+    track->setTimeSignature(trackProperties->getTimeSignature());
 	track->setLine(grid->rowCount());
 	track->setColumn(grid->columnCount() - 1);
 	track->setAudioFileName(audioWindow->getFilename()); //vérifier si chemin absolu
@@ -456,11 +458,11 @@ void GridEditor::fromXML()
 	trackProperties->setTrack(track->getTrackName());
 	trackProperties->setArtist(track->getArtist());
 	trackProperties->setBarSize(track->getMesure());
+    m_barsize = trackProperties->getBarSize();
 	trackProperties->setComment(track->getComment());
     trackProperties->setTimeSignature(track->getTimeSignature());
-	m_barsize = trackProperties->getBarSize();
 
-	audioWindow->setAudioFileName(track->getAudioFileName()); //vérifier si chemin absolu
+    audioWindow->setAudioFileName(track->getAudioFileName()); //vérifier si chemin absolu
 	audioWindow->setAudioFile();
     audioWindow->setBar(track->getBar());
     audioWindow->setBeginning(track->getBeginning());
@@ -469,6 +471,8 @@ void GridEditor::fromXML()
 
 	createGrid(track->getColumn() + 1, track->getLine());
 	grid->setLogicalTrack(track);
+
+    emit trackProperties->barsizeChanged(track->getMesure());
 
 	delete track;
 }
