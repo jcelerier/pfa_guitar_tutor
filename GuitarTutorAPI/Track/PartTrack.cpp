@@ -19,12 +19,12 @@ PartTrack::PartTrack() {
 
 PartTrack::PartTrack(QString newPartName) {
 
-    partName = newPartName;
+	partName = newPartName;
 }
 
 PartTrack::PartTrack(QString newPartName, QList<TrackChord*> newListChords){
-    partName = newPartName;
-    listTrackChords = newListChords;
+	partName = newPartName;
+	listTrackChords = newListChords;
 }
 
 /**
@@ -36,8 +36,8 @@ PartTrack::PartTrack(QString newPartName, QList<TrackChord*> newListChords){
 
 PartTrack::~PartTrack() {
 
-    for(QList<TrackChord*>::Iterator i = listTrackChords.begin(); i != listTrackChords.end() ; i++)
-        delete (*i);
+	for(QList<TrackChord*>::Iterator i = listTrackChords.begin(); i != listTrackChords.end() ; i++)
+		delete (*i);
 
 }
 
@@ -50,18 +50,38 @@ PartTrack::~PartTrack() {
 
 void PartTrack::AddChord(TrackChord * c)
 {
-    listTrackChords.append(c);
+	listTrackChords.append(c);
 }
 
 QString PartTrack::getPartName(){
-    return partName;
+	return partName;
 }
 
 QList<TrackChord*> PartTrack::getTrackChordsList(){
-    return listTrackChords;
+	return listTrackChords;
 }
 
 void PartTrack::incrementCurrentChordRepetition()
 {
 	listTrackChords.last()->setRepetition(listTrackChords.last()->getRepetition() + 1);
+}
+
+void PartTrack::setNext(PartTrack* n)
+{
+	m_next = n;
+}
+
+void PartTrack::setPrevious(PartTrack* p)
+{
+	m_previous = p;
+}
+
+PartTrack* PartTrack::next()
+{
+	return m_next;
+}
+
+PartTrack* PartTrack::previous()
+{
+	return m_previous;
 }

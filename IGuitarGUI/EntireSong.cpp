@@ -41,10 +41,10 @@ EntireSong::EntireSong(QGraphicsItem *parent) :
 	textMasking->setOpacity(0.9);
 	textMasking->setOpacityMask(brushMask);
 	maskingTextContainer->setGraphicsEffect(textMasking);
-    m_scrollingTextContainer = new QGraphicsItemGroup(maskingTextContainer);
+	m_scrollingTextContainer = new QGraphicsItemGroup(maskingTextContainer);
 
-    m_initialPos = QPointF(qreal(210), qreal(440));
-    m_scrollingTextContainer->setPos(m_initialPos);
+	m_initialPos = QPointF(qreal(210), qreal(440));
+	m_scrollingTextContainer->setPos(m_initialPos);
 
 
 	QList<PlayerChord>::iterator ite;
@@ -99,10 +99,10 @@ EntireSong::EntireSong(QGraphicsItem *parent) :
  * Fonction appelée lors du début d'un nouvel accord. Elle gère la validation de l'accord qui vient de s'écouler.
  */
 void EntireSong::nextChord() {
-    if( m_controler->getChordList()->at(m_currentChord).isValidated() )
-        m_controler->getChordList()->at(m_currentChord).getFullSongItem()->setBrush(QColor(175, 22, 27));
-    else
-        m_controler->getChordList()->at(m_currentChord).getFullSongItem()->setBrush(QColor(175, 0, 0));
+	if( m_controler->getChordList()->at(m_currentChord).isValidated() )
+		m_controler->getChordList()->at(m_currentChord).getFullSongItem()->setBrush(QColor(175, 22, 27));
+	else
+		m_controler->getChordList()->at(m_currentChord).getFullSongItem()->setBrush(QColor(175, 0, 0));
 
 	m_currentChord++;
 	m_controler->getChordList()->at(m_currentChord).getFullSongItem()->setBrush(QColor(1, 174, 242));
@@ -114,15 +114,17 @@ void EntireSong::nextChord() {
  *
  * Fonction de mise à jour du module. Demande le passage à l'accord suivant le cas échéant, et gère la validation de l'accord courant.
  */
-void EntireSong::advance ( int phase ) {
+void EntireSong::advance ( int phase )
+{
 	if(phase == 1) // advance est appellée automatiquement par la scene, deux fois (voir doc)
 	{
-        int currentTime = m_controler->elapsedTime();
+		int currentTime = m_controler->elapsedTime();
 		QTransform textTrans;
 		textTrans.translate(-m_pixPerMsec*(currentTime-m_lastRefresh), 0);
 		m_scrollingTextContainer->setTransform(textTrans, true);
 
-		if(m_currentChord+1 < m_controler->getChordList()->size()) {
+		if(m_currentChord + 1 < m_controler->getChordList()->size())
+		{
 			if(m_controler->getChordList()->at(m_currentChord+1).getTime()<currentTime)
 				nextChord();
 		}
@@ -193,24 +195,27 @@ bool EntireSong::getIsCurrentChordValidated() const
  */
 void EntireSong::setCurrentChord(int cc)
 {
-    for(int i=0; i<m_controler->getChordList()->size(); i++) {
-        m_controler->getChordList()->at(i).getFullSongItem()->setBrush(QColor(255, 255, 255));
-    }
-    for(int i=0; i<cc-1; i++) {
-        if( m_controler->getChordList()->at(i).isValidated() )
-            m_controler->getChordList()->at(i).getFullSongItem()->setBrush(QColor(175, 22, 27));
-        else
-            m_controler->getChordList()->at(i).getFullSongItem()->setBrush(QColor(175, 0, 0));
-    }
+	qDebug() << "current chord: " << cc;
+	for(int i=0; i<m_controler->getChordList()->size(); i++)
+	{
+		m_controler->getChordList()->at(i).getFullSongItem()->setBrush(QColor(255, 255, 255));
+	}
+	for(int i=0; i<cc-1; i++)
+	{
+		if( m_controler->getChordList()->at(i).isValidated() )
+			m_controler->getChordList()->at(i).getFullSongItem()->setBrush(QColor(175, 22, 27));
+		else
+			m_controler->getChordList()->at(i).getFullSongItem()->setBrush(QColor(175, 0, 0));
+	}
 
-    m_currentChord = cc;
-    m_controler->getChordList()->at(cc).getFullSongItem()->setBrush(QColor(1, 174, 242));
+	m_currentChord = cc;
+	m_controler->getChordList()->at(cc).getFullSongItem()->setBrush(QColor(1, 174, 242));
 
-    m_lastRefresh = m_controler->getChordList()->at(cc).getTime();
-    QPointF newPos(m_initialPos);
-    qDebug() <<  newPos.rx() << newPos.ry();
-    newPos += QPointF(m_pixPerMsec * m_controler->getChordList()->at(cc).getTime(), 0);
-    QTransform tr;
-    m_scrollingTextContainer->setPos(newPos);
-    m_scrollingTextContainer->setTransform(tr);
+	m_lastRefresh = m_controler->getChordList()->at(cc).getTime();
+	QPointF newPos(m_initialPos);
+	qDebug() <<  newPos.rx() << newPos.ry();
+	newPos += QPointF(m_pixPerMsec * m_controler->getChordList()->at(cc).getTime(), 0);
+	QTransform tr;
+	m_scrollingTextContainer->setPos(newPos);
+	m_scrollingTextContainer->setTransform(tr);
 }

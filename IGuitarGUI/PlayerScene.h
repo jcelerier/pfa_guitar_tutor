@@ -8,7 +8,7 @@
 #include <GuitarTutor/Chord.h>
 #include "ButtonItem.h"
 #include "MenuItem.h"
-#include "EntireSong.h"
+#include "EntireSongBis.h"
 #include "Configuration.h"
 #include "ChordDictionary.h"
 
@@ -24,23 +24,23 @@ class PlayerScene : public QGraphicsScene
 public:
 	explicit PlayerScene(QObject *parent = 0);
 	void mousePressEvent(QGraphicsSceneMouseEvent*);
-    QGraphicsItem* getItem(QString);
+	QGraphicsItem* getItem(QString);
 	void updateStats(int validated, int played);
 	~PlayerScene();
 	Controler* getControler();
-    void loadSong();
+	void loadSong(LogicalTrack* track);
 signals:
 
 public slots:
 	void updateScene();
 	void setPlayedChord(BasicChord ch);
-    void goToChord(TrackChord*);
+	void goToChord(TrackChord*);
 
 	void switchPlaying();
-    void play();
-    void pause();
-    void stop();
-    void back();
+	void play();
+	void pause();
+	void stop();
+	void back();
 	void switchMenu();
 	void switchMute();
 

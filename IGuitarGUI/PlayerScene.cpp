@@ -42,7 +42,7 @@ PlayerScene::~PlayerScene()
 	delete m_dictionary;
 	delete m_cntTimer;
 
-    delete m_itemMap["backgnd"];
+	delete m_itemMap["backgnd"];
 }
 
 /**
@@ -78,10 +78,10 @@ void PlayerScene::disposeScene()
 	QPixmap stopImage(":/images/stop.png");
 	QPixmap backImage(":/images/back.png");
 
-    m_itemMap["play"] = new ButtonItem(playImage, m_itemMap["backgnd"]);
-    m_itemMap["play"]->setPos(40, 860); // Position absolue par rapport au background
-    m_itemMap["play"]->setToolTip(tr("Play/Pause"));
-    connect((ButtonItem*)m_itemMap["play"], SIGNAL(pushed()), this, SLOT(play()));
+	m_itemMap["play"] = new ButtonItem(playImage, m_itemMap["backgnd"]);
+	m_itemMap["play"]->setPos(40, 860); // Position absolue par rapport au background
+	m_itemMap["play"]->setToolTip(tr("Play/Pause"));
+	connect((ButtonItem*)m_itemMap["play"], SIGNAL(pushed()), this, SLOT(play()));
 
 	m_itemMap["pause"] = new ButtonItem(pauseImage, m_itemMap["backgnd"]);
 	m_itemMap["pause"]->setPos(170, 860); // Position absolue par rapport au background
@@ -109,12 +109,12 @@ void PlayerScene::disposeScene()
 	// Titre de la chanson
 	m_itemMap["songTitle"] = addText("Title", titleFont);
 	m_itemMap["songTitle"]->setPos(200, 65);
-    ((QGraphicsTextItem*)m_itemMap["songTitle"])->setTextWidth(520);
+	((QGraphicsTextItem*)m_itemMap["songTitle"])->setTextWidth(520);
 
 	// Artiste de la chanson
 	m_itemMap["songArtist"] = addText("Artist", titleFont);
 	m_itemMap["songArtist"]->setPos(200, 115);
-    ((QGraphicsTextItem*)m_itemMap["songArtist"])->setTextWidth(520);
+	((QGraphicsTextItem*)m_itemMap["songArtist"])->setTextWidth(520);
 
 	// Couverture d'album
 	QPixmap albumImage(":/images/noalbum.png");
@@ -281,7 +281,7 @@ void PlayerScene::setPlayedChord(BasicChord ch)
 {
 	QStringList playedChordList = BasicChord::convertChordToStringList(ch.toString().toLatin1());
 	QString playedChord;
-
+/*
 	if(playedChordList.contains(((EntireSong*)m_itemMap["entireSong"])->getCurrentChord())) {
 		//Affichage de la note attendue
 		//((QGraphicsTextItem*)itemMap["chordPlayed"])->setHtml(playedChord[0]+"<sub>"+playedChord.mid(1)+"</sub>");
@@ -289,7 +289,7 @@ void PlayerScene::setPlayedChord(BasicChord ch)
 	}
 	else //Affichage d'une note au hasard parmis les résultats possibles
 		playedChord = playedChordList.at(0);
-
+*/
 	((QGraphicsTextItem*)m_itemMap["chordPlayed"])->setHtml(playedChord[0]+"<sub>"+playedChord.mid(1)+"</sub>");
 }
 
@@ -314,7 +314,7 @@ void PlayerScene::updateStats(int validated, int played)
  */
 void PlayerScene::displayDictionary()
 {
-    //m_dictionary->show();
+	//m_dictionary->show();
 }
 
 Controler* PlayerScene::getControler() {
@@ -351,19 +351,21 @@ void PlayerScene::goToChord(TrackChord* tc) {
 		}
 	}
 
-	((EntireSong*)m_itemMap["entireSong"])->setCurrentChord(nChord);
+	//((EntireSong*)m_itemMap["entireSong"])->setCurrentChord(nChord);
 
 
 }
 
-void PlayerScene::loadSong() {
-    if(m_itemMap["entireSong"] != 0)
-        delete m_itemMap["entireSong"];
+void PlayerScene::loadSong(LogicalTrack* track) {
+	if(m_itemMap["entireSong"] != 0)
+		delete m_itemMap["entireSong"];
 
-    ((QGraphicsTextItem*)m_itemMap["songTitle"])->setHtml("<p align=\"center\">"+m_controler->getTrack()->getTrackName()+"</p>");
-    ((QGraphicsTextItem*)m_itemMap["songArtist"])->setHtml("<p align=\"center\">"+m_controler->getTrack()->getArtist()+"</p>");
-    // Chanson entière
-    m_itemMap["entireSong"] = new EntireSong(m_itemMap["backgnd"]);
-    m_itemMap["entireSong"]->setZValue(1);
+	((QGraphicsTextItem*)m_itemMap["songTitle"])->setHtml("<p align=\"center\">"+m_controler->getTrack()->getTrackName()+"</p>");
+	((QGraphicsTextItem*)m_itemMap["songArtist"])->setHtml("<p align=\"center\">"+m_controler->getTrack()->getArtist()+"</p>");
+	// Chanson entière
+	m_itemMap["entireSong"] = new EntireSongBis(m_itemMap["backgnd"]);
+	m_itemMap["entireSong"]->setZValue(1);
+	((EntireSongBis*) m_itemMap["entireSong"])->load(track);
+	connect((Controler*) parent(), SIGNAL(repaintSong()), (EntireSongBis*) m_itemMap["entireSong"], SLOT(repaintSong()) );
 
 }

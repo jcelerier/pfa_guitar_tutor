@@ -18,10 +18,18 @@ class PartTrack
 
 		void incrementCurrentChordRepetition();
 
+		void setNext(PartTrack*);
+		void setPrevious(PartTrack*);
+		PartTrack* next();
+		PartTrack* previous();
+
 	private:
 
 		QString partName;
 		QList<TrackChord*> listTrackChords;
+
+		PartTrack * m_next;
+		PartTrack * m_previous;
 
 };
 

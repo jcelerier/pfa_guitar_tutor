@@ -38,8 +38,8 @@ class SongManager: public QObject
 	signals:
 		void currentlyPlayedChord(BasicChord);
 		void updateChord(TrackChord*);
-        void nonNaturalChange(TrackChord*);
-        void lastChordCorrectness(TrackChord*, double);
+		void nonNaturalChange(TrackChord*);
+		void lastChordCorrectness(TrackChord*, double);
 
 
 	private:
@@ -58,7 +58,7 @@ class SongManager: public QObject
 		int number_of_chord_checks;
 
 		int precision_in_ms;
-		int elapsedTime;
+		int m_elapsedTime;
 
 };
 

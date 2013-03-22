@@ -5,11 +5,18 @@ TrackChord::TrackChord()
 {
 }
 
-TrackChord::TrackChord(QString nom, qreal d, int rep) {
+TrackChord::TrackChord(QString nom, qreal d, int rep, TrackChord *previous, TrackChord *next, PartTrack *part) {
 
 	beginning_in_ms = d;
 	repetition = rep;
 	currentChord = new BasicChord(nom);
+	m_validated = false;
+	m_played = false;
+	m_playing=false;
+
+	m_previous = previous;
+	m_next = next;
+	m_part = part;
 }
 
 
@@ -62,4 +69,64 @@ QString TrackChord::toString(){
 	info.append(" repetition = ");
 	info.append(repetition);
 	return info;
+}
+
+
+void TrackChord::validate(bool b)
+{
+	m_validated = b;
+}
+
+bool TrackChord::isValidated() const
+{
+	return m_validated;
+}
+
+void TrackChord::setPlayed(bool b)
+{
+	m_played = b;
+}
+
+bool TrackChord::isPlayed() const
+{
+	return m_played;
+}
+
+void TrackChord::setPlaying(bool b)
+{
+	m_playing = b;
+}
+
+bool TrackChord::isPlaying() const
+{
+	return m_playing;
+}
+
+TrackChord* TrackChord::next()
+{
+	return m_next;
+}
+
+TrackChord* TrackChord::previous()
+{
+	return m_previous;
+}
+
+PartTrack* TrackChord::part()
+{
+	return m_part;
+}
+void TrackChord::setNext(TrackChord* n)
+{
+	m_next = n;
+}
+
+void TrackChord::setPrevious(TrackChord* n)
+{
+	m_previous = n;
+}
+
+void TrackChord::setPart(PartTrack* p)
+{
+	m_part = p;
 }

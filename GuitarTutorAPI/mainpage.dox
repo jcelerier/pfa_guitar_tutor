@@ -9,7 +9,7 @@ Le logiciel est architecturé en trois parties :
 - Un éditeur de partition GridEditor
 - Un lecteur IGuitarGUI
 
-Nous avons pour dépendance la librairie FMODEx.
+Nous avons pour dépendance les librairies PortAudio et FMODEx.
 Il est nécessaire de la télécharger sur http://www.fmod.org/.
 
 Puis, il faut copier le dossier api dans fmod/ sur le dépôt git.
