@@ -30,6 +30,7 @@ PlayerScene::PlayerScene(QObject *parent) :
 
     //m_dictionary = new ChordDictionary(m_controler->getChordList());
     m_configPanel = new ConfigPanel();
+    connect(m_configPanel, SIGNAL(configChanged(bool,int,int)), this, SLOT(updateConfiguration(bool,int,int)));
 
 }
 
@@ -279,6 +280,13 @@ void PlayerScene::updateScene()
 
 }
 
+void PlayerScene::updateConfiguration(bool isLoopingActive, int difficulty, int continueMode)
+{
+    m_controler->getConfiguration()->setDifficulty(difficulty);
+    m_controler->getConfiguration()->setPauseSetting(continueMode);
+    m_controler->getConfiguration()->setLoopSetting(isLoopingActive);
+}
+
 /**
  * @brief PlayerScene::setPlayedChord
  * @param playedChord Accord reconnu actuellement
@@ -326,7 +334,6 @@ void PlayerScene::displayDictionary()
 }
 
 void PlayerScene::displayOptions() {
-    qDebug() << "Clic";
     m_configPanel->show();
 }
 

@@ -30,13 +30,14 @@ public:
 	void updateStats(int validated, int played);
 	~PlayerScene();
 	Controler* getControler();
-	void loadSong(LogicalTrack* track);
+    void loadSong(LogicalTrack* track);
 signals:
 
 public slots:
 	void updateScene();
 	void setPlayedChord(BasicChord ch);
     void setSceneToChord(TrackChord*);
+    void updateConfiguration(bool isLoopingActive, int difficulty, int continueMode);
 
     void play();
     void pause();
