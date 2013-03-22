@@ -457,7 +457,7 @@ void GridEditor::fromXML()
 	trackProperties->setArtist(track->getArtist());
 	trackProperties->setBarSize(track->getMesure());
 	trackProperties->setComment(track->getComment());
-    trackProperties->setTimeSignature(track->getTimePerMesure());
+    trackProperties->setTimeSignature(track->getTimeSignature());
 	m_barsize = trackProperties->getBarSize();
 
 	audioWindow->setAudioFileName(track->getAudioFileName()); //vérifier si chemin absolu

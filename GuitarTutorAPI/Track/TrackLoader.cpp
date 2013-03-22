@@ -28,7 +28,7 @@ bool TrackLoader::convertLogicalTrackToXml(LogicalTrack* currentTrack, QString f
     root.setAttribute("bar", currentTrack->getBar());
     root.setAttribute("beginning", currentTrack->getBeginning());
     root.setAttribute("end", currentTrack->getEnd());
-    root.setAttribute("timePerMesure", currentTrack->getTimePerMesure());
+    root.setAttribute("timeSignature", currentTrack->getTimeSignature());
     root.setAttribute("comment", currentTrack->getComment());
 
     qDebug() << "Voila le comment : " << currentTrack->getComment();
@@ -128,7 +128,7 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
     bar = root.attribute("bar", 0);
     beginning = root.attribute("beginning", 0);
     end = root.attribute("end", 0);
-    tmp = root.attribute("timePerMesure", 0);
+    tmp = root.attribute("timeSignature", 0);
     com = root.attribute("comment", 0);
 
     currentTrack->setTrackName(n);
@@ -138,7 +138,7 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
 	currentTrack->setLine(line.toInt());
 	currentTrack->setColumn(column.toInt());
 	currentTrack->setBars(bar.toInt(), beginning.toInt(), end.toInt());
-	currentTrack->setTimePerMesure(tmp.toInt());
+    currentTrack->setTimeSignature(tmp.toInt());
 
 	//    //Chargement du morceau avec vérification des noeuds.
 	//    if (((n = root.attribute("nom", 0)) == 0) ||
