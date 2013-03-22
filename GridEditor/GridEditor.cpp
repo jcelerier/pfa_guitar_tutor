@@ -459,10 +459,7 @@ void GridEditor::fromXML()
 	trackProperties->setBarSize(track->getMesure());
     m_barsize = trackProperties->getBarSize();
 	trackProperties->setComment(track->getComment());
-    qDebug() << "Voila la time signature au chargement " << track->getTimeSignature();
     trackProperties->setTimeSignature(track->getTimeSignature());
-    qDebug() << "Voila la time signature après chargement " << trackProperties->getTimeSignature();
-
 
     audioWindow->setAudioFileName(track->getAudioFileName()); //vérifier si chemin absolu
 	audioWindow->setAudioFile();
