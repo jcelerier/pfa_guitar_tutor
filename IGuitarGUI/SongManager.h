@@ -25,6 +25,7 @@ class SongManager: public QObject
 
 		void load(LogicalTrack* track);
 		void mute(bool);
+        TrackChord* getCurrentChord();
 
 	public slots:
 		void compareChordWithPlayed();

@@ -22,20 +22,20 @@ HEADERS += \
 	PlayerChord.h \
 	MyView.h \
 	MenuItem.h \
-        #EntireSong.h \
+        EntireSong.h \
 	ButtonItem.h \
 	ChordDictionary.h \
 	HelpWindow.h \
         SongManager.h \
         EntireSongBis.h \
-    ConfigPanel.h
+    ConfigPanel.h \
     ScrollingItem.h
 
 SOURCES += main.cpp \
 	Configuration.cpp \
 	PlayerScene.cpp \
 	Controler.cpp \
-        #EntireSong.cpp \
+        EntireSong.cpp \
 	MenuItem.cpp \
 	MyView.cpp \
 	PlayerChord.cpp \

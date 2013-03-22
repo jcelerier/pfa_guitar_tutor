@@ -137,21 +137,14 @@ void SongManager::goToChord(TrackChord* chord)
 	m_elapsedTime = msPosition;
 
 	// on doit trouver la partie de l'accord
-	TrackChord* iChord = m_track->getPartTrackList()[0]->getTrackChordsList()[0];
-	do
-	{
-		if(iChord == chord)
-		{
-			m_currentPart = chord->part();
-			m_currentChord = chord;
 
-			emit nonNaturalChange(m_currentChord);
-			emit updateChord(m_currentChord);
+    m_currentPart = chord->part();
+    m_currentChord = chord;
 
-			return;
-		}
+    emit nonNaturalChange(m_currentChord);
+    emit updateChord(m_currentChord);
 
-	} while((iChord = iChord->next()) != 0);
+    return;
 
 	// normalement on n'est pas sensé arriver ici
 }
@@ -221,7 +214,7 @@ void SongManager::checkTime()
 			if(m_currentChord != iChord)
 			{
 				// On émet la réussite de l'accord précédent
-				emit lastChordCorrectness(m_currentChord, (double) number_of_valid_chord_checks / (double)number_of_chord_checks);
+                emit lastChordCorrectness(m_currentChord, (double) number_of_valid_chord_checks / (double)number_of_chord_checks);
 
 				// On émet le nouvel accord
 				emit updateChord(iChord);
@@ -236,4 +229,14 @@ void SongManager::checkTime()
 		}
 	} while((iChord = iChord->next()) != 0);
 
+}
+
+/**
+ * @brief SongManager::getCurrentChord
+ *
+ * Gère le mutage - démutage du son.
+ */
+TrackChord* SongManager::getCurrentChord()
+{
+    return m_currentChord;
 }

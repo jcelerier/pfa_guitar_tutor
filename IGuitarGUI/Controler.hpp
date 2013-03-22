@@ -44,6 +44,7 @@ public:
 
 	LogicalTrack *getTrack();
 	TrackChord* getFirstChord();
+    TrackChord* getCurrentChord();
 
 public slots:
 	void ticTac();
@@ -51,7 +52,7 @@ public slots:
 	bool initSong();
 
 	void currentChordSlot(TrackChord*);
-	void resetValidatedNotes(TrackChord*);
+    void setChordPosition(TrackChord*);
 	void victoryPercent(TrackChord*, double);
 
 signals:

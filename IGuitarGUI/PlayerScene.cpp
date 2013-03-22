@@ -12,7 +12,8 @@ PlayerScene::PlayerScene(QObject *parent) :
 	m_windowSize(Configuration::getWindowSize()),
 	m_cntdownOver(false),
 	m_cntdown(0),
-	m_isPlaying(false)
+    m_isPlaying(false),
+    m_lastChord(0)
 {
 	m_controler = (Controler*)parent;
 
@@ -297,15 +298,15 @@ void PlayerScene::setPlayedChord(BasicChord ch)
 {
 	QStringList playedChordList = BasicChord::convertChordToStringList(ch.toString().toLatin1());
 	QString playedChord;
-/*
-	if(playedChordList.contains(((EntireSong*)m_itemMap["entireSong"])->getCurrentChord())) {
+
+    if(playedChordList.contains(m_controler->getCurrentChord()->getChord())) {
 		//Affichage de la note attendue
 		//((QGraphicsTextItem*)itemMap["chordPlayed"])->setHtml(playedChord[0]+"<sub>"+playedChord.mid(1)+"</sub>");
-		playedChord = ((EntireSong*)m_itemMap["entireSong"])->getCurrentChord();
+        playedChord = m_controler->getCurrentChord()->getChord();
 	}
 	else //Affichage d'une note au hasard parmis les résultats possibles
 		playedChord = playedChordList.at(0);
-*/
+
 	((QGraphicsTextItem*)m_itemMap["chordPlayed"])->setHtml(playedChord[0]+"<sub>"+playedChord.mid(1)+"</sub>");
 }
 
@@ -363,9 +364,12 @@ void PlayerScene::playCountdown() {
 
 void PlayerScene::setSceneToChord(TrackChord* tc) {
 
-	//((EntireSong*)m_itemMap["entireSong"])->setCurrentChord(nChord);
-    ((ScrollingItem*)m_itemMap["scrollingChords"])->setCurrentChord(tc);
+    ((EntireSong*)m_itemMap["entireSong"])->setCurrentChord(tc);
+    //((EntireSongBis*)m_itemMap["entireSong"])->repaintSong();
 
+    if(tc->previous() != m_lastChord)
+        ((ScrollingItem*)m_itemMap["scrollingChords"])->setCurrentChord(tc);
+    m_lastChord = tc;
 }
 
 void PlayerScene::loadSong(LogicalTrack* track) {
@@ -376,10 +380,10 @@ void PlayerScene::loadSong(LogicalTrack* track) {
 	((QGraphicsTextItem*)m_itemMap["songArtist"])->setHtml("<p align=\"center\">"+m_controler->getTrack()->getArtist()+"</p>");
     ((QGraphicsTextItem*)m_itemMap["songComment"])->setHtml("<p align=\"center\">"+m_controler->getTrack()->getComment()+"</p>");
 	// Chanson entière
-    m_itemMap["entireSong"] = new EntireSongBis(m_itemMap["backgnd"]);
+    m_itemMap["entireSong"] = new EntireSong(m_itemMap["backgnd"]);
     m_itemMap["entireSong"]->setZValue(1);
-	((EntireSongBis*) m_itemMap["entireSong"])->load(track);
-	connect((Controler*) parent(), SIGNAL(repaintSong()), (EntireSongBis*) m_itemMap["entireSong"], SLOT(repaintSong()) );
+    ((EntireSong*) m_itemMap["entireSong"])->load(track);
+    //connect((Controler*) parent(), SIGNAL(repaintSong()), (EntireSong*) m_itemMap["entireSong"], SLOT(repaintSong()) );
 
     m_itemMap["scrollingChords"] = new ScrollingItem(m_itemMap["backgnd"]);
     ((ScrollingItem*) m_itemMap["scrollingChords"])->load(track);

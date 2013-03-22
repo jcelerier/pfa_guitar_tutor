@@ -1,5 +1,5 @@
-#ifndef ENTIRESONG_H
-#define ENTIRESONG_H
+#ifndef SCROLLINGITEM_H
+#define SCROLLINGITEM_H
 
 #include <QGraphicsItem>
 #include "Controler.hpp"
@@ -30,4 +30,4 @@ private:
     QGraphicsItemGroup* m_scrollingTextContainer;
 };
 
-#endif // ENTIRESONG_H
+#endif // SCROLLINGITEM_H
