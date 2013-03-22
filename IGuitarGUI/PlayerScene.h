@@ -9,7 +9,7 @@
 #include "ButtonItem.h"
 #include "MenuItem.h"
 #include "ScrollingItem.h"
-#include "EntireSongBis.h"
+#include "EntireSong.h"
 #include "Configuration.h"
 #include "ChordDictionary.h"
 #include "ConfigPanel.h"
@@ -67,6 +67,7 @@ private:
 	ChordDictionary *m_dictionary;
     ConfigPanel *m_configPanel;
 	void disposeScene();
+    TrackChord* m_lastChord;
 
 };
 
