@@ -124,6 +124,8 @@ void TrackProperties::setBarSize(unsigned int barsize)
 {
 	m_barsize = barsize;
 	ui->t_barsize->setValue(barsize);
+    emit barsizeChanged(barsize);
+    accept();
 }
 
 /**
