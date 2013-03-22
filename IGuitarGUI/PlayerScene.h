@@ -8,6 +8,7 @@
 #include <GuitarTutor/Chord.h>
 #include "ButtonItem.h"
 #include "MenuItem.h"
+#include "ScrollingItem.h"
 #include "EntireSongBis.h"
 #include "Configuration.h"
 #include "ChordDictionary.h"
@@ -35,15 +36,15 @@ signals:
 public slots:
 	void updateScene();
 	void setPlayedChord(BasicChord ch);
-	void goToChord(TrackChord*);
+    void setSceneToChord(TrackChord*);
 
-	void switchPlaying();
-	void play();
-	void pause();
-	void stop();
-	void back();
+    void play();
+    void pause();
+    void stop();
+    void back();
 	void switchMenu();
 	void switchMute();
+    void switchPlay();
 
 	void displayDictionary();
     void displayOptions();

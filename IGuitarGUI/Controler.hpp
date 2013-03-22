@@ -7,12 +7,12 @@
 
 #include "MyView.h"
 #include "PlayerChord.h"
-#include "PlayerScene.h"
 #define MIN_SCORE_BOUND -1000
 #define MAX_SCORE_BOUND 5000
 #define PERCENT_OF_CORRECT_NOTES_TO_GO_TO_NEXT_PART 50.0
 #define CHORDS_IMAGES_LOCATION "./chordsImg"
 
+class PlayerScene;
 
 /**
  * @brief The Controler class
@@ -42,9 +42,6 @@ public:
 
 	Configuration* getConfiguration();
 
-
-	QList<PlayerChord>* getChordList();
-	QList<PlayerChord> getChordList(LogicalTrack* trackName);
 	LogicalTrack *getTrack();
 	TrackChord* getFirstChord();
 

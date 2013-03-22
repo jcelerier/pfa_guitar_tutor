@@ -5,6 +5,7 @@
 #include <QTimer>
 #include <QString>
 #include <Track/TrackLoader.h>
+#include <PlayerScene.h>
 
 /**
  * @brief Controler::~Controler
@@ -56,7 +57,8 @@ Controler::Controler()
 
 	restartEngine();
 
-	connect(m_songManager, SIGNAL(nonNaturalChange(TrackChord*)), m_scene, SLOT(goToChord(TrackChord*)));
+    connect(m_songManager, SIGNAL(nonNaturalChange(TrackChord*)), m_scene, SLOT(setSceneToChord(TrackChord*)));
+
 
 }
 
@@ -210,9 +212,7 @@ bool Controler::initSong()
 
 	} while((iChord = iChord->next()) != 0);
 	*/
-	m_songManager->load(m_track);
-	m_chordList = getChordList(m_track);
-
+    m_songManager->load(m_track);
 	m_scene->loadSong(m_track);
 
 	return true;
@@ -232,10 +232,11 @@ void Controler::startSong()
 		is_at_beginning = false;
 	}
 
+
+    m_globalClock.start();
 	m_songManager->play();
 	m_timer->start(1000/Configuration::framesPerSec);
-	m_playing=true;
-	m_globalClock.start();
+    m_playing=true;
 }
 
 /**
@@ -303,65 +304,6 @@ void Controler::switchPlaying()
 void Controler::pauseClock()
 {
 
-}
-
-/**
- * @brief Controler::getChordList
- * @return La liste des accords
- *
- * Accesseur pour la liste des accords du morceau.
- */
-QList<PlayerChord> *Controler::getChordList()
-{
-	return &m_chordList;
-}
-
-/**
- * @brief Controler::getChordList
- * @param trackName Track
- * @return La liste des accords de la track.
- *
- * Converti une LogicalTrack en une liste de PlayerChord.
- */
-QList<PlayerChord> Controler::getChordList(LogicalTrack* trackName)
-{
-	QList<PlayerChord> chList;
-	PlayerChord* tempChord;
-
-	QList<PartTrack*>::iterator it1;
-	QList<TrackChord*>::iterator it2;
-
-	QList<PartTrack*> partTrackList = trackName->getPartTrackList();
-
-	for(it1 = partTrackList.begin(); it1 != partTrackList.end(); ++it1)
-	{
-
-		QList<TrackChord*> gtc = (*it1)->getTrackChordsList(); //utilisée dans la boucle qui suit, plante si pas de passage par variable intermédiaire (pourquoi?) --- hamid
-
-		for(it2 = gtc.begin(); it2 != gtc.end(); ++it2)
-		{
-			for(int i = 0; i < (*it2)->getRepetition(); i++)
-			{
-				tempChord = new PlayerChord();
-				qreal time;
-				QString chord("");
-
-				chord += (*it2)->getChord();
-				time = (*it2)->getBeginningInMs();
-
-				tempChord->setName(chord);
-				tempChord->setTime((int) time);
-				tempChord->setTrackChord(*it2);
-
-				if(chord != "n") {
-					chList.append(*tempChord);
-				}
-				delete tempChord;
-
-			}
-		}
-	}
-	return chList;
 }
 
 /**

@@ -43,7 +43,7 @@ void MyView::keyPressEvent(QKeyEvent* event)
 			scene()->advance();
 			break;*/
 	case Qt::Key_Space :
-		((PlayerScene*)scene())->switchPlaying();
+        ((PlayerScene*)scene())->switchPlay();
 		break;
 	/*case Qt::Key_Tab : //Problème: le dico apparait en arrière plan
 		((PlayerScene*)scene())->displayDictionary();
