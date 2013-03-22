@@ -31,7 +31,7 @@ public:
 
 	void setMesure(int nb);
 	void setBars(int nBar, int nBeginning, int nEnd);
-    void setTimePerMesure(int nTPM);
+	void setTimePerMesure(int nTPM);
 
 	int getMesure();
 
@@ -52,6 +52,8 @@ public:
 
 	void addPartTrackToList(PartTrack* newPartTrack);
 	QString getPartName(int n);
+
+
 private:
 	QString comment;
 	QString trackName;
@@ -60,7 +62,7 @@ private:
 	int mesure;
 	int line, column;
 	int beginning, bar, end;
-    unsigned int timePerMesure;
+	unsigned int timePerMesure;
 
 	QList<PartTrack*> listPartTrack;
 

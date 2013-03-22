@@ -26,7 +26,8 @@ HEADERS += \
 	ButtonItem.h \
 	ChordDictionary.h \
 	HelpWindow.h \
-	SongManager.h
+	SongManager.h \
+    EntireSongBis.h
 
 SOURCES += main.cpp \
 	Configuration.cpp \
@@ -39,7 +40,8 @@ SOURCES += main.cpp \
 	ButtonItem.cpp \
 	ChordDictionary.cpp \
 	HelpWindow.cpp \
-	SongManager.cpp
+	SongManager.cpp \
+    EntireSongBis.cpp
 
 FORMS += \
 	ChordDictionary.ui

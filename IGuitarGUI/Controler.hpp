@@ -50,13 +50,14 @@ public:
 public slots:
 	void ticTac();
 	void restartEngine();
-    bool initSong();
+	bool initSong();
 
 	void currentChordSlot(TrackChord*);
-    void resetValidatedNotes(TrackChord*);
+	void resetValidatedNotes(TrackChord*);
 	void victoryPercent(TrackChord*, double);
 
-
+signals:
+	void repaintSong();
 private:
 	SongManager* m_songManager;
 
@@ -72,10 +73,10 @@ private:
 	QList<PlayerChord> m_chordList;
 
 	QTime m_globalClock;
-    int m_clockOffset;
+	int m_clockOffset;
 
-    int m_totalPlayedChords;
-    int m_totalValidatedChords;
+	int m_totalPlayedChords;
+	int m_totalValidatedChords;
 
 	bool m_muted;
 

@@ -82,6 +82,10 @@ bool TrackLoader::convertLogicalTrackToXml(LogicalTrack* currentTrack, QString f
 */
 bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* currentTrack) {
 
+	TrackChord* previousChord = 0;
+	TrackChord * currentChord = 0;
+	PartTrack* previousPart = 0;
+	PartTrack* currentPart = 0;
 	QDomDocument *dom = new QDomDocument(xmlFileName); // Structure contenant le XML préalablement chargé
 	QFile xmlDoc(xmlFileName); // Ouverture du fichier XML
 
@@ -163,6 +167,9 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
 		}
 
 		PartTrack * currentPartTrack = new PartTrack(n);
+		currentPartTrack->setPrevious(previousPart);
+		if(previousPart != 0) previousPart->setNext(currentPartTrack);
+		previousPart = currentPartTrack;
 
 		QDomNode chordNode = partElement.firstChild();
 		QString t1;
@@ -211,8 +218,10 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
 				qCritical("La répétition est nulle");
 			}
 
-			TrackChord * c = new TrackChord(name, t2, rep);
-			currentPartTrack->AddChord(c);
+			currentChord = new TrackChord(name, t2, rep, previousChord, 0, currentPartTrack );
+			if(previousChord != 0) previousChord->setNext(currentChord);
+			previousChord = currentChord;
+			currentPartTrack->AddChord(currentChord);
 
 			chordNode = chordNode.nextSibling();
 		  }//end while
@@ -221,5 +230,7 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
 		partNode = partNode.nextSibling();
 
 	}//end while
+
+	currentChord->setNext(0); // au kazoo
 	return true;
 }

@@ -13,7 +13,7 @@ Configuration::Configuration()
 {
 	m_inputIndex = 0;
 	m_outputIndex = 0;
-    pause_setting = PAUSE_TO_SAME_TIME;
+	pause_setting = PAUSE_TO_SAME_TIME;
 	loop_on_failure = true;
 	percent_to_go_to_next_part = 30;
 }

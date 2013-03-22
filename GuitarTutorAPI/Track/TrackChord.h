@@ -10,7 +10,7 @@ class TrackChord {
 public:
 
 	TrackChord();
-	TrackChord(QString nom, qreal d, int rep);
+	TrackChord(QString nom, qreal d, int rep, TrackChord* previous, TrackChord* next, PartTrack* part);
 	~TrackChord();
 
 	void setRepetition(int newRepetition);
@@ -21,6 +21,24 @@ public:
 
 	QString toString();
 
+	void setPlaying(bool b=true);
+	bool isPlaying() const;
+
+	void setPlayed(bool b=true);
+	bool isPlayed() const;
+
+	void validate(bool b=true);
+	bool isValidated() const;
+
+	TrackChord* next();
+	TrackChord* previous();
+	PartTrack* part();
+
+	void setNext(TrackChord*);
+	void setPrevious(TrackChord*);
+	void setPart(PartTrack*);
+
+
 private:
 	BasicChord * currentChord;
 	qreal beginning_in_ms;
@@ -28,6 +46,12 @@ private:
 
 	int m_num;
 	PartTrack* m_part;
+	TrackChord* m_next;
+	TrackChord* m_previous;
+
+	bool m_validated;
+	bool m_played;
+	bool m_playing;
 
 };
 
