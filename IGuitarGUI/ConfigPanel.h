@@ -17,7 +17,11 @@ class ConfigPanel : public QWidget
 public:
     explicit ConfigPanel(bool isLoopingActive = true, enum Difficulty difficulty = EASY, enum ContinueMode continueMode = DIRECT, QWidget *parent = 0);
     ~ConfigPanel();
-    
+    Difficulty getDifficulty() const;
+    bool isLoopingActive() const;
+    ContinueMode getContinueMode() const;
+public slots:
+    void saveData();
 private:
     Ui::ConfigPanel *ui;
     bool m_isLoopingActive;
