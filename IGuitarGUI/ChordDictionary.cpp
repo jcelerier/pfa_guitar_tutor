@@ -12,13 +12,13 @@
  *
  * Constructeur.
  */
-ChordDictionary::ChordDictionary(QList<PlayerChord>* chordList, QWidget *parent) :
+ChordDictionary::ChordDictionary(/*QList<PlayerChord>* chordList, */QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ChordDictionary)
 {
     ui->setupUi(this);
     this->setWindowModality(Qt::WindowModal);
-    initChordDictionary(chordList);
+    //initChordDictionary(chordList);
     connect(ui->closeButton, SIGNAL(pressed()), this, SLOT(hide()));
 }
 

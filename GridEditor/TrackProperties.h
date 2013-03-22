@@ -42,10 +42,6 @@ class TrackProperties : public QDialog
 
 	private:
 		Ui::TrackProperties *ui;
-		QString m_trackname;
-		QString m_artist;
-		int m_barsize; //taille en cases d'une mesure, ou nombre d'accords par mesure si on préfère
-		int m_timeSignature;
 
 };
 

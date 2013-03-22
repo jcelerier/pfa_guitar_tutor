@@ -28,7 +28,7 @@ PlayerScene::PlayerScene(QObject *parent) :
 	m_cntClickUp->setSource(QUrl("qrc:/sounds/MetronomeUp.wav"));
 	m_cntClickUp->setVolume(0.60f);
 
-    //m_dictionary = new ChordDictionary(m_controler->getChordList());
+    m_dictionary = new ChordDictionary();
     m_configPanel = new ConfigPanel();
     connect(m_configPanel, SIGNAL(configChanged(bool,int,int)), this, SLOT(updateConfiguration(bool,int,int)));
 

@@ -29,8 +29,8 @@ GridEditor::GridEditor(): trackProperties(new TrackProperties(this))
 
 	editorPanel = new EditorPanel(grid, audioWindow, trackProperties, this);
 
-	setWindowTitle("GridEditor");
-	resize(800, 600); //Taille de la fenêtre
+    setWindowTitle("GridEditor");
+    resize(800, 600); //Taille de la fenêtre
 	createMenu();
 	createActions();
 	setActionsToMenu();
@@ -263,7 +263,7 @@ void GridEditor::createGrid(int columns, int rows)
 
 		layout->addWidget(editorPanel, 0, 1);
 		isPanelSet = true;
-	}
+    }
 }
 
 /**
@@ -339,6 +339,7 @@ void GridEditor::firstNewGrid()
 
 /**
  * @brief GridEditor::newGrid
+ *
  * Méthode prévue pour les nouvelles grilles (action Nouveau) subséquentes, car affiche dans une fenêtre.
  */
 void GridEditor::newGrid()
