@@ -61,9 +61,7 @@ Controler::Controler()
 	connect(m_songManager, SIGNAL(lastChordCorrectness(TrackChord*, double)), this, SLOT(victoryPercent(TrackChord*, double)));
 	connect(m_songManager, SIGNAL(currentlyPlayedChord(BasicChord)), m_scene, SLOT(setPlayedChord(BasicChord)));
 
-
 	m_view->show();
-
 }
 
 /**
@@ -84,51 +82,31 @@ Configuration* Controler::getConfiguration()
  */
 void Controler::currentChordSlot(TrackChord* chord)
 {
-	chord->setPlaying();
-	QList<PartTrack*>::iterator iPart;
-
-	/*for(iPart = m_track->getPartTrackList().begin();
-		iPart != m_track->getPartTrackList().end();
-		++iPart)
-
-	{
-		//Dans l'ordre :  si on est à un début de partie, autre que la première, qu'on loop, et qu'on a mal joué
-		if(chord == (*iPart)->getTrackChordsList()[0]
-				&& chord != m_track->getPartTrackList()[0]->getTrackChordsList()[0]
-				&& m_configuration->getLoopSetting()
-				&& well_played_chords_in_current_part < (*iPart)->getTrackChordsList().count() )
-		{
-			QList<TrackChord*> cList = (*(iPart - 1))->getTrackChordsList();
-			iChord = *(cList.begin());
-			m_songManager->goToChord(iChord);
-
-			do
-			{
-				iChord->setPlayed(false);
-				iChord->setPlaying(false);
-				iChord->validate(false);
-
-			} while((iChord = iChord->next()) != 0);
-
-			well_played_chords_in_current_part = 0;
-		}
-	}*/
-	/*
-	// bouclage sur parties
 	if(chord == chord->part()->getTrackChordsList()[0]
-			&& chord != m_track->getPartTrackList()[0]->getTrackChordsList()[0]
+			&& chord->previous() != 0
 			&& m_configuration->getLoopSetting()
-			&& well_played_chords_in_current_part < (*iPart)->getTrackChordsList().count() )
-		m_songManager->goToChord(chord->part()->previous()->getTrackChordsList()[0]);*/
+			&& well_played_chords_in_current_part < chord->part()->getTrackChordsList().count() )
+	{
+		m_songManager->goToChord(chord->part()->previous()->getTrackChordsList()[0]);
+		well_played_chords_in_current_part = 0;
+		m_totalPlayedChords--;
+	}
+	else if(chord->previous() != 0
+			&& chord->previous()->part() != chord->part()) //on passe dans une nouvelle partie
+	{
+		well_played_chords_in_current_part = 0;
+	}
 
-	m_totalPlayedChords++;
-	m_scene->updateStats(m_totalValidatedChords, m_totalPlayedChords);
-	m_scene->setSceneToChord(chord);
+
+	setChordPosition(chord);
+	chord->setPlaying();
+
+	emit repaintSong();
+	//m_scene->setSceneToChord(chord);
 }
 
 void Controler::setChordPosition(TrackChord* chord)
 {
-
 	int validatedToDelete = 0;
 	TrackChord* iChord = chord;
 	do
@@ -141,7 +119,6 @@ void Controler::setChordPosition(TrackChord* chord)
 		iChord->validate(false);
 
 	} while((iChord = iChord->next()) != 0);
-
 
 	m_totalPlayedChords -= validatedToDelete;
 }
@@ -167,6 +144,9 @@ void Controler::victoryPercent(TrackChord* chord, double d)
 		}
 	chord->setPlayed();
 	}
+
+	m_scene->updateStats(m_totalValidatedChords, m_totalPlayedChords);
+	m_totalPlayedChords++;
 }
 
 /**
@@ -262,6 +242,8 @@ void Controler::stopSong()
 	m_songManager->stop();
 	m_playing=false;
 	is_at_beginning = true;
+	m_totalPlayedChords = 0;
+	m_totalValidatedChords = 0;
 }
 
 /**

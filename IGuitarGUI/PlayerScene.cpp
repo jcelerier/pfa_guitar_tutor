@@ -1,5 +1,6 @@
 #include "PlayerScene.h"
 #include "Controler.hpp"
+#include "EntireSongBis.h"
 
 /**
  * @brief PlayerScene::PlayerScene
@@ -12,8 +13,8 @@ PlayerScene::PlayerScene(QObject *parent) :
 	m_windowSize(Configuration::getWindowSize()),
 	m_cntdownOver(false),
 	m_cntdown(0),
-    m_isPlaying(false),
-    m_lastChord(0)
+	m_isPlaying(false),
+	m_lastChord(0)
 {
 	m_controler = (Controler*)parent;
 
@@ -29,9 +30,9 @@ PlayerScene::PlayerScene(QObject *parent) :
 	m_cntClickUp->setSource(QUrl("qrc:/sounds/MetronomeUp.wav"));
 	m_cntClickUp->setVolume(0.60f);
 
-    m_dictionary = new ChordDictionary();
-    m_configPanel = new ConfigPanel();
-    connect(m_configPanel, SIGNAL(configChanged(bool,int,int)), this, SLOT(updateConfiguration(bool,int,int)));
+	m_dictionary = new ChordDictionary();
+	m_configPanel = new ConfigPanel();
+	connect(m_configPanel, SIGNAL(configChanged(bool,int,int)), this, SLOT(updateConfiguration(bool,int,int)));
 
 }
 
@@ -43,7 +44,7 @@ PlayerScene::PlayerScene(QObject *parent) :
 PlayerScene::~PlayerScene()
 {
 	delete m_dictionary;
-    delete m_configPanel;
+	delete m_configPanel;
 	delete m_cntTimer;
 
 	delete m_itemMap["backgnd"];
@@ -111,22 +112,22 @@ void PlayerScene::disposeScene()
 	connect((ButtonItem*)m_itemMap["dictionary"], SIGNAL(pushed()), this, SLOT(displayDictionary()));
 
 	// Titre de la chanson
-    m_itemMap["songTitle"] = new QGraphicsTextItem("Title", m_itemMap["backgnd"]);
+	m_itemMap["songTitle"] = new QGraphicsTextItem("Title", m_itemMap["backgnd"]);
 	m_itemMap["songTitle"]->setPos(200, 65);
 	((QGraphicsTextItem*)m_itemMap["songTitle"])->setTextWidth(520);
-    ((QGraphicsTextItem*)m_itemMap["songTitle"])->setFont(titleFont);
+	((QGraphicsTextItem*)m_itemMap["songTitle"])->setFont(titleFont);
 
 	// Artiste de la chanson
-    m_itemMap["songArtist"] = new QGraphicsTextItem("Artist", m_itemMap["backgnd"]);
+	m_itemMap["songArtist"] = new QGraphicsTextItem("Artist", m_itemMap["backgnd"]);
 	m_itemMap["songArtist"]->setPos(200, 115);
 	((QGraphicsTextItem*)m_itemMap["songArtist"])->setTextWidth(520);
-    ((QGraphicsTextItem*)m_itemMap["songArtist"])->setFont(titleFont);
+	((QGraphicsTextItem*)m_itemMap["songArtist"])->setFont(titleFont);
 
-    // Commentaire de la chanson
-    m_itemMap["songComment"] = new QGraphicsTextItem("", m_itemMap["backgnd"]);
-    m_itemMap["songComment"]->setPos(200, 165);
-    ((QGraphicsTextItem*)m_itemMap["songComment"])->setTextWidth(520);
-    ((QGraphicsTextItem*)m_itemMap["songComment"])->setFont(titleFont);
+	// Commentaire de la chanson
+	m_itemMap["songComment"] = new QGraphicsTextItem("", m_itemMap["backgnd"]);
+	m_itemMap["songComment"]->setPos(200, 165);
+	((QGraphicsTextItem*)m_itemMap["songComment"])->setTextWidth(520);
+	((QGraphicsTextItem*)m_itemMap["songComment"])->setFont(titleFont);
 
 	// Couverture d'album
 	QPixmap albumImage(":/images/noalbum.png");
@@ -214,24 +215,24 @@ void PlayerScene::play()
 }
 void PlayerScene::pause()
 {
-    if(m_isPlaying) {
-        m_isPlaying = false;
-        m_controler->pauseSong();
-    }
+	if(m_isPlaying) {
+		m_isPlaying = false;
+		m_controler->pauseSong();
+	}
 }
 void PlayerScene::stop()
 {
-    if(m_isPlaying) {
-        m_isPlaying = false;
-        m_controler->stopSong();
-    }
+	if(m_isPlaying) {
+		m_isPlaying = false;
+		m_controler->stopSong();
+	}
 }
 void PlayerScene::back()
 {
-    if(m_isPlaying) {
-        m_isPlaying = false;
-        m_controler->stopSong();
-    }
+	if(m_isPlaying) {
+		m_isPlaying = false;
+		m_controler->stopSong();
+	}
 	play();
 }
 
@@ -249,14 +250,14 @@ void PlayerScene::switchMute()
 
 void PlayerScene::switchPlay()
 {
-    if(m_isPlaying)
-    {
-        pause();
-    }
-    else
-    {
-        play();
-    }
+	if(m_isPlaying)
+	{
+		pause();
+	}
+	else
+	{
+		play();
+	}
 }
 
 /**
@@ -283,9 +284,9 @@ void PlayerScene::updateScene()
 
 void PlayerScene::updateConfiguration(bool isLoopingActive, int difficulty, int continueMode)
 {
-    m_controler->getConfiguration()->setDifficulty(difficulty);
-    m_controler->getConfiguration()->setPauseSetting(continueMode);
-    m_controler->getConfiguration()->setLoopSetting(isLoopingActive);
+	m_controler->getConfiguration()->setDifficulty(difficulty);
+	m_controler->getConfiguration()->setPauseSetting(continueMode);
+	m_controler->getConfiguration()->setLoopSetting(isLoopingActive);
 }
 
 /**
@@ -299,10 +300,10 @@ void PlayerScene::setPlayedChord(BasicChord ch)
 	QStringList playedChordList = BasicChord::convertChordToStringList(ch.toString().toLatin1());
 	QString playedChord;
 
-    if(playedChordList.contains(m_controler->getCurrentChord()->getChord())) {
+	if(playedChordList.contains(m_controler->getCurrentChord()->getChord())) {
 		//Affichage de la note attendue
 		//((QGraphicsTextItem*)itemMap["chordPlayed"])->setHtml(playedChord[0]+"<sub>"+playedChord.mid(1)+"</sub>");
-        playedChord = m_controler->getCurrentChord()->getChord();
+		playedChord = m_controler->getCurrentChord()->getChord();
 	}
 	else //Affichage d'une note au hasard parmis les résultats possibles
 		playedChord = playedChordList.at(0);
@@ -331,11 +332,11 @@ void PlayerScene::updateStats(int validated, int played)
  */
 void PlayerScene::displayDictionary()
 {
-    m_dictionary->show();
+	m_dictionary->show();
 }
 
 void PlayerScene::displayOptions() {
-    m_configPanel->show();
+	m_configPanel->show();
 }
 
 Controler* PlayerScene::getControler() {
@@ -357,19 +358,19 @@ void PlayerScene::playCountdown() {
 		m_cntdownOver = true;
 		m_cntTimer->stop();
 		((QGraphicsTextItem*)m_itemMap["countDown"])->setPlainText("");
-        play();
+		play();
 	}
 }
 
 
 void PlayerScene::setSceneToChord(TrackChord* tc) {
 
-    ((EntireSong*)m_itemMap["entireSong"])->setCurrentChord(tc);
-    //((EntireSongBis*)m_itemMap["entireSong"])->repaintSong();
+	((EntireSong*)m_itemMap["entireSong"])->setCurrentChord(tc);
+	//((EntireSongBis*)m_itemMap["entireSong"])->repaintSong();
 
-    if(tc->previous() != m_lastChord)
-        ((ScrollingItem*)m_itemMap["scrollingChords"])->setCurrentChord(tc);
-    m_lastChord = tc;
+	if(tc->previous() != m_lastChord)
+		((ScrollingItem*)m_itemMap["scrollingChords"])->setCurrentChord(tc);
+	m_lastChord = tc;
 }
 
 void PlayerScene::loadSong(LogicalTrack* track) {
@@ -378,13 +379,14 @@ void PlayerScene::loadSong(LogicalTrack* track) {
 
 	((QGraphicsTextItem*)m_itemMap["songTitle"])->setHtml("<p align=\"center\">"+m_controler->getTrack()->getTrackName()+"</p>");
 	((QGraphicsTextItem*)m_itemMap["songArtist"])->setHtml("<p align=\"center\">"+m_controler->getTrack()->getArtist()+"</p>");
-    ((QGraphicsTextItem*)m_itemMap["songComment"])->setHtml("<p align=\"center\">"+m_controler->getTrack()->getComment()+"</p>");
-	// Chanson entière
-    m_itemMap["entireSong"] = new EntireSong(m_itemMap["backgnd"]);
-    m_itemMap["entireSong"]->setZValue(1);
-    ((EntireSong*) m_itemMap["entireSong"])->load(track);
-    //connect((Controler*) parent(), SIGNAL(repaintSong()), (EntireSong*) m_itemMap["entireSong"], SLOT(repaintSong()) );
+	((QGraphicsTextItem*)m_itemMap["songComment"])->setHtml("<p align=\"center\">"+m_controler->getTrack()->getComment()+"</p>");
 
-    m_itemMap["scrollingChords"] = new ScrollingItem(m_itemMap["backgnd"]);
-    ((ScrollingItem*) m_itemMap["scrollingChords"])->load(track);
+	// Chanson entière
+	m_itemMap["entireSong"] = new EntireSongBis(m_itemMap["backgnd"]);
+	m_itemMap["entireSong"]->setZValue(1);
+	((EntireSongBis*) m_itemMap["entireSong"])->load(track);
+	connect((Controler*) parent(), SIGNAL(repaintSong()), (EntireSongBis*) m_itemMap["entireSong"], SLOT(repaintSong()) );
+
+	m_itemMap["scrollingChords"] = new ScrollingItem(m_itemMap["backgnd"]);
+	((ScrollingItem*) m_itemMap["scrollingChords"])->load(track);
 }

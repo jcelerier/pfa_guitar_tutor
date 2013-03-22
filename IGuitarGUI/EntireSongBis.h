@@ -29,7 +29,7 @@ class EntireSongBis : public QObject, public QGraphicsItem
 		static const int m_absoluteY = 100;
 		static const int m_caseWidth = 80;
 		static const int m_caseHeight = 70;
-		static const int m_heightSpacing = 50;
+		static const int m_heightSpacing = 5;
 
 
 };

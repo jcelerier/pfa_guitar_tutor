@@ -108,10 +108,12 @@ void EntireSongBis::drawChord(QPainter* painter, int x, int y, TrackChord* chord
 	QRect baseRect(x0+2, y0+2, m_caseWidth-2, m_caseHeight-2);
 	painter->drawRect(baseRect);
 
+	QRect textRect(baseRect);
+	textRect.adjust(0, -15, 0, 0);
 	painter->setPen(*m_borderPen);
 	painter->setBrush(QBrush(Qt::black, Qt::SolidPattern));
 	painter->setFont(*chordFont);
-	painter->drawText(baseRect,
+	painter->drawText(textRect, Qt::AlignCenter,
 					  chord->getChord());
 
 }

@@ -72,6 +72,7 @@ void SongManager::play()
 {
 	m_musicManager->start();
 	m_musicManager->play();
+	m_time.restart();
 }
 
 /**
@@ -135,16 +136,17 @@ void SongManager::goToChord(TrackChord* chord)
 	int msPosition = chord->getBeginningInMs();
 	m_musicManager->goToInMs(msPosition);
 	m_elapsedTime = msPosition;
+	m_time.restart();
 
 	// on doit trouver la partie de l'accord
 
-    m_currentPart = chord->part();
-    m_currentChord = chord;
+	m_currentPart = chord->part();
+	m_currentChord = chord;
 
-    emit nonNaturalChange(m_currentChord);
-    emit updateChord(m_currentChord);
+	emit nonNaturalChange(m_currentChord);
+	emit updateChord(m_currentChord);
 
-    return;
+	return;
 
 	// normalement on n'est pas sensé arriver ici
 }
@@ -190,31 +192,31 @@ void SongManager::checkTime()
 {
 	m_elapsedTime += m_time.restart();
 
-	int msPrevPosition = 0;
-	int msPosition = 0;
+	int chordStartInMs = 0;
+	int chordEndInMs = 0;
 
 	TrackChord* iChord = m_track->getPartTrackList()[0]->getTrackChordsList()[0];
 	do
 	{
-		msPrevPosition = iChord->getBeginningInMs();
+		chordStartInMs = iChord->getBeginningInMs();
 
 		if(iChord->next() != 0)
 		{
-			msPosition = iChord->next()->getBeginningInMs(); // vérifier si on n'a pas un décalage avec le début.
+			chordEndInMs = iChord->next()->getBeginningInMs();
 		}
 		else
 		{
-			msPosition = m_track->getEnd();
+			chordEndInMs = m_track->getEnd();
 		}
 
 		// Si le temps écoulé est dans l'accord listé
-		if(msPrevPosition <= m_elapsedTime && m_elapsedTime < msPosition)
+		if(chordStartInMs <= m_elapsedTime && m_elapsedTime < chordEndInMs)
 		{
 			// Si cet accord est différend de l'accord actuel
 			if(m_currentChord != iChord)
 			{
 				// On émet la réussite de l'accord précédent
-                emit lastChordCorrectness(m_currentChord, (double) number_of_valid_chord_checks / (double)number_of_chord_checks);
+				emit lastChordCorrectness(m_currentChord, (double) number_of_valid_chord_checks / (double)number_of_chord_checks);
 
 				// On émet le nouvel accord
 				emit updateChord(iChord);
@@ -238,5 +240,5 @@ void SongManager::checkTime()
  */
 TrackChord* SongManager::getCurrentChord()
 {
-    return m_currentChord;
+	return m_currentChord;
 }
