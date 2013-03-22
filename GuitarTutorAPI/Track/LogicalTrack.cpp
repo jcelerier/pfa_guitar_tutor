@@ -188,7 +188,7 @@ void LogicalTrack::setMesure(int nb){
 		mesure = nb;
 	}
 	else
-		mesure = -1;
+        mesure = 1;
 }
 
 int LogicalTrack::getMesure() {
