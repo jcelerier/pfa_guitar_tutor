@@ -60,12 +60,12 @@ void EntireSongBis::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QW
 void EntireSongBis::drawPart(QPainter* painter, int x, int y, QString part)
 {
 	int x0 = m_absoluteX + x * (m_caseWidth + 2);
-	int y0 = m_absoluteY + y * (m_caseHeight + m_heightSpacing + 2);
+	int y0 = m_absoluteY + y * (m_caseHeight + m_heightSpacing);
 
 	painter->setPen(*m_borderPen);
 	painter->setBrush(QBrush(Qt::white, Qt::SolidPattern));
 
-	QRect baseRect(x0 + 2, y0 + 2, m_caseWidth-2, m_caseHeight-2);
+	QRect baseRect(x0 + 2, y0 + 43, m_caseWidth-2, m_caseHeight-2);
 
 	painter->setFont(*partFont);
 	painter->drawText(baseRect, part);
