@@ -50,7 +50,6 @@ public:
 
 public slots:
 	void ticTac();
-	void restartEngine();
 	bool initSong();
 
 	void currentChordSlot(TrackChord*);
