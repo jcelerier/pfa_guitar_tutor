@@ -70,12 +70,12 @@ QString Configuration::setAudioOutput()
 	return m_audioOutput;
 }
 
-int Configuration::getInputIndex()
+int Configuration::getInputIndex() const
 {
 	return m_inputIndex;
 }
 
-int Configuration::getOutputIndex()
+int Configuration::getOutputIndex() const
 {
 	return m_outputIndex;
 }
@@ -92,7 +92,7 @@ void Configuration::setOutputIndex(int i)
 }
 
 
-int Configuration::getPauseSetting()
+int Configuration::getPauseSetting() const
 {
 	return pause_setting;
 }
@@ -102,7 +102,7 @@ void Configuration::setPauseSetting(int s)
 	pause_setting = s;
 }
 
-bool Configuration::getLoopSetting()
+bool Configuration::getLoopSetting() const
 {
 	return loop_on_failure;
 }
@@ -112,12 +112,12 @@ void Configuration::setLoopSetting(bool b)
 	loop_on_failure = b;
 }
 
-int Configuration::getDifficulty()
+int Configuration::getDifficulty() const
 {
 	return percent_to_go_to_next_part;
 }
 
-void Configuration::setDiffuclty(int d)
+void Configuration::setDifficulty(int d)
 {
 	percent_to_go_to_next_part = d;
 }

@@ -32,7 +32,7 @@ class TrackProperties : public QDialog
 		void setTimeSignature(int time);
 
 	public slots:
-		void accept();
+        void accept();
 
 	signals:
 		void barsizeChanged(int);

@@ -471,6 +471,8 @@ void GridEditor::fromXML()
 	createGrid(track->getColumn() + 1, track->getLine());
 	grid->setLogicalTrack(track);
 
+    emit trackProperties->barsizeChanged(track->getMesure());
+
 	delete track;
 }
 
