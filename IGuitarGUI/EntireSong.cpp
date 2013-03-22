@@ -120,8 +120,8 @@ void EntireSong::advance ( int phase )
 	{
 		int currentTime = m_controler->elapsedTime();
 		QTransform textTrans;
-		textTrans.translate(-m_pixPerMsec*(currentTime-m_lastRefresh), 0);
-		m_scrollingTextContainer->setTransform(textTrans, true);
+        textTrans.translate(-m_pixPerMsec*currentTime, 0);
+        m_scrollingTextContainer->setTransform(textTrans);
 
 		if(m_currentChord + 1 < m_controler->getChordList()->size())
 		{
