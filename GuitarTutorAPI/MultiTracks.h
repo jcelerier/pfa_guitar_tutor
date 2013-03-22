@@ -9,33 +9,34 @@
 #define MULTITRACKS_H_
 
 #include "Track.h"
-#include <map>
-#include <string>
-#include <limits.h>
+#include <QMap>
+#include <QString>
 
 
-class MultiTracks {
+class MultiTracks
+{
 public:
-    MultiTracks(std::map<std::string, std::string> & tracks);
-    MultiTracks(unsigned int silenceTimeInMs);
-    virtual ~MultiTracks();
+    MultiTracks(QMap<QString, QString> & tracks);
+	MultiTracks(unsigned int silenceTimeInMs);
+	virtual ~MultiTracks();
 
-    void changeTrackMuteState(std::string trackName, bool muteState);
+    void changeTrackMuteState(QString trackName, bool muteState);
+    bool isTrackMute(QString trackName);
 
-    float *getBuffer() const;
-    int getBufferSize() const;
-    int getNbChannels() const;
+	float *getBuffer() const;
+	int getBufferSize() const;
+	int getNbChannels() const;
 
-    void generateMusic();
+	void generateMusic();
 
 
 
 private:
-    std::map<std::string, Track> m_tracks;
-    int m_bufferSize;
-    int m_nbChannels;
+    QMap<QString, Track> m_tracks;
+	int m_bufferSize;
+	int m_nbChannels;
 
-    float *m_buffer;
+	float *m_buffer;
 };
 
 #endif /* MULTITRACKS_H_ */

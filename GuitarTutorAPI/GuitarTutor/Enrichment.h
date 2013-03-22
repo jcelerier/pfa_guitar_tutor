@@ -5,7 +5,6 @@
 #include <QStringList>
 #include <QVector>
 #include <QtTest/QTest>
-#include <iostream>
 #include <QRegExp>
 
 // Un accord peut avoir plusieurs enrichissements. Exemple : C#mM7 = C#, mineur, 7ième majeure

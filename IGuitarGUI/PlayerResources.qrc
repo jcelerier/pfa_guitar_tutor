@@ -1,0 +1,66 @@
+<RCC>
+    <qresource prefix="/images">
+        <file alias="album.png">images/album.png</file>
+        <file alias="barretemps.png">images/barretemps.png</file>
+        <file alias="bgwide.png">images/bgwide.png</file>
+        <file alias="btn_bg.png">images/btn_bg.png</file>
+        <file alias="chordbar.png">images/chordbar.png</file>
+        <file alias="maskplaying.png">images/maskplaying.png</file>
+        <file alias="menu.png">images/menu.png</file>
+        <file alias="minibarretemps.png">images/minibarretemps.png</file>
+        <file alias="next.png">images/next.png</file>
+        <file alias="noalbum.png">images/noalbum.png</file>
+        <file alias="previous.png">images/previous.png</file>
+        <file alias="transport.png">images/transport.png</file>
+        <file alias="dictionary.png">images/dictionary.png</file>
+        <file alias="cross.png">images/cross.png</file>
+        <file alias="stop.png">images/stop.png</file>
+        <file alias="play.png">images/play.png</file>
+        <file alias="pause.png">images/pause.png</file>
+        <file alias="back.png">images/back.png</file>
+    </qresource>
+    <qresource prefix="/chordsImg">
+        <file alias="A.png">chordsImg/A.png</file>
+        <file alias="Am.png">chordsImg/Am.png</file>
+        <file alias="B.png">chordsImg/B.png</file>
+        <file alias="Bm.png">chordsImg/Bm.png</file>
+        <file alias="C.png">chordsImg/C.png</file>
+        <file alias="Cm.png">chordsImg/Cm.png</file>
+        <file alias="D.png">chordsImg/D.png</file>
+        <file alias="Dm.png">chordsImg/Dm.png</file>
+        <file alias="E.png">chordsImg/E.png</file>
+        <file alias="Em.png">chordsImg/Em.png</file>
+        <file alias="F.png">chordsImg/F.png</file>
+        <file alias="Fm.png">chordsImg/Fm.png</file>
+        <file alias="G.png">chordsImg/G.png</file>
+        <file alias="Gm.png">chordsImg/Gm.png</file>
+        <file alias="Ad.png">chordsImg/Ad.png</file>
+        <file alias="Adm.png">chordsImg/Adm.png</file>
+        <file alias="Cd.png">chordsImg/Cd.png</file>
+        <file alias="Cdm.png">chordsImg/Cdm.png</file>
+        <file alias="Dd.png">chordsImg/Dd.png</file>
+        <file alias="Ddm.png">chordsImg/Ddm.png</file>
+        <file alias="Fd.png">chordsImg/Fd.png</file>
+        <file alias="Fdm.png">chordsImg/Fdm.png</file>
+        <file alias="Gd.png">chordsImg/Gd.png</file>
+        <file alias="Gdm.png">chordsImg/Gdm.png</file>
+    </qresource>
+    <qresource prefix="/translations">
+        <file>IGuitarGUI_fr.qm</file>
+    </qresource>
+    <qresource prefix="/help">
+        <file alias="help.html">data/help_player.html</file>
+        <file alias="design.css">data/design.css</file>
+    </qresource>
+    <qresource prefix="/help/img"/>
+    <qresource prefix="/sounds">
+        <file alias="Metronome.wav">sounds/Metronome.wav</file>
+        <file alias="MetronomeUp.wav">sounds/MetronomeUp.wav</file>
+    </qresource>
+    <qresource prefix="/fonts">
+        <file alias="Roboto-Regular.ttf">fonts/Roboto-Regular.ttf</file>
+        <file alias="Roboto-Italic.ttf">fonts/Roboto-Italic.ttf</file>
+        <file alias="Roboto-BoldCondensed.ttf">fonts/Roboto-BoldCondensed.ttf</file>
+        <file alias="Roboto-Black.ttf">fonts/Roboto-Black.ttf</file>
+    </qresource>
+</RCC>

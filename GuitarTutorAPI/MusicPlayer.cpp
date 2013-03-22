@@ -4,7 +4,6 @@
 #else
 #include "../fmod/api/inc/fmod_errors.h"
 #endif
-#include <iostream>
 #include <QDebug>
 /**
  * @brief MusicPlayer::MusicPlayer

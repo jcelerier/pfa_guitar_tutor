@@ -6,7 +6,9 @@
  */
 
 #include "Track.h"
-#include <vector>
+#include <QVector>
+#include <QDebug>
+#include <cmath>
 
 /**
  *
@@ -28,7 +30,7 @@ Track::Track()
  *
  * Constructeur de Track: prend en paramètre le nom du fichier, le met à jour dans Track, m_isMute reçoi false. Ensuite, charge le fichier.
  */
-Track::Track(std::string fileName) {
+Track::Track(QString fileName) {
 	m_fileName = fileName;
 	m_isMute = false;
 
@@ -117,48 +119,53 @@ void Track::setFramesCount(int m_framesCount)
  */
 int Track::load()
 {
-	//get the file
-	SF_INFO sfInfo;
-	sfInfo.format=0;
-	SNDFILE* sndFile = sf_open(m_fileName.c_str(),SFM_READ,&sfInfo);
+	double normalization_factor = pow(2, 16);
 
-	if(!sndFile)
+	//Init FMOD
+	FMOD_SYSTEM *system;
+	FMOD_SOUND *music;
+	FMOD_System_Create(&system);
+	FMOD_System_Init(system, 2, FMOD_INIT_NORMAL, NULL);
+
+    FMOD_RESULT result = FMOD_System_CreateSound(system, m_fileName.toStdString().c_str(), FMOD_SOFTWARE | FMOD_2D |  FMOD_CREATESAMPLE, 0, &music);
+
+	if (result != FMOD_OK)
 	{
-		std::cout << "Error loading file " << m_fileName << std::endl;
-		return -1;
+        qDebug() << m_fileName;
+		return false;
 	}
 
 	//test the samplerate
-	int sampleRate = sfInfo.samplerate;
-	(void) sampleRate;
-
-	//channels
-	m_channelsCount =  sfInfo.channels;
+	FMOD_Sound_GetFormat(music, 0, 0, &m_channelsCount, 0); //OK
 
 	//frames number
-	m_framesCount = (long)(sfInfo.frames);
+	FMOD_Sound_GetLength(music, &m_framesCount, FMOD_TIMEUNIT_PCM); //OK
 
-	m_buffer = new float[m_framesCount * m_channelsCount];
+	m_buffer = new float[2*m_framesCount];
 
+	void * pointer1 = 0;
+	void * pointer2 = 0;
+	unsigned int length1;
+	unsigned int length2;
+	result = FMOD_Sound_Lock(music, 0, m_framesCount*2, &pointer1, &pointer2, &length1, &length2);
 
-	int nbFrameToRead = 1000;
-	float cf[m_channelsCount * nbFrameToRead];
-
-	int nbFrame;
-	int pos = 0;
-	while ((nbFrame = sf_readf_float(sndFile,cf,nbFrameToRead)) > 0)
+	unsigned int i = 0, j = 0;
+	while( i <  m_channelsCount * m_framesCount )
 	{
-		for (int i = 0; i < nbFrame * 2; i++)
-		{
-			m_buffer[pos] = cf[i];
-			++pos;
-		}
+		m_buffer[i] = (((int*)pointer1)[j]>>16) / normalization_factor;
+		i++;
+
+		m_buffer[i] = ((((int*)pointer1)[j]<<16)>>16) / normalization_factor;
+		i++;
+		j++;
 	}
 
-	//close the file
-	if(sf_close(sndFile))
-		return -1;
+	FMOD_Sound_Unlock(music, pointer1, pointer2, length1, length2);
 
+	//close the file
+	FMOD_Sound_Release(music);
+	FMOD_System_Close(system);
+	FMOD_System_Release(system);
 	return 0;
 }
 
@@ -168,7 +175,7 @@ int Track::load()
  *
  *Retourne m_isMute de Track
  */
-bool Track::isMute() const
+bool Track::isMute()
 {
 	return m_isMute;
 }

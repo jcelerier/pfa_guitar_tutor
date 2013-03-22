@@ -8,10 +8,9 @@
 #ifndef TRACK_H_
 #define TRACK_H_
 
-#include <string>
-#include <iostream>
-#include <sndfile.h>
-#include <vector>
+#include <QString>
+#include <QVector>
+#include "../fmod/api/inc/fmod.h"
 
 #define SAMPLE_RATE  (44100)
 #define OUTPUT_FRAMES_PER_BUFFER (512)
@@ -32,14 +31,14 @@ typedef float SAMPLE;
 class Track {
 public:
 	Track();
-	Track(std::string fileName);
+    Track(QString fileName);
 	Track(unsigned int silenceTrackTime);
 	virtual ~Track();
 
-	bool isMute() const;
+	bool isMute();
 	void setMuteState(bool isMute);
 
-	float* getBuffer() const;
+	float *getBuffer() const;
 	int getChannelsCount() const;
 	int getFramesCount() const;
 	void setFramesCount(int m_framesCount);
@@ -47,11 +46,11 @@ public:
 private:
 	bool m_isMute;
 	int m_channelsCount;
-	int m_framesCount;
+	unsigned int m_framesCount;
 
-	std::vector<float> m_tempBuffer;
+    QVector<float> m_tempBuffer;
 
-	std::string m_fileName;
+    QString m_fileName;
 	float *m_buffer;
 
 	int load();

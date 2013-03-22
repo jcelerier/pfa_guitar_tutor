@@ -1,0 +1,23 @@
+/**
+\mainpage Documentation développeur de GuitarTutor
+
+Ce document regroupe la documentation du code des composantes de GuitarTutor, à savoir l'API, l'éditeur et le lecteur.
+
+* Procédure générale
+Le logiciel est architecturé en trois parties : 
+- Une API GuitarTutorAPI
+- Un éditeur de partition GridEditor
+- Un lecteur IGuitarGUI
+
+Nous avons pour dépendance la librairie FMODEx.
+Il est nécessaire de la télécharger sur http://www.fmod.org/.
+
+Puis, il faut copier le dossier api dans fmod/ sur le dépôt git.
+
+Pour les UNIX-like, il est aussi possible d'installer fmod depuis les dépôts, si disponible.
+Il est préférable d'utiliser QtCreator pour ouvrir les projets.
+
+L'API est placée dans libiguitar lors de sa compilation.
+Les logiciels sont placés dans app.
+
+*/

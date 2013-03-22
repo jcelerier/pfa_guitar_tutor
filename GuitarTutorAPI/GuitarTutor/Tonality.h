@@ -3,7 +3,6 @@
 
 #include <QString>
 #include <QRegExp>
-#include <QtTest/QTest>
 
 /**
  * @brief Liste des fondamentales possibles.
