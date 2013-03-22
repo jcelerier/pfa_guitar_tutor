@@ -415,6 +415,7 @@ void GridEditor::toXML(QString filename)
 	track->setArtist(trackProperties->getArtist());
 	track->setMesure(trackProperties->getBarSize());
 	track->setComment(trackProperties->getComment());
+    track->setTimeSignature(trackProperties->getTimeSignature());
 	track->setLine(grid->rowCount());
 	track->setColumn(grid->columnCount() - 1);
 	track->setAudioFileName(audioWindow->getFilename()); //vérifier si chemin absolu
@@ -456,11 +457,11 @@ void GridEditor::fromXML()
 	trackProperties->setTrack(track->getTrackName());
 	trackProperties->setArtist(track->getArtist());
 	trackProperties->setBarSize(track->getMesure());
+    m_barsize = trackProperties->getBarSize();
 	trackProperties->setComment(track->getComment());
     trackProperties->setTimeSignature(track->getTimeSignature());
-	m_barsize = trackProperties->getBarSize();
 
-	audioWindow->setAudioFileName(track->getAudioFileName()); //vérifier si chemin absolu
+    audioWindow->setAudioFileName(track->getAudioFileName()); //vérifier si chemin absolu
 	audioWindow->setAudioFile();
     audioWindow->setBar(track->getBar());
     audioWindow->setBeginning(track->getBeginning());

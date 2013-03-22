@@ -133,7 +133,7 @@ void TrackProperties::setBarSize(unsigned int barsize)
 void TrackProperties::setTimeSignature(int time)
 {
 	m_timeSignature = time;
-	ui->t_barsize->setValue(time);
+    ui->t_timeSignature->setValue(time);
 }
 
 //void TrackProperties::setBar(int nBar){
