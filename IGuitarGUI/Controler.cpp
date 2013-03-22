@@ -411,12 +411,12 @@ void Controler::restartEngine()
 	m_scene = new PlayerScene(this);
 	m_view = new MyView(m_scene);
 
-/*	if(!initSong())
+	if(!initSong())
 	{
 		exit(0);
 		// note : ne pas appeler les méthodes de qApp (quit, exit...) car qApp->exec() n'est pas encore appelé
 	}
-*/
+
 
 	connect(m_songManager, SIGNAL(currentlyPlayedChord(BasicChord)), m_scene, SLOT(setPlayedChord(BasicChord)));
 
