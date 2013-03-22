@@ -30,7 +30,6 @@ class TrackProperties : public QDialog
 		void setComment(QString comment);
 		void setBarSize(unsigned int barsize);
 		void setTimeSignature(int time);
-		void setTimePerMesure();
 
 	public slots:
 		void accept();
@@ -47,7 +46,6 @@ class TrackProperties : public QDialog
 		QString m_artist;
 		int m_barsize; //taille en cases d'une mesure, ou nombre d'accords par mesure si on préfère
 		int m_timeSignature;
-		int timePerMesure;
 
 };
 

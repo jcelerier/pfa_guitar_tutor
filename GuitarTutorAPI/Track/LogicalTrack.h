@@ -31,7 +31,7 @@ public:
 
 	void setMesure(int nb);
 	void setBars(int nBar, int nBeginning, int nEnd);
-    void setTimeSignature(int nTS);
+	void setTimeSignature(int nTS);
 
 	int getMesure();
 
@@ -44,7 +44,7 @@ public:
 	int getBar();
 	int getEnd();
 
-    int getTimeSignature();
+	int getTimeSignature();
 	int getBPM();
 
 	int getPositionOfChordInMs(TrackChord*);
@@ -53,6 +53,7 @@ public:
 	void addPartTrackToList(PartTrack* newPartTrack);
 	QString getPartName(int n);
 
+	TrackChord* getFirstChord();
 
 private:
 	QString comment;
@@ -62,7 +63,7 @@ private:
 	int mesure;
 	int line, column;
 	int beginning, bar, end;
-    unsigned int timeSignature;
+	unsigned int timeSignature;
 
 	QList<PartTrack*> listPartTrack;
 

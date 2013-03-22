@@ -13,7 +13,7 @@ LogicalTrack::LogicalTrack() {
 	beginning = 0;
 	bar = 0;
 	end = 0;
-    timeSignature = 4;
+	timeSignature = 4;
 }
 
 /**
@@ -125,7 +125,7 @@ void LogicalTrack::setBars(int nBar, int nBeginning, int nEnd){
 
 void LogicalTrack::setTimeSignature(int nTS){
 
-    timeSignature = nTS;
+	timeSignature = nTS;
 
 }
 
@@ -175,7 +175,7 @@ int LogicalTrack::getEnd(){
 }
 
 int LogicalTrack::getTimeSignature(){
-    return timeSignature;
+	return timeSignature;
 }
 
 /**
@@ -238,6 +238,10 @@ QString LogicalTrack::getComment()
 
 int LogicalTrack::getBPM()
 {
-    return getTimeSignature() * 60000 / (getBar() - getBeginning());
+	return getTimeSignature() * 60000 / (getBar() - getBeginning());
 }
 
+TrackChord* LogicalTrack::getFirstChord()
+{
+	return getPartTrackList()[0]->getTrackChordsList()[0];
+}

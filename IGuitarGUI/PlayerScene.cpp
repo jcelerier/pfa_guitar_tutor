@@ -28,7 +28,8 @@ PlayerScene::PlayerScene(QObject *parent) :
 	m_cntClickUp->setSource(QUrl("qrc:/sounds/MetronomeUp.wav"));
 	m_cntClickUp->setVolume(0.60f);
 
-	//m_dictionary = new ChordDictionary(m_controler->getChordList());
+    m_dictionary = new ChordDictionary(m_controler->getChordList());
+    m_configPanel = new ConfigPanel();
 
 }
 
@@ -40,6 +41,7 @@ PlayerScene::PlayerScene(QObject *parent) :
 PlayerScene::~PlayerScene()
 {
 	delete m_dictionary;
+    delete m_configPanel;
 	delete m_cntTimer;
 
 	delete m_itemMap["backgnd"];
@@ -314,7 +316,12 @@ void PlayerScene::updateStats(int validated, int played)
  */
 void PlayerScene::displayDictionary()
 {
-	//m_dictionary->show();
+    m_dictionary->show();
+}
+
+void PlayerScene::displayOptions() {
+    qDebug() << "Clic";
+    m_configPanel->show();
 }
 
 Controler* PlayerScene::getControler() {

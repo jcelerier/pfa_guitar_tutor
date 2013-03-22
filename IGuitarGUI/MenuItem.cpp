@@ -1,5 +1,6 @@
 #include "MenuItem.h"
 #include "Controler.hpp"
+#include "PlayerScene.h"
 
 MenuItem::~MenuItem() {
 	if(m_helpWindow != 0) {
@@ -14,6 +15,8 @@ MenuItem::~MenuItem() {
 	delete m_menuMap["closeText"];
 	delete m_menuMap["help"];
 	delete m_menuMap["helpText"];
+    delete m_menuMap["options"];
+    delete m_menuMap["optionsText"];
 	delete m_menuBack;
 	delete m_rect;
 }
@@ -65,6 +68,9 @@ MenuItem::MenuItem(QGraphicsItem *parent) :
 
 	addElt("load", "CHARGER");
 	connect((ButtonItem*)m_menuMap["load"], SIGNAL(pushed()), (Controler*) scene()->parent(), SLOT(initSong()));
+
+    addElt("options", "OPTIONS");
+    connect((ButtonItem*)m_menuMap["options"], SIGNAL(pushed()), (PlayerScene*) scene(), SLOT(displayOptions()));
 
 	addElt("help", "AIDE");
 	connect((ButtonItem*)m_menuMap["help"], SIGNAL(pushed()), this, SLOT(help()));
