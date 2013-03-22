@@ -28,7 +28,7 @@ PlayerScene::PlayerScene(QObject *parent) :
 	m_cntClickUp->setSource(QUrl("qrc:/sounds/MetronomeUp.wav"));
 	m_cntClickUp->setVolume(0.60f);
 
-	//m_dictionary = new ChordDictionary(m_controler->getChordList());
+    m_dictionary = new ChordDictionary(m_controler->getChordList());
     m_configPanel = new ConfigPanel();
 
 }
@@ -316,10 +316,11 @@ void PlayerScene::updateStats(int validated, int played)
  */
 void PlayerScene::displayDictionary()
 {
-	//m_dictionary->show();
+    m_dictionary->show();
 }
 
 void PlayerScene::displayOptions() {
+    qDebug() << "Clic";
     m_configPanel->show();
 }
 

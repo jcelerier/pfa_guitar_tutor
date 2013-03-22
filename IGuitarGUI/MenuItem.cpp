@@ -1,5 +1,6 @@
 #include "MenuItem.h"
 #include "Controler.hpp"
+#include "PlayerScene.h"
 
 MenuItem::~MenuItem() {
 	if(m_helpWindow != 0) {
@@ -69,7 +70,7 @@ MenuItem::MenuItem(QGraphicsItem *parent) :
 	connect((ButtonItem*)m_menuMap["load"], SIGNAL(pushed()), (Controler*) scene()->parent(), SLOT(initSong()));
 
     addElt("options", "OPTIONS");
-    connect((ButtonItem*)m_menuMap["options"], SIGNAL(pushed()), (Controler*) scene()->parent(), SLOT(displayOptions()));
+    connect((ButtonItem*)m_menuMap["options"], SIGNAL(pushed()), (PlayerScene*) scene(), SLOT(displayOptions()));
 
 	addElt("help", "AIDE");
 	connect((ButtonItem*)m_menuMap["help"], SIGNAL(pushed()), this, SLOT(help()));

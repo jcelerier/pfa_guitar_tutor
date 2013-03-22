@@ -27,7 +27,8 @@ HEADERS += \
 	ChordDictionary.h \
 	HelpWindow.h \
 	SongManager.h \
-        EntireSongBis.h
+        EntireSongBis.h \
+    ConfigPanel.h
 
 SOURCES += main.cpp \
 	Configuration.cpp \
@@ -41,10 +42,12 @@ SOURCES += main.cpp \
 	ChordDictionary.cpp \
 	HelpWindow.cpp \
 	SongManager.cpp \
-    	EntireSongBis.cpp
+    	EntireSongBis.cpp \
+    ConfigPanel.cpp
 
 FORMS += \
-        ChordDictionary.ui
+        ChordDictionary.ui \
+    ConfigPanel.ui
 
 
 unix:!symbian|win32: LIBS += -L$$PWD/../libiguitar/ -lIGuitar
