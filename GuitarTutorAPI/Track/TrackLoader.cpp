@@ -31,7 +31,6 @@ bool TrackLoader::convertLogicalTrackToXml(LogicalTrack* currentTrack, QString f
     root.setAttribute("timeSignature", currentTrack->getTimeSignature());
     root.setAttribute("comment", currentTrack->getComment());
 
-    qDebug() << "Voila le comment : " << currentTrack->getComment();
     //ajout des parties
     QList<PartTrack*> partList = currentTrack->getPartTrackList();
 

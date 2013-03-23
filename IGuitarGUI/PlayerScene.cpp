@@ -389,4 +389,6 @@ void PlayerScene::loadSong(LogicalTrack* track) {
 
 	m_itemMap["scrollingChords"] = new ScrollingItem(m_itemMap["backgnd"]);
 	((ScrollingItem*) m_itemMap["scrollingChords"])->load(track);
+
+    m_dictionary->load(track);
 }

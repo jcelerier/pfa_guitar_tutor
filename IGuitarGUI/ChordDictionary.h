@@ -2,7 +2,8 @@
 #define CHORDDICTIONARY_H
 
 #include <QWidget>
-#include "PlayerChord.h"
+#include <Track/LogicalTrack.h>
+#include <QLabel>
 
 namespace Ui {
 class ChordDictionary;
@@ -18,10 +19,11 @@ class ChordDictionary : public QWidget
 public:
     explicit ChordDictionary(QWidget *parent = 0);
     ~ChordDictionary();
-    void initChordDictionary(QList<PlayerChord>* chordList);
+    void load(LogicalTrack* track);
 private:
     Ui::ChordDictionary *ui;
     int m_listSize;
+    QLabel* m_labels;
 };
 
 #endif // CHORDDICTIONARY_H

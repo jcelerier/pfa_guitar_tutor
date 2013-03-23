@@ -3,7 +3,7 @@
 
 #include <QDebug>
 
-#define CHORDS_PER_LINE 3
+#define CHORDS_PER_LINE 5
 
 /**
  * @brief ChordDictionary::ChordDictionary
@@ -12,13 +12,14 @@
  *
  * Constructeur.
  */
-ChordDictionary::ChordDictionary(/*QList<PlayerChord>* chordList, */QWidget *parent) :
+ChordDictionary::ChordDictionary(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ChordDictionary)
 {
     ui->setupUi(this);
     this->setWindowModality(Qt::WindowModal);
-    //initChordDictionary(chordList);
+    m_listSize = 0;
+    m_labels = 0;
     connect(ui->closeButton, SIGNAL(pressed()), this, SLOT(hide()));
 }
 
@@ -33,32 +34,38 @@ ChordDictionary::~ChordDictionary()
 }
 
 /**
- * @brief ChordDictionary::initChordDictionary
- * @param chordList Liste des accords à mettre dans le dictionnaire
+ * @brief ChordDictionary::load
+ * @param track LogicalTrack dont les accords sont à placer dans le dictionnaire
  *
- * Construit l'interface du dictionnaire d'accords en plaçant les images des accords.
+ * Charge les accords d'une track dans le dictionnaire (supprime les anciens accords).
  */
-void ChordDictionary::initChordDictionary(QList<PlayerChord>* chordList)
+void ChordDictionary::load(LogicalTrack *track)
 {
-    QList<PlayerChord>::iterator ite;
-    QStringList chords;
-    // Retrait des doublons
-    for (ite = chordList->begin(); ite != chordList->end(); ++ite) {
-        chords << ite->getName();
+    //Suppression des anciens accords
+    for(int i=0; i<m_listSize; i++)
+        ui->layout->removeWidget(&m_labels[i]);
+    if(m_labels != 0) {
+        delete[] m_labels;
+        m_labels = 0;
     }
-    chords.removeDuplicates();
-    m_listSize = chords.size();
 
-    // Affichage des accords
-    int numberOfLines = (chords.size()%CHORDS_PER_LINE == 0) ? chords.size()/CHORDS_PER_LINE : chords.size()/CHORDS_PER_LINE + 1;
-    for(int i=0; i<numberOfLines; i++) {
-        for(int j=0; j<CHORDS_PER_LINE; j++) {
-            if(i*CHORDS_PER_LINE+j > chords.size()) //Fin de la liste
-                return;
-            QLabel *label = new QLabel();
-            QString path = QString(":/chordsImg/" + chords[i*CHORDS_PER_LINE+j].replace(QChar('#'), "d") + ".png");
-            label->setPixmap(path);
-            ui->layout->addWidget(label, i, j);
-        }
+    //Création de la liste des accords de la track
+    TrackChord* chord = track->getPartTrackList()[0]->getTrackChordsList()[0];
+    QStringList chordList;
+    do
+    {
+        if(chord->getChord() != "n")
+            chordList = chordList << chord->getChord();
+    } while((chord = chord->next()) != 0);
+    //Suppression des doublons
+    chordList.removeDuplicates();
+    m_listSize = chordList.size();
+
+    //Placement des images associés aux accords dans le layout
+    m_labels = new QLabel[m_listSize];
+    for(int i=0; i<m_listSize; i++) {
+        QString path = QString(":/chordsImg/" + chordList[i].replace(QChar('#'), "d") + ".png");
+        (&m_labels[i])->setPixmap(path);
+        ui->layout->addWidget((&m_labels[i]), i/CHORDS_PER_LINE, i%CHORDS_PER_LINE);
     }
 }
