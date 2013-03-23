@@ -14,8 +14,9 @@ Configuration::Configuration()
 	m_inputIndex = 0;
 	m_outputIndex = 0;
 	pause_setting = PAUSE_TO_SAME_TIME;
-	loop_on_failure = true;
+    loop_on_failure = false;
 	percent_to_go_to_next_part = 30;
+    songDirectory = "Tracks";
 }
 
 float Configuration::getQuotient()
@@ -120,4 +121,14 @@ int Configuration::getDifficulty() const
 void Configuration::setDifficulty(int d)
 {
 	percent_to_go_to_next_part = d;
+}
+
+QString Configuration::getSongDirectory() const
+{
+    return songDirectory;
+}
+
+void Configuration::setSongDirectory(QString sd)
+{
+    songDirectory = sd;
 }

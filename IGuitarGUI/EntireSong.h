@@ -26,6 +26,7 @@ private:
     QMap<TrackChord*, QGraphicsRectItem*> m_gMap;
     LogicalTrack* m_track;
     bool m_loaded;
+    QGraphicsItemGroup* m_container;
 };
 
 #endif // ENTIRESONG_H

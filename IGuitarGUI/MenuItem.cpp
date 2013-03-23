@@ -39,7 +39,7 @@ MenuItem::MenuItem(QGraphicsItem *parent) :
 
 	// Hide fond modal
 	m_rect->setRect(0, 0, Configuration::originalWidth, Configuration::originalHeight);
-	m_rect->setZValue(10);
+    m_rect->setZValue(50);
 
 	QBrush hidingBrush(Qt::black);
 	m_rect->setBrush(hidingBrush);

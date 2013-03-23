@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<morceau fichier="/home/julien/Bureau/pfa_guitar_tutor/app/Tracks/HotelCalifornia/EaglesHotelCalifornia.mp3" beginning="53145" end="261735" line="16" nom="Hotel California" artiste="The Eagles" chordMesure="1" bar="56402" column="4" comment="Un classique de 1976" timeSignature="4">
+<morceau fichier="Tracks/HotelCalifornia/EaglesHotelCalifornia.mp3" beginning="53145" end="261735" line="16" nom="Hotel California" artiste="The Eagles" chordMesure="1" bar="56402" column="4" comment="Un classique de 1976" timeSignature="4">
   <partie nom="Couplet 1">
     <accord nom="Bm" temps="53145" repetition="1"/>
     <accord nom="F#" temps="56402" repetition="1"/>

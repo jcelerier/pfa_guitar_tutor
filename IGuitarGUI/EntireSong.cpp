@@ -20,7 +20,8 @@ EntireSong::EntireSong(QGraphicsItem *parent) :
     m_loaded(false)
 {
 	m_controler = (Controler*) scene()->parent();
-
+    m_container = new QGraphicsItemGroup(this);
+    m_container->setPos(1471, 115);
 	//QPen borderPen(Qt::black, 3);
 
 }
@@ -100,30 +101,49 @@ void EntireSong::load(LogicalTrack * lt) {
     QPen lightPen(Qt::black, 1);
     QBrush innerCont(Qt::white);
     QFont chordFont("Roboto", 32);
+    QFont partFont("Roboto", 13);
+
+    int line_height = 52;
+    int line_spacing = 25;
 
     m_track = lt;
 
     int i=0, j=0;
     QGraphicsRectItem* tempCase;
     QGraphicsTextItem* tempText;
+    QGraphicsTextItem* tempPart;
 
     m_gMap.clear();
 
     TrackChord* iChord = m_track->getFirstChord();
     do
     {
-        // Partie chanson entiere
-        tempCase = new QGraphicsRectItem(1471 + 355/4*i, 108 + 73*j, 355/4, 53, this);
+        // Creation des cases
+        tempCase = new QGraphicsRectItem(355/4*i, (line_height+line_spacing)*j, 355/4, line_height, m_container);
         tempCase->setBrush(innerCont);
         tempCase->setPen(lightPen);
         m_gMap[iChord] = tempCase;
 
-        tempText = new QGraphicsTextItem(tempCase);
-        tempText->setFont(chordFont);
-        tempText->setDefaultTextColor(QColor(14,153,204));
-        tempText->setTextWidth(355/4);
-        tempText->setHtml("<p align='center'>"+stringToSub(iChord->getChord())+"</sub>"+"</p>");
-        tempText->setPos(tempCase->rect().topLeft());
+        // Creation des accords
+        if(iChord->getChord() != "n") {
+            tempText = new QGraphicsTextItem(tempCase);
+            tempText->setFont(chordFont);
+            tempText->setDefaultTextColor(QColor(14,153,204));
+            tempText->setTextWidth(355/4);
+            tempText->setHtml("<p align='center'>"+stringToSub(iChord->getChord())+"</p>");
+            tempText->setPos(tempCase->rect().topLeft());
+        }
+
+        // Creation des parties
+        if(iChord->previous() == 0 || iChord->part()->getTrackChordsList()[0] == iChord)
+        {
+            tempPart = new QGraphicsTextItem(tempCase);
+            tempPart->setFont(partFont);
+            tempPart->setDefaultTextColor(QColor(14,153,204));
+            tempPart->setPos(tempCase->rect().topLeft()+QPointF(0,-22));
+            tempPart->setTextWidth(355/4);
+            tempPart->setHtml("<p align='center'>"+iChord->part()->getPartName()+"</p>");
+        }
 
         if(i==3)
         {
@@ -134,6 +154,14 @@ void EntireSong::load(LogicalTrack * lt) {
             i++;
     } while((iChord = iChord->next()) != 0);
 
+
+    QTransform trans;
+    double scaling;
+    if((line_height+line_spacing)*(j-1)>910) {
+        scaling  = (double)910 /((double) (line_height+line_spacing)*j);
+        trans.scale(1, scaling);
+        m_container->setTransform(trans);
+    }
     m_loaded = true;
     m_currentChord = m_track->getFirstChord();
 }

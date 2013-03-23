@@ -74,7 +74,8 @@ void ScrollingItem::advance ( int phase )
     {
         int currentTime = m_controler->elapsedTime();
         QTransform textTrans;
-        textTrans.translate(-m_pixPerMsec*currentTime, 0);
+        textTrans.translate(-m_pixPerMsec*currentTime, 0); // methode 1
+        //textTrans.setMatrix(0,0,0,0,0,0,-m_pixPerMsec*currentTime,0,0); // methode 2
         m_scrollingTextContainer->setTransform(textTrans);
     }
 }

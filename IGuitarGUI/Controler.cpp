@@ -101,8 +101,8 @@ void Controler::currentChordSlot(TrackChord* chord)
 	setChordPosition(chord);
 	chord->setPlaying();
 
-	emit repaintSong();
-	//m_scene->setSceneToChord(chord);
+    //emit repaintSong();
+    m_scene->setSceneToChord(chord);
 }
 
 void Controler::setChordPosition(TrackChord* chord)
@@ -170,7 +170,7 @@ void Controler::ticTac()
  */
 bool Controler::initSong()
 {
-	QString path = QFileDialog::getOpenFileName(0, tr("Loading"), ".", tr("XML Files (*.xml)"), 0, QFileDialog::HideNameFilterDetails);
+    QString path = QFileDialog::getOpenFileName(0, tr("Loading"), m_configuration->getSongDirectory(), tr("XML Files (*.xml)"), 0, QFileDialog::HideNameFilterDetails);
 
 	if(path.isNull())
 	{

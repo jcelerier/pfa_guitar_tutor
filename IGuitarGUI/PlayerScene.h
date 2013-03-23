@@ -44,6 +44,7 @@ public slots:
     void stop();
     void back();
 	void switchMenu();
+    void switchMenu(bool b);
 	void switchMute();
     void switchPlay();
 
@@ -69,6 +70,7 @@ private:
     ConfigPanel *m_configPanel;
 	void disposeScene();
     TrackChord* m_lastChord;
+    bool m_loaded;
 
 };
 
