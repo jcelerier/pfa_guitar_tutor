@@ -318,7 +318,7 @@ void PlayerScene::updateConfiguration(bool isLoopingActive, int difficulty, int 
  */
 void PlayerScene::setPlayedChord(BasicChord ch)
 {
-    QStringList playedChordList = BasicChord::convertChordToStringList(ch.toString().toLatin1());
+    QStringList playedChordList = BasicChord::convertChordToStringList(ch.toString());
 	QString playedChord;
 
 	if(playedChordList.contains(m_controler->getCurrentChord()->getChord())) {

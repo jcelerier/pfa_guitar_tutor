@@ -208,42 +208,40 @@ const Enrichment& BasicChord::extractEnrichmentFromStr(QString const str_enr)
     return e2;
 }
 
-QStringList BasicChord::convertChordToStringList(const char* chord)
+QStringList BasicChord::convertChordToStringList(const QString chord)
 {
     QStringList result;
-    if(strcmp(chord, "C")==0 || strcmp(chord, "D")==0 || strcmp(chord, "F")==0 || strcmp(chord, "G")==0 ||
-            strcmp(chord, "A")==0)
+    if(chord == "C" || chord == "D" || chord == "F" || chord == "G" || chord == "A")
         result << chord;
-    else if(strcmp(chord, "C#") == 0)
+    else if(chord == "C#")
         result << "C#" << "Db";
-    else if(strcmp(chord, "D#") == 0)
+    else if(chord == "D#")
         result << "D#" << "Eb";
-    else if(strcmp(chord, "E") == 0)
+    else if(chord == "E")
         result << "E" << "Fb";
-    else if(strcmp(chord, "F#") == 0)
+    else if(chord == "F#")
         result << "F#" << "Gb";
-    else if(strcmp(chord, "G#") == 0)
+    else if(chord == "G#")
         result << "G#" << "Ab";
-    else if(strcmp(chord, "A#") == 0)
+    else if(chord == "A#")
         result << "A#" << "Bb";
-    else if(strcmp(chord, "B") == 0)
+    else if(chord == "B")
         result << "B" << "Cb";
-    else if(strcmp(chord, "Cm")==0 || strcmp(chord, "Dm")==0 || strcmp(chord, "Fm")==0 || strcmp(chord, "Gm")==0 ||
-            strcmp(chord, "Am")==0)
+    else if(chord == "Cm" || chord == "Dm" || chord == "Fm" || chord == "Gm" || chord == "Am")
         result << chord;
-    else if(strcmp(chord, "C#m") == 0)
+    else if(chord == "C#m")
         result << "C#m" << "Dbm";
-    else if(strcmp(chord, "D#m") == 0)
+    else if(chord == "D#m")
         result << "D#" << "Ebm";
-    else if(strcmp(chord, "Em") == 0)
-        result << "E" << "Fbm";
-    else if(strcmp(chord, "F#m") == 0)
+    else if(chord == "Em")
+        result << "Em" << "Fbm";
+    else if(chord == "F#m")
         result << "F#" << "Gbm";
-    else if(strcmp(chord, "G#m") == 0)
+    else if(chord == "G#m")
         result << "G#m" << "Abm";
-    else if(strcmp(chord, "A#m") == 0)
+    else if(chord == "A#m")
         result << "A#m" << "Bbm";
-    else if(strcmp(chord, "Bm") == 0)
+    else if(chord == "Bm")
         result << "Bm" << "Cbm";
     else
         result << "";
