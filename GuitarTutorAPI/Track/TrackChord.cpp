@@ -3,6 +3,7 @@
 
 TrackChord::TrackChord()
 {
+    currentChord = new BasicChord("A");
 }
 
 TrackChord::TrackChord(QString nom, qreal d, int rep, TrackChord *previous, TrackChord *next, PartTrack *part) {
@@ -57,7 +58,9 @@ qreal TrackChord::getBeginningInMs() {
  *@return QString : accord
  */
 QString TrackChord::getChord(){
-	return currentChord->toString();
+    if(this == NULL)
+        return "";
+    return currentChord->toString();
 }
 
 QString TrackChord::toString(){

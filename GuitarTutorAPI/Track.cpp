@@ -131,7 +131,7 @@ int Track::load()
 
 	if (result != FMOD_OK)
 	{
-        qDebug() << m_fileName;
+        qDebug() << "Error while opening the file: " << m_fileName;
 		return false;
 	}
 

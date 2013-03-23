@@ -318,7 +318,7 @@ void PlayerScene::updateConfiguration(bool isLoopingActive, int difficulty, int 
  */
 void PlayerScene::setPlayedChord(BasicChord ch)
 {
-	QStringList playedChordList = BasicChord::convertChordToStringList(ch.toString().toLatin1());
+    QStringList playedChordList = BasicChord::convertChordToStringList(ch.toString().toLatin1());
 	QString playedChord;
 
 	if(playedChordList.contains(m_controler->getCurrentChord()->getChord())) {
@@ -329,7 +329,7 @@ void PlayerScene::setPlayedChord(BasicChord ch)
 	else //Affichage d'une note au hasard parmis les résultats possibles
 		playedChord = playedChordList.at(0);
 
-	((QGraphicsTextItem*)m_itemMap["chordPlayed"])->setHtml(playedChord[0]+"<sub>"+playedChord.mid(1)+"</sub>");
+    ((QGraphicsTextItem*)m_itemMap["chordPlayed"])->setHtml(playedChord[0]+"<sub>"+playedChord.mid(1)+"</sub>");
 }
 
 
