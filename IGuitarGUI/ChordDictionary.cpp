@@ -31,6 +31,12 @@ ChordDictionary::ChordDictionary(QWidget *parent) :
 ChordDictionary::~ChordDictionary()
 {
     delete ui;
+    for(int i=0; i<m_listSize*2-1; i++)
+        ui->layout->removeWidget(&m_labels[i]);
+    if(m_labels != 0) {
+        delete[] m_labels;
+        m_labels = 0;
+    }
 }
 
 /**
@@ -42,7 +48,7 @@ ChordDictionary::~ChordDictionary()
 void ChordDictionary::load(LogicalTrack *track)
 {
     //Suppression des anciens accords
-    for(int i=0; i<m_listSize; i++)
+    for(int i=0; i<m_listSize*2-1; i++)
         ui->layout->removeWidget(&m_labels[i]);
     if(m_labels != 0) {
         delete[] m_labels;
@@ -61,11 +67,15 @@ void ChordDictionary::load(LogicalTrack *track)
     chordList.removeDuplicates();
     m_listSize = chordList.size();
 
-    //Placement des images associés aux accords dans le layout
-    m_labels = new QLabel[m_listSize];
+    //Placement des images associés aux accords dans le layout et des noms des accords
+    m_labels = new QLabel[m_listSize*2];
     for(int i=0; i<m_listSize; i++) {
         QString path = QString(":/chordsImg/" + chordList[i].replace(QChar('#'), "d") + ".png");
-        (&m_labels[i])->setPixmap(path);
-        ui->layout->addWidget((&m_labels[i]), i/CHORDS_PER_LINE, i%CHORDS_PER_LINE);
+        (&m_labels[i*2])->setPixmap(path);
+        (&m_labels[i*2])->setAlignment(Qt::AlignHCenter);
+        ui->layout->addWidget((&m_labels[i*2]), 2*(i/CHORDS_PER_LINE), i%CHORDS_PER_LINE);
+        (&m_labels[i*2+1])->setText(chordList[i]);
+        (&m_labels[i*2+1])->setAlignment(Qt::AlignHCenter|Qt::AlignTop);
+        ui->layout->addWidget((&m_labels[i*2+1]), 2*(i/CHORDS_PER_LINE) + 1, i%CHORDS_PER_LINE);
     }
 }
