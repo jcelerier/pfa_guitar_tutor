@@ -232,11 +232,11 @@ QStringList BasicChord::convertChordToStringList(const QString chord)
     else if(chord == "C#m")
         result << "C#m" << "Dbm";
     else if(chord == "D#m")
-        result << "D#" << "Ebm";
+        result << "D#m" << "Ebm";
     else if(chord == "Em")
         result << "Em" << "Fbm";
     else if(chord == "F#m")
-        result << "F#" << "Gbm";
+        result << "F#m" << "Gbm";
     else if(chord == "G#m")
         result << "G#m" << "Abm";
     else if(chord == "A#m")
