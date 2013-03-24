@@ -340,7 +340,7 @@ void GridEditor::firstNewGrid()
 
 	m_barsize = trackProperties->getBarSize();
 
-	createGrid(newGridDialog->getColumns() + 1, newGridDialog->getLines());
+	createGrid(newGridDialog->getColumns() + 1, newGridDialog->getLines(), true);
 
 	saveQueue->firstSave();
 	connect(grid, SIGNAL(somethingChanged()), saveQueue, SIGNAL(save()));
@@ -374,6 +374,7 @@ void GridEditor::newGrid()
 		trackProperties->setBarSize(newGridDialog->getBarSize());
 		m_barsize = trackProperties->getBarSize();
 
+		saveQueue->clear();
 		createGrid(newGridDialog->getColumns() + 1, newGridDialog->getLines());
 		saveQueue->firstSave();
 		connect(grid, SIGNAL(somethingChanged()), saveQueue, SIGNAL(save()));
@@ -484,6 +485,7 @@ void GridEditor::fromXML()
 	//nope à cause du mod +1... : connect(audioWindow, SIGNAL(somethingChanged()), saveQueue, SIGNAL(save()));
 
 
+	saveQueue->clear();
 	createGrid(track->getColumn() + 1, track->getLine(), true);
 	grid->setLogicalTrack(track);
 

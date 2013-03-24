@@ -61,7 +61,6 @@ CaseItem::~CaseItem()
  */
 void CaseItem::set_color(int r, int g, int b, int a)
 {
-	qDebug() << "ici:" << r << g << b << a;
 	m_brush->setColor(QColor(r, g, b, a));
 
 	if(r == 255 && g == 255 && b == 255) //ugly hack, plutot faire une surcharge
