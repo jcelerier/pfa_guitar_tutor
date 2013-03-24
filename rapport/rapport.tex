@@ -202,7 +202,9 @@ Nous avons donc choisi d'adopter cette librairie dès les débuts du projet.
 
 \subsection{Utilisation de FMOD}
 
-FMOD est la librairie audio qui est utilisée aujourd'hui dans l'éditeur. Là encore, c'était cette même librairie qui servait déjà dans l'ancienne version de l'éditeur, dans la partie qui traitait les fichiers audio. Nous aurions pu faire le choix d'utiliser libsndfile, comme c'est le cas dans le lecteur, mais il faut reconnaître que l'éditeur n'a pas besoin d'une gestion aussi bas niveau du son. FMOD nous a donc semblé être un bon choix, malgré le fait qu'il s'agisse d'un code propriétaire (nous n'avons pas eu de contre-indication de la part des clients à ce propos).
+FMOD est la librairie audio qui est utilisée aujourd'hui dans l'éditeur et dans le lecteur. Là encore, c'était cette même librairie qui servait déjà dans l'ancienne version de l'éditeur, dans la partie qui traitait les fichiers audio. En revanche, dans le lecteur, nous avons substitué la librairie \textit{libsndfile} pour FMOD.
+
+FMOD comporte de nombreux avantages, comme par exemple la lecture de formats compressés tels que le mp3, aujourd'hui incontournable. Jusqu'à présent, \textit{libsndfile} limitait l'utilisation de GuitarTutor aux fichiers wav, ce qui contraignait l'utilisateur à manipuler des fichiers de très grande taille dans des formats dépassés. FMOD disposait également des mêmes fonctionnalités que celles qui étaient alors utilisées dans le code avec \textit{libsndfile}, ce qui permettait de ne pas géner la transition. FMOD nous a donc semblé être un bon choix, malgré le fait qu'il s'agisse d'un code propriétaire (nous n'avons pas eu de contre-indication de la part des clients à ce propos).
 
 \subsection{Format d'échange en XML}
 
@@ -221,7 +223,7 @@ L'échange entre l'éditeur et le lecteur se fait par l'intermédiaire de fichie
 \verb{F# 56402{ & \verb{    <accord nom="F#" temps="56402" repetition="1"/>{ \\
 \verb{...{ & \verb{    ...{\\
  & \verb{  </partie>{\\
- & \verb{</morceau{\\
+ & \verb{</morceau>{\\
 \end{tabular}
 \caption{Comparaison entre ancien et nouveau formats d'échange}
 \label{fichiers_xml}
@@ -287,7 +289,22 @@ Nous avons fait le choix de penser en premier lieu à l'expérience utilisateur,
 
 \subsubsection{Sur le lecteur}
 
-En ce qui concerne le lecteur, nous n'avons finalement changé que l'interface. La plupart des fichiers qui se trouvent aujourd'hui dans l'API, notamment \texttt{ScoreManager} et \texttt{MusicManager}, ainsi que la librairie \textit{IScoreLight}, n'a pas ou peu été retouchée. Comme indiqué précédemment, l'interface a, elle, été refaite à zéro.
+En ce qui concerne le lecteur, nous n'avons dans un premier temps que modifié l'interface. Celle-ci a été refaite intégralement selon la maquette qui avait en janvier (voir la figure \ref{annexe_proto_player} en annexe). Notre travail a finalement abouti à une interface semblable aux exigences qui avaient été fixées, certains détails ayant été revus en cours de développement en accord avec nos clients. L'objectif printipal était de rendre le programme beaucoup plus convivial, mais aussi plus accessible. L'interface actuelle est présentée en figure \ref{interface_player}.
+
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics[width=175px]{ancien_player.png}
+\includegraphics[width=275px]{interface_player.png}
+\caption{L'interface du lecteur a été entièrement refaite}
+\label{interface_player}
+\end{center}
+\end{figure}
+
+Dans un deuxième temps, nous avons fait le choix de revoir le fonctionnement interne du lecteur. Comme évoqué précédement, nous avons ainsi commencé par remplacer la librairie \textit{libsndfile} par FMOD en vue de supporter de nouveaux formats audio. FMOD se charge en fait d'ouvrir le fichier audio demandé et de le mettre en mémoire. La gestion à proprement parler du son reste la tâche de PortAudio.
+
+C'est ensuite toute la librairie \textit{IScoreLight} que nous avons fait disparaître. En effet, celle-ci comportait plusieurs dizaines de fichiers sources qui, au final, n'étaient pas exploités. Les quelques parties de la librairie qui nous étaient utiles ont donc été reprises et fusionnées au sein de la classe \texttt{SongManager}.
+
+Finalement, il ne reste aujourd'hui de la première version du lecteur que la gestion bas niveau du son, notamment l'analyse des accords effectuée par la librairie \textit{EHPCP}.
 
 \subsection{Installateurs sur les différents systèmes d'exploitation}
 
@@ -463,6 +480,7 @@ La partie jouable du projet est déjà fonctionnelle. Il faudra cependant veille
 \begin{center}
 \includegraphics[width=450px]{interface_player_prototype.jpg}
 \caption{Prototype d'interface pour le player}
+\label{annexe_proto_player}
 \end{center}
 \end{figure}
 
