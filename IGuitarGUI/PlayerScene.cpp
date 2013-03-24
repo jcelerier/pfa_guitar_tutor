@@ -409,6 +409,8 @@ void PlayerScene::loadSong(LogicalTrack* track) {
 	((QGraphicsTextItem*)m_itemMap["songComment"])->setHtml("<p align=\"center\">"+m_controler->getTrack()->getComment()+"</p>");
     if(QFile("albumcover.jpg").exists()) {
         QPixmap pixmap = QPixmap("albumcover.jpg").scaled(146,146);
+        if(pixmap.isNull())
+            pixmap = QPixmap(":/images/noalbum.png");
         ((QGraphicsPixmapItem*)m_itemMap["songAlbumImg"])->setPixmap(pixmap);
     }
     else {
