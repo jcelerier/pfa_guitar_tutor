@@ -4,10 +4,10 @@
 #define PIXEL_PER_MSECOND 0.2
 
 /**
- * @brief EntireSong::EntireSong
+ * @brief ScrollingItem::ScrollingItem
  * @param parent Parent de l'objet
  *
- * Construit le panneau récapitulatif de la track en cours d'exécution.
+ * Construit la liste des accords défilants.
  */
 ScrollingItem::ScrollingItem(QGraphicsItem *parent) :
     QGraphicsItem(parent),
@@ -39,10 +39,16 @@ ScrollingItem::ScrollingItem(QGraphicsItem *parent) :
 
 }
 
+/**
+ * @brief ScrollingItem::load
+ * @param lt Track à charger
+ *
+ * Charge les accords d'une track dans le conteneur.
+ */
 void ScrollingItem::load(LogicalTrack * lt) {
     m_track = lt;
 
-    QFont scrollingChordFont(":/fonts/Roboto-Regular.ttf", 60);
+    QFont scrollingChordFont(":qrc/fonts/Roboto-Regular.ttf", 60);
 
     QGraphicsTextItem* tempScrollingChord;
 
@@ -63,10 +69,10 @@ void ScrollingItem::load(LogicalTrack * lt) {
 }
 
 /**
- * @brief EntireSong::advance
+ * @brief ScrollingItem::advance
  * @param phase
  *
- * Fonction de mise à jour du module. Demande le passage à l'accord suivant le cas échéant, et gère la validation de l'accord courant.
+ * Fait avancer la liste des accords.
  */
 void ScrollingItem::advance ( int phase )
 {
@@ -81,7 +87,7 @@ void ScrollingItem::advance ( int phase )
 }
 
 /**
- * @brief EntireSong::paint
+ * @brief ScrollingItem::paint
  *
  * Non utilisée, mais nécessaire (méthode abstraite dans QGraphicsItem).
  */
@@ -89,7 +95,7 @@ void ScrollingItem::paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*){
 }
 
 /**
- * @brief EntireSong::boundingRect
+ * @brief ScrollingItem::boundingRect
  * @return Le rectangle correspondant à la fenetre du player.
  *
  * Non utilisée, mais nécessaire (méthode abstraite dans QGrahicsItem).

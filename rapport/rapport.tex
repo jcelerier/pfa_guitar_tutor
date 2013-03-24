@@ -11,6 +11,7 @@
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
 \usepackage{listings}
+\usepackage{float}
 
 \lstset{
 language=C++,
@@ -123,7 +124,7 @@ Il nous a été conseillé dès le début du projet d'adopter le modèle MVC. En
 \end{itemize}
 L'idée était de mettre ce \textit{reste} dans une bibliothèque qui serait appelée à la fois par l'éditeur et par le lecteur (même si ce ne sont pas forcément les mêmes parties qui les intéressent). La figure \ref{mvc} résume cette organisation.
 
-\begin{figure}[!ht]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width=450px]{mvc.png}
 \caption{Le modèle MVC dans notre code}
@@ -205,7 +206,57 @@ FMOD est la librairie audio qui est utilisée aujourd'hui dans l'éditeur. Là e
 
 \subsection{Format d'échange en XML}
 
+L'échange entre l'éditeur et le lecteur se fait par l'intermédiaire de fichiers. Ces fichiers sont créés et modifiés par l'éditeur, puis lus dans le lecteur. Initialement, le format qui était utilisé listait les différentes parties du morceau, ainsi que les accords devant être joués et le temps en millisecondes correspondant (par rapport au début de la musique). Le fichier audio lu simultanément était, quant à lui, codé en dur dans le code source. Bien qu'il eut été facile de se contenter d'intégrer le chemin du fichier audio en début de fichier, nous avons préféré repenser totalement le format du fichier d'échange en nous basant sur le langage XML.
 
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{l|l}
+ & \verb{<?xml version="1.0"?>{\\
+ & \verb{<morceau timeSignature="4" line="16" chordMesure="1" end="261735"{ \\
+ & \verb{  nom="Hotel California" comment="Un classique de 1976" column="4"{ \\
+ & \verb{  fichier="Tracks/HotelCalifornia/EaglesHotelCalifornia.mp3"{ \\
+ & \verb{  beginning="53145" bar="56402" artiste="The Eagles">{ \\
+\verb{[COUPLET1]{ & \verb{  <partie nom="Couplet 1">{ \\
+\verb{Bm 53145{ & \verb{    <accord nom="Bm" temps="53145" repetition="1"/>{ \\
+\verb{F# 56402{ & \verb{    <accord nom="F#" temps="56402" repetition="1"/>{ \\
+\verb{...{ & \verb{    ...{\\
+ & \verb{  </partie>{\\
+ & \verb{</morceau{\\
+\end{tabular}
+\caption{Comparaison entre ancien et nouveau formats d'échange}
+\label{fichiers_xml}
+\end{center}
+\end{table}
+
+Comme on peut le voir sur l'exemple du tableau \ref{fichiers_xml}, notre format de fichier nous permet de contenir bien plus d'informations que l'ancien format. C'est un très gros avantage lorsqu'il s'agit notamment de recharger le fichier dans l'éditeur pour le modifier, puisque toutes les données qui ont été entrées lors de la création du fichier y ont été sauvegardées (même si certaines ne sont pas directement utilisées dans le lecteur).
+
+Un second avantage est la facilité d'adaptation du format. En effet, si un jour il est décidé d'ajouter une nouvelle information dans le fichier XML, il n'y aura a priori pas besoin de modifier la façon de récupérer les informations. Cette maléabilité permise par le standard DOM (\textit{Document Object Model}) qui permet de naviguer au sein d'un document XML sans avoir à connaître tout son contenu. C'est justement la technique qui est mise en \oe uvre dans le module QtXML que nous avons utilisé (voir l'exemple de la figure \ref{xml_dom}).
+
+\begin{figure}[H]
+\begin{lstlisting}
+//Récupération du premier accord de la partie courante
+QDomNode chordNode = partElement.firstChild();
+while(!chordNode.isNull())
+{
+  QDomElement chordElement = chordNode.toElement();
+  
+  //Récupération des informations de l'accord
+  QString name = chordElement.attribute("nom", 0);
+  int t = (chordElement.attribute("temps", 0)).toInt();
+  int rep = (chordElement.attribute("repetition", 0)).toInt();
+  
+  //Création de l'objet représentant l'accord
+  currentChord = new TrackChord(name, t, rep, previousChord, 0, currentPartTrack);
+  //Ajout de cet accord à la liste des accords de la partie courante
+  currentPartTrack->AddChord(currentChord);
+
+  //Passage à l'accord suivant
+  chordNode = chordNode.nextSibling();
+}
+\end{lstlisting}
+\caption{Lecture d'un fichier XML, extrait de \texttt{TrackLoader::convertXmlToLogicalTrack}}
+\label{xml_dom}
+\end{figure}
 
 \subsection{Reprise des bases précédentes}
 
@@ -215,7 +266,7 @@ Même s'il était au départ tentant de faire table rase et de recommencer le pr
 
 Nous avons gardé la base de l'interface de l'éditeur, à savoir le système de grilles, ainsi que le système d'arbre des accords. Nous avons ensuite ajouté peu à peu les différents éléments qui constituent aujourd'hui l'éditeur de grilles (voir figure \ref{av_ap_editeur}).
 
-\begin{figure}[!ht]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width=225px]{ancien_editeur.png}
 \includegraphics[width=225px]{nouveau_editeur.png}

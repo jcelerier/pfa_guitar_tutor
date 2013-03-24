@@ -100,8 +100,8 @@ void EntireSong::setCurrentChord(TrackChord* tc)
 void EntireSong::load(LogicalTrack * lt) {
     QPen lightPen(Qt::black, 1);
     QBrush innerCont(Qt::white);
-    QFont chordFont(":/fonts/Roboto-Regular.ttf", 32);
-    QFont partFont(":/fonts/Roboto-Regular.ttf", 13);
+    QFont chordFont(":qrc/fonts/Roboto-Regular.ttf", 32);
+    QFont partFont(":qrc/fonts/Roboto-Regular.ttf", 13);
 
     int line_height = 52;
     int line_spacing = 25;
