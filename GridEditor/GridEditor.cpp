@@ -145,6 +145,8 @@ void GridEditor::createActions(){
 	saveAsAction->setShortcut(QKeySequence::SaveAs);
 	quitAction->setShortcut(QKeySequence::Quit);
 	helpAction->setShortcut(QKeySequence::HelpContents);
+    undoAction->setShortcut(QKeySequence::Undo);
+    redoAction->setShortcut(QKeySequence::Redo);
 }
 
 /**
