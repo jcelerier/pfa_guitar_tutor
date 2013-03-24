@@ -27,7 +27,9 @@ class SongManager: public QObject
 		void mute(bool);
         TrackChord* getCurrentChord();
 
-	public slots:
+        int getElapsedTime();
+        void goToBeginning();
+public slots:
 		void compareChordWithPlayed();
 		void checkTime();
 		void goToChord(TrackChord*);
@@ -60,6 +62,7 @@ class SongManager: public QObject
 
 		int precision_in_ms;
 		int m_elapsedTime;
+        bool m_isFirstChord;
 
 };
 

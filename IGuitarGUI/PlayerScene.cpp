@@ -208,7 +208,6 @@ void PlayerScene::play()
                 m_cntdown = 4;
                 playCountdown();
 
-                qDebug() << m_controler->getTrack()->getBPM();
                 cntTime=1000;
                 if(m_controler->getTrack()->getBPM() != 0)
                     cntTime = 60000/m_controler->getTrack()->getBPM();
@@ -399,10 +398,14 @@ void PlayerScene::setSceneToChord(TrackChord* tc) {
 }
 
 void PlayerScene::loadSong(LogicalTrack* track) {
-	if(m_itemMap["entireSong"] != 0)
+    if(m_itemMap["entireSong"] != 0) {
 		delete m_itemMap["entireSong"];
-    if(m_itemMap["scrollingChords"] != 0)
+        m_itemMap["entireSong"] = 0;
+    }
+    if(m_itemMap["scrollingChords"] != 0) {
         delete m_itemMap["scrollingChords"];
+        m_itemMap["scrollingChords"] = 0;
+    }
 
 	((QGraphicsTextItem*)m_itemMap["songTitle"])->setHtml("<p align=\"center\">"+m_controler->getTrack()->getTrackName()+"</p>");
 	((QGraphicsTextItem*)m_itemMap["songArtist"])->setHtml("<p align=\"center\">"+m_controler->getTrack()->getArtist()+"</p>");
@@ -416,6 +419,9 @@ void PlayerScene::loadSong(LogicalTrack* track) {
     else {
         ((QGraphicsPixmapItem*)m_itemMap["songAlbumImg"])->setPixmap(QPixmap(":/images/noalbum.png"));
     }
+
+    //Stats
+    updateStats(0,0);
 
 	// Chanson entière
     m_itemMap["entireSong"] = new EntireSong(m_itemMap["backgnd"]);

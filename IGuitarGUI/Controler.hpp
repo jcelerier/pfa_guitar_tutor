@@ -69,8 +69,8 @@ private:
 	LogicalTrack *m_track;
 	QList<PlayerChord> m_chordList;
 
-	QTime m_globalClock;
-	int m_clockOffset;
+    //QTime m_globalClock;
+    //int m_clockOffset;
 
 	int m_totalPlayedChords;
 	int m_totalValidatedChords;

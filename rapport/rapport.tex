@@ -140,13 +140,15 @@ L'idée était de mettre ce \textit{reste} dans une bibliothèque qui serait app
 
 \section{Problèmes rencontrés, problèmes résolus}
 
-Le développement de GuitarTutor ne s'est pas fait sans heurts. Nous sommes néanmoins parvenus à résoudre les différents problèmes auxquels nous avons été confrontés.
+Le développement de GuitarTutor ne s'est pas fait sans heurts. Nous sommes néanmoins parvenus à résoudre les différents problèmes auxquels nous avons été confrontés au cours des phases de développement.
 
 \subsection{Reprise de code}
 
 Comme c'était prévu, la reprise du code existant fut notre première grande étape de développement. Passé le moment de découragement lié à l'absence total de commentaires et de documentation dans la grande majorité du code source qui nous intéressait, nous nous sommes attelés à ``débroussailler'' le dépôt en mettant en place une documentation, en commentant le code, ainsi qu'en supprimant purement et simplement les portions inutilisées, qui représentaient tout de même une portion loin d'être négligeable (parfois de simples fonctions, parfois des fichiers, et parfois des dossiers entiers\dots).
 
-Passés ces quelques semaines de nettoyage et d'assimilation du code existant, nous avons pu apporter les modifications qui était demandées.
+Par ailleurs, du fait que le projet ait été constitué de plusieurs blocs de code émanant de différentes équipes de développeurs, nous avons pu remarquer que les conventions de codage n'avaient pas été harmonisées. Nous avons pris soin de réparer cette erreur afin de faciliter la relecture et donc la réutilisation de ce même code.
+
+Passés ces quelques semaines de nettoyage et d'assimilation du code existant, nous avons pu commencer à apporter les modifications établies dans le cahier des charges, bien que, tout au long du développement, nous ayons continué la refactorisation (par exemple les suppressions de certaines bibliothèques, évoquées plus loin dans ce rapport).
 
 \subsection{Refonte de l'interface du lecteur}
 
@@ -183,6 +185,8 @@ Comme il nous avait été conseillé de faire, nous nous sommes rapidement accor
  \item Utilisation du gestionnaire de version Git, et non de SVN. La raison est que Git est de plus en plus utilisé, au détriment de SVN, et que le PFA était une excellente occasion pour apprendre à l'utiliser.
  \item Création du dépôt sur GitHub. Nous avons éliminé le dépôt de l'ENSEIRB-MATMECA en raison d'une coupure qui aura duré plusieurs jours en octobre (en plus des fréquentes interruptions de ce service dont nous avions pris l'habitude au cours de l'année passée), ainsi que de nombreux autres services tels que Sourceforge ou Google Code, car ceux-ci imposaient l'utilisation d'une licence libre (ce qui, a priori, n'est pas le cas de GuitarTutor) aux projets hébergés sur leur plate-forme, à moins de payer un abonnement mensuel. GitHub était également dans ce cas, mais une offre réservée aux étudiants nous a permis de bénéficier gratuitement d'un compte premium pour créer librement un dépôt privé, sans contrainte de licence.
 \end{itemize}
+
+Les différents choix énumérés ci-dessus ont été faits au début du projet en analysant les opinions de chacun, puis \textit{``officialisées''} en les listant sur notre wiki.
 
 
 \subsection{Utilisation de Qt}
