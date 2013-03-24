@@ -42,7 +42,7 @@ ScrollingItem::ScrollingItem(QGraphicsItem *parent) :
 void ScrollingItem::load(LogicalTrack * lt) {
     m_track = lt;
 
-    QFont scrollingChordFont("Roboto", 60);
+    QFont scrollingChordFont(":/fonts/Roboto-Regular.ttf", 60);
 
     QGraphicsTextItem* tempScrollingChord;
 

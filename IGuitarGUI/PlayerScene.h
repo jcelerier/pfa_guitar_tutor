@@ -62,9 +62,6 @@ private:
 	QSoundEffect* m_cntClick;
 	QSoundEffect* m_cntClickUp;
 
-	int  m_timeNoteSynchronized;
-	int  m_lastTimeCheck;
-	int  m_currentNoteDuration;
 	Controler* m_controler;
 	ChordDictionary *m_dictionary;
     ConfigPanel *m_configPanel;

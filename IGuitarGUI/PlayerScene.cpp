@@ -61,7 +61,7 @@ void PlayerScene::disposeScene()
 {
 	//setSceneRect(0,0,1920,1080);
 	// Police
-	QFont titleFont("Roboto",20);
+    QFont titleFont(":/fonts/Roboto-Regular.ttf" ,20);
 
 	// Couleur de fond
 	QColor bgColor(34, 14, 30);
@@ -142,14 +142,14 @@ void PlayerScene::disposeScene()
 	m_itemMap["avancmt"]->setPos(200, 400); // Position absolue par rapport au background
 
 	// Accord joue a la guitare
-	QFont playedFont("Roboto", 130/*150*/);
+    QFont playedFont(":/fonts/Roboto-Regular.ttf", 130/*150*/);
 	m_itemMap["chordPlayed"] = new QGraphicsTextItem("", m_itemMap["backgnd"]);
 	((QGraphicsTextItem*)m_itemMap["chordPlayed"])->setFont(playedFont);
 	((QGraphicsTextItem*)m_itemMap["chordPlayed"])->setDefaultTextColor(QColor(0, 161, 42));
 	m_itemMap["chordPlayed"]->setPos(1110, 380);
 
 	// Statistiques
-	QFont statsFont("Roboto",28);
+    QFont statsFont(":/fonts/Roboto-Regular.ttf",28);
 	m_itemMap["totalPlayed"] = new QGraphicsTextItem("", m_itemMap["backgnd"]);
 	((QGraphicsTextItem*)m_itemMap["totalPlayed"])->setFont(statsFont);
 	m_itemMap["totalPlayed"]->setPos(1210, 125);
@@ -163,7 +163,7 @@ void PlayerScene::disposeScene()
 	((QGraphicsTextItem*)m_itemMap["totalValidated"])->setDefaultTextColor(QColor(101, 215, 78));
 
 	// Decompte de lecture
-	QFont countFont("Roboto", 90);
+    QFont countFont(":/fonts/Roboto-Regular.ttf", 90);
 	m_itemMap["countDown"] = new QGraphicsTextItem("", m_itemMap["backgnd"]);
 	((QGraphicsTextItem*)m_itemMap["countDown"])->setFont(countFont);
 	((QGraphicsTextItem*)m_itemMap["countDown"])->setPos(300-45, 680-45);
@@ -279,6 +279,8 @@ void PlayerScene::switchPlay()
 void PlayerScene::switchMenu()
 {
     switchMenu(!m_itemMap["menu"]->isVisible());
+    if(m_itemMap["menu"]->isVisible())
+        pause();
 }
 
 /**
@@ -289,6 +291,8 @@ void PlayerScene::switchMenu()
 void PlayerScene::switchMenu(bool b)
 {
     m_itemMap["menu"]->setVisible(b);
+    if(b)
+        pause();
 }
 
 /**
@@ -357,6 +361,7 @@ void PlayerScene::displayDictionary()
 }
 
 void PlayerScene::displayOptions() {
+
 	m_configPanel->show();
 }
 
@@ -402,6 +407,13 @@ void PlayerScene::loadSong(LogicalTrack* track) {
 	((QGraphicsTextItem*)m_itemMap["songTitle"])->setHtml("<p align=\"center\">"+m_controler->getTrack()->getTrackName()+"</p>");
 	((QGraphicsTextItem*)m_itemMap["songArtist"])->setHtml("<p align=\"center\">"+m_controler->getTrack()->getArtist()+"</p>");
 	((QGraphicsTextItem*)m_itemMap["songComment"])->setHtml("<p align=\"center\">"+m_controler->getTrack()->getComment()+"</p>");
+    if(QFile("albumcover.jpg").exists()) {
+        QPixmap pixmap = QPixmap("albumcover.jpg").scaled(146,146);
+        ((QGraphicsPixmapItem*)m_itemMap["songAlbumImg"])->setPixmap(pixmap);
+    }
+    else {
+        ((QGraphicsPixmapItem*)m_itemMap["songAlbumImg"])->setPixmap(QPixmap(":/images/noalbum.png"));
+    }
 
 	// Chanson entière
     m_itemMap["entireSong"] = new EntireSong(m_itemMap["backgnd"]);
