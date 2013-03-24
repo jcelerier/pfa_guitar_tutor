@@ -42,7 +42,7 @@ GridEditor::GridEditor(): trackProperties(new TrackProperties(this)), saveQueue(
 
 	settings = new QSettings("GuitarTutor", "GridEditor"); //Permet de retenir la configuration du logiciel
 	connect(trackProperties, SIGNAL(timeSignatureChanged(int)), audioWindow, SIGNAL(timeSignatureChanged(int)));
-//	connect(trackProperties, SIGNAL(somethingChanged()), saveQueue, SIGNAL(save()));
+	//	connect(trackProperties, SIGNAL(somethingChanged()), saveQueue, SIGNAL(save()));
 }
 
 /**
@@ -345,6 +345,7 @@ void GridEditor::firstNewGrid()
 	createGrid(newGridDialog->getColumns() + 1, newGridDialog->getLines());
 
 	saveQueue->firstSave();
+	connect(grid, SIGNAL(somethingChanged()), saveQueue, SIGNAL(save()));
 }
 
 
@@ -377,6 +378,7 @@ void GridEditor::newGrid()
 
 		createGrid(newGridDialog->getColumns() + 1, newGridDialog->getLines());
 		saveQueue->firstSave();
+		connect(grid, SIGNAL(somethingChanged()), saveQueue, SIGNAL(save()));
 	}
 	delete newGridDialog;
 
@@ -481,13 +483,17 @@ void GridEditor::fromXML()
 	audioWindow->setBeginning(track->getBeginning());
 	audioWindow->setEnd(track->getEnd());
 
+	//nope à cause du mod +1... : connect(audioWindow, SIGNAL(somethingChanged()), saveQueue, SIGNAL(save()));
 
-	createGrid(track->getColumn() + 1, track->getLine());
+
+	createGrid(track->getColumn() + 1, track->getLine(), true);
 	grid->setLogicalTrack(track);
+
 
 	emit trackProperties->barsizeChanged(track->getMesure());
 
 	saveQueue->firstSave();
+	connect(grid, SIGNAL(somethingChanged()), saveQueue, SIGNAL(save()));
 	delete track;
 }
 

@@ -91,6 +91,12 @@ void WaveformTimeBar::paintEvent(QPaintEvent */*event*/)
 	painter->end();
 }
 
+void WaveformTimeBar::mouseReleaseEvent(QMouseEvent * event)
+{
+	QWidget::mouseReleaseEvent(event);
+	emit somethingChanged();
+	qDebug() << "kikooooooooooooooooooo";
+}
 
 void WaveformTimeBar::mouseMoveEvent(QMouseEvent * event)
 {
