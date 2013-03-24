@@ -41,7 +41,7 @@ Controler::Controler()
 	m_totalPlayedChords = 0;
 	m_totalValidatedChords = 0;
 
-	is_at_beginning = 0;
+    is_at_beginning = false;
 	m_timer = new QTimer(this);
 	m_paused = false;
 	m_muted = false;
@@ -153,7 +153,7 @@ void Controler::victoryPercent(TrackChord* chord, double d)
 /**
  * @brief Controler::ticTac
  *
- * Slot appelé à intervalle régulier pour permettre la mise à jour de l'interface et du scoreManager
+ * Slot appelé à intervalle régulier pour permettre la mise à jour de l'interface.
  */
 void Controler::ticTac()
 {
@@ -211,7 +211,6 @@ bool Controler::initSong()
  *
  * Démarre la lecture de la partition et de la musique.
  */
-
 void Controler::startSong()
 {
 	if(is_at_beginning)
@@ -219,7 +218,6 @@ void Controler::startSong()
 		m_songManager->goToChord(m_track->getPartTrackList()[0]->getTrackChordsList()[0]);
 		is_at_beginning = false;
 	}
-
 
 	m_globalClock.start();
 	m_songManager->play();
@@ -284,16 +282,6 @@ void Controler::switchPlaying()
 		pauseSong();
 	}
 	m_globalClock.start();
-}
-
-/**
- * @brief Controler::pauseClock
- *
- * Pause l'horloge.
- */
-void Controler::pauseClock()
-{
-
 }
 
 /**

@@ -29,7 +29,6 @@ public:
 
 	int elapsedTime();
 	void switchPlaying();
-	void pauseClock();
 
 	bool muteState();
 	void mute();

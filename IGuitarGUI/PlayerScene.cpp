@@ -87,22 +87,22 @@ void PlayerScene::disposeScene()
 
 	m_itemMap["play"] = new ButtonItem(playImage, m_itemMap["backgnd"]);
 	m_itemMap["play"]->setPos(40, 860); // Position absolue par rapport au background
-	m_itemMap["play"]->setToolTip(tr("Play/Pause"));
+    m_itemMap["play"]->setToolTip(tr("Play"));
 	connect((ButtonItem*)m_itemMap["play"], SIGNAL(pushed()), this, SLOT(play()));
 
 	m_itemMap["pause"] = new ButtonItem(pauseImage, m_itemMap["backgnd"]);
 	m_itemMap["pause"]->setPos(170, 860); // Position absolue par rapport au background
-	m_itemMap["pause"]->setToolTip(tr("Play/Pause"));
+    m_itemMap["pause"]->setToolTip(tr("Pause"));
 	connect((ButtonItem*)m_itemMap["pause"], SIGNAL(pushed()), this, SLOT(pause()));
 
 	m_itemMap["stop"] = new ButtonItem(stopImage, m_itemMap["backgnd"]);
 	m_itemMap["stop"]->setPos(300, 860); // Position absolue par rapport au background
-	m_itemMap["stop"]->setToolTip(tr("Play/Pause"));
+    m_itemMap["stop"]->setToolTip(tr("Stop"));
 	connect((ButtonItem*)m_itemMap["stop"], SIGNAL(pushed()), this, SLOT(stop()));
 
 	m_itemMap["back"] = new ButtonItem(backImage, m_itemMap["backgnd"]);
 	m_itemMap["back"]->setPos(470, 860); // Position absolue par rapport au background
-	m_itemMap["back"]->setToolTip(tr("Play/Pause"));
+    m_itemMap["back"]->setToolTip(tr("Back"));
 	connect((ButtonItem*)m_itemMap["back"], SIGNAL(pushed()), this, SLOT(back()));
 
 
