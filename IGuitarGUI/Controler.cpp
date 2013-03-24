@@ -6,6 +6,7 @@
 #include <QString>
 #include <Track/TrackLoader.h>
 #include <PlayerScene.h>
+#include <QMessageBox>
 
 /**
  * @brief Controler::~Controler
@@ -180,7 +181,17 @@ bool Controler::initSong()
 	if(m_track != 0) delete m_track;
 	m_track = new LogicalTrack();
 
-	TrackLoader::convertXmlToLogicalTrack(path, m_track);
+    if(!(TrackLoader::convertXmlToLogicalTrack(path, m_track))) {
+        QMessageBox::information(0, tr("Error"), tr("An error occured while loading the XML file. You should open it again with the editor and check its content."));
+        m_track = 0;
+        return false;
+    }
+    if(!QFileInfo(m_track->getAudioFileName()).exists()) {
+        QMessageBox::information(0, tr("Error"), tr("The audio file does not exist. Please open the xml file with the editor to change the path to the audio file."));
+        delete m_track;
+        m_track = 0;
+        return false;
+    }
 
 	/* Boucle de base pour la lecture des Track;
 	TrackChord* iChord = m_track->getPartTrackList()[0]->getTrackChordsList()[0];
@@ -192,7 +203,7 @@ bool Controler::initSong()
 	m_songManager->load(m_track);
 	m_scene->loadSong(m_track);
 
-	return true;
+    return true;
 }
 
 /**

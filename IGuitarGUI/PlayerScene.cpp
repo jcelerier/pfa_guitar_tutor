@@ -357,6 +357,7 @@ void PlayerScene::displayDictionary()
 }
 
 void PlayerScene::displayOptions() {
+
 	m_configPanel->show();
 }
 
