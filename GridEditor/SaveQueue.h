@@ -15,6 +15,8 @@ class SaveQueue: public QObject
 		bool canUndo();
 		bool canRedo();
 		void firstSave();
+		void clear();
+		void emptyQueue(QList<StatePacket*>* q);
 
 	signals:
 		void save();
@@ -29,7 +31,6 @@ class SaveQueue: public QObject
 
 	private:
 		void restoreState(StatePacket* statePacket);
-		void emptyQueue(QList<StatePacket*>* q);
 		GridEditor* m_editor;
 		int max_depth;
 

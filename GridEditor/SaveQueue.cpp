@@ -22,6 +22,12 @@ SaveQueue::SaveQueue(GridEditor* editor) :
 	connect(this, SIGNAL(save()), this, SLOT(saveSlot()));
 }
 
+void SaveQueue::clear()
+{
+	emptyQueue(&undoQueue);
+	emptyQueue(&redoQueue);
+}
+
 void SaveQueue::saveSlot()
 {
 	mod = (mod + 1) % 2;
@@ -87,8 +93,11 @@ void SaveQueue::emptyQueue(QList<StatePacket*> *q)
 {
 	while(!q->empty())
 	{
-		delete redoQueue.last();
-		redoQueue.removeLast();
+		if(q->last() != 0)
+		{
+			delete q->last();
+		}
+		q->removeLast();
 	}
 }
 

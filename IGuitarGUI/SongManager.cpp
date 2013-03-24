@@ -89,16 +89,16 @@ void SongManager::pause()
 
 	switch(((Controler*)parent())->getConfiguration()->getPauseSetting())
 	{
-	case PAUSE_TO_SAME_TIME:
-		break;
-	case PAUSE_TO_LAST_CHORD:
-		goToChord(m_currentChord);
-		break;
-	case PAUSE_TO_LAST_PART:
-		goToChord(m_currentPart->getTrackChordsList()[0]);
-		break;
-	default:
-		break;
+		case PAUSE_TO_SAME_TIME:
+			break;
+		case PAUSE_TO_LAST_CHORD:
+			goToChord(m_currentChord);
+			break;
+		case PAUSE_TO_LAST_PART:
+			goToChord(m_currentPart->getTrackChordsList()[0]);
+			break;
+		default:
+			break;
 	}
 }
 
@@ -111,7 +111,10 @@ void SongManager::stop()
 {
 	m_musicManager->pause();
 
-	goToChord(m_track->getPartTrackList()[0]->getTrackChordsList()[0]);
+	if(m_track != 0)
+	{
+		goToChord(m_track->getPartTrackList()[0]->getTrackChordsList()[0]);
+	}
 }
 
 /**

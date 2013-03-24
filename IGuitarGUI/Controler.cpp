@@ -41,7 +41,8 @@ Controler::Controler()
 	m_totalPlayedChords = 0;
 	m_totalValidatedChords = 0;
 
-    is_at_beginning = false;
+	is_at_beginning = true;
+
 	m_timer = new QTimer(this);
 	m_paused = false;
 	m_muted = false;
@@ -84,9 +85,9 @@ Configuration* Controler::getConfiguration()
 void Controler::currentChordSlot(TrackChord* chord)
 {
 	if(chord == chord->part()->getTrackChordsList()[0]
-			&& chord->previous() != 0
-			&& m_configuration->getLoopSetting()
-			&& well_played_chords_in_current_part < chord->part()->getTrackChordsList().count() )
+	   && chord->previous() != 0
+	   && m_configuration->getLoopSetting()
+	   && well_played_chords_in_current_part < chord->part()->getTrackChordsList().count() )
 	{
 		m_songManager->goToChord(chord->part()->previous()->getTrackChordsList()[0]);
 		well_played_chords_in_current_part = 0;
@@ -102,8 +103,8 @@ void Controler::currentChordSlot(TrackChord* chord)
 	setChordPosition(chord);
 	chord->setPlaying();
 
-    //emit repaintSong();
-    m_scene->setSceneToChord(chord);
+	//emit repaintSong();
+	m_scene->setSceneToChord(chord);
 }
 
 void Controler::setChordPosition(TrackChord* chord)
@@ -143,7 +144,7 @@ void Controler::victoryPercent(TrackChord* chord, double d)
 
 			++well_played_chords_in_current_part;
 		}
-	chord->setPlayed();
+		chord->setPlayed();
 	}
 
 	m_scene->updateStats(m_totalValidatedChords, m_totalPlayedChords);
@@ -171,27 +172,30 @@ void Controler::ticTac()
  */
 bool Controler::initSong()
 {
-    QString path = QFileDialog::getOpenFileName(0, tr("Loading"), m_configuration->getSongDirectory(), tr("XML Files (*.xml)"), 0, QFileDialog::HideNameFilterDetails);
+
+	QString path = QFileDialog::getOpenFileName(0, tr("Loading"), m_configuration->getSongDirectory(), tr("XML Files (*.xml)"), 0, QFileDialog::HideNameFilterDetails);
 
 	if(path.isNull())
 	{
 		return false;
 	}
 
+	stopSong();
+
 	if(m_track != 0) delete m_track;
 	m_track = new LogicalTrack();
 
-    if(!(TrackLoader::convertXmlToLogicalTrack(path, m_track))) {
-        QMessageBox::information(0, tr("Error"), tr("An error occured while loading the XML file. You should open it again with the editor and check its content."));
-        m_track = 0;
-        return false;
-    }
-    if(!QFileInfo(m_track->getAudioFileName()).exists()) {
-        QMessageBox::information(0, tr("Error"), tr("The audio file does not exist. Please open the xml file with the editor to change the path to the audio file."));
-        delete m_track;
-        m_track = 0;
-        return false;
-    }
+	if(!(TrackLoader::convertXmlToLogicalTrack(path, m_track))) {
+		QMessageBox::information(0, tr("Error"), tr("An error occured while loading the XML file. You should open it again with the editor and check its content."));
+		m_track = 0;
+		return false;
+	}
+	if(!QFileInfo(m_track->getAudioFileName()).exists()) {
+		QMessageBox::information(0, tr("Error"), tr("The audio file does not exist. Please open the xml file with the editor to change the path to the audio file."));
+		delete m_track;
+		m_track = 0;
+		return false;
+	}
 
 	/* Boucle de base pour la lecture des Track;
 	TrackChord* iChord = m_track->getPartTrackList()[0]->getTrackChordsList()[0];
@@ -203,7 +207,7 @@ bool Controler::initSong()
 	m_songManager->load(m_track);
 	m_scene->loadSong(m_track);
 
-    return true;
+	return true;
 }
 
 /**
