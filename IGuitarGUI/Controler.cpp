@@ -15,13 +15,13 @@
  */
 Controler::~Controler()
 {
-	delete m_timer;
-	delete m_configuration;
+    delete m_timer;
+    delete m_configuration;
 
-	delete m_songManager;
-	if(m_scene != 0) delete m_scene;
-	if(m_view  != 0) delete m_view;
-	if(m_track != 0) delete m_track;
+    delete m_songManager;
+    if(m_scene != 0) delete m_scene;
+    if(m_view  != 0) delete m_view;
+    if(m_track != 0) delete m_track;
 }
 
 /**
@@ -31,38 +31,38 @@ Controler::~Controler()
  */
 Controler::Controler()
 {
-	m_view = 0;
-	m_scene = 0;
-	m_clockOffset = 0;
-	m_track = 0;
-	played_chords_in_current_part = 0;
-	well_played_chords_in_current_part = 0;
+    m_view = 0;
+    m_scene = 0;
+    m_clockOffset = 0;
+    m_track = 0;
+    played_chords_in_current_part = 0;
+    well_played_chords_in_current_part = 0;
 
-	m_totalPlayedChords = 0;
-	m_totalValidatedChords = 0;
+    m_totalPlayedChords = 0;
+    m_totalValidatedChords = 0;
 
-	is_at_beginning = 0;
-	m_timer = new QTimer(this);
-	m_paused = false;
-	m_muted = false;
-	m_playing = false;
+    is_at_beginning = true;
+    m_timer = new QTimer(this);
+    m_paused = false;
+    m_muted = false;
+    m_playing = false;
 
-	m_configuration = new Configuration();
+    m_configuration = new Configuration();
 
-	m_scene = new PlayerScene(this);
-	m_view = new MyView(m_scene);
+    m_scene = new PlayerScene(this);
+    m_view = new MyView(m_scene);
 
-	m_songManager = new SongManager(this);
-	connect(m_timer, SIGNAL(timeout()), this, SLOT(ticTac()));
-	connect(m_timer, SIGNAL(timeout()), m_songManager, SLOT(checkTime()));
-	connect(m_timer, SIGNAL(timeout()), m_songManager, SLOT(compareChordWithPlayed()));
+    m_songManager = new SongManager(this);
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(ticTac()));
+    connect(m_timer, SIGNAL(timeout()), m_songManager, SLOT(checkTime()));
+    connect(m_timer, SIGNAL(timeout()), m_songManager, SLOT(compareChordWithPlayed()));
 
-	connect(m_songManager, SIGNAL(nonNaturalChange(TrackChord*)), this, SLOT(setChordPosition(TrackChord*)));
-	connect(m_songManager, SIGNAL(updateChord(TrackChord*)), this, SLOT(currentChordSlot(TrackChord*)));
-	connect(m_songManager, SIGNAL(lastChordCorrectness(TrackChord*, double)), this, SLOT(victoryPercent(TrackChord*, double)));
-	connect(m_songManager, SIGNAL(currentlyPlayedChord(BasicChord)), m_scene, SLOT(setPlayedChord(BasicChord)));
+    connect(m_songManager, SIGNAL(nonNaturalChange(TrackChord*)), this, SLOT(setChordPosition(TrackChord*)));
+    connect(m_songManager, SIGNAL(updateChord(TrackChord*)), this, SLOT(currentChordSlot(TrackChord*)));
+    connect(m_songManager, SIGNAL(lastChordCorrectness(TrackChord*, double)), this, SLOT(victoryPercent(TrackChord*, double)));
+    connect(m_songManager, SIGNAL(currentlyPlayedChord(BasicChord)), m_scene, SLOT(setPlayedChord(BasicChord)));
 
-	m_view->show();
+    m_view->show();
 }
 
 /**
@@ -71,7 +71,7 @@ Controler::Controler()
  */
 Configuration* Controler::getConfiguration()
 {
-	return m_configuration;
+    return m_configuration;
 }
 
 /**
@@ -83,24 +83,24 @@ Configuration* Controler::getConfiguration()
  */
 void Controler::currentChordSlot(TrackChord* chord)
 {
-	if(chord == chord->part()->getTrackChordsList()[0]
-			&& chord->previous() != 0
-			&& m_configuration->getLoopSetting()
-			&& well_played_chords_in_current_part < chord->part()->getTrackChordsList().count() )
-	{
-		m_songManager->goToChord(chord->part()->previous()->getTrackChordsList()[0]);
-		well_played_chords_in_current_part = 0;
-		m_totalPlayedChords--;
-	}
-	else if(chord->previous() != 0
-			&& chord->previous()->part() != chord->part()) //on passe dans une nouvelle partie
-	{
-		well_played_chords_in_current_part = 0;
-	}
+    if(chord == chord->part()->getTrackChordsList()[0]
+            && chord->previous() != 0
+            && m_configuration->getLoopSetting()
+            && well_played_chords_in_current_part < chord->part()->getTrackChordsList().count() )
+    {
+        m_songManager->goToChord(chord->part()->previous()->getTrackChordsList()[0]);
+        well_played_chords_in_current_part = 0;
+        m_totalPlayedChords--;
+    }
+    else if(chord->previous() != 0
+            && chord->previous()->part() != chord->part()) //on passe dans une nouvelle partie
+    {
+        well_played_chords_in_current_part = 0;
+    }
 
 
-	setChordPosition(chord);
-	chord->setPlaying();
+    setChordPosition(chord);
+    chord->setPlaying();
 
     //emit repaintSong();
     m_scene->setSceneToChord(chord);
@@ -108,20 +108,20 @@ void Controler::currentChordSlot(TrackChord* chord)
 
 void Controler::setChordPosition(TrackChord* chord)
 {
-	int validatedToDelete = 0;
-	TrackChord* iChord = chord;
-	do
-	{
-		if(iChord->isValidated())
-			validatedToDelete ++;
+    int validatedToDelete = 0;
+    TrackChord* iChord = chord;
+    do
+    {
+        if(iChord->isValidated())
+            validatedToDelete ++;
 
-		iChord->setPlayed(false);
-		iChord->setPlaying(false);
-		iChord->validate(false);
+        iChord->setPlayed(false);
+        iChord->setPlaying(false);
+        iChord->validate(false);
 
-	} while((iChord = iChord->next()) != 0);
+    } while((iChord = iChord->next()) != 0);
 
-	m_totalPlayedChords -= validatedToDelete;
+    m_totalPlayedChords -= validatedToDelete;
 }
 
 
@@ -133,21 +133,21 @@ void Controler::setChordPosition(TrackChord* chord)
  */
 void Controler::victoryPercent(TrackChord* chord, double d)
 {
-	if(chord != 0)
-	{
-		chord->setPlaying(false);
-		if(d * 100 > m_configuration->getDifficulty())
-		{
-			chord->validate();
-			m_totalValidatedChords++;
+    if(chord != 0)
+    {
+        chord->setPlaying(false);
+        if(d * 100 > m_configuration->getDifficulty())
+        {
+            chord->validate();
+            m_totalValidatedChords++;
 
-			++well_played_chords_in_current_part;
-		}
-	chord->setPlayed();
-	}
+            ++well_played_chords_in_current_part;
+        }
+    chord->setPlayed();
+    }
 
-	m_scene->updateStats(m_totalValidatedChords, m_totalPlayedChords);
-	m_totalPlayedChords++;
+    m_scene->updateStats(m_totalValidatedChords, m_totalPlayedChords);
+    m_totalPlayedChords++;
 }
 
 /**
@@ -157,10 +157,10 @@ void Controler::victoryPercent(TrackChord* chord, double d)
  */
 void Controler::ticTac()
 {
-	if(m_playing)
-	{
-		m_scene->updateScene();
-	}
+    if(m_playing)
+    {
+        m_scene->updateScene();
+    }
 }
 
 /**
@@ -171,15 +171,18 @@ void Controler::ticTac()
  */
 bool Controler::initSong()
 {
+
     QString path = QFileDialog::getOpenFileName(0, tr("Loading"), m_configuration->getSongDirectory(), tr("XML Files (*.xml)"), 0, QFileDialog::HideNameFilterDetails);
 
-	if(path.isNull())
-	{
-		return false;
-	}
+    if(path.isNull())
+    {
+        return false;
+    }
 
-	if(m_track != 0) delete m_track;
-	m_track = new LogicalTrack();
+    stopSong();
+
+    if(m_track != 0) delete m_track;
+    m_track = new LogicalTrack();
 
     if(!(TrackLoader::convertXmlToLogicalTrack(path, m_track))) {
         QMessageBox::information(0, tr("Error"), tr("An error occured while loading the XML file. You should open it again with the editor and check its content."));
@@ -193,15 +196,15 @@ bool Controler::initSong()
         return false;
     }
 
-	/* Boucle de base pour la lecture des Track;
-	TrackChord* iChord = m_track->getPartTrackList()[0]->getTrackChordsList()[0];
-	do
-	{
+    /* Boucle de base pour la lecture des Track;
+    TrackChord* iChord = m_track->getPartTrackList()[0]->getTrackChordsList()[0];
+    do
+    {
 
-	} while((iChord = iChord->next()) != 0);
-	*/
-	m_songManager->load(m_track);
-	m_scene->loadSong(m_track);
+    } while((iChord = iChord->next()) != 0);
+    */
+    m_songManager->load(m_track);
+    m_scene->loadSong(m_track);
 
     return true;
 }
@@ -214,17 +217,17 @@ bool Controler::initSong()
 
 void Controler::startSong()
 {
-	if(is_at_beginning)
-	{
-		m_songManager->goToChord(m_track->getPartTrackList()[0]->getTrackChordsList()[0]);
-		is_at_beginning = false;
-	}
+    if(is_at_beginning)
+    {
+        m_songManager->goToChord(m_track->getPartTrackList()[0]->getTrackChordsList()[0]);
+        is_at_beginning = false;
+    }
 
 
-	m_globalClock.start();
-	m_songManager->play();
-	m_timer->start(1000/Configuration::framesPerSec);
-	m_playing=true;
+    m_globalClock.start();
+    m_songManager->play();
+    m_timer->start(1000/Configuration::framesPerSec);
+    m_playing=true;
 }
 
 /**
@@ -234,10 +237,10 @@ void Controler::startSong()
  */
 void Controler::pauseSong()
 {
-	m_clockOffset += m_globalClock.elapsed();
-	m_timer->stop();
-	m_songManager->pause();
-	m_playing=false;
+    m_clockOffset += m_globalClock.elapsed();
+    m_timer->stop();
+    m_songManager->pause();
+    m_playing=false;
 }
 
 /**
@@ -247,14 +250,14 @@ void Controler::pauseSong()
  */
 void Controler::stopSong()
 {
-	m_clockOffset += m_globalClock.elapsed();
-	m_timer->stop();
-	m_clockOffset = 0;
-	m_songManager->stop();
-	m_playing=false;
-	is_at_beginning = true;
-	m_totalPlayedChords = 0;
-	m_totalValidatedChords = 0;
+    m_clockOffset += m_globalClock.elapsed();
+    m_timer->stop();
+    m_clockOffset = 0;
+    m_songManager->stop();
+    m_playing=false;
+    is_at_beginning = true;
+    m_totalPlayedChords = 0;
+    m_totalValidatedChords = 0;
 }
 
 /**
@@ -265,7 +268,7 @@ void Controler::stopSong()
  */
 int Controler::elapsedTime()
 {
-	return m_clockOffset + m_globalClock.elapsed();
+    return m_clockOffset + m_globalClock.elapsed();
 }
 
 /**
@@ -275,15 +278,15 @@ int Controler::elapsedTime()
  */
 void Controler::switchPlaying()
 {
-	if(!m_playing)
-	{
-		startSong();
-	}
-	else
-	{
-		pauseSong();
-	}
-	m_globalClock.start();
+    if(!m_playing)
+    {
+        startSong();
+    }
+    else
+    {
+        pauseSong();
+    }
+    m_globalClock.start();
 }
 
 /**
@@ -303,8 +306,8 @@ void Controler::pauseClock()
  */
 void Controler::mute()
 {
-	m_songManager->mute(true);
-	m_muted = true;
+    m_songManager->mute(true);
+    m_muted = true;
 }
 
 /**
@@ -314,8 +317,8 @@ void Controler::mute()
  */
 void Controler::unmute()
 {
-	m_songManager->mute(false);
-	m_muted = false;
+    m_songManager->mute(false);
+    m_muted = false;
 }
 
 /**
@@ -324,7 +327,7 @@ void Controler::unmute()
  */
 bool Controler::muteState()
 {
-	return m_muted;
+    return m_muted;
 }
 
 // l'idéal serait de ne pas faire reset la view et juste de mettre à jour les infos
@@ -339,16 +342,16 @@ bool Controler::muteState()
  */
 LogicalTrack* Controler::getTrack()
 {
-	return m_track;
+    return m_track;
 }
 
 TrackChord* Controler::getFirstChord()
 {
-	return m_track->getFirstChord();
+    return m_track->getFirstChord();
 }
 
 
 TrackChord* Controler::getCurrentChord()
 {
-	return m_songManager->getCurrentChord();
+    return m_songManager->getCurrentChord();
 }
