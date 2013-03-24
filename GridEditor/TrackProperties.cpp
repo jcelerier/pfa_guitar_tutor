@@ -12,10 +12,16 @@ TrackProperties::TrackProperties(QWidget *parent) :
 	ui(new Ui::TrackProperties)
 {
 	ui->setupUi(this);
-    ui->t_barsize->setValue(1);
-    ui->t_timeSignature->setValue(4);
+	ui->t_barsize->setValue(1);
+	ui->t_timeSignature->setValue(4);
 	connect(ui->t_timeSignature, SIGNAL(valueChanged(int)), this, SIGNAL(timeSignatureChanged(int)));
 	connect(ui->t_barsize, SIGNAL(valueChanged(int)), this, SIGNAL(barsizeChanged(int)));
+
+	connect(ui->t_timeSignature, SIGNAL(valueChanged(int)), this, SIGNAL(somethingChanged()));
+	connect(ui->t_barsize, SIGNAL(valueChanged(int)), this, SIGNAL(somethingChanged()));
+
+	connect(ui->t_artist, SIGNAL(textChanged(QString)), this, SIGNAL(artistChanged()));
+	connect(ui->t_trackname, SIGNAL(textChanged(QString)), this, SIGNAL(trackChanged()));
 
 	accept();
 }
@@ -37,9 +43,9 @@ void TrackProperties::accept()
 {
 	setTrack(ui->t_trackname->text());
 	setArtist(ui->t_artist->text());
-    setBarSize(ui->t_barsize->value());
-    setComment(ui->t_comment->text());
-    setTimeSignature(ui->t_timeSignature->value());
+	setBarSize(ui->t_barsize->value());
+	setComment(ui->t_comment->text());
+	setTimeSignature(ui->t_timeSignature->value());
 }
 
 /**
@@ -75,7 +81,7 @@ int TrackProperties::getBarSize()
  */
 int TrackProperties::getTimeSignature()
 {
-    return ui->t_timeSignature->value();
+	return ui->t_timeSignature->value();
 }
 
 /**
@@ -123,7 +129,7 @@ void TrackProperties::setTrack(QString track)
 void TrackProperties::setBarSize(unsigned int barsize)
 {
 	ui->t_barsize->setValue(barsize);
-    emit barsizeChanged(barsize);
+	emit barsizeChanged(barsize);
 }
 
 /**
@@ -132,6 +138,6 @@ void TrackProperties::setBarSize(unsigned int barsize)
  */
 void TrackProperties::setTimeSignature(int time)
 {
-    ui->t_timeSignature->setValue(time);
+	ui->t_timeSignature->setValue(time);
 }
 

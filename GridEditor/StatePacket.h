@@ -6,15 +6,15 @@
 struct StatePacket
 {
 
-		ChordTableWidget *grid;
-		QTime beginning, bar, end;
-		QString artist, song;
-		int chordsPerBar, timeSignature;
+        ChordTableWidget *grid;
+        int beginning, bar, end;
+        QString artist, song, comment;
+        int chordsPerBar, timeSignature;
 
-		StatePacket(ChordTableWidget *grid,
-					QTime beginning, QTime bar, QTime end,
-					QString artist, QString song,
-					int chordsPerBar, int timeSignature);
+        StatePacket(ChordTableWidget *grid,
+                    int beginning, int bar, int end,
+                    QString artist, QString song, QString comment,
+                    int chordsPerBar, int timeSignature);
 };
 
 #endif // STATEPACKET_H

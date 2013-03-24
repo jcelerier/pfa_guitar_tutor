@@ -66,6 +66,7 @@ private:
 signals:
 	void play(int);
 	void barsizeChanged(int);
+	void somethingChanged();
 
 public slots:
 	void ShowContextMenu(const QPoint& pos);
@@ -86,7 +87,7 @@ public slots:
 
 	void playFromHere();
 
-    void setTimeInfo(const QTime beginning, const QTime bar, const QTime end);
+	void setTimeInfo(const QTime beginning, const QTime bar, const QTime end);
 	void isPlayingAt(QTime t);
 
 	void itemChanged_slot(QTableWidgetItem* item);

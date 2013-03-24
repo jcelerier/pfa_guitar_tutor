@@ -7,19 +7,19 @@
  *
  * Constructeur des cases de la grille.
  */
-CaseItem::CaseItem(const bool partEditable) :  QTableWidgetItem(), m_color(new QColor())
+CaseItem::CaseItem(const bool partEditable) :  QTableWidgetItem(), m_brush(new QBrush())
 {
-	m_beginningTimer = QTime(0,0);
-	m_part = "";
-	m_color->setRgb(255, 255, 255);
+    m_beginningTimer = QTime(0,0);
+    m_part = "";
+    m_brush->setColor(Qt::white);
 
-	m_timerManuallySet = false;
-	m_partEditable = partEditable;
-	m_currentlyPlaying = false;
+    m_timerManuallySet = false;
+    m_partEditable = partEditable;
+    m_currentlyPlaying = false;
 
-	this->setBackgroundColor(m_color->toRgb());
-	this->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
-	this->setTextAlignment(Qt::AlignCenter);
+    this->setBackground(*m_brush);
+    this->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+    this->setTextAlignment(Qt::AlignCenter);
 }
 
 /**
@@ -28,11 +28,16 @@ CaseItem::CaseItem(const bool partEditable) :  QTableWidgetItem(), m_color(new Q
  *
  * Constructeur surchagé (ressemble vaguement à une copie.)
  */
-CaseItem::CaseItem(const QTableWidgetItem& item) : QTableWidgetItem(item), m_color(new QColor(item.background().color()))
+CaseItem::CaseItem(const CaseItem& item): QTableWidgetItem(item)
 {
-	this->text() = ((CaseItem) item).text();
-	this->m_part = ((CaseItem) item).m_part;
-	this->m_beginningTimer = ((CaseItem) item).m_beginningTimer;
+    this->text() = item.text();
+    if(!item.m_part.isNull())
+        this->m_part = item.m_part;
+    this->m_beginningTimer = item.m_beginningTimer;
+    this->m_brush = new QBrush(item.background());
+    this->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+    this->setTextAlignment(Qt::AlignCenter);
+
 }
 
 /**
@@ -42,7 +47,7 @@ CaseItem::CaseItem(const QTableWidgetItem& item) : QTableWidgetItem(item), m_col
  */
 CaseItem::~CaseItem()
 {
-	delete m_color;
+    delete m_brush;
 }
 
 /**
@@ -54,29 +59,21 @@ CaseItem::~CaseItem()
  *
  * Configure la couleur de la case.
  */
-void CaseItem::set_color(int r, int g, int b, int a) {
-    m_color->setRgb(r, g, b, a);
+void CaseItem::set_color(int r, int g, int b, int a)
+{
+    m_brush->setColor(QColor(r, g, b, a));
 
-	if(r == 255 && g == 255 && b == 255) //ugly hack, plutot faire une surcharge
-	{
-		QPalette c;
-		this->setBackground(c.color(QPalette::Base).toRgb());
-	}
-	else
-	{
-		this->setBackgroundColor(m_color->toRgb());
-	}
+    if(r == 255 && g == 255 && b == 255) //ugly hack, plutot faire une surcharge
+    {
+        QPalette c;
+        this->setBackground(c.color(QPalette::Base).toRgb());
+    }
+    else
+    {
+        this->setBackground(*m_brush);
+    }
 }
 
-/**
- * @brief CaseItem::get_color
- * @return La couleur actuelle de la case.
- *
- * Donne la couleur actuelle de la case. La couleur permet de déterminer l'état de la case.
- */
-QColor* CaseItem::get_color() const {
-	return m_color;
-}
 
 /**
  * @brief CaseItem::set_chord
@@ -86,15 +83,15 @@ QColor* CaseItem::get_color() const {
  */
 void CaseItem::set_chord(QString chord)
 {
-	if(!BasicChord::isValidForPlayer(chord))
-	{
-		setBadChordColor();
-	}
-	else
-	{
-		restoreColor();
-	}
-	this->setText(chord);
+    if(!BasicChord::isValidForPlayer(chord))
+    {
+        setBadChordColor();
+    }
+    else
+    {
+        restoreColor();
+    }
+    this->setText(chord);
 }
 
 /**
@@ -104,7 +101,7 @@ void CaseItem::set_chord(QString chord)
  * Donne le contenu de la case. Le contenu est censé être un accord.
  */
 QString CaseItem::get_chord() const {
-	return this->text();
+    return this->text();
 }
 
 /**
@@ -116,8 +113,8 @@ QString CaseItem::get_chord() const {
  */
 CaseItem* CaseItem::clone() const
 {
-	QTableWidgetItem* item = QTableWidgetItem::clone();
-	return new CaseItem((const QTableWidgetItem&) *item);
+    QTableWidgetItem* item = QTableWidgetItem::clone();
+    return new CaseItem((const CaseItem&) *item);
 }
 
 /**
@@ -126,7 +123,7 @@ CaseItem* CaseItem::clone() const
  */
 QString& CaseItem::getPart()
 {
-	return m_part;
+    return m_part;
 }
 
 /**
@@ -135,8 +132,8 @@ QString& CaseItem::getPart()
  */
 void CaseItem::setPart(QString part)
 {
-	m_part = part;
-	set_color(220, 220, 255, 255);
+    m_part = part;
+    set_color(220, 220, 255, 255);
 }
 
 /**
@@ -145,7 +142,7 @@ void CaseItem::setPart(QString part)
  */
 bool CaseItem::isPartSet()
 {
-	return m_part.length() > 0;
+    return m_part.length() > 0;
 }
 
 /**
@@ -155,8 +152,8 @@ bool CaseItem::isPartSet()
  */
 void CaseItem::setBeginning(QTime t, bool timerManuallySet)
 {
-	m_beginningTimer = t;
-	m_timerManuallySet = timerManuallySet;
+    m_beginningTimer = t;
+    m_timerManuallySet = timerManuallySet;
 }
 
 /**
@@ -165,7 +162,7 @@ void CaseItem::setBeginning(QTime t, bool timerManuallySet)
  */
 QTime CaseItem::getBeginning()
 {
-	return m_beginningTimer;
+    return m_beginningTimer;
 }
 
 /**
@@ -174,7 +171,7 @@ QTime CaseItem::getBeginning()
  */
 bool CaseItem::isTimerManuallySet()
 {
-	return m_timerManuallySet;
+    return m_timerManuallySet;
 }
 
 /**
@@ -183,7 +180,7 @@ bool CaseItem::isTimerManuallySet()
  */
 bool CaseItem::isPartEditable()
 {
-	return m_partEditable;
+    return m_partEditable;
 }
 
 /**
@@ -194,7 +191,7 @@ bool CaseItem::isPartEditable()
  */
 void CaseItem::play(bool value)
 {
-	m_currentlyPlaying = value;
+    m_currentlyPlaying = value;
 }
 
 /**
@@ -205,7 +202,7 @@ void CaseItem::play(bool value)
  */
 void CaseItem::setPlayColor()
 {
-	set_color(20, 250, 0);
+    set_color(20, 250, 0);
 }
 
 /**
@@ -214,7 +211,7 @@ void CaseItem::setPlayColor()
  */
 bool CaseItem::isBeingPlayed()
 {
-	return m_currentlyPlaying;
+    return m_currentlyPlaying;
 }
 
 /**
@@ -234,7 +231,7 @@ void CaseItem::restoreColor()
  */
 void CaseItem::setBadChordColor()
 {
-	set_color(255, 150, 150);
+    set_color(255, 150, 150);
 }
 
 /**
@@ -244,5 +241,5 @@ void CaseItem::setBadChordColor()
  */
 void CaseItem::setBadTimeColor()
 {
-	set_color(255, 165, 0);
+    set_color(255, 165, 0);
 }

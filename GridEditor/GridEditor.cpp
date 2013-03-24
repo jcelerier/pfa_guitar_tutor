@@ -7,18 +7,18 @@ Last change on 08/05/12
 #include "GridEditor.h"
 #include <QtWidgets/QFileDialog>
 #include <QDebug>
+
 /**
  * @brief GridEditor::GridEditor
  *
  * Constructeur de la grille d'accords.
  */
-GridEditor::GridEditor(): trackProperties(new TrackProperties(this))
+GridEditor::GridEditor(): trackProperties(new TrackProperties(this)), saveQueue(new SaveQueue(this))
 {
 	isPanelSet = false;
 	editorPanel = 0;
 	grid = 0;
 	helpWindow = 0;
-	statePacket = 0;
 	//trackProperties = new TrackProperties(this);
 	audioWindow = new AudioWindow(this);
 
@@ -29,8 +29,8 @@ GridEditor::GridEditor(): trackProperties(new TrackProperties(this))
 
 	editorPanel = new EditorPanel(grid, audioWindow, trackProperties, this);
 
-    setWindowTitle("GridEditor");
-    resize(800, 600); //Taille de la fenêtre
+	setWindowTitle("GridEditor");
+	resize(800, 600); //Taille de la fenêtre
 	createMenu();
 	createActions();
 	setActionsToMenu();
@@ -42,6 +42,7 @@ GridEditor::GridEditor(): trackProperties(new TrackProperties(this))
 
 	settings = new QSettings("GuitarTutor", "GridEditor"); //Permet de retenir la configuration du logiciel
 	connect(trackProperties, SIGNAL(timeSignatureChanged(int)), audioWindow, SIGNAL(timeSignatureChanged(int)));
+//	connect(trackProperties, SIGNAL(somethingChanged()), saveQueue, SIGNAL(save()));
 }
 
 /**
@@ -135,6 +136,8 @@ void GridEditor::createActions(){
 	deleteColumnAction->setEnabled(false);
 	openAudioWindowAction->setEnabled(false);
 	openTrackPropertiesAction->setEnabled(false);
+	undoAction->setEnabled(false);
+	redoAction->setEnabled(false);
 
 	newAction->setShortcut(QKeySequence::New);
 	openAction->setShortcut(QKeySequence::Open);
@@ -214,7 +217,7 @@ void GridEditor::createCentralWidget() {
  *
  * Instancie une nouvelle grille, et crée les widgets, actions, connections, etc... correspondants
  */
-void GridEditor::createGrid(int columns, int rows)
+void GridEditor::createGrid(int columns, int rows, bool createdFromUndo)
 {
 	if(grid != 0)
 	{
@@ -225,8 +228,12 @@ void GridEditor::createGrid(int columns, int rows)
 
 	connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
 	connect(grid, SIGNAL(play(int)), this, SIGNAL(play(int)));
+	if(!createdFromUndo)
+	{
+		connect(grid, SIGNAL(somethingChanged()), saveQueue, SIGNAL(save()));
+	}
 
-    connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
+	connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
 	connect(this, SIGNAL(sigTimeData(QTime)), grid, SLOT(isPlayingAt(QTime)));
 
 	connect(trackProperties, SIGNAL(barsizeChanged(int)), grid, SIGNAL(barsizeChanged(int)));
@@ -263,7 +270,7 @@ void GridEditor::createGrid(int columns, int rows)
 
 		layout->addWidget(editorPanel, 0, 1);
 		isPanelSet = true;
-    }
+	}
 }
 
 /**
@@ -287,8 +294,8 @@ void GridEditor::connectActionToSlot()
 	connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
 	connect(helpAction, SIGNAL(triggered()), this, SLOT(help()));
 
-	connect(undoAction, SIGNAL(triggered()), this, SLOT(saveState()));
-	connect(redoAction, SIGNAL(triggered()), this, SLOT(restoreState()));
+	connect(undoAction, SIGNAL(triggered()), saveQueue, SLOT(undo()));
+	connect(redoAction, SIGNAL(triggered()), saveQueue, SLOT(redo()));
 
 	connect(this, SIGNAL(play(int)), audioWindow, SLOT(playFrom(int)));
 }
@@ -334,6 +341,8 @@ void GridEditor::firstNewGrid()
 	m_barsize = trackProperties->getBarSize();
 
 	createGrid(newGridDialog->getColumns() + 1, newGridDialog->getLines());
+
+	saveQueue->firstSave();
 }
 
 
@@ -365,8 +374,10 @@ void GridEditor::newGrid()
 		m_barsize = trackProperties->getBarSize();
 
 		createGrid(newGridDialog->getColumns() + 1, newGridDialog->getLines());
+		saveQueue->firstSave();
 	}
 	delete newGridDialog;
+
 }
 
 /**
@@ -416,7 +427,7 @@ void GridEditor::toXML(QString filename)
 	track->setArtist(trackProperties->getArtist());
 	track->setMesure(trackProperties->getBarSize());
 	track->setComment(trackProperties->getComment());
-    track->setTimeSignature(trackProperties->getTimeSignature());
+	track->setTimeSignature(trackProperties->getTimeSignature());
 	track->setLine(grid->rowCount());
 	track->setColumn(grid->columnCount() - 1);
 	track->setAudioFileName(audioWindow->getFilename()); //vérifier si chemin absolu
@@ -458,22 +469,23 @@ void GridEditor::fromXML()
 	trackProperties->setTrack(track->getTrackName());
 	trackProperties->setArtist(track->getArtist());
 	trackProperties->setBarSize(track->getMesure());
-    m_barsize = trackProperties->getBarSize();
+	m_barsize = trackProperties->getBarSize();
 	trackProperties->setComment(track->getComment());
-    trackProperties->setTimeSignature(track->getTimeSignature());
+	trackProperties->setTimeSignature(track->getTimeSignature());
 
-    audioWindow->setAudioFileName(track->getAudioFileName()); //vérifier si chemin absolu
+	audioWindow->setAudioFileName(track->getAudioFileName()); //vérifier si chemin absolu
 	audioWindow->setAudioFile();
-    audioWindow->setBar(track->getBar());
-    audioWindow->setBeginning(track->getBeginning());
-    audioWindow->setEnd(track->getEnd());
+	audioWindow->setBar(track->getBar());
+	audioWindow->setBeginning(track->getBeginning());
+	audioWindow->setEnd(track->getEnd());
 
 
 	createGrid(track->getColumn() + 1, track->getLine());
 	grid->setLogicalTrack(track);
 
-    emit trackProperties->barsizeChanged(track->getMesure());
+	emit trackProperties->barsizeChanged(track->getMesure());
 
+	saveQueue->firstSave();
 	delete track;
 }
 
@@ -581,18 +593,14 @@ void GridEditor::help()
 	helpWindow->exec();
 }
 
-void GridEditor::saveState()
+
+
+void GridEditor::enableUndo(bool b)
 {
-	if(statePacket != 0) delete statePacket;
-	statePacket = new StatePacket(grid,
-								  MsecToTime(audioWindow->getBeginning()), MsecToTime(audioWindow->getBar()), MsecToTime(audioWindow->getEnd()),
-								  trackProperties->getArtist(), trackProperties->getTrack(),
-								  trackProperties->getBarSize(),(int) trackProperties->getTimeSignature());
+	undoAction->setEnabled(b);
 }
 
-void GridEditor::restoreState()
+void GridEditor::enableRedo(bool b)
 {
-	createGrid(statePacket->grid->rowCount(), statePacket->grid->columnCount());
-	statePacket->grid->deepCopy(grid);
+	redoAction->setEnabled(b);
 }
-

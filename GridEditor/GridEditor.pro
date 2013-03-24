@@ -28,7 +28,8 @@ SOURCES += \
 	WaveformTimeBar.cpp \
 	WaveformTimeSlider.cpp \
 	CaseItemDelegate.cpp \
-	StatePacket.cpp
+	StatePacket.cpp \
+    SaveQueue.cpp
 
 HEADERS += \
 	CaseItem.h \
@@ -51,7 +52,8 @@ HEADERS += \
 	WaveformTimeBar.h \
 	WaveformTimeSlider.h \
 	CaseItemDelegate.h \
-	StatePacket.h
+	StatePacket.h \
+    SaveQueue.h
 
 TRANSLATIONS = GridEditor_fr.ts
 
