@@ -63,14 +63,21 @@ void PlayerScene::disposeScene()
     QFont titleFont("Roboto" ,20);
 
 	// Couleur de fond
-	QColor bgColor(34, 14, 30);
-	setBackgroundBrush(bgColor);
+    QColor bgColor(34, 14, 30);
+    setBackgroundBrush(bgColor);
 
 	// Image de fond
-	QPixmap bgImg(":/images/bgwide.png");
-	m_itemMap["backgnd"] = addPixmap(bgImg);
-	((QGraphicsPixmapItem*) m_itemMap["backgnd"])->setTransformationMode(Qt::SmoothTransformation);
+    m_itemMap["b"] = addPixmap(QPixmap(":/images/maskplaying.png"));
+    ((QGraphicsPixmapItem*) m_itemMap["b"])->setTransformationMode(Qt::SmoothTransformation);
+    ((QGraphicsPixmapItem*) m_itemMap["b"])->setPos(0,0);
 
+    m_itemMap["c"] = new QGraphicsPixmapItem(QPixmap(":/images/maskscrolling.png"), m_itemMap["b"]);
+    ((QGraphicsPixmapItem*) m_itemMap["c"])->setTransformationMode(Qt::SmoothTransformation);
+    ((QGraphicsPixmapItem*) m_itemMap["c"])->setPos(0,0);
+
+    m_itemMap["backgnd"] = new QGraphicsPixmapItem(QPixmap(":/images/bgwide.png"), m_itemMap["c"]);
+    ((QGraphicsPixmapItem*) m_itemMap["backgnd"])->setTransformationMode(Qt::SmoothTransformation);
+    ((QGraphicsPixmapItem*) m_itemMap["backgnd"])->setPos(0,0);
 	// Bouton de menu
 	QPixmap menuBtnImage(":/images/menu.png");
 	m_itemMap["menuBtn"] = new ButtonItem(menuBtnImage, m_itemMap["backgnd"]);
@@ -234,10 +241,8 @@ void PlayerScene::pause()
 }
 void PlayerScene::stop()
 {
-	if(m_isPlaying) {
 		m_isPlaying = false;
 		m_controler->stopSong();
-	}
 }
 void PlayerScene::back()
 {
@@ -426,14 +431,17 @@ void PlayerScene::loadSong(LogicalTrack* track) {
     m_itemMap["entireSong"] = new EntireSong(m_itemMap["backgnd"]);
     ((EntireSong*) m_itemMap["entireSong"])->load(track);
 
-    m_itemMap["scrollingChords"] = new ScrollingItem(m_itemMap["backgnd"]);
+    m_itemMap["scrollingChords"] = new ScrollingItem(m_itemMap["b"]);
     ((ScrollingItem*) m_itemMap["scrollingChords"])->load(track);
 
     m_dictionary->load(track);
 
     // Ordonnancement des couches
-    m_itemMap["scrollingChords"]->setZValue(10);
-    m_itemMap["entireSong"]->setZValue(10);
+    m_itemMap["b"]->setZValue(0);
+    m_itemMap["c"]->setZValue(5);
+    m_itemMap["backgnd"]->setZValue(15);
+    m_itemMap["scrollingChords"]->setZValue(2);
+    m_itemMap["entireSong"]->setZValue(20);
     m_itemMap["menu"]->setZValue(50);
     switchMenu(false);
 

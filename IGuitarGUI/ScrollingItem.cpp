@@ -28,7 +28,7 @@ ScrollingItem::ScrollingItem(QGraphicsItem *parent) :
     QGraphicsSimpleTextItem* maskingTextContainer = new QGraphicsSimpleTextItem(this);
     maskingTextContainer->setFlag(QGraphicsItem::ItemDoesntPropagateOpacityToChildren, true);
     maskingTextContainer->setOpacity(0.9); // Pour ne pas voir le masque mais qu'il ne soit pas desactivé
-    maskingTextContainer->setGraphicsEffect(textMasking);
+    //maskingTextContainer->setGraphicsEffect(textMasking);
 
     m_scrollingTextContainer = new QGraphicsItemGroup(maskingTextContainer);
     /*
