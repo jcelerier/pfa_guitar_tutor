@@ -21,6 +21,7 @@ class WaveformTimeBar : public QWidget
 		void drawText();
 		void drawTimeSliders();
 
+
 		void drawTextAtTime(int s_time);
 		void drawSlider(WaveformTimeSlider* slider);
 

@@ -129,6 +129,11 @@ void WaveformTimeBar::mousePressEvent(QMouseEvent * event)
 	{
 		clickedSlider = end_slider;
 	}
+//    else if(play_slider->getPos()<= event->x() &&
+//            event->x() <= play_slider->getPos() + play_slider->getPixmapSize().width())
+//    {
+//        clickedSlider = play_slider;
+//    }
 	else
 	{
 		clickedSlider = 0;
@@ -282,10 +287,15 @@ void WaveformTimeBar::setTimer(int type, QTime t)
 			bar_slider->setTime(QTimeToSample(t));
 			break;
 		case TIMER_END:
-			end_slider->setTime(QTimeToSample(t));
+            end_slider->setTime(QTimeToSample(t));
 			break;
-		default:
+        case TIMER_PLAY:
+            play_slider->setTime(QTimeToSample(t));
+            break;
+        default:
 			break;
+
+
 	}
 	update();
 
@@ -295,6 +305,7 @@ void WaveformTimeBar::setPlayerTimer(QTime t)
 {
 	play_slider->setTime(QTimeToSample(t));
 	update();
+    update();
 }
 
 
@@ -307,3 +318,4 @@ void WaveformTimeBar::deactivate()
 {
 	activated = false;
 }
+

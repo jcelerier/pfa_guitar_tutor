@@ -177,7 +177,7 @@ QString AudioWindow::getFilename()
 void AudioWindow::playFrom(int t)
 {
 	player->play();
-	player->changePosition( t);
+    player->changePosition(t);
 }
 
 /**
