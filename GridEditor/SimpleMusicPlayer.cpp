@@ -2,6 +2,7 @@
 #include "AudioWindow.h"
 #include <Util.hpp>
 #include <QtWidgets/QMessageBox>
+#include <QDebug>
 
 
 
@@ -58,9 +59,9 @@ SimpleMusicPlayer::SimpleMusicPlayer(QWidget* parent) : QWidget(parent)
 	connect(timer, SIGNAL(timeout()), this, SLOT(updateSlideBar()));
 	connect(playTimer, SIGNAL(timeout()), this, SLOT(sendTimeData()));
 
-	connect(this, SIGNAL(sigTimeData(QTime)), waveform, SLOT(setPlayerTimer(QTime)));
-	connect(this, SIGNAL(sigTimeData(QTime)), waveformTimeBar, SLOT(setPlayerTimer(QTime)));
-
+    connect(this, SIGNAL(sigTimeData(QTime)), waveform, SLOT(setPlayerTimer(QTime)));
+    connect(this, SIGNAL(sigTimeData(QTime)), waveformTimeBar, SLOT(setPlayerTimer(QTime)));
+    connect(waveformTimeBar, SIGNAL(playSliderModified(int)), this, SLOT(changePosition(int)));
 
 	connect(slideBar, SIGNAL(sliderMoved(int)), this, SLOT(changePosition(int)));
 

@@ -1,7 +1,7 @@
 #include "WaveformTimeBar.h"
 #include "SimpleMusicPlayer.h"
 #include "AudioSync.h"
-
+#include <QDebug>
 
 
 WaveformTimeBar::WaveformTimeBar(const QTime& song_end, QWidget *parent) :
@@ -23,6 +23,7 @@ WaveformTimeBar::WaveformTimeBar(const QTime& song_end, QWidget *parent) :
 	connect(begin_slider, SIGNAL(timeChanged(int, QTime)), this, SIGNAL(timeChanged(int,QTime)));
 	connect(bar_slider, SIGNAL(timeChanged(int, QTime)), this, SIGNAL(timeChanged(int,QTime)));
 	connect(end_slider, SIGNAL(timeChanged(int, QTime)), this, SIGNAL(timeChanged(int,QTime)));
+
 
 	layout->setContentsMargins(0, 0, 0, 0);
 
@@ -108,6 +109,10 @@ void WaveformTimeBar::mouseMoveEvent(QMouseEvent * event)
 		float sample = clickPercent * (s_end - s_begin) + s_begin;
 
 		clickedSlider->private_setTime(sample);
+        if(clickedSlider == play_slider){
+            QTime t = SampleToQTime(sample);
+            emit(playSliderModified(TimeToMsec(t)));
+        }
 		update();
 	}
 }
@@ -129,11 +134,11 @@ void WaveformTimeBar::mousePressEvent(QMouseEvent * event)
 	{
 		clickedSlider = end_slider;
 	}
-//    else if(play_slider->getPos()<= event->x() &&
-//            event->x() <= play_slider->getPos() + play_slider->getPixmapSize().width())
-//    {
-//        clickedSlider = play_slider;
-//    }
+    else if(play_slider->getPos()<= event->x() &&
+            event->x() <= play_slider->getPos() + play_slider->getPixmapSize().width())
+    {
+       clickedSlider = play_slider;
+    }
 	else
 	{
 		clickedSlider = 0;
@@ -295,7 +300,6 @@ void WaveformTimeBar::setTimer(int type, QTime t)
         default:
 			break;
 
-
 	}
 	update();
 
@@ -305,9 +309,7 @@ void WaveformTimeBar::setPlayerTimer(QTime t)
 {
 	play_slider->setTime(QTimeToSample(t));
 	update();
-    update();
 }
-
 
 void WaveformTimeBar::activate()
 {

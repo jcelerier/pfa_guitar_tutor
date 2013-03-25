@@ -39,13 +39,14 @@ class WaveformTimeBar : public QWidget
 	signals:
 		void timeChanged(int, QTime);
 		void somethingChanged();
+        void playSliderModified(int position);
 
 	public slots:
 		void update();
 		void setTimer(int type, QTime t);
 		void setPlayerTimer(QTime t);
 		void activate();
-		void deactivate();
+        void deactivate();
 
 	protected:
 		void paintEvent(QPaintEvent *event);
