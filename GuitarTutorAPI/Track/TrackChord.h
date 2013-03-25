@@ -4,6 +4,11 @@
 #include <QString>
 #include "../GuitarTutor/Chord.h"
 
+/**
+ * @brief Permet de représenter un accord en mémoire de manière plus haut
+ * niveau que BasicChord. Cette sructure cache le système "note+enrichissement".
+ */
+
 class PartTrack;
 
 class TrackChord {

@@ -3,6 +3,10 @@
 
 #include <QString>
 #include "PartTrack.h"
+/**
+ * @brief Permet de représenter un morceau en mémoire. Ces attributs représentent les différentes
+ * informations mémorisé.
+ */
 
 class LogicalTrack {
 

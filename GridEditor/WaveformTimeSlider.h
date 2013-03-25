@@ -3,6 +3,11 @@
 
 #include <QWidget>
 #include <QTime>
+
+/**
+ * @brief Slider pour la barre de temps du morceau lu.
+ */
+
 class WaveformTimeSlider : public QWidget
 {
 		Q_OBJECT

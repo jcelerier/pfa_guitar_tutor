@@ -4,6 +4,11 @@
 #include <QList>
 #include "TrackChord.h"
 
+/**
+ * @brief Représente une partie d'un morceau sous forme d'une suite d'accord.
+ * (par exemple l'intro ou un couplet).
+ */
+
 class PartTrack
 {
 	public:

@@ -5,7 +5,6 @@
  *
  * Constructeur par défaut de la classe PartTrack
  */
-
 PartTrack::PartTrack() {
 
 }
@@ -16,7 +15,6 @@ PartTrack::PartTrack() {
  *
  * Constructeur surchargé de la classe PartTrack
  */
-
 PartTrack::PartTrack(QString newPartName) {
 
 	partName = newPartName;
@@ -32,8 +30,6 @@ PartTrack::PartTrack(QString newPartName, QList<TrackChord*> newListChords){
  *
  * Destructeur de la classe PartTrack
  */
-
-
 PartTrack::~PartTrack() {
 
 	for(QList<TrackChord*>::Iterator i = listTrackChords.begin(); i != listTrackChords.end() ; i++)
@@ -46,21 +42,34 @@ PartTrack::~PartTrack() {
  *
  * Fonction de d'ajout d'accord dans l'attribut listTrackChord
  */
-
-
 void PartTrack::AddChord(TrackChord * c)
 {
 	listTrackChords.append(c);
 }
 
+/**
+ * @brief PartTrack::getChord
+ *
+ * Permet de récupérer le nom d'une partie.
+ */
 QString PartTrack::getPartName(){
 	return partName;
 }
 
+/**
+ * @brief PartTrack::getChord
+ *
+ * Permet de récupérer la liste des accords correspondant à une partie.
+ */
 QList<TrackChord*> PartTrack::getTrackChordsList(){
 	return listTrackChords;
 }
 
+/**
+ * @brief PartTrack::incrementCurrentChordRepetition
+ *
+ * Augmente la valeur du nombre de répétition d'un .
+ */
 void PartTrack::incrementCurrentChordRepetition()
 {
 	listTrackChords.last()->setRepetition(listTrackChords.last()->getRepetition() + 1);

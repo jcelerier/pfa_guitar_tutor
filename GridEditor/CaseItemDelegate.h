@@ -4,6 +4,11 @@
 #include <QStyledItemDelegate>
 #include "CaseItem.h"
 
+/**
+ * @brief Permet de dessiner ou d'ajouter de la couleur dans les case
+ * de l'éditeur.
+ */
+
 class CaseItemDelegate : public QStyledItemDelegate
 {
 		Q_OBJECT
