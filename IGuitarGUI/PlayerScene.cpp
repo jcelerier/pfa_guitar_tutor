@@ -64,18 +64,18 @@ void PlayerScene::disposeScene()
 
 	// Couleur de fond
     QColor bgColor(34, 14, 30);
-    setBackgroundBrush(bgColor);
+    //setBackgroundBrush(bgColor);
 
-	// Image de fond
-    m_itemMap["b"] = addPixmap(QPixmap(":/images/maskplaying.png"));
-    ((QGraphicsPixmapItem*) m_itemMap["b"])->setTransformationMode(Qt::SmoothTransformation);
-    ((QGraphicsPixmapItem*) m_itemMap["b"])->setPos(0,0);
+    //Couches de masquage pour les accords defilants
+    m_itemMap["maskPlay"] = addPixmap(QPixmap(":/images/maskplaying.png"));
+    ((QGraphicsPixmapItem*) m_itemMap["maskPlay"])->setTransformationMode(Qt::SmoothTransformation);
+    ((QGraphicsPixmapItem*) m_itemMap["maskPlay"])->setPos(0,0);
 
-    m_itemMap["c"] = new QGraphicsPixmapItem(QPixmap(":/images/maskscrolling.png"), m_itemMap["b"]);
-    ((QGraphicsPixmapItem*) m_itemMap["c"])->setTransformationMode(Qt::SmoothTransformation);
-    ((QGraphicsPixmapItem*) m_itemMap["c"])->setPos(0,0);
+    m_itemMap["maskScroll"] = addPixmap(QPixmap(":/images/maskscrolling.png"));
+    ((QGraphicsPixmapItem*) m_itemMap["maskScroll"])->setTransformationMode(Qt::SmoothTransformation);
 
-    m_itemMap["backgnd"] = new QGraphicsPixmapItem(QPixmap(":/images/bgwide.png"), m_itemMap["c"]);
+    // Image de fond
+    m_itemMap["backgnd"] = addPixmap(QPixmap(":/images/bgwide.png"));
     ((QGraphicsPixmapItem*) m_itemMap["backgnd"])->setTransformationMode(Qt::SmoothTransformation);
     ((QGraphicsPixmapItem*) m_itemMap["backgnd"])->setPos(0,0);
 	// Bouton de menu
@@ -207,6 +207,8 @@ void PlayerScene::mousePressEvent(QGraphicsSceneMouseEvent*e)
 
 void PlayerScene::play()
 {
+    if(m_itemMap["menu"]->isVisible())
+        return;
     int cntTime;
     if(m_loaded) {
         if(!m_isPlaying) {
@@ -234,6 +236,9 @@ void PlayerScene::play()
 }
 void PlayerScene::pause()
 {
+    if(m_itemMap["menu"]->isVisible())
+        return;
+
 	if(m_isPlaying) {
 		m_isPlaying = false;
 		m_controler->pauseSong();
@@ -241,11 +246,21 @@ void PlayerScene::pause()
 }
 void PlayerScene::stop()
 {
-		m_isPlaying = false;
-		m_controler->stopSong();
+    if(m_itemMap["menu"]->isVisible())
+        return;
+
+    if(m_cntdown>0)
+    {
+        m_cntTimer->stop();
+        ((QGraphicsTextItem*)m_itemMap["countDown"])->setPlainText("");
+    }
+    m_isPlaying = false;
+    m_controler->stopSong();
 }
 void PlayerScene::back()
 {
+    if(m_itemMap["menu"]->isVisible())
+        return;
     stop();
 	play();
 }
@@ -264,6 +279,8 @@ void PlayerScene::switchMute()
 
 void PlayerScene::switchPlay()
 {
+    if(m_itemMap["menu"]->isVisible())
+        return;
 	if(m_isPlaying)
 	{
 		pause();
@@ -282,8 +299,6 @@ void PlayerScene::switchPlay()
 void PlayerScene::switchMenu()
 {
     switchMenu(!m_itemMap["menu"]->isVisible());
-    if(m_itemMap["menu"]->isVisible())
-        pause();
 }
 
 /**
@@ -431,16 +446,16 @@ void PlayerScene::loadSong(LogicalTrack* track) {
     m_itemMap["entireSong"] = new EntireSong(m_itemMap["backgnd"]);
     ((EntireSong*) m_itemMap["entireSong"])->load(track);
 
-    m_itemMap["scrollingChords"] = new ScrollingItem(m_itemMap["b"]);
+    m_itemMap["scrollingChords"] = new ScrollingItem(m_itemMap["maskPlay"]);
     ((ScrollingItem*) m_itemMap["scrollingChords"])->load(track);
 
     m_dictionary->load(track);
 
     // Ordonnancement des couches
-    m_itemMap["b"]->setZValue(0);
-    m_itemMap["c"]->setZValue(5);
-    m_itemMap["backgnd"]->setZValue(15);
+    m_itemMap["maskPlay"]->setZValue(0);
     m_itemMap["scrollingChords"]->setZValue(2);
+    m_itemMap["maskScroll"]->setZValue(5);
+    m_itemMap["backgnd"]->setZValue(15);
     m_itemMap["entireSong"]->setZValue(20);
     m_itemMap["menu"]->setZValue(50);
     switchMenu(false);

@@ -5,7 +5,7 @@ MyView::MyView(QGraphicsScene * scene, QWidget * parent) :
 	QGraphicsView(scene, parent)
 {
 	setViewport(new QGLWidget); //OPENGL BITCHES
-	setSceneRect(0, 0, Configuration::originalWidth-20, Configuration::originalHeight-20);
+    setSceneRect(0, 0, Configuration::originalWidth-4, Configuration::originalHeight-4);
 	centerOn(Configuration::originalWidth/2, Configuration::originalHeight/2);
 
 	scale(Configuration::getQuotient(), Configuration::getQuotient()); // Adaptation a l'ecran
