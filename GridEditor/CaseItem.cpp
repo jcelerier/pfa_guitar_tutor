@@ -25,10 +25,11 @@ CaseItem::CaseItem(const bool partEditable) :  QTableWidgetItem(), m_brush(new Q
  * @brief CaseItem::CaseItem
  * @param item
  *
- * Constructeur surchagé (ressemble vaguement à une copie.)
+ * Constructeur par recopie
  */
 CaseItem::CaseItem(const CaseItem& item): QTableWidgetItem(item)
 {
+	this->m_currentlyPlaying = item.m_currentlyPlaying;
 	this->text() = item.text();
 	if(!item.m_part.isNull())
 		this->m_part = item.m_part;

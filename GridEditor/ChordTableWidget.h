@@ -36,6 +36,7 @@ class ChordTableWidget : public QTableWidget
 	int m_barsize;
 
 	QMenu* m_rightClickMenu;
+	CaseItem* m_savedItem;
 	CaseItem* m_currentItem;
 	CaseItem* m_lastPlayedCase;
 	CaseItemDelegate* m_caseItemDelegate;
@@ -68,6 +69,7 @@ signals:
 	void barsizeChanged(int);
 	void somethingChanged();
 
+
 public slots:
 	void ShowContextMenu(const QPoint& pos);
 	void showProperties();
@@ -90,11 +92,10 @@ public slots:
 	void setTimeInfo(const QTime beginning, const QTime bar, const QTime end);
 	void isPlayingAt(QTime t);
 
-	void itemChanged_slot(QTableWidgetItem* item);
+	void currentItemChanged_slot(QTableWidgetItem* current, QTableWidgetItem* previous);
+	void itemChanged_slot(QTableWidgetItem* qitem);
 
 	void setBarSize(int);
-
-	//void onClick(int row, int column);
 };
 
 #endif // CHORDTABLEWIDGET_H

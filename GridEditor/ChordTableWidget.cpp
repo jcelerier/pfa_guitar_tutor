@@ -17,6 +17,9 @@ Last change on 08/05/12
 #include <Util.hpp>
 #include "GridEditor.h"
 
+
+#include <QDebug>
+
 /**
  * @brief ChordTableWidget::ChordTableWidget
  * @param column Nombre de colonnes
@@ -24,9 +27,8 @@ Last change on 08/05/12
  *
  * Initialise la grille d'accords à une taille donnée.
  */
-ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent) : QTableWidget(parent), m_barsize(1)
+ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent) : QTableWidget(parent), m_barsize(1), m_savedItem(0)
 {
-
 	setEnabled(false);
 	setColumnCount(column);
 	insert_row(0, row);
@@ -48,8 +50,6 @@ ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent) : QTabl
 	}
 	this->setEnabled(true);
 
-
-
 	//menu clic droit
 	m_rightClickMenu = new QMenu();
 
@@ -69,6 +69,7 @@ ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent) : QTabl
 
 	// gestion des erreurs de saisie
 	connect(this, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(itemChanged_slot(QTableWidgetItem*)));
+	connect(this, SIGNAL(currentItemChanged(QTableWidgetItem* , QTableWidgetItem* )), this, SLOT(currentItemChanged_slot(QTableWidgetItem* , QTableWidgetItem* )));
 
 	m_currentItem = (CaseItem*) this->item(0, 0);
 	m_lastPlayedCase = 0;
@@ -167,7 +168,8 @@ QList<QList<int>*> ChordTableWidget::rows_selected() {
  *
  * Insère une ou plusieurs nouvelles lignes dans la grille à une position donnée.
  */
-void ChordTableWidget::insert_row(int pos, int num) {
+void ChordTableWidget::insert_row(int pos, int num)
+{
 	for (int i = 0 ; i < num ; i ++) {
 		this->insertRow(pos);
 		for (int c = 0 ; c < this->columnCount() - 1 ; c ++) {
@@ -186,13 +188,18 @@ void ChordTableWidget::insert_row(int pos, int num) {
  * @todo insérer SOIT après la case sélectionnée (si une seule case sélectionnée), SOIT à la fin du fichier
  */
 void ChordTableWidget::insert_row() {
-	if (is_row_selected()) {
+	if (is_row_selected())
+	{
 		QList<int> rows = expand_list(rows_selected());
 		for (QList<int>::Iterator it = rows.begin() ; it != rows.end() ; it ++)
 			insert_row(*it);
 	}
 	else
+	{
 		insert_row(this->rowCount());
+	}
+
+	emit somethingChanged();
 }
 
 /**
@@ -301,6 +308,7 @@ void ChordTableWidget::delete_selected_row() {
 			}
 		}
 	}
+	emit somethingChanged();
 }
 
 /**
@@ -353,6 +361,7 @@ void ChordTableWidget::delete_selected_column() {
 			}
 		}
 	}
+	emit somethingChanged();
 }
 
 /**
@@ -369,6 +378,8 @@ void ChordTableWidget::insert_column() {
 		this->setItem(c, columnCount()-2, new CaseItem());
 		this->setColumnWidth(c, 60);
 	}
+
+	emit somethingChanged();
 }
 
 
@@ -749,26 +760,46 @@ void ChordTableWidget::isPlayingAt(QTime t)
  *
  * Méthode qui met la case dans un état bon ou mauvais.
  */
-void ChordTableWidget::itemChanged_slot(QTableWidgetItem *item)
+void ChordTableWidget::itemChanged_slot(QTableWidgetItem *qitem)
 {
-	emit somethingChanged();
+	CaseItem* item = (CaseItem*) qitem;
+	if((m_savedItem != 0 && item->text() != m_savedItem->text()) || (m_savedItem == 0))
+	{
+		emit somethingChanged();
+		currentItemChanged_slot(item, 0); //on met à jour m_savedItem avec le texte nouvellement entré
+	}
+
 	if(item->column() < columnCount() -1)
 	{
-		if(!BasicChord::isValidForPlayer(((CaseItem *)item)->get_chord()))
+		if(!BasicChord::isValidForPlayer(item->get_chord()))
 		{
-			((CaseItem *)item)->setBadChordColor();
+			item->setBadChordColor();
 		}
-		else if (((CaseItem *)item)->isBeingPlayed())
+		else if (item->isBeingPlayed())
 		{
-			((CaseItem *)item)->setPlayColor();
+			item->setPlayColor();
 		}
 		else
 		{
-			((CaseItem *)item)->restoreColor();
+			item->restoreColor();
 		}
 	}
 }
 
+
+void ChordTableWidget::currentItemChanged_slot(QTableWidgetItem* current, QTableWidgetItem* previous)
+{
+	if(current->column() != columnCount() - 1)
+	{
+	if(m_savedItem != 0)
+	{
+		delete m_savedItem;
+	}
+
+	m_savedItem = new CaseItem(*((CaseItem*)current));
+
+	}
+}
 /**
  * @brief ChordTableWidget::setBarSize
  * @param t Nombre d'accords par mesure

@@ -30,11 +30,7 @@ void SaveQueue::clear()
 
 void SaveQueue::saveSlot()
 {
-	mod = (mod + 1) % 2;
-	if(mod)
-	{
-		saveState(false); // pour les undo
-	}
+	saveState(false); // pour les undo
 }
 
 StatePacket* SaveQueue::currentEditorState()
