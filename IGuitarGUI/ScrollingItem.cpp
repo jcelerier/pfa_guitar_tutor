@@ -18,22 +18,29 @@ ScrollingItem::ScrollingItem(QGraphicsItem *parent) :
 {
     m_controler = (Controler*) scene()->parent();
 
-
-
     // Conteneur pour les accords défilants
     QPixmap playingMask(":/images/maskplaying.png");
-    QGraphicsSimpleTextItem* maskingTextContainer = new QGraphicsSimpleTextItem(this);
-    maskingTextContainer->setFlag(QGraphicsItem::ItemDoesntPropagateOpacityToChildren, true);
-    maskingTextContainer->setOpacity(0.01); // Pour ne pas voir le masque mais qu'il ne soit pas desactivé
-
-    // Masque pour cacher ce qui est hors du cadre
-    QGraphicsOpacityEffect* textMasking = new QGraphicsOpacityEffect();
     QBrush brushMask(playingMask);
+    QGraphicsOpacityEffect* textMasking = new QGraphicsOpacityEffect(); // Masque pour cacher ce qui est hors du cadre
     textMasking->setOpacity(0.9);
     textMasking->setOpacityMask(brushMask);
-    maskingTextContainer->setGraphicsEffect(textMasking);
-    m_scrollingTextContainer = new QGraphicsItemGroup(maskingTextContainer);
 
+    QGraphicsSimpleTextItem* maskingTextContainer = new QGraphicsSimpleTextItem(this);
+    maskingTextContainer->setFlag(QGraphicsItem::ItemDoesntPropagateOpacityToChildren, true);
+    maskingTextContainer->setOpacity(0.9); // Pour ne pas voir le masque mais qu'il ne soit pas desactivé
+    maskingTextContainer->setGraphicsEffect(textMasking);
+
+    m_scrollingTextContainer = new QGraphicsItemGroup(maskingTextContainer);
+    /*
+    // Conteneur pour les accords défilants
+    QPixmap playingMask(":/images/maskplaying.png");
+    QBrush brushMask(playingMask);
+    QGraphicsOpacityEffect* textMasking = new QGraphicsOpacityEffect(); // Masque pour cacher ce qui est hors du cadre
+    textMasking->setOpacityMask(brushMask);
+
+    m_scrollingTextContainer = new QGraphicsItemGroup(this);
+    m_scrollingTextContainer->setGraphicsEffect(textMasking);
+*/
     m_scrollingTextContainer->setPos(m_initialPos);
 
 
@@ -48,7 +55,7 @@ ScrollingItem::ScrollingItem(QGraphicsItem *parent) :
 void ScrollingItem::load(LogicalTrack * lt) {
     m_track = lt;
 
-    QFont scrollingChordFont(":qrc/fonts/Roboto-Regular.ttf", 60);
+    QFont scrollingChordFont("Roboto", 60);
 
     QGraphicsTextItem* tempScrollingChord;
 

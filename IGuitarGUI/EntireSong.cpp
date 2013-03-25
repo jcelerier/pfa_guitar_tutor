@@ -101,8 +101,8 @@ void EntireSong::load(LogicalTrack * lt)
 {
 	QPen lightPen(Qt::black, 1);
 	QBrush innerCont(Qt::white);
-	QFont chordFont(":qrc/fonts/Roboto-Regular.ttf", 32);
-	QFont partFont(":qrc/fonts/Roboto-Regular.ttf", 13);
+    QFont chordFont("Roboto", 31);
+    QFont partFont("Roboto", 13);
 
 	int line_height = 52;
 	int line_spacing = 25;
@@ -120,14 +120,14 @@ void EntireSong::load(LogicalTrack * lt)
 	do
 	{
 		// Creation des cases
-		tempCase = new QGraphicsRectItem(355/4*i, (line_height+line_spacing)*j, 355/4, line_height, m_container);
+        tempCase = new QGraphicsRectItem(355/4*i, (line_height+line_spacing)*j, 355/4, line_height, m_container);
 		tempCase->setBrush(innerCont);
 		tempCase->setPen(lightPen);
 		m_gMap[iChord] = tempCase;
 
 		// Creation des accords
 		if(iChord->getChord() != "n") {
-			tempText = new QGraphicsTextItem(tempCase);
+            tempText = new QGraphicsTextItem(tempCase);
 			tempText->setFont(chordFont);
 			tempText->setDefaultTextColor(QColor(14,153,204));
 			tempText->setTextWidth(355/4);
@@ -138,7 +138,7 @@ void EntireSong::load(LogicalTrack * lt)
 		// Creation des parties
 		if(iChord->previous() == 0 || iChord->part()->getTrackChordsList()[0] == iChord)
 		{
-			tempPart = new QGraphicsTextItem(tempCase);
+            tempPart = new QGraphicsTextItem(tempCase);
 			tempPart->setFont(partFont);
 			tempPart->setDefaultTextColor(QColor(14,153,204));
 			tempPart->setPos(tempCase->rect().topLeft()+QPointF(0,-22));
@@ -162,8 +162,8 @@ void EntireSong::load(LogicalTrack * lt)
 	{
 		scaling  = (double)910 /((double) (line_height+line_spacing)*j);
 		trans.scale(1, scaling);
-		m_container->setTransform(trans);
-	}
+        m_container->setTransform(trans);
+    }
 	m_loaded = true;
 	m_currentChord = m_track->getFirstChord();
 }

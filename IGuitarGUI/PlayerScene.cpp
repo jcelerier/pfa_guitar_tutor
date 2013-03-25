@@ -1,6 +1,5 @@
 #include "PlayerScene.h"
 #include "Controler.hpp"
-#include "EntireSongBis.h"
 
 /**
  * @brief PlayerScene::PlayerScene
@@ -61,7 +60,7 @@ void PlayerScene::disposeScene()
 {
 	//setSceneRect(0,0,1920,1080);
 	// Police
-    QFont titleFont(":/fonts/Roboto-Regular.ttf" ,20);
+    QFont titleFont("Roboto" ,20);
 
 	// Couleur de fond
 	QColor bgColor(34, 14, 30);
@@ -142,14 +141,14 @@ void PlayerScene::disposeScene()
 	m_itemMap["avancmt"]->setPos(200, 400); // Position absolue par rapport au background
 
 	// Accord joue a la guitare
-    QFont playedFont(":/fonts/Roboto-Regular.ttf", 130/*150*/);
+    QFont playedFont("Roboto", 130/*150*/);
 	m_itemMap["chordPlayed"] = new QGraphicsTextItem("", m_itemMap["backgnd"]);
 	((QGraphicsTextItem*)m_itemMap["chordPlayed"])->setFont(playedFont);
 	((QGraphicsTextItem*)m_itemMap["chordPlayed"])->setDefaultTextColor(QColor(0, 161, 42));
 	m_itemMap["chordPlayed"]->setPos(1110, 380);
 
 	// Statistiques
-    QFont statsFont(":/fonts/Roboto-Regular.ttf",28);
+    QFont statsFont("Roboto",28);
 	m_itemMap["totalPlayed"] = new QGraphicsTextItem("", m_itemMap["backgnd"]);
 	((QGraphicsTextItem*)m_itemMap["totalPlayed"])->setFont(statsFont);
 	m_itemMap["totalPlayed"]->setPos(1210, 125);
@@ -163,7 +162,7 @@ void PlayerScene::disposeScene()
 	((QGraphicsTextItem*)m_itemMap["totalValidated"])->setDefaultTextColor(QColor(101, 215, 78));
 
 	// Decompte de lecture
-    QFont countFont(":/fonts/Roboto-Regular.ttf", 90);
+    QFont countFont("Roboto", 90);
 	m_itemMap["countDown"] = new QGraphicsTextItem("", m_itemMap["backgnd"]);
 	((QGraphicsTextItem*)m_itemMap["countDown"])->setFont(countFont);
 	((QGraphicsTextItem*)m_itemMap["countDown"])->setPos(300-45, 680-45);
@@ -423,15 +422,14 @@ void PlayerScene::loadSong(LogicalTrack* track) {
 
 	// Chanson entière
     m_itemMap["entireSong"] = new EntireSong(m_itemMap["backgnd"]);
-	m_itemMap["entireSong"]->setZValue(1);
     ((EntireSong*) m_itemMap["entireSong"])->load(track);
-    //connect((Controler*) parent(), SIGNAL(repaintSong()), (EntireSongBis*) m_itemMap["entireSong"], SLOT(repaintSong()) );
 
-	m_itemMap["scrollingChords"] = new ScrollingItem(m_itemMap["backgnd"]);
-	((ScrollingItem*) m_itemMap["scrollingChords"])->load(track);
+    m_itemMap["scrollingChords"] = new ScrollingItem(m_itemMap["backgnd"]);
+    ((ScrollingItem*) m_itemMap["scrollingChords"])->load(track);
 
     m_dictionary->load(track);
 
+    // Ordonnancement des couches
     m_itemMap["scrollingChords"]->setZValue(10);
     m_itemMap["entireSong"]->setZValue(10);
     m_itemMap["menu"]->setZValue(50);

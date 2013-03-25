@@ -22,12 +22,11 @@ HEADERS += \
 	PlayerChord.h \
 	MyView.h \
 	MenuItem.h \
-		EntireSong.h \
+        EntireSong.h \
 	ButtonItem.h \
 	ChordDictionary.h \
 	HelpWindow.h \
-		SongManager.h \
-		EntireSongBis.h \
+        SongManager.h \
 	ConfigPanel.h \
 	ScrollingItem.h
 
@@ -35,16 +34,15 @@ SOURCES += main.cpp \
 	Configuration.cpp \
 	PlayerScene.cpp \
 	Controler.cpp \
-		EntireSong.cpp \
+        EntireSong.cpp \
 	MenuItem.cpp \
 	MyView.cpp \
 	PlayerChord.cpp \
 	ButtonItem.cpp \
 	ChordDictionary.cpp \
 	HelpWindow.cpp \
-		SongManager.cpp \
-	ConfigPanel.cpp \
-	EntireSongBis.cpp \
+        SongManager.cpp \
+        ConfigPanel.cpp \
 	ScrollingItem.cpp
 
 FORMS += \
@@ -88,3 +86,5 @@ RESOURCES +=  \
 	PlayerResources.qrc
 
 QMAKE_CXXFLAGS = -O3
+
+win32: RC_FILE = IGuitarGui.ico

@@ -55,7 +55,7 @@ MenuItem::MenuItem(QGraphicsItem *parent) :
 	m_menuBack->setBrush(backBrush);
 	m_menuBack->setPen(borderPen);
 
-    QFont eltFont(":/fonts/Roboto-Regular.ttf", 28);
+    QFont eltFont("Roboto", 28);
 	eltFont.setWeight(QFont::Bold);
 
 	// Elements de menu
@@ -90,7 +90,7 @@ void MenuItem::addElt(QString name, QString text) {
 	if(m_menuMap.contains(name))
 		return;
 
-    QFont eltFont(":/fonts/Roboto-Regular.ttf", 28);
+    QFont eltFont("Roboto", 28);
 	eltFont.setWeight(QFont::Bold);
 	QPixmap menuBtnImage(":/images/btn_bg.png");
 
