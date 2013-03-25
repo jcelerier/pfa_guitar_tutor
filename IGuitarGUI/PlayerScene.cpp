@@ -235,10 +235,8 @@ void PlayerScene::pause()
 }
 void PlayerScene::stop()
 {
-	if(m_isPlaying) {
 		m_isPlaying = false;
 		m_controler->stopSong();
-	}
 }
 void PlayerScene::back()
 {
