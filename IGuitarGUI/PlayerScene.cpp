@@ -63,8 +63,8 @@ void PlayerScene::disposeScene()
     QFont titleFont("Roboto" ,20);
 
 	// Couleur de fond
-    //QColor bgColor(34, 14, 30);
-    //setBackgroundBrush(bgColor);
+    QColor bgColor(34, 14, 30);
+    setBackgroundBrush(bgColor);
 
 	// Image de fond
     m_itemMap["b"] = addPixmap(QPixmap(":/images/maskplaying.png"));
