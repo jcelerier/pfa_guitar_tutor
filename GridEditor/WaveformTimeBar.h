@@ -5,6 +5,10 @@
 #include "WaveformTimeSlider.h"
 #include <Util.hpp>
 
+/**
+ * @brief Barre de temps représentant le morceau audio.
+ */
+
 enum PrecisionLevel { SAMPLE, MILLISECOND, SECOND, MINUTE } ;
 class WaveformTimeBar : public QWidget
 {

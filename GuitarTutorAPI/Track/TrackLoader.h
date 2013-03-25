@@ -9,6 +9,11 @@
 #include "LogicalTrack.h"
 #include "PartTrack.h"
 
+/**
+ * @brief Cette classe permet de charger en mémoire les informations contenues dans un LogicalTrack
+ * et vice versa.
+ */
+
 //Fichier source du loader/saver de pistes au format XML
 class TrackLoader {
 
@@ -19,11 +24,6 @@ public:
 
 	static bool convertLogicalTrackToXml(LogicalTrack* currentTrack, QString filename);
     static bool convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* currentTrack);
-
-    // int SaveEditorTrackInLogicalTrack(); => TODO en attente de la nouvelle vue éditeur
-    // int SaveEditorTrackInXml(); => TODO en attente de la nouvelle vue éditeur
-
-private:
 
 
 };

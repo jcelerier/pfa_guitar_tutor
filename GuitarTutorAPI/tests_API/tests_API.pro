@@ -17,7 +17,6 @@ TEMPLATE = app
 
 
 SOURCES += APITest.cpp \
-    TestChord.cpp \
     ../Track/TrackLoader.cpp \
     ../Track/LogicalTrack.cpp \
     ../Track/PartTrack.cpp \

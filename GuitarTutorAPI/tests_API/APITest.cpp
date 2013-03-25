@@ -4,6 +4,11 @@
 #include "../Track/TrackLoader.h"
 #include "../GuitarTutor/Enrichment.h"
 
+
+/**
+ * @brief Ensembles de test permettant de vérifier le bon fonctionnement de l'API
+ */
+
 class APITest : public QObject
 {
     Q_OBJECT

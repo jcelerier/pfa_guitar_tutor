@@ -114,6 +114,15 @@ void LogicalTrack::setAudioFileName(QString newAudioFileName) {
 
 }
 
+/**
+ * @brief LogicalTrack::SetBars
+ * @param nBar : nouvelle valeur pour bar
+ * @param nBeginning : nouvelle valeur pour beginning
+ * @param nEnd : nouvelle valeur pour end
+ *
+ * Change la valeur des attributs bar, beginning et end qui représentent des temps spéciaux pour
+ * synchorniser la lecture du morceau audio avec les accords.
+ */
 void LogicalTrack::setBars(int nBar, int nBeginning, int nEnd){
 
     bar = nBar;
@@ -122,6 +131,12 @@ void LogicalTrack::setBars(int nBar, int nBeginning, int nEnd){
 
 }
 
+/**
+ * @brief LogicalTrack::SetTimeSignature
+ * @param
+ *
+ * Change la valeur de timeSignature
+ */
 void LogicalTrack::setTimeSignature(int nTS){
 
     timeSignature = nTS;
@@ -161,18 +176,38 @@ QList<PartTrack*>& LogicalTrack::getPartTrackList()
     return listPartTrack;
 }
 
+/**
+ * @brief LogicalTrack::getBeginning
+ *
+ * Renvoie le temps correspondant à beginning.
+ */
 int LogicalTrack::getBeginning(){
     return beginning;
 }
 
+/**
+ * @brief LogicalTrack::getBar
+ *
+ * Renvoie le temps correspondant à bar.
+ */
 int LogicalTrack::getBar(){
     return bar;
 }
 
+/**
+ * @brief LogicalTrack::getEnd
+ *
+ * Renvoie le temps correspondant à end.
+ */
 int LogicalTrack::getEnd(){
     return end;
 }
 
+/**
+ * @brief LogicalTrack::getEnd
+ *
+ * Renvoie le temps correspondant à la TimeSignature.
+ */
 int LogicalTrack::getTimeSignature(){
     return timeSignature;
 }
