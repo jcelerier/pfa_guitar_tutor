@@ -18,6 +18,7 @@
         <file alias="play.png">images/play.png</file>
         <file alias="pause.png">images/pause.png</file>
         <file alias="back.png">images/back.png</file>
+        <file alias="playerIcon.png">images/playerIcon.png</file>
     </qresource>
     <qresource prefix="/chordsImg">
         <file alias="A.png">chordsImg/A.png</file>
