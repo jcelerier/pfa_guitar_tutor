@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<morceau timeSignature="4" line="16" chordMesure="1" end="261735" nom="Hotel California" comment="Un classique de 1976" column="4" fichier="Tracks/HotelCalifornia/EaglesHotelCalifornia.mp3" beginning="53145" bar="56402" artiste="The Eagles">
+<morceau timeSignature="4" line="20" chordMesure="1" end="261735" nom="Hotel California" comment="Un classique de 1976" column="4" fichier="Tracks/HotelCalifornia/EaglesHotelCalifornia.mp3" beginning="1033" bar="4290" artiste="The Eagles">
   <partie nom="Intro">
     <accord nom="Bm" temps="1033" repetition="1"/>
     <accord nom="F#" temps="4290" repetition="1"/>

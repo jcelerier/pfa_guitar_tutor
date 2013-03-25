@@ -2,6 +2,7 @@
 #include "AudioWindow.h"
 #include <Util.hpp>
 #include <QtWidgets/QMessageBox>
+#include <QDebug>
 
 
 
@@ -33,7 +34,7 @@ SimpleMusicPlayer::SimpleMusicPlayer(QWidget* parent) : QWidget(parent)
 
 	waveform = new Waveform(this, ((AudioWindow*) parent)->width()  - WIDTH_ADJUSTMENT, 300);
 	waveformTimeBar = new WaveformTimeBar(QTime(0, 0), this);
-	((AudioWindow*) parent)->setWaveformData(waveform, waveformTimeBar);
+    ((AudioWindow*) parent)->setWaveformData(waveform, waveformTimeBar);
 
 
 	playButton->setIcon(QIcon(":/icons/play.png"));
@@ -58,9 +59,9 @@ SimpleMusicPlayer::SimpleMusicPlayer(QWidget* parent) : QWidget(parent)
 	connect(timer, SIGNAL(timeout()), this, SLOT(updateSlideBar()));
 	connect(playTimer, SIGNAL(timeout()), this, SLOT(sendTimeData()));
 
-	connect(this, SIGNAL(sigTimeData(QTime)), waveform, SLOT(setPlayerTimer(QTime)));
-	connect(this, SIGNAL(sigTimeData(QTime)), waveformTimeBar, SLOT(setPlayerTimer(QTime)));
-
+    connect(this, SIGNAL(sigTimeData(QTime)), waveform, SLOT(setPlayerTimer(QTime)));
+    connect(this, SIGNAL(sigTimeData(QTime)), waveformTimeBar, SLOT(setPlayerTimer(QTime)));
+    connect(waveformTimeBar, SIGNAL(playSliderModified(int)), this, SLOT(changePosition(int)));
 
 	connect(slideBar, SIGNAL(sliderMoved(int)), this, SLOT(changePosition(int)));
 
@@ -238,6 +239,7 @@ void SimpleMusicPlayer::stop()
 		playTimer->stop();
 		currentPosition = 0;
 		slideBar->setSliderPosition(0);
+        this->sendTimeData();
 		refreshTimerLabel();
 		playButton->setIcon(QIcon(":/icons/play.png"));
 	}
@@ -286,6 +288,7 @@ void SimpleMusicPlayer::updateSlideBar()
 {
 	currentPosition = player->getPosition();
 	slideBar->setSliderPosition(currentPosition);
+    this->sendTimeData();
 	refreshTimerLabel();
 	timer->start(REFRESH_DELAY);
 }

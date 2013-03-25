@@ -33,12 +33,8 @@ Controler::Controler()
 {
 	m_view = 0;
 	m_scene = 0;
-	m_track = 0;
-	played_chords_in_current_part = 0;
-	well_played_chords_in_current_part = 0;
+    m_track = 0;
 
-	m_totalPlayedChords = 0;
-	m_totalValidatedChords = 0;
 
 	m_timer = new QTimer(this);
 	m_paused = false;
@@ -55,10 +51,9 @@ Controler::Controler()
 	connect(m_timer, SIGNAL(timeout()), m_songManager, SLOT(checkTime()));
 	connect(m_timer, SIGNAL(timeout()), m_songManager, SLOT(compareChordWithPlayed()));
 
-	connect(m_songManager, SIGNAL(nonNaturalChange(TrackChord*)), this, SLOT(setChordPosition(TrackChord*)));
-	connect(m_songManager, SIGNAL(updateChord(TrackChord*)), this, SLOT(currentChordSlot(TrackChord*)));
-	connect(m_songManager, SIGNAL(lastChordCorrectness(TrackChord*, double)), this, SLOT(victoryPercent(TrackChord*, double)));
-	connect(m_songManager, SIGNAL(currentlyPlayedChord(BasicChord)), m_scene, SLOT(setPlayedChord(BasicChord)));
+    connect(m_songManager, SIGNAL(updateChord(TrackChord*)), this, SLOT(currentChordSlot(TrackChord*)));
+    connect(m_songManager, SIGNAL(updateStats(int, int)), this, SLOT(updateStats(int,int)));
+    connect(m_songManager, SIGNAL(currentlyPlayedChord(BasicChord)), m_scene, SLOT(setPlayedChord(BasicChord)));
 
 	m_view->show();
 }
@@ -79,6 +74,7 @@ Configuration* Controler::getConfiguration()
  * Ce slot reçoit à chaque fois l'accord dans lequel on entre.
  * Il effectue la vérification pour savoir si on passe à la partie suivante.
  */
+/*
 void Controler::currentChordSlot(TrackChord* chord)
 {
 	if(chord == chord->part()->getTrackChordsList()[0]
@@ -97,54 +93,23 @@ void Controler::currentChordSlot(TrackChord* chord)
 	}
 
 
-	setChordPosition(chord);
+    setChordPosition(chord);
 	chord->setPlaying();
 
 	m_scene->setSceneToChord(chord);
-}
+}*/
 
-void Controler::setChordPosition(TrackChord* chord)
+void Controler::currentChordSlot(TrackChord* chord)
 {
-	int validatedToDelete = 0;
-	TrackChord* iChord = chord;
-	do
-	{
-		if(iChord->isValidated())
-			validatedToDelete ++;
+    chord->setPlaying();
 
-		iChord->setPlayed(false);
-		iChord->setPlaying(false);
-		iChord->validate(false);
 
-	} while((iChord = iChord->next()) != 0);
-
-	m_totalPlayedChords -= validatedToDelete;
+    m_scene->setSceneToChord(chord);
 }
 
 
-/**
- * @brief Controler::victoryPercent
- * @param d Pourcentage de réussite de l'accord précédent.
- *
- * Si ce pourcentage est supérieur à celui défini dans la configuration, on ajoute une réussite.
- */
-void Controler::victoryPercent(TrackChord* chord, double d)
-{
-	if(chord != 0)
-	{
-		chord->setPlaying(false);
-		if(d * 100 > m_configuration->getDifficulty())
-		{
-			chord->validate();
-			m_totalValidatedChords++;
-
-			++well_played_chords_in_current_part;
-		}
-		chord->setPlayed();
-	}
-
-	m_scene->updateStats(m_totalValidatedChords, m_totalPlayedChords);
-	m_totalPlayedChords++;
+void Controler::updateStats(int validated, int played) {
+    m_scene->updateStats(validated, played);
 }
 
 /**
@@ -232,9 +197,7 @@ void Controler::stopSong()
 {
 	m_timer->stop();
 	m_songManager->stop();
-	m_playing=false;
-	m_totalPlayedChords = 0;
-	m_totalValidatedChords = 0;
+    m_playing=false;
 }
 
 /**
