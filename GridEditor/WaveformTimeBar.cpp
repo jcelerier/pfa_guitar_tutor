@@ -305,6 +305,7 @@ void WaveformTimeBar::setPlayerTimer(QTime t)
 {
 	play_slider->setTime(QTimeToSample(t));
 	update();
+    update();
 }
 
 
@@ -317,3 +318,4 @@ void WaveformTimeBar::deactivate()
 {
 	activated = false;
 }
+

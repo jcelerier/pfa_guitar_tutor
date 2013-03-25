@@ -238,6 +238,7 @@ void SimpleMusicPlayer::stop()
 		playTimer->stop();
 		currentPosition = 0;
 		slideBar->setSliderPosition(0);
+        this->sendTimeData();
 		refreshTimerLabel();
 		playButton->setIcon(QIcon(":/icons/play.png"));
 	}
@@ -286,6 +287,7 @@ void SimpleMusicPlayer::updateSlideBar()
 {
 	currentPosition = player->getPosition();
 	slideBar->setSliderPosition(currentPosition);
+    this->sendTimeData();
 	refreshTimerLabel();
 	timer->start(REFRESH_DELAY);
 }
