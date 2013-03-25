@@ -12,7 +12,7 @@ TrackChord::TrackChord(QString nom, qreal d, int rep, TrackChord *previous, Trac
 	currentChord = new BasicChord(nom);
 	m_validated = false;
 	m_played = false;
-	m_playing=false;
+    m_playing= false;
 
 	m_previous = previous;
 	m_next = next;

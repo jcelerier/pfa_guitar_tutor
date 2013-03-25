@@ -8,6 +8,7 @@
 #include <MusicManager.h>
 #include <GuitarTutor/Chord.h>
 #include <Track/LogicalTrack.h>
+#include "Configuration.h"
 
 /**
  * @brief The SongManager class
@@ -29,6 +30,7 @@ class SongManager: public QObject
 
         int getElapsedTime();
         void goToBeginning();
+        void resetChordsFrom(TrackChord* chord);
 public slots:
 		void compareChordWithPlayed();
 		void checkTime();
@@ -41,6 +43,7 @@ public slots:
 	signals:
 		void currentlyPlayedChord(BasicChord);
 		void updateChord(TrackChord*);
+        void updateStats(int, int);
 		void nonNaturalChange(TrackChord*);
 		void lastChordCorrectness(TrackChord*, double);
 
@@ -54,15 +57,23 @@ public slots:
 
 		BasicChord* m_currentInputChord;
 		chord_ctrl* m_chordControl;
+        Configuration* m_configuration;
 
 		QTime m_time;
 
 		int number_of_valid_chord_checks;
 		int number_of_chord_checks;
 
+        int well_played_chords_in_current_part;
+        int played_chords_in_current_part;
+
+        int m_totalPlayedChords;
+        int m_totalValidatedChords;
+
 		int precision_in_ms;
 		int m_elapsedTime;
         bool m_isFirstChord;
+        bool m_partRepeated;
 
 };
 

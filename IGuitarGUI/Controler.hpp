@@ -49,9 +49,8 @@ class Controler : public QObject
 		void ticTac();
 		bool initSong();
 
-		void currentChordSlot(TrackChord*);
-		void setChordPosition(TrackChord*);
-		void victoryPercent(TrackChord*, double);
+        void currentChordSlot(TrackChord*);
+        void updateStats(int validated, int played);
 
 	signals:
 		void repaintSong();
@@ -69,13 +68,8 @@ class Controler : public QObject
 		LogicalTrack *m_track;
 		QList<PlayerChord> m_chordList;
 
-		int m_totalPlayedChords;
-		int m_totalValidatedChords;
-
 		bool m_muted;
 
-		int well_played_chords_in_current_part;
-		int played_chords_in_current_part;
 };
 
 #endif /* MAINWINDOW_HPP */

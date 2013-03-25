@@ -32,7 +32,7 @@ EntireSong::EntireSong(QGraphicsItem *parent) :
  * Fonction appelée lors du début d'un nouvel accord. Elle gère la validation de l'accord qui vient de s'écouler.
  */
 void EntireSong::nextChord() {
-	paintChord(m_currentChord);
+    paintChord(m_currentChord);
 
 	m_currentChord=m_currentChord->next();
 	m_gMap[m_currentChord]->setBrush(QColor(1, 174, 242));
@@ -44,10 +44,9 @@ void EntireSong::nextChord() {
  * Fonction appelée lors du début d'un nouvel accord. Elle gère la validation de l'accord qui vient de s'écouler.
  */
 void EntireSong::paintChord(TrackChord * tc) {
-
-	if( !m_currentChord->isPlayed() )
+    if( !tc->isPlayed() )
 		m_gMap[tc]->setBrush(QColor(255,255,255));
-	else if( m_currentChord->isValidated() )
+    else if( tc->isValidated() )
 		m_gMap[tc]->setBrush(QColor(101, 215, 78));
 	else
 		m_gMap[tc]->setBrush(QColor(175, 22, 27));
@@ -84,10 +83,10 @@ void EntireSong::setCurrentChord(TrackChord* tc)
 		// on update uniquement la case actuelle
 		nextChord();
 	else {
-		// on retrace entierement
+        // on retrace entierement
 		TrackChord* iChord = m_track->getFirstChord();
 		do
-		{
+        {
 			paintChord(iChord);
 		} while((iChord = iChord->next()) != 0);
 

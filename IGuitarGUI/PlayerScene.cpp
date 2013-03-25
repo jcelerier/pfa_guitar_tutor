@@ -391,7 +391,7 @@ void PlayerScene::setSceneToChord(TrackChord* tc) {
 
     ((EntireSong*)m_itemMap["entireSong"])->setCurrentChord(tc);
 
-	if(tc->previous() != m_lastChord)
+    //if(tc->previous() != m_lastChord)
 		((ScrollingItem*)m_itemMap["scrollingChords"])->setCurrentChord(tc);
 	m_lastChord = tc;
 }

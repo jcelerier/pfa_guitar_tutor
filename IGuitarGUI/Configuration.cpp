@@ -13,9 +13,9 @@ Configuration::Configuration()
 {
 	m_inputIndex = 0;
 	m_outputIndex = 0;
-	pause_setting = PAUSE_TO_SAME_TIME;
+    pause_setting = PAUSE_TO_LAST_CHORD;
     loop_on_failure = false;
-	percent_to_go_to_next_part = 30;
+    percent_to_go_to_next_part = PERCENT_TO_VALIDATE_EASY;
     songDirectory = "Tracks";
 }
 
