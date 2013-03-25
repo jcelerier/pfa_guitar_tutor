@@ -1,6 +1,5 @@
 #include "CaseItem.h"
 #include <QtWidgets/QMenu>
-#include <QDebug>
 #include <QMouseEvent>
 /**
  * @brief CaseItem::CaseItem

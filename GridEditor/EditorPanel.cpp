@@ -1,5 +1,5 @@
 #include "EditorPanel.h"
-#include <QDebug>
+
 
 /**
  * @brief EditorPanel::EditorPanel
@@ -19,15 +19,15 @@ EditorPanel::EditorPanel(ChordTableWidget* chordTable,
 {
 
 	setWindowFlags(Qt::Dialog);
-    tabs = new QTabWidget(this);
-    mainLayout = new QVBoxLayout();
+	tabs = new QTabWidget(this);
+	mainLayout = new QVBoxLayout();
 
-    pageChordTable = new QWidget(); //Pages pour les onglets
-    pageAudio = new QWidget();
+	pageChordTable = new QWidget(); //Pages pour les onglets
+	pageAudio = new QWidget();
 	pageProps = new QWidget();
 
 	//Page grille
-    vboxTable = new QVBoxLayout();
+	vboxTable = new QVBoxLayout();
 	if(chordTable != 0)
 	{
 		vboxTable->addWidget(chordTable);
@@ -38,7 +38,7 @@ EditorPanel::EditorPanel(ChordTableWidget* chordTable,
 	pageChordTable->setLayout(vboxTable);
 
 	//Page audio
-    vboxAudio = new QVBoxLayout;
+	vboxAudio = new QVBoxLayout;
 	spacer = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
 
 	vboxAudio->addWidget(audioWindow);
@@ -56,7 +56,7 @@ EditorPanel::EditorPanel(ChordTableWidget* chordTable,
 
 	tabs->addTab(pageChordTable, tr("Grid"));
 	tabs->addTab(pageAudio, tr("Audio edition"));
-    tabs->addTab(pageProps, tr("Properties"));
+	tabs->addTab(pageProps, tr("Properties"));
 
 	mainLayout->addWidget(tabs);
 	setLayout(mainLayout);
@@ -85,6 +85,6 @@ void EditorPanel::updateGrid(ChordTableWidget *chordTable)
  * Destructeur.
  */
 EditorPanel::~EditorPanel() {
-    delete mainLayout;
-    delete tabs;
+	delete mainLayout;
+	delete tabs;
 }

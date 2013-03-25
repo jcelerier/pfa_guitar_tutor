@@ -1,8 +1,6 @@
 #include "AudioSync.h"
 #include <Util.hpp>
 #include <QtWidgets/QMessageBox>
-#include <QDebug>
-
 
 
 /**

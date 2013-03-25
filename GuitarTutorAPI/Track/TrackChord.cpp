@@ -1,9 +1,8 @@
 #include "TrackChord.h"
-#include <QDebug>
 
 TrackChord::TrackChord()
 {
-    currentChord = 0;
+	currentChord = 0;
 }
 
 TrackChord::TrackChord(QString nom, qreal d, int rep, TrackChord *previous, TrackChord *next, PartTrack *part) {
@@ -23,8 +22,8 @@ TrackChord::TrackChord(QString nom, qreal d, int rep, TrackChord *previous, Trac
 
 TrackChord::~TrackChord()
 {
-    if(currentChord != 0)
-        delete currentChord;
+	if(currentChord != 0)
+		delete currentChord;
 }
 
 /**
@@ -59,9 +58,9 @@ qreal TrackChord::getBeginningInMs() {
  *@return QString : accord
  */
 QString TrackChord::getChord(){
-    if(this == NULL || currentChord == 0)
-        return "";
-    return currentChord->toString();
+	if(this == NULL || currentChord == 0)
+		return "";
+	return currentChord->toString();
 }
 
 QString TrackChord::toString(){

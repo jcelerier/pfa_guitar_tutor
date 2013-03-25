@@ -1,6 +1,6 @@
 #include "SaveQueue.h"
 #include "GridEditor.h"
-#include <QDebug>
+
 /*
  * Quand quelque chose change, on le met dans l'état actuel m_currentState.
  * L'état actuel précédent part dans l'undoQueue.
@@ -48,7 +48,6 @@ StatePacket* SaveQueue::currentEditorState()
 
 void SaveQueue::firstSave()
 {
-	qDebug() << "firstSave";
 	emptyQueue(&undoQueue);
 	emptyQueue(&redoQueue);
 	m_currentState = currentEditorState();
@@ -57,10 +56,8 @@ void SaveQueue::firstSave()
 // enregistrement d'un nouvel état.
 void SaveQueue::saveState(bool redo)
 {
-	qDebug() << "saveState";
 	if(redo) // on ne doit être dans ce cas que lorsque l'on fait un undo
 	{
-		qDebug() << "a";
 		if(redoQueue.size() == max_depth )
 		{
 			delete redoQueue.last();
@@ -70,7 +67,6 @@ void SaveQueue::saveState(bool redo)
 	}
 	else
 	{
-		qDebug() << "b";
 		if(undoQueue.size() == max_depth )
 		{
 			delete undoQueue.last();
@@ -103,7 +99,6 @@ void SaveQueue::emptyQueue(QList<StatePacket*> *q)
 
 void SaveQueue::undo()
 {
-	qDebug() << "undo";
 	if(!m_redoState)
 	{
 		saveState(true); // on sauve l'état actuel, qui a été modifié dans la queue de Redo
@@ -126,7 +121,6 @@ void SaveQueue::undo()
 
 void SaveQueue::redo()
 {
-	qDebug() << "redo";
 	// m_currentState est défini car il ne peut y avoir de redo
 	// que s'il y a eu un undo et qu'il n'y a pas eu de changement entre temps
 	undoQueue.push_front(m_currentState);
@@ -147,7 +141,11 @@ void SaveQueue::restoreState(StatePacket* statePacket)
 
 	m_editor->createGrid(statePacket->grid->columnCount(), statePacket->grid->rowCount(), true);
 	statePacket->grid->deepCopy(m_editor->grid);
+
 	connect(m_editor->grid, SIGNAL(somethingChanged()), this, SIGNAL(save()));
+	/*  Tout ça est à réactiver quand la sauvegarde sera dispo pour le reste
+	 * -> il faut vérifier qu'on ne sauve pas à chaque changement de valeur sinon ça va faire n'importe quoi
+	 * -> utiliser mouseReleasesEvent notamment
 	m_editor->audioWindow->setBeginning(statePacket->beginning);
 	m_editor->audioWindow->setBar(statePacket->bar);
 	m_editor->audioWindow->setEnd(statePacket->end);
@@ -157,6 +155,7 @@ void SaveQueue::restoreState(StatePacket* statePacket)
 	m_editor->trackProperties->setComment(statePacket->comment);
 	m_editor->trackProperties->setBarSize(statePacket->chordsPerBar);
 	m_editor->trackProperties->setTimeSignature(statePacket->timeSignature);
+	*/
 }
 
 

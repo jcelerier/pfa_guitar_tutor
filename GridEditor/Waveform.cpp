@@ -1,12 +1,12 @@
 #include "Waveform.h"
-#include <QMouseEvent>
 #include "SimpleMusicPlayer.h"
 #include "AudioSync.h"
 #include <Util.hpp>
+#include <QMouseEvent>
 #include <QPainter>
 #include <QPixmap>
 #include <cmath>
-#include <QDebug>
+
 
 /**
  * @brief Waveform::Waveform
@@ -179,7 +179,7 @@ void Waveform::simpleDrawColumn(int col, int value, QPen* pen)
  */
 void Waveform::drawColumn(int col, int beg, int /*end*/, int smp_begin, int smp_end, int pos_begin, int pos_end)
 {
-    unsigned int value = qMin((unsigned int) abs(m_spectrum[col] / m_reductionFactor), m_height);
+	unsigned int value = qMin((unsigned int) abs(m_spectrum[col] / m_reductionFactor), m_height);
 
 	if(smp_begin > beg && smp_end > smp_begin)
 	{

@@ -1,7 +1,7 @@
 #include "WaveformTimeBar.h"
 #include "SimpleMusicPlayer.h"
 #include "AudioSync.h"
-#include <QDebug>
+
 
 
 WaveformTimeBar::WaveformTimeBar(const QTime& song_end, QWidget *parent) :

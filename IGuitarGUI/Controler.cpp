@@ -33,15 +33,12 @@ Controler::Controler()
 {
 	m_view = 0;
 	m_scene = 0;
-    //m_clockOffset = 0;
 	m_track = 0;
 	played_chords_in_current_part = 0;
 	well_played_chords_in_current_part = 0;
 
 	m_totalPlayedChords = 0;
 	m_totalValidatedChords = 0;
-
-	is_at_beginning = true;
 
 	m_timer = new QTimer(this);
 	m_paused = false;
@@ -103,7 +100,6 @@ void Controler::currentChordSlot(TrackChord* chord)
 	setChordPosition(chord);
 	chord->setPlaying();
 
-	//emit repaintSong();
 	m_scene->setSceneToChord(chord);
 }
 
@@ -197,13 +193,6 @@ bool Controler::initSong()
 		return false;
 	}
 
-	/* Boucle de base pour la lecture des Track;
-	TrackChord* iChord = m_track->getPartTrackList()[0]->getTrackChordsList()[0];
-	do
-	{
-
-	} while((iChord = iChord->next()) != 0);
-	*/
 	m_songManager->load(m_track);
 	m_scene->loadSong(m_track);
 
@@ -217,13 +206,6 @@ bool Controler::initSong()
  */
 void Controler::startSong()
 {
-    /*if(is_at_beginning)
-    {
-        m_songManager->goToChord(m_track->getPartTrackList()[0]->getTrackChordsList()[0]);
-		is_at_beginning = false;
-    }*/
-
-    //m_globalClock.start();
 	m_songManager->play();
 	m_timer->start(1000/Configuration::framesPerSec);
 	m_playing=true;
@@ -236,8 +218,7 @@ void Controler::startSong()
  */
 void Controler::pauseSong()
 {
-    //m_clockOffset += m_globalClock.elapsed();
-    m_timer->stop();
+	m_timer->stop();
 	m_songManager->pause();
 	m_playing=false;
 }
@@ -249,12 +230,9 @@ void Controler::pauseSong()
  */
 void Controler::stopSong()
 {
-    //m_clockOffset += m_globalClock.elapsed();
 	m_timer->stop();
-    //m_clockOffset = 0;
 	m_songManager->stop();
 	m_playing=false;
-	is_at_beginning = true;
 	m_totalPlayedChords = 0;
 	m_totalValidatedChords = 0;
 }
@@ -267,8 +245,8 @@ void Controler::stopSong()
  */
 int Controler::elapsedTime()
 {
-    //return m_clockOffset + m_globalClock.elapsed();
-    return m_songManager->getElapsedTime();
+	//return m_clockOffset + m_globalClock.elapsed();
+	return m_songManager->getElapsedTime();
 }
 
 /**
@@ -286,7 +264,7 @@ void Controler::switchPlaying()
 	{
 		pauseSong();
 	}
-    //m_globalClock.start();
+	//m_globalClock.start();
 }
 
 /**

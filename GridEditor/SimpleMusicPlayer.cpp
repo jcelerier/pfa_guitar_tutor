@@ -2,7 +2,7 @@
 #include "AudioWindow.h"
 #include <Util.hpp>
 #include <QtWidgets/QMessageBox>
-#include <QDebug>
+
 
 
 //trucs pour le zoom
@@ -18,55 +18,55 @@
  */
 SimpleMusicPlayer::SimpleMusicPlayer(QWidget* parent) : QWidget(parent)
 {
-    this->parent = parent;
-    layout = new QGridLayout();
-    playButton = new QToolButton();
-    // A FAIRE : playBarButton = new QToolButton();
-    stopButton = new QToolButton();
-    slideBar = new QSlider(Qt::Horizontal);
-    timerLabel = new QLabel("");
-    timer = new QTimer();
-    playTimer = new QTimer();
+	this->parent = parent;
+	layout = new QGridLayout();
+	playButton = new QToolButton();
+	// A FAIRE : playBarButton = new QToolButton();
+	stopButton = new QToolButton();
+	slideBar = new QSlider(Qt::Horizontal);
+	timerLabel = new QLabel("");
+	timer = new QTimer();
+	playTimer = new QTimer();
 
 
-    player = new MusicPlayer();
+	player = new MusicPlayer();
 
-    waveform = new Waveform(this, ((AudioWindow*) parent)->width()  - WIDTH_ADJUSTMENT, 300);
-    waveformTimeBar = new WaveformTimeBar(QTime(0, 0), this);
-    ((AudioWindow*) parent)->setWaveformData(waveform, waveformTimeBar);
-
-
-    playButton->setIcon(QIcon(":/icons/play.png"));
-    //playBarButton->setIcon(QIcon(":/icons/play.png"));
-    stopButton->setIcon(QIcon(":/icons/stop.png"));
-
-    layout->addWidget(slideBar, 0, 0, 1, 7);
-    layout->addWidget(playButton, 1, 0);
-    //layout->addWidget(playBarButton, 1, 1);
-    layout->addWidget(stopButton, 1, 2);
-    layout->addWidget(timerLabel, 1, 6);
-
-    setLayout(layout);
-
-    waveform->setWidth(parent->width() - WIDTH_ADJUSTMENT);
-    waveform->initImage();
-    waveform->update();
-
-    connect(playButton, SIGNAL(released()), this, SLOT(pause()));
-    //connect(playBarButton, SIGNAL(clicked()), this, SLOT(playBar()));
-    connect(stopButton, SIGNAL(released()), this, SLOT(stop()));
-    connect(timer, SIGNAL(timeout()), this, SLOT(updateSlideBar()));
-    connect(playTimer, SIGNAL(timeout()), this, SLOT(sendTimeData()));
-
-    connect(this, SIGNAL(sigTimeData(QTime)), waveform, SLOT(setPlayerTimer(QTime)));
-    connect(this, SIGNAL(sigTimeData(QTime)), waveformTimeBar, SLOT(setPlayerTimer(QTime)));
+	waveform = new Waveform(this, ((AudioWindow*) parent)->width()  - WIDTH_ADJUSTMENT, 300);
+	waveformTimeBar = new WaveformTimeBar(QTime(0, 0), this);
+	((AudioWindow*) parent)->setWaveformData(waveform, waveformTimeBar);
 
 
-    connect(slideBar, SIGNAL(sliderMoved(int)), this, SLOT(changePosition(int)));
+	playButton->setIcon(QIcon(":/icons/play.png"));
+	//playBarButton->setIcon(QIcon(":/icons/play.png"));
+	stopButton->setIcon(QIcon(":/icons/stop.png"));
 
-    currentPosition = 0;
-    songLength = 0;
-    refreshTimerLabel();
+	layout->addWidget(slideBar, 0, 0, 1, 7);
+	layout->addWidget(playButton, 1, 0);
+	//layout->addWidget(playBarButton, 1, 1);
+	layout->addWidget(stopButton, 1, 2);
+	layout->addWidget(timerLabel, 1, 6);
+
+	setLayout(layout);
+
+	waveform->setWidth(parent->width() - WIDTH_ADJUSTMENT);
+	waveform->initImage();
+	waveform->update();
+
+	connect(playButton, SIGNAL(released()), this, SLOT(pause()));
+	//connect(playBarButton, SIGNAL(clicked()), this, SLOT(playBar()));
+	connect(stopButton, SIGNAL(released()), this, SLOT(stop()));
+	connect(timer, SIGNAL(timeout()), this, SLOT(updateSlideBar()));
+	connect(playTimer, SIGNAL(timeout()), this, SLOT(sendTimeData()));
+
+	connect(this, SIGNAL(sigTimeData(QTime)), waveform, SLOT(setPlayerTimer(QTime)));
+	connect(this, SIGNAL(sigTimeData(QTime)), waveformTimeBar, SLOT(setPlayerTimer(QTime)));
+
+
+	connect(slideBar, SIGNAL(sliderMoved(int)), this, SLOT(changePosition(int)));
+
+	currentPosition = 0;
+	songLength = 0;
+	refreshTimerLabel();
 }
 
 /**
@@ -74,17 +74,17 @@ SimpleMusicPlayer::SimpleMusicPlayer(QWidget* parent) : QWidget(parent)
  */
 SimpleMusicPlayer::~SimpleMusicPlayer()
 {
-    delete slideBar;
-    delete layout;
-    delete playButton;
-    // delete playBarButton;
-    delete playTimer;
-    delete player;
-    delete waveform;
-    delete waveformTimeBar;
-    delete stopButton;
-    delete timerLabel;
-    delete timer;
+	delete slideBar;
+	delete layout;
+	delete playButton;
+	// delete playBarButton;
+	delete playTimer;
+	delete player;
+	delete waveform;
+	delete waveformTimeBar;
+	delete stopButton;
+	delete timerLabel;
+	delete timer;
 }
 
 
@@ -97,7 +97,7 @@ SimpleMusicPlayer::~SimpleMusicPlayer()
  */
 QString SimpleMusicPlayer::getSong()
 {
-    return player->getSong();
+	return player->getSong();
 }
 
 
@@ -110,32 +110,32 @@ QString SimpleMusicPlayer::getSong()
  */
 bool SimpleMusicPlayer::setAudioFile(QString file)
 {
-    if(file == ""){
-        return false;
-    }
+	if(file == ""){
+		return false;
+	}
 
-    if(!player->setSong(file)) {
-        QMessageBox::information(this, tr("So sorry..."), QString(tr("Impossible to open the file ") + file));
-        return false;
-    }
-    songLength = player->getTotalLength();
-    refreshTimerLabel();
-    slideBar->setRange(0, songLength);
+	if(!player->setSong(file)) {
+		QMessageBox::information(this, tr("So sorry..."), QString(tr("Impossible to open the file ") + file));
+		return false;
+	}
+	songLength = player->getTotalLength();
+	refreshTimerLabel();
+	slideBar->setRange(0, songLength);
 
-    waveBegin = 0;
-    waveEnd = player->getTotalLengthInSamples();
+	waveBegin = 0;
+	waveEnd = player->getTotalLengthInSamples();
 
-    waveform->setWidth(parent->width() - WIDTH_ADJUSTMENT);
-    player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
-    waveform->activate();
-    waveUpdate();
+	waveform->setWidth(parent->width() - WIDTH_ADJUSTMENT);
+	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
+	waveform->activate();
+	waveUpdate();
 
 
-    player->play();
-    player->pause(true);
-    timer->start(REFRESH_DELAY);
+	player->play();
+	player->pause(true);
+	timer->start(REFRESH_DELAY);
 
-    return true;
+	return true;
 }
 
 /**
@@ -146,19 +146,19 @@ bool SimpleMusicPlayer::setAudioFile(QString file)
  */
 void SimpleMusicPlayer::resizeEvent(QResizeEvent * event)
 {
-    QWidget::resizeEvent(event);
-    if(player->getState())
-    {
-        waveform->setWidth(parent->width() - WIDTH_ADJUSTMENT);
+	QWidget::resizeEvent(event);
+	if(player->getState())
+	{
+		waveform->setWidth(parent->width() - WIDTH_ADJUSTMENT);
 
-        player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
+		player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
 
-    }
-    else
-    {
-        waveform->setWidth(parent->width() - WIDTH_ADJUSTMENT);
-    }
-    waveUpdate();
+	}
+	else
+	{
+		waveform->setWidth(parent->width() - WIDTH_ADJUSTMENT);
+	}
+	waveUpdate();
 }
 
 
@@ -168,7 +168,7 @@ void SimpleMusicPlayer::resizeEvent(QResizeEvent * event)
  */
 QTime SimpleMusicPlayer::getCurrentPosition()
 {
-    return MsecToTime(player->getPosition());
+	return MsecToTime(player->getPosition());
 }
 
 /**
@@ -178,13 +178,13 @@ QTime SimpleMusicPlayer::getCurrentPosition()
  */
 void SimpleMusicPlayer::play()
 {
-    if(player->getState())
-    {
-        player->pause(false);
-        playTimer->start(PLAYTIMER_DELAY);
-    }
-    else
-        emit browseAudioFile();
+	if(player->getState())
+	{
+		player->pause(false);
+		playTimer->start(PLAYTIMER_DELAY);
+	}
+	else
+		emit browseAudioFile();
 }
 
 /**
@@ -194,7 +194,7 @@ void SimpleMusicPlayer::play()
  */
 void SimpleMusicPlayer::sendTimeData()
 {
-    emit sigTimeData(getCurrentPosition());
+	emit sigTimeData(getCurrentPosition());
 }
 
 /**
@@ -204,26 +204,26 @@ void SimpleMusicPlayer::sendTimeData()
  */
 void SimpleMusicPlayer::pause()
 {
-    if(player->getState())
-    {
+	if(player->getState())
+	{
 
-        if(player->isPaused())
-        {
-            player->pause(false);
-            playTimer->start(PLAYTIMER_DELAY);
-        }
-        else
-        {
-            player->pause(true);
-            playTimer->stop();
-        }
+		if(player->isPaused())
+		{
+			player->pause(false);
+			playTimer->start(PLAYTIMER_DELAY);
+		}
+		else
+		{
+			player->pause(true);
+			playTimer->stop();
+		}
 
 
-        if(player->isPaused())
-            playButton->setIcon(QIcon(":/icons/pause.png"));
-        else
-            playButton->setIcon(QIcon(":/icons/play.png"));
-    }
+		if(player->isPaused())
+			playButton->setIcon(QIcon(":/icons/pause.png"));
+		else
+			playButton->setIcon(QIcon(":/icons/play.png"));
+	}
 }
 
 /**
@@ -233,14 +233,14 @@ void SimpleMusicPlayer::pause()
  */
 void SimpleMusicPlayer::stop()
 {
-    if(player->getState()) {
-        player->stop();
-        playTimer->stop();
-        currentPosition = 0;
-        slideBar->setSliderPosition(0);
-        refreshTimerLabel();
-        playButton->setIcon(QIcon(":/icons/play.png"));
-    }
+	if(player->getState()) {
+		player->stop();
+		playTimer->stop();
+		currentPosition = 0;
+		slideBar->setSliderPosition(0);
+		refreshTimerLabel();
+		playButton->setIcon(QIcon(":/icons/play.png"));
+	}
 }
 
 /**
@@ -250,31 +250,31 @@ void SimpleMusicPlayer::stop()
  */
 void SimpleMusicPlayer::refreshTimerLabel()
 {
-    QString tmp1, tmp2;
-    if(currentPosition > 0) {
-        int min = (currentPosition/1000)/60;
-        int sec = (currentPosition/1000)%60;
-        if(sec<10)
-            timerLabel->setText(QString(tmp1.setNum(min) + ":0" + tmp2.setNum(sec) + " / "));
-        else
-            timerLabel->setText(QString(tmp1.setNum(min) + ":" + tmp2.setNum(sec) + " / "));
-    }
-    else {
-        if(player->getState())
-            timerLabel->setText("0:00 / ");
-        else
-            timerLabel->setText(".. / ");
-    }
-    if(songLength > 0) {
-        int min = (songLength/1000)/60;
-        int sec = (songLength/1000)%60;
-        if(sec<10)
-            timerLabel->setText(QString(timerLabel->text() + tmp1.setNum(min) + ":0" + tmp2.setNum(sec)));
-        else
-            timerLabel->setText(QString(timerLabel->text() + tmp1.setNum(min) + ":" + tmp2.setNum(sec)));
-    }
-    else
-        timerLabel->setText(QString(timerLabel->text() + ".."));
+	QString tmp1, tmp2;
+	if(currentPosition > 0) {
+		int min = (currentPosition/1000)/60;
+		int sec = (currentPosition/1000)%60;
+		if(sec<10)
+			timerLabel->setText(QString(tmp1.setNum(min) + ":0" + tmp2.setNum(sec) + " / "));
+		else
+			timerLabel->setText(QString(tmp1.setNum(min) + ":" + tmp2.setNum(sec) + " / "));
+	}
+	else {
+		if(player->getState())
+			timerLabel->setText("0:00 / ");
+		else
+			timerLabel->setText(".. / ");
+	}
+	if(songLength > 0) {
+		int min = (songLength/1000)/60;
+		int sec = (songLength/1000)%60;
+		if(sec<10)
+			timerLabel->setText(QString(timerLabel->text() + tmp1.setNum(min) + ":0" + tmp2.setNum(sec)));
+		else
+			timerLabel->setText(QString(timerLabel->text() + tmp1.setNum(min) + ":" + tmp2.setNum(sec)));
+	}
+	else
+		timerLabel->setText(QString(timerLabel->text() + ".."));
 }
 
 /**
@@ -284,10 +284,10 @@ void SimpleMusicPlayer::refreshTimerLabel()
  */
 void SimpleMusicPlayer::updateSlideBar()
 {
-    currentPosition = player->getPosition();
-    slideBar->setSliderPosition(currentPosition);
-    refreshTimerLabel();
-    timer->start(REFRESH_DELAY);
+	currentPosition = player->getPosition();
+	slideBar->setSliderPosition(currentPosition);
+	refreshTimerLabel();
+	timer->start(REFRESH_DELAY);
 }
 
 /**
@@ -298,8 +298,8 @@ void SimpleMusicPlayer::updateSlideBar()
  */
 void SimpleMusicPlayer::changePosition(int position)
 {
-    player->changePosition(position);
-    currentPosition = player->getPosition();
+	player->changePosition(position);
+	currentPosition = player->getPosition();
 }
 
 
@@ -313,25 +313,25 @@ void SimpleMusicPlayer::changePosition(int position)
  */
 void SimpleMusicPlayer::zoomIn(QPoint clickPos)
 {
-    float clickPercent = (float) clickPos.x() / (float) waveform->getWidth();
-    float sample = clickPercent * (waveEnd - waveBegin) + waveBegin;
-    const int zoomFactor = ZOOM_FACTOR;
+	float clickPercent = (float) clickPos.x() / (float) waveform->getWidth();
+	float sample = clickPercent * (waveEnd - waveBegin) + waveBegin;
+	const int zoomFactor = ZOOM_FACTOR;
 
-    if(waveEnd - waveBegin > 10000)
-    {
-        waveBegin += (sample - (float) waveBegin) / (float) zoomFactor;
-        waveEnd -= (waveEnd - sample) / zoomFactor;
+	if(waveEnd - waveBegin > 10000)
+	{
+		waveBegin += (sample - (float) waveBegin) / (float) zoomFactor;
+		waveEnd -= (waveEnd - sample) / zoomFactor;
 
-        if(waveEnd < waveBegin + 10000 || waveEnd < 0)
-            waveEnd = waveBegin + 10000;
+		if(waveEnd < waveBegin + 10000 || waveEnd < 0)
+			waveEnd = waveBegin + 10000;
 
-        player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
-    }
-    else
-    {
-        waveEnd = waveBegin + 10000;
-    }
-    waveUpdate();
+		player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
+	}
+	else
+	{
+		waveEnd = waveBegin + 10000;
+	}
+	waveUpdate();
 }
 
 /**
@@ -342,20 +342,20 @@ void SimpleMusicPlayer::zoomIn(QPoint clickPos)
  */
 void SimpleMusicPlayer::zoomOut(QPoint clickPos)
 {
-    float clickPercent = (float) clickPos.x() / (float) waveform->getWidth();
-    float sample = clickPercent * (waveEnd - waveBegin) + waveBegin;
-    const int zoomFactor = ZOOM_FACTOR;
+	float clickPercent = (float) clickPos.x() / (float) waveform->getWidth();
+	float sample = clickPercent * (waveEnd - waveBegin) + waveBegin;
+	const int zoomFactor = ZOOM_FACTOR;
 
-    waveBegin = qMax(0,
-                         qMin(waveBegin - (int) ((sample - (float) waveBegin) / (float) zoomFactor),
-                                  (int) player->getTotalLengthInSamples() - 10000));
-    waveEnd = qMax(waveBegin + 10000,
-                       qMin((signed) player->getTotalLengthInSamples(),
-                                waveEnd + qMax((int) ((waveEnd - sample) / zoomFactor),
-                                                   0)));
+	waveBegin = qMax(0,
+						 qMin(waveBegin - (int) ((sample - (float) waveBegin) / (float) zoomFactor),
+								  (int) player->getTotalLengthInSamples() - 10000));
+	waveEnd = qMax(waveBegin + 10000,
+					   qMin((signed) player->getTotalLengthInSamples(),
+								waveEnd + qMax((int) ((waveEnd - sample) / zoomFactor),
+												   0)));
 
-    player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
-    waveUpdate();
+	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
+	waveUpdate();
 }
 
 /**
@@ -365,23 +365,23 @@ void SimpleMusicPlayer::zoomOut(QPoint clickPos)
  */
 void SimpleMusicPlayer::moveLeft()
 {
-    int mvt = (waveEnd - waveBegin) * MOVE_FACTOR / waveform->getWidth() ;
+	int mvt = (waveEnd - waveBegin) * MOVE_FACTOR / waveform->getWidth() ;
 
-    if(waveBegin > 0)
-    {
-        if(waveBegin - mvt >= 0) // cas valide
-        {
-            waveBegin -= mvt;
-            waveEnd -= mvt;
-        }
-        else if(waveBegin - mvt < 0)// cas ou on est au bord
-        {
-            waveBegin = 0;
-        }
-    }
+	if(waveBegin > 0)
+	{
+		if(waveBegin - mvt >= 0) // cas valide
+		{
+			waveBegin -= mvt;
+			waveEnd -= mvt;
+		}
+		else if(waveBegin - mvt < 0)// cas ou on est au bord
+		{
+			waveBegin = 0;
+		}
+	}
 
-    player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
-    waveUpdate();
+	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
+	waveUpdate();
 }
 
 /**
@@ -391,25 +391,25 @@ void SimpleMusicPlayer::moveLeft()
  */
 void SimpleMusicPlayer::moveRight()
 {
-    int lgr = player->getTotalLengthInSamples();
+	int lgr = player->getTotalLengthInSamples();
 
-    int mvt = (waveEnd - waveBegin) * MOVE_FACTOR / waveform->getWidth() ;
+	int mvt = (waveEnd - waveBegin) * MOVE_FACTOR / waveform->getWidth() ;
 
-    if(waveEnd < lgr)
-    {
-        if (waveEnd + mvt <= lgr)
-        {
-            waveBegin += mvt;
-            waveEnd += mvt;
-        }
-        else
-        {
-            waveEnd = lgr;
-        }
-    }
+	if(waveEnd < lgr)
+	{
+		if (waveEnd + mvt <= lgr)
+		{
+			waveBegin += mvt;
+			waveEnd += mvt;
+		}
+		else
+		{
+			waveEnd = lgr;
+		}
+	}
 
-    player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
-    waveUpdate();
+	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
+	waveUpdate();
 }
 
 /**
@@ -418,7 +418,7 @@ void SimpleMusicPlayer::moveRight()
  */
 int SimpleMusicPlayer::getWaveBegin()
 {
-    return waveBegin;
+	return waveBegin;
 }
 
 /**
@@ -427,7 +427,7 @@ int SimpleMusicPlayer::getWaveBegin()
  */
 int SimpleMusicPlayer::getWaveEnd()
 {
-    return waveEnd;
+	return waveEnd;
 }
 
 
@@ -438,10 +438,10 @@ int SimpleMusicPlayer::getWaveEnd()
  */
 void SimpleMusicPlayer::waveFullZoom()
 {
-    waveBegin = 0;
-    waveEnd = player->getTotalLengthInSamples();
-    player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
-    waveUpdate();
+	waveBegin = 0;
+	waveEnd = player->getTotalLengthInSamples();
+	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
+	waveUpdate();
 }
 
 /**
@@ -452,13 +452,13 @@ void SimpleMusicPlayer::waveFullZoom()
 
 void SimpleMusicPlayer::waveSongZoom()
 {
-    if(waveform->getSampleBegin() + 10000 < waveform->getSampleEnd())
-    {
-        waveBegin = waveform->getSampleBegin();
-        waveEnd = waveform->getSampleEnd();
-        player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
-        waveUpdate();
-    }
+	if(waveform->getSampleBegin() + 10000 < waveform->getSampleEnd())
+	{
+		waveBegin = waveform->getSampleBegin();
+		waveEnd = waveform->getSampleEnd();
+		player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
+		waveUpdate();
+	}
 }
 /**
  * @brief SimpleMusicPlayer::waveBarZoom
@@ -467,13 +467,13 @@ void SimpleMusicPlayer::waveSongZoom()
  */
 void SimpleMusicPlayer::waveBarZoom()
 {
-    if(waveform->getSampleBegin() + 10000 < waveform->getSampleBar())
-    {
-        waveBegin = waveform->getSampleBegin();
-        waveEnd = waveform->getSampleBar();
-        player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
-        waveUpdate();
-    }
+	if(waveform->getSampleBegin() + 10000 < waveform->getSampleBar())
+	{
+		waveBegin = waveform->getSampleBegin();
+		waveEnd = waveform->getSampleBar();
+		player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());
+		waveUpdate();
+	}
 }
 
 /**
@@ -483,6 +483,6 @@ void SimpleMusicPlayer::waveBarZoom()
  */
 void SimpleMusicPlayer::waveUpdate()
 {
-    waveform->update();
-    waveformTimeBar->update();
+	waveform->update();
+	waveformTimeBar->update();
 }

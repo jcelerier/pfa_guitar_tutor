@@ -1,8 +1,6 @@
 #include "TrackProperties.h"
 #include "ui_TrackProperties.h"
 
-#include <QDebug>
-
 /**
  * @brief TrackProperties::TrackProperties
  * @param parent Widget parent

@@ -1,9 +1,11 @@
 #include "SongManager.h"
 #include "Configuration.h"
 #include "Controler.hpp"
+
 #include <QMap>
 #include <QVector>
 #include <QString>
+
 
 /**
  * @brief SongManager::SongManager
@@ -55,7 +57,7 @@ void SongManager::load(LogicalTrack* track)
 	if(m_musicManager != 0 )
 	{
 		delete m_musicManager;
-		QTest::qSleep(2000); //sécurité pour portaudio
+//		sleep(2); //sécurité pour portaudio
 	}
 
 	m_musicManager = new MusicManager(multiTracksMap, muteTracks, -1, -1);
@@ -73,7 +75,7 @@ void SongManager::play()
 	m_musicManager->start();
 	m_musicManager->play();
 	m_time.restart();
-    m_isFirstChord = true;
+	m_isFirstChord = true;
 }
 
 /**
@@ -153,11 +155,11 @@ void SongManager::goToChord(TrackChord* chord)
 
 void SongManager::goToBeginning()
 {
-    m_musicManager->goToInMs(0);
-    m_elapsedTime = 0;
-    m_time.restart();
-    emit nonNaturalChange(m_currentChord);
-    emit updateChord(m_currentChord);
+	m_musicManager->goToInMs(0);
+	m_elapsedTime = 0;
+	m_time.restart();
+	emit nonNaturalChange(m_currentChord);
+	emit updateChord(m_currentChord);
 }
 
 
@@ -222,9 +224,9 @@ void SongManager::checkTime()
 		if(chordStartInMs <= m_elapsedTime && m_elapsedTime < chordEndInMs)
 		{
 			// Si cet accord est différend de l'accord actuel
-            if(m_currentChord != iChord || (m_currentChord == m_track->getPartTrackList()[0]->getTrackChordsList()[0] && m_isFirstChord))
-            {
-                m_isFirstChord = false;
+			if(m_currentChord != iChord || (m_currentChord == m_track->getPartTrackList()[0]->getTrackChordsList()[0] && m_isFirstChord))
+			{
+				m_isFirstChord = false;
 				// On émet la réussite de l'accord précédent
 				emit lastChordCorrectness(m_currentChord, (double) number_of_valid_chord_checks / (double)number_of_chord_checks);
 
@@ -236,7 +238,7 @@ void SongManager::checkTime()
 
 				m_currentPart =iChord->part();
 				m_currentChord = iChord;
-            }
+			}
 			return;
 		}
 	} while((iChord = iChord->next()) != 0);
@@ -254,5 +256,5 @@ TrackChord* SongManager::getCurrentChord()
 }
 
 int SongManager::getElapsedTime() {
-    return m_elapsedTime;
+	return m_elapsedTime;
 }

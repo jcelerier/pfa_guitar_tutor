@@ -6,7 +6,7 @@ Last change on 08/05/12
 
 #include "GridEditor.h"
 #include <QtWidgets/QFileDialog>
-#include <QDebug>
+
 
 /**
  * @brief GridEditor::GridEditor
@@ -145,8 +145,8 @@ void GridEditor::createActions(){
 	saveAsAction->setShortcut(QKeySequence::SaveAs);
 	quitAction->setShortcut(QKeySequence::Quit);
 	helpAction->setShortcut(QKeySequence::HelpContents);
-    undoAction->setShortcut(QKeySequence::Undo);
-    redoAction->setShortcut(QKeySequence::Redo);
+	undoAction->setShortcut(QKeySequence::Undo);
+	redoAction->setShortcut(QKeySequence::Redo);
 }
 
 /**
@@ -169,7 +169,7 @@ void GridEditor::setActionsToMenu()
 	editMenu->addAction(deleteRowAction);
 	editMenu->addAction(addColumnAction);
 	editMenu->addAction(deleteColumnAction);
-	editMenu->addAction(copyDownAction);
+	//editMenu->addAction(copyDownAction); //trop buggué
 	aboutMenu->addAction(helpAction);
 	aboutMenu->addAction(aboutAction);
 }

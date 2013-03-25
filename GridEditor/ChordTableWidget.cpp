@@ -3,7 +3,7 @@ Author: Fabien Fleurey
 Created on 28/02/12
 Last change on 08/05/12
 */
-#include <QDebug>
+
 #include <QtXml/QDomDocument>
 #include <QFile>
 #include <QTextStream>

@@ -4,7 +4,9 @@
 #else
 #include "../fmod/api/inc/fmod_errors.h"
 #endif
+
 #include <QDebug>
+
 /**
  * @brief MusicPlayer::MusicPlayer
  *
@@ -98,14 +100,14 @@ void MusicPlayer::stop()
 bool MusicPlayer::setSong(QString song)
 {
 	//à garder pour convertir en string C
-    QByteArray   ar = song.toLatin1();
+	QByteArray   ar = song.toLatin1();
 	const char * tmp = ar.constData();
 
-    FMOD_RESULT result = FMOD_System_CreateSound(system, tmp, FMOD_SOFTWARE | FMOD_2D |  FMOD_CREATESAMPLE, 0, &music);
+	FMOD_RESULT result = FMOD_System_CreateSound(system, tmp, FMOD_SOFTWARE | FMOD_2D |  FMOD_CREATESAMPLE, 0, &music);
 
 	if (result != FMOD_OK) {
 		state = false;
-        qDebug() << tmp << FMOD_ErrorString(result);
+		qDebug() << tmp << FMOD_ErrorString(result);
 		return false;
 	}
 	this->song = song;

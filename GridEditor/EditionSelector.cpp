@@ -1,7 +1,6 @@
 #include "EditionSelector.h"
 #include "GridEditor.h"
 
-#include <QDebug>
 /**
  * @brief EditionSelector::EditionSelector
  * @param parent Fenêtre parente
