@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<morceau timeSignature="4" line="16" chordMesure="1" end="261735" nom="Hotel California" comment="Un classique de 1976" column="4" fichier="Tracks/HotelCalifornia/EaglesHotelCalifornia.mp3" beginning="53145" bar="56402" artiste="The Eagles">
+  <partie nom="Intro">
+    <accord nom="Bm" temps="1033" repetition="1"/>
+    <accord nom="F#" temps="4290" repetition="1"/>
+    <accord nom="A" temps="7547" repetition="1"/>
+    <accord nom="E" temps="10804" repetition="1"/>
+    <accord nom="G" temps="14061" repetition="1"/>
+    <accord nom="D" temps="17318" repetition="1"/>
+    <accord nom="Em" temps="20575" repetition="1"/>
+    <accord nom="F#" temps="23832" repetition="1"/>
+    <accord nom="Bm" temps="27089" repetition="1"/>
+    <accord nom="F#" temps="30346" repetition="1"/>
+    <accord nom="A" temps="33603" repetition="1"/>
+    <accord nom="E" temps="36860" repetition="1"/>
+    <accord nom="G" temps="40117" repetition="1"/>
+    <accord nom="D" temps="43374" repetition="1"/>
+    <accord nom="Em" temps="46631" repetition="1"/>
+    <accord nom="F#" temps="49888" repetition="1"/>  
+  </partie>
+  <partie nom="Couplet 1">
+    <accord nom="Bm" temps="53145" repetition="1"/>
+    <accord nom="F#" temps="56402" repetition="1"/>
+    <accord nom="A" temps="59659" repetition="1"/>
+    <accord nom="E" temps="62916" repetition="1"/>
+    <accord nom="G" temps="66173" repetition="1"/>
+    <accord nom="D" temps="69430" repetition="1"/>
+    <accord nom="Em" temps="72687" repetition="1"/>
+    <accord nom="F#" temps="75944" repetition="1"/>
+  </partie>
+  <partie nom="Couplet 2">
+    <accord nom="Bm" temps="79201" repetition="1"/>
+    <accord nom="F#" temps="82458" repetition="1"/>
+    <accord nom="A" temps="85715" repetition="1"/>
+    <accord nom="E" temps="88972" repetition="1"/>
+    <accord nom="G" temps="92229" repetition="1"/>
+    <accord nom="D" temps="95486" repetition="1"/>
+    <accord nom="Em" temps="98743" repetition="1"/>
+    <accord nom="F#" temps="102000" repetition="1"/>
+  </partie>
+  <partie nom="Refrain 1">
+    <accord nom="G" temps="105257" repetition="1"/>
+    <accord nom="D" temps="108514" repetition="1"/>
+    <accord nom="F#" temps="111771" repetition="1"/>
+    <accord nom="Bm" temps="115028" repetition="1"/>
+    <accord nom="G" temps="118285" repetition="1"/>
+    <accord nom="D" temps="121542" repetition="1"/>
+    <accord nom="Em" temps="124799" repetition="1"/>
+    <accord nom="F#" temps="128056" repetition="1"/>
+  </partie>
+  <partie nom="Couplet 3">
+    <accord nom="Bm" temps="131313" repetition="1"/>
+    <accord nom="F#" temps="134570" repetition="1"/>
+    <accord nom="A" temps="137827" repetition="1"/>
+    <accord nom="E" temps="141084" repetition="1"/>
+    <accord nom="G" temps="144341" repetition="1"/>
+    <accord nom="D" temps="147598" repetition="1"/>
+    <accord nom="Em" temps="150855" repetition="1"/>
+    <accord nom="F#" temps="154112" repetition="1"/>
+  </partie>
+  <partie nom="Couplet 4">
+    <accord nom="Bm" temps="157369" repetition="1"/>
+    <accord nom="F#" temps="160626" repetition="1"/>
+    <accord nom="A" temps="163883" repetition="1"/>
+    <accord nom="E" temps="167140" repetition="1"/>
+    <accord nom="G" temps="170397" repetition="1"/>
+    <accord nom="D" temps="173654" repetition="1"/>
+    <accord nom="Em" temps="176911" repetition="1"/>
+    <accord nom="F#" temps="180168" repetition="1"/>
+  </partie>
+  <partie nom="Refrain 2">
+    <accord nom="G" temps="183425" repetition="1"/>
+    <accord nom="D" temps="186682" repetition="1"/>
+    <accord nom="F#" temps="189939" repetition="1"/>
+    <accord nom="Bm" temps="193196" repetition="1"/>
+    <accord nom="G" temps="196453" repetition="1"/>
+    <accord nom="D" temps="199710" repetition="1"/>
+    <accord nom="Em" temps="202967" repetition="1"/>
+    <accord nom="F#" temps="206224" repetition="1"/>
+  </partie>
+  <partie nom="Couplet 5">
+    <accord nom="Em" temps="209481" repetition="1"/>
+    <accord nom="F#" temps="212738" repetition="1"/>
+    <accord nom="A" temps="215995" repetition="1"/>
+    <accord nom="E" temps="219252" repetition="1"/>
+    <accord nom="G" temps="222509" repetition="1"/>
+    <accord nom="D" temps="225766" repetition="1"/>
+    <accord nom="Em" temps="229023" repetition="1"/>
+    <accord nom="F#" temps="232280" repetition="1"/>
+  </partie>
+  <partie nom="Couplet 6">
+    <accord nom="Bm" temps="235537" repetition="1"/>
+    <accord nom="F#" temps="238794" repetition="1"/>
+    <accord nom="A" temps="242051" repetition="1"/>
+    <accord nom="E" temps="245308" repetition="1"/>
+    <accord nom="G" temps="248565" repetition="1"/>
+    <accord nom="D" temps="251822" repetition="1"/>
+    <accord nom="Em" temps="255079" repetition="1"/>
+    <accord nom="F#" temps="258336" repetition="1"/>
+  </partie>
+</morceau>
