@@ -57,7 +57,6 @@ void SongManager::load(LogicalTrack* track)
 	if(m_musicManager != 0 )
 	{
 		delete m_musicManager;
-//		sleep(2); //sécurité pour portaudio
 	}
 
 	m_musicManager = new MusicManager(multiTracksMap, muteTracks, -1, -1);

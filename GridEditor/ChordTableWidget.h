@@ -92,7 +92,7 @@ public slots:
 	void setTimeInfo(const QTime beginning, const QTime bar, const QTime end);
 	void isPlayingAt(QTime t);
 
-	void currentItemChanged_slot(QTableWidgetItem* current, QTableWidgetItem* previous);
+	void currentItemChanged_slot(QTableWidgetItem* current, QTableWidgetItem*);
 	void itemChanged_slot(QTableWidgetItem* qitem);
 
 	void setBarSize(int);

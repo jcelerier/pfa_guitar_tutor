@@ -17,9 +17,6 @@ Last change on 08/05/12
 #include <Util.hpp>
 #include "GridEditor.h"
 
-
-#include <QDebug>
-
 /**
  * @brief ChordTableWidget::ChordTableWidget
  * @param column Nombre de colonnes
@@ -787,7 +784,7 @@ void ChordTableWidget::itemChanged_slot(QTableWidgetItem *qitem)
 }
 
 
-void ChordTableWidget::currentItemChanged_slot(QTableWidgetItem* current, QTableWidgetItem* previous)
+void ChordTableWidget::currentItemChanged_slot(QTableWidgetItem* current, QTableWidgetItem*)
 {
 	if(current->column() != columnCount() - 1)
 	{
