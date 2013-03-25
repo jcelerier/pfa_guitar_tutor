@@ -6,6 +6,7 @@
 #include <QString>
 #include <Track/TrackLoader.h>
 #include <PlayerScene.h>
+#include <QMessageBox>
 
 /**
  * @brief Controler::~Controler
@@ -39,27 +40,27 @@ Controler::Controler()
 	m_totalPlayedChords = 0;
 	m_totalValidatedChords = 0;
 
-	is_at_beginning = 0;
 	m_timer = new QTimer(this);
 	m_paused = false;
 	m_muted = false;
+	m_playing = false;
+
+	m_configuration = new Configuration();
+
+	m_scene = new PlayerScene(this);
+	m_view = new MyView(m_scene);
 
 	m_songManager = new SongManager(this);
 	connect(m_timer, SIGNAL(timeout()), this, SLOT(ticTac()));
 	connect(m_timer, SIGNAL(timeout()), m_songManager, SLOT(checkTime()));
 	connect(m_timer, SIGNAL(timeout()), m_songManager, SLOT(compareChordWithPlayed()));
 
-	connect(m_songManager, SIGNAL(nonNaturalChange(TrackChord*)), this, SLOT(resetValidatedNotes(TrackChord*)));
+	connect(m_songManager, SIGNAL(nonNaturalChange(TrackChord*)), this, SLOT(setChordPosition(TrackChord*)));
 	connect(m_songManager, SIGNAL(updateChord(TrackChord*)), this, SLOT(currentChordSlot(TrackChord*)));
 	connect(m_songManager, SIGNAL(lastChordCorrectness(TrackChord*, double)), this, SLOT(victoryPercent(TrackChord*, double)));
+	connect(m_songManager, SIGNAL(currentlyPlayedChord(BasicChord)), m_scene, SLOT(setPlayedChord(BasicChord)));
 
-	m_configuration = new Configuration();
-
-	restartEngine();
-
-    connect(m_songManager, SIGNAL(nonNaturalChange(TrackChord*)), m_scene, SLOT(setSceneToChord(TrackChord*)));
-
-
+	m_view->show();
 }
 
 /**
@@ -80,71 +81,43 @@ Configuration* Controler::getConfiguration()
  */
 void Controler::currentChordSlot(TrackChord* chord)
 {
+	if(chord == chord->part()->getTrackChordsList()[0]
+	   && chord->previous() != 0
+	   && m_configuration->getLoopSetting()
+	   && well_played_chords_in_current_part < chord->part()->getTrackChordsList().count() )
+	{
+		m_songManager->goToChord(chord->part()->previous()->getTrackChordsList()[0]);
+		well_played_chords_in_current_part = 0;
+		m_totalPlayedChords--;
+	}
+	else if(chord->previous() != 0
+			&& chord->previous()->part() != chord->part()) //on passe dans une nouvelle partie
+	{
+		well_played_chords_in_current_part = 0;
+	}
+
+
+	setChordPosition(chord);
+	chord->setPlaying();
+
+	m_scene->setSceneToChord(chord);
+}
+
+void Controler::setChordPosition(TrackChord* chord)
+{
+	int validatedToDelete = 0;
 	TrackChord* iChord = chord;
 	do
 	{
+		if(iChord->isValidated())
+			validatedToDelete ++;
+
 		iChord->setPlayed(false);
 		iChord->setPlaying(false);
 		iChord->validate(false);
 
 	} while((iChord = iChord->next()) != 0);
 
-	chord->setPlaying();
-	QList<PartTrack*>::iterator iPart;
-
-	for(iPart = m_track->getPartTrackList().begin();
-		iPart != m_track->getPartTrackList().end();
-		++iPart)
-
-	{
-		//Dans l'ordre :  si on est à un début de partie, autre que la première, qu'on loop, et qu'on a mal joué
-		if(chord == (*iPart)->getTrackChordsList()[0]
-				&& chord != m_track->getPartTrackList()[0]->getTrackChordsList()[0]
-				&& m_configuration->getLoopSetting()
-				&& well_played_chords_in_current_part < (*iPart)->getTrackChordsList().count() )
-		{
-			QList<TrackChord*> cList = (*(iPart - 1))->getTrackChordsList();
-			iChord = *(cList.begin());
-			m_songManager->goToChord(iChord);
-
-			do
-			{
-				iChord->setPlayed(false);
-				iChord->setPlaying(false);
-				iChord->validate(false);
-
-			} while((iChord = iChord->next()) != 0);
-
-			well_played_chords_in_current_part = 0;
-		}
-	}
-
-	m_totalPlayedChords++;
-	m_scene->updateStats(m_totalValidatedChords, m_totalPlayedChords);
-}
-
-void Controler::resetValidatedNotes(TrackChord* chord)
-{
-	QList<PlayerChord>::iterator iChord;
-
-	bool toReset = false;
-	int validatedToDelete = 0;
-
-	for(iChord = m_chordList.begin();
-		iChord != m_chordList.end();
-		++iChord)
-
-	{
-		if(chord == iChord->getTrackChord())
-			toReset=true;
-		if(toReset) {
-			if(iChord->isValidated())
-				validatedToDelete ++;
-
-			iChord->validate(false);
-
-		}
-	}
 	m_totalPlayedChords -= validatedToDelete;
 }
 
@@ -167,15 +140,17 @@ void Controler::victoryPercent(TrackChord* chord, double d)
 
 			++well_played_chords_in_current_part;
 		}
-	chord->setPlayed();
-	emit repaintSong();
+		chord->setPlayed();
 	}
+
+	m_scene->updateStats(m_totalValidatedChords, m_totalPlayedChords);
+	m_totalPlayedChords++;
 }
 
 /**
  * @brief Controler::ticTac
  *
- * Slot appelé à intervalle régulier pour permettre la mise à jour de l'interface et du scoreManager
+ * Slot appelé à intervalle régulier pour permettre la mise à jour de l'interface.
  */
 void Controler::ticTac()
 {
@@ -193,26 +168,32 @@ void Controler::ticTac()
  */
 bool Controler::initSong()
 {
-	QString path = QFileDialog::getOpenFileName(0, tr("Loading"), ".", tr("XML Files (*.xml)"), 0, QFileDialog::HideNameFilterDetails);
+
+	QString path = QFileDialog::getOpenFileName(0, tr("Loading"), m_configuration->getSongDirectory(), tr("XML Files (*.xml)"), 0, QFileDialog::HideNameFilterDetails);
 
 	if(path.isNull())
 	{
 		return false;
 	}
 
+	stopSong();
+
 	if(m_track != 0) delete m_track;
 	m_track = new LogicalTrack();
 
-	TrackLoader::convertXmlToLogicalTrack(path, m_track);
+	if(!(TrackLoader::convertXmlToLogicalTrack(path, m_track))) {
+		QMessageBox::information(0, tr("Error"), tr("An error occured while loading the XML file. You should open it again with the editor and check its content."));
+		m_track = 0;
+		return false;
+	}
+	if(!QFileInfo(m_track->getAudioFileName()).exists()) {
+		QMessageBox::information(0, tr("Error"), tr("The audio file does not exist. Please open the xml file with the editor to change the path to the audio file."));
+		delete m_track;
+		m_track = 0;
+		return false;
+	}
 
-	/* Boucle de base pour la lecture des Track;
-	TrackChord* iChord = m_track->getPartTrackList()[0]->getTrackChordsList()[0];
-	do
-	{
-
-	} while((iChord = iChord->next()) != 0);
-	*/
-    m_songManager->load(m_track);
+	m_songManager->load(m_track);
 	m_scene->loadSong(m_track);
 
 	return true;
@@ -223,20 +204,11 @@ bool Controler::initSong()
  *
  * Démarre la lecture de la partition et de la musique.
  */
-
 void Controler::startSong()
 {
-	if(is_at_beginning)
-	{
-		m_songManager->goToChord(m_track->getPartTrackList()[0]->getTrackChordsList()[0]);
-		is_at_beginning = false;
-	}
-
-
-    m_globalClock.start();
 	m_songManager->play();
 	m_timer->start(1000/Configuration::framesPerSec);
-    m_playing=true;
+	m_playing=true;
 }
 
 /**
@@ -246,7 +218,6 @@ void Controler::startSong()
  */
 void Controler::pauseSong()
 {
-	m_clockOffset += m_globalClock.elapsed();
 	m_timer->stop();
 	m_songManager->pause();
 	m_playing=false;
@@ -255,16 +226,15 @@ void Controler::pauseSong()
 /**
  * @brief Controler::stopSong
  *
- * Arr$ete le morceau
+ * Arrete le morceau
  */
 void Controler::stopSong()
 {
-	m_clockOffset += m_globalClock.elapsed();
 	m_timer->stop();
-	m_clockOffset = 0;
 	m_songManager->stop();
 	m_playing=false;
-	is_at_beginning = true;
+	m_totalPlayedChords = 0;
+	m_totalValidatedChords = 0;
 }
 
 /**
@@ -275,7 +245,8 @@ void Controler::stopSong()
  */
 int Controler::elapsedTime()
 {
-	return m_clockOffset + m_globalClock.elapsed();
+	//return m_clockOffset + m_globalClock.elapsed();
+	return m_songManager->getElapsedTime();
 }
 
 /**
@@ -293,17 +264,7 @@ void Controler::switchPlaying()
 	{
 		pauseSong();
 	}
-	m_globalClock.start();
-}
-
-/**
- * @brief Controler::pauseClock
- *
- * Pause l'horloge.
- */
-void Controler::pauseClock()
-{
-
+	//m_globalClock.start();
 }
 
 /**
@@ -340,30 +301,6 @@ bool Controler::muteState()
 // l'idéal serait de ne pas faire reset la view et juste de mettre à jour les infos
 // mais comme LogicalTrack est utilisé directement on ne peut pas pour l'instant
 // il faut aussi faire gaffe à la désactivation de portaudio dans MusicManager
-void Controler::restartEngine()
-{
-	m_timer->stop();
-	m_clockOffset = 0;
-
-	m_playing = false;
-
-	if (m_scene != 0) delete m_scene;
-	if (m_view != 0) delete m_view;
-
-	m_scene = new PlayerScene(this);
-	m_view = new MyView(m_scene);
-
-	if(!initSong())
-	{
-		exit(0);
-		// note : ne pas appeler les méthodes de qApp (quit, exit...) car qApp->exec() n'est pas encore appelé
-	}
-
-
-	connect(m_songManager, SIGNAL(currentlyPlayedChord(BasicChord)), m_scene, SLOT(setPlayedChord(BasicChord)));
-
-	m_view->show();
-}
 
 /**
  * @brief Controler::getTrack
@@ -379,4 +316,10 @@ LogicalTrack* Controler::getTrack()
 TrackChord* Controler::getFirstChord()
 {
 	return m_track->getFirstChord();
+}
+
+
+TrackChord* Controler::getCurrentChord()
+{
+	return m_songManager->getCurrentChord();
 }

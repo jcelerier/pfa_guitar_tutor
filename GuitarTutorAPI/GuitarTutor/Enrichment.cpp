@@ -1,5 +1,4 @@
 #include "Enrichment.h"
-#include <QDebug>
 
 QStringList Enrichment::listOfEnrichmentString = QStringList() <<""<<"m"/*<<"+"<<"-"<<"sus2"<<"sus4"<<"b5"<<"6"<<"7"<<"9"<<"11"<<"13"*/;
 
@@ -10,8 +9,8 @@ QStringList Enrichment::listOfEnrichmentString = QStringList() <<""<<"m"/*<<"+"<
  */
 Enrichment::Enrichment()
 {
-    initStringEquivs();
-    error = false;
+	initStringEquivs();
+	error = false;
 }
 
 /**
@@ -33,9 +32,9 @@ Enrichment::Enrichment(const Enrichment& enrich)  : QList<e_Enrichment>(enrich)
  */
 Enrichment::Enrichment(const QString &enrich)
 {
-    Enrichment ebis;
-    error = !extractEnrichmentsFromStr(enrich, ebis);
-    m_stringEquivs = ebis.getEnrichmentStringList();
+	Enrichment ebis;
+	error = !extractEnrichmentsFromStr(enrich, ebis);
+	m_stringEquivs = ebis.getEnrichmentStringList();
 
 }
 
@@ -47,13 +46,13 @@ Enrichment::Enrichment(const QString &enrich)
  */
 /*Enrichment::Enrichment(const QStringList enrichList)
 {
-    QString e;
-    Enrichment ebis;
-    foreach(e, enrichList){
-        extractEnrichmentsFromStr(e, ebis);
-        for(int i = 0; i < ebis.size(); i++) //aurait été plus propre avec un deuxième foreach
-            append(ebis[i]); //attention si la liste est mal formé
-    }
+	QString e;
+	Enrichment ebis;
+	foreach(e, enrichList){
+		extractEnrichmentsFromStr(e, ebis);
+		for(int i = 0; i < ebis.size(); i++) //aurait été plus propre avec un deuxième foreach
+			append(ebis[i]); //attention si la liste est mal formé
+	}
 }*/
 
 /**
@@ -73,7 +72,7 @@ void Enrichment::initStringEquivs()
  */
 bool Enrichment::isValid() const
 {
-    return !error;
+	return !error;
 }
 
 /**
@@ -85,13 +84,13 @@ bool Enrichment::isValid() const
  */
 bool Enrichment::isValid(const QString& enrichment)
 {
-    Enrichment ebis;
-    return Enrichment::extractEnrichmentsFromStr(enrichment, ebis);
+	Enrichment ebis;
+	return Enrichment::extractEnrichmentsFromStr(enrichment, ebis);
 }
 
 
 bool Enrichment::isEmpty() const{
-    return m_stringEquivs.isEmpty();
+	return m_stringEquivs.isEmpty();
 }
 
 /**
@@ -105,35 +104,35 @@ bool Enrichment::isEmpty() const{
  */
 bool Enrichment::extractEnrichmentsFromStr(QString const &str_enr, Enrichment &e)
 {
-    QString str = str_enr;
+	QString str = str_enr;
 
-    //Si la chaine n'a pas d'enrichissement il ne faut pas essayer d'accèder à des cases vides.
-    if (str.size() < 2){
-        return true;
-    }
-    else if(str.size() == 1 && (str.at(0) == '#' || str.at(0) == 'b')) {
-        return true;
-    }
+	//Si la chaine n'a pas d'enrichissement il ne faut pas essayer d'accèder à des cases vides.
+	if (str.size() < 2){
+		return true;
+	}
+	else if(str.size() == 1 && (str.at(0) == '#' || str.at(0) == 'b')) {
+		return true;
+	}
 
-    //On enlève les caractères faisant partie de la tonalité
-    str.remove(0,1);
-    if(str.at(0) == '#' || str.at(0) == 'b'){
-        str.remove(0,1);
-    }
+	//On enlève les caractères faisant partie de la tonalité
+	str.remove(0,1);
+	if(str.at(0) == '#' || str.at(0) == 'b'){
+		str.remove(0,1);
+	}
 
-    //On rajoute les enrichissement trouvés les un après les autres
-    for(int i = 0; i < NUM_ENRICHMENTS; i++){
-        if(str.contains(listOfEnrichmentString.at(i))){
-            e.addEnrichment(listOfEnrichmentString.at(i));
-            str.remove(listOfEnrichmentString.at(i));
-        }
-    }
+	//On rajoute les enrichissement trouvés les un après les autres
+	for(int i = 0; i < NUM_ENRICHMENTS; i++){
+		if(str.contains(listOfEnrichmentString.at(i))){
+			e.addEnrichment(listOfEnrichmentString.at(i));
+			str.remove(listOfEnrichmentString.at(i));
+		}
+	}
 
-    if(QString::compare(str, "") == 0){
-        return true;
-    }
-    else
-        return false;
+	if(QString::compare(str, "") == 0){
+		return true;
+	}
+	else
+		return false;
 
 }
 
@@ -143,7 +142,7 @@ bool Enrichment::extractEnrichmentsFromStr(QString const &str_enr, Enrichment &e
  */
 const QStringList& Enrichment::getEnrichmentStringList() const
 {
-    return m_stringEquivs;
+	return m_stringEquivs;
 }
 
 const QStringList& Enrichment::getListOfEnrichmentStringList() const
@@ -152,7 +151,7 @@ const QStringList& Enrichment::getListOfEnrichmentStringList() const
 }
 
 void Enrichment::addEnrichment(const QString &newEnrich){
-    m_stringEquivs.append(newEnrich);
+	m_stringEquivs.append(newEnrich);
 }
 
 /**
@@ -163,11 +162,11 @@ void Enrichment::addEnrichment(const QString &newEnrich){
  */
 QString Enrichment::toString()
 {
-    QString str = "";
-    if(!(m_stringEquivs.isEmpty())){
-        for(int i = 0; i < m_stringEquivs.size(); i++){
-            str += m_stringEquivs.at(i);
-        }
-    }
-    return str;
+	QString str = "";
+	if(!(m_stringEquivs.isEmpty())){
+		for(int i = 0; i < m_stringEquivs.size(); i++){
+			str += m_stringEquivs.at(i);
+		}
+	}
+	return str;
 }

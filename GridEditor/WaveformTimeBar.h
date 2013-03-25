@@ -22,6 +22,7 @@ class WaveformTimeBar : public QWidget
 
 		void mousePressEvent( QMouseEvent * event );
 		void mouseMoveEvent(QMouseEvent * event);
+		void mouseReleaseEvent(QMouseEvent * event);
 
 		void moveLeft(WaveformTimeSlider * slider);
 		void moveRight(WaveformTimeSlider * slider);
@@ -32,6 +33,7 @@ class WaveformTimeBar : public QWidget
 
 	signals:
 		void timeChanged(int, QTime);
+		void somethingChanged();
 
 	public slots:
 		void update();

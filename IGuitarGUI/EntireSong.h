@@ -2,6 +2,7 @@
 #define ENTIRESONG_H
 
 #include <QGraphicsItem>
+#include <Track/LogicalTrack.h>
 
 class Controler;
 
@@ -11,29 +12,21 @@ public:
 	EntireSong(QGraphicsItem *parent = 0);
 	virtual QRectF boundingRect() const;
 	virtual void paint(QPainter *, const QStyleOptionGraphicsItem *, QWidget* widget= 0);
-	void nextChord();
-	virtual void advance ( int );
-	void validateChord(bool v);
-	QString getCurrentChord() const;
-	int getCurrentDuration() const;
-	int getTotalPlayedChords() const;
-	int getTotalValidatedChords() const;
-	bool getIsCurrentChordValidated() const;
-	void setCurrentChord(int);
+    void nextChord();
+    void setCurrentChord(TrackChord *tc);
+    void load(LogicalTrack*);
 
 private:
-	QList<QGraphicsRectItem*> m_cList;
-	int m_currentChord;
-    int m_lastRefresh;
-	QGraphicsItemGroup* m_scrollingTextContainer;
-	QGraphicsTextItem* m_timeText;
-    QPointF m_initialPos;
 
-	float m_pixPerMsec;
+    void paintChord(TrackChord*);
+    TrackChord* m_currentChord;
 
-	Controler* m_controler;
-	bool m_isCurrentChordValidated;
+    Controler* m_controler;
 
+    QMap<TrackChord*, QGraphicsRectItem*> m_gMap;
+    LogicalTrack* m_track;
+    bool m_loaded;
+    QGraphicsItemGroup* m_container;
 };
 
 #endif // ENTIRESONG_H

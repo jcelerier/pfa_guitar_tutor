@@ -8,6 +8,9 @@ namespace Ui {
 class ConfigPanel;
 }
 
+/**
+ * @brief Affiche un widget permettant le réglage de certains paramètres du player.
+ */
 class ConfigPanel : public QWidget
 {
     Q_OBJECT

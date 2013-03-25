@@ -1,5 +1,4 @@
 #include "HelpWindow.h"
-#include <QDebug>
 #include <QDir>
 
 /**
@@ -20,8 +19,8 @@ HelpWindow::HelpWindow(QWidget *parent) :
 	layout->addWidget(page);
 	layout->addWidget(close);
 
-    setMinimumWidth(1100);
-    setMaximumWidth(1100);
+	setMinimumWidth(1100);
+	setMaximumWidth(1100);
 
 	setLayout(layout);
 

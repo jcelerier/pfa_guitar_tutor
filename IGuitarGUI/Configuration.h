@@ -49,6 +49,9 @@ class Configuration
         bool getLoopSetting() const;
 		void setLoopSetting(bool);
 
+        QString getSongDirectory() const;
+        void setSongDirectory(QString);
+
 		//private, please ?
 		static int const framesPerSec=60;
 		static int const originalWidth=ORIGINAL_WIDTH;
@@ -73,7 +76,7 @@ private:
 		int percent_to_go_to_next_part;
 
 		bool loop_on_failure;
-
+        QString songDirectory;
 
 };
 

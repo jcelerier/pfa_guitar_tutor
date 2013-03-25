@@ -25,7 +25,7 @@
 #include "NewGridDialog.h"
 #include "Track/TrackLoader.h"
 #include "EditorPanel.h"
-#include "StatePacket.h"
+#include "SaveQueue.h"
 #include "HelpWindow.h"
 
 /**
@@ -35,6 +35,7 @@ class GridEditor : public QMainWindow
 {
 		Q_OBJECT
 		friend class EditionSelector;
+		friend class SaveQueue;
 
 		int m_barsize;
 		QSettings* settings;
@@ -67,14 +68,16 @@ class GridEditor : public QMainWindow
 		HelpWindow *helpWindow;
 		TrackProperties* trackProperties;
 
-		StatePacket *statePacket;
+		SaveQueue* saveQueue;
 
 	public:
 		GridEditor();
 		~GridEditor();
 		QString statusText();
+		void enableUndo(bool b);
+		void enableRedo(bool b);
 		void startGrid(int);
-		void createGrid(int columns, int rows);
+		void createGrid(int columns, int rows, bool createdFromUndo = false);
 private:
 		void createMenu();
 		void createActions();
@@ -101,9 +104,6 @@ private:
 		void about();
 		void setStatusText();
 		void help();
-
-		void saveState();
-		void restoreState();
 };
 
 #endif // GRIDEDITOR_H

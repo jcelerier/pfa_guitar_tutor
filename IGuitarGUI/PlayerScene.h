@@ -9,7 +9,7 @@
 #include "ButtonItem.h"
 #include "MenuItem.h"
 #include "ScrollingItem.h"
-#include "EntireSongBis.h"
+#include "EntireSong.h"
 #include "Configuration.h"
 #include "ChordDictionary.h"
 #include "ConfigPanel.h"
@@ -44,6 +44,7 @@ public slots:
     void stop();
     void back();
 	void switchMenu();
+    void switchMenu(bool b);
 	void switchMute();
     void switchPlay();
 
@@ -61,13 +62,12 @@ private:
 	QSoundEffect* m_cntClick;
 	QSoundEffect* m_cntClickUp;
 
-	int  m_timeNoteSynchronized;
-	int  m_lastTimeCheck;
-	int  m_currentNoteDuration;
 	Controler* m_controler;
 	ChordDictionary *m_dictionary;
     ConfigPanel *m_configPanel;
 	void disposeScene();
+    TrackChord* m_lastChord;
+    bool m_loaded;
 
 };
 

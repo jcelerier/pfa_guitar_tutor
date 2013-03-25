@@ -1,23 +1,22 @@
 #include "CaseItem.h"
 #include <QtWidgets/QMenu>
-#include <QDebug>
 #include <QMouseEvent>
 /**
  * @brief CaseItem::CaseItem
  *
  * Constructeur des cases de la grille.
  */
-CaseItem::CaseItem(const bool partEditable) :  QTableWidgetItem(), m_color(new QColor())
+CaseItem::CaseItem(const bool partEditable) :  QTableWidgetItem(), m_brush(new QBrush())
 {
 	m_beginningTimer = QTime(0,0);
 	m_part = "";
-	m_color->setRgb(255, 255, 255);
+	m_brush->setColor(Qt::white);
 
 	m_timerManuallySet = false;
 	m_partEditable = partEditable;
 	m_currentlyPlaying = false;
 
-	this->setBackgroundColor(m_color->toRgb());
+	this->setBackground(*m_brush);
 	this->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
 	this->setTextAlignment(Qt::AlignCenter);
 }
@@ -28,11 +27,16 @@ CaseItem::CaseItem(const bool partEditable) :  QTableWidgetItem(), m_color(new Q
  *
  * Constructeur surchagé (ressemble vaguement à une copie.)
  */
-CaseItem::CaseItem(const QTableWidgetItem& item) : QTableWidgetItem(item), m_color(new QColor(item.background().color()))
+CaseItem::CaseItem(const CaseItem& item): QTableWidgetItem(item)
 {
-	this->text() = ((CaseItem) item).text();
-	this->m_part = ((CaseItem) item).m_part;
-	this->m_beginningTimer = ((CaseItem) item).m_beginningTimer;
+	this->text() = item.text();
+	if(!item.m_part.isNull())
+		this->m_part = item.m_part;
+	this->m_beginningTimer = item.m_beginningTimer;
+	this->m_brush = new QBrush(item.background());
+	this->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+	this->setTextAlignment(Qt::AlignCenter);
+
 }
 
 /**
@@ -42,7 +46,7 @@ CaseItem::CaseItem(const QTableWidgetItem& item) : QTableWidgetItem(item), m_col
  */
 CaseItem::~CaseItem()
 {
-	delete m_color;
+	delete m_brush;
 }
 
 /**
@@ -54,8 +58,9 @@ CaseItem::~CaseItem()
  *
  * Configure la couleur de la case.
  */
-void CaseItem::set_color(int r, int g, int b, int a) {
-    m_color->setRgb(r, g, b, a);
+void CaseItem::set_color(int r, int g, int b, int a)
+{
+	m_brush->setColor(QColor(r, g, b, a));
 
 	if(r == 255 && g == 255 && b == 255) //ugly hack, plutot faire une surcharge
 	{
@@ -64,19 +69,11 @@ void CaseItem::set_color(int r, int g, int b, int a) {
 	}
 	else
 	{
-		this->setBackgroundColor(m_color->toRgb());
+		this->setBackgroundColor(QColor(r, g, b, a));
+		//this->setBackground(*m_brush);
 	}
 }
 
-/**
- * @brief CaseItem::get_color
- * @return La couleur actuelle de la case.
- *
- * Donne la couleur actuelle de la case. La couleur permet de déterminer l'état de la case.
- */
-QColor* CaseItem::get_color() const {
-	return m_color;
-}
 
 /**
  * @brief CaseItem::set_chord
@@ -117,7 +114,7 @@ QString CaseItem::get_chord() const {
 CaseItem* CaseItem::clone() const
 {
 	QTableWidgetItem* item = QTableWidgetItem::clone();
-	return new CaseItem((const QTableWidgetItem&) *item);
+	return new CaseItem((const CaseItem&) *item);
 }
 
 /**
@@ -224,7 +221,7 @@ bool CaseItem::isBeingPlayed()
  */
 void CaseItem::restoreColor()
 {
-    set_color(255, 255, 255, 255);
+	set_color(255, 255, 255, 255);
 }
 
 /**

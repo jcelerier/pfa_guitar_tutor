@@ -1,8 +1,6 @@
 #include "AudioSync.h"
 #include <Util.hpp>
 #include <QtWidgets/QMessageBox>
-#include <QDebug>
-
 
 
 /**
@@ -360,12 +358,7 @@ void AudioSync::setTimeSignature(int t)
  * Retourne le temps de fin de la première mesure en ms.
  */
 int AudioSync::getBar(){
-	QTime t = bar->time();
-    int ms = t.hour()*60*60*1000;//conversion d'une heure en ms
-    ms += t.minute()*60*1000;
-    ms += t.second()*1000;
-	ms += t.msec();
-	return ms;
+	return TimeToMsec(bar->time());
 }
 
 /**
@@ -375,12 +368,7 @@ int AudioSync::getBar(){
  * Retourne le temps de début de la première mesure en ms.
  */
 int AudioSync::getBeginning(){
-    QTime t = beginning->time();
-    int ms = t.hour()*60*60*1000;//conversion d'une heure en ms
-    ms += t.minute()*60*1000;
-    ms += t.second()*1000;
-	ms += t.msec();
-	return ms;
+	return TimeToMsec(beginning->time());
 }
 
 /**
@@ -390,10 +378,5 @@ int AudioSync::getBeginning(){
  * Retourne le temps de fin du morceau en ms.
  */
 int AudioSync::getEnd(){
-	QTime t = end->time();
-    int ms = t.hour()*60*60*1000;//conversion d'une heure en ms
-    ms += t.minute()*60*1000;
-    ms += t.second()*1000;
-	ms += t.msec();
-	return ms;
+	return TimeToMsec(end->time());
 }

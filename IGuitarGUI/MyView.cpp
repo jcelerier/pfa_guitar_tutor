@@ -1,9 +1,10 @@
 #include "MyView.h"
 #include "PlayerScene.h"
-
+#include <QGLWidget>
 MyView::MyView(QGraphicsScene * scene, QWidget * parent) :
 	QGraphicsView(scene, parent)
 {
+	setViewport(new QGLWidget); //OPENGL BITCHES
 	setSceneRect(0, 0, Configuration::originalWidth-20, Configuration::originalHeight-20);
 	centerOn(Configuration::originalWidth/2, Configuration::originalHeight/2);
 
@@ -43,7 +44,7 @@ void MyView::keyPressEvent(QKeyEvent* event)
 			scene()->advance();
 			break;*/
 	case Qt::Key_Space :
-        ((PlayerScene*)scene())->switchPlay();
+		((PlayerScene*)scene())->switchPlay();
 		break;
 	/*case Qt::Key_Tab : //Problème: le dico apparait en arrière plan
 		((PlayerScene*)scene())->displayDictionary();

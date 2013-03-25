@@ -52,12 +52,12 @@
         <translation>Parcourir</translation>
     </message>
     <message>
-        <location filename="AudioWindow.cpp" line="150"/>
+        <location filename="AudioWindow.cpp" line="152"/>
         <source>Open a file</source>
         <translation>Ouvrir un fichier</translation>
     </message>
     <message>
-        <location filename="AudioWindow.cpp" line="150"/>
+        <location filename="AudioWindow.cpp" line="152"/>
         <source>Music (*.mp3 *.ogg *.wma *.wav)</source>
         <translation>Musique (*.mp3 *.ogg *.wma *.wav)</translation>
     </message>
@@ -65,17 +65,17 @@
 <context>
     <name>ChordTableWidget</name>
     <message>
-        <location filename="ChordTableWidget.cpp" line="33"/>
+        <location filename="ChordTableWidget.cpp" line="34"/>
         <source>Annotation</source>
         <translation>Annotation</translation>
     </message>
     <message>
-        <location filename="ChordTableWidget.cpp" line="60"/>
+        <location filename="ChordTableWidget.cpp" line="61"/>
         <source>Properties</source>
         <translation>Propriétés</translation>
     </message>
     <message>
-        <location filename="ChordTableWidget.cpp" line="61"/>
+        <location filename="ChordTableWidget.cpp" line="62"/>
         <source>Play from here</source>
         <translation>Jouer à partir d&apos;ici</translation>
     </message>
@@ -227,12 +227,12 @@
 <context>
     <name>GridEditor</name>
     <message>
-        <location filename="GridEditor.cpp" line="89"/>
+        <location filename="GridEditor.cpp" line="90"/>
         <source>&amp;File</source>
         <translation>&amp;Fichier</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="90"/>
+        <location filename="GridEditor.cpp" line="91"/>
         <source>&amp;Edit</source>
         <translation>&amp;Edition</translation>
     </message>
@@ -241,112 +241,112 @@
         <translation type="obsolete">&amp;Options</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="91"/>
+        <location filename="GridEditor.cpp" line="92"/>
         <source>&amp;About</source>
         <translation>&amp;A propos</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="100"/>
+        <location filename="GridEditor.cpp" line="101"/>
         <source>&amp;Quit</source>
         <translation>&amp;Quitter</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="101"/>
+        <location filename="GridEditor.cpp" line="102"/>
         <source>About</source>
         <translation>A propos</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="102"/>
+        <location filename="GridEditor.cpp" line="103"/>
         <source>&amp;New</source>
         <translation>&amp;Nouveau</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="103"/>
+        <location filename="GridEditor.cpp" line="104"/>
         <source>&amp;Save</source>
         <translation>Enregi&amp;strer</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="104"/>
+        <location filename="GridEditor.cpp" line="105"/>
         <source>Save as</source>
         <translation>Enregistrer sous</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="105"/>
+        <location filename="GridEditor.cpp" line="106"/>
         <source>&amp;Open</source>
         <translation>&amp;Ouvrir</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="106"/>
+        <location filename="GridEditor.cpp" line="107"/>
         <source>Add row</source>
         <translation>Ajouter une ligne</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="107"/>
+        <location filename="GridEditor.cpp" line="108"/>
         <source>Delete row</source>
         <translation>Supprimer une ligne</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="108"/>
+        <location filename="GridEditor.cpp" line="109"/>
         <source>Add column</source>
         <translation>Ajouter une colonne</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="109"/>
+        <location filename="GridEditor.cpp" line="110"/>
         <source>Delete column</source>
         <translation>Supprimer une colonne</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="110"/>
+        <location filename="GridEditor.cpp" line="111"/>
         <source>&amp;Copy down</source>
         <translation>&amp;Copier</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="115"/>
+        <location filename="GridEditor.cpp" line="116"/>
         <source>&amp;Undo</source>
         <translation>&amp;Annuler</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="116"/>
+        <location filename="GridEditor.cpp" line="117"/>
         <source>&amp;Redo</source>
         <translation>&amp;Refaire</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="446"/>
+        <location filename="GridEditor.cpp" line="461"/>
         <source>Loading</source>
         <translation>Chargement</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="453"/>
+        <location filename="GridEditor.cpp" line="468"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="453"/>
+        <location filename="GridEditor.cpp" line="468"/>
         <source>The file has not been loaded. Is it correct?</source>
         <translation>Le fichier n&apos;a pas été chargé. Est-il correct?</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="485"/>
+        <location filename="GridEditor.cpp" line="507"/>
         <source>About GridEditor</source>
         <translation>A propos de GridEditor</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="485"/>
+        <location filename="GridEditor.cpp" line="507"/>
         <source>Editor for the GuitarTutor software suite.</source>
         <translation>Editeur pour la suite logicielle GuitarTutor.</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="499"/>
+        <location filename="GridEditor.cpp" line="521"/>
         <source>Track: </source>
         <translation>Piste: </translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="505"/>
+        <location filename="GridEditor.cpp" line="527"/>
         <source>  Artist: </source>
         <translation>  Artiste: </translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="536"/>
+        <location filename="GridEditor.cpp" line="558"/>
         <source>The document has been modified</source>
         <translation>Le document a été modifié</translation>
     </message>
@@ -355,22 +355,22 @@
         <translation type="obsolete">Renommer</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="111"/>
+        <location filename="GridEditor.cpp" line="112"/>
         <source>Audio</source>
         <translation>Audio</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="112"/>
+        <location filename="GridEditor.cpp" line="113"/>
         <source>Properties</source>
         <translation>Propriétés</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="113"/>
+        <location filename="GridEditor.cpp" line="114"/>
         <source>&amp;Help</source>
         <translation>&amp;Aide</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="178"/>
+        <location filename="GridEditor.cpp" line="183"/>
         <source>Tool bar</source>
         <translation>Barre d&apos;outils</translation>
     </message>
@@ -379,13 +379,13 @@
         <translation type="obsolete">Le document a été modifié.</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="537"/>
+        <location filename="GridEditor.cpp" line="559"/>
         <source>Do you want to save your changes?</source>
         <translation>Voulez-vous enregistrer vos modifications?</translation>
     </message>
     <message>
-        <location filename="GridEditor.cpp" line="400"/>
-        <location filename="GridEditor.cpp" line="446"/>
+        <location filename="GridEditor.cpp" line="416"/>
+        <location filename="GridEditor.cpp" line="461"/>
         <source>XML Files (*.xml)</source>
         <translation>Fichiers XML (*.xml)</translation>
     </message>
@@ -560,12 +560,12 @@ Nombre de colonnes:</translation>
         <translation type="obsolete">Musique (*.mp3 *.ogg *.wma *.wav)</translation>
     </message>
     <message>
-        <location filename="SimpleMusicPlayer.cpp" line="119"/>
+        <location filename="SimpleMusicPlayer.cpp" line="118"/>
         <source>So sorry...</source>
         <translation>Désolé...</translation>
     </message>
     <message>
-        <location filename="SimpleMusicPlayer.cpp" line="119"/>
+        <location filename="SimpleMusicPlayer.cpp" line="118"/>
         <source>Impossible to open the file </source>
         <translation>Erreur à l&apos;ouverture du fichier</translation>
     </message>
@@ -601,17 +601,16 @@ Nombre de colonnes:</translation>
         <translation>Accords par mesure</translation>
     </message>
     <message>
-        <location filename="TrackProperties.ui" line="110"/>
         <source>Apply</source>
-        <translation>Appliquer</translation>
+        <translation type="obsolete">Appliquer</translation>
     </message>
     <message>
-        <location filename="TrackProperties.ui" line="139"/>
+        <location filename="TrackProperties.ui" line="126"/>
         <source>Time signature : 3/4, 4/4...</source>
         <translation>Signature rythmique : 3/4, 4/4...</translation>
     </message>
     <message>
-        <location filename="TrackProperties.ui" line="152"/>
+        <location filename="TrackProperties.ui" line="139"/>
         <source>Comment</source>
         <translation>Commentaires</translation>
     </message>

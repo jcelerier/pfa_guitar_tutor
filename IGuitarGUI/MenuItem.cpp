@@ -39,7 +39,7 @@ MenuItem::MenuItem(QGraphicsItem *parent) :
 
 	// Hide fond modal
 	m_rect->setRect(0, 0, Configuration::originalWidth, Configuration::originalHeight);
-	m_rect->setZValue(10);
+    m_rect->setZValue(50);
 
 	QBrush hidingBrush(Qt::black);
 	m_rect->setBrush(hidingBrush);
@@ -55,7 +55,7 @@ MenuItem::MenuItem(QGraphicsItem *parent) :
 	m_menuBack->setBrush(backBrush);
 	m_menuBack->setPen(borderPen);
 
-	QFont eltFont("Roboto", 28);
+    QFont eltFont(":/fonts/Roboto-Regular.ttf", 28);
 	eltFont.setWeight(QFont::Bold);
 
 	// Elements de menu
@@ -90,7 +90,7 @@ void MenuItem::addElt(QString name, QString text) {
 	if(m_menuMap.contains(name))
 		return;
 
-	QFont eltFont("Roboto", 28);
+    QFont eltFont(":/fonts/Roboto-Regular.ttf", 28);
 	eltFont.setWeight(QFont::Bold);
 	QPixmap menuBtnImage(":/images/btn_bg.png");
 

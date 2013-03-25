@@ -1,5 +1,5 @@
 #include "TimeEdit.h"
-#include <QDebug>
+
 
 /**
  * @brief TimeEdit::TimeEdit

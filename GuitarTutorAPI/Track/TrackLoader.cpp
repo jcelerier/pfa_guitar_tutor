@@ -1,5 +1,5 @@
 #include "TrackLoader.h"
-#include <QDebug>
+
 
 TrackLoader::TrackLoader() {
 
@@ -20,20 +20,19 @@ bool TrackLoader::convertLogicalTrackToXml(LogicalTrack* currentTrack, QString f
 	doc.appendChild(root);
 	root.setAttribute("nom", currentTrack->getTrackName());
 	root.setAttribute("artiste", currentTrack->getArtist());
-    root.setAttribute("chordMesure", currentTrack->getMesure());
+	root.setAttribute("chordMesure", currentTrack->getMesure());
 	root.setAttribute("fichier", currentTrack->getAudioFileName());
 	root.setAttribute("line", currentTrack->getLine());
 	root.setAttribute("column", currentTrack->getColumn());
 
-    root.setAttribute("bar", currentTrack->getBar());
-    root.setAttribute("beginning", currentTrack->getBeginning());
-    root.setAttribute("end", currentTrack->getEnd());
-    root.setAttribute("timeSignature", currentTrack->getTimeSignature());
-    root.setAttribute("comment", currentTrack->getComment());
+	root.setAttribute("bar", currentTrack->getBar());
+	root.setAttribute("beginning", currentTrack->getBeginning());
+	root.setAttribute("end", currentTrack->getEnd());
+	root.setAttribute("timeSignature", currentTrack->getTimeSignature());
+	root.setAttribute("comment", currentTrack->getComment());
 
-    qDebug() << "Voila le comment : " << currentTrack->getComment();
-    //ajout des parties
-    QList<PartTrack*> partList = currentTrack->getPartTrackList();
+	//ajout des parties
+	QList<PartTrack*> partList = currentTrack->getPartTrackList();
 
 	QList<PartTrack*>::const_iterator iPart;
 
@@ -86,59 +85,58 @@ bool TrackLoader::convertLogicalTrackToXml(LogicalTrack* currentTrack, QString f
 */
 bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* currentTrack) {
 
-    TrackChord* previousChord = 0;
-    TrackChord * currentChord = 0;
-    PartTrack* previousPart = 0;
-    PartTrack* currentPart = 0;
+	TrackChord* previousChord = 0;
+	TrackChord * currentChord = 0;
+	PartTrack* previousPart = 0;
 
-    QDomDocument *dom = new QDomDocument(xmlFileName); // Structure contenant le XML préalablement chargé
-    QFile xmlDoc(xmlFileName); // Ouverture du fichier XML
+	QDomDocument *dom = new QDomDocument(xmlFileName); // Structure contenant le XML préalablement chargé
+	QFile xmlDoc(xmlFileName); // Ouverture du fichier XML
 
-    if(!xmlDoc.open(QIODevice::ReadOnly)) { // Erreur à l'ouverture du .xml ?
-        qCritical("API.concertLogicalToXML : Erreur ouverture XML");
-        return false;
-    }
+	if(!xmlDoc.open(QIODevice::ReadOnly)) { // Erreur à l'ouverture du .xml ?
+		qCritical("API.concertLogicalToXML : Erreur ouverture XML");
+		return false;
+	}
 
-    if (!dom->setContent(&xmlDoc)) { // Impossibilité de linker le fichier .xml ouvert au QDomDocument ?
-        xmlDoc.close();
-        qCritical("API.concertLogicalToXML : Erreur linkage .xml au QDomDocument");
-        return false;
-    }
+	if (!dom->setContent(&xmlDoc)) { // Impossibilité de linker le fichier .xml ouvert au QDomDocument ?
+		xmlDoc.close();
+		qCritical("API.concertLogicalToXML : Erreur linkage .xml au QDomDocument");
+		return false;
+	}
 
-    xmlDoc.close(); // Fermeture du document xml maintenant contenu dans un QDomDocument
+	xmlDoc.close(); // Fermeture du document xml maintenant contenu dans un QDomDocument
 
-    QDomElement root = dom->documentElement();
+	QDomElement root = dom->documentElement();
 
-    // Inscription des datas dans la structure de piste LogicalTrack
-    QString n, a, f, m, line, column, bar, beginning, end, tmp, com;//Pour stocker les information du morceaux : n = nom, a = artiste, f = fichier, m = nbr mesures
+	// Inscription des datas dans la structure de piste LogicalTrack
+	QString n, a, f, m, line, column, bar, beginning, end, tmp, com;//Pour stocker les information du morceaux : n = nom, a = artiste, f = fichier, m = nbr mesures
 
-    if(root.isNull()) { //Si le l'arborescence xml est vide
-        delete currentTrack;
-        qCritical("API.concertLogicalToXML : Pas d'information xml");
-        return false;
-    }
+	if(root.isNull()) { //Si le l'arborescence xml est vide
+		delete currentTrack;
+		qCritical("API.concertLogicalToXML : Pas d'information xml");
+		return false;
+	}
 
-    //Chargement sans vérification des noeuds.
-    n = root.attribute("nom", 0);
-    a = root.attribute("artiste", 0);
-    f = root.attribute("fichier", 0);
-    line = root.attribute("line", 0);
-    column = root.attribute("column", 0);
-    m = root.attribute("chordMesure", 0);
-    bar = root.attribute("bar", 0);
-    beginning = root.attribute("beginning", 0);
-    end = root.attribute("end", 0);
-    tmp = root.attribute("timeSignature", 0);
-    com = root.attribute("comment", 0);
+	//Chargement sans vérification des noeuds.
+	n = root.attribute("nom", 0);
+	a = root.attribute("artiste", 0);
+	f = root.attribute("fichier", 0);
+	line = root.attribute("line", 0);
+	column = root.attribute("column", 0);
+	m = root.attribute("chordMesure", 0);
+	bar = root.attribute("bar", 0);
+	beginning = root.attribute("beginning", 0);
+	end = root.attribute("end", 0);
+	tmp = root.attribute("timeSignature", 0);
+	com = root.attribute("comment", 0);
 
-    currentTrack->setTrackName(n);
-    currentTrack->setArtist(a);
-    currentTrack->setAudioFileName(f);
-    currentTrack->setComment(com);
+	currentTrack->setTrackName(n);
+	currentTrack->setArtist(a);
+	currentTrack->setAudioFileName(f);
+	currentTrack->setComment(com);
 	currentTrack->setLine(line.toInt());
 	currentTrack->setColumn(column.toInt());
 	currentTrack->setBars(bar.toInt(), beginning.toInt(), end.toInt());
-    currentTrack->setTimeSignature(tmp.toInt());
+	currentTrack->setTimeSignature(tmp.toInt());
 
 	//    //Chargement du morceau avec vérification des noeuds.
 	//    if (((n = root.attribute("nom", 0)) == 0) ||
@@ -155,7 +153,7 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
 
 	if(m.toInt() <= 0){ // nbr de mesures incorrect(negatif ou nul)
 		delete currentTrack;
-        qCritical("API.concertLogicalToXML : Nbr de mesures incorrect");
+		qCritical("API.concertLogicalToXML : Nbr de mesures incorrect");
 		return false;
 	}
 
@@ -170,7 +168,7 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
 		//Si le noeud n'est pas une partie ou si il n'a pas d'attribut nom :
 		if (partElement.tagName() != "partie" || (n = partElement.attribute("nom",0)) == 0) {
 			delete currentTrack;
-            qCritical("API.concertLogicalToXML : Le fils de la racine n'est pas une 'partie' ou il n'a pas d'attribut nom");
+			qCritical("API.concertLogicalToXML : Le fils de la racine n'est pas une 'partie' ou il n'a pas d'attribut nom");
 			return false;
 		}
 
@@ -192,19 +190,19 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
 			//Vérification de la présence et de la validité des attributs de l'accord (nom, temps, nbr de répétition)
 			if((name = chordElement.attribute("nom", 0)) == 0 || (t1 = chordElement.attribute("temps", 0)) == 0) {
 				delete currentTrack;
-                qCritical("API.concertLogicalToXML : Le nom ou le temps sont absent");
+				qCritical("API.concertLogicalToXML : Le nom ou le temps sont absent");
 				return false;
 			}
 
 			if((t2 = t1.toInt()) < 0) { //Si le temps rentré est illogique(<= 0)
 				delete currentTrack;
-                qCritical("API.concertLogicalToXML : L'un des temps rentré est négatif...");
+				qCritical("API.concertLogicalToXML : L'un des temps rentré est négatif...");
 				return false;
 			}
 
 			if((t2 = t1.toInt()) < 0) { //Si le temps rentré est illogique(<= 0)
 				delete currentTrack;
-                qCritical("API.concertLogicalToXML : Les temps ne sont pas rentrés dans l'ordre croissant.");
+				qCritical("API.concertLogicalToXML : Les temps ne sont pas rentrés dans l'ordre croissant.");
 				return false;
 			}
 
@@ -218,12 +216,12 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
 			}
 			else if((rep = repetition.toInt()) < 0) {
 				delete currentTrack;
-                qCritical("API.concertLogicalToXML : La répétition est négative");
+				qCritical("API.concertLogicalToXML : La répétition est négative");
 				return false;
 			}
 			else if((rep = repetition.toInt()) == 0) {
 				rep = 1;
-                qCritical("API.concertLogicalToXML : La répétition est nulle");
+				qCritical("API.concertLogicalToXML : La répétition est nulle");
 			}
 
 			currentChord = new TrackChord(name, t2, rep, previousChord, 0, currentPartTrack );
@@ -239,6 +237,6 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
 
 	}//end while
 
-    currentChord->setNext(0);
+	currentChord->setNext(0);
 	return true;
 }

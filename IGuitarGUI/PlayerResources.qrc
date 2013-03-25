@@ -44,6 +44,16 @@
         <file alias="Fdm.png">chordsImg/Fdm.png</file>
         <file alias="Gd.png">chordsImg/Gd.png</file>
         <file alias="Gdm.png">chordsImg/Gdm.png</file>
+        <file alias="Ab.png">chordsImg/Ab.png</file>
+        <file alias="Abm.png">chordsImg/Abm.png</file>
+        <file alias="Bb.png">chordsImg/Bb.png</file>
+        <file alias="Bbm.png">chordsImg/Bbm.png</file>
+        <file alias="Db.png">chordsImg/Db.png</file>
+        <file alias="Dbm.png">chordsImg/Dbm.png</file>
+        <file alias="Eb.png">chordsImg/Eb.png</file>
+        <file alias="Ebm.png">chordsImg/Ebm.png</file>
+        <file alias="Gb.png">chordsImg/Gb.png</file>
+        <file alias="Gbm.png">chordsImg/Gbm.png</file>
     </qresource>
     <qresource prefix="/translations">
         <file>IGuitarGUI_fr.qm</file>

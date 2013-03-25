@@ -1,5 +1,4 @@
 #include "EntireSongBis.h"
-#include <QDebug>
 #include <QPainter>
 
 EntireSongBis::EntireSongBis(QGraphicsItem* parent): QGraphicsItem(parent),
@@ -12,8 +11,8 @@ EntireSongBis::EntireSongBis(QGraphicsItem* parent): QGraphicsItem(parent),
 
 	m_currentPen = new QPen(Qt::blue , 1, Qt::SolidLine, Qt::RoundCap);
 
-	chordFont = new QFont("Roboto", 32);
-	partFont = new QFont("Roboto", 17);
+	chordFont = new QFont(":/fonts/Roboto-Regular.ttf", 32);
+	partFont = new QFont(":/fonts/Roboto-Regular.ttf", 17);
 }
 
 EntireSongBis::~EntireSongBis()
@@ -108,10 +107,12 @@ void EntireSongBis::drawChord(QPainter* painter, int x, int y, TrackChord* chord
 	QRect baseRect(x0+2, y0+2, m_caseWidth-2, m_caseHeight-2);
 	painter->drawRect(baseRect);
 
+	QRect textRect(baseRect);
+	textRect.adjust(0, -15, 0, 0);
 	painter->setPen(*m_borderPen);
 	painter->setBrush(QBrush(Qt::black, Qt::SolidPattern));
 	painter->setFont(*chordFont);
-	painter->drawText(baseRect,
+	painter->drawText(textRect, Qt::AlignCenter,
 					  chord->getChord());
 
 }

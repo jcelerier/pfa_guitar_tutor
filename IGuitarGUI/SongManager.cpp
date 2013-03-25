@@ -1,9 +1,11 @@
 #include "SongManager.h"
 #include "Configuration.h"
 #include "Controler.hpp"
+
 #include <QMap>
 #include <QVector>
 #include <QString>
+
 
 /**
  * @brief SongManager::SongManager
@@ -55,7 +57,7 @@ void SongManager::load(LogicalTrack* track)
 	if(m_musicManager != 0 )
 	{
 		delete m_musicManager;
-		QTest::qSleep(2000); //sécurité pour portaudio
+//		sleep(2); //sécurité pour portaudio
 	}
 
 	m_musicManager = new MusicManager(multiTracksMap, muteTracks, -1, -1);
@@ -72,6 +74,8 @@ void SongManager::play()
 {
 	m_musicManager->start();
 	m_musicManager->play();
+	m_time.restart();
+	m_isFirstChord = true;
 }
 
 /**
@@ -88,16 +92,16 @@ void SongManager::pause()
 
 	switch(((Controler*)parent())->getConfiguration()->getPauseSetting())
 	{
-	case PAUSE_TO_SAME_TIME:
-		break;
-	case PAUSE_TO_LAST_CHORD:
-		goToChord(m_currentChord);
-		break;
-	case PAUSE_TO_LAST_PART:
-		goToChord(m_currentPart->getTrackChordsList()[0]);
-		break;
-	default:
-		break;
+		case PAUSE_TO_SAME_TIME:
+			break;
+		case PAUSE_TO_LAST_CHORD:
+			goToChord(m_currentChord);
+			break;
+		case PAUSE_TO_LAST_PART:
+			goToChord(m_currentPart->getTrackChordsList()[0]);
+			break;
+		default:
+			break;
 	}
 }
 
@@ -110,7 +114,10 @@ void SongManager::stop()
 {
 	m_musicManager->pause();
 
-	goToChord(m_track->getPartTrackList()[0]->getTrackChordsList()[0]);
+	if(m_track != 0)
+	{
+		goToChord(m_track->getPartTrackList()[0]->getTrackChordsList()[0]);
+	}
 }
 
 /**
@@ -135,25 +142,24 @@ void SongManager::goToChord(TrackChord* chord)
 	int msPosition = chord->getBeginningInMs();
 	m_musicManager->goToInMs(msPosition);
 	m_elapsedTime = msPosition;
+	m_time.restart();
 
 	// on doit trouver la partie de l'accord
-	TrackChord* iChord = m_track->getPartTrackList()[0]->getTrackChordsList()[0];
-	do
-	{
-		if(iChord == chord)
-		{
-			m_currentPart = chord->part();
-			m_currentChord = chord;
 
-			emit nonNaturalChange(m_currentChord);
-			emit updateChord(m_currentChord);
+	m_currentPart = chord->part();
+	m_currentChord = chord;
 
-			return;
-		}
+	emit nonNaturalChange(m_currentChord);
+	emit updateChord(m_currentChord);
+}
 
-	} while((iChord = iChord->next()) != 0);
-
-	// normalement on n'est pas sensé arriver ici
+void SongManager::goToBeginning()
+{
+	m_musicManager->goToInMs(0);
+	m_elapsedTime = 0;
+	m_time.restart();
+	emit nonNaturalChange(m_currentChord);
+	emit updateChord(m_currentChord);
 }
 
 
@@ -197,29 +203,30 @@ void SongManager::checkTime()
 {
 	m_elapsedTime += m_time.restart();
 
-	int msPrevPosition = 0;
-	int msPosition = 0;
+	int chordStartInMs = 0;
+	int chordEndInMs = 0;
 
 	TrackChord* iChord = m_track->getPartTrackList()[0]->getTrackChordsList()[0];
 	do
 	{
-		msPrevPosition = iChord->getBeginningInMs();
+		chordStartInMs = iChord->getBeginningInMs();
 
 		if(iChord->next() != 0)
 		{
-			msPosition = iChord->next()->getBeginningInMs(); // vérifier si on n'a pas un décalage avec le début.
+			chordEndInMs = iChord->next()->getBeginningInMs();
 		}
 		else
 		{
-			msPosition = m_track->getEnd();
+			chordEndInMs = m_track->getEnd();
 		}
 
 		// Si le temps écoulé est dans l'accord listé
-		if(msPrevPosition <= m_elapsedTime && m_elapsedTime < msPosition)
+		if(chordStartInMs <= m_elapsedTime && m_elapsedTime < chordEndInMs)
 		{
 			// Si cet accord est différend de l'accord actuel
-			if(m_currentChord != iChord)
+			if(m_currentChord != iChord || (m_currentChord == m_track->getPartTrackList()[0]->getTrackChordsList()[0] && m_isFirstChord))
 			{
+				m_isFirstChord = false;
 				// On émet la réussite de l'accord précédent
 				emit lastChordCorrectness(m_currentChord, (double) number_of_valid_chord_checks / (double)number_of_chord_checks);
 
@@ -236,4 +243,18 @@ void SongManager::checkTime()
 		}
 	} while((iChord = iChord->next()) != 0);
 
+}
+
+/**
+ * @brief SongManager::getCurrentChord
+ *
+ * Gère le mutage - démutage du son.
+ */
+TrackChord* SongManager::getCurrentChord()
+{
+	return m_currentChord;
+}
+
+int SongManager::getElapsedTime() {
+	return m_elapsedTime;
 }

@@ -1,7 +1,7 @@
 #include "WaveformTimeBar.h"
 #include "SimpleMusicPlayer.h"
 #include "AudioSync.h"
-#include <QDebug>
+
 
 
 WaveformTimeBar::WaveformTimeBar(const QTime& song_end, QWidget *parent) :
@@ -91,6 +91,11 @@ void WaveformTimeBar::paintEvent(QPaintEvent */*event*/)
 	painter->end();
 }
 
+void WaveformTimeBar::mouseReleaseEvent(QMouseEvent * event)
+{
+	QWidget::mouseReleaseEvent(event);
+	emit somethingChanged();
+}
 
 void WaveformTimeBar::mouseMoveEvent(QMouseEvent * event)
 {

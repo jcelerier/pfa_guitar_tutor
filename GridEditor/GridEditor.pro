@@ -4,7 +4,6 @@ TEMPLATE = app
 TARGET = GridEditor
 DESTDIR = ../app/
 DEPENDPATH += .
-CONFIG += rtti
 
 SOURCES += \
 	CaseItem.cpp \
@@ -28,7 +27,8 @@ SOURCES += \
 	WaveformTimeBar.cpp \
 	WaveformTimeSlider.cpp \
 	CaseItemDelegate.cpp \
-	StatePacket.cpp
+	StatePacket.cpp \
+	SaveQueue.cpp
 
 HEADERS += \
 	CaseItem.h \
@@ -51,7 +51,8 @@ HEADERS += \
 	WaveformTimeBar.h \
 	WaveformTimeSlider.h \
 	CaseItemDelegate.h \
-	StatePacket.h
+	StatePacket.h \
+	SaveQueue.h
 
 TRANSLATIONS = GridEditor_fr.ts
 
@@ -60,8 +61,8 @@ QT += core \
 	  xml \
 	  webkit \
 	  webkitwidgets \
-          widgets
-         # testlib #désactiver pour ne pas avoir la console qui s'affiche
+		  widgets
+#         testlib #désactiver pour ne pas avoir la console qui s'affiche
 
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../libiguitar/ -lIGuitar
@@ -83,3 +84,7 @@ FORMS += \
 
 RESOURCES += \
 	EditorResources.qrc
+
+QMAKE_CXXFLAGS = -O3
+#ne sert à rien car de toute façon QtCore.dll a besoin de libstd++6.dll, etc..
+#win32:QMAKE_LFLAGS = -static-libgcc -static-libstdc++ -static -lwinpthread

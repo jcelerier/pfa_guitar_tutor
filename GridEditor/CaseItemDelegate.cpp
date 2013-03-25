@@ -5,7 +5,6 @@
 #include "GridEditor.h"
 #include "TrackProperties.h"
 
-#include <QDebug>
 
 CaseItemDelegate::CaseItemDelegate(QWidget *parent) :
 	QStyledItemDelegate(parent), m_barsize(1)

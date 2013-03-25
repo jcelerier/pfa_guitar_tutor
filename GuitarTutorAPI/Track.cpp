@@ -7,8 +7,12 @@
 
 #include "Track.h"
 #include <QVector>
-#include <QDebug>
+
 #include <cmath>
+#include <QFile>
+
+#include <QDebug>
+#define APIC_HEADER_LENGTH 14
 
 /**
  *
@@ -127,11 +131,11 @@ int Track::load()
 	FMOD_System_Create(&system);
 	FMOD_System_Init(system, 2, FMOD_INIT_NORMAL, NULL);
 
-    FMOD_RESULT result = FMOD_System_CreateSound(system, m_fileName.toStdString().c_str(), FMOD_SOFTWARE | FMOD_2D |  FMOD_CREATESAMPLE, 0, &music);
+	FMOD_RESULT result = FMOD_System_CreateSound(system, m_fileName.toStdString().c_str(), FMOD_SOFTWARE | FMOD_2D |  FMOD_CREATESAMPLE, 0, &music);
 
 	if (result != FMOD_OK)
 	{
-        qDebug() << m_fileName;
+		qDebug() << "Error while opening the file: " << m_fileName;
 		return false;
 	}
 
@@ -158,6 +162,19 @@ int Track::load()
 		m_buffer[i] = ((((int*)pointer1)[j]<<16)>>16) / normalization_factor;
 		i++;
 		j++;
+	}
+	//Récupération de la pochette de l'album dans les tags
+	remove("albumcover.jpg");
+	FMOD_TAG tag;
+	result = FMOD_Sound_GetTag(music, "APIC", 0, &tag);
+	if(result == FMOD_OK && tag.datalen > 0) {
+		QFile file("albumcover.jpg");
+		if(file.open(QIODevice::WriteOnly)) {
+			QByteArray tmp = QByteArray((char*) tag.data, tag.datalen);
+			tmp.remove(0,APIC_HEADER_LENGTH);
+			file.write(tmp, tag.datalen-APIC_HEADER_LENGTH);
+		}
+		file.close();
 	}
 
 	FMOD_Sound_Unlock(music, pointer1, pointer2, length1, length2);

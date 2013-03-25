@@ -3,7 +3,7 @@ Author: Fabien Fleurey
 Created on 28/02/12
 Last change on 08/05/12
 */
-#include <QDebug>
+
 #include <QtXml/QDomDocument>
 #include <QFile>
 #include <QTextStream>
@@ -26,6 +26,7 @@ Last change on 08/05/12
  */
 ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent) : QTableWidget(parent), m_barsize(1)
 {
+
 	setEnabled(false);
 	setColumnCount(column);
 	insert_row(0, row);
@@ -78,19 +79,18 @@ ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent) : QTabl
 	connect(this, SIGNAL(barsizeChanged(int)), this, SLOT(setBarSize(int)));
 
 	setItemDelegate(m_caseItemDelegate);
+
 }
 
 void ChordTableWidget::deepCopy(ChordTableWidget* target)
 {
-	target->setRowCount(rowCount());
-	target->setColumnCount(columnCount());
-
 	for(int i = 0; i < rowCount(); ++i)
 	{
-		for(int j = 0; j < columnCount(); ++j)
+		for(int j = 0; j < columnCount() - 1; ++j)
 		{
-			target->setItem(i, j, new CaseItem(this->item(i, j)));
+			target->setItem(i, j, new CaseItem(*(CaseItem*)this->item(i, j)));
 		}
+	   target->setItem(i,  columnCount() - 1, new QTableWidgetItem(*this->item(i, columnCount()-1)));
 	}
 }
 
@@ -550,7 +550,7 @@ void ChordTableWidget::setTimeInfo(const QTime beginning, const QTime bar, const
 				modifyAllCases = (QMessageBox::question(this, tr("Before doing something wrong"), tr("Some timers have already been set manually. Do you want to reset them too?"), QMessageBox::Yes | QMessageBox::No)) == QMessageBox::Yes;
 				warningShown = true;
 			}
-            QTime caseTime = MsecToTime((TimeToMsec(beginning) + ((TimeToMsec(bar) - TimeToMsec(beginning))/m_barsize)* (r * (cmax - 1) + c)));
+			QTime caseTime = MsecToTime((TimeToMsec(beginning) + ((TimeToMsec(bar) - TimeToMsec(beginning))/m_barsize)* (r * (cmax - 1) + c)));
 
 			if(caseTime>end) {
 				QMessageBox::warning(this, tr("Error with timers"), tr("There are too many cells for the end timer you entered."));
@@ -751,6 +751,7 @@ void ChordTableWidget::isPlayingAt(QTime t)
  */
 void ChordTableWidget::itemChanged_slot(QTableWidgetItem *item)
 {
+	emit somethingChanged();
 	if(item->column() < columnCount() -1)
 	{
 		if(!BasicChord::isValidForPlayer(((CaseItem *)item)->get_chord()))

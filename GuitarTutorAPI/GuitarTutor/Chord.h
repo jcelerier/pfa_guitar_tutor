@@ -36,7 +36,7 @@ class BasicChord
 
         QString toString();
 
-        static QStringList convertChordToStringList(const char *chord);
+        static QStringList convertChordToStringList(const QString chord);
 private:
 		Enrichment m_enrichment;
 		Tonality m_tonality;

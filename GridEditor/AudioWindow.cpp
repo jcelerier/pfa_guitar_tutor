@@ -32,6 +32,8 @@ AudioWindow::AudioWindow(QWidget * parent)
 	layout->addWidget(waveform, 5, 0, 3, 5);
 	layout->addWidget(zoomButtons, 12, 0, 1, 1);
 
+	connect(waveformTimeBar, SIGNAL(somethingChanged()), this, SIGNAL(somethingChanged()));
+
 	connect(browseButton, SIGNAL(released()), this, SLOT(browseAudioFile()));
 	connect(player, SIGNAL(browseAudioFile()), this, SLOT(browseAudioFile()));
 	connect(player, SIGNAL(audioFileDeleted()), this, SLOT(resetAudioFile()));
@@ -129,7 +131,7 @@ void AudioWindow::refreshTimerAudioSync(int i)
 {
 	switch(i) {
 	case TIMER_BEGINNING:
-        audioSync->setBeginningTimer(player->getCurrentPosition());
+		audioSync->setBeginningTimer(player->getCurrentPosition());
 		break;
 	case TIMER_END:
 		audioSync->setEndTimer(player->getCurrentPosition());
@@ -149,6 +151,8 @@ void AudioWindow::browseAudioFile()
 {
 	QString tmp = QFileDialog::getOpenFileName(this, tr("Open a file"), QString(), tr("Music (*.mp3 *.ogg *.wma *.wav)"));
 	if(tmp != "") {
+		QDir d;
+		tmp = d.relativeFilePath(tmp);
 		if(player->setAudioFile(tmp))
 			setAudioFile();
 	}
@@ -182,9 +186,9 @@ void AudioWindow::playFrom(int t)
  * Modifie la valeur de bar dans audioSync.
  */
 void AudioWindow::setBar(const int bar){
-    QTime t(0, 0);
-    t = t.addMSecs(bar);
-    return audioSync->setBarTimer(t);
+	QTime t(0, 0);
+	t = t.addMSecs(bar);
+	return audioSync->setBarTimer(t);
 }
 
 /**
@@ -193,9 +197,9 @@ void AudioWindow::setBar(const int bar){
  * Modifie la valeur de beginning dans audioSync
  */
 void AudioWindow::setBeginning(const int begin){
-    QTime t(0, 0);
-    t = t.addMSecs(begin);
-    return audioSync->setBeginningTimer(t);
+	QTime t(0, 0);
+	t = t.addMSecs(begin);
+	return audioSync->setBeginningTimer(t);
 }
 
 /**
@@ -204,9 +208,9 @@ void AudioWindow::setBeginning(const int begin){
  * Modifie la valeur de end dans audioSync
  */
 void AudioWindow::setEnd(const int end){
-    QTime t(0, 0);
-    t = t.addMSecs(end);
-    return audioSync->setEndTimer(t);
+	QTime t(0, 0);
+	t = t.addMSecs(end);
+	return audioSync->setEndTimer(t);
 }
 
 /**

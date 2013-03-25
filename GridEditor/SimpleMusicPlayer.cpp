@@ -2,7 +2,7 @@
 #include "AudioWindow.h"
 #include <Util.hpp>
 #include <QtWidgets/QMessageBox>
-#include <QDebug>
+
 
 
 //trucs pour le zoom
@@ -114,7 +114,6 @@ bool SimpleMusicPlayer::setAudioFile(QString file)
 		return false;
 	}
 
-	file = QDir::toNativeSeparators(file);
 	if(!player->setSong(file)) {
 		QMessageBox::information(this, tr("So sorry..."), QString(tr("Impossible to open the file ") + file));
 		return false;
@@ -347,12 +346,12 @@ void SimpleMusicPlayer::zoomOut(QPoint clickPos)
 	float sample = clickPercent * (waveEnd - waveBegin) + waveBegin;
 	const int zoomFactor = ZOOM_FACTOR;
 
-    waveBegin = qMax(0,
-                         qMin(waveBegin - (int) ((sample - (float) waveBegin) / (float) zoomFactor),
+	waveBegin = qMax(0,
+						 qMin(waveBegin - (int) ((sample - (float) waveBegin) / (float) zoomFactor),
 								  (int) player->getTotalLengthInSamples() - 10000));
-    waveEnd = qMax(waveBegin + 10000,
-                       qMin((signed) player->getTotalLengthInSamples(),
-                                waveEnd + qMax((int) ((waveEnd - sample) / zoomFactor),
+	waveEnd = qMax(waveBegin + 10000,
+					   qMin((signed) player->getTotalLengthInSamples(),
+								waveEnd + qMax((int) ((waveEnd - sample) / zoomFactor),
 												   0)));
 
 	player->getSpectrum(waveBegin, waveEnd, waveform->getSpectrum(), waveform->getWidth());

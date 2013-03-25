@@ -12,8 +12,9 @@
 // stop : on désinitialise, on revient à 0
 
 #include "MusicManager.h"
-
 #include <QDebug>
+
+
 
 bool g__output_pause = false;
 bool g__output_pause_changed = false;
@@ -40,7 +41,7 @@ void* musicManagerMainFunction(void* threadArg);
  * \return Rien
  */
 MusicManager::MusicManager(QMap<QString, QString> & tracks,
-                           QVector<QString>& muteTracks,
+						   QVector<QString>& muteTracks,
 						   PaDeviceIndex inputDevice,
 						   PaDeviceIndex outputDevice)
 	:m_isRunning(false), m_mustStop(false), m_tracksName(tracks), m_input(inputDevice), m_output(outputDevice)
@@ -49,7 +50,7 @@ MusicManager::MusicManager(QMap<QString, QString> & tracks,
 
 	m_multiTracks = new MultiTracks(m_tracksName);
 
-    for (int i = 0; i < muteTracks.size(); ++i) {
+	for (int i = 0; i < muteTracks.size(); ++i) {
 		m_multiTracks->changeTrackMuteState(muteTracks[i], true);
 	}
 
@@ -145,7 +146,7 @@ void* MusicManager::initAudioDevice(PaDeviceIndex inputDevice, PaDeviceIndex out
 
 	m_inputParameters.device = inputDevice;
 	if (m_inputParameters.device == paNoDevice) {
-        qDebug() << "Error: No default input device.";
+		qDebug() << "Error: No default input device.";
 		m_isRunning = false;
 		return NULL;
 	}
@@ -159,7 +160,7 @@ void* MusicManager::initAudioDevice(PaDeviceIndex inputDevice, PaDeviceIndex out
 
 	m_outputParameters.device = outputDevice;
 	if (m_outputParameters.device == paNoDevice) {
-        qDebug() << "Error: No default output device.";
+		qDebug() << "Error: No default output device.";
 
 		m_isRunning = false;
 		return NULL;
@@ -217,7 +218,7 @@ void* MusicManager::initAudioOutput()
 	m_playData.crossFadeCurrentValue = 0;
 	m_playData.musicManager = this;
 
-    qDebug() << "\n=== Now playing. ===";
+	qDebug() << "\n=== Now playing. ===";
 	m_err = Pa_OpenStream(
 			&m_playStream,
 			NULL, /* no input */
@@ -252,9 +253,9 @@ void* MusicManager::terminateAudioDevice()
 	}
 	if( m_err != paNoError )
 	{
-        qDebug() <<  "An error occured while using the portaudio stream";
-        qDebug() <<  "Error number: " << m_err;
-        qDebug() <<  "Error message: " << Pa_GetErrorText( m_err );
+		qDebug() <<  "An error occured while using the portaudio stream";
+		qDebug() <<  "Error number: " << m_err;
+		qDebug() <<  "Error message: " << Pa_GetErrorText( m_err );
 		m_err = 1;          /* Always return 0 or 1, but no other return codes. */
 	}
 
