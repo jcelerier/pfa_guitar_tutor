@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QRegExp>
+#include <QStringList>
 
 /**
  * @brief Liste des fondamentales possibles.
@@ -40,7 +41,8 @@ class Tonality
         void setAlteration(const QString alteration);
         void setAlteration(const e_Alteration alteration);
 
-	private:
+        static QStringList getTonalitiesStringList();
+private:
         QRegExp m_noteRegExp;
 		e_Note m_baseNote;
 		e_Alteration m_alteration;

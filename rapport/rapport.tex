@@ -133,7 +133,44 @@ L'idée était de mettre ce \textit{reste} dans une bibliothèque qui serait app
 \end{center}
 \end{figure}
 
-\subsection{Diagrammes de classes}
+\subsubsection{L'API}
+
+L'API a été mise en place dès le début du projet, en regroupant dans un même dossier tous les fichiers sources qui ne concernaient pas dirctement l'interface graphique du lecteur, ni celle de l'éditeur. En particulier, c'était le cas de la bibliothèque IScoreLight, qui servait à la lecture de grilles d'accord, ainsi qu'à EHPCP qui est utilisée pour la reconnaissance d'accords.
+
+Nous avons ensuite ajouté de nouvelles classes pour modéliser les accords (cf figure \ref{diag_api_chords}), et ultérieurement la classe \textit{LogicalTrack}. Cet objet représente en mémoire une grille d'accords. Elle est utilisée par l'éditeur, qui transforme les données entrées par l'utiliseur en une instance de \textit{LogicalTrack}, puis fais la conversion en un fichier XML; et de l'autre côté, elle est utilisée par le lecteur qui initialise un objet \textit{LogicalTrack} à partir de la lecture d'un fichier XML. Les fonctions de conversion entre \textit{LogicalTrack} et fichier XML sont elles aussi présentes dans l'API (cf figure \ref{diag_api_tracks}).
+
+\begin{figure}[!ht]
+\begin{center}
+\begin{tikzpicture}
+\umlclass[x=-7, y=0]{GridEditor}{
+}{}
+\umlclass[x=-13, y=-3]{ChordTableWidget}{
+}{}
+\umlclass[x=-5, y=-3]{AudioWindow}{
+}{}
+\umlclass[x=-1, y=0]{TrackProperties}{
+}{}
+\umlclass[x=-13, y=-6]{CaseItem}{
+}{}
+\umlclass[x=-10,y=-6]{AudioSync}{
+}{}
+\umlclass[x=-5,y=-6]{SimpleMusicPlayer}{
+}{}
+\umlclass[x=0,y=-6]{Waveform}{
+}{}
+
+\umlunicompo[]{GridEditor}{ChordTableWidget}
+\umlunicompo[]{GridEditor}{AudioWindow}
+\umlunicompo[]{GridEditor}{TrackProperties}
+\umlunicompo[]{ChordTableWidget}{CaseItem}
+\umlunicompo[]{AudioWindow}{AudioSync}
+\umlunicompo[]{AudioWindow}{SimpleMusicPlayer}
+\umlunicompo[]{AudioWindow}{Waveform}
+\end{tikzpicture}
+\caption{La modélisation des accords dans l'API}
+\label{diag_editor}
+\end{center}
+\end{figure}
 
 \begin{figure}[!ht]
 \begin{center}
@@ -167,6 +204,43 @@ L'idée était de mettre ce \textit{reste} dans une bibliothèque qui serait app
 \label{diag_editor}
 \end{center}
 \end{figure}
+
+\subsubsection{L'éditeur}
+
+\begin{figure}[!ht]
+\begin{center}
+\begin{tikzpicture}
+\umlclass[x=-7, y=0]{GridEditor}{
+}{}
+\umlclass[x=-13, y=-3]{ChordTableWidget}{
+}{}
+\umlclass[x=-5, y=-3]{AudioWindow}{
+}{}
+\umlclass[x=-1, y=0]{TrackProperties}{
+}{}
+\umlclass[x=-13, y=-6]{CaseItem}{
+}{}
+\umlclass[x=-10,y=-6]{AudioSync}{
+}{}
+\umlclass[x=-5,y=-6]{SimpleMusicPlayer}{
+}{}
+\umlclass[x=0,y=-6]{Waveform}{
+}{}
+
+\umlunicompo[]{GridEditor}{ChordTableWidget}
+\umlunicompo[]{GridEditor}{AudioWindow}
+\umlunicompo[]{GridEditor}{TrackProperties}
+\umlunicompo[]{ChordTableWidget}{CaseItem}
+\umlunicompo[]{AudioWindow}{AudioSync}
+\umlunicompo[]{AudioWindow}{SimpleMusicPlayer}
+\umlunicompo[]{AudioWindow}{Waveform}
+\end{tikzpicture}
+\caption{Diagramme de classes synthétique de l'éditeur}
+\label{diag_editor}
+\end{center}
+\end{figure}
+
+\subsubsection{Le lecteur}
 
 \begin{figure}[!ht]
 \begin{center}
@@ -283,7 +357,7 @@ L'échange entre l'éditeur et le lecteur se fait par l'intermédiaire de fichie
 \begin{tabular}{l|l}
  & \verb{<?xml version="1.0"?>{\\
  & \verb{<morceau timeSignature="4" line="16" chordMesure="1" end="261735"{ \\
- & \verb{  nom="Hotel California" comment="Un classique de 1976" column="4"{ \\
+ & \verb{  nom="Hotel California" comment="Un classique de 1976" c$TODO$olumn="4"{ \\
  & \verb{  fichier="Tracks/HotelCalifornia/EaglesHotelCalifornia.mp3"{ \\
  & \verb{  beginning="53145" bar="56402" artiste="The Eagles">{ \\
 \verb{[COUPLET1]{ & \verb{  <partie nom="Couplet 1">{ \\
@@ -370,9 +444,19 @@ En ce qui concerne le lecteur, nous n'avons dans un premier temps que modifié l
 
 Dans un deuxième temps, nous avons fait le choix de revoir le fonctionnement interne du lecteur. Comme évoqué précédement, nous avons ainsi commencé par remplacer la librairie \textit{libsndfile} par FMOD en vue de supporter de nouveaux formats audio. FMOD se charge en fait d'ouvrir le fichier audio demandé et de le mettre en mémoire. La gestion à proprement parler du son reste la tâche de PortAudio.
 
-C'est ensuite toute la librairie \textit{IScoreLight} que nous avons fait disparaître. En effet, celle-ci comportait plusieurs dizaines de fichiers sources qui, au final, n'étaient pas exploités. Les quelques parties de la librairie qui nous étaient utiles ont donc été reprises et fusionnées au sein de la classe \texttt{SongManager}.
+C'est ensuite toute la librairie \textit{IScoreLight} que nous avons faite disparaître. En effet, celle-ci comportait plusieurs dizaines de fichiers sources qui, au final, n'étaient pas exploités. Les quelques parties de la librairie qui nous étaient utiles ont donc été reprises et fusionnées au sein de la classe \texttt{SongManager}.
 
-Finalement, il ne reste aujourd'hui de la première version du lecteur que la gestion bas niveau du son, notamment l'analyse des accords effectuée par la librairie \textit{EHPCP}.
+Finalement, il ne reste aujourd'hui de la première version du lecteur que la gestion bas niveau du son, notamment l'analyse des accords effectuée par la librairie \textit{EHPCP}. Ce tri nous a permis d'améliorer grandement les performances, notamment lors de la compilation du programme (cf figure \ref{refonte_code}).
+
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics[width=300px]{refonte_code.png}
+\caption{Suppression des bibliothèques Boost et IScoreLight du projet}
+\label{refonte_code}
+\end{center}
+\end{figure}
+
+Nous avons également fais en sorte que le lecteur utilise par défaut OpenGL, afin que celui-ci soit, au moins partiellement, exécuté sur la carte graphique de l'utilisateur, en vue d'améliorer là encore les performances.
 
 \subsection{Installateurs sur les différents systèmes d'exploitation}
 
@@ -380,7 +464,7 @@ Comme il nous avait été demandé, le programme devait être rendu sous la form
 
 \subsubsection{Sur Windows}
 
-Sur Windows, GuitarTutor se présente sous la forme d'un installateur msi créé avec le logiciel $TODO$. L'apparence de cet installateur est tout à fait semblable aux installateurs de logiciels Windows habituels, et propose les mêmes options; comme par exemple la possibilité de modifier le chemin de l'installation, ou encore celle de créer une icône sur le bureau de l'utilisateur.
+Sur Windows, GuitarTutor se présente sous la forme d'un installateur \textit{msi} créé avec le logiciel Advance Installer. L'apparence de cet installateur est tout à fait semblable aux installateurs de logiciels Windows habituels, et propose les mêmes options; comme par exemple la possibilité de modifier le chemin de l'installation, ou encore celle de créer une icône sur le bureau de l'utilisateur.
 
 La seule véritable difficulté sur ce système d'exploitation aura été de définir quelles étaient les librairies dynamiques à inclure dans notre package. Pour cela, nous avons testé sur des machines vierges de tout outil lié à notre environnement de travail (Qt, FMOD,\dots), puis simplement procédé par élimination pour ne retenir que les fichiers dll nécessaires.
 

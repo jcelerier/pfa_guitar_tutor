@@ -200,3 +200,8 @@ e_Alteration Tonality::extractAlterationFromStr(const QString str)
 
     return UNALTERED;
 }
+
+QStringList Tonality::getTonalitiesStringList() {
+    return (QStringList() << "C" << "C#" << "Db" << "D" << "D#" << "Eb" << "E" << "F"
+            << "F#" << "Gb" << "G" << "G#" << "Ab" << "A" << "A#" << "Bb" << "B");
+}

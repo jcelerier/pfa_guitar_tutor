@@ -35,7 +35,6 @@ HEADERS += MultiTracks.h \
 		   chord/fft.h \
 		   GuitarTutor/Chord.h \
 		   GuitarTutor/Enrichment.h \
-		   GuitarTutor/Tonalities.h \
 		   GuitarTutor/Tonality.h \
 		   portaudio/pa_asio.h \
 		   portaudio/pa_jack.h \
@@ -64,7 +63,6 @@ SOURCES += MultiTracks.cpp \
 		   chord/chord_c.c \
 		   GuitarTutor/Chord.cpp \
 		   GuitarTutor/Enrichment.cpp \
-		   GuitarTutor/Tonalities.cpp \
 		   GuitarTutor/Tonality.cpp \
 		   Track/TrackLoader.cpp \
 		   Track/PartTrack.cpp \
