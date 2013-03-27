@@ -137,71 +137,55 @@ L'idée était de mettre ce \textit{reste} dans une bibliothèque qui serait app
 
 L'API a été mise en place dès le début du projet, en regroupant dans un même dossier tous les fichiers sources qui ne concernaient pas dirctement l'interface graphique du lecteur, ni celle de l'éditeur. En particulier, c'était le cas de la bibliothèque IScoreLight, qui servait à la lecture de grilles d'accord, ainsi qu'à EHPCP qui est utilisée pour la reconnaissance d'accords.
 
-Nous avons ensuite ajouté de nouvelles classes pour modéliser les accords (cf figure \ref{diag_api_chords}), et ultérieurement la classe \textit{LogicalTrack}. Cet objet représente en mémoire une grille d'accords. Elle est utilisée par l'éditeur, qui transforme les données entrées par l'utiliseur en une instance de \textit{LogicalTrack}, puis fais la conversion en un fichier XML; et de l'autre côté, elle est utilisée par le lecteur qui initialise un objet \textit{LogicalTrack} à partir de la lecture d'un fichier XML. Les fonctions de conversion entre \textit{LogicalTrack} et fichier XML sont elles aussi présentes dans l'API (cf figure \ref{diag_api_tracks}).
+Nous avons ensuite ajouté de nouvelles classes pour modéliser les accords de manière la plus abstraite possible, afin de respecter au mieux les objets Modèle du MVC. Nous avons pour cela utilisé trois classes (Tonality, Enrichment, Chord), ainsi que deux énumérations (Note et Alteration) pour définir un accord selon le schéma suivant:
+\begin{itemize}
+ \item Une \textcolor{blue}{tonalité}, c'est une \textcolor{red}{note} et une \textcolor{green}{altération}: \textcolor{red}{A}\textcolor{green}{$\sharp$}, \textcolor{red}{C}\textcolor{green}{$\flat$}, \textcolor{red}{G}\textcolor{green}{$\natural$}, \dots
+ \item Un accord, c'est une \textcolor{blue}{tonalité} et un \textcolor{magenta}{mode}: \textcolor{blue}{G$\flat$}\textcolor{magenta}{m}, \textcolor{blue}{B$\sharp$}\textcolor{magenta}{M}, \dots
+\end{itemize}
+
+Cette découpe des modèles se répercute dans l'architecture de ces classes (voir le diagramme de classes de la figure \ref{diag_api_chords}).
 
 \begin{figure}[!ht]
 \begin{center}
 \begin{tikzpicture}
-\umlclass[x=-7, y=0]{GridEditor}{
+\umlclass[x=-7, y=0]{Chord}{
 }{}
-\umlclass[x=-13, y=-3]{ChordTableWidget}{
+\umlclass[x=-13, y=-3]{Enrichment}{
 }{}
-\umlclass[x=-5, y=-3]{AudioWindow}{
+\umlclass[x=-1, y=-3]{Tonality}{
 }{}
-\umlclass[x=-1, y=0]{TrackProperties}{
+\umlclass[x=-1, y=-6]{Note}{
 }{}
-\umlclass[x=-13, y=-6]{CaseItem}{
-}{}
-\umlclass[x=-10,y=-6]{AudioSync}{
-}{}
-\umlclass[x=-5,y=-6]{SimpleMusicPlayer}{
-}{}
-\umlclass[x=0,y=-6]{Waveform}{
+\umlclass[x=-7, y=-6]{Alteration}{
 }{}
 
-\umlunicompo[]{GridEditor}{ChordTableWidget}
-\umlunicompo[]{GridEditor}{AudioWindow}
-\umlunicompo[]{GridEditor}{TrackProperties}
-\umlunicompo[]{ChordTableWidget}{CaseItem}
-\umlunicompo[]{AudioWindow}{AudioSync}
-\umlunicompo[]{AudioWindow}{SimpleMusicPlayer}
-\umlunicompo[]{AudioWindow}{Waveform}
+\umlunicompo[]{Chord}{Enrichment}
+\umlunicompo[]{Chord}{Tonality}
+\umlunicompo[]{Tonality}{Alteration}
+\umlunicompo[]{Tonality}{Note}
 \end{tikzpicture}
 \caption{La modélisation des accords dans l'API}
-\label{diag_editor}
+\label{diag_api_chords}
 \end{center}
 \end{figure}
 
+Ultérieurement la classe \textit{LogicalTrack}. Cet objet représente en mémoire une grille d'accords. Elle est utilisée par l'éditeur, qui transforme les données entrées par l'utiliseur en une instance de \textit{LogicalTrack}, puis fais la conversion en un fichier XML; et de l'autre côté, elle est utilisée par le lecteur qui initialise un objet \textit{LogicalTrack} à partir de la lecture d'un fichier XML. Les fonctions de conversion entre \textit{LogicalTrack} et fichier XML sont elles aussi présentes dans l'API (cf figure \ref{diag_api_tracks}).
+
 \begin{figure}[!ht]
 \begin{center}
 \begin{tikzpicture}
-\umlclass[x=-7, y=0]{GridEditor}{
+\umlclass[x=-13, y=0]{LogicalTrack}{
 }{}
-\umlclass[x=-13, y=-3]{ChordTableWidget}{
+\umlclass[x=-7, y=0]{PartTrack}{
 }{}
-\umlclass[x=-5, y=-3]{AudioWindow}{
-}{}
-\umlclass[x=-1, y=0]{TrackProperties}{
-}{}
-\umlclass[x=-13, y=-6]{CaseItem}{
-}{}
-\umlclass[x=-10,y=-6]{AudioSync}{
-}{}
-\umlclass[x=-5,y=-6]{SimpleMusicPlayer}{
-}{}
-\umlclass[x=0,y=-6]{Waveform}{
+\umlclass[x=-1, y=0]{TrackChord}{
 }{}
 
-\umlunicompo[]{GridEditor}{ChordTableWidget}
-\umlunicompo[]{GridEditor}{AudioWindow}
-\umlunicompo[]{GridEditor}{TrackProperties}
-\umlunicompo[]{ChordTableWidget}{CaseItem}
-\umlunicompo[]{AudioWindow}{AudioSync}
-\umlunicompo[]{AudioWindow}{SimpleMusicPlayer}
-\umlunicompo[]{AudioWindow}{Waveform}
+\umlunicompo[]{LogicalTrack}{PartTrack}
+\umlunicompo[]{PartTrack}{TrackChord}
 \end{tikzpicture}
-\caption{Diagramme de classes synthétique de l'éditeur}
-\label{diag_editor}
+\caption{Modélisation d'une grille d'accords dans l'API}
+\label{diag_api_tracks}
 \end{center}
 \end{figure}
 
