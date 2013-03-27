@@ -119,6 +119,13 @@ void PlayerScene::disposeScene()
 	m_itemMap["dictionary"]->setToolTip(tr("Chord dictionary"));
 	connect((ButtonItem*)m_itemMap["dictionary"], SIGNAL(pushed()), this, SLOT(displayDictionary()));
 
+    // Bouton de mute
+    QPixmap muteImage(":/images/dictionary.png");
+    m_itemMap["mute"] = new ButtonItem(muteImage, m_itemMap["backgnd"]);
+    m_itemMap["mute"]->setPos(180, 650); // Position absolue par rapport au background
+    m_itemMap["mute"]->setToolTip(tr("Mute/Unmute"));
+    connect((ButtonItem*)m_itemMap["mute"], SIGNAL(pushed()), this, SLOT(switchMute()));
+
 	// Titre de la chanson
 	m_itemMap["songTitle"] = new QGraphicsTextItem("", m_itemMap["backgnd"]);
 	m_itemMap["songTitle"]->setPos(200, 65);
@@ -264,14 +271,20 @@ void PlayerScene::back()
 
 void PlayerScene::switchMute()
 {
+    if(m_loaded) {
+    QPixmap muteImage(":/images/dictionary.png");
+    QPixmap unMuteImage(":/images/dictionary.png");
 	if(m_controler->muteState())
 	{
+        ((ButtonItem *)m_itemMap["mute"])->changeImage(unMuteImage);
 		m_controler->unmute();
 	}
 	else
 	{
+        ((ButtonItem *)m_itemMap["mute"])->changeImage(muteImage);
 		m_controler->mute();
 	}
+    }
 }
 
 void PlayerScene::switchPlay()
@@ -301,7 +314,7 @@ void PlayerScene::switchMenu()
 /**
  * @brief PlayerScene::switchMenu
  *
- * Affiche ou cache le menu.
+ * Affiche ou cache le menu. (surcharge)
  */
 void PlayerScene::switchMenu(bool b)
 {

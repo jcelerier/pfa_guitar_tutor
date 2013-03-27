@@ -13,9 +13,9 @@ Configuration::Configuration()
 {
 	m_inputIndex = 0;
 	m_outputIndex = 0;
-    pause_setting = PAUSE_TO_LAST_CHORD;
+    m_pause_setting = PAUSE_TO_LAST_CHORD;
     loop_on_failure = false;
-    percent_to_go_to_next_part = PERCENT_TO_VALIDATE_EASY;
+    m_percent_to_go_to_next_part = PERCENT_TO_VALIDATE_EASY;
     songDirectory = "Tracks";
 }
 
@@ -95,12 +95,12 @@ void Configuration::setOutputIndex(int i)
 
 int Configuration::getPauseSetting() const
 {
-	return pause_setting;
+	return m_pause_setting;
 }
 
 void Configuration::setPauseSetting(int s)
 {
-	pause_setting = s;
+	m_pause_setting = s;
 }
 
 bool Configuration::getLoopSetting() const
@@ -115,12 +115,12 @@ void Configuration::setLoopSetting(bool b)
 
 int Configuration::getDifficulty() const
 {
-	return percent_to_go_to_next_part;
+	return m_percent_to_go_to_next_part;
 }
 
 void Configuration::setDifficulty(int d)
 {
-	percent_to_go_to_next_part = d;
+	m_percent_to_go_to_next_part = d;
 }
 
 QString Configuration::getSongDirectory() const

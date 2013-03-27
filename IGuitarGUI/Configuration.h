@@ -52,7 +52,6 @@ class Configuration
         QString getSongDirectory() const;
         void setSongDirectory(QString);
 
-		//private, please ?
 		static int const framesPerSec=60;
 		static int const originalWidth=ORIGINAL_WIDTH;
 		static int const originalHeight=ORIGINAL_HEIGHT;
@@ -68,15 +67,15 @@ private:
 		QString m_audioOutput;
 
 		PaDeviceIndex m_inputIndex, m_outputIndex;
-		static int m_height;
-		static int m_width;
-		static float m_quotient;
+        static int m_height;        // Taille de l'ecran
+        static int m_width;
+        static float m_quotient;    // Rapport entre taille de la scene et la taille d'affichage (horizontal)
 
-		int pause_setting;
-		int percent_to_go_to_next_part;
+        int m_pause_setting;
+        int m_percent_to_go_to_next_part;   // Difficulté
 
 		bool loop_on_failure;
-        QString songDirectory;
+        QString songDirectory;              // Repertoire par defaut ou chercher les chansons
 
 };
 

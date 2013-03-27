@@ -6,6 +6,13 @@
 
 class Controler;
 
+/**
+ * @brief EntireSong
+ *
+ * Objet affichant tous les accords de la chanson a droite de l'ecran ainsi que leur evolution
+ * Cette classe est rafraichie a chaque changement d'accord
+ */
+
 class EntireSong : public QGraphicsItem
 {
 public:
@@ -18,15 +25,15 @@ public:
 
 private:
 
-    void paintChord(TrackChord*);
-    TrackChord* m_currentChord;
+    void paintChord(TrackChord*);   // Change la couleur d'un accord en fonction de son etat
+    TrackChord* m_currentChord;     // Pointeur vers l'accord courant
 
-    Controler* m_controler;
+    Controler* m_controler;         // Lien vers le controleur
 
-    QMap<TrackChord*, QGraphicsRectItem*> m_gMap;
-    LogicalTrack* m_track;
-    bool m_loaded;
-    QGraphicsItemGroup* m_container;
+    QMap<TrackChord*, QGraphicsRectItem*> m_gMap;   // Lien entre les accords et leurs case a l'ecran
+    LogicalTrack* m_track;          // Chanson actuellement jouee
+    bool m_loaded;                  // Permet de savoir si la chanson a ete chargee dans cet objet
+    QGraphicsItemGroup* m_container;    // Regroupe tous les accords pour les manipuler par lot
 };
 
 #endif // ENTIRESONG_H

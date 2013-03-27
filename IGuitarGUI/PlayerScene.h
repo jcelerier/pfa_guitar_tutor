@@ -18,6 +18,8 @@ class Controler;
 
 /**
  * @brief Interface du player.
+ *
+ * Contient et gère tous les elements de l'interface.
  */
 class PlayerScene : public QGraphicsScene
 {
@@ -53,21 +55,21 @@ public slots:
 	void playCountdown();
 
 private:
-	QRect m_windowSize;
-	bool m_cntdownOver;
-	int m_cntdown;
-	bool m_isPlaying;
-	QTimer* m_cntTimer;
-	QMap <QString, QGraphicsItem*> m_itemMap;
-	QSoundEffect* m_cntClick;
-	QSoundEffect* m_cntClickUp;
+    QRect m_windowSize;     // Taille de la scene
+    bool m_cntdownOver;     // Fin du compte a rebours lors de la lecture
+    int m_cntdown;          // Etat du compte a rebours
+    bool m_isPlaying;       // Etat de la chanson
+    QTimer* m_cntTimer;     // Timer du compte a rebours
+    QMap <QString, QGraphicsItem*> m_itemMap;      // Contient tous les elements de l'interface en les associant a un nom
+    QSoundEffect* m_cntClick;   // Son du metronome
+    QSoundEffect* m_cntClickUp; // Son du metronome (premier)
 
-	Controler* m_controler;
+    Controler* m_controler;     // Lien vers le controleur
 	ChordDictionary *m_dictionary;
     ConfigPanel *m_configPanel;
-	void disposeScene();
-    TrackChord* m_lastChord;
-    bool m_loaded;
+    void disposeScene();        // Dispose tous les elements de l'interface dans la scene
+    TrackChord* m_lastChord;    // Dernier accord joue
+    bool m_loaded;              // La chanson a t elle ete chargee
 
 };
 

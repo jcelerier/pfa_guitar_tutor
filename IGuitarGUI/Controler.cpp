@@ -73,31 +73,6 @@ Configuration* Controler::getConfiguration()
  * Ce slot reçoit à chaque fois l'accord dans lequel on entre.
  * Il effectue la vérification pour savoir si on passe à la partie suivante.
  */
-/*
-void Controler::currentChordSlot(TrackChord* chord)
-{
-	if(chord == chord->part()->getTrackChordsList()[0]
-	   && chord->previous() != 0
-	   && m_configuration->getLoopSetting()
-	   && well_played_chords_in_current_part < chord->part()->getTrackChordsList().count() )
-	{
-		m_songManager->goToChord(chord->part()->previous()->getTrackChordsList()[0]);
-		well_played_chords_in_current_part = 0;
-		m_totalPlayedChords--;
-	}
-	else if(chord->previous() != 0
-			&& chord->previous()->part() != chord->part()) //on passe dans une nouvelle partie
-	{
-		well_played_chords_in_current_part = 0;
-	}
-
-
-    setChordPosition(chord);
-	chord->setPlaying();
-
-	m_scene->setSceneToChord(chord);
-}*/
-
 void Controler::currentChordSlot(TrackChord* chord)
 {
     chord->setPlaying();
@@ -106,7 +81,13 @@ void Controler::currentChordSlot(TrackChord* chord)
     m_scene->setSceneToChord(chord);
 }
 
-
+/**
+ * @brief Controler::updateStats
+ * @param nombre valides, nombre joues
+ *
+ * Met a jour l'interface avec le nombre d'accords joues
+ *
+ */
 void Controler::updateStats(int validated, int played) {
     m_scene->updateStats(validated, played);
 }

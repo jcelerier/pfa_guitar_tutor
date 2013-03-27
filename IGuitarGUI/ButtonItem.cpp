@@ -50,3 +50,12 @@ QRectF ButtonItem::boundingRect() const {
     return m_image->boundingRect();
 
 }
+
+/**
+ * @brief ButtonItem::changeImage
+ *
+ * Change l'image du boutton
+ */
+void ButtonItem::changeImage(QPixmap image) {
+    m_image->setPixmap(image);
+}
