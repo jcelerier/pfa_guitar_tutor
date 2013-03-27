@@ -30,7 +30,7 @@ class WaveformTimeSlider : public QWidget
 	public slots:
 
 	private:
-		int type;
+		int m_type;
 		int m_time;
 		QPixmap m_pixmap;
 

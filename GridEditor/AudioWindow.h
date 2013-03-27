@@ -24,11 +24,11 @@ class AudioWindow : public QWidget
 		explicit AudioWindow(QWidget *parent = 0);
 		~AudioWindow();
 		QString getFilename();
-		void setAudioFileName(QString file);
-        void setWaveformData(Waveform* waveform, WaveformTimeBar* timeBar);
-		void setBar(const int bar);
-		void setBeginning(const int begin);
-		void setEnd(const int end);
+		void setAudioFileName(QString);
+		void setWaveformData(Waveform* , WaveformTimeBar* );
+		void setBar(const int );
+		void setBeginning(const int );
+		void setEnd(const int );
 		int getBar();
 		int getBeginning();
 		int getEnd();
@@ -51,17 +51,16 @@ class AudioWindow : public QWidget
 		void timeSignatureChanged(int);
 
 	private:
-		QWidget* parent;
-		SimpleMusicPlayer* player;
-		QLabel* label;
-		QLineEdit* audioFile;
-		AudioSync* audioSync;
-		QPushButton *browseButton;
-		QGridLayout* layout;
-		ZoomButtons* zoomButtons;
+		SimpleMusicPlayer* m_player;
+		QLabel* m_label;
+		QLineEdit* m_audioFile;
+		AudioSync* m_audioSync;
+		QPushButton *m_browseButton;
+		QGridLayout* m_layout;
+		ZoomButtons* m_zoomButtons;
 
-		Waveform* waveform;
-		WaveformTimeBar* waveformTimeBar;
+		Waveform* m_waveform;
+		WaveformTimeBar* m_waveformTimeBar;
 };
 
 #endif // AUDIOWINDOW_H

@@ -9,51 +9,50 @@
  */
 AudioWindow::AudioWindow(QWidget * parent)
 {
-	this->parent = parent;
-	player = new SimpleMusicPlayer(this); // met en place la waveform via setWaveformData
-	label = new QLabel(tr("Audio file")); //fuite mémoire
-	audioFile = new QLineEdit();
-	audioFile->setReadOnly(true);
-	audioFile->setEnabled(false);
-	browseButton = new QPushButton(tr("Browse"));
-	audioSync = new AudioSync(this);
+	m_player = new SimpleMusicPlayer(this); // met en place la waveform via setWaveformData
+	m_label = new QLabel(tr("Audio file")); //fuite mémoire
+	m_audioFile = new QLineEdit();
+	m_audioFile->setReadOnly(true);
+	m_audioFile->setEnabled(false);
+	m_browseButton = new QPushButton(tr("Browse"));
+	m_audioSync = new AudioSync(this);
 
-	layout = new QGridLayout();
+	m_layout = new QGridLayout();
 
-	zoomButtons = new ZoomButtons(this);
+	m_zoomButtons = new ZoomButtons(this);
 
-	layout->addWidget(audioSync, 1, 0, 3, 1);
-	layout->addWidget(label, 1, 1);
-	layout->addWidget(audioFile, 1, 2);
-	layout->addWidget(browseButton, 1, 3);
-	layout->addWidget(player, 2, 1, 3, 3);
-	layout->addWidget(waveformTimeBar, 4, 0, 1, 5);
+	m_layout->addWidget(m_audioSync, 1, 0, 3, 1);
+	m_layout->addWidget(m_label, 1, 1);
+	m_layout->addWidget(m_audioFile, 1, 2);
+	m_layout->addWidget(m_browseButton, 1, 3);
+	m_layout->addWidget(m_player, 2, 1, 3, 3);
+	m_layout->addWidget(m_waveformTimeBar, 4, 0, 1, 5);
 
-	layout->addWidget(waveform, 5, 0, 3, 5);
-	layout->addWidget(zoomButtons, 12, 0, 1, 1);
+	m_layout->addWidget(m_waveform, 5, 0, 3, 5);
+	m_layout->addWidget(m_zoomButtons, 12, 0, 1, 1);
 
-	connect(waveformTimeBar, SIGNAL(somethingChanged()), this, SIGNAL(somethingChanged()));
+	connect(m_waveformTimeBar, SIGNAL(somethingChanged()), this, SIGNAL(somethingChanged()));
 
-	connect(browseButton, SIGNAL(released()), this, SLOT(browseAudioFile()));
-	connect(player, SIGNAL(browseAudioFile()), this, SLOT(browseAudioFile()));
-	connect(player, SIGNAL(audioFileDeleted()), this, SLOT(resetAudioFile()));
+	connect(m_browseButton, SIGNAL(released()), this, SLOT(browseAudioFile()));
+	connect(m_player, SIGNAL(browseAudioFile()), this, SLOT(browseAudioFile()));
+	connect(m_player, SIGNAL(audioFileDeleted()), this, SLOT(resetAudioFile()));
 
-	connect(player, SIGNAL(sigTimeData(QTime)), parent, SIGNAL(sigTimeData(QTime)));
-	connect(audioSync, SIGNAL(refreshTimer(int)), this, SLOT(refreshTimerAudioSync(int)));
-	connect(audioSync, SIGNAL(sendTimers(QTime, QTime, QTime)), parent, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)));
+	connect(m_player, SIGNAL(sigTimeData(QTime)), parent, SIGNAL(sigTimeData(QTime)));
+	connect(m_audioSync, SIGNAL(refreshTimer(int)), this, SLOT(refreshTimerAudioSync(int)));
+	connect(m_audioSync, SIGNAL(sendTimers(QTime, QTime, QTime)), parent, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)));
 
-	connect(audioSync, SIGNAL(sendTimer(int,QTime)), waveform, SLOT(setTimer(int, QTime)));
-	connect(audioSync, SIGNAL(sendTimer(int,QTime)), waveformTimeBar, SLOT(setTimer(int, QTime)));
+	connect(m_audioSync, SIGNAL(sendTimer(int,QTime)), m_waveform, SLOT(setTimer(int, QTime)));
+	connect(m_audioSync, SIGNAL(sendTimer(int,QTime)), m_waveformTimeBar, SLOT(setTimer(int, QTime)));
 
-	connect(this, SIGNAL(timeSignatureChanged(int)), audioSync, SLOT(setTimeSignature(int)));
+	connect(this, SIGNAL(timeSignatureChanged(int)), m_audioSync, SLOT(setTimeSignature(int)));
 
-	connect(this, SIGNAL(waveFullZoom()), player, SLOT(waveFullZoom()));
-	connect(this, SIGNAL(waveBarZoom()), player, SLOT(waveBarZoom()));
-	connect(this, SIGNAL(waveSongZoom()), player, SLOT(waveSongZoom()));
+	connect(this, SIGNAL(waveFullZoom()), m_player, SLOT(waveFullZoom()));
+	connect(this, SIGNAL(waveBarZoom()), m_player, SLOT(waveBarZoom()));
+	connect(this, SIGNAL(waveSongZoom()), m_player, SLOT(waveSongZoom()));
 
-	connect(waveformTimeBar, SIGNAL(timeChanged(int,QTime)), audioSync, SLOT(recvTimer(int, QTime)));
+	connect(m_waveformTimeBar, SIGNAL(timeChanged(int,QTime)), m_audioSync, SLOT(recvTimer(int, QTime)));
 
-	this->setLayout(layout);
+	this->setLayout(m_layout);
 }
 
 /**
@@ -63,13 +62,13 @@ AudioWindow::AudioWindow(QWidget * parent)
  */
 AudioWindow::~AudioWindow()
 {
-	delete player;
-	delete audioFile;
-	delete browseButton;
-	delete audioSync;
-	delete zoomButtons;
-	delete layout;
-	delete label;
+	delete m_player;
+	delete m_audioFile;
+	delete m_browseButton;
+	delete m_audioSync;
+	delete m_zoomButtons;
+	delete m_layout;
+	delete m_label;
 }
 
 /**
@@ -78,8 +77,8 @@ AudioWindow::~AudioWindow()
  */
 void AudioWindow::setWaveformData(Waveform* waveform, WaveformTimeBar* timeBar)
 {
-	this->waveform = waveform;
-	this->waveformTimeBar = timeBar;
+	this->m_waveform = waveform;
+	this->m_waveformTimeBar = timeBar;
 }
 
 /**
@@ -89,10 +88,10 @@ void AudioWindow::setWaveformData(Waveform* waveform, WaveformTimeBar* timeBar)
  */
 void AudioWindow::setAudioFile()
 {
-	audioFile->setEnabled(true);
-	audioFile->setText(player->getSong());
-	audioSync->activeButtons(true);
-	waveformTimeBar->activate();
+	m_audioFile->setEnabled(true);
+	m_audioFile->setText(m_player->getSong());
+	m_audioSync->activeButtons(true);
+	m_waveformTimeBar->activate();
 }
 
 /**
@@ -104,7 +103,7 @@ void AudioWindow::setAudioFile()
  */
 void AudioWindow::setAudioFileName(QString file)
 {
-	player->setAudioFile(file);
+	m_player->setAudioFile(file);
 }
 
 /**
@@ -114,10 +113,10 @@ void AudioWindow::setAudioFileName(QString file)
  */
 void AudioWindow::resetAudioFile()
 {
-	audioFile->setText("");
-	audioFile->setEnabled(false);
-	audioSync->activeButtons(false);
-	waveformTimeBar->deactivate();
+	m_audioFile->setText("");
+	m_audioFile->setEnabled(false);
+	m_audioSync->activeButtons(false);
+	m_waveformTimeBar->deactivate();
 }
 
 /**
@@ -131,13 +130,13 @@ void AudioWindow::refreshTimerAudioSync(int i)
 {
 	switch(i) {
 	case TIMER_BEGINNING:
-		audioSync->setBeginningTimer(player->getCurrentPosition());
+		m_audioSync->setBeginningTimer(m_player->getCurrentPosition());
 		break;
 	case TIMER_END:
-		audioSync->setEndTimer(player->getCurrentPosition());
+		m_audioSync->setEndTimer(m_player->getCurrentPosition());
 		break;
 	case TIMER_BAR:
-		audioSync->setBarTimer(player->getCurrentPosition());
+		m_audioSync->setBarTimer(m_player->getCurrentPosition());
 		break;
 	}
 }
@@ -153,7 +152,7 @@ void AudioWindow::browseAudioFile()
 	if(tmp != "") {
 		QDir d;
 		tmp = d.relativeFilePath(tmp);
-		if(player->setAudioFile(tmp))
+		if(m_player->setAudioFile(tmp))
 			setAudioFile();
 	}
 }
@@ -164,7 +163,7 @@ void AudioWindow::browseAudioFile()
  */
 QString AudioWindow::getFilename()
 {
-	return player->getSong();
+	return m_player->getSong();
 }
 
 
@@ -176,8 +175,8 @@ QString AudioWindow::getFilename()
  */
 void AudioWindow::playFrom(int t)
 {
-	player->play();
-    player->changePosition(t);
+	m_player->play();
+	m_player->changePosition(t);
 }
 
 /**
@@ -188,7 +187,7 @@ void AudioWindow::playFrom(int t)
 void AudioWindow::setBar(const int bar){
 	QTime t(0, 0);
 	t = t.addMSecs(bar);
-	return audioSync->setBarTimer(t);
+	return m_audioSync->setBarTimer(t);
 }
 
 /**
@@ -199,7 +198,7 @@ void AudioWindow::setBar(const int bar){
 void AudioWindow::setBeginning(const int begin){
 	QTime t(0, 0);
 	t = t.addMSecs(begin);
-	return audioSync->setBeginningTimer(t);
+	return m_audioSync->setBeginningTimer(t);
 }
 
 /**
@@ -210,26 +209,26 @@ void AudioWindow::setBeginning(const int begin){
 void AudioWindow::setEnd(const int end){
 	QTime t(0, 0);
 	t = t.addMSecs(end);
-	return audioSync->setEndTimer(t);
+	return m_audioSync->setEndTimer(t);
 }
 
 /**
  * Retourne la valeur de la bar entrée par l'utilisateur
  */
 int AudioWindow::getBar(){
-	return audioSync->getBar();
+	return m_audioSync->getBar();
 }
 
 /**
  * Retourne la valeur de la bar entrée par l'utilisateur
  */
 int AudioWindow::getBeginning(){
-	return audioSync->getBeginning();
+	return m_audioSync->getBeginning();
 }
 
 /**
  * Retourne la valeur de la bar entrée par l'utilisateur
  */
 int AudioWindow::getEnd(){
-	return audioSync->getEnd();
+	return m_audioSync->getEnd();
 }

@@ -763,7 +763,6 @@ void ChordTableWidget::itemChanged_slot(QTableWidgetItem *qitem)
 	if((m_savedItem != 0 && item->text() != m_savedItem->text()) || (m_savedItem == 0))
 	{
 		emit somethingChanged();
-		qDebug() << "emit somethingChanged();";
 		currentItemChanged_slot(item, 0); //on met à jour m_savedItem avec le texte nouvellement entré
 	}
 

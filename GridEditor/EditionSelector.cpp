@@ -11,19 +11,19 @@ EditionSelector::EditionSelector(QWidget *parent) :
 	QWidget(parent)
 {
 	setWindowFlags(Qt::Dialog);
-	presentation = new QLabel(tr("What do you want to do today?"));
-	tabs = new QTabWidget(this);
-	mainLayout = new QVBoxLayout();
+	m_presentation = new QLabel(tr("What do you want to do today?"));
+	m_tabs = new QTabWidget(this);
+	m_mainLayout = new QVBoxLayout();
 
-	pageNew = new QWidget(); //Pages pour les onglets
-	pageOpen = new QWidget();
+	m_pageNew = new QWidget(); //Pages pour les onglets
+	m_pageOpen = new QWidget();
 
-	vboxNew = new QVBoxLayout;
-	vboxOpen = new QVBoxLayout;
+	m_vboxNew = new QVBoxLayout;
+	m_vboxOpen = new QVBoxLayout;
 
 	//Page nouveau fichier
 	NewGridDialog* newGridDialog = new NewGridDialog();
-	((GridEditor*) parent)->newGridDialog = newGridDialog;
+	((GridEditor*) parent)->m_newGridDialog = newGridDialog;
 
 	//Page ouverture fichier
 	QLabel *pictureOpen = new QLabel(tr("Press Load to load a file"));
@@ -31,19 +31,19 @@ EditionSelector::EditionSelector(QWidget *parent) :
 	QPushButton *buttonOpen = new QPushButton(tr("Load"));
 
 
-	vboxNew->addWidget(newGridDialog);
-	pageNew->setLayout(vboxNew);
+	m_vboxNew->addWidget(newGridDialog);
+	m_pageNew->setLayout(m_vboxNew);
 
-	vboxOpen->addWidget(pictureOpen);
-	vboxOpen->addWidget(buttonOpen);
-	pageOpen->setLayout(vboxOpen);
+	m_vboxOpen->addWidget(pictureOpen);
+	m_vboxOpen->addWidget(buttonOpen);
+	m_pageOpen->setLayout(m_vboxOpen);
 
-	tabs->addTab(pageNew, tr("New grid"));
-	tabs->addTab(pageOpen, tr("Open a grid"));
+	m_tabs->addTab(m_pageNew, tr("New grid"));
+	m_tabs->addTab(m_pageOpen, tr("Open a grid"));
 
-	mainLayout->addWidget(presentation);
-	mainLayout->addWidget(tabs);
-	setLayout(mainLayout);
+	m_mainLayout->addWidget(m_presentation);
+	m_mainLayout->addWidget(m_tabs);
+	setLayout(m_mainLayout);
 
 	connect(newGridDialog, SIGNAL(accepted()), parent, SLOT(firstNewGrid()));
 	connect(buttonOpen, SIGNAL(clicked()), parent, SLOT(fromXML()));
@@ -56,9 +56,9 @@ EditionSelector::EditionSelector(QWidget *parent) :
  */
 EditionSelector::~EditionSelector()
 {
-	delete presentation;
-	delete tabs;
-	delete mainLayout;
+	delete m_presentation;
+	delete m_tabs;
+	delete m_mainLayout;
 
 	//les autres membres sont delete par ceux-là
 }

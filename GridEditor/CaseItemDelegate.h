@@ -15,10 +15,10 @@ class CaseItemDelegate : public QStyledItemDelegate
 	public:
 		explicit CaseItemDelegate(QWidget *parent = 0);
 		~CaseItemDelegate();
-		void paint(QPainter *painter, const QStyleOptionViewItem &option,
-					   const QModelIndex &index) const;
-		void paintPartText(QPainter *painter, const QRect& rect, CaseItem* item) const;
-		void paintBar(QPainter *painter, const QRect& rect, CaseItem* item) const;
+		void paint(QPainter *, const QStyleOptionViewItem &,
+					   const QModelIndex &) const;
+		void paintPartText(QPainter *, const QRect& , CaseItem* ) const;
+		void paintBar(QPainter *, const QRect& , CaseItem* ) const;
 	signals:
 
 	public slots:

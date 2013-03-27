@@ -15,18 +15,18 @@
  */
 class EditionSelector : public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
-	QLabel *presentation;
-	QTabWidget *tabs;
-	QVBoxLayout *mainLayout, *vboxNew, *vboxOpen;
+	QLabel *m_presentation;
+	QTabWidget *m_tabs;
+	QVBoxLayout *m_mainLayout, *m_vboxNew, *m_vboxOpen;
 
-	QWidget *pageNew;
-	QWidget *pageOpen;
+	QWidget *m_pageNew;
+	QWidget *m_pageOpen;
 
 
 public:
-    explicit EditionSelector(QWidget *parent);
+	explicit EditionSelector(QWidget *parent);
 	~EditionSelector();
 };
 

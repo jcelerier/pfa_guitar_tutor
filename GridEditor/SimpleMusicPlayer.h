@@ -22,38 +22,37 @@
  */
 class SimpleMusicPlayer : public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
 private:
-	QWidget* parent;
-    QGridLayout* layout;
-    QToolButton* stopButton;
-	QToolButton* playButton, *playBarButton;
-    QSlider* slideBar;
-    QLabel* timerLabel;
-	QTimer* timer, *playTimer;
+	QGridLayout* m_layout;
+	QToolButton* m_stopButton;
+	QToolButton* m_playButton, *m_playBarButton;
+	QSlider* m_slideBar;
+	QLabel* m_timerLabel;
+	QTimer* m_timer, *m_playTimer;
 
-	Waveform *waveform;
-	WaveformTimeBar* waveformTimeBar;
+	Waveform *m_waveform;
+	WaveformTimeBar* m_waveformTimeBar;
 
-    MusicPlayer* player;
+	MusicPlayer* m_player;
 
-    unsigned int songLength;
-    unsigned int currentPosition;
+	unsigned int m_songLength;
+	unsigned int m_currentPosition;
 
-	int waveBegin;
-	int waveEnd;
+	int m_waveBegin;
+	int m_waveEnd;
 
 protected:
-    virtual void resizeEvent(QResizeEvent * event);
+	virtual void resizeEvent(QResizeEvent * event);
 
 public:
 	SimpleMusicPlayer(QWidget *parent);
-    ~SimpleMusicPlayer();
-    QString getSong();
-    bool setAudioFile(QString file);
+	~SimpleMusicPlayer();
+	QString getSong();
+	bool setAudioFile(QString);
 
-    QTime getCurrentPosition();
+	QTime getCurrentPosition();
 
 	int getWaveBegin();
 	int getWaveEnd();
@@ -61,12 +60,12 @@ public:
 	void waveUpdate();
 
 public slots:
-    void play();
-    void pause();
-    void stop();
-    void refreshTimerLabel();
-    void updateSlideBar();
-    void changePosition(int);
+	void play();
+	void pause();
+	void stop();
+	void refreshTimerLabel();
+	void updateSlideBar();
+	void changePosition(int);
 
 	void sendTimeData();
 
@@ -81,8 +80,8 @@ public slots:
 
 signals:
 	void sigTimeData(QTime);
-    void browseAudioFile();
-    void audioFileDeleted();
+	void browseAudioFile();
+	void audioFileDeleted();
 	void sendTimers(QTime, QTime, QTime);
 };
 

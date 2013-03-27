@@ -22,15 +22,15 @@ class WaveformTimeBar : public QWidget
 		void drawTimeSliders();
 
 
-		void drawTextAtTime(int s_time);
-		void drawSlider(WaveformTimeSlider* slider);
+		void drawTextAtTime(int );
+		void drawSlider(WaveformTimeSlider* );
 
-		void mousePressEvent( QMouseEvent * event );
-		void mouseMoveEvent(QMouseEvent * event);
-		void mouseReleaseEvent(QMouseEvent * event);
+		void mousePressEvent( QMouseEvent *  );
+		void mouseMoveEvent(QMouseEvent * );
+		void mouseReleaseEvent(QMouseEvent * );
 
-		void moveLeft(WaveformTimeSlider * slider);
-		void moveRight(WaveformTimeSlider * slider);
+		void moveLeft(WaveformTimeSlider * );
+		void moveRight(WaveformTimeSlider * );
 
 		PrecisionLevel computePrecisionLevel();
 		double computeLogPrecisionLevel();
@@ -39,30 +39,29 @@ class WaveformTimeBar : public QWidget
 	signals:
 		void timeChanged(int, QTime);
 		void somethingChanged();
-        void playSliderModified(int position);
+		void playSliderModified(int );
 
 	public slots:
 		void update();
-		void setTimer(int type, QTime t);
-		void setPlayerTimer(QTime t);
+		void setTimer(int , QTime );
+		void setPlayerTimer(QTime );
 		void activate();
-        void deactivate();
+		void deactivate();
 
 	protected:
-		void paintEvent(QPaintEvent *event);
+		void paintEvent(QPaintEvent *);
 
 	private:
-		bool activated;
+		bool m_activated;
 
-		WaveformTimeSlider* begin_slider, *bar_slider, *end_slider, *play_slider;
-		WaveformTimeSlider* clickedSlider;
-		QWidget* parent;
-		QTime begin, end;
-		QGridLayout* layout;
-		QPainter* painter;
-		QLabel* container;
+		WaveformTimeSlider* m_beginSlider, *m_barSlider, *m_endSlider, *m_playSlider;
+		WaveformTimeSlider* m_clickedSlider;
+		QTime m_beginTime, m_endTime;
+		QGridLayout* m_layout;
+		QPainter* m_painter;
+		QLabel* m_container;
 
-		QPoint oldMousePos, clickPos;
+		QPoint m_oldMousePos, m_clickPos;
 
 
 };

@@ -38,46 +38,46 @@ class GridEditor : public QMainWindow
 		friend class UndoManager;
 
 		int m_barsize;
-		QSettings* settings;
+		QSettings* m_settings;
 
-		AudioWindow* audioWindow;
-		NewGridDialog* newGridDialog;
+		AudioWindow* m_audioWindow;
+		NewGridDialog* m_newGridDialog;
 
-		QWidget* centralArea;
-		QGridLayout* layout;
-		ChordTableWidget* grid;
-		ChordTree* chordTree;
+		QWidget* m_centralArea;
+		QGridLayout* m_layout;
+		ChordTableWidget* m_grid;
+		ChordTree* m_chordTree;
 
-		QMenu *fileMenu, *editMenu, *aboutMenu;
+		QMenu *m_fileMenu, *m_editMenu, *m_aboutMenu;
 
-		QToolBar *toolBar;
+		QToolBar *m_toolBar;
 		QAction *quitAction, *aboutAction, *newAction, *saveAction, *helpAction,
 		*openAction, *addRowAction, *deleteRowAction, *saveAsAction,
 		*copyDownAction, *addColumnAction,
 		*deleteColumnAction, *openAudioWindowAction, *openTrackPropertiesAction,
 		*undoAction, *redoAction;
-		EditionSelector *editionSelector;
-		EditorPanel *editorPanel;
+		EditionSelector *m_editionSelector;
+		EditorPanel *m_editorPanel;
 
-		QStatusBar* status;
-		QLabel* statusInfo;
+		QStatusBar* m_status;
+		QLabel* m_statusInfo;
 
-		bool isPanelSet;
+		bool m_isPanelSet;
 
-		QString filename;
-		HelpWindow *helpWindow;
-		TrackProperties* trackProperties;
+		QString m_filename;
+		HelpWindow *m_helpWindow;
+		TrackProperties* m_trackProperties;
 
-		UndoManager* saveQueue;
+		UndoManager* m_saveQueue;
 
 	public:
 		GridEditor();
 		~GridEditor();
 		QString statusText();
-		void enableUndo(bool b);
-		void enableRedo(bool b);
+		void enableUndo(bool );
+		void enableRedo(bool );
 		void startGrid(int);
-		void createGrid(int columns, int rows, bool createdFromUndo = false);
+		void createGrid(int , int );
 
 private:
 		void createMenu();
@@ -100,7 +100,7 @@ private:
 		void firstNewGrid();
 		void newGrid();
 		void save();
-		void toXML(QString filename = "");
+		void toXML(QString m_filename = "");
 		void fromXML();
 		void about();
 		void setStatusText();

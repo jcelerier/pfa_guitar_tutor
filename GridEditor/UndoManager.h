@@ -17,7 +17,7 @@ class UndoManager: public QObject
 		bool canRedo();
 		void firstSave();
 		void clear();
-		void emptyList(QList<StatePacket*>* q);
+		void emptyList(QList<StatePacket*>* );
 
 	signals:
 		void save();
@@ -31,7 +31,7 @@ class UndoManager: public QObject
 
 
 	private:
-		void restoreState(StatePacket* statePacket);
+		void restoreState(StatePacket*);
 		GridEditor* m_editor;
 		int max_depth;
 

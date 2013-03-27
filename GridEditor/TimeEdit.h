@@ -23,10 +23,10 @@ class TimeEdit : public QTimeEdit
 		void changed(QTime);
 
 	private:
-		bool has_changed;
-		QString badStyle; //mérite de passer en static const
+		bool m_hasChanged;
+		QString m_badStyle; //mérite de passer en static const
 
-		
+
 };
 
 #endif // TIMEEDIT_H

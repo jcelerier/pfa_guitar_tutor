@@ -13,11 +13,6 @@ class ZoomButtons : public QWidget
 
 	public:
 		explicit ZoomButtons(QWidget *parent = 0);
-		
-	signals:
-		
-	public slots:
-		
 };
 
 #endif // ZOOMBUTTONS_H

@@ -48,21 +48,21 @@ protected:
 	//virtual void mousePressEvent( QMouseEvent* event );
 
 public:
-	ChordTableWidget(int column, int row, QWidget *parent);
+	ChordTableWidget(int , int , QWidget *parent);
 	~ChordTableWidget();
 
 	bool isSelectionEmpty();
 	bool isRowSelected();
 	QList<QList<int>*> rowsSelected();
-	void insertChordRow(int position, int number = 1);
+	void insertChordRow(int , int number = 1);
 
 	LogicalTrack* getLogicalTrack();
-	void setLogicalTrack(LogicalTrack* track);
+	void setLogicalTrack(LogicalTrack* );
 
-	void deepCopy(ChordTableWidget* target);
+	void deepCopy(ChordTableWidget* );
 
 private:
-	QList<int> expand_list(QList<QList<int>*> list);
+	QList<int> expand_list(QList<QList<int>*> );
 
 signals:
 	void play(int);
@@ -71,29 +71,29 @@ signals:
 
 
 public slots:
-	void ShowContextMenu(const QPoint& pos);
+	void ShowContextMenu(const QPoint& );
 	void showProperties();
 
-	void fill_selection(QTreeWidgetItem* chord, int column);
+	void fill_selection(QTreeWidgetItem* , int );
 	void insertChordRow();
 	void insertChordColumn();
 	void deleteSelectedColumn();
 	void deleteSelectedRow();
 	void copyDownRows();
 
-	void setCasePart(QString text);
-	void setCaseBeginning(QTime t);
-	void setCaseAndFollowersBeginning(QTime t);
+	void setCasePart(QString );
+	void setCaseBeginning(QTime );
+	void setCaseAndFollowersBeginning(QTime );
 	void removeCasePart();
 	bool checkBeginningTimes();
 
 	void playFromHere();
 
-	void setTimeInfo(const QTime beginning, const QTime bar, const QTime end);
-	void isPlayingAt(QTime t);
+	void setTimeInfo(const QTime , const QTime , const QTime );
+	void isPlayingAt(QTime );
 
-	void currentItemChanged_slot(QTableWidgetItem* current, QTableWidgetItem*);
-	void itemChanged_slot(QTableWidgetItem* qitem);
+	void currentItemChanged_slot(QTableWidgetItem* , QTableWidgetItem*);
+	void itemChanged_slot(QTableWidgetItem* );
 
 	void setBarSize(int);
 };

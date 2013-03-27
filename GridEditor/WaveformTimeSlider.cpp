@@ -11,7 +11,7 @@
  * Constructeur
  */
 WaveformTimeSlider::WaveformTimeSlider(QString imagepath, int type, QWidget *parent):
-	QWidget(parent),  type(type), m_time(0), m_pixmap(imagepath), m_pos(0)
+	QWidget(parent),  m_type(type), m_time(0), m_pixmap(imagepath), m_pos(0)
 {
 }
 
@@ -52,7 +52,7 @@ void WaveformTimeSlider::setTime(int time)
 void WaveformTimeSlider::private_setTime(int time)
 {
 	m_time = time;
-	emit timeChanged(type, SampleToQTime(time));
+	emit timeChanged(m_type, SampleToQTime(time));
 }
 
 /**

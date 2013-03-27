@@ -13,21 +13,21 @@ Last change on 08/05/12
  *
  * Constructeur de la grille d'accords.
  */
-GridEditor::GridEditor(): trackProperties(new TrackProperties(this)), saveQueue(new UndoManager(this))
+GridEditor::GridEditor(): m_trackProperties(new TrackProperties(this)), m_saveQueue(new UndoManager(this))
 {
-	isPanelSet = false;
-	editorPanel = 0;
-	grid = 0;
-	helpWindow = 0;
+	m_isPanelSet = false;
+	m_editorPanel = 0;
+	m_grid = 0;
+	m_helpWindow = 0;
 	//trackProperties = new TrackProperties(this);
-	audioWindow = new AudioWindow(this);
+	m_audioWindow = new AudioWindow(this);
 
-	status = statusBar();
-	statusInfo = new QLabel(statusText(), status);
-	status->addPermanentWidget(statusInfo, 1);
-	status->setSizeGripEnabled(false);
+	m_status = statusBar();
+	m_statusInfo = new QLabel(statusText(), m_status);
+	m_status->addPermanentWidget(m_statusInfo, 1);
+	m_status->setSizeGripEnabled(false);
 
-	editorPanel = new EditorPanel(grid, audioWindow, trackProperties, this);
+	m_editorPanel = new EditorPanel(m_grid, m_audioWindow, m_trackProperties, this);
 
 	setWindowTitle("GridEditor");
 	resize(800, 600); //Taille de la fenêtre
@@ -37,11 +37,11 @@ GridEditor::GridEditor(): trackProperties(new TrackProperties(this)), saveQueue(
 	createToolbar();
 
 	createCentralWidget();
-	setCentralWidget(centralArea);
+	setCentralWidget(m_centralArea);
 	connectActionToSlot();
 
-	settings = new QSettings("GuitarTutor", "GridEditor"); //Permet de retenir la configuration du logiciel
-	connect(trackProperties, SIGNAL(timeSignatureChanged(int)), audioWindow, SIGNAL(timeSignatureChanged(int)));
+	m_settings = new QSettings("GuitarTutor", "GridEditor"); //Permet de retenir la configuration du logiciel
+	connect(m_trackProperties, SIGNAL(timeSignatureChanged(int)), m_audioWindow, SIGNAL(timeSignatureChanged(int)));
 	//	connect(trackProperties, SIGNAL(somethingChanged()), saveQueue, SIGNAL(save()));
 }
 
@@ -57,23 +57,23 @@ GridEditor::~GridEditor() {
 	//peut être faire un dictionnaire d'actions qu'on puisse appeler par leur nom.
 	//ex. : actions["new"];
 	delete undoAction; delete redoAction;
-	delete fileMenu; delete editMenu;  delete aboutMenu;
-	delete toolBar;
-	delete settings;
+	delete m_fileMenu; delete m_editMenu;  delete m_aboutMenu;
+	delete m_toolBar;
+	delete m_settings;
 
-	delete chordTree;
-	if(grid != 0)
+	delete m_chordTree;
+	if(m_grid != 0)
 	{
-		delete grid;
-		grid = 0;
+		delete m_grid;
+		m_grid = 0;
 	}
-	delete trackProperties;
-	delete layout;
-	delete centralArea;
-	delete statusInfo; delete status;
-	if(helpWindow != 0) {
-		delete helpWindow;
-		helpWindow = 0;
+	delete m_trackProperties;
+	delete m_layout;
+	delete m_centralArea;
+	delete m_statusInfo; delete m_status;
+	if(m_helpWindow != 0) {
+		delete m_helpWindow;
+		m_helpWindow = 0;
 	}
 }
 
@@ -87,9 +87,9 @@ GridEditor::~GridEditor() {
  * Crée le menu principal.
  */
 void GridEditor::createMenu() {
-	fileMenu = menuBar()->addMenu(tr("&File"));
-	editMenu = menuBar()->addMenu(tr("&Edit"));
-	aboutMenu = menuBar()->addMenu(tr("&About"));
+	m_fileMenu = menuBar()->addMenu(tr("&File"));
+	m_editMenu = menuBar()->addMenu(tr("&Edit"));
+	m_aboutMenu = menuBar()->addMenu(tr("&About"));
 }
 
 /**
@@ -156,22 +156,22 @@ void GridEditor::createActions(){
  */
 void GridEditor::setActionsToMenu()
 {
-	fileMenu->addAction(newAction);
-	fileMenu->addAction(openAction);
-	fileMenu->addAction(saveAction);
-	fileMenu->addAction(saveAsAction);
-	fileMenu->addSeparator();
-	fileMenu->addAction(quitAction);
-	editMenu->addAction(undoAction);
-	editMenu->addAction(redoAction);
-	editMenu->addSeparator();
-	editMenu->addAction(addRowAction);
-	editMenu->addAction(deleteRowAction);
-	editMenu->addAction(addColumnAction);
-	editMenu->addAction(deleteColumnAction);
+	m_fileMenu->addAction(newAction);
+	m_fileMenu->addAction(openAction);
+	m_fileMenu->addAction(saveAction);
+	m_fileMenu->addAction(saveAsAction);
+	m_fileMenu->addSeparator();
+	m_fileMenu->addAction(quitAction);
+	m_editMenu->addAction(undoAction);
+	m_editMenu->addAction(redoAction);
+	m_editMenu->addSeparator();
+	m_editMenu->addAction(addRowAction);
+	m_editMenu->addAction(deleteRowAction);
+	m_editMenu->addAction(addColumnAction);
+	m_editMenu->addAction(deleteColumnAction);
 	//editMenu->addAction(copyDownAction); //trop buggué
-	aboutMenu->addAction(helpAction);
-	aboutMenu->addAction(aboutAction);
+	m_aboutMenu->addAction(helpAction);
+	m_aboutMenu->addAction(aboutAction);
 }
 
 /**
@@ -180,16 +180,16 @@ void GridEditor::setActionsToMenu()
  * Crée la barre d'outil principale et y ajoute les actions.
  */
 void GridEditor::createToolbar() {
-	toolBar = new QToolBar(tr("Tool bar"));
-	addToolBar(Qt::RightToolBarArea, toolBar);
-	toolBar->addAction(newAction);
-	toolBar->addAction(openAction);
-	toolBar->addAction(saveAction);
-	toolBar->addSeparator();
-	toolBar->addAction(addRowAction);
-	toolBar->addAction(deleteRowAction);
-	toolBar->addAction(addColumnAction);
-	toolBar->addAction(deleteColumnAction);
+	m_toolBar = new QToolBar(tr("Tool bar"));
+	addToolBar(Qt::RightToolBarArea, m_toolBar);
+	m_toolBar->addAction(newAction);
+	m_toolBar->addAction(openAction);
+	m_toolBar->addAction(saveAction);
+	m_toolBar->addSeparator();
+	m_toolBar->addAction(addRowAction);
+	m_toolBar->addAction(deleteRowAction);
+	m_toolBar->addAction(addColumnAction);
+	m_toolBar->addAction(deleteColumnAction);
 }
 
 /**
@@ -198,18 +198,18 @@ void GridEditor::createToolbar() {
  * Création du widget principale de la fenêtre.
  */
 void GridEditor::createCentralWidget() {
-	centralArea = new QWidget();
+	m_centralArea = new QWidget();
 
 	/*Mise en place du layout*/
-	chordTree = new ChordTree(); //Initialisation de chord_tree
+	m_chordTree = new ChordTree(); //Initialisation de chord_tree
 
-	editionSelector = new EditionSelector(this);
+	m_editionSelector = new EditionSelector(this);
 
-	layout = new QGridLayout();
-	layout->addWidget(editionSelector, 0, 1);
-	layout->addWidget(chordTree, 0, 0); //Liste des accords en haut-gauche
+	m_layout = new QGridLayout();
+	m_layout->addWidget(m_editionSelector, 0, 1);
+	m_layout->addWidget(m_chordTree, 0, 0); //Liste des accords en haut-gauche
 
-	centralArea->setLayout(layout);
+	m_centralArea->setLayout(m_layout);
 }
 
 /**
@@ -219,36 +219,32 @@ void GridEditor::createCentralWidget() {
  *
  * Instancie une nouvelle grille, et crée les widgets, actions, connections, etc... correspondants
  */
-void GridEditor::createGrid(int columns, int rows, bool createdFromUndo)
+void GridEditor::createGrid(int columns, int rows)
 {
-	if(grid != 0)
+	if(m_grid != 0)
 	{
-		grid->disconnect();
-		delete grid;
-		grid = 0;
+		m_grid->disconnect();
+		delete m_grid;
+		m_grid = 0;
 	}
-	grid = new ChordTableWidget(columns, rows, this);
+	m_grid = new ChordTableWidget(columns, rows, this);
 
-	connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
-	connect(grid, SIGNAL(play(int)), this, SIGNAL(play(int)));
-	/*if(!createdFromUndo)
-	{
-		connect(grid, SIGNAL(somethingChanged()), saveQueue, SIGNAL(save()));
-	}*/
+	connect(m_grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
+	connect(m_grid, SIGNAL(play(int)), this, SIGNAL(play(int)));
 
-	connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
-	connect(this, SIGNAL(sigTimeData(QTime)), grid, SLOT(isPlayingAt(QTime)));
+	connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), m_grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
+	connect(this, SIGNAL(sigTimeData(QTime)), m_grid, SLOT(isPlayingAt(QTime)));
 
-	connect(trackProperties, SIGNAL(barsizeChanged(int)), grid, SIGNAL(barsizeChanged(int)));
+	connect(m_trackProperties, SIGNAL(barsizeChanged(int)), m_grid, SIGNAL(barsizeChanged(int)));
 
-	connect(chordTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
+	connect(m_chordTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), m_grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
 
 
-	connect(addRowAction, SIGNAL(triggered()), grid, SLOT(insertChordRow()));
-	connect(addColumnAction, SIGNAL(triggered()), grid, SLOT(insertChordColumn()));
-	connect(deleteColumnAction, SIGNAL(triggered()), grid, SLOT(deleteSelectedColumn()));
+	connect(addRowAction, SIGNAL(triggered()), m_grid, SLOT(insertChordRow()));
+	connect(addColumnAction, SIGNAL(triggered()), m_grid, SLOT(insertChordColumn()));
+	connect(deleteColumnAction, SIGNAL(triggered()), m_grid, SLOT(deleteSelectedColumn()));
 	//connect(copyDownAction, SIGNAL(triggered()), grid, SLOT(copyDownRows()));
-	connect(deleteRowAction, SIGNAL(triggered()), grid, SLOT(deleteSelectedRow()));
+	connect(deleteRowAction, SIGNAL(triggered()), m_grid, SLOT(deleteSelectedRow()));
 
 	saveAction->setEnabled(true);
 	saveAsAction->setEnabled(true);
@@ -260,19 +256,19 @@ void GridEditor::createGrid(int columns, int rows, bool createdFromUndo)
 	deleteColumnAction->setEnabled(true);
 	copyDownAction->setEnabled(true);
 
-	editorPanel->updateGrid(grid);
+	m_editorPanel->updateGrid(m_grid);
 
-	if(!isPanelSet)
+	if(!m_isPanelSet)
 	{
-		if(editionSelector != 0)
+		if(m_editionSelector != 0)
 		{
-			layout->removeWidget(editionSelector);
-			delete editionSelector;
-			editionSelector = 0;
+			m_layout->removeWidget(m_editionSelector);
+			delete m_editionSelector;
+			m_editionSelector = 0;
 		}
 
-		layout->addWidget(editorPanel, 0, 1);
-		isPanelSet = true;
+		m_layout->addWidget(m_editorPanel, 0, 1);
+		m_isPanelSet = true;
 	}
 }
 
@@ -283,8 +279,8 @@ void GridEditor::createGrid(int columns, int rows, bool createdFromUndo)
  */
 void GridEditor::connectActionToSlot()
 {
-	connect(trackProperties, SIGNAL(trackChanged()), this, SLOT(setStatusText()));
-	connect(trackProperties, SIGNAL(artistChanged()), this, SLOT(setStatusText()));
+	connect(m_trackProperties, SIGNAL(trackChanged()), this, SLOT(setStatusText()));
+	connect(m_trackProperties, SIGNAL(artistChanged()), this, SLOT(setStatusText()));
 	connect(this, SIGNAL(propsChanged()), this, SLOT(setStatusText()));
 
 	connect(newAction, SIGNAL(triggered()), this, SLOT(newGrid()));
@@ -292,15 +288,15 @@ void GridEditor::connectActionToSlot()
 	connect(saveAsAction, SIGNAL(triggered()), this, SLOT(toXML()));
 	connect(saveAction, SIGNAL(triggered()), this, SLOT(save()));
 	connect(openAction, SIGNAL(triggered()), this, SLOT(fromXML()));
-	connect(openAudioWindowAction, SIGNAL(triggered()), audioWindow, SLOT(show()));
-	connect(openTrackPropertiesAction, SIGNAL(triggered()), trackProperties, SLOT(exec()));
+	connect(openAudioWindowAction, SIGNAL(triggered()), m_audioWindow, SLOT(show()));
+	connect(openTrackPropertiesAction, SIGNAL(triggered()), m_trackProperties, SLOT(exec()));
 	connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
 	connect(helpAction, SIGNAL(triggered()), this, SLOT(help()));
 
-	connect(undoAction, SIGNAL(triggered()), saveQueue, SLOT(undo()));
-	connect(redoAction, SIGNAL(triggered()), saveQueue, SLOT(redo()));
+	connect(undoAction, SIGNAL(triggered()), m_saveQueue, SLOT(undo()));
+	connect(redoAction, SIGNAL(triggered()), m_saveQueue, SLOT(redo()));
 
-	connect(this, SIGNAL(play(int)), audioWindow, SLOT(playFrom(int)));
+	connect(this, SIGNAL(play(int)), m_audioWindow, SLOT(playFrom(int)));
 }
 
 //---------------------------------------------------
@@ -314,15 +310,15 @@ void GridEditor::connectActionToSlot()
  */
 void GridEditor::changeState()
 {
-	if (grid->isSelectionEmpty() &&
-		chordTree->isEnabled())
+	if (m_grid->isSelectionEmpty() &&
+		m_chordTree->isEnabled())
 	{
-		chordTree->setEnabled(false);
+		m_chordTree->setEnabled(false);
 	}
-	else if(!grid->isSelectionEmpty() &&
-			!chordTree->isEnabled())
+	else if(!m_grid->isSelectionEmpty() &&
+			!m_chordTree->isEnabled())
 	{
-		chordTree->setEnabled(true);
+		m_chordTree->setEnabled(true);
 	}
 }
 
@@ -337,16 +333,16 @@ void GridEditor::firstNewGrid()
 	if(!saveBeforeQuit())
 		return;
 
-	trackProperties->setTrack(newGridDialog->getTrack());
-	trackProperties->setArtist(newGridDialog->getArtist());
-	trackProperties->setBarSize(newGridDialog->getBarSize());
+	m_trackProperties->setTrack(m_newGridDialog->getTrack());
+	m_trackProperties->setArtist(m_newGridDialog->getArtist());
+	m_trackProperties->setBarSize(m_newGridDialog->getBarSize());
 
-	m_barsize = trackProperties->getBarSize();
+	m_barsize = m_trackProperties->getBarSize();
 
-	createGrid(newGridDialog->getColumns() + 1, newGridDialog->getLines(), true);
+	createGrid(m_newGridDialog->getColumns() + 1, m_newGridDialog->getLines());
 
-	saveQueue->firstSave();
-	connect(grid, SIGNAL(somethingChanged()), saveQueue, SIGNAL(save()));
+	m_saveQueue->firstSave();
+	connect(m_grid, SIGNAL(somethingChanged()), m_saveQueue, SIGNAL(save()));
 }
 
 
@@ -362,27 +358,27 @@ void GridEditor::newGrid()
 		return;
 	}
 
-	newGridDialog = new NewGridDialog(this);
-	filename = "";
+	m_newGridDialog = new NewGridDialog(this);
+	m_filename = "";
 
-	int accept = newGridDialog->exec();
+	int accept = m_newGridDialog->exec();
 	if(accept == QDialog::Rejected)
 	{
 		return;
 	}
 	else
 	{
-		trackProperties->setTrack(newGridDialog->getTrack());
-		trackProperties->setArtist(newGridDialog->getArtist());
-		trackProperties->setBarSize(newGridDialog->getBarSize());
-		m_barsize = trackProperties->getBarSize();
+		m_trackProperties->setTrack(m_newGridDialog->getTrack());
+		m_trackProperties->setArtist(m_newGridDialog->getArtist());
+		m_trackProperties->setBarSize(m_newGridDialog->getBarSize());
+		m_barsize = m_trackProperties->getBarSize();
 
-		saveQueue->clear();
-		createGrid(newGridDialog->getColumns() + 1, newGridDialog->getLines());
-		saveQueue->firstSave();
-		connect(grid, SIGNAL(somethingChanged()), saveQueue, SIGNAL(save()));
+		m_saveQueue->clear();
+		createGrid(m_newGridDialog->getColumns() + 1, m_newGridDialog->getLines());
+		m_saveQueue->firstSave();
+		connect(m_grid, SIGNAL(somethingChanged()), m_saveQueue, SIGNAL(save()));
 	}
-	delete newGridDialog;
+	delete m_newGridDialog;
 
 }
 
@@ -423,21 +419,21 @@ void GridEditor::toXML(QString filename)
 
 	try
 	{
-		track = grid->getLogicalTrack();
+		track = m_grid->getLogicalTrack();
 	}
 	catch(QException& e)
 	{
 		return;
 	}
-	track->setTrackName(trackProperties->getTrack());
-	track->setArtist(trackProperties->getArtist());
-	track->setMesure(trackProperties->getBarSize());
-	track->setComment(trackProperties->getComment());
-	track->setTimeSignature(trackProperties->getTimeSignature());
-	track->setLine(grid->rowCount());
-	track->setColumn(grid->columnCount() - 1);
-	track->setAudioFileName(audioWindow->getFilename()); //vérifier si chemin absolu
-	track->setBars(audioWindow->getBar(), audioWindow->getBeginning(), audioWindow->getEnd());
+	track->setTrackName(m_trackProperties->getTrack());
+	track->setArtist(m_trackProperties->getArtist());
+	track->setMesure(m_trackProperties->getBarSize());
+	track->setComment(m_trackProperties->getComment());
+	track->setTimeSignature(m_trackProperties->getTimeSignature());
+	track->setLine(m_grid->rowCount());
+	track->setColumn(m_grid->columnCount() - 1);
+	track->setAudioFileName(m_audioWindow->getFilename()); //vérifier si chemin absolu
+	track->setBars(m_audioWindow->getBar(), m_audioWindow->getBeginning(), m_audioWindow->getEnd());
 
 
 	TrackLoader::convertLogicalTrackToXml(track, filename);
@@ -469,30 +465,30 @@ void GridEditor::fromXML()
 		QMessageBox::information(this, tr("Error"), tr("The file has not been loaded. Is it correct?"));
 		return;
 	}
-	filename = file; // ici seulement on a chargé un fichier valide
+	m_filename = file; // ici seulement on a chargé un fichier valide
 
-	trackProperties->setTrack(track->getTrackName());
-	trackProperties->setArtist(track->getArtist());
-	trackProperties->setBarSize(track->getMesure());
-	m_barsize = trackProperties->getBarSize();
-	trackProperties->setComment(track->getComment());
-	trackProperties->setTimeSignature(track->getTimeSignature());
+	m_trackProperties->setTrack(track->getTrackName());
+	m_trackProperties->setArtist(track->getArtist());
+	m_trackProperties->setBarSize(track->getMesure());
+	m_barsize = m_trackProperties->getBarSize();
+	m_trackProperties->setComment(track->getComment());
+	m_trackProperties->setTimeSignature(track->getTimeSignature());
 
-	audioWindow->setAudioFileName(track->getAudioFileName()); //vérifier si chemin absolu
-	audioWindow->setAudioFile();
-	audioWindow->setBar(track->getBar());
-	audioWindow->setBeginning(track->getBeginning());
-	audioWindow->setEnd(track->getEnd());
+	m_audioWindow->setAudioFileName(track->getAudioFileName()); //vérifier si chemin absolu
+	m_audioWindow->setAudioFile();
+	m_audioWindow->setBar(track->getBar());
+	m_audioWindow->setBeginning(track->getBeginning());
+	m_audioWindow->setEnd(track->getEnd());
 
 	//nope à cause du mod +1... : connect(audioWindow, SIGNAL(somethingChanged()), saveQueue, SIGNAL(save()));
 
-	saveQueue->clear();
-	createGrid(track->getColumn() + 1, track->getLine(), true);
-	grid->setLogicalTrack(track);
-	saveQueue->firstSave();
-	connect(grid, SIGNAL(somethingChanged()), saveQueue, SIGNAL(save()));
+	m_saveQueue->clear();
+	createGrid(track->getColumn() + 1, track->getLine());
+	m_grid->setLogicalTrack(track);
+	m_saveQueue->firstSave();
+	connect(m_grid, SIGNAL(somethingChanged()), m_saveQueue, SIGNAL(save()));
 
-	emit trackProperties->barsizeChanged(track->getMesure());
+	emit m_trackProperties->barsizeChanged(track->getMesure());
 
 
 	delete track;
@@ -517,16 +513,16 @@ void GridEditor::about()
 QString GridEditor::statusText()
 {
 	QString text;
-	if(! trackProperties->getTrack().isEmpty() )
+	if(! m_trackProperties->getTrack().isEmpty() )
 	{
 		text += tr("Track: ");
-		text += trackProperties->getTrack();
+		text += m_trackProperties->getTrack();
 		text += ". ";
 	}
-	if(! trackProperties->getArtist().isEmpty() )
+	if(! m_trackProperties->getArtist().isEmpty() )
 	{
 		text += tr("  Artist: ");
-		text += trackProperties->getArtist();
+		text += m_trackProperties->getArtist();
 		text += ".";
 	}
 
@@ -541,7 +537,7 @@ QString GridEditor::statusText()
  */
 void GridEditor::setStatusText()
 {
-	statusInfo->setText(statusText());
+	m_statusInfo->setText(statusText());
 }
 
 /**
@@ -553,7 +549,7 @@ void GridEditor::setStatusText()
  */
 bool GridEditor::saveBeforeQuit()
 {
-	if (isPanelSet)
+	if (m_isPanelSet)
 	{
 		QMessageBox msgBox;
 		msgBox.setText(tr("The document has been modified"));
@@ -586,7 +582,7 @@ bool GridEditor::saveBeforeQuit()
  */
 void GridEditor::save()
 {
-	toXML(filename);
+	toXML(m_filename);
 }
 
 /**
@@ -596,10 +592,10 @@ void GridEditor::save()
  */
 void GridEditor::help()
 {
-	if(helpWindow != 0)
-		delete helpWindow;
-	helpWindow = new HelpWindow(this);
-	helpWindow->exec();
+	if(m_helpWindow != 0)
+		delete m_helpWindow;
+	m_helpWindow = new HelpWindow(this);
+	m_helpWindow->exec();
 }
 
 

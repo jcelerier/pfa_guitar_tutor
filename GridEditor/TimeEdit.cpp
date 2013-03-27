@@ -8,10 +8,10 @@
 TimeEdit::TimeEdit(QWidget *parent) :
 	QTimeEdit(QTime(0, 0, 0, 0), parent)
 {
-	badStyle = "QTimeEdit { background-color:#ffDDDD;color:#000000 }";
+	m_badStyle = "QTimeEdit { background-color:#ffDDDD;color:#000000 }";
 
 	connect(this, SIGNAL(timeChanged(QTime)), SLOT(changed(QTime)), Qt::DirectConnection);
-	has_changed = false;
+	m_hasChanged = false;
 
 }
 
@@ -25,7 +25,7 @@ void TimeEdit::setBad()
 {
 	if(this->isEnabled())
 	{
-		this->setStyleSheet(badStyle);
+		this->setStyleSheet(m_badStyle);
 	}
 }
 
@@ -51,10 +51,10 @@ void TimeEdit::mousePressEvent ( QMouseEvent * event )
 {
 	QAbstractSpinBox::mousePressEvent(event);
 
-	if(has_changed == true)
+	if(m_hasChanged == true)
 	{
 		emit hasBeenClicked();
-		has_changed = false;
+		m_hasChanged = false;
 	}
 }
 
@@ -65,5 +65,5 @@ void TimeEdit::mousePressEvent ( QMouseEvent * event )
  */
 void TimeEdit::changed(QTime)
 {
-	has_changed = true;
+	m_hasChanged = true;
 }

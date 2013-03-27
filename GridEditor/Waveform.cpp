@@ -16,7 +16,6 @@
  */
 Waveform::Waveform(QWidget *parent, int w, int h):
 	QLabel(parent),
-	parent(parent),
 	m_previouslyPlayedPixel(0),
 	m_width(w),
 	m_height(h)
@@ -41,7 +40,7 @@ Waveform::Waveform(QWidget *parent, int w, int h):
 
 
 	this->setPixmap(*m_pixmap);
-	empty = true;
+	m_empty = true;
 }
 
 Waveform::~Waveform()
@@ -76,7 +75,7 @@ void Waveform::update()
 	m_painter->setPen(*m_mainPen);
 	m_painter->setBrush(QBrush(Qt::green, Qt::SolidPattern));
 
-	if(!empty)
+	if(!m_empty)
 	{
 		display();
 	}
@@ -110,13 +109,13 @@ void Waveform::display()
 {
 	initImage();
 
-	int beg = ((SimpleMusicPlayer*) parent)->getWaveBegin(); //première sample affichée
-	int end = ((SimpleMusicPlayer*) parent)->getWaveEnd();
+	int beg = ((SimpleMusicPlayer*) parent())->getWaveBegin(); //première sample affichée
+	int end = ((SimpleMusicPlayer*) parent())->getWaveEnd();
 	float size = end - beg; // nb de samples affichées
 
-	int s_beg = QTimeToSample(l_begin);
-	int s_bar = QTimeToSample(l_bar);
-	int s_end = QTimeToSample(l_end);
+	int s_beg = QTimeToSample(m_beginTime);
+	int s_bar = QTimeToSample(m_barTime);
+	int s_end = QTimeToSample(m_endTime);
 
 	float tmp_begin = (((float) s_beg - (float) beg) / size);
 	float tmp_end   = (((float) s_end - (float) beg) / size);
@@ -265,26 +264,26 @@ int Waveform::getWidth()
 void Waveform::mouseMoveEvent(QMouseEvent * event)
 {
 	const QPoint pos = event->pos();
-	if(pos.x() < oldMousePos.x()) // on va à gauche : mouvement
+	if(pos.x() < m_oldMousePos.x()) // on va à gauche : mouvement
 	{
-		((SimpleMusicPlayer*) parent)->moveLeft();
+		((SimpleMusicPlayer*) parent())->moveLeft();
 	}
-	else if(pos.x() > oldMousePos.x()) // on va à droite : mouvement
+	else if(pos.x() > m_oldMousePos.x()) // on va à droite : mouvement
 	{
-		((SimpleMusicPlayer*) parent)->moveRight();
-	}
-
-
-	if(pos.y() < oldMousePos.y()) // on va en haut : zoom
-	{
-		((SimpleMusicPlayer*) parent)->zoomIn(clickPos);
-	}
-	else if(pos.y() > oldMousePos.y()) // on va en bas : dézoom
-	{
-		((SimpleMusicPlayer*) parent)->zoomOut(clickPos);
+		((SimpleMusicPlayer*) parent())->moveRight();
 	}
 
-	oldMousePos = pos;
+
+	if(pos.y() < m_oldMousePos.y()) // on va en haut : zoom
+	{
+		((SimpleMusicPlayer*) parent())->zoomIn(m_clickPos);
+	}
+	else if(pos.y() > m_oldMousePos.y()) // on va en bas : dézoom
+	{
+		((SimpleMusicPlayer*) parent())->zoomOut(m_clickPos);
+	}
+
+	m_oldMousePos = pos;
 
 }
 
@@ -296,8 +295,8 @@ void Waveform::mouseMoveEvent(QMouseEvent * event)
  */
 void Waveform::mousePressEvent(QMouseEvent * event)
 {
-	clickPos = event->pos();
-	oldMousePos =  event->pos();
+	m_clickPos = event->pos();
+	m_oldMousePos =  event->pos();
 }
 
 
@@ -307,7 +306,7 @@ void Waveform::mousePressEvent(QMouseEvent * event)
  */
 int Waveform::getSampleBegin()
 {
-	return QTimeToSample(l_begin);
+	return QTimeToSample(m_beginTime);
 }
 
 /**
@@ -316,7 +315,7 @@ int Waveform::getSampleBegin()
  */
 int Waveform::getSampleBar()
 {
-	return QTimeToSample(l_bar);
+	return QTimeToSample(m_barTime);
 }
 
 /**
@@ -325,7 +324,7 @@ int Waveform::getSampleBar()
  */
 int Waveform::getSampleEnd()
 {
-	return QTimeToSample(l_end);
+	return QTimeToSample(m_endTime);
 }
 
 /**
@@ -335,7 +334,7 @@ int Waveform::getSampleEnd()
  */
 void Waveform::activate()
 {
-	empty = false;
+	m_empty = false;
 }
 
 /**
@@ -348,13 +347,13 @@ void Waveform::setTimer(int type, QTime t)
 	switch(type)
 	{
 		case TIMER_BEGINNING:
-			l_begin = t;
+			m_beginTime = t;
 			break;
 		case TIMER_BAR:
-			l_bar = t;
+			m_barTime = t;
 			break;
 		case TIMER_END:
-			l_end = t;
+			m_endTime = t;
 			break;
 		default:
 			break;
@@ -373,8 +372,8 @@ void Waveform::setPlayerTimer(QTime t)
 {
 	int s_pos = QTimeToSample(t);
 
-	int beg = ((SimpleMusicPlayer*) parent)->getWaveBegin();
-	int end = ((SimpleMusicPlayer*) parent)->getWaveEnd();
+	int beg = ((SimpleMusicPlayer*) parent())->getWaveBegin();
+	int end = ((SimpleMusicPlayer*) parent())->getWaveEnd();
 	float size = end - beg; // nb de samples affichées
 
 	float pos_pixel = (((float) s_pos - (float) beg) / size) * m_width;
