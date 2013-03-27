@@ -19,47 +19,47 @@ EditorPanel::EditorPanel(ChordTableWidget* chordTable,
 {
 
 	setWindowFlags(Qt::Dialog);
-	tabs = new QTabWidget(this);
-	mainLayout = new QVBoxLayout();
+	m_tabs = new QTabWidget(this);
+	m_mainLayout = new QVBoxLayout();
 
-	pageChordTable = new QWidget(); //Pages pour les onglets
-	pageAudio = new QWidget();
-	pageProps = new QWidget();
+	m_pageChordTable = new QWidget(); //Pages pour les onglets
+	m_pageAudio = new QWidget();
+	m_pageProps = new QWidget();
 
 	//Page grille
-	vboxTable = new QVBoxLayout();
+	m_vboxTable = new QVBoxLayout();
 	if(chordTable != 0)
 	{
-		vboxTable->addWidget(chordTable);
+		m_vboxTable->addWidget(chordTable);
 	}
 
-	grid = chordTable;
+	m_grid = chordTable;
 
-	pageChordTable->setLayout(vboxTable);
+	m_pageChordTable->setLayout(m_vboxTable);
 
 	//Page audio
-	vboxAudio = new QVBoxLayout;
-	spacer = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
+	m_vboxAudio = new QVBoxLayout;
+	m_spacer = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
 
-	vboxAudio->addWidget(audioWindow);
-	vboxAudio->addItem( spacer );
+	m_vboxAudio->addWidget(audioWindow);
+	m_vboxAudio->addItem( m_spacer );
 
-	pageAudio->setLayout(vboxAudio);
+	m_pageAudio->setLayout(m_vboxAudio);
 
 
 	//Page propriétés
-	vboxProps = new QVBoxLayout;
-	vboxProps->addWidget(trackProperties);
+	m_vboxProps = new QVBoxLayout;
+	m_vboxProps->addWidget(trackProperties);
 
-	pageProps->setLayout(vboxProps);
+	m_pageProps->setLayout(m_vboxProps);
 	//-- Général --//
 
-	tabs->addTab(pageChordTable, tr("Grid"));
-	tabs->addTab(pageAudio, tr("Audio edition"));
-	tabs->addTab(pageProps, tr("Properties"));
+	m_tabs->addTab(m_pageChordTable, tr("Grid"));
+	m_tabs->addTab(m_pageAudio, tr("Audio edition"));
+	m_tabs->addTab(m_pageProps, tr("Properties"));
 
-	mainLayout->addWidget(tabs);
-	setLayout(mainLayout);
+	m_mainLayout->addWidget(m_tabs);
+	setLayout(m_mainLayout);
 }
 
 
@@ -71,12 +71,12 @@ EditorPanel::EditorPanel(ChordTableWidget* chordTable,
  */
 void EditorPanel::updateGrid(ChordTableWidget *chordTable)
 {
-	if(grid != 0)
+	if(m_grid != 0)
 	{
-		vboxTable->removeWidget(grid);
+		m_vboxTable->removeWidget(m_grid);
 	}
-	vboxTable->addWidget(chordTable);
-	grid = chordTable;
+	m_vboxTable->addWidget(chordTable);
+	m_grid = chordTable;
 }
 
 /**
@@ -85,6 +85,6 @@ void EditorPanel::updateGrid(ChordTableWidget *chordTable)
  * Destructeur.
  */
 EditorPanel::~EditorPanel() {
-	delete mainLayout;
-	delete tabs;
+	delete m_mainLayout;
+	delete m_tabs;
 }

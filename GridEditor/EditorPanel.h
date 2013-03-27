@@ -16,25 +16,25 @@ class EditorPanel : public QWidget
 {
 		Q_OBJECT
 
-    QTabWidget *tabs;
-    QVBoxLayout *mainLayout;
-    QWidget *pageChordTable;
-    QWidget *pageAudio;
-	QWidget *pageProps;
-	QVBoxLayout *vboxTable, *vboxAudio, *vboxProps;
+		QTabWidget *m_tabs;
+		QVBoxLayout *m_mainLayout;
+		QWidget *m_pageChordTable;
+		QWidget *m_pageAudio;
+		QWidget *m_pageProps;
+		QVBoxLayout *m_vboxTable, *m_vboxAudio, *m_vboxProps;
 
-    QSpacerItem* spacer;
+		QSpacerItem* m_spacer;
 
-	ChordTableWidget* grid;
+		ChordTableWidget* m_grid;
 
-public:
-	explicit EditorPanel(ChordTableWidget* chordTable, AudioWindow *audioWindow, TrackProperties* trackProperties, QWidget *parent);
-	void updateGrid(ChordTableWidget* chordTable);
-    ~EditorPanel();
-signals:
-		
+	public:
+		explicit EditorPanel(ChordTableWidget* chordTable, AudioWindow *audioWindow, TrackProperties* trackProperties, QWidget *parent);
+		void updateGrid(ChordTableWidget* chordTable);
+		~EditorPanel();
+	signals:
+
 	public slots:
-		
+
 };
 
 #endif // EDITORPANEL_H

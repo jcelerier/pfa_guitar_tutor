@@ -1,7 +1,6 @@
 #include "UndoManager.h"
 #include "GridEditor.h"
 
-#include <QDebug>
 /*
  * Quand quelque chose change, on le met dans l'état actuel m_currentState.
  * L'état actuel précédent part dans l'undoQueue.
@@ -54,7 +53,7 @@ void UndoManager::clear()
  */
 void UndoManager::saveSlot()
 {
-	qDebug() << "saveSlot()";
+	//qDebug() << "saveSlot()";
 	saveState(false); // pour les undo
 }
 
@@ -66,10 +65,10 @@ void UndoManager::saveSlot()
  */
 StatePacket* UndoManager::currentEditorState()
 {
-	return new StatePacket(m_editor->grid,
-						   m_editor->audioWindow->getBeginning(), m_editor->audioWindow->getBar(),  m_editor->audioWindow->getEnd(),
-						   m_editor->trackProperties->getArtist(), m_editor->trackProperties->getTrack(), m_editor->trackProperties->getComment(),
-						   m_editor->trackProperties->getBarSize(),(int) m_editor->trackProperties->getTimeSignature());
+	return new StatePacket(m_editor->m_grid,
+						   m_editor->m_audioWindow->getBeginning(), m_editor->m_audioWindow->getBar(),  m_editor->m_audioWindow->getEnd(),
+						   m_editor->m_trackProperties->getArtist(), m_editor->m_trackProperties->getTrack(), m_editor->m_trackProperties->getComment(),
+						   m_editor->m_trackProperties->getBarSize(),(int) m_editor->m_trackProperties->getTimeSignature());
 
 }
 
@@ -195,10 +194,10 @@ void UndoManager::restoreState(StatePacket* statePacket)
 {
 	m_currentState = statePacket;
 
-	m_editor->createGrid(statePacket->grid->columnCount(), statePacket->grid->rowCount(), true);
-	statePacket->grid->deepCopy(m_editor->grid);
+	m_editor->createGrid(statePacket->grid->columnCount(), statePacket->grid->rowCount());
+	statePacket->grid->deepCopy(m_editor->m_grid);
 
-	connect(m_editor->grid, SIGNAL(somethingChanged()), this, SIGNAL(save()));
+	connect(m_editor->m_grid, SIGNAL(somethingChanged()), this, SIGNAL(save()));
 	/*  Tout ça est à réactiver quand la sauvegarde sera dispo pour le reste
 	 * -> il faut vérifier qu'on ne sauve pas à chaque changement de valeur sinon ça va faire n'importe quoi
 	 * -> utiliser mouseReleasesEvent notamment
