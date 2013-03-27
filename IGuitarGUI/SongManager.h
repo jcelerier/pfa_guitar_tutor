@@ -61,19 +61,19 @@ public slots:
 
 		QTime m_time;
 
-		int number_of_valid_chord_checks;
-		int number_of_chord_checks;
+        int m_number_of_valid_chord_checks;   // Verification de la justesse de l'accord joue
+        int m_number_of_chord_checks;
 
-        int well_played_chords_in_current_part;
-        int played_chords_in_current_part;
+        int m_well_played_chords_in_current_part; // Verification du nombre d'accords joues dans la partie actuelle
+        int m_played_chords_in_current_part;
 
-        int m_totalPlayedChords;
+        int m_totalPlayedChords;            // Nombre d'accord joué au total
         int m_totalValidatedChords;
 
-		int precision_in_ms;
-		int m_elapsedTime;
+        int m_precision_in_ms;
+        int m_elapsedTime;                  // Position dans le morceau, en mS
         bool m_isFirstChord;
-        bool m_partRepeated;
+        bool m_partRepeated;                // Vient-on de boucler sur une partie ?
 
 };
 

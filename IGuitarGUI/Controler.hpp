@@ -57,15 +57,15 @@ class Controler : public QObject
 		SongManager* m_songManager;
 
         bool m_playing;
-		QTimer *m_timer;
-		PlayerScene *m_scene;
-		MyView *m_view;
+        QTimer *m_timer;        // Timer qui permet de rafraichir la scene un nombre donne de fois par secondes
+        PlayerScene *m_scene;   // Scene de l'interface
+        MyView *m_view;         // Vue de l'interface
 
 		Configuration* m_configuration;
 
 		LogicalTrack *m_track;
 
-		bool m_muted;
+        bool m_muted;           // Determine si la piste est mutee
 
 };
 

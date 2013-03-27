@@ -9,6 +9,7 @@
  * @brief The MyView class
  *
  * Classe qui gère la vue.
+ * Contient une scène et adapte la taille de celle ci a l'ecran de l'utilisateur
  */
 class MyView : public QGraphicsView
 {

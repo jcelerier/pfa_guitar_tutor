@@ -30,7 +30,7 @@ MenuItem::~MenuItem() {
 MenuItem::MenuItem(QGraphicsItem *parent) :
 	QGraphicsObject(parent),
 	m_width(350),
-	m_height(500),
+    m_height(425),
 	m_nbElts(0)
 
 {

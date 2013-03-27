@@ -8,7 +8,12 @@
 #include "Util.hpp"
 
 class Controler;
-
+/**
+ * @brief ScrollingItem
+ *
+ * Contient les accords defilants
+ * Cette classe est rafraichie a chaque rafraichissement d'ecran, determine dans la configuration
+ */
 class ScrollingItem : public QGraphicsItem
 {
 public:
@@ -20,14 +25,14 @@ public:
     void setCurrentChord(TrackChord* tc);
 
 private:
-    QPointF const m_initialPos;
-    float const m_pixPerMsec;
+    QPointF const m_initialPos;     // position initiale des accords
+    float const m_pixPerMsec;       // Vitesse (et espace) de defilement des accords
 
     Controler* m_controler;
     LogicalTrack* m_track;
     bool m_loaded;
 
-    QGraphicsItemGroup* m_scrollingTextContainer;
+    QGraphicsItemGroup* m_scrollingTextContainer;   // Contient tous les accords pour les deplacer d'un coup
 };
 
 #endif // SCROLLINGITEM_H
