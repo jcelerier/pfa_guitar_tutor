@@ -60,7 +60,7 @@ private slots:
 	void beginningChanged(QTime);
 	void barChanged(QTime);
 	void endChanged(QTime);
-	void tempoChanged(int tempo);
+	void tempoChanged(int);
 
 signals:
 	void refreshTimer(int);

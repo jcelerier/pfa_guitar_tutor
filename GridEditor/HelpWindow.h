@@ -12,14 +12,14 @@
  */
 class HelpWindow : public QDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
-    QWebView *page;
-    QPushButton *close;
-    QVBoxLayout *layout;
+	QWebView *m_page;
+	QPushButton *m_close;
+	QVBoxLayout *m_layout;
 public:
-    explicit HelpWindow(QWidget *parent = 0);
-    ~HelpWindow();
+	explicit HelpWindow(QWidget *parent = 0);
+	~HelpWindow();
 };
 
 #endif // HELPWINDOW_H

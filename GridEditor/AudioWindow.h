@@ -24,11 +24,11 @@ class AudioWindow : public QWidget
 		explicit AudioWindow(QWidget *parent = 0);
 		~AudioWindow();
 		QString getFilename();
-		void setAudioFileName(QString file);
-		void setWaveformData(Waveform* m_waveform, WaveformTimeBar* timeBar);
-		void setBar(const int bar);
-		void setBeginning(const int begin);
-		void setEnd(const int end);
+		void setAudioFileName(QString);
+		void setWaveformData(Waveform* , WaveformTimeBar* );
+		void setBar(const int );
+		void setBeginning(const int );
+		void setEnd(const int );
 		int getBar();
 		int getBeginning();
 		int getEnd();

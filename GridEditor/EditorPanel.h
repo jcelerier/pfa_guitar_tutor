@@ -28,8 +28,8 @@ class EditorPanel : public QWidget
 		ChordTableWidget* m_grid;
 
 	public:
-		explicit EditorPanel(ChordTableWidget* chordTable, AudioWindow *audioWindow, TrackProperties* trackProperties, QWidget *parent);
-		void updateGrid(ChordTableWidget* chordTable);
+		explicit EditorPanel(ChordTableWidget* , AudioWindow *, TrackProperties* , QWidget *);
+		void updateGrid(ChordTableWidget* );
 		~EditorPanel();
 	signals:
 

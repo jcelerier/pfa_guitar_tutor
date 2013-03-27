@@ -74,10 +74,10 @@ class GridEditor : public QMainWindow
 		GridEditor();
 		~GridEditor();
 		QString statusText();
-		void enableUndo(bool b);
-		void enableRedo(bool b);
+		void enableUndo(bool );
+		void enableRedo(bool );
 		void startGrid(int);
-		void createGrid(int columns, int rows);
+		void createGrid(int , int );
 
 private:
 		void createMenu();

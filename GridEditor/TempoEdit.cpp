@@ -3,10 +3,10 @@
 TempoEdit::TempoEdit(QWidget *parent) :
 	QSpinBox(parent)
 {
-	badStyle = "QSpinBox { background-color:#ffDDDD;color:#000000 }";
+	m_badStyle = "QSpinBox { background-color:#ffDDDD;color:#000000 }";
 
 	connect(this, SIGNAL(valueChanged(int)), SLOT(changed(int)), Qt::DirectConnection);
-	has_changed = false;
+	m_hasChanged = false;
 }
 
 /**
@@ -19,7 +19,7 @@ void TempoEdit::setBad()
 {
 	if(this->isEnabled())
 	{
-		this->setStyleSheet(badStyle);
+		this->setStyleSheet(m_badStyle);
 	}
 }
 
@@ -42,7 +42,7 @@ void TempoEdit::setGood()
  */
 void TempoEdit::changed(int)
 {
-	has_changed = true;
+	m_hasChanged = true;
 }
 
 /**
@@ -55,10 +55,10 @@ void TempoEdit::mousePressEvent ( QMouseEvent * event )
 {
 	QAbstractSpinBox::mousePressEvent(event);
 
-	if(has_changed == true)
+	if(m_hasChanged == true)
 	{
 		emit hasBeenClicked();
-		has_changed = false;
+		m_hasChanged = false;
 	}
 }
 

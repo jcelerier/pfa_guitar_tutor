@@ -11,38 +11,37 @@
  * Constructeur
  */
 WaveformTimeBar::WaveformTimeBar(const QTime& song_end, QWidget *parent) :
-	QWidget(parent), begin(QTime(0, 0)), end(song_end)
+	QWidget(parent), m_beginTime(QTime(0, 0)), m_endTime(song_end)
 {
-	activated = false;
-	this->parent = parent;
-	begin_slider = new WaveformTimeSlider(":/icons/arrow_beg.png", TIMER_BEGINNING, this);
-	bar_slider = new WaveformTimeSlider(":/icons/arrow_bar.png", TIMER_BAR, this);
-	end_slider = new WaveformTimeSlider(":/icons/arrow_end.png", TIMER_END, this);
-	play_slider = new WaveformTimeSlider(":/icons/arrow_player.png", TIMER_PLAY, this);
+	m_activated = false;
+	m_beginSlider = new WaveformTimeSlider(":/icons/arrow_beg.png", TIMER_BEGINNING, this);
+	m_barSlider = new WaveformTimeSlider(":/icons/arrow_bar.png", TIMER_BAR, this);
+	m_endSlider = new WaveformTimeSlider(":/icons/arrow_end.png", TIMER_END, this);
+	m_playSlider = new WaveformTimeSlider(":/icons/arrow_player.png", TIMER_PLAY, this);
 
-	painter = new QPainter();
-	layout = new QGridLayout();
+	m_painter = new QPainter();
+	m_layout = new QGridLayout();
 
 	this->setBackgroundRole(QPalette::Window);
 	this->setAutoFillBackground(true);
 
-	connect(begin_slider, SIGNAL(timeChanged(int, QTime)), this, SIGNAL(timeChanged(int,QTime)));
-	connect(bar_slider, SIGNAL(timeChanged(int, QTime)), this, SIGNAL(timeChanged(int,QTime)));
-	connect(end_slider, SIGNAL(timeChanged(int, QTime)), this, SIGNAL(timeChanged(int,QTime)));
+	connect(m_beginSlider, SIGNAL(timeChanged(int, QTime)), this, SIGNAL(timeChanged(int,QTime)));
+	connect(m_barSlider, SIGNAL(timeChanged(int, QTime)), this, SIGNAL(timeChanged(int,QTime)));
+	connect(m_endSlider, SIGNAL(timeChanged(int, QTime)), this, SIGNAL(timeChanged(int,QTime)));
 
 
-	layout->setContentsMargins(0, 0, 0, 0);
+	m_layout->setContentsMargins(0, 0, 0, 0);
 
 
 	//moche
 	for(int i = 1; i < 20; ++i)
 	{
-		layout->setColumnMinimumWidth(i, 20);
+		m_layout->setColumnMinimumWidth(i, 20);
 	}
 
-	container = new QLabel(" ");
-	layout->addWidget(container);
-	this->setLayout(layout);
+	m_container = new QLabel(" ");
+	m_layout->addWidget(m_container);
+	this->setLayout(m_layout);
 
 }
 
@@ -53,13 +52,13 @@ WaveformTimeBar::WaveformTimeBar(const QTime& song_end, QWidget *parent) :
  */
 WaveformTimeBar::~WaveformTimeBar()
 {
-	delete container;
-	delete begin_slider;
-	delete bar_slider;
-	delete end_slider;
-	delete play_slider;
-	delete painter;
-	delete layout;
+	delete m_container;
+	delete m_beginSlider;
+	delete m_barSlider;
+	delete m_endSlider;
+	delete m_playSlider;
+	delete m_painter;
+	delete m_layout;
 }
 
 /**
@@ -70,7 +69,7 @@ WaveformTimeBar::~WaveformTimeBar()
 void WaveformTimeBar::draw()
 {
 	//drawText();
-	if(activated)
+	if(m_activated)
 		drawTimeSliders();
 }
 
@@ -105,12 +104,12 @@ void WaveformTimeBar::drawText()
  */
 void WaveformTimeBar::paintEvent(QPaintEvent */*event*/)
 {
-	painter->begin(this);
-	painter->setPen(Qt::black);
+	m_painter->begin(this);
+	m_painter->setPen(Qt::black);
 
 	draw();
 
-	painter->end();
+	m_painter->end();
 }
 
 /**
@@ -133,16 +132,16 @@ void WaveformTimeBar::mouseReleaseEvent(QMouseEvent * event)
  */
 void WaveformTimeBar::mouseMoveEvent(QMouseEvent * event)
 {
-	if(clickedSlider != 0)
+	if(m_clickedSlider != 0)
 	{
-		double s_begin =  ((SimpleMusicPlayer*) parent)->getWaveBegin();
-		double s_end = ((SimpleMusicPlayer*) parent)->getWaveEnd();
+		double s_begin =  ((SimpleMusicPlayer*) parent())->getWaveBegin();
+		double s_end = ((SimpleMusicPlayer*) parent())->getWaveEnd();
 
 		float clickPercent = (float) event->x() / (float) this->width();
 		float sample = clickPercent * (s_end - s_begin) + s_begin;
 
-		clickedSlider->private_setTime(sample);
-		if(clickedSlider == play_slider){
+		m_clickedSlider->private_setTime(sample);
+		if(m_clickedSlider == m_playSlider){
 			QTime t = SampleToQTime(sample);
 			emit(playSliderModified(TimeToMsec(t)));
 		}
@@ -159,29 +158,29 @@ void WaveformTimeBar::mouseMoveEvent(QMouseEvent * event)
  */
 void WaveformTimeBar::mousePressEvent(QMouseEvent * event)
 {
-	if(begin_slider->getPos() <= event->x() &&
-	   event->x() <= begin_slider->getPos() + begin_slider->getPixmapSize().width())
+	if(m_beginSlider->getPos() <= event->x() &&
+	   event->x() <= m_beginSlider->getPos() + m_beginSlider->getPixmapSize().width())
 	{
-		clickedSlider = begin_slider;
+		m_clickedSlider = m_beginSlider;
 	}
-	else if(bar_slider->getPos()  <= event->x() &&
-			event->x() <= bar_slider->getPos() + bar_slider->getPixmapSize().width())
+	else if(m_barSlider->getPos()  <= event->x() &&
+			event->x() <= m_barSlider->getPos() + m_barSlider->getPixmapSize().width())
 	{
-		clickedSlider = bar_slider;
+		m_clickedSlider = m_barSlider;
 	}
-	else if(end_slider->getPos()<= event->x() &&
-			event->x() <= end_slider->getPos() + end_slider->getPixmapSize().width())
+	else if(m_endSlider->getPos()<= event->x() &&
+			event->x() <= m_endSlider->getPos() + m_endSlider->getPixmapSize().width())
 	{
-		clickedSlider = end_slider;
+		m_clickedSlider = m_endSlider;
 	}
-	else if(play_slider->getPos()<= event->x() &&
-			event->x() <= play_slider->getPos() + play_slider->getPixmapSize().width())
+	else if(m_playSlider->getPos()<= event->x() &&
+			event->x() <= m_playSlider->getPos() + m_playSlider->getPixmapSize().width())
 	{
-	   clickedSlider = play_slider;
+	   m_clickedSlider = m_playSlider;
 	}
 	else
 	{
-		clickedSlider = 0;
+		m_clickedSlider = 0;
 	}
 }
 
@@ -199,8 +198,8 @@ void WaveformTimeBar::mousePressEvent(QMouseEvent * event)
  */
 void WaveformTimeBar::drawTextAtTime(int s_time)
 {
-	double s_begin =  ((SimpleMusicPlayer*) parent)->getWaveBegin();
-	double s_end = ((SimpleMusicPlayer*) parent)->getWaveEnd();
+	double s_begin =  ((SimpleMusicPlayer*) parent())->getWaveBegin();
+	double s_end = ((SimpleMusicPlayer*) parent())->getWaveEnd();
 
 	QTime time = SampleToQTime(s_time);
 
@@ -214,7 +213,7 @@ void WaveformTimeBar::drawTextAtTime(int s_time)
 		//3 : obtenir la position en pixels
 		double pos = this->width() * percent;
 
-		painter->drawText(pos,
+		m_painter->drawText(pos,
 						  0,
 						  this->width(),
 						  fontMetrics().height(),
@@ -234,9 +233,9 @@ void WaveformTimeBar::drawTextAtTime(int s_time)
 void WaveformTimeBar::drawSlider(WaveformTimeSlider* slider)
 {
 	double s_begin = 0;
-	s_begin = ((SimpleMusicPlayer*) parent)->getWaveBegin();
+	s_begin = ((SimpleMusicPlayer*) parent())->getWaveBegin();
 	double s_end = 0;
-	s_end = ((SimpleMusicPlayer*) parent)->getWaveEnd();
+	s_end = ((SimpleMusicPlayer*) parent())->getWaveEnd();
 	int slider_time = slider->getTime();
 
 	//1 : déterminer si s_time est visible :
@@ -247,7 +246,7 @@ void WaveformTimeBar::drawSlider(WaveformTimeSlider* slider)
 
 		//3 : obtenir la position en pixels
 		double pos = this->width() * percent;
-		painter->drawPixmap(pos - slider->getPixmapSize().width() / 2,
+		m_painter->drawPixmap(pos - slider->getPixmapSize().width() / 2,
 							0,
 							slider->getPixmap());
 
@@ -262,18 +261,18 @@ void WaveformTimeBar::drawSlider(WaveformTimeSlider* slider)
  */
 void WaveformTimeBar::drawTimeSliders()
 {
-	drawSlider(begin_slider);
-	drawSlider(bar_slider);
-	drawSlider(end_slider);
-	drawSlider(play_slider);
+	drawSlider(m_beginSlider);
+	drawSlider(m_barSlider);
+	drawSlider(m_endSlider);
+	drawSlider(m_playSlider);
 }
 
 //TODO plutôt renvoyer le log à base 10 ?
 /***** inutilisé:  à la base pensé pour calculer la précision avec laquelle afficher le temps ******/
 PrecisionLevel WaveformTimeBar::computePrecisionLevel()
 {
-	int s_begin = QTimeToSample(begin);
-	int s_end = QTimeToSample(end);
+	int s_begin = QTimeToSample(m_beginTime);
+	int s_end = QTimeToSample(m_endTime);
 	if(s_end - s_begin < 20000)
 	{
 		return MILLISECOND;
@@ -291,8 +290,8 @@ PrecisionLevel WaveformTimeBar::computePrecisionLevel()
 /****** inutilisé : à la base pensé pour calculer la précision avec laquelle afficher le temps ******/
 double WaveformTimeBar::computeLogPrecisionLevel()
 {
-	int s_begin =  ((SimpleMusicPlayer*) parent)->getWaveBegin();
-	int s_end = ((SimpleMusicPlayer*) parent)->getWaveEnd();
+	int s_begin =  ((SimpleMusicPlayer*) parent())->getWaveBegin();
+	int s_end = ((SimpleMusicPlayer*) parent())->getWaveEnd();
 
 	if(s_end - s_begin == 0)
 	{
@@ -352,16 +351,16 @@ void WaveformTimeBar::setTimer(int type, QTime t)
 	switch(type)
 	{
 		case TIMER_BEGINNING:
-			begin_slider->setTime(QTimeToSample(t));
+			m_beginSlider->setTime(QTimeToSample(t));
 			break;
 		case TIMER_BAR:
-			bar_slider->setTime(QTimeToSample(t));
+			m_barSlider->setTime(QTimeToSample(t));
 			break;
 		case TIMER_END:
-			end_slider->setTime(QTimeToSample(t));
+			m_endSlider->setTime(QTimeToSample(t));
 			break;
 		case TIMER_PLAY:
-			play_slider->setTime(QTimeToSample(t));
+			m_playSlider->setTime(QTimeToSample(t));
 			break;
 		default:
 			break;
@@ -380,7 +379,7 @@ void WaveformTimeBar::setTimer(int type, QTime t)
  */
 void WaveformTimeBar::setPlayerTimer(QTime t)
 {
-	play_slider->setTime(QTimeToSample(t));
+	m_playSlider->setTime(QTimeToSample(t));
 	update();
 }
 
@@ -391,7 +390,7 @@ void WaveformTimeBar::setPlayerTimer(QTime t)
  */
 void WaveformTimeBar::activate()
 {
-	activated = true;
+	m_activated = true;
 }
 
 /**
@@ -401,6 +400,6 @@ void WaveformTimeBar::activate()
  */
 void WaveformTimeBar::deactivate()
 {
-	activated = false;
+	m_activated = false;
 }
 

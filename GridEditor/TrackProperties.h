@@ -25,11 +25,11 @@ class TrackProperties : public QDialog
 		int getTimeSignature();
 
 
-		void setArtist(QString artist);
-		void setTrack(QString track);
-		void setComment(QString comment);
-		void setBarSize(unsigned int barsize);
-		void setTimeSignature(int time);
+		void setArtist(QString);
+		void setTrack(QString);
+		void setComment(QString);
+		void setBarSize(unsigned int);
+		void setTimeSignature(int);
 
 	public slots:
 		void accept();
@@ -39,7 +39,6 @@ class TrackProperties : public QDialog
 		void timeSignatureChanged(int);
 		void trackChanged();
 		void artistChanged();
-
 		void somethingChanged();
 
 	private:

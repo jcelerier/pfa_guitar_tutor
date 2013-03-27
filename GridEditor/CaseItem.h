@@ -32,7 +32,7 @@ class CaseItem : public QTableWidgetItem
 		~CaseItem();
 
 		void setColor(int r, int g, int b, int a = 255);
-		void setChord(QString cw);
+		void setChord(QString );
 		QString getChord() const;
 		CaseItem* clone() const;
 
@@ -44,7 +44,7 @@ class CaseItem : public QTableWidgetItem
 		bool isBeingPlayed();
 
 		bool isPartSet();
-		void setBeginning(QTime t, bool timerManuallySet = false);
+		void setBeginning(QTime, bool timerManuallySet = false);
 		QTime getBeginning();
 		bool isTimerManuallySet();
 		bool isPartEditable();
