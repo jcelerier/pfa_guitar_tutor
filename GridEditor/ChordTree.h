@@ -3,7 +3,7 @@
 
 #include <QtWidgets/QTreeWidget>
 #include <QString>
-#include "Tonalities.h"
+#include "Tonality.h"
 #include "Enrichment.h"
 
 /**

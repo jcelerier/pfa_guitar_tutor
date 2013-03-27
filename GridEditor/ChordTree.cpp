@@ -14,11 +14,9 @@ ChordTree::ChordTree() :
 	setDisabled(true); //Désactivé par défaut tant que new_button n'a pas été déclenché
 
 	/*Ajout des tonalités*/
-	Tonalities* tmp = new Tonalities();
-	QStringList tonalities = tmp->getTonalitiesStringList();
-	for(int i=0; i<tmp->getTonalitiesNumber(); i++)
+    QStringList tonalities = Tonality::getTonalitiesStringList();
+    for(int i=0; i<tonalities.size(); i++)
 		addTopLevelItem(buildChordItem(tonalities[i]));
-	delete tmp;
 }
 
 /**

@@ -37,7 +37,6 @@ Controler::Controler()
 
 
 	m_timer = new QTimer(this);
-	m_paused = false;
 	m_muted = false;
 	m_playing = false;
 

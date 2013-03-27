@@ -19,7 +19,6 @@ HEADERS += \
 	Configuration.h \
 	PlayerScene.h \
 	Controler.hpp \
-	PlayerChord.h \
 	MyView.h \
 	MenuItem.h \
 		EntireSong.h \
@@ -37,7 +36,6 @@ SOURCES += main.cpp \
 		EntireSong.cpp \
 	MenuItem.cpp \
 	MyView.cpp \
-	PlayerChord.cpp \
 	ButtonItem.cpp \
 	ChordDictionary.cpp \
 	HelpWindow.cpp \

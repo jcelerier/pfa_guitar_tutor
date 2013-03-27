@@ -6,7 +6,6 @@
 #include "SongManager.h"
 
 #include "MyView.h"
-#include "PlayerChord.h"
 #define MIN_SCORE_BOUND -1000
 #define MAX_SCORE_BOUND 5000
 #define PERCENT_OF_CORRECT_NOTES_TO_GO_TO_NEXT_PART 50.0
@@ -57,8 +56,7 @@ class Controler : public QObject
 	private:
 		SongManager* m_songManager;
 
-		bool m_playing, m_paused;
-		QWidget * parent;
+        bool m_playing;
 		QTimer *m_timer;
 		PlayerScene *m_scene;
 		MyView *m_view;
@@ -66,7 +64,6 @@ class Controler : public QObject
 		Configuration* m_configuration;
 
 		LogicalTrack *m_track;
-		QList<PlayerChord> m_chordList;
 
 		bool m_muted;
 
