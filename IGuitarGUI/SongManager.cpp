@@ -146,6 +146,8 @@ void SongManager::mute(bool b)
  */
 void SongManager::goToChord(TrackChord* chord)
 {
+    if(chord == 0)
+        return;
     int msPosition = chord->getBeginningInMs();
     m_elapsedTime = msPosition;
     m_time.restart();
@@ -251,7 +253,8 @@ void SongManager::checkTime()
 		{
 			chordEndInMs = m_track->getEnd();
 		}
-
+        if(m_elapsedTime < chordStartInMs)
+            m_currentChord = 0;
 		// Si le temps écoulé est dans l'accord listé
 		if(chordStartInMs <= m_elapsedTime && m_elapsedTime < chordEndInMs)
 		{
