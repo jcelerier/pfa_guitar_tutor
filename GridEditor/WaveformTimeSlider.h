@@ -25,7 +25,7 @@ class WaveformTimeSlider : public QWidget
 		QRect getPixmapSize();
 
 	signals:
-		void timeChanged(int, QTime);
+        void timeChanged(int, QTime); //!< Signal émis lorsque le slider a été déplacé
 
 	public slots:
 

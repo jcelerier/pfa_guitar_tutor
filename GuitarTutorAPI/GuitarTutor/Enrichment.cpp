@@ -38,22 +38,6 @@ Enrichment::Enrichment(const QString &enrich)
 
 }
 
-/**
- * @brief Enrichment::Enrichment
- * @param enrichList Enrichissement
- *
- * Crée un enrichissement à partir d'une liste de chaîne de caractères.
- */
-/*Enrichment::Enrichment(const QStringList enrichList)
-{
-	QString e;
-	Enrichment ebis;
-	foreach(e, enrichList){
-		extractEnrichmentsFromStr(e, ebis);
-		for(int i = 0; i < ebis.size(); i++) //aurait été plus propre avec un deuxième foreach
-			append(ebis[i]); //attention si la liste est mal formé
-	}
-}*/
 
 /**
  * @brief Enrichment::initStringEquivs

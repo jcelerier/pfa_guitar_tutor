@@ -39,7 +39,7 @@ class WaveformTimeBar : public QWidget
 	signals:
 		void timeChanged(int, QTime);
 		void somethingChanged();
-		void playSliderModified(int );
+        void playSliderModified(int ); //!< Signal émis lorsque le slider de lecture est déplacé
 
 	public slots:
 		void update();
