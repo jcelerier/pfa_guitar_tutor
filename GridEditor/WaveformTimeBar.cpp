@@ -3,7 +3,13 @@
 #include "AudioSync.h"
 #include <QDebug>
 
-
+/**
+ * @brief WaveformTimeBar::WaveformTimeBar
+ * @param song_end Fin du morceau
+ * @param parent parent
+ *
+ * Constructeur
+ */
 WaveformTimeBar::WaveformTimeBar(const QTime& song_end, QWidget *parent) :
 	QWidget(parent), begin(QTime(0, 0)), end(song_end)
 {
@@ -40,6 +46,11 @@ WaveformTimeBar::WaveformTimeBar(const QTime& song_end, QWidget *parent) :
 
 }
 
+/**
+ * @brief WaveformTimeBar::~WaveformTimeBar
+ *
+ * Destructeur
+ */
 WaveformTimeBar::~WaveformTimeBar()
 {
 	delete container;
@@ -51,6 +62,11 @@ WaveformTimeBar::~WaveformTimeBar()
 	delete layout;
 }
 
+/**
+ * @brief WaveformTimeBar::draw
+ *
+ * Méthode de dessin
+ */
 void WaveformTimeBar::draw()
 {
 	//drawText();
@@ -81,7 +97,12 @@ void WaveformTimeBar::drawText()
 }
 
 
-
+/**
+ * @brief WaveformTimeBar::paintEvent
+ *
+ * Méthode appelée par Qt à chaque changement.
+ * Dessine.
+ */
 void WaveformTimeBar::paintEvent(QPaintEvent */*event*/)
 {
 	painter->begin(this);
@@ -92,12 +113,24 @@ void WaveformTimeBar::paintEvent(QPaintEvent */*event*/)
 	painter->end();
 }
 
+/**
+ * @brief WaveformTimeBar::mouseReleaseEvent
+ * @param event
+ *
+ * Appelé lorsqu'on relache le clic de la souris (pour sauver, inutilisé)
+ */
 void WaveformTimeBar::mouseReleaseEvent(QMouseEvent * event)
 {
 	QWidget::mouseReleaseEvent(event);
 	emit somethingChanged();
 }
 
+/**
+ * @brief WaveformTimeBar::mouseMoveEvent
+ * @param event
+ *
+ * Déplacement de la souris
+ */
 void WaveformTimeBar::mouseMoveEvent(QMouseEvent * event)
 {
 	if(clickedSlider != 0)
@@ -109,14 +142,21 @@ void WaveformTimeBar::mouseMoveEvent(QMouseEvent * event)
 		float sample = clickPercent * (s_end - s_begin) + s_begin;
 
 		clickedSlider->private_setTime(sample);
-        if(clickedSlider == play_slider){
-            QTime t = SampleToQTime(sample);
-            emit(playSliderModified(TimeToMsec(t)));
-        }
+		if(clickedSlider == play_slider){
+			QTime t = SampleToQTime(sample);
+			emit(playSliderModified(TimeToMsec(t)));
+		}
 		update();
 	}
 }
 
+
+/**
+ * @brief WaveformTimeBar::mousePressEvent
+ * @param event
+ *
+ * Clic
+ */
 void WaveformTimeBar::mousePressEvent(QMouseEvent * event)
 {
 	if(begin_slider->getPos() <= event->x() &&
@@ -134,11 +174,11 @@ void WaveformTimeBar::mousePressEvent(QMouseEvent * event)
 	{
 		clickedSlider = end_slider;
 	}
-    else if(play_slider->getPos()<= event->x() &&
-            event->x() <= play_slider->getPos() + play_slider->getPixmapSize().width())
-    {
-       clickedSlider = play_slider;
-    }
+	else if(play_slider->getPos()<= event->x() &&
+			event->x() <= play_slider->getPos() + play_slider->getPixmapSize().width())
+	{
+	   clickedSlider = play_slider;
+	}
 	else
 	{
 		clickedSlider = 0;
@@ -184,6 +224,13 @@ void WaveformTimeBar::drawTextAtTime(int s_time)
 	}
 }
 
+
+/**
+ * @brief WaveformTimeBar::drawSlider
+ * @param slider Slider à dessiner
+ *
+ * Dessine un slider en fonction des informations dont on dispose (niveau de zoom, etc..)
+ */
 void WaveformTimeBar::drawSlider(WaveformTimeSlider* slider)
 {
 	double s_begin = 0;
@@ -208,6 +255,11 @@ void WaveformTimeBar::drawSlider(WaveformTimeSlider* slider)
 	}
 }
 
+/**
+ * @brief WaveformTimeBar::drawTimeSliders
+ *
+ * Dessine tous les sliders
+ */
 void WaveformTimeBar::drawTimeSliders()
 {
 	drawSlider(begin_slider);
@@ -217,6 +269,7 @@ void WaveformTimeBar::drawTimeSliders()
 }
 
 //TODO plutôt renvoyer le log à base 10 ?
+/***** inutilisé:  à la base pensé pour calculer la précision avec laquelle afficher le temps ******/
 PrecisionLevel WaveformTimeBar::computePrecisionLevel()
 {
 	int s_begin = QTimeToSample(begin);
@@ -235,7 +288,7 @@ PrecisionLevel WaveformTimeBar::computePrecisionLevel()
 	}
 }
 
-
+/****** inutilisé : à la base pensé pour calculer la précision avec laquelle afficher le temps ******/
 double WaveformTimeBar::computeLogPrecisionLevel()
 {
 	int s_begin =  ((SimpleMusicPlayer*) parent)->getWaveBegin();
@@ -262,7 +315,7 @@ double WaveformTimeBar::computeLogPrecisionLevel()
 
 // => fonction linéaire entre deux entiers de precisionLevel, qui va de 10 à 110 ?
 // 0 -> 100
-
+/******* inutilisé *************/
 int WaveformTimeBar::getPixelSpacing()
 {
 	const double precisionLevel = computeLogPrecisionLevel();
@@ -276,11 +329,24 @@ int WaveformTimeBar::getPixelSpacing()
 	}
 }
 
+/**
+ * @brief WaveformTimeBar::update
+ *
+ * Pour forcer les mises à jour de l'affichage
+ */
 void WaveformTimeBar::update()
 {
 	repaint();
 }
 
+
+/**
+ * @brief WaveformTimeBar::setTimer
+ * @param type Début, Bar, End
+ * @param t temps
+ *
+ * Sert quand on change un timer ailleurs
+ */
 void WaveformTimeBar::setTimer(int type, QTime t)
 {
 	switch(type)
@@ -292,12 +358,12 @@ void WaveformTimeBar::setTimer(int type, QTime t)
 			bar_slider->setTime(QTimeToSample(t));
 			break;
 		case TIMER_END:
-            end_slider->setTime(QTimeToSample(t));
+			end_slider->setTime(QTimeToSample(t));
 			break;
-        case TIMER_PLAY:
-            play_slider->setTime(QTimeToSample(t));
-            break;
-        default:
+		case TIMER_PLAY:
+			play_slider->setTime(QTimeToSample(t));
+			break;
+		default:
 			break;
 
 	}
@@ -305,17 +371,34 @@ void WaveformTimeBar::setTimer(int type, QTime t)
 
 }
 
+
+/**
+ * @brief WaveformTimeBar::setPlayerTimer
+ * @param t Temps
+ *
+ * Sert à changer le temps du curseur de lecture
+ */
 void WaveformTimeBar::setPlayerTimer(QTime t)
 {
 	play_slider->setTime(QTimeToSample(t));
 	update();
 }
 
+/**
+ * @brief WaveformTimeBar::activate
+ *
+ * Quand on charge un morceau
+ */
 void WaveformTimeBar::activate()
 {
 	activated = true;
 }
 
+/**
+ * @brief WaveformTimeBar::deactivate
+ *
+ * Utilisé pour ne rien afficher quand aucun morceau n'est chargé
+ */
 void WaveformTimeBar::deactivate()
 {
 	activated = false;

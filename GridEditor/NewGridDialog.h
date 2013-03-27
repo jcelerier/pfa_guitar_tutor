@@ -9,7 +9,7 @@ class NewGridDialog;
 }
 
 /**
- * @brief Fenêtre de création de nouvelles grilles
+ * @brief Fenêtre de création de nouveau morceau
  */
 class NewGridDialog : public QDialog
 {

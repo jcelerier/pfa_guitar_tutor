@@ -59,7 +59,7 @@ CaseItem::~CaseItem()
  *
  * Configure la couleur de la case.
  */
-void CaseItem::set_color(int r, int g, int b, int a)
+void CaseItem::setColor(int r, int g, int b, int a)
 {
 	m_brush->setColor(QColor(r, g, b, a));
 
@@ -82,7 +82,7 @@ void CaseItem::set_color(int r, int g, int b, int a)
  *
  * Met à jour le texte de la case pour afficher le nom de l'accord entré.
  */
-void CaseItem::set_chord(QString chord)
+void CaseItem::setChord(QString chord)
 {
 	if(!BasicChord::isValidForPlayer(chord))
 	{
@@ -101,7 +101,7 @@ void CaseItem::set_chord(QString chord)
  *
  * Donne le contenu de la case. Le contenu est censé être un accord.
  */
-QString CaseItem::get_chord() const {
+QString CaseItem::getChord() const {
 	return this->text();
 }
 
@@ -134,7 +134,7 @@ QString& CaseItem::getPart()
 void CaseItem::setPart(QString part)
 {
 	m_part = part;
-	set_color(220, 220, 255, 255);
+	setColor(220, 220, 255, 255);
 }
 
 /**
@@ -203,7 +203,7 @@ void CaseItem::play(bool value)
  */
 void CaseItem::setPlayColor()
 {
-	set_color(20, 250, 0);
+	setColor(20, 250, 0);
 }
 
 /**
@@ -222,7 +222,7 @@ bool CaseItem::isBeingPlayed()
  */
 void CaseItem::restoreColor()
 {
-	set_color(255, 255, 255, 255);
+	setColor(255, 255, 255, 255);
 }
 
 /**
@@ -232,7 +232,7 @@ void CaseItem::restoreColor()
  */
 void CaseItem::setBadChordColor()
 {
-	set_color(255, 150, 150);
+	setColor(255, 150, 150);
 }
 
 /**
@@ -242,5 +242,5 @@ void CaseItem::setBadChordColor()
  */
 void CaseItem::setBadTimeColor()
 {
-	set_color(255, 165, 0);
+	setColor(255, 165, 0);
 }

@@ -16,24 +16,24 @@ class PartSetter;
 class PartSetter : public QDialog
 {
 		Q_OBJECT
-		
-	public:
-    explicit PartSetter(QWidget *parent = 0);
-		~PartSetter();
-    void setBeginning(const QTime &t);
-    void setPart(QString part);
 
-	void showDialogModal();
-    void setPartEditable(bool editable);
-public slots:
-    void accept();
-    void setEnabledPartEdit(int state);
+	public:
+		explicit PartSetter(QWidget *parent = 0);
+		~PartSetter();
+		void setBeginning(const QTime &t);
+		void setPart(QString part);
+
+		void showDialogModal();
+		void setPartEditable(bool editable);
+	public slots:
+		void accept();
+		void setEnabledPartEdit(int state);
 
 	private slots:
-	void on_pushButton_clicked();
+		void on_pushButton_clicked();
 
 	private:
-    Ui::PartSetter *ui;
+		Ui::PartSetter *ui;
 };
 
 #endif // PARTSETTER_H

@@ -24,7 +24,6 @@ class CaseItemDelegate : public QStyledItemDelegate
 	public slots:
 		void setBarSize(int);
 
-
 	private:
 		int m_barsize;
 		QFont * m_partFont;

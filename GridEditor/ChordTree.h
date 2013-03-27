@@ -11,12 +11,12 @@
  */
 class ChordTree : public QTreeWidget
 {
-    Q_OBJECT
-    QTreeWidgetItem* m_children;
+	Q_OBJECT
+
 public:
-    ChordTree();
-    QTreeWidgetItem *buildChordItem(const QString tonality);
-    
+	ChordTree();
+	QTreeWidgetItem *buildChordItem(const QString tonality);
+
 };
 
 #endif // CHORDTREE_H

@@ -13,7 +13,7 @@ Last change on 08/05/12
  *
  * Constructeur de la grille d'accords.
  */
-GridEditor::GridEditor(): trackProperties(new TrackProperties(this)), saveQueue(new SaveQueue(this))
+GridEditor::GridEditor(): trackProperties(new TrackProperties(this)), saveQueue(new UndoManager(this))
 {
 	isPanelSet = false;
 	editorPanel = 0;
@@ -223,6 +223,7 @@ void GridEditor::createGrid(int columns, int rows, bool createdFromUndo)
 {
 	if(grid != 0)
 	{
+		grid->disconnect();
 		delete grid;
 		grid = 0;
 	}
@@ -230,10 +231,10 @@ void GridEditor::createGrid(int columns, int rows, bool createdFromUndo)
 
 	connect(grid, SIGNAL(itemSelectionChanged()), this, SLOT(changeState()));
 	connect(grid, SIGNAL(play(int)), this, SIGNAL(play(int)));
-	if(!createdFromUndo)
+	/*if(!createdFromUndo)
 	{
 		connect(grid, SIGNAL(somethingChanged()), saveQueue, SIGNAL(save()));
-	}
+	}*/
 
 	connect(this, SIGNAL(sendTimeToChordWidget(QTime, QTime, QTime)), grid, SLOT(setTimeInfo(QTime,QTime,QTime)));
 	connect(this, SIGNAL(sigTimeData(QTime)), grid, SLOT(isPlayingAt(QTime)));
@@ -243,11 +244,11 @@ void GridEditor::createGrid(int columns, int rows, bool createdFromUndo)
 	connect(chordTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), grid, SLOT(fill_selection(QTreeWidgetItem*,int)));
 
 
-	connect(addRowAction, SIGNAL(triggered()), grid, SLOT(insert_row()));
-	connect(addColumnAction, SIGNAL(triggered()), grid, SLOT(insert_column()));
-	connect(deleteColumnAction, SIGNAL(triggered()), grid, SLOT(delete_selected_column()));
-	connect(copyDownAction, SIGNAL(triggered()), grid, SLOT(copy_down_rows()));
-	connect(deleteRowAction, SIGNAL(triggered()), grid, SLOT(delete_selected_row()));
+	connect(addRowAction, SIGNAL(triggered()), grid, SLOT(insertChordRow()));
+	connect(addColumnAction, SIGNAL(triggered()), grid, SLOT(insertChordColumn()));
+	connect(deleteColumnAction, SIGNAL(triggered()), grid, SLOT(deleteSelectedColumn()));
+	//connect(copyDownAction, SIGNAL(triggered()), grid, SLOT(copyDownRows()));
+	connect(deleteRowAction, SIGNAL(triggered()), grid, SLOT(deleteSelectedRow()));
 
 	saveAction->setEnabled(true);
 	saveAsAction->setEnabled(true);
@@ -313,12 +314,12 @@ void GridEditor::connectActionToSlot()
  */
 void GridEditor::changeState()
 {
-	if (grid->is_selection_empty() &&
+	if (grid->isSelectionEmpty() &&
 		chordTree->isEnabled())
 	{
 		chordTree->setEnabled(false);
 	}
-	else if(!grid->is_selection_empty() &&
+	else if(!grid->isSelectionEmpty() &&
 			!chordTree->isEnabled())
 	{
 		chordTree->setEnabled(true);
@@ -458,7 +459,6 @@ void GridEditor::fromXML()
 	if(!saveBeforeQuit())
 		return;
 
-
 	QString file = QFileDialog::getOpenFileName(this, tr("Loading"), ".", tr("XML Files (*.xml)"), 0, QFileDialog::HideNameFilterDetails);
 	if(file == "")
 		return;
@@ -486,16 +486,15 @@ void GridEditor::fromXML()
 
 	//nope à cause du mod +1... : connect(audioWindow, SIGNAL(somethingChanged()), saveQueue, SIGNAL(save()));
 
-
 	saveQueue->clear();
 	createGrid(track->getColumn() + 1, track->getLine(), true);
 	grid->setLogicalTrack(track);
-
+	saveQueue->firstSave();
+	connect(grid, SIGNAL(somethingChanged()), saveQueue, SIGNAL(save()));
 
 	emit trackProperties->barsizeChanged(track->getMesure());
 
-	saveQueue->firstSave();
-	connect(grid, SIGNAL(somethingChanged()), saveQueue, SIGNAL(save()));
+
 	delete track;
 }
 

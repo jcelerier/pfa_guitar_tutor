@@ -31,7 +31,7 @@ extern "C" {
 class MusicManager;
 typedef struct
 {
-	static const unsigned short NB_CROSSFADE_FRAMES = 256;
+	unsigned short NB_CROSSFADE_FRAMES;
 	float			  		 	crossFadeCurrentValue;
 	unsigned int    	      	frameIndex;  /* Index into sample array. */
 	unsigned int    	      	crossFadeframeIndex;  /* Index into sample array. */
@@ -46,8 +46,8 @@ soundData;
 
 class MusicManager {
 public:
-    MusicManager(QMap<QString, QString> & tracks,
-                 QVector<QString>& muteTracks,
+	MusicManager(QMap<QString, QString> & tracks,
+				 QVector<QString>& muteTracks,
 				 PaDeviceIndex inputDevice = -1,
 				 PaDeviceIndex outputDevice = -1);
 
@@ -71,17 +71,17 @@ public:
 	friend void* musicManagerMainFunction(void* threadArg);
 
 	bool isStarted();
-    QString getCurrentChord() const;
+	QString getCurrentChord() const;
 
 	void fillBufferWithLastInputValues(double* buffer, unsigned int size);
 
-    void saveRecordedData(QString fileName);
+	void saveRecordedData(QString fileName);
 
 private:
 
 	bool m_isRunning;
 	bool m_mustStop;
-    QMap<QString,QString> m_tracksName;
+	QMap<QString,QString> m_tracksName;
 
 
 #if defined(__MINGW32__) || defined(__linux__) || defined(TARGET_OS_MAC)
@@ -103,7 +103,7 @@ private:
 	soundData m_playData;
 	soundData m_recordData;
 
-    QString m_currentChord;
+	QString m_currentChord;
 
 	void* initAudioDevice(PaDeviceIndex inputDevice = -1, PaDeviceIndex outputDevice = -1);
 	void* initAudioInput();

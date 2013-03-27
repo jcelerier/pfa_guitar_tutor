@@ -181,6 +181,7 @@ void* MusicManager::initAudioDevice(PaDeviceIndex inputDevice, PaDeviceIndex out
  */
 void* MusicManager::initAudioInput()
 {
+	m_recordData.NB_CROSSFADE_FRAMES = 256;
 	m_recordData.frameIndex = 0;
 
 	m_recordData.recordedSamples = new SAMPLE[m_multiTracks->getBufferSize() * 2];
@@ -208,6 +209,7 @@ void* MusicManager::initAudioInput()
  */
 void* MusicManager::initAudioOutput()
 {
+	m_playData.NB_CROSSFADE_FRAMES = 256;
 	m_playData.frameIndex = 0;
 	m_playData.crossFadeframeIndex = 0;
 
