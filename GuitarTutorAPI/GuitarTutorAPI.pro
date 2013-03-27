@@ -78,4 +78,4 @@ LIBS += -lportaudio
 macx|win32: LIBS += -lfmodex
 unix: LIBS += -lfmodex64-4.44.00
 
-QMAKE_CXXFLAGS = -O3
+QMAKE_CXXFLAGS = -O3 -fopenmp

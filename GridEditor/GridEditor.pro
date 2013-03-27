@@ -28,7 +28,7 @@ SOURCES += \
 	WaveformTimeSlider.cpp \
 	CaseItemDelegate.cpp \
 	StatePacket.cpp \
-	SaveQueue.cpp
+    UndoManager.cpp
 
 HEADERS += \
 	CaseItem.h \
@@ -52,7 +52,7 @@ HEADERS += \
 	WaveformTimeSlider.h \
 	CaseItemDelegate.h \
 	StatePacket.h \
-	SaveQueue.h
+    UndoManager.h
 
 TRANSLATIONS = GridEditor_fr.ts
 

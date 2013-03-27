@@ -132,7 +132,10 @@ void TrackProperties::setBarSize(unsigned int barsize)
 
 /**
  * @brief TrackProperties::setTimeSignature
- * @param barsize Temps par mesure
+ * @param time Signature temporelle
+ *
+ * ex. : 1 / 4, 2 / 4, 3 / 4, 4 / 4. Time représente le numérateur,
+ * le dénominateur est toujours 4.
  */
 void TrackProperties::setTimeSignature(int time)
 {

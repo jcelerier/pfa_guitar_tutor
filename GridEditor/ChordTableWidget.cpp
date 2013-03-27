@@ -28,7 +28,7 @@ ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent) : QTabl
 {
 	setEnabled(false);
 	setColumnCount(column);
-	insert_row(0, row);
+	insertChordRow(0, row);
 
 	setHorizontalHeaderItem(this->columnCount() - 1, new QTableWidgetItem(tr("Annotation")));
 	for (int c = 0 ; c < this->columnCount() - 1 ; c ++)
@@ -88,7 +88,7 @@ void ChordTableWidget::deepCopy(ChordTableWidget* target)
 		{
 			target->setItem(i, j, new CaseItem(*(CaseItem*)this->item(i, j)));
 		}
-	   target->setItem(i,  columnCount() - 1, new QTableWidgetItem(*this->item(i, columnCount()-1)));
+		target->setItem(i,  columnCount() - 1, new QTableWidgetItem(*this->item(i, columnCount()-1)));
 	}
 }
 
@@ -116,7 +116,7 @@ ChordTableWidget::~ChordTableWidget()
  *
  * Indique si une ou plusieurs cases de la grille d'accords sont actuellement sélectionnées.
  */
-bool ChordTableWidget::is_selection_empty() {
+bool ChordTableWidget::isSelectionEmpty() {
 	if (this->selectedIndexes().isEmpty())
 		return true;
 	return false;
@@ -128,7 +128,7 @@ bool ChordTableWidget::is_selection_empty() {
  *
  * Indique si une ligne de la grille d'accords est actuellement sélectionnée.
  */
-bool ChordTableWidget::is_row_selected() {
+bool ChordTableWidget::isRowSelected() {
 	QList<QTableWidgetSelectionRange> ranges = selectedRanges();
 	if (ranges.isEmpty())
 		return false;
@@ -144,7 +144,7 @@ bool ChordTableWidget::is_row_selected() {
  *
  * Donne la liste des lignes actuellement sélectionnées dans la grille.
  */
-QList<QList<int>*> ChordTableWidget::rows_selected() {
+QList<QList<int>*> ChordTableWidget::rowsSelected() {
 	QList<QList<int>*> range_rows;
 	QList<QTableWidgetSelectionRange> ranges = selectedRanges();
 	for (QList<QTableWidgetSelectionRange>::Iterator it = ranges.begin() ; it != ranges.end() ; it ++) {
@@ -159,13 +159,13 @@ QList<QList<int>*> ChordTableWidget::rows_selected() {
 }
 
 /**
- * @brief ChordTableWidget::insert_row
+ * @brief ChordTableWidget::insertChordRow
  * @param pos Position dans la grille des lignes à insérer
  * @param num Nombre de lignes à insérer
  *
  * Insère une ou plusieurs nouvelles lignes dans la grille à une position donnée.
  */
-void ChordTableWidget::insert_row(int pos, int num)
+void ChordTableWidget::insertChordRow(int pos, int num)
 {
 	for (int i = 0 ; i < num ; i ++) {
 		this->insertRow(pos);
@@ -179,21 +179,21 @@ void ChordTableWidget::insert_row(int pos, int num)
 }
 
 /**
- * @brief ChordTableWidget::insert_row
+ * @brief ChordTableWidget::insertChordRow
  *
  * Insère une nouvelle ligne dans la grille.
  * @todo insérer SOIT après la case sélectionnée (si une seule case sélectionnée), SOIT à la fin du fichier
  */
-void ChordTableWidget::insert_row() {
-	if (is_row_selected())
+void ChordTableWidget::insertChordRow() {
+	if (isRowSelected())
 	{
-		QList<int> rows = expand_list(rows_selected());
+		QList<int> rows = expand_list(rowsSelected());
 		for (QList<int>::Iterator it = rows.begin() ; it != rows.end() ; it ++)
-			insert_row(*it);
+			insertChordRow(*it);
 	}
 	else
 	{
-		insert_row(this->rowCount());
+		insertChordRow(this->rowCount());
 	}
 
 	emit somethingChanged();
@@ -213,7 +213,7 @@ void ChordTableWidget::fill_selection(QTreeWidgetItem* chord, int column) {
 		for (QModelIndexList::Iterator it = index_list.begin() ; it != index_list.end() ; it ++) {
 			if ((*it).column() != this->columnCount() - 1) {
 				CaseItem* item = (CaseItem*) this->takeItem((*it).row(), (*it).column());
-				item->set_chord(chord->text(column));
+				item->setChord(chord->text(column));
 				this->setItem((*it).row(), (*it).column(), item);
 			}
 		}
@@ -239,11 +239,11 @@ QList<int> ChordTableWidget::expand_list(QList<QList<int>*> list) {
  *
  * Copie les lignes actuellement sélectionnées et les insère dans la grille.
  */
-void ChordTableWidget::copy_down_rows()
+void ChordTableWidget::copyDownRows()
 {
-	if (is_row_selected())
+	if (isRowSelected())
 	{
-		QList<QList<int>*> ranges = rows_selected();
+		QList<QList<int>*> ranges = rowsSelected();
 		int count = 0;
 		QList<int>::Iterator i;
 		QList<QList<int>*>::Iterator it;
@@ -252,7 +252,7 @@ void ChordTableWidget::copy_down_rows()
 		{
 			for (i = (**it).begin(), count = 1 ; i != (**it).end() ; i ++, count ++)
 			{
-				insert_row((**it).last() + count);
+				insertChordRow((**it).last() + count);
 				for (int c = 0 ; c < this->columnCount() ; c ++)
 				{
 					this->setItem((**it).last() + count, c, this->item(*i, c)->clone());
@@ -267,7 +267,7 @@ void ChordTableWidget::copy_down_rows()
  *
  * Supprime les lignes dont les cases sélectionnées sont membres.
  */
-void ChordTableWidget::delete_selected_row() {
+void ChordTableWidget::deleteSelectedRow() {
 
 	QList<QTableWidgetItem*> listItems = selectedItems();
 	//Suppression des doublons
@@ -313,7 +313,7 @@ void ChordTableWidget::delete_selected_row() {
  *
  * Supprime les colonnes dont les cases sélectionnées sont membres.
  */
-void ChordTableWidget::delete_selected_column() {
+void ChordTableWidget::deleteSelectedColumn() {
 
 	QList<QTableWidgetItem*> listItems = selectedItems();
 	//Suppression des doublons
@@ -367,7 +367,7 @@ void ChordTableWidget::delete_selected_column() {
  * Insère une nouvelle colonne dans la grille.
  * @todo insérer la colonne APRES la case sélectionnée, si une seule case sélectionnée
  */
-void ChordTableWidget::insert_column() {
+void ChordTableWidget::insertChordColumn() {
 
 	insertColumn(columnCount()-1);
 
@@ -545,9 +545,9 @@ void ChordTableWidget::setTimeInfo(const QTime beginning, const QTime bar, const
 	}
 
 	int rmax = rowCount(),
-		cmax = columnCount();
+			cmax = columnCount();
 	bool warningShown = false,
-		 modifyAllCases = false;
+			modifyAllCases = false;
 
 	for (int r = 0 ; r < rmax ; r++)
 	{
@@ -608,7 +608,7 @@ LogicalTrack* ChordTableWidget::getLogicalTrack()
 				// on crée une nouvelle partie
 				part = new PartTrack(currentCase->getPart());
 
-				currentChord = new TrackChord(currentCase->get_chord(), TimeToMsec(currentCase->getBeginning()), 1);
+				currentChord = new TrackChord(currentCase->getChord(), TimeToMsec(currentCase->getBeginning()), 1);
 				part->AddChord(currentChord);
 			}
 			else
@@ -616,7 +616,7 @@ LogicalTrack* ChordTableWidget::getLogicalTrack()
 				//if(currentCase->get_chord() != prevChordText)
 				{
 					//on y ajoute l'accord de la case actuelle *//* calculer s'il y a des répétitions ---------------v
-					currentChord = new TrackChord(currentCase->get_chord(), TimeToMsec(currentCase->getBeginning()), 1);
+					currentChord = new TrackChord(currentCase->getChord(), TimeToMsec(currentCase->getBeginning()), 1);
 					part->AddChord(currentChord);
 				}
 				/*else
@@ -669,7 +669,7 @@ void ChordTableWidget::setLogicalTrack(LogicalTrack* track)
 			{
 				// on stocke le nom de l'accord
 				if((*iChord)->getChord() != "n")
-					currentCase->set_chord((*iChord)->getChord());
+					currentCase->setChord((*iChord)->getChord());
 
 				//la durée de l'accord
 				currentCase->setBeginning(MsecToTime(int((*iChord)->getBeginningInMs()) ));
@@ -732,8 +732,8 @@ void ChordTableWidget::isPlayingAt(QTime t)
 
 
 			if(t >= ((CaseItem*) item(i, j))->getBeginning()
-					&& (nextItem == 0
-						|| t <= nextItem->getBeginning()))
+			   && (nextItem == 0
+				   || t <= nextItem->getBeginning()))
 			{
 				((CaseItem*) item(i, j))->play();
 				itemChanged_slot(item(i, j));
@@ -763,12 +763,13 @@ void ChordTableWidget::itemChanged_slot(QTableWidgetItem *qitem)
 	if((m_savedItem != 0 && item->text() != m_savedItem->text()) || (m_savedItem == 0))
 	{
 		emit somethingChanged();
+		qDebug() << "emit somethingChanged();";
 		currentItemChanged_slot(item, 0); //on met à jour m_savedItem avec le texte nouvellement entré
 	}
 
 	if(item->column() < columnCount() -1)
 	{
-		if(!BasicChord::isValidForPlayer(item->get_chord()))
+		if(!BasicChord::isValidForPlayer(item->getChord()))
 		{
 			item->setBadChordColor();
 		}
@@ -788,13 +789,12 @@ void ChordTableWidget::currentItemChanged_slot(QTableWidgetItem* current, QTable
 {
 	if(current->column() != columnCount() - 1)
 	{
-	if(m_savedItem != 0)
-	{
-		delete m_savedItem;
-	}
+		if(m_savedItem != 0)
+		{
+			delete m_savedItem;
+		}
 
-	m_savedItem = new CaseItem(*((CaseItem*)current));
-
+		m_savedItem = new CaseItem(*((CaseItem*)current));
 	}
 }
 /**

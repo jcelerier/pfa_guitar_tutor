@@ -51,10 +51,10 @@ public:
 	ChordTableWidget(int column, int row, QWidget *parent);
 	~ChordTableWidget();
 
-	bool is_selection_empty();
-	bool is_row_selected();
-	QList<QList<int>*> rows_selected();
-	void insert_row(int position, int number = 1);
+	bool isSelectionEmpty();
+	bool isRowSelected();
+	QList<QList<int>*> rowsSelected();
+	void insertChordRow(int position, int number = 1);
 
 	LogicalTrack* getLogicalTrack();
 	void setLogicalTrack(LogicalTrack* track);
@@ -75,11 +75,11 @@ public slots:
 	void showProperties();
 
 	void fill_selection(QTreeWidgetItem* chord, int column);
-	void insert_row();
-	void insert_column();
-	void delete_selected_column();
-	void delete_selected_row();
-	void copy_down_rows();
+	void insertChordRow();
+	void insertChordColumn();
+	void deleteSelectedColumn();
+	void deleteSelectedRow();
+	void copyDownRows();
 
 	void setCasePart(QString text);
 	void setCaseBeginning(QTime t);

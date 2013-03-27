@@ -1,6 +1,7 @@
-#include "SaveQueue.h"
+#include "UndoManager.h"
 #include "GridEditor.h"
 
+#include <QDebug>
 /*
  * Quand quelque chose change, on le met dans l'état actuel m_currentState.
  * L'état actuel précédent part dans l'undoQueue.
@@ -10,30 +11,60 @@
  *
  *
  */
-SaveQueue::SaveQueue(GridEditor* editor) :
+
+/**
+ * @brief UndoManager::UndoManager
+ * @param editor Pointeur vers l'éditeur.
+ *
+ * Constructeur
+ */
+UndoManager::UndoManager(GridEditor* editor) :
 	QObject(editor),
 	m_editor(editor),
 	max_depth(10),
 	m_undoState(false),
 	m_redoState(false),
-	m_currentState(0),
-	mod(0)
+	m_currentState(0)
 {
 	connect(this, SIGNAL(save()), this, SLOT(saveSlot()));
 }
 
-void SaveQueue::clear()
+UndoManager::~UndoManager()
 {
-	emptyQueue(&undoQueue);
-	emptyQueue(&redoQueue);
+	clear();
 }
 
-void SaveQueue::saveSlot()
+/**
+ * @brief UndoManager::clear
+ *
+ * Remet les données à 0.
+ */
+void UndoManager::clear()
 {
+	emptyList(&undoList);
+	emptyList(&redoList);
+	delete m_currentState;
+	m_currentState = 0;
+}
+
+/**
+ * @brief UndoManager::saveSlot
+ *
+ * Appelé pour déclencher une sauvegarde
+ */
+void UndoManager::saveSlot()
+{
+	qDebug() << "saveSlot()";
 	saveState(false); // pour les undo
 }
 
-StatePacket* SaveQueue::currentEditorState()
+/**
+ * @brief UndoManager::currentEditorState
+ * @return Etat actuel.
+ *
+ * Permet de renvoyer un StatePacke qui contient l'état actuel de l'éditeur.
+ */
+StatePacket* UndoManager::currentEditorState()
 {
 	return new StatePacket(m_editor->grid,
 						   m_editor->audioWindow->getBeginning(), m_editor->audioWindow->getBar(),  m_editor->audioWindow->getEnd(),
@@ -42,34 +73,42 @@ StatePacket* SaveQueue::currentEditorState()
 
 }
 
-void SaveQueue::firstSave()
+/**
+ * @brief UndoManager::firstSave
+ * A appeler lorsqu'on charge ou crée un nouveau morceau
+ */
+void UndoManager::firstSave()
 {
-	emptyQueue(&undoQueue);
-	emptyQueue(&redoQueue);
+	clear();
 	m_currentState = currentEditorState();
 }
 
-// enregistrement d'un nouvel état.
-void SaveQueue::saveState(bool redo)
+/**
+ * @brief UndoManager::saveState
+ * @param redo Permet de choisir si on sauve dans la queue redo ou undo.
+ *
+ * Enregistre un état.
+ */
+void UndoManager::saveState(bool redo)
 {
 	if(redo) // on ne doit être dans ce cas que lorsque l'on fait un undo
 	{
-		if(redoQueue.size() == max_depth )
+		if(redoList.size() == max_depth )
 		{
-			delete redoQueue.last();
-			redoQueue.removeLast();
+			delete redoList.last();
+			redoList.removeLast();
 		}
-		redoQueue.push_front(m_currentState);
+		redoList.push_front(m_currentState);
 	}
 	else
 	{
-		if(undoQueue.size() == max_depth )
+		if(undoList.size() == max_depth )
 		{
-			delete undoQueue.last();
-			undoQueue.removeLast();
+			delete undoList.last();
+			undoList.removeLast();
 		}
-		undoQueue.push_front(m_currentState);
-		emptyQueue(&redoQueue); // on vide la pile de redo pour ne pas avoir plusieurs branches différentes
+		undoList.push_front(m_currentState);
+		emptyList(&redoList); // on vide la pile de redo pour ne pas avoir plusieurs "branches" différentes
 
 		m_editor->enableRedo(false);
 		m_editor->enableUndo(true);
@@ -81,7 +120,12 @@ void SaveQueue::saveState(bool redo)
 	m_redoState = false;
 }
 
-void SaveQueue::emptyQueue(QList<StatePacket*> *q)
+
+/**
+ * @brief UndoManager::emptyList
+ * @param q Liste à vider
+ */
+void UndoManager::emptyList(QList<StatePacket*> *q)
 {
 	while(!q->empty())
 	{
@@ -93,7 +137,12 @@ void SaveQueue::emptyQueue(QList<StatePacket*> *q)
 	}
 }
 
-void SaveQueue::undo()
+/**
+ * @brief UndoManager::undo
+ *
+ * Action effectuée quand on appuie sur undo.
+ */
+void UndoManager::undo()
 {
 	if(!m_redoState)
 	{
@@ -101,37 +150,48 @@ void SaveQueue::undo()
 	}
 	else
 	{
-		redoQueue.push_front(m_currentState);
+		redoList.push_front(m_currentState);
 	}
 	m_editor->enableRedo(true);
 	m_redoState = true;
 
-	m_currentState = undoQueue.first();
-	undoQueue.pop_front();
+	m_currentState = undoList.first();
+	undoList.pop_front();
 	restoreState(m_currentState);
-	if(undoQueue.empty())
+	if(undoList.empty())
 	{
 		m_editor->enableUndo(false);
 	}
 }
 
-void SaveQueue::redo()
+/**
+ * @brief UndoManager::redo
+ *
+ * Action effectuée quand on appuie sur redo.
+ */
+void UndoManager::redo()
 {
 	// m_currentState est défini car il ne peut y avoir de redo
 	// que s'il y a eu un undo et qu'il n'y a pas eu de changement entre temps
-	undoQueue.push_front(m_currentState);
+	undoList.push_front(m_currentState);
 	m_editor->enableUndo(true);
 
-	m_currentState = redoQueue.first();
-	redoQueue.pop_front();
+	m_currentState = redoList.first();
+	redoList.pop_front();
 	restoreState(m_currentState);
-	if(redoQueue.empty())
+	if(redoList.empty())
 	{
 		m_editor->enableRedo(false);
 	}
 }
 
-void SaveQueue::restoreState(StatePacket* statePacket)
+/**
+ * @brief UndoManager::restoreState
+ * @param statePacket L'état dans lequel remettre l'éditeur
+ *
+ * Remet l'éditeur dans l'état contenu dans statePacket
+ */
+void UndoManager::restoreState(StatePacket* statePacket)
 {
 	m_currentState = statePacket;
 
@@ -155,13 +215,20 @@ void SaveQueue::restoreState(StatePacket* statePacket)
 }
 
 
-
-bool SaveQueue::canUndo()
+/**
+ * @brief UndoManager::canUndo
+ * @return Vrai si on peut faire undo
+ */
+bool UndoManager::canUndo()
 {
-	return undoQueue.size() > 0;
+	return undoList.size() > 0;
 }
 
-bool SaveQueue::canRedo()
+/**
+ * @brief UndoManager::canRedo
+ * @return Vrai si on peut faire redo
+ */
+bool UndoManager::canRedo()
 {
-	return redoQueue.size() > 0 && m_redoState;
+	return redoList.size() > 0 && m_redoState;
 }

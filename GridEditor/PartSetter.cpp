@@ -13,12 +13,10 @@ PartSetter::PartSetter(QWidget *parent) :
 	ui(new Ui::PartSetter)
 {
 	ui->setupUi(this);
-    ui->beginning->setDisplayFormat("m:ss:zzz");
-    ui->beginning->setTime(QTime(0,0));
-    ui->partEdit->setText("");
-    setMinimumSize(500,250);
-
-	//ui->pushButton->addAction(((ChordTableWidget*) parent)->m_playFromHere);
+	ui->beginning->setDisplayFormat("m:ss:zzz");
+	ui->beginning->setTime(QTime(0,0));
+	ui->partEdit->setText("");
+	setMinimumSize(500,250);
 }
 
 /**
@@ -49,9 +47,9 @@ void PartSetter::showDialogModal()
  */
 void PartSetter::setPart(QString part)
 {
-    if(part == "")
-        ui->isPart->setChecked(false);
-    ui->partEdit->setText(part);
+	if(part == "")
+		ui->isPart->setChecked(false);
+	ui->partEdit->setText(part);
 }
 
 /**
@@ -60,7 +58,7 @@ void PartSetter::setPart(QString part)
  */
 void PartSetter::setBeginning(const QTime& t)
 {
-    ui->beginning->setTime(t);
+	ui->beginning->setTime(t);
 }
 
 /**
@@ -70,18 +68,18 @@ void PartSetter::setBeginning(const QTime& t)
  */
 void PartSetter::accept()
 {
-    if(ui->isPart->isChecked() && ui->partEdit->text() != "")
+	if(ui->isPart->isChecked() && ui->partEdit->text() != "")
 	{
-        ((ChordTableWidget*) parent())->setCasePart(ui->partEdit->text());
+		((ChordTableWidget*) parent())->setCasePart(ui->partEdit->text());
 	}
 	else if(ui->isPart->isChecked() && !ui->isPart->isEnabled() && ui->partEdit->text() == "")
 	{
-        QMessageBox::information(this, tr("First part"), tr("You must give a part name to the first cell."));
-        return;
-    }
-    else
+		QMessageBox::information(this, tr("First part"), tr("You must give a part name to the first cell."));
+		return;
+	}
+	else
 	{
-        ((ChordTableWidget*) parent())->removeCasePart();
+		((ChordTableWidget*) parent())->removeCasePart();
 	}
 
 	if(ui->updateFollowers->isChecked())
@@ -94,7 +92,7 @@ void PartSetter::accept()
 	}
 
 	hide();
-    ((ChordTableWidget*) parent())->checkBeginningTimes();
+	((ChordTableWidget*) parent())->checkBeginningTimes();
 }
 
 /**
@@ -105,8 +103,8 @@ void PartSetter::accept()
  */
 void PartSetter::setEnabledPartEdit(int state)
 {
-    ui->labelPartEdit->setEnabled(state);
-    ui->partEdit->setEnabled(state);
+	ui->labelPartEdit->setEnabled(state);
+	ui->partEdit->setEnabled(state);
 }
 
 /**
@@ -117,8 +115,8 @@ void PartSetter::setEnabledPartEdit(int state)
  */
 void PartSetter::setPartEditable(bool editable)
 {
-    ui->isPart->setEnabled(editable);
-    ui->isPart->setChecked(true);
+	ui->isPart->setEnabled(editable);
+	ui->isPart->setChecked(true);
 }
 
 /**

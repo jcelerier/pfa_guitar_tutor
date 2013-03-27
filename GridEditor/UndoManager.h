@@ -5,18 +5,19 @@
 #include "StatePacket.h"
 
 class GridEditor;
-class SaveQueue: public QObject
+class UndoManager: public QObject
 {
 		Q_OBJECT
 	public:
-		explicit SaveQueue(GridEditor *editor);
+		explicit UndoManager(GridEditor *editor);
+		~UndoManager();
 
 		StatePacket* currentEditorState();
 		bool canUndo();
 		bool canRedo();
 		void firstSave();
 		void clear();
-		void emptyQueue(QList<StatePacket*>* q);
+		void emptyList(QList<StatePacket*>* q);
 
 	signals:
 		void save();
@@ -34,14 +35,11 @@ class SaveQueue: public QObject
 		GridEditor* m_editor;
 		int max_depth;
 
-		QList<StatePacket*> undoQueue;
-		QList<StatePacket*> redoQueue;
+		QList<StatePacket*> undoList;
+		QList<StatePacket*> redoList;
 
 		bool m_undoState, m_redoState; // sert à éviter des sauvegardes en doublon si on undo plusieurs fois d'affilée
 		StatePacket* m_currentState;
-		int mod;
-
-
 };
 
 #endif // SAVEQUEUE_H

@@ -25,7 +25,7 @@
 #include "NewGridDialog.h"
 #include "Track/TrackLoader.h"
 #include "EditorPanel.h"
-#include "SaveQueue.h"
+#include "UndoManager.h"
 #include "HelpWindow.h"
 
 /**
@@ -35,7 +35,7 @@ class GridEditor : public QMainWindow
 {
 		Q_OBJECT
 		friend class EditionSelector;
-		friend class SaveQueue;
+		friend class UndoManager;
 
 		int m_barsize;
 		QSettings* settings;
@@ -68,7 +68,7 @@ class GridEditor : public QMainWindow
 		HelpWindow *helpWindow;
 		TrackProperties* trackProperties;
 
-		SaveQueue* saveQueue;
+		UndoManager* saveQueue;
 
 	public:
 		GridEditor();
@@ -78,6 +78,7 @@ class GridEditor : public QMainWindow
 		void enableRedo(bool b);
 		void startGrid(int);
 		void createGrid(int columns, int rows, bool createdFromUndo = false);
+
 private:
 		void createMenu();
 		void createActions();
