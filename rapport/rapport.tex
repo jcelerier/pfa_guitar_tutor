@@ -77,13 +77,13 @@ belowskip=2em,
 \subsection*{Serious game}
 
 En quelques années, les jeux vidéos ont su attirer un public immense et éclectique. Alors qu'ils étaient réservés, il y a encore quelques années, à un public bien ciblé, les éditeurs ont su s'ouvrir à toute une gamme de joueurs jusqu'alors insoupçonnés - l'appellation casual gamer était née. Aujourd'hui, les recherches dans le domaine vidéo-ludique vont encore plus loin. A l'aide de technologies toujours plus poussées, toujours plus proches du joueur et de son environnement, il est désormais possible d'interagir avec lui, grâce à ses mouvements par exemple. Et pourquoi pas par le son? Les jeux de rythme, remontant pourtant aux bornes d'arcade des années 1990, ont connu un immense succès avec la sortie de jeux tels que Guitar Hero en 2005, qui a ouvert la voie à de nombreux remakes que sont Just Dance ou encore Band Hero. En parallèle, les jeux à caractère éducatifs, ont été pendant longtemps recalés au rang de “sous-jeux” de par leurs gameplays souvent repoussants et des graphismes généralement peu soignés - 
-évidemment, les budgets ne sont pas forcément les mêmes.
+évidemment, les budgets ne sont pas forcément les mêmes.\\
 
 Le projet GuitarTutor se place au croisement de ces deux genres pour s'inscrire dans celui très fermé des serious games: pourquoi ne pas apprendre en s'amusant? (En l'occurrence l'apprentissage de la guitare). Ce jeu s'adresse à des élèves d'écoles de musique débutant la pratique de l'instrument. L'objectif est de les encourager à jouer et à s'entraîner en dehors des heures de cours avec leurs professeurs, en faisant intervenir cet univers ludique, pour les inciter à persévérer et à travailler d'eux-mêmes.
 
 \subsection*{Le logiciel avant le PFA}
 
-Le logiciel GuitarTutor reposait sur des travaux de recherches du LABRI, ainsi que sur le travail fourni par des élèves de l'ENSEIRB-MATMECA dans le cadre des Projets au Fil de l'Année (PFA) de 2011-2012. La base du projet consistait en l'analyse d'accords en temps réel, c'est-à-dire pouvoir donner précisément le nom de l'accord qui est donné en entrée audio de l'ordinateur. La librairie EHPCP a donc été codée à cet effet. En complément, le développement d'une interface graphique, à l'aide de la librairie Qt, a été réalisée. Celle-ci assurait le fonctionnement basique d'un logiciel permettant de visualiser une liste défilante d'accords ainsi que le résultat de la partie analyse de l'entrée audio, en comparant cette donnée au résultat attendu.
+Le logiciel GuitarTutor reposait sur des travaux de recherches du LABRI, ainsi que sur le travail fourni par des élèves de l'ENSEIRB-MATMECA dans le cadre des Projets au Fil de l'Année (PFA) de 2011-2012. La base du projet consistait en l'analyse d'accords en temps réel, c'est-à-dire pouvoir donner précisément le nom de l'accord qui est donné en entrée audio de l'ordinateur. La librairie EHPCP a donc été codée à cet effet. En complément, le développement d'une interface graphique, à l'aide de la librairie Qt, a été réalisée. Celle-ci assurait le fonctionnement basique d'un logiciel permettant de visualiser une liste défilante d'accords ainsi que le résultat de la partie analyse de l'entrée audio, en comparant cette donnée au résultat attendu.\\
 
 Afin de faciliter l'écriture de ces fichiers partitions, un second logiciel avait été mis en place à destination du professeur. Il permettait une édition totalement manuelle de grilles d'accords, ainsi qu'une édition assistée. Ce second mode d'édition demandait à l'utilisateur de marquer les accords d'un morceau joué simultanément par l'appui sur une touche de son clavier. Dans un deuxième temps, il suffisait d'indiquer quels étaient les accords qui correspondaient à chaque pulsation.
 
@@ -110,7 +110,7 @@ Le modèle MVC, pour \textit{Modèle, Vue, Contrôleur}, constitue une architect
  \item Les données (le modèle)
  \item L'interface graphique (la vue)
 \end{itemize}
-Le contrôleur se place entre ces deux entités, en agissant comme relais en synchronisant les informations qui transitent de l'une à l'autre.
+Le contrôleur se place entre ces deux entités, en agissant comme relais en synchronisant les informations qui transitent de l'une à l'autre.\\
 
 L'avantage immédiat du modèle MVC est l'organisation du code qu'il induit, ainsi que la facilitation de la maintenance de celui-ci.
 
@@ -144,9 +144,9 @@ Le développement de GuitarTutor ne s'est pas fait sans heurts. Nous sommes néa
 
 \subsection{Reprise de code}
 
-Comme c'était prévu, la reprise du code existant fut notre première grande étape de développement. Passé le moment de découragement lié à l'absence total de commentaires et de documentation dans la grande majorité du code source qui nous intéressait, nous nous sommes attelés à ``débroussailler'' le dépôt en mettant en place une documentation, en commentant le code, ainsi qu'en supprimant purement et simplement les portions inutilisées, qui représentaient tout de même une portion loin d'être négligeable (parfois de simples fonctions, parfois des fichiers, et parfois des dossiers entiers\dots).
+Comme c'était prévu, la reprise du code existant fut notre première grande étape de développement. Passé le moment de découragement lié à l'absence total de commentaires et de documentation dans la grande majorité du code source qui nous intéressait, nous nous sommes attelés à ``débroussailler'' le dépôt en mettant en place une documentation, en commentant le code, ainsi qu'en supprimant purement et simplement les portions inutilisées, qui représentaient tout de même une portion loin d'être négligeable (parfois de simples fonctions, parfois des fichiers, et parfois des dossiers entiers\dots).\\
 
-Par ailleurs, du fait que le projet ait été constitué de plusieurs blocs de code émanant de différentes équipes de développeurs, nous avons pu remarquer que les conventions de codage n'avaient pas été harmonisées. Nous avons pris soin de réparer cette erreur afin de faciliter la relecture et donc la réutilisation de ce même code.
+Par ailleurs, du fait que le projet ait été constitué de plusieurs blocs de code émanant de différentes équipes de développeurs, nous avons pu remarquer que les conventions de codage n'avaient pas été harmonisées. Nous avons pris soin de réparer cette erreur afin de faciliter la relecture et donc la réutilisation de ce même code.\\
 
 Passés ces quelques semaines de nettoyage et d'assimilation du code existant, nous avons pu commencer à apporter les modifications établies dans le cahier des charges, bien que, tout au long du développement, nous ayons continué la refactorisation (par exemple les suppressions de certaines bibliothèques, évoquées plus loin dans ce rapport).
 
@@ -154,13 +154,13 @@ Passés ces quelques semaines de nettoyage et d'assimilation du code existant, n
 
 \subsection{Portabilité}
 
-La portabilité du logiciel, notamment sur Mac OS et Windows, faisait partie des principales demandes des clients. Les librairies utilisées jusque là était censées fonctionner à la fois sur Mac OS, Windows et GNU/Linux, et c'était une bonne raison pour ne pas en changer.
+La portabilité du logiciel, notamment sur Mac OS et Windows, faisait partie des principales demandes des clients. Les librairies utilisées jusque là était censées fonctionner à la fois sur Mac OS, Windows et GNU/Linux, et c'était une bonne raison pour ne pas en changer.\\
 
 Nous nous sommes cependant rapidement rendus à l'évidence: on ne développe pas un logiciel portable simplement en utilisant des librairies portables.
 
 \subsubsection*{Sur Mac OS}
 
-Personne, dans notre équipe, n'ayant une machine sous Mac OS, nous avons dû nous contenter d'une version de Mountain Lion en machine virtuelle. Outre un problème d'extrême lenteur lors de la compilation et divers autres soucis liés à la connexion internet et la reconnaissance des ports USB, il était impossible de vérifier le bon fonctionnement du lecteur, puisque l'entrée audio de la VM n'était pas activé. Nous avons donc pendant longtemps développé \textit{``à l'aveugle''} sous Mac OS, où tout ce que nous pouvions faire était de vérifier que la compilation se faisait correctement.
+Personne, dans notre équipe, n'ayant une machine sous Mac OS, nous avons dû nous contenter d'une version de Mountain Lion en machine virtuelle. Outre un problème d'extrême lenteur lors de la compilation et divers autres soucis liés à la connexion internet et la reconnaissance des ports USB, il était impossible de vérifier le bon fonctionnement du lecteur, puisque l'entrée audio de la VM n'était pas activé. Nous avons donc pendant longtemps développé \textit{``à l'aveugle''} sous Mac OS, où tout ce que nous pouvions faire était de vérifier que la compilation se faisait correctement.\\
 
 Fort heureusement, un test sur une vraie machine Mac début mars nous a confirmé que le projet était bien compatible, et nous en avons également profité pour vérifier le fonctionnement de notre installateur.
 
@@ -206,7 +206,7 @@ Nous avons donc choisi d'adopter cette librairie dès les débuts du projet.
 
 \subsection{Utilisation de FMOD}
 
-FMOD est la librairie audio qui est utilisée aujourd'hui dans l'éditeur et dans le lecteur. Là encore, c'était cette même librairie qui servait déjà dans l'ancienne version de l'éditeur, dans la partie qui traitait les fichiers audio. En revanche, dans le lecteur, nous avons substitué la librairie \textit{libsndfile} pour FMOD.
+FMOD est la librairie audio qui est utilisée aujourd'hui dans l'éditeur et dans le lecteur. Là encore, c'était cette même librairie qui servait déjà dans l'ancienne version de l'éditeur, dans la partie qui traitait les fichiers audio. En revanche, dans le lecteur, nous avons substitué la librairie \textit{libsndfile} pour FMOD.\\
 
 FMOD comporte de nombreux avantages, comme par exemple la lecture de formats compressés tels que le mp3, aujourd'hui incontournable. Jusqu'à présent, \textit{libsndfile} limitait l'utilisation de GuitarTutor aux fichiers wav, ce qui contraignait l'utilisateur à manipuler des fichiers de très grande taille dans des formats dépassés. FMOD disposait également des mêmes fonctionnalités que celles qui étaient alors utilisées dans le code avec \textit{libsndfile}, ce qui permettait de ne pas géner la transition. FMOD nous a donc semblé être un bon choix, malgré le fait qu'il s'agisse d'un code propriétaire (nous n'avons pas eu de contre-indication de la part des clients à ce propos).
 
@@ -234,7 +234,7 @@ L'échange entre l'éditeur et le lecteur se fait par l'intermédiaire de fichie
 \end{center}
 \end{table}
 
-Comme on peut le voir sur l'exemple du tableau \ref{fichiers_xml}, notre format de fichier nous permet de contenir bien plus d'informations que l'ancien format. C'est un très gros avantage lorsqu'il s'agit notamment de recharger le fichier dans l'éditeur pour le modifier, puisque toutes les données qui ont été entrées lors de la création du fichier y ont été sauvegardées (même si certaines ne sont pas directement utilisées dans le lecteur).
+Comme on peut le voir sur l'exemple du tableau \ref{fichiers_xml}, notre format de fichier nous permet de contenir bien plus d'informations que l'ancien format. C'est un très gros avantage lorsqu'il s'agit notamment de recharger le fichier dans l'éditeur pour le modifier, puisque toutes les données qui ont été entrées lors de la création du fichier y ont été sauvegardées (même si certaines ne sont pas directement utilisées dans le lecteur).\\
 
 Un second avantage est la facilité d'adaptation du format. En effet, si un jour il est décidé d'ajouter une nouvelle information dans le fichier XML, il n'y aura a priori pas besoin de modifier la façon de récupérer les informations. Cette maléabilité permise par le standard DOM (\textit{Document Object Model}) qui permet de naviguer au sein d'un document XML sans avoir à connaître tout son contenu. C'est justement la technique qui est mise en \oe uvre dans le module QtXML que nous avons utilisé (voir l'exemple de la figure \ref{xml_dom}).
 
@@ -304,13 +304,35 @@ En ce qui concerne le lecteur, nous n'avons dans un premier temps que modifié l
 \end{center}
 \end{figure}
 
-Dans un deuxième temps, nous avons fait le choix de revoir le fonctionnement interne du lecteur. Comme évoqué précédement, nous avons ainsi commencé par remplacer la librairie \textit{libsndfile} par FMOD en vue de supporter de nouveaux formats audio. FMOD se charge en fait d'ouvrir le fichier audio demandé et de le mettre en mémoire. La gestion à proprement parler du son reste la tâche de PortAudio.
+Dans un deuxième temps, nous avons fait le choix de revoir le fonctionnement interne du lecteur. Comme évoqué précédement, nous avons ainsi commencé par remplacer la librairie \textit{libsndfile} par FMOD en vue de supporter de nouveaux formats audio. FMOD se charge en fait d'ouvrir le fichier audio demandé et de le mettre en mémoire. La gestion à proprement parler du son reste la tâche de PortAudio.\\
 
-C'est ensuite toute la librairie \textit{IScoreLight} que nous avons fait disparaître. En effet, celle-ci comportait plusieurs dizaines de fichiers sources qui, au final, n'étaient pas exploités. Les quelques parties de la librairie qui nous étaient utiles ont donc été reprises et fusionnées au sein de la classe \texttt{SongManager}.
+C'est ensuite toute la librairie \textit{IScoreLight} que nous avons fait disparaître. En effet, celle-ci comportait plusieurs dizaines de fichiers sources qui, au final, n'étaient pas exploités. Les quelques parties de la librairie qui nous étaient utiles ont donc été reprises et fusionnées au sein de la classe \texttt{SongManager}.\\
 
 Finalement, il ne reste aujourd'hui de la première version du lecteur que la gestion bas niveau du son, notamment l'analyse des accords effectuée par la librairie \textit{EHPCP}.
 
 \subsection{Installateurs sur les différents systèmes d'exploitation}
+
+Comme il nous avait été demandé, le programme devait être rendu sous la forme d'un installateur pour chacun des deux systèmes d'exploitation visés.
+
+\subsubsection{Sur Windows}
+
+Sur Windows, GuitarTutor se présente sous la forme d'un installateur msi créé avec le logiciel $TODO$. L'apparence de cet installateur est tout à fait semblable aux installateurs de logiciels Windows habituels, et propose les mêmes options; comme par exemple la possibilité de modifier le chemin de l'installation, ou encore celle de créer une icône sur le bureau de l'utilisateur.\\
+
+La seule véritable difficulté sur ce système d'exploitation aura été de définir quelles étaient les librairies dynamiques à inclure dans notre package. Pour cela, nous avons testé sur des machines vierges de tout outil lié à notre environnement de travail (Qt, FMOD,\dots), puis simplement procédé par élimination pour ne retenir que les fichiers dll nécessaires.
+
+\subsubsection{Sur Mac OS X}
+
+Sur Mac OS X, notre programme se présente comme une application \textit{.app}, autrement appelé \textit{bundle}. C'est avec le format \textit{dmg}, sur ce système d'exploitation, une des deux formes les plus usuelles pour distribuer un logiciel. Il s'agit en fait d'un dossier contenant l'exécutable en lui-même, ainsi que tous les éléments tels que les bibliothèques dynamiques nécessaires à son fonctionnement (cf figure \ref{app_mac_os}).
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=300px]{bundle_mac.png}
+\caption{Le bundle pour Mac OS X (d'après qt-project.org)}
+\label{app_mac_os}
+\end{center}
+\end{figure}
+
+Plusieurs outils similaires sont mis à la disposition des développeurs Mac OS X pour créer ces bundles. Nous avons, dans un premier temps, choisi d'utiliser l'utilitaire \textit{qtmacdeployment}, fourni avec Qt.
 
 \subsection{Développement agile}
 
@@ -318,9 +340,9 @@ En accord avec les conseils de notre responsable pédagogique, nous avons rapide
 
 \subsubsection{Réunions clients}
 
-Dès le mois de novembre, nous avons mis en place un système de rendez-vous réguliers, généralement toutes les trois semaines avec nos clients. Ces réunions servaient tout d'abord à présenter le travail qui avait été effectué depuis le dernier rendez-vous, au travers d'une démonstration sur le logiciel en cours de développement. S'en suivait une discussion sur les différents points qui méritaient d'être relevés, afin de répartir les tâches en trois catégories: ce qui était fait et qui était validé, ce qui était fait mais restait à améliorer (ou à changer totalement), et enfin, ce qui restait à faire. Il ne restait alors qu'à fixer les objectifs à tenir d'ici le prochain rendez-vous.
+Dès le mois de novembre, nous avons mis en place un système de rendez-vous réguliers, généralement toutes les trois semaines avec nos clients. Ces réunions servaient tout d'abord à présenter le travail qui avait été effectué depuis le dernier rendez-vous, au travers d'une démonstration sur le logiciel en cours de développement. S'en suivait une discussion sur les différents points qui méritaient d'être relevés, afin de répartir les tâches en trois catégories: ce qui était fait et qui était validé, ce qui était fait mais restait à améliorer (ou à changer totalement), et enfin, ce qui restait à faire. Il ne restait alors qu'à fixer les objectifs à tenir d'ici le prochain rendez-vous.\\
 
-Les avantages de travailler de la sorte se sont révélés au cours du projet. Tout d'abord, la possibilité de discuter de manière régulière de nos avancées avec nos clients était particulièrement intéressante, car cela permet d'instaurer un dialogue entre demandeurs et réalisateurs. On peut notamment remarquer que le cahier des charges (cf annexes) comporte plusieurs points qui n'ont pas été réalisés, ou qui ont été réalisés différemment de ce qui était initialement prévu, pas à cause d'un manque de temps, mais grâce à ce dialogue qui a permis d'affiner et de changer les besoins exprimés au fur et à mesure du développement du projet.
+Les avantages de travailler de la sorte se sont révélés au cours du projet. Tout d'abord, la possibilité de discuter de manière régulière de nos avancées avec nos clients était particulièrement intéressante, car cela permet d'instaurer un dialogue entre demandeurs et réalisateurs. On peut notamment remarquer que le cahier des charges (cf annexes) comporte plusieurs points qui n'ont pas été réalisés, ou qui ont été réalisés différemment de ce qui était initialement prévu, pas à cause d'un manque de temps, mais grâce à ce dialogue qui a permis d'affiner et de changer les besoins exprimés au fur et à mesure du développement du projet.\\
 
 La figure \ref{agile} résume ce processus.
 
@@ -334,9 +356,9 @@ La figure \ref{agile} résume ce processus.
 
 \subsubsection{Organisation de l'équipe et du travail}
 
-De manière analogue au \textit{ScrumMaster} de la méthode Scrum, nous avons choisi au sein de notre équipe une personne en charge de veiller à la bonne application de notre méthode de développement. Sans se situer à un niveau supérieur aux autres, comme ce serait le cas pour un chef de projet, cette personne devait centraliser les travaux et les impressions de chacun pour aider à la répartition des tâches. Elle servait par ailleurs de \textit{représentant} de notre équipe pour nos clients et notre responsable pédagogique.
+De manière analogue au \textit{ScrumMaster} de la méthode Scrum, nous avons choisi au sein de notre équipe une personne en charge de veiller à la bonne application de notre méthode de développement. Sans se situer à un niveau supérieur aux autres, comme ce serait le cas pour un chef de projet, cette personne devait centraliser les travaux et les impressions de chacun pour aider à la répartition des tâches. Elle servait par ailleurs de \textit{représentant} de notre équipe pour nos clients et notre responsable pédagogique.\\
 
-Les tâches étaient ensuite attribuées selon les demandes du cycle courant et des préférences de chacun, généralement par binômes. Des réunions hebdomadaires permettaient de faire le point sur les difficultés rencontrées et l'avancement des différentes tâches, et éventuellement de réorganiser la répartition. En plus de cela, l'équipe était informée par mail des interrogations et des avancées entre deux réunions, ainsi que par l'intermédiaire de notre wiki que nous avons mis en place dès le début du projet.
+Les tâches étaient ensuite attribuées selon les demandes du cycle courant et des préférences de chacun, généralement par binômes. Des réunions hebdomadaires permettaient de faire le point sur les difficultés rencontrées et l'avancement des différentes tâches, et éventuellement de réorganiser la répartition. En plus de cela, l'équipe était informée par mail des interrogations et des avancées entre deux réunions, ainsi que par l'intermédiaire de notre wiki que nous avons mis en place dès le début du projet.\\
 
 De manière générale, cette méthode de développement semble avoir bien fonctionné pour notre équipe au cours de ce projet.
 
