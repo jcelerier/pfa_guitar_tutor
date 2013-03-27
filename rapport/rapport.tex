@@ -447,6 +447,11 @@ Nous avons gardé la base de l'interface de l'éditeur, à savoir le système de
 \end{center}
 \end{figure}
 
+
+\subsubsection*{Quelques mots sur l'interface}
+
+Un des points importants qui étaient à prendre en compte lors du développement était le fait qu'il fallait réaliser un logiciel accessible. L'expérience utilisateur était par conséquent un des facteurs clés. Le problème était que la tâche à réaliser demandait un savoir-faire particulier (par exemple, synchroniser un tableau avec un morceau de musique), et il était donc primordial de la rendre le plus accessible possible, sans pour autant limiter les fonctionnalités.
+
 Nous avons fait le choix de penser en premier lieu à l'expérience utilisateur, en créant une interface qui soit à la fois accessible et esthétique. Nous avons par exemple apporté:
 \begin{itemize}
  \item la traduction en Français de l'interface
@@ -456,6 +461,37 @@ Nous avons fait le choix de penser en premier lieu à l'expérience utilisateur,
  \item le rapprochement implicite entre la grille et le morceau (système d'onglets, et fusion des deux anciens éditeurs en un seul)
  \item \dots
 \end{itemize}
+
+Le principal défi aura été de faciliter la synchronisation entre le morceau et la grille. Nous avons dans un premier temps mis en place un lecteur audio au sein de l'éditeur afin que l'utilisateur puisse aisément écouter le morceau qu'il est en train de créer. C'est ensuite qu'est venue l'idée d'utiliser trois marqueurs temporels pour définir cette synchronisation:
+\begin{enumerate}
+ \item Un marqueur pour le premier accord du morceau
+ \item Un second marqueur pour signaler la fin de la première mesure
+ \item Et un dernier pour signaler la fin du dernier accord du morceau
+\end{enumerate}
+Une fois les temps associés définis précisément, il est facile de définir le temps de début de chaque accord dans le morceau (voir l'algorithme sur la figure \ref{editor_time_caseitems}). Cette méthode nous a semblé particulièrement adaptée à notre situation, puisque les morceaux ciblés par l'application sont des morceaux qui sont rythmiquement très stables (c'est-à-dire que la durée de chaque mesure est supposée constante). De cette façon, l'utilisateur ne doit que très peu intervenir en comparaison avec l'ancienne méthode qui consistait à lui faire taper chaque temps du morceau.
+
+\begin{figure}[H]
+\begin{lstlisting}
+for (int r = 0 ; r < rmax ; r++) //Parcours des lignes
+{
+	for (int c = 0 ; c < cmax - 1 ; c ++) //Parcours des colonnes
+	{
+		QTime caseTime = MsecToTime(
+				    (TimeToMsec(beginning) +
+				      ((TimeToMsec(bar) - TimeToMsec(beginning))
+				        /m_barsize)
+				    * (r * (cmax - 1) + c)));
+		((CaseItem*) item(r,c))->setBeginning(caseTime);
+	}
+}
+\end{lstlisting}
+\caption{Mise en place des temps de début des accords en fonction des marqueurs entrés par l'utilisateur, extrait de \texttt{ChordTableWidget::setTimeInfo}}
+\label{editor_time_caseitems}
+\end{figure}
+
+La question était donc de trouver un moyen simple pour pouvoir indiquer de façon précise chacun de ces trois marqueurs temporels. Il nous est tout de suite venu à l'esprit d'utiliser les formes d'ondes du fichier audio désiré pour mieux cibler les débuts des accords. FMOD, pour les données spectrales, et Qt, pour l'interface, ont été très utiles pour l'implémentation. Un zoom a également été mis en place sur cette même forme d'onde, ainsi que le positionnement des timers directement \textit{sur} la forme d'onde. Au final, le marquage devient une tâche relativement aisée et rapide (figure \ref{editor_waveform}).
+
+
 
 \subsubsection{Sur le lecteur}
 
