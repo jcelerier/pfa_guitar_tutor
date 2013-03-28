@@ -254,13 +254,13 @@ passait dans le calcul d'exponentielles complexes dans l'algorithme Butterfly ut
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=300px]{sincos.png}
-\caption{Temps passé par fonction. Données obtenues avec Luke Stackwalker.}
+\caption{Temps passé par fonction. Données obtenues avec Luke Stackwalker, sous Windows.}
 \label{player_performance}
 \end{center}
 \end{figure}
 
 Les fonctions sin et cos sont en fait issues du simple calcul $e^{ix} = cos(x) + i*sin(x)$.
-Elles sont disponibles sous plusieurs formes car on a activé les optimisations du compilateur (MSVC ici).
+Elles sont disponibles sous plusieurs formes car les optimisations du compilateur (MSVC ici) ont été activées dans leur niveau maximal (O2).
 
 Or, après étude du code, il est apparu que les exponentielles calculées ont toujours des paramètres connus :
 \begin{figure}[H]
@@ -275,8 +275,10 @@ w = cexp(-I*(2*M_PI*x) / n );
 Ici, i, d et n sont des entiers. Une manière possible d'améliorer de manière drastique les performances serait donc d'effectuer
 un pré-calcul de ces facteurs, et de les mettre dans un dictionnaire qui serait appelé par la suite.
 
-Ceci dit, pour améliorer temporairement les performances, nous avons utilisé OpenMP dans la dernière boucle qui calcule
+Ceci dit, pour améliorer temporairement les performances, nous avons tenté d'utiliser OpenMP dans la dernière boucle qui calcule
 les coefficients Butterfly, ce qui permet d'utiliser les capacités des processeurs multicoeur si l'ordinateur cible en dispose.
+
+Néanmoins, cela ne fonctionne que sous Linux avec GCC et Windows avec MSVC, mais pas sous Mac OS X avec Clang.
 
 \subsection{Chronologie de l'architecture de notre logiciel}
 

@@ -4,17 +4,18 @@ Le développement de GuitarTutor ne s'est pas fait sans heurts. Nous sommes néa
 
 \subsection{Reprise de code}
 
-Comme c'était prévu, la reprise du code existant fut notre première grande étape de développement. Passé le moment de découragement lié à l'absence total de commentaires et de documentation dans la grande majorité du code source qui nous intéressait, nous nous sommes attelés à ``débroussailler'' le dépôt en mettant en place une documentation, en commentant le code, ainsi qu'en supprimant purement et simplement les portions inutilisées, qui représentaient tout de même une portion loin d'être négligeable (parfois de simples fonctions, parfois des fichiers, et parfois des dossiers entiers\dots).
+Comme c'était prévu, la reprise du code existant fut notre première grande étape de développement. Passé le moment de découragement lié à l'absence total de commentaires et de documentation dans la grande majorité du code source qui nous intéressait, nous nous sommes attelés à ``débroussailler'' le dépôt en mettant en place une documentation, en commentant le code, ainsi qu'en supprimant purement et simplement les portions inutilisées, qui représentaient tout de même une quantité de code loin d'être négligeable (parfois de simples fonctions, parfois des fichiers, et parfois des dossiers entiers\dots).
 
-Par ailleurs, du fait que le projet ait été constitué de plusieurs blocs de code émanant de différentes équipes de développeurs, nous avons pu remarquer que les conventions de codage n'avaient pas été harmonisées. Nous avons pris soin de réparer cette erreur afin de faciliter la relecture et donc la réutilisation de ce même code.
+Par ailleurs, du fait que le projet ait été constitué de plusieurs blocs de code émanant de différentes équipes de développeurs, nous avons pu remarquer que les conventions de codage n'avaient pas été harmonisées. Nous avons pris soin de réparer cette erreur afin de faciliter la relecture et donc la réutilisation de ce même code. Les outils de refactorisation de Qt, bien qu'imparfaits, nous ont été particulièrement
+utiles, en permettant par exemple la transformation d'un nom de variable en camelCase, répercuté sur toutes ses utilisations.
 
 Passés ces quelques semaines de nettoyage et d'assimilation du code existant, nous avons pu commencer à apporter les modifications établies dans le cahier des charges, bien que, tout au long du développement, nous ayons continué la refactorisation (par exemple les suppressions de certaines bibliothèques, évoquées plus loin dans ce rapport).
 
 \subsection{Refonte de l'interface du lecteur}
 
-La refonte totale de l'interface du lecteur s'est présentée comme un véritable challenge. Il s'agissait en effet de supprimer tout ce qui concernait l'interface dans le projet existant, et d'y mettre à la place notre propre code. Évidemment, il n'était pas question de se limiter à une structure identique à l'interface existante, celle-ci étant véritablement limitée en terme de fonctionnalités, et m\^eme carrément repoussante pour un jeune guitariste débutant. Fort heureusement, le lecteur était déjà plut\^ot bien décomposé selon le modèle MVC, ce qui nous a tout de m\^eme motivé à tenter l'expérience.
+La refonte totale de l'interface du lecteur s'est présentée comme un véritable défi. Il s'agissait en effet de supprimer tout ce qui concernait l'interface dans le projet existant, et d'y mettre à la place notre propre code. Évidemment, il n'était pas question de se limiter à une structure identique à l'interface existante, celle-ci étant véritablement limitée en terme de fonctionnalités, voire clairement repoussante pour un jeune guitariste débutant. Fort heureusement, le lecteur était déjà plut\^ot bien décomposé selon le modèle MVC, ce qui nous a tout de m\^eme motivés à tenter l'expérience.
 
-La nouvelle interface a donc été développée seule, totalement séparée du reste du projet, en utilisant des faussaires pour simuler une grille d'accords, et selon une maquette que nous avions soumise à nos clients (voir figure \ref{annexe_proto_player} en annexe). Ce n'est qu'au bout de plusieurs semaines de développement que nous avons enfin pu intégrer la nouvelle interface au reste du projet. Cette intégration ne s'est pas faite sans heurts, mais a finalement aboutie, comme nous l'espérions (voir figure \ref{interface_player}).
+La nouvelle interface a donc initialement été développée seule, totalement séparée du reste du projet, en utilisant des faussaires pour simuler une grille d'accords, et ce selon une maquette que nous avions soumise à nos clients (voir figure \ref{annexe_proto_player} en annexe). Ce n'est qu'au bout de plusieurs semaines de développement que nous avons enfin pu intégrer la nouvelle interface au reste du projet. Cette intégration ne s'est pas faite sans heurts, mais a finalement aboutie, comme nous l'espérions (voir figure \ref{interface_player}).
 
 \begin{figure}[H]
 \begin{center}
@@ -34,9 +35,21 @@ Nous nous sommes cependant rapidement rendus à l'évidence: on ne développe pa
 \subsubsection*{Sur Mac OS}
 
 Personne, dans notre équipe, n'ayant une machine sous Mac OS, nous avons dû nous contenter d'une version de Mountain Lion en machine virtuelle. Outre un problème d'extrême lenteur lors de la compilation et divers autres soucis liés à la connexion internet et la reconnaissance des ports USB, il était impossible de vérifier le bon fonctionnement du lecteur, puisque l'entrée audio de la VM n'était pas activée. Nous avons donc pendant longtemps développé \textit{``à l'aveugle''} sous Mac OS, où tout ce que nous pouvions faire était de vérifier que la compilation se faisait correctement.
+Un temps d'adaptation a d'ailleurs été nécessaire car bien que la base du système repose sur Unix, l'ergonomie du système est très différente
+de ce dont nous avons l'habitude.
 
 Fort heureusement, un test sur une vraie machine Mac début mars nous a confirmé que le projet était bien compatible, et nous en avons également profité pour vérifier le fonctionnement de notre installateur.
 
+Nous avons néanmoins connu des sueurs froides lors de l'intégration de la bibliothèque FMOD qui a pendant un temps causé des
+problèmes sur les machines Mac réelles, alors que tout fonctionnait sous nos machines virtuelles. Cela a été l'occasion de découvrir
+le système de paquetage utilisé sous Mac, ainsi que les outils qui permettent de s'en servir, comme \texttt{macdeployqt} et \texttt{install\_name\_tool}.
+
+Enfin, s'est posé le problème du choix du compilateur. Il y a deux compilateurs principaux sous Mac : GCC et Clang.
+Néanmoins, le premier n'est plus réellement supporté par Apple : la version fournie par les outils de développement Apple est la 4.2,
+alors que nous en sommes à la 4.7. Clang, en contrepartie, est issu du projet LLVM et est fortement soutenu par Apple.
+Bien qu'il n'offre à ce jour pas toutes les fonctionnalités de GCC (comme le support d'OpenMP, par exempl), il permet une
+compilation très rapide et des performances parfois plus élevées que la dernière version de GCC (et sensiblement plus élevées que la 4.2).
+Nous avons donc décidé de retenir ce dernier pour les livrables.
 \subsubsection*{Sur Windows}
 
 Le portage sous Windows a été périlleux, car le système de base n'a rien à voir avec les systèmes ayant pour base Unix et respectant
@@ -47,13 +60,14 @@ dans la librairie winpthreads qui était livré avec la version de MinGW qui ét
 forcé à passer sur la librairie BOOST C++ pour un temps. De plus, en raison de l'utilisation de certaines fonctionnalitées modernes
 de GCC 4.7 sous Linux, qui n'étaient pas disponibles sous MinGW 4.2, la compilation ne marchait pas sous Windows.
 
-Nous effectuions donc un cross-compiling sous Linux, ce qui représentait une certaine perte de temps pour les tests.
+Nous effectuions donc un cross-compiling depuis Linux, ce qui représentait une certaine perte de temps pour les tests,
+qui pour la plupart s'effectuaient d'ailleurs sous Wine, l'environnement de simulation Windows sous Linux.
 
 Il a de plus fallu recompiler libsndfile qui n'était pas disponible directement sous Windows.
 
 \paragraph{Arrivée de Qt5}
 De ce point de vue, l'arrivée de Qt 5 a été salvatrice pour notre projet : en effet, elle mettait à jour MinGW
-avec la dernière version de gcc, ce qui a permis une compilation directe depuis Windows, ainsi que la suppression des
+avec la dernière version de gcc, la 4.7, ce qui a permis une compilation directe depuis Windows, ainsi que la suppression des
 threads BOOST pour un retour aux pthreads.
 
 Nous avons de plus travaillé sur une branche qui permette la compilation avec MSVC, le compilateur C++ Microsoft.
@@ -61,7 +75,8 @@ Nous avons de plus travaillé sur une branche qui permette la compilation avec M
 Néanmoins, ce compilateur ne supporte pas le standard C99, qui est utilisé dans la librairie EHPCP pour représenter les types complexes.
 
 Nous avons donc fait une tentative de portage en utilisant la classe C++ Complex, mais les performances étaient moindres au final,
-ce qui nous a poussé à rester sous MinGW.
+ce qui nous a poussé à rester sous MinGW pour le rendu. Néanmoins, cela a été l'occasion d'apprendre les
+bases de l'API Windows, notamment pour la gestion des threads.
 
 \paragraph{Installation}
 Une des autres particularités de Windows est qu'il n'y a pas de système de gestion de paquetage comme sous la majorité des systèmes Linux et Mac OS X.
@@ -87,7 +102,16 @@ Comme l'algorithme de name-mangling de MSVC est incompatible avec celui de MinGW
 De plus, il faut remplacer la DLL portaudio fournie dans le livrable avec la DLL compilée avec le support ASIO, ce qui fait
 que le logiciel ne pourra pas s'exécuter sur un ordinateur sans ASIO4ALL ou une carte son professionnelle fournissant un pilote ASIO.
 
-
 \subsubsection*{Sur GNU/Linux}
 
-Il s'agit du seul des trois systèmes d'exploitation pour lequel nous n'avons pas eu de problème particulier, mais aussi le seul qui n'était pas demandé. Peut-être est-ce simplement parce que nous avons tous commencé à coder directement sur celui-ci.
+Il s'agit du seul des trois systèmes d'exploitation pour lequel nous n'avons pas eu de problème particulier, mais aussi le seul qui n'était pas demandé. Peut-être est-ce simplement parce que nous avons tous commencé à coder directement sur celui-ci, et que c'est aussi le système sur lequel le groupe de PFA précédent s'était focalisé.
+
+\subsubsection*{De l'avantage de l'utilisation de multiples compilateurs}
+
+Bien qu'à priori, on puisse penser que c'est un calvaire de maintenir un même programme fonctionnel sur plusieurs systèmes et plusieurs compilateurs, nous nous sommes rendu comptes que cela avait aussi un avantage majeur : la détection d'erreurs et d'incorrections.
+Ainsi, GCC est parfois assez laxiste quand à son interprétation des standards du C++ et permet des choses qui ne sont pas toujours acceptées par les autres compilateurs.
+
+L'utilisation de Clang et de MSVC a donc permis de soulever des approximations qui étaient passées inaperçues sous GCC mais qui contribuaient à avoir un code moins lisible.
+De plus, cela nous a permis de comprendre de quelle manière l'interprétation des standards pouvait différer d'un compilateur à l'autre.
+
+Enfin, nous avons pu mesurer des différences de performance : par exemple, sous Windows, aussi étrange que cela puisse paraître, l'exécution du lecteur nous a semblé beaucoup plus fluide lorsque compilé avec MinGW plutôt qu'avec MSVC qui est pourtant le compilateur Microsoft. Toutes les optimisations possibles étaient activées dans les deux cas.
