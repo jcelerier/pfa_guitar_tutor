@@ -28,6 +28,8 @@ class Enrichment : public QList<e_Enrichment>
 		Enrichment();
         Enrichment(const Enrichment &enrich);
         Enrichment(const QString &enrich);
+        Enrichment(const e_Enrichment enrich);
+
 
 		bool isValid() const;
         static bool isValid(const QString& enrichment);
