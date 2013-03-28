@@ -224,8 +224,10 @@ void PlayerScene::play()
     if(m_loaded) {
         if(!m_isPlaying) {
             if(!m_cntdownOver) {
-                if(m_controler->getTrack() == 0)
+                if(m_controler->getTrack() == 0) {
+                    m_loaded = false;
                     return;
+                }
                 m_cntdown = 4;
                 playCountdown();
 
@@ -268,6 +270,8 @@ void PlayerScene::pause()
  */
 void PlayerScene::stop()
 {
+    if(!m_loaded)
+        return;
     if(m_itemMap["menu"]->isVisible())
         return;
 
