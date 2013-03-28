@@ -14,6 +14,12 @@ class HelpWindow : public QDialog
         Q_OBJECT
 
     public:
+        /**
+         * @brief HelpWindow::HelpWindow
+         * @param parent Widget parent
+         *
+         * Crée la fenetre d'aide utilisateur.
+         */
         explicit HelpWindow(QWidget *parent = 0);
         ~HelpWindow();
 

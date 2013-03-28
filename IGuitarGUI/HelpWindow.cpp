@@ -1,12 +1,6 @@
 #include "HelpWindow.h"
 #include <QDir>
 
-/**
- * @brief HelpWindow::HelpWindow
- * @param parent Widget parent
- *
- * Crée la fenetre d'aide utilisateur.
- */
 HelpWindow::HelpWindow(QWidget *parent) :
     QDialog(parent)
 {

@@ -24,7 +24,7 @@ public:
 public slots:
     void saveData();
 signals:
-    void configChanged(bool, int, int);
+    void configChanged(bool, int, int); //!< Signal émis lorsque la configuration a été modifiée
 private:
     Ui::ConfigPanel *ui;
     bool m_isLoopingActive;
