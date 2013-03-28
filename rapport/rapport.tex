@@ -13,13 +13,15 @@
 \usepackage{listings}
 \usepackage{float}
 
+\usepackage{kpfonts}
+
 \lstset{
 language=C++,
 basicstyle=\footnotesize,
 backgroundcolor=\color{white},
 keywordstyle=\color{red},
 commentstyle=\color{dkgreen},
-stringstyle=\color{mauve}, 
+stringstyle=\color{mauve},
 numberstyle=\color{red},
 morekeywords={string},
 frame=BL,
@@ -40,13 +42,14 @@ belowskip=2em,
 \geometry{headheight=15pt}
 
 \usepackage{fancyhdr}
-\usepackage{fancyvrb} 
+\usepackage{fancyvrb}
 \usepackage{graphicx}
 \usepackage{float}
-
+\usepackage{acronym}
 \pagestyle{fancy}
 \rhead{PFA - GuitarTutor}
 
+\acrodef{LABRI}{Laboratoire Bordelais de Recherche en Informatique}
 
 \begin{document}
 
@@ -54,7 +57,7 @@ belowskip=2em,
   \begin{center}
 
     \textsc{\LARGE PFA - GuitarTutor}\\[2cm]
-    Pacien \textsc{Boisson} \ \ \ Jean-Michaël \textsc{Célerier}  \ \ \ Julien \textsc{Chaumont}\\
+    Pacien \textsc{Boisson} \ \ \ Jean-Michaël \textsc{Celerier}  \ \ \ Julien \textsc{Chaumont}\\
     Abdelhamid \textsc{Cherif} \ \ \ Alban \textsc{De Martin} \ \ \ Kun \textsc{Jiao} \ \ \ Bastien \textsc{Meunier} \\[3cm]
     \textsc{\large 29/03/2013 }\\[1.5cm]
     \includegraphics[width=8cm]{logo.png}
@@ -76,14 +79,14 @@ belowskip=2em,
 
 \subsection*{Serious game}
 
-En quelques années, les jeux vidéos ont su attirer un public immense et éclectique. Alors qu'ils étaient réservés, il y a encore quelques années, à un public bien ciblé, les éditeurs ont su s'ouvrir à toute une gamme de joueurs jusqu'alors insoupçonnés - l'appellation casual gamer était née. Aujourd'hui, les recherches dans le domaine vidéo-ludique vont encore plus loin. A l'aide de technologies toujours plus poussées, toujours plus proches du joueur et de son environnement, il est désormais possible d'interagir avec lui, grâce à ses mouvements par exemple. Et pourquoi pas par le son? Les jeux de rythme, remontant pourtant aux bornes d'arcade des années 1990, ont connu un immense succès avec la sortie de jeux tels que Guitar Hero en 2005, qui a ouvert la voie à de nombreux remakes que sont Just Dance ou encore Band Hero. En parallèle, les jeux à caractère éducatifs, ont été pendant longtemps recalés au rang de “sous-jeux” de par leurs gameplays souvent repoussants et des graphismes généralement peu soignés - 
+En quelques années, les jeux vidéos ont su attirer un public immense et éclectique. Alors qu'ils étaient réservés, il y a encore quelques années, à un public bien ciblé, les éditeurs ont su s'ouvrir à toute une gamme de joueurs jusqu'alors insoupçonnés - l'appellation casual gamer était née. Aujourd'hui, les recherches dans le domaine vidéo-ludique vont encore plus loin. A l'aide de technologies toujours plus poussées, toujours plus proches du joueur et de son environnement, il est désormais possible d'interagir avec lui, grâce à ses mouvements par exemple. Et pourquoi pas par le son? Les jeux de rythme, remontant pourtant aux bornes d'arcade des années 1990, ont connu un immense succès avec la sortie de jeux tels que Guitar Hero en 2005, qui a ouvert la voie à de nombreux remakes que sont Just Dance ou encore Band Hero. En parallèle, les jeux à caractère éducatifs, ont été pendant longtemps recalés au rang de “sous-jeux” de par leurs gameplays souvent repoussants et des graphismes généralement peu soignés -
 évidemment, les budgets ne sont pas forcément les mêmes.
 
 Le projet GuitarTutor se place au croisement de ces deux genres pour s'inscrire dans celui très fermé des serious games: pourquoi ne pas apprendre en s'amusant? (En l'occurrence l'apprentissage de la guitare). Ce jeu s'adresse à des élèves d'écoles de musique débutant la pratique de l'instrument. L'objectif est de les encourager à jouer et à s'entraîner en dehors des heures de cours avec leurs professeurs, en faisant intervenir cet univers ludique, pour les inciter à persévérer et à travailler d'eux-mêmes.
 
 \subsection*{Le logiciel avant le PFA}
 
-Le logiciel GuitarTutor reposait sur des travaux de recherches du LABRI, ainsi que sur le travail fourni par des élèves de l'ENSEIRB-MATMECA dans le cadre des Projets au Fil de l'Année (PFA) de 2011-2012. La base du projet consistait en l'analyse d'accords en temps réel, c'est-à-dire pouvoir donner précisément le nom de l'accord qui est donné en entrée audio de l'ordinateur. La librairie EHPCP a donc été codée à cet effet. En complément, le développement d'une interface graphique, à l'aide de la librairie Qt, a été réalisée. Celle-ci assurait le fonctionnement basique d'un logiciel permettant de visualiser une liste défilante d'accords ainsi que le résultat de la partie analyse de l'entrée audio, en comparant cette donnée au résultat attendu.
+Le logiciel GuitarTutor reposait sur des travaux de recherches du \ac{LABRI}, ainsi que sur le travail fourni par des élèves de l'ENSEIRB-MATMECA dans le cadre des Projets au Fil de l'Année (PFA) de 2011-2012. La base du projet consistait en l'analyse d'accords en temps réel, c'est-à-dire pouvoir donner précisément le nom de l'accord qui est donné en entrée audio de l'ordinateur. La librairie EHPCP a donc été codée à cet effet. En complément, le développement d'une interface graphique, à l'aide de la librairie Qt, a été réalisée. Celle-ci assurait le fonctionnement basique d'un logiciel permettant de visualiser une liste défilante d'accords ainsi que le résultat de la partie analyse de l'entrée audio, en comparant cette donnée au résultat attendu.
 
 Afin de faciliter l'écriture de ces fichiers partitions, un second logiciel avait été mis en place à destination du professeur. Il permettait une édition totalement manuelle de grilles d'accords, ainsi qu'une édition assistée. Ce second mode d'édition demandait à l'utilisateur de marquer les accords d'un morceau joué simultanément par l'appui sur une touche de son clavier. Dans un deuxième temps, il suffisait d'indiquer quels étaient les accords qui correspondaient à chaque pulsation.
 
@@ -103,6 +106,20 @@ Nous présenterons dans cette partie la structure du projet actuel, ainsi que ce
 
 \subsection{Architecture du projet d'origine}
 
+Il nous a fallu un certain temps pour comprendre comment était pensé le projet d'origine.
+
+Principalement, il y avait une séparation complète entre le lecteur et l'éditeur, et aucune bibliothèque partagée entre les deux.
+
+L'éditeur était divisé en deux sous-programmes : un qui faisait de la lecture audio, et un qui permettait de rentrer des accords dans un
+tableau.
+
+Le lecteur était aussi divisé en deux sous-programmes : un qui permettait de lire les donnés de l'éditeur (ce n'était pas fonctionnel),
+et un qui permettait de produire un nouveau fichier de données à partir d'un enregistrement de guitare.
+
+Une librairie imposante était fournie ave le lecteur : IScoreLight, une version simplifiée d'un séquenceur complet développé au \ac{LABRI}.
+
+Le problème principal est que le lecteur et l'éditeur n'étaient pas capables d'échanger leurs données. Le fonctionnement multi-plateformes n'était lui non plus pas assuré.
+
 \subsection{Le modèle MVC}
 
 Le modèle MVC, pour \textit{Modèle, Vue, Contrôleur}, constitue une architecture logicielle particulière qui se base sur la différenciation de deux parties dans un programme:
@@ -115,7 +132,7 @@ Le contrôleur se place entre ces deux entités, en agissant comme relais en syn
 
 L'avantage immédiat du modèle MVC est l'organisation du code qu'il induit, ainsi que la facilitation de la maintenance de celui-ci.
 
-\subsection{Editeur, Lecteur et API}
+\subsubsection{Editeur, Lecteur et API}
 
 Il nous a été conseillé dès le début du projet d'adopter le modèle MVC. En plus des avantages cités précédemment, cela nous permettait de découvrir le code existant, de mieux le comprendre, et de commencer à le réorganiser correctement. L'architecture qui a été retenue était de découper le projet en trois parties:
 \begin{itemize}
@@ -133,9 +150,17 @@ L'idée était de mettre ce \textit{reste} dans une bibliothèque qui serait app
 \end{center}
 \end{figure}
 
+
+De plus, à un autre niveau, nous avons quand c'était facilement appliquable utilisé le paradigme MVC de Qt, ce qui est facilité
+par l'utilisation de QtCreator, l'IDE fourni avec Qt.
+
+En effet, ce dernier permet de concevoir l'interface graphique directement, et de générer automatiquement le code qui y
+correspond sans que l'on ait à y toucher, ce qui nous permet de nous concentrer uniquement sur la logique sous-jacente.
+
+On peut notamment s'en rendre compte dans les classes \texttt{TrackProperties}, \texttt{PartSetter}... de l'éditeur.
 \subsubsection{L'API}
 
-L'API a été mise en place dès le début du projet, en regroupant dans un même dossier tous les fichiers sources qui ne concernaient pas dirctement l'interface graphique du lecteur, ni celle de l'éditeur.
+L'API a été mise en place dès le début du projet, en regroupant dans un même dossier tous les fichiers sources qui ne concernaient pas directement l'interface graphique du lecteur, ni celle de l'éditeur.
 
 \subsubsection*{La modélisation des accords}
 
@@ -283,6 +308,56 @@ m\_track : LogicalTrack *}{}
 
 \subsection{Quelques points particuliers}
 
+\subsection{Performance}
+Il est nécessaire de distinguer les problèmes de performance dans deux cas :
+
+\begin{itemize}
+	\item L'affichage
+	\item Les calculs sous-jacents
+\end{itemize}
+
+\subsubsection{Performance de l'éditeur}
+L'éditeur ne pose pas vraiment de problèmes au niveau des performances: ne sont utilisées que des
+objets en grande majorité, ce qui fait que les performances sont directement dépendantes du niveau
+d'optimisation de Qt (qui dans la majorité des cas s'exécute aussi rapidement qu'une application native).
+
+La seule exception est pour le dessin de la forme d'onde du morceau. En effet, on a une très grande quantité de données à synthétiser dans
+une zone réduite, tout en gardant le zoom et le déplacement fluides.
+
+Par exemple, un fichier audio qui dure 3 minutes et qui est échantillonné à 44100 Hz (le standard des CD Audio)
+nécessitera $44100 * 3 * 60 = 7938000$ échantillons. Il faut trouver un moyen d'afficher de manière lisible ces
+échantillons dans les dimensions de la forme d'onde (par défaut 500 pixels de large environ).
+
+L'algorithme utilisé est très simple : on lit dans la copie en mémoire du morceau un groupe de 32 échantillons
+(cette valeur a été déterminée de manière empirique en comparant la lisibilité des résultats) qui correspond à la position de
+chaque pixel, puis on met dans un tableau qui a pour taille la largeur en pixels de la forme d'onde le maximum sur ce groupe.
+
+Enfin, on effectue un lissage par moyennage sur le tableau obtenu.
+
+\subsubsection{Performance du lecteur}
+Le lecteur est beaucoup plus complexe que l'éditeur.
+
+D'une part, l'affichage prend un certain temps (que nous avons réduit grâce à l'utilisation d'OpenGL)
+et d'autre part, le calcul de la transformée de Fourier dans la librairie EHPCP est intense.
+
+Nous avons effectué des mesures sur le logiciel et nous avons trouvé que 30\% environ du temps de calcul
+passait dans le calcul d'exponentielles complexes dans l'algorithme Butterfly utilisé pour la transformée de Fourier.
+
+Or, après étude du code, il est apparu que les exponentielles calculées ont toujours des paramètres connus :
+\begin{figure}[H]
+\begin{lstlisting}
+x = (double) ((i%d)*(n/(2*d)));
+w = cexp(-I*(2*M_PI*x) / n );
+\end{lstlisting}
+\caption{Calcul d'exponentielle complexe, extrait de \texttt{fft.c : butterfly}}
+\label{api_cexp}
+\end{figure}
+
+Ici, i, d et n sont des entiers. Une manière possible d'améliorer sensiblement les performances serait donc d'effectuer
+un pré-calcul de ces facteurs, et de les mettre dans un dictionnaire qui serait appelé.
+
+Ceci dit, pour améliorer temporairement les performances, nous avons utilisé OpenMP dans la dernière boucle qui calcule
+les coefficients Butterfly, ce qui permet d'utiliser les capacités des processeurs multicoeur si l'ordinateur cible en dispose.
 \clearpage
 
 
@@ -302,7 +377,7 @@ Passés ces quelques semaines de nettoyage et d'assimilation du code existant, n
 
 \subsection{Refonte de l'interface du lecteur}
 
-Le refonte totale de l'interface du lecteur s'est présenté comme un véritable challenge. Il s'agissait en effet de supprimer tout ce qui concernait l'interface dans le projet existant, et d'y mettre à la place notre propre code. Évidemment, il n'était pas question de se limiter à une structure identique à l'interface existante, celle-ci étant véritablement limitée en terme de fonctionnalités, et m\^eme carrément repoussante pour un jeune guitariste débutant. Fort heureusement, le lecteur était déjà plut\^ot bien décomposé selon le modèle MVC, ce qui nous a tout de m\^eme motivé à tenter l'expérience.
+La refonte totale de l'interface du lecteur s'est présentée comme un véritable challenge. Il s'agissait en effet de supprimer tout ce qui concernait l'interface dans le projet existant, et d'y mettre à la place notre propre code. Évidemment, il n'était pas question de se limiter à une structure identique à l'interface existante, celle-ci étant véritablement limitée en terme de fonctionnalités, et m\^eme carrément repoussante pour un jeune guitariste débutant. Fort heureusement, le lecteur était déjà plut\^ot bien décomposé selon le modèle MVC, ce qui nous a tout de m\^eme motivé à tenter l'expérience.
 
 La nouvelle interface a donc été développée seule, totalement séparée du reste du projet, en utilisant des faussaires pour simuler une grille d'accords, et selon une maquette que nous avions soumise à nos clients (voir figure \ref{annexe_proto_player} en annexe). Ce n'est qu'au bout de plusieurs semaines de développement que nous avons enfin pu intégrer la nouvelle interface au reste du projet. Cette intégration ne s'est pas faite sans heurts, mais a finalement aboutie, comme nous l'espérions (voir figure \ref{interface_player}).
 
@@ -329,7 +404,54 @@ Fort heureusement, un test sur une vraie machine Mac début mars nous a confirm�
 
 \subsubsection*{Sur Windows}
 
-%Qt5, l'installateur, boost,...
+Le portage sous Windows a été périlleux, car le système de base n'a rien à voir avec les systèmes ayant pour base Unix et respectant
+les normes POSIX que sont Linux et Mac OS X.
+
+Notre premier réflexe a été d'utiliser MinGW qui est livré par défaut avec Qt. Néanmoins, un problème
+dans la librairie winpthreads qui était livré avec la version de MinGW qui était elle-même livrée avec Qt 4.8 nous a
+forcé à passer sur la librairie BOOST C++ pour un temps. De plus, en raison de l'utilisation de certaines fonctionnalitées modernes
+de GCC 4.7 sous Linux, qui n'étaient pas disponibles sous MinGW 4.2, la compilation ne marchait pas sous Windows.
+
+Nous effectuions donc un cross-compiling sous Linux, ce qui représentait une certaine perte de temps pour les tests.
+
+Il a de plus fallu recompiler libsndfile qui n'était pas disponible directement sous Windows.
+
+\paragraph{Arrivée de Qt5}
+De ce point de vue, l'arrivée de Qt 5 a été salvatrice pour notre projet : en effet, elle mettait à jour MinGW
+avec la dernière version de gcc, ce qui a permis une compilation directe depuis Windows, ainsi que la suppression des
+threads BOOST pour un retour aux pthreads.
+
+Nous avons de plus travaillé sur une branche qui permette la compilation avec MSVC, le compilateur C++ Microsoft.
+
+Néanmoins, ce compilateur ne supporte pas le standard C99, qui est utilisé dans la librairie EHPCP pour représenter les types complexes.
+
+Nous avons donc fait une tentative de portage en utilisant la classe C++ Complex, mais les performances étaient moindres au final,
+ce qui nous a poussé à rester sous MinGW.
+
+\paragraph{Installation}
+Une des autres particularités de Windows est qu'il n'y a pas de système de gestion de paquetage comme sous la majorité des systèmes Linux et Mac OS X.
+Il est donc nécessaire de créer nous-même un installeur, nous avons pour ce faire utilisé Advance Installer dans sa version gratuite.
+
+Ce logiciel permet un déploiement facile : création d'icônes dans le menu démarrer, sur le bureau, gestion des mises à jour...
+
+\paragraph{Portaudio et performance audio basse-latence}
+Contrairement à Linux et Mac OS X, dont les couches audio ALSA (pour Linux) et CoreAudio (pour Mac OS X) permettent immédiatement
+des basses latences, ce n'est pas le cas sous Windows.
+
+Cela pose problème pour le jeu de guitare : en effet, la latence de base du mixeur Windows est d'environ 40 millisecondes.
+Et des mesures ont montré que l'oreille humaine arrivait à percevoir un décalage à partir de 10 millisecondes, et que cela devenait gênant pour le jeu à partir de 20 millisecondes.
+
+Une solution a été développée par Steinberg (l'éditeur du séquenceur Cubase) : le protocole ASIO.
+
+Ce protocole permet d'atteindre de très basses latences (parfois jusqu'à moins d'une milliseconde) avec
+du matériel professionnel et de basses latences avec ASIO4ALL, un logiciel qui permet d'utiliser des cartes son standard de PC avec le protocole ASIO.
+
+Le problème pour l'incorporation de cette technologie dans le projet est qu'il est nécessaire de compiler PortAudio avec le SDK ASIO, ce qui
+ne peut se faire qu'avec MSVC, le compilateur Microsoft.
+Comme l'algorithme de name-mangling de MSVC est incompatible avec celui de MinGW / GCC, il est nécessaire de recompiler tout le projet avec MSVC, ce qui cause la perte de performance vue plus haut.
+De plus, il faut remplacer la DLL portaudio fournie dans le livrable avec la DLL compilée avec le support ASIO, ce qui fait
+que le logiciel ne pourra pas s'exécuter sur un ordinateur sans ASIO4ALL ou une carte son professionnelle fournissant un pilote ASIO.
+
 
 \subsubsection*{Sur GNU/Linux}
 
@@ -411,12 +533,12 @@ QDomNode chordNode = partElement.firstChild();
 while(!chordNode.isNull())
 {
   QDomElement chordElement = chordNode.toElement();
-  
+
   //Récupération des informations de l'accord
   QString name = chordElement.attribute("nom", 0);
   int t = (chordElement.attribute("temps", 0)).toInt();
   int rep = (chordElement.attribute("repetition", 0)).toInt();
-  
+
   //Création de l'objet représentant l'accord
   currentChord = new TrackChord(name, t, rep, previousChord, 0, currentPartTrack);
   //Ajout de cet accord à la liste des accords de la partie courante
@@ -539,7 +661,7 @@ Plusieurs outils similaires sont mis à la disposition des développeurs Mac OS 
 
 \subsection{Développement agile}
 
-En accord avec les conseils de notre responsable pédagogique, nous avons rapidement opté pour l'utilisation d'une méthode de développement de type agile. Le PFA état en effet une excellente occasion pour s'essayer à ce genre de méthodes qui sont de plus en plus employées dans des cadres professionnels. 
+En accord avec les conseils de notre responsable pédagogique, nous avons rapidement opté pour l'utilisation d'une méthode de développement de type agile. Le PFA état en effet une excellente occasion pour s'essayer à ce genre de méthodes qui sont de plus en plus employées dans des cadres professionnels.
 
 \subsubsection{Réunions clients}
 
