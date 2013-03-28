@@ -18,7 +18,6 @@ enum e_Enrichment { MAJ, MIN/*, AUG, DIM, SUS2, SUS4, B5, SIX, SEPT, NEUF, ONZE,
 // Ces accord sont stocké sous forme de QString :
 //"M"= MAJ, "m"= MIN, "+"= AUG, "-"=DIM, "sus2"=SUS2, "sus4=SUS4", "b5"=B5, "6"=SIX, "7"=SEPT
 //"9"=NEUF, "11"=ONZE, "13"=TREIZE
-//Quelle est l'utilité de l'énum?
 
 /**
  * @brief Objet enrichissement pour définir la forme d'un accord
@@ -26,14 +25,9 @@ enum e_Enrichment { MAJ, MIN/*, AUG, DIM, SUS2, SUS4, B5, SIX, SEPT, NEUF, ONZE,
 class Enrichment : public QList<e_Enrichment>
 {
 	public:
-        static QStringList listOfEnrichmentString;
-		static const QStringList& getListOfEnrichmentStrings();
-
 		Enrichment();
         Enrichment(const Enrichment &enrich);
         Enrichment(const QString &enrich);
-//        Enrichment(const QStringList enrichList);
-        Enrichment(const e_Enrichment enrich);
 
 		bool isValid() const;
         static bool isValid(const QString& enrichment);
@@ -48,6 +42,7 @@ class Enrichment : public QList<e_Enrichment>
 		const QStringList& getListOfEnrichmentStringList() const;
 
 	private:
+        static QStringList listOfEnrichmentString;
         void initStringEquivs();
         QStringList m_stringEquivs;
         bool error;

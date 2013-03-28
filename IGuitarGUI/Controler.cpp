@@ -257,12 +257,19 @@ LogicalTrack* Controler::getTrack()
 	return m_track;
 }
 
+/**
+ * @brief Controler::getFirstChord
+ * @return Un pointeur vers le premier accord de la track.
+ */
 TrackChord* Controler::getFirstChord()
 {
 	return m_track->getFirstChord();
 }
 
-
+/**
+ * @brief Controler::getCurrentChord
+ * @return Un pointeur vers l'accord courant.
+ */
 TrackChord* Controler::getCurrentChord()
 {
 	return m_songManager->getCurrentChord();

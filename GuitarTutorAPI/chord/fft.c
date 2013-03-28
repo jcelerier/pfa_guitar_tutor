@@ -39,7 +39,7 @@ void fft (double *samples, int n, complex *spectrum)
 			butterfly (spectrum, j, d, n);
 			i--;
 
-			#pragma omp parallel for
+            //#pragma omp parallel for
 			for (k=1; k<d; k++)
 			{
 				butterfly (spectrum, j+k, d, n);

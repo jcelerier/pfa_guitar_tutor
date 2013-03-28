@@ -48,9 +48,6 @@ class Controler : public QObject
 
         void currentChordSlot(TrackChord*);
         void updateStats(int validated, int played);
-
-	signals:
-		void repaintSong();
 	private:
 		SongManager* m_songManager;
 

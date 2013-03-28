@@ -95,7 +95,12 @@ void EntireSong::setCurrentChord(TrackChord* tc)
 	}
 }
 
-
+/**
+ * @brief EntireSong::load
+ * @param lt Track à charger
+ *
+ * Charge une LogicalTrack dans le module EntireSong.
+ */
 void EntireSong::load(LogicalTrack * lt)
 {
 	QPen lightPen(Qt::black, 1);

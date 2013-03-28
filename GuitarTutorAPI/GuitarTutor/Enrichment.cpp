@@ -71,7 +71,10 @@ bool Enrichment::isValid(const QString& enrichment)
 	return Enrichment::extractEnrichmentsFromStr(enrichment, ebis);
 }
 
-
+/**
+ * @brief Enrichment::isEmpty
+ * @return True si l'enrichissement est vide, false sinon.
+ */
 bool Enrichment::isEmpty() const{
 	return m_stringEquivs.isEmpty();
 }

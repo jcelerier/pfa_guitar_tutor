@@ -23,13 +23,13 @@ SongManager::SongManager(QObject* parent): QObject(parent),
 
     m_numberOfValidChordChecks(0),
     m_numberOfChordChecks(0),
-
-    m_precisionInMs(100),
-    m_elapsedTime(0),
     m_wellPlayedChordsInCurrentPart(0),
     m_playedChordsInCurrentPart(0),
     m_totalPlayedChords(0),
     m_totalValidatedChords(0),
+
+    m_precisionInMs(100),
+    m_elapsedTime(0),
     m_partRepeated(false)
 {
     m_configuration =((Controler*)parent)->getConfiguration();

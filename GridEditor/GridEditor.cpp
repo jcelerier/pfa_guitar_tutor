@@ -445,6 +445,12 @@ void GridEditor::toXML(QString filename)
 	delete validator;
 }
 
+/**
+ * @brief GridEditor::barsizeChanged
+ * @param barsize Nouvelle valeur de mesure.
+ *
+ * Slot appelé lorsque la valeur de la mesure est modifiée.
+ */
 void GridEditor::barsizeChanged(int barsize)
 {
 	m_barsize = barsize;
@@ -603,18 +609,34 @@ void GridEditor::help()
 }
 
 
-
+/**
+ * @brief GridEditor::enableUndo
+ * @param b True si l'action "Annuler" doit etre activée, false sinon
+ *
+ * Active ou désactive l'action "Annuler".
+ */
 void GridEditor::enableUndo(bool b)
 {
 	undoAction->setEnabled(b);
 }
 
+/**
+ * @brief GridEditor::enableRedo
+ * @param b True si l'action "Refaire" doit etre activée, false sinon
+ *
+ * Active ou désactive l'action "Refaire".
+ */
 void GridEditor::enableRedo(bool b)
 {
 	redoAction->setEnabled(b);
 }
 
-
+/**
+ * @brief GridEditor::closeEvent
+ * @param event Evènement de fermeture de l'application
+ *
+ * Rattrape l'évènement de fermeture pour demander la sauvegarde.
+ */
 void GridEditor::closeEvent(QCloseEvent *event)
 {
 	if(!saveBeforeQuit())
