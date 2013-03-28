@@ -194,8 +194,8 @@ void UndoManager::restoreState(StatePacket* statePacket)
 {
 	m_currentState = statePacket;
 
-	m_editor->createGrid(statePacket->grid->columnCount(), statePacket->grid->rowCount());
-	statePacket->grid->deepCopy(m_editor->m_grid);
+	m_editor->createGrid(statePacket->m_grid->columnCount(), statePacket->m_grid->rowCount());
+	statePacket->m_grid->deepCopy(m_editor->m_grid);
 
 	connect(m_editor->m_grid, SIGNAL(somethingChanged()), this, SIGNAL(save()));
 	/*  Tout ça est à réactiver quand la sauvegarde sera dispo pour le reste

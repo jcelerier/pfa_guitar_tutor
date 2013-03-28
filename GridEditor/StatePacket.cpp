@@ -9,15 +9,15 @@ StatePacket::StatePacket(ChordTableWidget *grid,
 						 int beginning, int bar, int end,
 						 QString artist, QString song, QString comment,
 						 int chordsPerBar, int timeSignature):
-	beginning(beginning),
-	bar(bar),
-	end(end),
-	artist(artist),
-	song(song),
-	comment(comment),
-	chordsPerBar(chordsPerBar),
-	timeSignature(timeSignature)
+	m_beginning(beginning),
+	m_bar(bar),
+	m_end(end),
+	m_artist(artist),
+	m_song(song),
+	m_comment(comment),
+	m_chordsPerBar(chordsPerBar),
+	m_timeSignature(timeSignature)
 {
-	this->grid = new ChordTableWidget(grid->columnCount(), grid->rowCount(), 0);
-	grid->deepCopy(this->grid);
+	this->m_grid = new ChordTableWidget(grid->columnCount(), grid->rowCount(), 0);
+	grid->deepCopy(this->m_grid);
 }

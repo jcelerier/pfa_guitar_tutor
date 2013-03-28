@@ -40,11 +40,11 @@ public slots:
 		void stop();
 
 	signals:
-		void currentlyPlayedChord(BasicChord);
-		void updateChord(TrackChord*);
-        void updateStats(int, int);
-		void nonNaturalChange(TrackChord*);
-		void lastChordCorrectness(TrackChord*, double);
+        void currentlyPlayedChord(BasicChord); //!< Signal émis lors de l'arrivée sur un accord
+        void updateChord(TrackChord*); //!< Signal émis lors du passage à l'accord suivant
+        void updateStats(int, int); //!< Signal émis lorsqu'il est nécessaire de mettre à jour les statistiques de l'interface
+        void nonNaturalChange(TrackChord*); //!< Signal émis lorsque l'utilisateur a demandé un déplacement dans la track
+        void lastChordCorrectness(TrackChord*, double); //!< Signal émis en indiquant le pourcentage de réussite de l'accord donné
 
 
 	private:
@@ -60,16 +60,16 @@ public slots:
 
 		QTime m_time;
 
-        int m_number_of_valid_chord_checks;   // Verification de la justesse de l'accord joue
-        int m_number_of_chord_checks;
+        int m_numberOfValidChordChecks;   // Verification de la justesse de l'accord joue
+        int m_numberOfChordChecks;
 
-        int m_well_played_chords_in_current_part; // Verification du nombre d'accords joues dans la partie actuelle
-        int m_played_chords_in_current_part;
+        int m_wellPlayedChordsInCurrentPart; // Verification du nombre d'accords joues dans la partie actuelle
+        int m_playedChordsInCurrentPart;
 
         int m_totalPlayedChords;            // Nombre d'accord joué au total
         int m_totalValidatedChords;
 
-        int m_precision_in_ms;
+        int m_precisionInMs;
         int m_elapsedTime;                  // Position dans le morceau, en mS
         bool m_isFirstChord;
         bool m_partRepeated;                // Vient-on de boucler sur une partie ?

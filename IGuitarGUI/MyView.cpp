@@ -1,6 +1,12 @@
 #include "MyView.h"
 #include "PlayerScene.h"
 #include <QGLWidget>
+
+/**
+ * @brief MyView::MyView
+ * @param scene Scène parente
+ * @param parent Widget parent
+ */
 MyView::MyView(QGraphicsScene * scene, QWidget * parent) :
 	QGraphicsView(scene, parent)
 {

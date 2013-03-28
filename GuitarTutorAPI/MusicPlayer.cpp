@@ -67,6 +67,10 @@ void MusicPlayer::pause(bool p)
 	}
 }
 
+/**
+ * @brief MusicPlayer::isPaused
+ * @return True si le player est en pause, false sinon.
+ */
 bool MusicPlayer::isPaused()
 {
 	if(m_state) {
@@ -240,7 +244,6 @@ void MusicPlayer::initSamples()
  *
  * Obtient un tableau qui contient les samples nécessaires pour l'affichage graphique
  */
-
 void MusicPlayer::getFullSpectrum(int * tab, unsigned int size)
 {
 	int max = 0;
@@ -288,6 +291,15 @@ void MusicPlayer::getFullSpectrum(int * tab, unsigned int size)
 	}
 }
 
+/**
+ * @brief MusicPlayer::getSpectrum
+ * @param begin Début du morceau
+ * @param end Fin du morceau
+ * @param tab Tableau destiné à contenir le spectre en résultat
+ * @param pixelSize Taille d'un pixel
+ *
+ * Construit le spectre du morceau.
+ */
 void MusicPlayer::getSpectrum(int begin, int end, int* tab, unsigned int pixelSize)
 {
 	int max = 0;

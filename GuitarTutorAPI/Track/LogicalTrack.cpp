@@ -32,7 +32,7 @@ LogicalTrack::LogicalTrack(QString newTrackName, QString newArtist, QString newA
 /**
  * @brief LogicalTrack::LogicalTrack
  *
- * Constructeur permettant l'initialisialisation correcte de la classe LogicalTrack.
+ * Constructeur permettant l'initialisation correcte de la classe LogicalTrack.
  */
 LogicalTrack::LogicalTrack(QString newTrackName, QString newArtist, QString newAudoFileName, int newMesure, QList<PartTrack*> newList, int newBar, int newEnd, int newBeginning){
     //, int newTimePerMesure){
@@ -59,9 +59,9 @@ LogicalTrack::~LogicalTrack() {
 
 /**
  * @brief LogicalTrack::SetTrackName
- * @param NewTrackName chaîne de caractères
+ * @param newTrackName Nom de la piste
  *
- * Change la valeur de l'attribut TrackName de la classe LogicalTrack
+ * Change le nom de la piste audio.
  */
 void LogicalTrack::setTrackName(QString newTrackName) {
 
@@ -71,8 +71,7 @@ void LogicalTrack::setTrackName(QString newTrackName) {
 
 /**
  * @brief LogicalTrack::GetTrackName
- *
- * Renvoie la valeur de l'attribut TrackName de la classe LogicalTrack
+ * @return Le nom de la piste audio.
  */
 QString LogicalTrack::getTrackName() {
 
@@ -82,9 +81,9 @@ QString LogicalTrack::getTrackName() {
 
 /**
  * @brief LogicalTrack::SetArtist
- * @param NewArtist chaîne de caractères
+ * @param newArtist Nom de l'artiste
  *
- * Change la valeur de l'attribut Artist de la classe LogicalTrack
+ * Change le nom de l'artiste de la piste.
  */
 void LogicalTrack::setArtist(QString newArtist) {
 
@@ -94,8 +93,7 @@ void LogicalTrack::setArtist(QString newArtist) {
 
 /**
  * @brief LogicalTrack::GetArstist
- *
- * Renvoie la valeur de l'attribut Artist de la classe LogicalTrack
+ * @return Le nom de l'artiste.
  */
 QString LogicalTrack::getArtist() {
 
@@ -104,9 +102,9 @@ QString LogicalTrack::getArtist() {
 
 /**
  * @brief LogicalTrack::SetAudioFileName
- * @param NewFileName chaîne de caractères
+ * @param newAudioFileName Chemin du fichier audio
  *
- * Change la valeur de l'attribut FileName de la classe LogicalTrack
+ * Change le chemin vers le fichier audio.
  */
 void LogicalTrack::setAudioFileName(QString newAudioFileName) {
 
@@ -116,12 +114,11 @@ void LogicalTrack::setAudioFileName(QString newAudioFileName) {
 
 /**
  * @brief LogicalTrack::SetBars
- * @param nBar : nouvelle valeur pour bar
- * @param nBeginning : nouvelle valeur pour beginning
- * @param nEnd : nouvelle valeur pour end
+ * @param nBar Fin de la première mesure en ms
+ * @param nBeginning Début de la première mesure en ms
+ * @param nEnd Fin du dernier accord en ms
  *
- * Change la valeur des attributs bar, beginning et end qui représentent des temps spéciaux pour
- * synchorniser la lecture du morceau audio avec les accords.
+ * Change la valeur timers nécessaires à la synchronisation audio.
  */
 void LogicalTrack::setBars(int nBar, int nBeginning, int nEnd){
 
@@ -133,9 +130,9 @@ void LogicalTrack::setBars(int nBar, int nBeginning, int nEnd){
 
 /**
  * @brief LogicalTrack::SetTimeSignature
- * @param
+ * @param nTS Signature rythmique
  *
- * Change la valeur de timeSignature
+ * Change la valeur de la signature rythmique.
  */
 void LogicalTrack::setTimeSignature(int nTS){
 
@@ -145,8 +142,7 @@ void LogicalTrack::setTimeSignature(int nTS){
 
 /**
  * @brief LogicalTrack::GetAudioFileName
- *
- * Renvoie la valeur de l'attribut AudioFileName de la classe LogicalTrack
+ * @return Le nom du fichier audio.
  */
 QString LogicalTrack::getAudioFileName() {
 
@@ -156,20 +152,17 @@ QString LogicalTrack::getAudioFileName() {
 
 /**
  * @brief LogicalTrack::AddPartTrackToList
- * @param newPartTrack : Partie de moreceau à rajouter
+ * @param newPartTrack Partie de morceau à rajouter
  *
- * Ajoute une PartTrack à la liste des PartTrack de la LogicalTrack
+ * Ajoute une partie à fin la track en cours.
  */
 void LogicalTrack::addPartTrackToList(PartTrack* newPartTrack) {
-
     m_listPartTrack.append(newPartTrack);
-
 }
 
 /**
  * @brief LogicalTrack::getListPartTrack
- *
- * Renvoie un pointeur sur la liste des PartTrack de la LogicalTrack
+ * @return Pointeur sur la liste des parties de la track en cours.
  */
 QList<PartTrack*>& LogicalTrack::getPartTrackList()
 {
@@ -178,8 +171,7 @@ QList<PartTrack*>& LogicalTrack::getPartTrackList()
 
 /**
  * @brief LogicalTrack::getBeginning
- *
- * Renvoie le temps correspondant à beginning.
+ * @return Le temps du début du premier accord.
  */
 int LogicalTrack::getBeginning(){
     return m_beginning;
@@ -187,8 +179,7 @@ int LogicalTrack::getBeginning(){
 
 /**
  * @brief LogicalTrack::getBar
- *
- * Renvoie le temps correspondant à bar.
+ * @return Le temps de fin de la première mesure.
  */
 int LogicalTrack::getBar(){
     return m_bar;
@@ -196,8 +187,7 @@ int LogicalTrack::getBar(){
 
 /**
  * @brief LogicalTrack::getEnd
- *
- * Renvoie le temps correspondant à end.
+ * @return Le temps de fin du dernier accord.
  */
 int LogicalTrack::getEnd(){
     return m_end;
@@ -205,19 +195,19 @@ int LogicalTrack::getEnd(){
 
 /**
  * @brief LogicalTrack::getEnd
- *
- * Renvoie le temps correspondant à la TimeSignature.
+ * @return La signature rythmique du morceau.
  */
 int LogicalTrack::getTimeSignature(){
     return m_timeSignature;
 }
 
 /**
- * @brief LogicalTrack::setRep
+ * @brief LogicalTrack::setChordsPerBar
+ * @param nb Nombre d'accords par mesure.
  *
- * Permet de changer la valeur du nombre d'accords dans une mesure. Si la valeur entrée n'est pas correcte, rep sera mis à -1.
+ * Change la valeur du nombre d'accords dans une mesure. Si la valeur entrée n'est pas correcte, rep sera mis à -1.
  */
-void LogicalTrack::setMesure(int nb){
+void LogicalTrack::setChordsPerBar(int nb){
     if(nb>=0){
         m_chordsPerBar = nb;
     }
@@ -225,33 +215,60 @@ void LogicalTrack::setMesure(int nb){
         m_chordsPerBar = 1;
 }
 
+/**
+ * @brief LogicalTrack::getChordsPerBar
+ * @return Le nombre d'accords par mesure.
+ */
 int LogicalTrack::getChordsPerBar() {
 
     return this->m_chordsPerBar;
 }
 
+/**
+ * @brief LogicalTrack::setLine
+ * @param line Nombre de lignes
+ *
+ * Change le nombre de lignes dans la track.
+ */
 void LogicalTrack::setLine(int line)
 {
     this->m_line = line;
 }
 
-
+/**
+ * @brief LogicalTrack::setColumn
+ * @param col Nombre de colonnes
+ *
+ * Change le nombre de colonnes de la track.
+ */
 void LogicalTrack::setColumn(int col)
 {
     this->m_column = col;
 }
 
+/**
+ * @brief LogicalTrack::getLine
+ * @return Le nombre de lignes de la track.
+ */
 int LogicalTrack::getLine()
 {
     return m_line;
 }
 
-
+/**
+ * @brief LogicalTrack::getColumn
+ * @return Le nombre de colonnes de la ligne.
+ */
 int LogicalTrack::getColumn()
 {
     return m_column;
 }
 
+/**
+ * @brief LogicalTrack::getPartName
+ * @param n Numéro de la partie
+ * @return Le nom de la partie demandée.
+ */
 QString LogicalTrack::getPartName(int n)
 {
     if(n <= m_listPartTrack.size() && n>0){
@@ -260,21 +277,39 @@ QString LogicalTrack::getPartName(int n)
     return m_listPartTrack[m_listPartTrack.size()-1]->getPartName();
 }
 
+/**
+ * @brief LogicalTrack::setComment
+ * @param comment Commentaire sur le morceau
+ *
+ * Modifie le commentaire du morceau.
+ */
 void LogicalTrack::setComment(QString comment)
 {
     this->m_comment = comment;
 }
 
+/**
+ * @brief LogicalTrack::getComment
+ * @return Le commentaire sur le morceau.
+ */
 QString LogicalTrack::getComment()
 {
     return m_comment;
 }
 
+/**
+ * @brief LogicalTrack::getBPM
+ * @return Le BPM du morceau.
+ */
 int LogicalTrack::getBPM()
 {
     return getTimeSignature() * 60000 / (getBar() - getBeginning());
 }
 
+/**
+ * @brief LogicalTrack::getFirstChord
+ * @return Un pointeur vers le premier accord du morceau.
+ */
 TrackChord* LogicalTrack::getFirstChord()
 {
     return getPartTrackList()[0]->getTrackChordsList()[0];

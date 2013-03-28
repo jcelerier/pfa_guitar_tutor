@@ -40,9 +40,8 @@ Tonality::Tonality(const e_Note note, const e_Alteration alteration /*=UNALTERED
 /**
  * @brief Tonality::Tonality
  * @param note Note
- * @param alteration Altération
  *
- * Construit une tonalité à partir d'une note et d'une altération sous forme de chaînes de caractères.
+ * Construit une tonalité à partir d'une note sous forme de chaînes de caractères.
  */
 Tonality::Tonality(const QString note)
 {
@@ -201,6 +200,10 @@ e_Alteration Tonality::extractAlterationFromStr(const QString str)
     return UNALTERED;
 }
 
+/**
+ * @brief Tonality::getTonalitiesStringList
+ * @return La liste des tonalités valides.
+ */
 QStringList Tonality::getTonalitiesStringList() {
     return (QStringList() << "C" << "C#" << "Db" << "D" << "D#" << "Eb" << "E" << "F"
             << "F#" << "Gb" << "G" << "G#" << "Ab" << "A" << "A#" << "Bb" << "B");

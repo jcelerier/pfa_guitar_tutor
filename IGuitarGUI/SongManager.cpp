@@ -21,13 +21,13 @@ SongManager::SongManager(QObject* parent): QObject(parent),
 	m_currentInputChord(0),
 	m_chordControl(new chord_ctrl()),
 
-	m_number_of_valid_chord_checks(0),
-	m_number_of_chord_checks(0),
+    m_numberOfValidChordChecks(0),
+    m_numberOfChordChecks(0),
 
-	m_precision_in_ms(100),
+    m_precisionInMs(100),
     m_elapsedTime(0),
-    m_well_played_chords_in_current_part(0),
-    m_played_chords_in_current_part(0),
+    m_wellPlayedChordsInCurrentPart(0),
+    m_playedChordsInCurrentPart(0),
     m_totalPlayedChords(0),
     m_totalValidatedChords(0),
     m_partRepeated(false)
@@ -51,7 +51,7 @@ SongManager::~SongManager()
 void SongManager::load(LogicalTrack* track)
 {
 	m_elapsedTime = 0;
-	m_number_of_valid_chord_checks = 0;
+    m_numberOfValidChordChecks = 0;
 	m_track = track;
 
 	QMap<QString, QString> multiTracksMap;
@@ -129,7 +129,7 @@ void SongManager::stop()
 
 /**
  * @brief SongManager::mute
- * @param b Booléen : true si on coupe le son.
+ * @param b True si on doit couper le son
  *
  * Gère le mutage - démutage du son.
  */
@@ -140,7 +140,7 @@ void SongManager::mute(bool b)
 
 /**
  * @brief SongManager::goToChord
- * @param chord Accord ou on veut se déplacer
+ * @param chord Accord où on veut se déplacer
  *
  * Déplace la lecture à l'accord passé en paramètre
  */
@@ -159,8 +159,8 @@ void SongManager::goToChord(TrackChord* chord)
 	m_currentChord = chord;
 
 
-    m_number_of_chord_checks = 0;
-    m_number_of_valid_chord_checks = 0;
+    m_numberOfChordChecks = 0;
+    m_numberOfValidChordChecks = 0;
 
     resetChordsFrom(m_currentChord);
 
@@ -169,6 +169,11 @@ void SongManager::goToChord(TrackChord* chord)
 	emit updateChord(m_currentChord);
 }
 
+/**
+ * @brief SongManager::goToBeginning
+ *
+ * Place la lecture en début du morceau.
+ */
 void SongManager::goToBeginning()
 {
 	m_musicManager->goToInMs(0);
@@ -178,6 +183,12 @@ void SongManager::goToBeginning()
 	emit updateChord(m_currentChord);
 }
 
+/**
+ * @brief SongManager::resetChordsFrom
+ * @param chord Accord vers lequel se positionner
+ *
+ * Place la lecture sur un accord donné.
+ */
 void SongManager::resetChordsFrom(TrackChord* chord)
 {
     int validatedToDelete = 0;
@@ -204,12 +215,11 @@ void SongManager::resetChordsFrom(TrackChord* chord)
  * Compare la note jouée avec la note actuelle.
  * Incrémente le pourcentage de réussite si réussi.
  * (à voir en fonction du nombre d'appels dans l'accord).
- *
  * Emet un signal à chaque fois.
  */
 void SongManager::compareChordWithPlayed()
 {
-	++m_number_of_chord_checks;
+    ++m_numberOfChordChecks;
 	double buffer[INPUT_FRAMES_PER_BUFFER];
 	chord_init(m_chordControl, SAMPLE_RATE, INPUT_FRAMES_PER_BUFFER, INPUT_FRAMES_PER_BUFFER);
 
@@ -223,7 +233,7 @@ void SongManager::compareChordWithPlayed()
 
 	if( m_currentInputChord->toString() == m_currentChord->getChord() )
 	{
-		++m_number_of_valid_chord_checks;
+        ++m_numberOfValidChordChecks;
 	}
 }
 
@@ -274,29 +284,29 @@ void SongManager::checkTime()
                 {
                     // si on boucle sur les parties, et s'il est necessaire de boucler
                     if(m_configuration->getLoopSetting() && !m_partRepeated
-                            && (double) m_well_played_chords_in_current_part*100 / (double)iChord->part()->getTrackChordsList().count() < m_configuration->getDifficulty())
+                            && (double) m_wellPlayedChordsInCurrentPart*100 / (double)iChord->part()->getTrackChordsList().count() < m_configuration->getDifficulty())
                     {
-                        m_well_played_chords_in_current_part = 0;
-                        m_totalPlayedChords = m_totalPlayedChords - m_played_chords_in_current_part;
-                        m_played_chords_in_current_part = 0;
+                        m_wellPlayedChordsInCurrentPart = 0;
+                        m_totalPlayedChords = m_totalPlayedChords - m_playedChordsInCurrentPart;
+                        m_playedChordsInCurrentPart = 0;
                         goToChord(iChord->part()->previous()->getTrackChordsList()[0]);
                         m_partRepeated=true;
                         return;
                     }
                     else
                     {
-                        m_played_chords_in_current_part = 0;
-                        m_well_played_chords_in_current_part = 0;
+                        m_playedChordsInCurrentPart = 0;
+                        m_wellPlayedChordsInCurrentPart = 0;
                         m_partRepeated=false;
                     }
                 }
 
                 m_currentChord->setPlaying(false);
-                if((double)m_number_of_valid_chord_checks*100/(double)m_number_of_chord_checks > m_configuration->getDifficulty())
+                if((double)m_numberOfValidChordChecks*100/(double)m_numberOfChordChecks > m_configuration->getDifficulty())
                 {
                     m_currentChord->validate();
                     m_totalValidatedChords++;
-                    ++m_well_played_chords_in_current_part;
+                    ++m_wellPlayedChordsInCurrentPart;
                 }
                 m_currentChord->setPlayed();
                 m_totalPlayedChords++;
@@ -305,8 +315,8 @@ void SongManager::checkTime()
                 m_currentChord = iChord;
                 m_currentChord->setPlaying();
 
-                m_number_of_chord_checks = 0;
-                m_number_of_valid_chord_checks = 0;
+                m_numberOfChordChecks = 0;
+                m_numberOfValidChordChecks = 0;
 
 				// On émet le nouvel accord
 				emit updateChord(iChord);
@@ -329,6 +339,10 @@ TrackChord* SongManager::getCurrentChord()
 	return m_currentChord;
 }
 
+/**
+ * @brief SongManager::getElapsedTime
+ * @return Le temps écoulé depuis le début du morceau.
+ */
 int SongManager::getElapsedTime() {
 	return m_elapsedTime;
 }

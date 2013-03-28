@@ -169,7 +169,6 @@ void BasicChord::setEnrichment(const QString& enrichment)
 /**
  * @brief Chord::extractTonalityFromStr
  * @param str Chaine repésentan l'accord
- * @param tone Pointeur sur une Tonality
  * @return La tonalité extraite.
  *
  * Extrait la tonalité d'une tonalité ou d'un accord sous forme de chaîne de caractères.
@@ -196,7 +195,7 @@ Tonality BasicChord::extractTonalityFromStr(const QString str)
 
 /**
  * @brief Chord::extractEnrichmentFromStr
- * @param str Accord
+ * @param str_enr Accord
  * @return L'enrichissement extrait.
  *
  * Extrait l'enrichissement d'un accord sous forme de chaîne de caractères.
@@ -208,6 +207,11 @@ const Enrichment& BasicChord::extractEnrichmentFromStr(QString const str_enr)
 	return e2;
 }
 
+/**
+ * @brief BasicChord::convertChordToStringList
+ * @param chord
+ * @return
+ */
 QStringList BasicChord::convertChordToStringList(const QString chord)
 {
 	QStringList result;

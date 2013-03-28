@@ -430,7 +430,7 @@ void GridEditor::toXML(QString filename)
 	}
 	track->setTrackName(m_trackProperties->getTrack());
 	track->setArtist(m_trackProperties->getArtist());
-	track->setMesure(m_trackProperties->getBarSize());
+	track->setChordsPerBar(m_trackProperties->getBarSize());
 	track->setComment(m_trackProperties->getComment());
 	track->setTimeSignature(m_trackProperties->getTimeSignature());
 	track->setLine(m_grid->rowCount());

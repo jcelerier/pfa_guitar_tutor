@@ -34,16 +34,16 @@ class MusicManager;
  **/
 typedef struct
 {
-	unsigned short NB_CROSSFADE_FRAMES;
-	float			  		 	crossFadeCurrentValue;
-	unsigned int    	      	frameIndex;  /* Index into sample array. */
-	unsigned int    	      	crossFadeframeIndex;  /* Index into sample array. */
-	unsigned int          		maxFrameIndex;
-	unsigned int 		 		nbChannels;
-	SAMPLE      				*recordedSamples;
-	bool						waitStart;
+    unsigned short NB_CROSSFADE_FRAMES; //!< ?
+    float			  		 	crossFadeCurrentValue; //!< ?
+    unsigned int    	      	frameIndex; //!< ?
+    unsigned int    	      	crossFadeframeIndex; //!< ?
+    unsigned int          		maxFrameIndex; //!< ?
+    unsigned int 		 		nbChannels; //!< Nombre de canaux utilisés par la piste audio
+    SAMPLE      				*recordedSamples; //!< ?
+    bool						waitStart; //!< ?
 
-	MusicManager* musicManager;
+    MusicManager* musicManager; //!< Pointeur vers une instance de MusicManager
 }
 soundData;
 
@@ -77,7 +77,6 @@ public:
 	friend void* musicManagerMainFunction(void* threadArg);
 
 	bool isStarted();
-	QString getCurrentChord() const;
 
 	void fillBufferWithLastInputValues(double* buffer, unsigned int size);
 

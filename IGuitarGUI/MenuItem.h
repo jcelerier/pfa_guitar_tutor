@@ -25,8 +25,7 @@ public:
 	virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget *widget = 0);
 	~MenuItem();
 signals:
-
-	void loadSong();
+    void loadSong(); //!< Signal émis lorsque l'utilisateur demande le chargement d'une grille
 public slots:
 	void closeMenu();
 	void closeGame();

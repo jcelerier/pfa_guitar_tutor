@@ -37,8 +37,8 @@ static double hann_window(int i, int N)
  * @brief chord_init
  * @param c Structure d'accord à initialiser
  * @param samplerate Taux d'échantillonage
- * @param hop ?
- * @param Nombre de frames
+ * @param hop Nombre de hops (?)
+ * @param frame Nombre de frames
  *
  * Initialise les structures chord_ctrl.
  */

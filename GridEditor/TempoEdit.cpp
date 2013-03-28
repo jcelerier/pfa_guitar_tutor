@@ -1,5 +1,9 @@
 #include "TempoEdit.h"
 
+/**
+ * @brief TempoEdit::TempoEdit
+ * @param parent Widget parent
+ */
 TempoEdit::TempoEdit(QWidget *parent) :
 	QSpinBox(parent)
 {

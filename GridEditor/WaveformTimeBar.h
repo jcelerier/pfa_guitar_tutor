@@ -21,7 +21,6 @@ class WaveformTimeBar : public QWidget
 
 		~WaveformTimeBar();
 		void draw();
-		void drawText();
 		void drawTimeSliders();
 
 
@@ -31,9 +30,6 @@ class WaveformTimeBar : public QWidget
 		void mousePressEvent( QMouseEvent * event );
 		void mouseMoveEvent(QMouseEvent * event);
 		void mouseReleaseEvent(QMouseEvent * event);
-
-		void moveLeft(WaveformTimeSlider * slider);
-		void moveRight(WaveformTimeSlider * slider);
 
 		//PrecisionLevel computePrecisionLevel();
 		//double computeLogPrecisionLevel();

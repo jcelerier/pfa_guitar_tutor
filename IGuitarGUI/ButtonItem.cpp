@@ -22,7 +22,6 @@ ButtonItem::ButtonItem(const QPixmap & pixmap, QGraphicsItem * parent):
 
 /**
  * @brief ButtonItem::mousePressEvent
- * @param e Evènement
  *
  * Méthode appelée lors d'un clic souris sur un bouton.
  */

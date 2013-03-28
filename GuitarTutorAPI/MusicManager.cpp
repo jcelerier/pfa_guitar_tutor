@@ -43,6 +43,8 @@ void* musicManagerMainFunction(void* threadArg);
  * @brief MusicManager::MusicManager
  * @param tracks Liste des pistes qui seront chargées par l'objet (mapping)
  * @param muteTracks Pistes en mode sourdine
+ * @param inputDevice Périphérique d'entrée audio
+ * @param outputDevice Périphérique de sortie audio
  *
  * Constructeur de MusicManager
  */

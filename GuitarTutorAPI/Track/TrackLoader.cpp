@@ -158,7 +158,7 @@ bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* cu
 		return false;
 	}
 
-	currentTrack->setMesure(m.toInt());
+    currentTrack->setChordsPerBar(m.toInt());
 
 	QDomNode partNode = root.firstChild();
 

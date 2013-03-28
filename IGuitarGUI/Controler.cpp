@@ -83,9 +83,10 @@ void Controler::currentChordSlot(TrackChord* chord)
 
 /**
  * @brief Controler::updateStats
- * @param nombre valides, nombre joues
+ * @param validated Nombres d'accords validés
+ * @param played Nombre total d'accords joués
  *
- * Met a jour l'interface avec le nombre d'accords joues
+ * Met a jour les statistiques sur l'interface.
  *
  */
 void Controler::updateStats(int validated, int played) {

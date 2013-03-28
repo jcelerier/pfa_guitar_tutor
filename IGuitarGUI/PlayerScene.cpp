@@ -211,7 +211,11 @@ void PlayerScene::mousePressEvent(QGraphicsSceneMouseEvent*e)
     QGraphicsScene::mousePressEvent(e);
 }
 
-
+/**
+ * @brief PlayerScene::play
+ *
+ * Démarre la lecture du morceau.
+ */
 void PlayerScene::play()
 {
     if(m_itemMap["menu"]->isVisible())
@@ -241,6 +245,12 @@ void PlayerScene::play()
         m_controler->initSong();
 
 }
+
+/**
+ * @brief PlayerScene::pause
+ *
+ * Met le morceau en pause.
+ */
 void PlayerScene::pause()
 {
     if(m_isPlaying) {
@@ -248,6 +258,12 @@ void PlayerScene::pause()
         m_controler->pauseSong();
     }
 }
+
+/**
+ * @brief PlayerScene::stop
+ *
+ * Arrete la lecture et revient au début.
+ */
 void PlayerScene::stop()
 {
     if(m_itemMap["menu"]->isVisible())
@@ -261,6 +277,12 @@ void PlayerScene::stop()
     m_isPlaying = false;
     m_controler->stopSong();
 }
+
+/**
+ * @brief PlayerScene::back
+ *
+ * Retourne au début du morceau.
+ */
 void PlayerScene::back()
 {
     if(m_itemMap["menu"]->isVisible())
@@ -269,6 +291,11 @@ void PlayerScene::back()
     play();
 }
 
+/**
+ * @brief PlayerScene::switchMute
+ *
+ * Alterne entre coupure et activation de la sortie audio.
+ */
 void PlayerScene::switchMute()
 {
     if(m_loaded) {
@@ -287,6 +314,11 @@ void PlayerScene::switchMute()
     }
 }
 
+/**
+ * @brief PlayerScene::switchPlay
+ *
+ * Alterne entre lecture et pause.
+ */
 void PlayerScene::switchPlay()
 {
     if(m_itemMap["menu"]->isVisible())
@@ -334,6 +366,14 @@ void PlayerScene::updateScene()
 
 }
 
+/**
+ * @brief PlayerScene::updateConfiguration
+ * @param isLoopingActive True si le bouclage sur parties doit etre activé, false sinon
+ * @param difficulty Niveau de difficulté
+ * @param continueMode Type de reprise
+ *
+ * Met à jour la configuration du jeu.
+ */
 void PlayerScene::updateConfiguration(bool isLoopingActive, int difficulty, int continueMode)
 {
     m_controler->getConfiguration()->setDifficulty(difficulty);
@@ -343,7 +383,7 @@ void PlayerScene::updateConfiguration(bool isLoopingActive, int difficulty, int 
 
 /**
  * @brief PlayerScene::setPlayedChord
- * @param playedChord Accord reconnu actuellement
+ * @param ch Accord reconnu actuellement
  *
  * Affiche l'accord joué par l'utilisateur sur l'interface et met à jour la durée de synchronisation.
  */
@@ -387,15 +427,29 @@ void PlayerScene::displayDictionary()
     m_dictionary->show();
 }
 
+/**
+ * @brief PlayerScene::displayOptions
+ *
+ * Affiche le widget des options.
+ */
 void PlayerScene::displayOptions() {
 
     m_configPanel->show();
 }
 
+/**
+ * @brief PlayerScene::getControler
+ * @return Un pointeur vers le controleur parent
+ */
 Controler* PlayerScene::getControler() {
     return m_controler;
 }
 
+/**
+ * @brief PlayerScene::playCountdown
+ *
+ * Affiche un compte à rebours au démarrage ou à la reprise de la partie.
+ */
 void PlayerScene::playCountdown() {
     QString num;
     if(m_cntdown > 0) {
@@ -415,7 +469,12 @@ void PlayerScene::playCountdown() {
     }
 }
 
-
+/**
+ * @brief PlayerScene::setSceneToChord
+ * @param tc Accord sur lequel se positionner
+ *
+ * Met à jour l'interface selon le nouvel accord courant.
+ */
 void PlayerScene::setSceneToChord(TrackChord* tc) {
 
     ((EntireSong*)m_itemMap["entireSong"])->setCurrentChord(tc);
@@ -425,6 +484,12 @@ void PlayerScene::setSceneToChord(TrackChord* tc) {
     m_lastChord = tc;
 }
 
+/**
+ * @brief PlayerScene::loadSong
+ * @param track Track à charger
+ *
+ * Initialise l'interface avec la LogicalTrack donnée.
+ */
 void PlayerScene::loadSong(LogicalTrack* track) {
     if(m_itemMap["entireSong"] != 0) {
         delete m_itemMap["entireSong"];

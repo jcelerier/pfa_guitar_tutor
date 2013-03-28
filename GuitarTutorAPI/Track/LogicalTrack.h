@@ -35,7 +35,7 @@ public:
 
 	QList<PartTrack *> &getPartTrackList();
 
-	void setMesure(int nb);
+    void setChordsPerBar(int nb);
 	void setBars(int nBar, int nBeginning, int nEnd);
 	void setTimeSignature(int nTS);
 
@@ -52,9 +52,6 @@ public:
 
 	int getTimeSignature();
 	int getBPM();
-
-	int getPositionOfChordInMs(TrackChord*);
-
 
 	void addPartTrackToList(PartTrack* newPartTrack);
 	QString getPartName(int n);

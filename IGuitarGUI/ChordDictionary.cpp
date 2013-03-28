@@ -6,7 +6,6 @@
 
 /**
  * @brief ChordDictionary::ChordDictionary
- * @param chordList Liste des accords à mettre dans le dictionnaire
  * @param parent Widget parent
  *
  * Constructeur.

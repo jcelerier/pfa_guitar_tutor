@@ -20,6 +20,13 @@ PartTrack::PartTrack(QString newPartName) {
 	m_partName = newPartName;
 }
 
+/**
+ * @brief PartTrack::PartTrack
+ * @param newPartName Nom de la partie
+ * @param newListChords Liste des accords de la partie
+ *
+ * Constructeur surchargé pour une initialisation complète de PartTrack.
+ */
 PartTrack::PartTrack(QString newPartName, QList<TrackChord*> newListChords){
 	m_partName = newPartName;
 	m_listTrackChords = newListChords;

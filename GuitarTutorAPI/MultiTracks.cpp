@@ -8,6 +8,10 @@
 #include "MultiTracks.h"
 #include <climits>
 
+/**
+ * @brief MultiTracks::MultiTracks
+ * @param tracks Liste des tracks
+ */
 MultiTracks::MultiTracks(QMap<QString, QString>& tracks)
 {
 	m_bufferSize = INT_MAX;
@@ -29,6 +33,10 @@ MultiTracks::MultiTracks(QMap<QString, QString>& tracks)
 	m_buffer = new float[m_bufferSize * m_nbChannels];
 }
 
+/**
+ * @brief MultiTracks::MultiTracks
+ * @param silenceTimeInMs Temps de silence entre les tracks
+ */
 MultiTracks::MultiTracks(unsigned int silenceTimeInMs)
 {
 	Track currentTrack(silenceTimeInMs);
@@ -40,10 +48,18 @@ MultiTracks::MultiTracks(unsigned int silenceTimeInMs)
 	m_buffer = new float[m_bufferSize * m_nbChannels];
 }
 
+/**
+ * @brief MultiTracks::~MultiTracks
+ */
 MultiTracks::~MultiTracks() {
 	//delete [] m_buffer;
 }
 
+/**
+ * @brief MultiTracks::changeTrackMuteState
+ * @param trackName Nom de la track
+ * @param muteState True si le son doit etre coupé, false sinon
+ */
 void MultiTracks::changeTrackMuteState(QString trackName, bool muteState)
 {
     QMap<QString, Track>::Iterator iter = m_tracks.find(trackName);
@@ -53,6 +69,11 @@ void MultiTracks::changeTrackMuteState(QString trackName, bool muteState)
 	}
 }
 
+/**
+ * @brief MultiTracks::isTrackMute
+ * @param trackName Nom de la track
+ * @return True si la track est en mode silence, false sinon.
+ */
 bool MultiTracks::isTrackMute(QString trackName)
 {
     QMap<QString, Track>::Iterator iter = m_tracks.find(trackName);
@@ -63,11 +84,20 @@ bool MultiTracks::isTrackMute(QString trackName)
     return true;
 }
 
+/**
+ * @brief MultiTracks::getBuffer
+ * @return Le buffer utilisé dans MultiTracks
+ */
 float* MultiTracks::getBuffer() const
 {
 	return m_buffer;
 }
 
+/**
+ * @brief MultiTracks::generateMusic
+ *
+ * Lance la lecture.
+ */
 void MultiTracks::generateMusic()
 {
 	for (int i = 0; i < m_bufferSize * m_nbChannels; ++i) {
@@ -87,11 +117,19 @@ void MultiTracks::generateMusic()
 	}
 }
 
+/**
+ * @brief MultiTracks::getBufferSize
+ * @return La taille du buffer
+ */
 int MultiTracks::getBufferSize() const
 {
 	return m_bufferSize;
 }
 
+/**
+ * @brief MultiTracks::getNbChannels
+ * @return Le nombre de canaux utilisés par les tracks.
+ */
 int MultiTracks::getNbChannels() const
 {
 	return m_nbChannels;

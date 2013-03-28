@@ -78,7 +78,8 @@ bool Enrichment::isEmpty() const{
 
 /**
  * @brief Enrichment::extractEnrichmentsFromStr
- * @param str Chaîne de caractères à partir de laquelle faire l'extraction
+ * @param str_enr Chaîne de caractères à partir de laquelle faire l'extraction
+ * @param e Enrichissement de l'accord
  * @return L'enrichissement extrait.
  *
  * Extrait un enrichissement à partir d'une chaîne de caractères. Attention la chaine Bm7sus2 retournera la liste
