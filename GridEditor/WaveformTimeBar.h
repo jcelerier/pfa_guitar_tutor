@@ -40,7 +40,6 @@ class WaveformTimeBar : public QWidget
 		void timeChanged(int, QTime);
 		void somethingChanged();
 		void playSliderModified(int position);
-
 	public slots:
 		void update();
 		void setTimer(int type, QTime t);

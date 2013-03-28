@@ -44,8 +44,8 @@ class Tonality
         static QStringList getTonalitiesStringList();
 private:
         QRegExp m_noteRegExp;
-		e_Note m_baseNote;
-		e_Alteration m_alteration;
+        e_Note m_baseNote;
+        e_Alteration m_alteration;
 };
 
 #endif // TONALITY_H

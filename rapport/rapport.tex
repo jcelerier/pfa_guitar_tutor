@@ -125,7 +125,7 @@ Il nous a été conseillé dès le début du projet d'adopter le modèle MVC. En
 \end{itemize}
 L'idée était de mettre ce \textit{reste} dans une bibliothèque qui serait appelée à la fois par l'éditeur et par le lecteur (même si ce ne sont pas forcément les mêmes parties qui les intéressent). La figure \ref{mvc} résume cette organisation.
 
-\begin{figure}[!ht]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width=300px]{mvc.png}
 \caption{Le modèle MVC dans notre code}
@@ -147,7 +147,7 @@ Nous avons ensuite ajouté de nouvelles classes pour modéliser les accords de m
 
 Cette découpe des modèles se répercute dans l'architecture de ces classes (voir le diagramme de classes de la figure \ref{diag_api_chords}). Bien sûr, différentes méthodes ont été implémentées pour ces différentes classes, bien qu'en réalité peu d'entre elles soient réellement utilisées par GuitarTutor. C'était néanmoins un bon moyen de repartir sur de bonnes bases au début du projet, et certaines de ces méthodes nous ont finalement été utiles plus tard dans la phase de développement. C'est pourquoi nous avons décidé de les laisser dans l'API, dans le cas probable qu'elles soient utiles plus tard à GuitarTutor.
 
-\begin{figure}[!ht]
+\begin{figure}[H]
 \begin{center}
 \begin{tikzpicture}
 \umlclass[x=-7, y=0]{Chord}{
@@ -182,7 +182,7 @@ Ultérieurement, c'est la classe \textit{LogicalTrack} que nous avons mise en pl
 
 Là encore, le découpage des classes découle parfaitement de cette vision d'une grille (figure \ref{diag_api_tracks}). Parallèlement, la classe \textit{TrackLoader}, elle aussi dans l'API, contient deux méthodes statiques qui permettent la conversion d'une instance de \textit{LogicalTrack} vers un fichier XML, ou inversement.
 
-\begin{figure}[!ht]
+\begin{figure}[H]
 \begin{center}
 \begin{tikzpicture}
 \umlclass[x=-13, y=0]{LogicalTrack}{
@@ -216,7 +216,7 @@ Le rôle de l'éditeur est d'assister l'utilisateur pour construire une grille d
 La classe \textit{GridEditor} orchestre donc l'ensemble des actions de l'utilisateur sur chacune de ces sous-composantes en répercutant les effets sur les autres composantes. Par exemple, changer le nombre d'accords par mesure dans \textit{TrackProperties} va changer l'affichage du \textit{ChordTableWidget}; ou encore, changer le tempo dans l'objet \textit{AudioWindow} va décaler les temps de chaque \textit{CaseItem}.
 
 
-\begin{figure}[!ht]
+\begin{figure}[H]
 \begin{center}
 \begin{tikzpicture}
 \umlclass[x=-7, y=0]{GridEditor}{
@@ -251,7 +251,7 @@ La classe \textit{GridEditor} orchestre donc l'ensemble des actions de l'utilisa
 
 \subsubsection{Le lecteur}
 
-\begin{figure}[!ht]
+\begin{figure}[H]
 \begin{center}
 \begin{tikzpicture}
 \umlclass[x=-7, y=0]{Controler}{
@@ -285,6 +285,9 @@ m\_track : LogicalTrack *}{}
 
 \clearpage
 
+
+
+
 \section{Problèmes rencontrés, problèmes résolus}
 
 Le développement de GuitarTutor ne s'est pas fait sans heurts. Nous sommes néanmoins parvenus à résoudre les différents problèmes auxquels nous avons été confrontés au cours des phases de développement.
@@ -299,6 +302,19 @@ Passés ces quelques semaines de nettoyage et d'assimilation du code existant, n
 
 \subsection{Refonte de l'interface du lecteur}
 
+Le refonte totale de l'interface du lecteur s'est présenté comme un véritable challenge. Il s'agissait en effet de supprimer tout ce qui concernait l'interface dans le projet existant, et d'y mettre à la place notre propre code. Évidemment, il n'était pas question de se limiter à une structure identique à l'interface existante, celle-ci étant véritablement limitée en terme de fonctionnalités, et m\^eme carrément repoussante pour un jeune guitariste débutant. Fort heureusement, le lecteur était déjà plut\^ot bien décomposé selon le modèle MVC, ce qui nous a tout de m\^eme motivé à tenter l'expérience.
+
+La nouvelle interface a donc été développée seule, totalement séparée du reste du projet, en utilisant des faussaires pour simuler une grille d'accords, et selon une maquette que nous avions soumise à nos clients (voir figure \ref{annexe_proto_player} en annexe). Ce n'est qu'au bout de plusieurs semaines de développement que nous avons enfin pu intégrer la nouvelle interface au reste du projet. Cette intégration ne s'est pas faite sans heurts, mais a finalement aboutie, comme nous l'espérions (voir figure \ref{interface_player}).
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=175px]{ancien_player.png}
+\includegraphics[width=275px]{interface_player.png}
+\caption{L'interface du lecteur a été entièrement refaite}
+\label{interface_player}
+\end{center}
+\end{figure}
+
 \subsection{Portabilité}
 
 La portabilité du logiciel, notamment sur Mac OS et Windows, faisait partie des principales demandes des clients. Les librairies utilisées jusque là était censées fonctionner à la fois sur Mac OS, Windows et GNU/Linux, et c'était une bonne raison pour ne pas en changer.
@@ -307,7 +323,7 @@ Nous nous sommes cependant rapidement rendus à l'évidence: on ne développe pa
 
 \subsubsection*{Sur Mac OS}
 
-Personne, dans notre équipe, n'ayant une machine sous Mac OS, nous avons dû nous contenter d'une version de Mountain Lion en machine virtuelle. Outre un problème d'extrême lenteur lors de la compilation et divers autres soucis liés à la connexion internet et la reconnaissance des ports USB, il était impossible de vérifier le bon fonctionnement du lecteur, puisque l'entrée audio de la VM n'était pas activé. Nous avons donc pendant longtemps développé \textit{``à l'aveugle''} sous Mac OS, où tout ce que nous pouvions faire était de vérifier que la compilation se faisait correctement.
+Personne, dans notre équipe, n'ayant une machine sous Mac OS, nous avons dû nous contenter d'une version de Mountain Lion en machine virtuelle. Outre un problème d'extrême lenteur lors de la compilation et divers autres soucis liés à la connexion internet et la reconnaissance des ports USB, il était impossible de vérifier le bon fonctionnement du lecteur, puisque l'entrée audio de la VM n'était pas activée. Nous avons donc pendant longtemps développé \textit{``à l'aveugle''} sous Mac OS, où tout ce que nous pouvions faire était de vérifier que la compilation se faisait correctement.
 
 Fort heureusement, un test sur une vraie machine Mac début mars nous a confirmé que le projet était bien compatible, et nous en avons également profité pour vérifier le fonctionnement de notre installateur.
 
@@ -322,6 +338,8 @@ Il s'agit du seul des trois systèmes d'exploitation pour lequel nous n'avons pa
 \clearpage
 
 \section{Discussion sur les choix opérés}
+
+Du début jusqu'à la fin du projet, nous avons dû faire des choix de conduite. Nous recenserons dans cette partie les principales questions que nous nous sommes posées sur la marche à suivre.
 
 \subsection{Environnement logiciel}
 
@@ -429,6 +447,11 @@ Nous avons gardé la base de l'interface de l'éditeur, à savoir le système de
 \end{center}
 \end{figure}
 
+
+\subsubsection*{Quelques mots sur l'interface}
+
+Un des points importants qui étaient à prendre en compte lors du développement était le fait qu'il fallait réaliser un logiciel accessible. L'expérience utilisateur était par conséquent un des facteurs clés. Le problème était que la tâche à réaliser demandait un savoir-faire particulier (par exemple, synchroniser un tableau avec un morceau de musique), et il était donc primordial de la rendre le plus accessible possible, sans pour autant limiter les fonctionnalités.
+
 Nous avons fait le choix de penser en premier lieu à l'expérience utilisateur, en créant une interface qui soit à la fois accessible et esthétique. Nous avons par exemple apporté:
 \begin{itemize}
  \item la traduction en Français de l'interface
@@ -439,26 +462,48 @@ Nous avons fait le choix de penser en premier lieu à l'expérience utilisateur,
  \item \dots
 \end{itemize}
 
-\subsubsection{Sur le lecteur}
+Le principal défi aura été de faciliter la synchronisation entre le morceau et la grille. Nous avons dans un premier temps mis en place un lecteur audio au sein de l'éditeur afin que l'utilisateur puisse aisément écouter le morceau qu'il est en train de créer. C'est ensuite qu'est venue l'idée d'utiliser trois marqueurs temporels pour définir cette synchronisation:
+\begin{enumerate}
+ \item Un marqueur pour le premier accord du morceau
+ \item Un second marqueur pour signaler la fin de la première mesure
+ \item Et un dernier pour signaler la fin du dernier accord du morceau
+\end{enumerate}
+Une fois les temps associés définis précisément, il est facile de définir le temps de début de chaque accord dans le morceau (voir l'algorithme sur la figure \ref{editor_time_caseitems}). Cette méthode nous a semblé particulièrement adaptée à notre situation, puisque les morceaux ciblés par l'application sont des morceaux qui sont rythmiquement très stables (c'est-à-dire que la durée de chaque mesure est supposée constante). De cette façon, l'utilisateur ne doit que très peu intervenir en comparaison avec l'ancienne méthode qui consistait à lui faire taper chaque temps du morceau.
 
-En ce qui concerne le lecteur, nous n'avons dans un premier temps que modifié l'interface. Celle-ci a été refaite intégralement selon la maquette qui avait en janvier (voir la figure \ref{annexe_proto_player} en annexe). Notre travail a finalement abouti à une interface semblable aux exigences qui avaient été fixées, certains détails ayant été revus en cours de développement en accord avec nos clients. L'objectif printipal était de rendre le programme beaucoup plus convivial, mais aussi plus accessible. L'interface actuelle est présentée en figure \ref{interface_player}.
-
-\begin{figure}[!ht]
-\begin{center}
-\includegraphics[width=175px]{ancien_player.png}
-\includegraphics[width=275px]{interface_player.png}
-\caption{L'interface du lecteur a été entièrement refaite}
-\label{interface_player}
-\end{center}
+\begin{figure}[H]
+\begin{lstlisting}
+for (int r = 0 ; r < rmax ; r++) //Parcours des lignes
+{
+	for (int c = 0 ; c < cmax - 1 ; c ++) //Parcours des colonnes
+	{
+		QTime caseTime = MsecToTime(
+				    (TimeToMsec(beginning) +
+				      ((TimeToMsec(bar) - TimeToMsec(beginning))
+				        /m_barsize)
+				    * (r * (cmax - 1) + c)));
+		((CaseItem*) item(r,c))->setBeginning(caseTime);
+	}
+}
+\end{lstlisting}
+\caption{Mise en place des temps de début des accords en fonction des marqueurs entrés par l'utilisateur, extrait de \texttt{ChordTableWidget::setTimeInfo}}
+\label{editor_time_caseitems}
 \end{figure}
 
-Dans un deuxième temps, nous avons fait le choix de revoir le fonctionnement interne du lecteur. Comme évoqué précédement, nous avons ainsi commencé par remplacer la librairie \textit{libsndfile} par FMOD en vue de supporter de nouveaux formats audio. FMOD se charge en fait d'ouvrir le fichier audio demandé et de le mettre en mémoire. La gestion à proprement parler du son reste la tâche de PortAudio.
+La question était donc de trouver un moyen simple pour pouvoir indiquer de façon précise chacun de ces trois marqueurs temporels. Il nous est tout de suite venu à l'esprit d'utiliser les formes d'ondes du fichier audio désiré pour mieux cibler les débuts des accords. FMOD, pour les données spectrales, et Qt, pour l'interface, ont été très utiles pour l'implémentation. Un zoom a également été mis en place sur cette même forme d'onde, ainsi que le positionnement des timers directement \textit{sur} la forme d'onde. Au final, le marquage devient une tâche relativement aisée et rapide (figure \ref{editor_waveform}).
+
+
+
+\subsubsection{Sur le lecteur}
+
+En ce qui concerne le lecteur, nous n'avons dans un premier temps que modifié l'interface. Celle-ci a été refaite intégralement selon la maquette qui avait en janvier (voir la figure \ref{annexe_proto_player} en annexe). Notre travail a finalement abouti à une interface semblable aux exigences qui avaient été fixées, certains détails ayant été revus en cours de développement en accord avec nos clients. L'objectif principal était de rendre le programme beaucoup plus convivial, mais aussi plus accessible. L'interface actuelle est présentée en figure \ref{interface_player}.
+
+Dans un deuxième temps, nous avons fait le choix de revoir le fonctionnement interne du lecteur. Comme évoqué précédemment, nous avons ainsi commencé par remplacer la librairie \textit{libsndfile} par FMOD en vue de supporter de nouveaux formats audio. FMOD se charge en fait d'ouvrir le fichier audio demandé et de le mettre en mémoire. La gestion à proprement parler du son reste la tâche de PortAudio.
 
 C'est ensuite toute la librairie \textit{IScoreLight} que nous avons faite disparaître. En effet, celle-ci comportait plusieurs dizaines de fichiers sources qui, au final, n'étaient pas exploités. Les quelques parties de la librairie qui nous étaient utiles ont donc été reprises et fusionnées au sein de la classe \texttt{SongManager}.
 
 Finalement, il ne reste aujourd'hui de la première version du lecteur que la gestion bas niveau du son, notamment l'analyse des accords effectuée par la librairie \textit{EHPCP}. Ce tri nous a permis d'améliorer grandement les performances, notamment lors de la compilation du programme (cf figure \ref{refonte_code}).
 
-\begin{figure}[!ht]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width=300px]{refonte_code.png}
 \caption{Suppression des bibliothèques Boost et IScoreLight du projet}
@@ -504,7 +549,7 @@ Les avantages de travailler de la sorte se sont révélés au cours du projet. T
 
 La figure \ref{agile} résume ce processus.
 
-\begin{figure}[!ht]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width=450px]{methode_agile.png}
 \caption{Schéma du processus de développement agile}
@@ -529,6 +574,8 @@ De manière générale, cette méthode de développement semble avoir bien fonct
 Nos clients avaient été très clair à ce sujet lors de la présentation du projet: l'objectif était, à la fin du PFA, de fournir deux programmes totalement fonctionnels, et prêts pour une démonstration en école de musique.
 
 Nous avons remis à nos clients, peu de temps avant la date finale des projets, une version en \textit{pre-release} de GuitarTutor afin qu'ils puissent avoir un réel aperçu du programme, et que nous puissions, le cas échéant, corriger quelques détails. Ceux-ci semblent avoir été particulièrement satisfaits du travail que nous avons réalisé, et c'est là le plus important pour notre propre satisfaction. Le deuxième point est sans doute le fait que nous pensons clairement avoir atteints les objectifs qui étaient demandés. Nous avons en effet réalisé une suite logicielle qui, à notre sens, semble parfaitement utilisable dans le contexte cible - c'est-à-dire en école de musique -, et c'était d'ailleurs ce vers quoi nous avons orienté notre développement. La compatibilité du projet sur les systèmes Windows et Mac est elle aussi parfaitement respectée, malgré les difficultés loin d'être négligeables auxquelles nous avons été confrontés.
+
+En sus, la reprise de l'ancien code nous a fait comprendre l'importance de produire un code de qualité et de tout faire pour faciliter la reprise ultérieure, éventuellement par des personnes tierces. C'est pourquoi nous avons soigné notre code source en fournissant une documentation exhaustive de notre travail ainsi qu'un code propre et clair (du moins, selon nos critères). Des optimisations ont également été apportées alors qu'elles n'étaient pas explicitement demandées, telles que le nettoyage des librairies inutilisées, la gestion du format MP3, la limitation des fuites mémoires, ou encore l'utilisation d'OpenGL pour améliorer les performances.
 
 \subsection*{Un travail d'équipe, une expérience de travail profesionnel}
 

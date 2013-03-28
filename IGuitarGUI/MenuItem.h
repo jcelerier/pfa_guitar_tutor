@@ -9,6 +9,10 @@
 
 /**
  * @brief Menu de l'interface
+ * Est un objet de scene gerant les signaux et les slots.
+ * Contient les divers elements de menu
+ *
+ * Penser a changer la taille de la boite de dialogue lors de l'ajout d'elements
  */
 class MenuItem : public QGraphicsObject
 {
@@ -28,14 +32,14 @@ public slots:
 
 	void help();
 private:
-	int m_width;
+    int m_width; // Taille de la boite de menu
 	int m_height;
-	int m_nbElts;
-	QGraphicsRectItem * m_rect;
-	QMap <QString, QGraphicsItem*> m_menuMap;
-	HelpWindow* m_helpWindow;
-	QGraphicsRectItem* m_menuBack;
-	void addElt(QString, QString);
+    int m_nbElts; // Nombres d'elements dans le menu
+    QGraphicsRectItem * m_rect; // Boite du menu
+    QMap <QString, QGraphicsItem*> m_menuMap;   // Map des elements du menu
+    HelpWindow* m_helpWindow;   // Boite d'aide
+    QGraphicsRectItem* m_menuBack;  // Calque de fond masquant le reste de l'interface
+    void addElt(QString, QString);  // Ajoute un element au menu
 };
 
 #endif // MENUITEM_H
