@@ -17,13 +17,13 @@
  */
 typedef struct chord_ctrl
 {
-  float chroma[CHROMA_SIZE];
-  int num_frames;
-  int samplerate;
-  int max_size_chroma_used;
-  int hop;
-  int frame;
-  int total_samples;
+  float chroma[CHROMA_SIZE]; //!< ?
+  int num_frames; //!< Nombre de frames
+  int samplerate; //!< Taux d'échantillonage
+  int max_size_chroma_used; //!< ?
+  int hop; //!< ?
+  int frame; //!< ?
+  int total_samples; //!< Nombre total de samples
   
 } chord_ctrl;
 

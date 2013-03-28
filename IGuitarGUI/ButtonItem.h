@@ -21,7 +21,7 @@ public:
 
     void changeImage(QPixmap);
 signals:
-    void pushed();
+    void pushed(); //!< Signal émis lors d'un clic sur le bouton
 private:
     QGraphicsPixmapItem* m_image;
 };

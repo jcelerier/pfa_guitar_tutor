@@ -45,9 +45,9 @@ class Configuration
         QString getSongDirectory() const;
         void setSongDirectory(QString);
 
-		static int const framesPerSec=60;
-		static int const originalWidth=ORIGINAL_WIDTH;
-		static int const originalHeight=ORIGINAL_HEIGHT;
+        static int const framesPerSec=60; //!< Nombre d'images par seconde sur l'interface
+        static int const originalWidth=ORIGINAL_WIDTH; //!< Largeur de la fenetre par défaut
+        static int const originalHeight=ORIGINAL_HEIGHT; //!< Hauteur de la fenetre par défaut
 
 		static float getQuotient();
 		static QRect getWindowSize();

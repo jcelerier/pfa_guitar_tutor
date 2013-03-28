@@ -81,6 +81,12 @@ ChordTableWidget::ChordTableWidget(int column, int row, QWidget* parent) : QTabl
 
 }
 
+/**
+ * @brief ChordTableWidget::deepCopy
+ * @param target Pointeur où copier l'état actuel
+ *
+ * Copie l'état actuel dans un ChordTableWidget.
+ */
 void ChordTableWidget::deepCopy(ChordTableWidget* target)
 {
 	for(int i = 0; i < rowCount(); ++i)
@@ -783,7 +789,12 @@ void ChordTableWidget::itemChanged_slot(QTableWidgetItem *qitem)
 	}
 }
 
-
+/**
+ * @brief ChordTableWidget::currentItemChanged_slot
+ * @param current Case qui vient d'etre désélectionnée
+ *
+ * Fonction à appeler lorsque l'utilisateur change de case dans la grille.
+ */
 void ChordTableWidget::currentItemChanged_slot(QTableWidgetItem* current, QTableWidgetItem*)
 {
 	if(current->column() != columnCount() - 1)

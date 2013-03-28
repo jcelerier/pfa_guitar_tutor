@@ -5,7 +5,10 @@
 #include "GridEditor.h"
 #include "TrackProperties.h"
 
-
+/**
+ * @brief CaseItemDelegate::CaseItemDelegate
+ * @param parent Widget parent
+ */
 CaseItemDelegate::CaseItemDelegate(QWidget *parent) :
 	QStyledItemDelegate(parent), m_barsize(1)
 {
@@ -13,13 +16,21 @@ CaseItemDelegate::CaseItemDelegate(QWidget *parent) :
 	m_partFont = new QFont("Arial", 8, QFont::Bold);
 }
 
-
+/**
+ * @brief CaseItemDelegate::~CaseItemDelegate
+ */
 CaseItemDelegate::~CaseItemDelegate()
 {
 	delete m_partFont;
 	delete m_barPen;
 }
 
+/**
+ * @brief CaseItemDelegate::paint
+ * @param painter QPainter à utiliser pour formater la case
+ * @param option Options pour le formatage de la case
+ * @param index Index de la case dans le modèle
+ */
 void CaseItemDelegate::paint(QPainter *painter,
 							 const QStyleOptionViewItem &option,
 							 const QModelIndex &index) const
@@ -34,6 +45,12 @@ void CaseItemDelegate::paint(QPainter *painter,
 	}
 }
 
+/**
+ * @brief CaseItemDelegate::paintPartText
+ * @param painter QPainter à utiliser pour formater la case
+ * @param rect Surface à formater
+ * @param item Case à formater
+ */
 void CaseItemDelegate::paintPartText(QPainter *painter, const QRect& rect, CaseItem* item) const
 {
 	painter->save();
@@ -48,6 +65,12 @@ void CaseItemDelegate::paintPartText(QPainter *painter, const QRect& rect, CaseI
 
 }
 
+/**
+ * @brief CaseItemDelegate::paintBar
+ * @param painter QPainter à utiliser pour formater la case
+ * @param rect Surface à formater
+ * @param item Case à formater
+ */
 void CaseItemDelegate::paintBar(QPainter *painter, const QRect& rect, CaseItem* item) const
 {
 	painter->save();
@@ -88,6 +111,10 @@ void CaseItemDelegate::paintBar(QPainter *painter, const QRect& rect, CaseItem* 
 	painter->restore();
 }
 
+/**
+ * @brief CaseItemDelegate::setBarSize
+ * @param s Nombre d'accords par mesure
+ */
 void CaseItemDelegate::setBarSize(int s)
 {
 	m_barsize = s;
