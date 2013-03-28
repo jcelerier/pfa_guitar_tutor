@@ -1,6 +1,6 @@
 #include "Enrichment.h"
 
-QStringList Enrichment::listOfEnrichmentString = QStringList() <<""<<"m"/*<<"+"<<"-"<<"sus2"<<"sus4"<<"b5"<<"6"<<"7"<<"9"<<"11"<<"13"*/;
+QStringList Enrichment::listOfEnrichmentString = QStringList() <<""<<"m" /*<<"+"<<"-"<<"sus2"<<"sus4"<<"b5"<<"6"<<"7"<<"9"<<"11"<<"13"*/;
 
 /**
  * @brief Enrichment::Enrichment
@@ -122,17 +122,33 @@ bool Enrichment::extractEnrichmentsFromStr(QString const &str_enr, Enrichment &e
 /**
  * @brief Enrichment::getEnrichmentStringList
  * @return L'enrichissement sous forme de liste de chaînes de caractères.
+ *
+ * Permet de convertir un Enrichment en une liste chaine de caractères
+ * correspondant à chacun des enrichissements.
  */
 const QStringList& Enrichment::getEnrichmentStringList() const
 {
 	return m_stringEquivs;
 }
 
+/**
+ * @brief Enrichment::getListOfEnrichmentStringList
+ * @return La liste des enrichissements possibles dans l'ancienne version.
+ *
+ * Permet de récupérer la liste de toutes les valeurs d'enrichissements possibles.
+ */
 const QStringList& Enrichment::getListOfEnrichmentStringList() const
 {
 	return listOfEnrichmentString;
 }
 
+/**
+ * @brief Enrichment::addEnrichment
+ *
+ * Un accord peut avoir plusieurs enrichissements. Un seul objet Enrichment permet de tous
+ * les représenter. Cette fonction permet d'ajouter un enrichissement dans la liste
+ * correspondant à un accord.
+ */
 void Enrichment::addEnrichment(const QString &newEnrich){
 	m_stringEquivs.append(newEnrich);
 }

@@ -276,6 +276,18 @@ La classe \textit{GridEditor} orchestre donc l'ensemble des actions de l'utilisa
 
 \subsubsection{Le lecteur}
 
+Le but du lecteur est de créer un environnement ludique pour jouer les grilles qui auront préalablement été éditées depuis l'éditeur. Contrairement à l'éditeur, le lecteur est destiné à la fois aux professeurs \textit{et} aux élèves de l'école de musique. Il fallait donc prendre en compte cet élément, notamment lors de la construction de l'interface.
+
+Le déroulement d'une partie est relativement simple:
+\begin{itemize}
+ \item L'utilisateur indique un fichier XML à ouvrir
+ \item Le fichier XML est converti en une LogicalTrack
+ \item Le contrôleur initialise l'interface ainsi que les entrées et sorties audio en fonction de la LogicalTrack créée
+ \item La partie commence, il ne reste qu'à synchroniser les informations retenues sur l'interface (mise en pause, \dots), sur la musique (passage à l'accord suivant, \dots) et l'entrée audio (reconnaissance d'un accord, \dots) les unes avec les autres
+\end{itemize}
+
+C'est la classe \textit{Controler} qui a pour rôle d'orchestrer le lecteur, ce qui explique son rôle central dans le diagramme de classes (figure \ref{diag_player}).
+
 \begin{figure}[H]
 \begin{center}
 \begin{tikzpicture}
@@ -611,13 +623,19 @@ for (int r = 0 ; r < rmax ; r++) //Parcours des lignes
 \label{editor_time_caseitems}
 \end{figure}
 
-La question était donc de trouver un moyen simple pour pouvoir indiquer de façon précise chacun de ces trois marqueurs temporels. Il nous est tout de suite venu à l'esprit d'utiliser les formes d'ondes du fichier audio désiré pour mieux cibler les débuts des accords. FMOD, pour les données spectrales, et Qt, pour l'interface, ont été très utiles pour l'implémentation. Un zoom a également été mis en place sur cette même forme d'onde, ainsi que le positionnement des timers directement \textit{sur} la forme d'onde. Au final, le marquage devient une tâche relativement aisée et rapide (figure \ref{editor_waveform}).
+La question était donc de trouver un moyen simple pour pouvoir indiquer de façon précise chacun de ces trois marqueurs temporels. Il nous est tout de suite venu à l'esprit d'utiliser les formes d'ondes du fichier audio désiré pour mieux cibler les débuts des accords. FMOD, pour les données spectrales, et Qt, pour l'interface, ont été très utiles pour l'implémentation. Un zoom a également été mis en place sur cette même forme d'onde, ainsi que le positionnement des timers directement \textit{sur} la forme d'onde. Au final, le marquage devient une tâche relativement aisée et rapide (figure \ref{editor_audiosync}).
 
-
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=400px]{editor_audiosync}
+\caption{Synchronisation audio}
+\label{editor_audiosync}
+\end{center}
+\end{figure}
 
 \subsubsection{Sur le lecteur}
 
-En ce qui concerne le lecteur, nous n'avons dans un premier temps que modifié l'interface. Celle-ci a été refaite intégralement selon la maquette qui avait en janvier (voir la figure \ref{annexe_proto_player} en annexe). Notre travail a finalement abouti à une interface semblable aux exigences qui avaient été fixées, certains détails ayant été revus en cours de développement en accord avec nos clients. L'objectif principal était de rendre le programme beaucoup plus convivial, mais aussi plus accessible. L'interface actuelle est présentée en figure \ref{interface_player}.
+En ce qui concerne le lecteur, nous n'avons dans un premier temps que modifié l'interface. Celle-ci a été refaite intégralement selon la maquette qui avait été présentée en janvier (voir la figure \ref{annexe_proto_player} en annexe). Notre travail a finalement abouti à une interface semblable aux exigences qui avaient été fixées, certains détails ayant été revus en cours de développement en accord avec nos clients. L'objectif principal était de rendre le programme beaucoup plus convivial, mais aussi plus accessible. L'interface actuelle est présentée en figure \ref{interface_player}.
 
 Dans un deuxième temps, nous avons fait le choix de revoir le fonctionnement interne du lecteur. Comme évoqué précédemment, nous avons ainsi commencé par remplacer la librairie \textit{libsndfile} par FMOD en vue de supporter de nouveaux formats audio. FMOD se charge en fait d'ouvrir le fichier audio demandé et de le mettre en mémoire. La gestion à proprement parler du son reste la tâche de PortAudio.
 
