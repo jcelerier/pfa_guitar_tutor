@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<morceau line="8" end="66869" nom="Let It Be" timePerMesure="1" fichier="Tracks/LetItBe/piano.wav" bar="2000" chordMesure="1" beginning="0" artiste="Beatles" column="4">
+<morceau line="8" end="66869" nom="Let It Be" timeSignature="4" fichier="Tracks/LetItBe/piano.wav" bar="2000" chordMesure="1" beginning="0" artiste="Beatles" column="4">
   <partie nom="Intro">
     <accord nom="C" temps="0" repetition="1"/>
     <accord nom="G" temps="2000" repetition="1"/>

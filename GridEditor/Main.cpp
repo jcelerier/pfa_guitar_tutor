@@ -19,9 +19,11 @@ int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
 
-	QTranslator translator;
-	translator.load(":/translations/GridEditor_fr");
-	app.installTranslator(&translator);
+	QTranslator translator_our, translator_qt;
+	translator_our.load(":/translations/GridEditor_fr");
+	translator_qt.load(":/translations/qt_fr.qm");
+	app.installTranslator(&translator_our);
+	app.installTranslator(&translator_qt);
 
 	GridEditor win;
 	win.show();

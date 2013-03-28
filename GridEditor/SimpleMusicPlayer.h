@@ -68,6 +68,7 @@ class SimpleMusicPlayer : public QWidget
 		 */
 		void browseAudioFile();
 
+
 	protected:
 		virtual void resizeEvent(QResizeEvent * event);
 

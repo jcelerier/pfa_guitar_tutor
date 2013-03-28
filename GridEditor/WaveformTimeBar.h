@@ -1,15 +1,18 @@
 #ifndef WAVEFORMTIMEBAR_H
 #define WAVEFORMTIMEBAR_H
 
-#include <QtWidgets>
-#include "WaveformTimeSlider.h"
+#include <QtWidgets/QWidget>
+#include <QtWidgets/QLabel>
+#include <QGridLayout>
 #include <Util.hpp>
+#include "WaveformTimeSlider.h"
+
 
 /**
  * @brief Barre de temps représentant le morceau audio.
  */
 
-enum PrecisionLevel { SAMPLE, MILLISECOND, SECOND, MINUTE } ;
+//enum PrecisionLevel { SAMPLE, MILLISECOND, SECOND, MINUTE } ;
 class WaveformTimeBar : public QWidget
 {
 		Q_OBJECT
@@ -32,9 +35,9 @@ class WaveformTimeBar : public QWidget
 		void moveLeft(WaveformTimeSlider * slider);
 		void moveRight(WaveformTimeSlider * slider);
 
-		PrecisionLevel computePrecisionLevel();
-		double computeLogPrecisionLevel();
-		int getPixelSpacing();
+		//PrecisionLevel computePrecisionLevel();
+		//double computeLogPrecisionLevel();
+		//int getPixelSpacing();
 
 	signals:
 		void timeChanged(int, QTime);
@@ -51,19 +54,75 @@ class WaveformTimeBar : public QWidget
 		void paintEvent(QPaintEvent *event);
 
 	private:
+		/**
+		 * @brief activated Vrai si un morceau est chargé
+		 */
 		bool activated;
 
-		WaveformTimeSlider* m_beginSlider, *m_barSlider, *m_endSlider, *m_playSlider;
+		/**
+		 * @brief m_beginSlider Slider du début
+		 */
+		WaveformTimeSlider *m_beginSlider;
+
+		/**
+		 * @brief m_barSlider Slider de mesure
+		 */
+		WaveformTimeSlider *m_barSlider;
+
+		/**
+		 * @brief m_endSlider Slider de fin
+		 */
+		WaveformTimeSlider *m_endSlider;
+
+		/**
+		 * @brief m_playSlider Slider de lecture
+		 */
+		WaveformTimeSlider *m_playSlider;
+
+		/**
+		 * @brief m_clickedSlider Slider cliqué par la souris
+		 */
 		WaveformTimeSlider* m_clickedSlider;
+
+		/**
+		 * @brief m_parent Parent du widget
+		 */
 		QWidget* m_parent;
-		QTime m_begin, m_end;
+
+		/**
+		 * @brief m_begin Début du morceau
+		 */
+		QTime m_begin;
+
+		/**
+		 * @brief m_end Fin du morceau
+		 */
+		QTime m_end;
+
+		/**
+		 * @brief m_layout Disposition du widget
+		 */
 		QGridLayout* m_layout;
+
+		/**
+		 * @brief m_painter Sert à peindre le widget
+		 */
 		QPainter* m_painter;
+
+		/**
+		 * @brief m_container Nécessaire pour afficher le widget
+		 */
 		QLabel* m_container;
 
-		QPoint m_oldMousePos, m_clickPos;
+		/**
+		 * @brief m_oldMousePos Ancienne position de la souris
+		 */
+		QPoint m_oldMousePos;
 
-
+		/**
+		 * @brief m_clickPos Position actuelle de la souris
+		 */
+		QPoint m_clickPos;
 };
 
 #endif // WAVEFORMTIMEBAR_H

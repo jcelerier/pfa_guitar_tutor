@@ -1,7 +1,7 @@
 #include "WaveformTimeBar.h"
 #include "SimpleMusicPlayer.h"
 #include "AudioSync.h"
-#include <QDebug>
+#include <QPainter>
 
 /**
  * @brief WaveformTimeBar::WaveformTimeBar
@@ -82,6 +82,7 @@ void WaveformTimeBar::draw()
 // 7s500
 // 3s750
 // 1s875
+/*
 void WaveformTimeBar::drawText()
 {
 	const int spacing = getPixelSpacing();
@@ -95,7 +96,7 @@ void WaveformTimeBar::drawText()
 	}
 
 }
-
+*/
 
 /**
  * @brief WaveformTimeBar::paintEvent
@@ -142,7 +143,8 @@ void WaveformTimeBar::mouseMoveEvent(QMouseEvent * event)
 		float sample = clickPercent * (s_end - s_begin) + s_begin;
 
 		m_clickedSlider->private_setTime(sample);
-		if(m_clickedSlider == m_playSlider){
+		if(m_clickedSlider == m_playSlider)
+		{
 			QTime t = SampleToQTime(sample);
 			emit(playSliderModified(TimeToMsec(t)));
 		}
@@ -270,6 +272,8 @@ void WaveformTimeBar::drawTimeSliders()
 
 //TODO plutôt renvoyer le log à base 10 ?
 /***** inutilisé:  à la base pensé pour calculer la précision avec laquelle afficher le temps ******/
+
+/*
 PrecisionLevel WaveformTimeBar::computePrecisionLevel()
 {
 	int s_begin = QTimeToSample(m_begin);
@@ -287,8 +291,10 @@ PrecisionLevel WaveformTimeBar::computePrecisionLevel()
 		return MINUTE;
 	}
 }
+*/
 
 /****** inutilisé : à la base pensé pour calculer la précision avec laquelle afficher le temps ******/
+/*
 double WaveformTimeBar::computeLogPrecisionLevel()
 {
 	int s_begin =  ((SimpleMusicPlayer*) m_parent)->getWaveBegin();
@@ -304,6 +310,7 @@ double WaveformTimeBar::computeLogPrecisionLevel()
 	}
 
 }
+*/
 
 //on cherche le nombre maximal d'éléments que l'on puisse mettre sachant que :
 //à chaque fois qu'on atteint un nouveau palier de précision (ex : 3 -> 2)
@@ -316,6 +323,7 @@ double WaveformTimeBar::computeLogPrecisionLevel()
 // => fonction linéaire entre deux entiers de precisionLevel, qui va de 10 à 110 ?
 // 0 -> 100
 /******* inutilisé *************/
+/*
 int WaveformTimeBar::getPixelSpacing()
 {
 	const double precisionLevel = computeLogPrecisionLevel();
@@ -328,7 +336,7 @@ int WaveformTimeBar::getPixelSpacing()
 		return (precisionLevel - trunc(precisionLevel)) * 100 + 10 ;
 	}
 }
-
+*/
 /**
  * @brief WaveformTimeBar::update
  *

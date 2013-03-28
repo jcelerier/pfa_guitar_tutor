@@ -19,7 +19,6 @@ GridEditor::GridEditor(): m_trackProperties(new TrackProperties(this)), m_saveQu
 	m_editorPanel = 0;
 	m_grid = 0;
 	m_helpWindow = 0;
-	//trackProperties = new TrackProperties(this);
 	m_audioWindow = new AudioWindow(this);
 
 	m_status = statusBar();
@@ -42,7 +41,9 @@ GridEditor::GridEditor(): m_trackProperties(new TrackProperties(this)), m_saveQu
 
 	m_settings = new QSettings("GuitarTutor", "GridEditor"); //Permet de retenir la configuration du logiciel
 	connect(m_trackProperties, SIGNAL(timeSignatureChanged(int)), m_audioWindow, SIGNAL(timeSignatureChanged(int)));
-	//	connect(trackProperties, SIGNAL(somethingChanged()), saveQueue, SIGNAL(save()));
+
+	connect(qApp, SIGNAL(aboutToQuit(QPrivateSignal)), this, SLOT(saveBeforeQuit()));
+
 }
 
 /**
@@ -268,8 +269,9 @@ void GridEditor::createGrid(int columns, int rows)
 		}
 
 		m_layout->addWidget(m_editorPanel, 0, 1);
-		m_isPanelSet = true;
+
 	}
+	m_isPanelSet = true;
 }
 
 /**
@@ -474,7 +476,7 @@ void GridEditor::fromXML()
 	m_trackProperties->setComment(track->getComment());
 	m_trackProperties->setTimeSignature(track->getTimeSignature());
 
-	m_audioWindow->setAudioFileName(track->getAudioFileName()); //vérifier si chemin absolu
+	m_audioWindow->setAudioFileName(track->getAudioFileName());
 	m_audioWindow->setAudioFile();
 	m_audioWindow->setBar(track->getBar());
 	m_audioWindow->setBeginning(track->getBeginning());
@@ -489,7 +491,6 @@ void GridEditor::fromXML()
 	connect(m_grid, SIGNAL(somethingChanged()), m_saveQueue, SIGNAL(save()));
 
 	emit m_trackProperties->barsizeChanged(track->getMesure());
-
 
 	delete track;
 }
@@ -608,4 +609,13 @@ void GridEditor::enableUndo(bool b)
 void GridEditor::enableRedo(bool b)
 {
 	redoAction->setEnabled(b);
+}
+
+
+void GridEditor::closeEvent(QCloseEvent *event)
+{
+	if(!saveBeforeQuit())
+	{
+		event->ignore();
+	}
 }

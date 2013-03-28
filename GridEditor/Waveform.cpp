@@ -17,7 +17,6 @@
 Waveform::Waveform(QWidget *parent, int w, int h):
 	QLabel(parent),
 	m_parent(parent),
-	m_previouslyPlayedPixel(0),
 	m_width(w),
 	m_height(h)
 {

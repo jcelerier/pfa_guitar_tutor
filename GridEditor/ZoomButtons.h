@@ -1,7 +1,7 @@
 #ifndef ZOOMBUTTONS_H
 #define ZOOMBUTTONS_H
 
-#include <QtWidgets>
+#include <QtWidgets/QWidget>
 #include <QString>
 
 /**

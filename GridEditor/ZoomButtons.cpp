@@ -1,5 +1,6 @@
 #include "ZoomButtons.h"
-
+#include <QGridLayout>
+#include <QPushButton>
 /**
  * @brief ZoomButtons::ZoomButtons
  * @param parent
