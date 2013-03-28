@@ -320,6 +320,7 @@ m\_track : LogicalTrack *}{}
 
 \subsection{Quelques points particuliers}
 
+
 \subsection{Performance}
 Il est nécessaire de distinguer les problèmes de performance dans deux cas :
 
@@ -330,7 +331,7 @@ Il est nécessaire de distinguer les problèmes de performance dans deux cas :
 
 \subsubsection{Performance de l'éditeur}
 L'éditeur ne pose pas vraiment de problèmes au niveau des performances: ne sont utilisées que des
-objets en grande majorité, ce qui fait que les performances sont directement dépendantes du niveau
+objets de base de Qt en grande majorité, ce qui fait que les performances sont directement dépendantes du niveau
 d'optimisation de Qt (qui dans la majorité des cas s'exécute aussi rapidement qu'une application native).
 
 La seule exception est pour le dessin de la forme d'onde du morceau. En effet, on a une très grande quantité de données à synthétiser dans
@@ -352,8 +353,19 @@ Le lecteur est beaucoup plus complexe que l'éditeur.
 D'une part, l'affichage prend un certain temps (que nous avons réduit grâce à l'utilisation d'OpenGL)
 et d'autre part, le calcul de la transformée de Fourier dans la librairie EHPCP est intense.
 
-Nous avons effectué des mesures sur le logiciel et nous avons trouvé que 30\% environ du temps de calcul
-passait dans le calcul d'exponentielles complexes dans l'algorithme Butterfly utilisé pour la transformée de Fourier.
+Nous avons effectué des mesures sur le logiciel et nous avons trouvé que 60\% environ du temps de calcul
+passait dans le calcul d'exponentielles complexes dans l'algorithme Butterfly utilisé pour la transformée de Fourier :
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=300px]{sincos.png}
+\caption{Temps passé par fonction. Données obtenues avec Luke Stackwalker.}
+\label{player_performance}
+\end{center}
+\end{figure}
+
+Les fonctions sin et cos sont en fait issues du simple calcul $e^{ix} = cos(x) + i*sin(x)$.
+Elles sont disponibles sous plusieurs formes car on a activé les optimisations du compilateur (MSVC ici).
 
 Or, après étude du code, il est apparu que les exponentielles calculées ont toujours des paramètres connus :
 \begin{figure}[H]
@@ -365,8 +377,8 @@ w = cexp(-I*(2*M_PI*x) / n );
 \label{api_cexp}
 \end{figure}
 
-Ici, i, d et n sont des entiers. Une manière possible d'améliorer sensiblement les performances serait donc d'effectuer
-un pré-calcul de ces facteurs, et de les mettre dans un dictionnaire qui serait appelé.
+Ici, i, d et n sont des entiers. Une manière possible d'améliorer de manière drastique les performances serait donc d'effectuer
+un pré-calcul de ces facteurs, et de les mettre dans un dictionnaire qui serait appelé par la suite.
 
 Ceci dit, pour améliorer temporairement les performances, nous avons utilisé OpenMP dans la dernière boucle qui calcule
 les coefficients Butterfly, ce qui permet d'utiliser les capacités des processeurs multicoeur si l'ordinateur cible en dispose.
@@ -498,7 +510,10 @@ Le choix d'utiliser la librairie Qt s'est fait très rapidement, tant les avanta
  \item La documentation est très claire et complète
  \item Qt est open-source et bénéficie d'une large communauté d'utilisateurs
  \item Qt est incroyablement complet: interface graphique, XML, multimédia, socket,\dots
- \item Plusieurs d'entre nous avions déjà des connaissances sur cette librairie
+ \item Plusieurs d'entre-nous avaient déjà des connaissances sur cette librairie
+ \item Enfin, le support officiel d'Android et iOS, les systèmes d'exploitation mobiles dominants sera effectif d'ici deux sous-versions de Qt,
+ ce qui fait que le programme pourra être porté sans heurt sur tablette, smartphone... Il sera juste nécessaire d'ajuster les vues pour
+ ces nouvelles plateformes.
 \end{itemize}
 
 Nous avons donc choisi d'adopter cette librairie dès les débuts du projet.
