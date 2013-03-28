@@ -34,11 +34,25 @@ int QTimeToSample(QTime t)
 	//ugly, poller la sample rate de FMOD / portaudio / système....
 }
 
+/**
+ * @brief SampleToQTime
+ * @param smp Le taux d'échantillonage
+ * @return Le QTime associé.
+ *
+ * Conversion du taux d'échantillonage en QTime.
+ */
 QTime SampleToQTime(int smp)
 {
 	return MsecToTime(smp / 44.1);
 }
 
+/**
+ * @brief stringToSub
+ * @param str L'accord à formater
+ * @return L'accord formaté pour l'affichage.
+ *
+ * Formate un accord sous forme de chaine de caractère pour l'affichage sur l'interface.
+ */
 QString stringToSub(QString str) {
     return str[0]+"<sub>"+str.mid(1)+"</sub>";
 }

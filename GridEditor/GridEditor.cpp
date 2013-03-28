@@ -469,7 +469,7 @@ void GridEditor::fromXML()
 
 	m_trackProperties->setTrack(track->getTrackName());
 	m_trackProperties->setArtist(track->getArtist());
-	m_trackProperties->setBarSize(track->getMesure());
+    m_trackProperties->setBarSize(track->getChordsPerBar());
 	m_barsize = m_trackProperties->getBarSize();
 	m_trackProperties->setComment(track->getComment());
 	m_trackProperties->setTimeSignature(track->getTimeSignature());
@@ -488,7 +488,7 @@ void GridEditor::fromXML()
 	m_saveQueue->firstSave();
 	connect(m_grid, SIGNAL(somethingChanged()), m_saveQueue, SIGNAL(save()));
 
-	emit m_trackProperties->barsizeChanged(track->getMesure());
+    emit m_trackProperties->barsizeChanged(track->getChordsPerBar());
 
 
 	delete track;

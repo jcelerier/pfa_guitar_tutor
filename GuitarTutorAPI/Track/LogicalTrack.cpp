@@ -6,14 +6,14 @@
  * Constructeur par défaut de la classe LogicalTrack
  */
 LogicalTrack::LogicalTrack() {
-    trackName = "";
-    artist = "";
-    audioFileName = "";
-    mesure = 0;
-    beginning = 0;
-    bar = 0;
-    end = 0;
-    timeSignature = 4;
+    m_trackName = "";
+    m_artist = "";
+    m_audioFileName = "";
+    m_chordsPerBar = 0;
+    m_beginning = 0;
+    m_bar = 0;
+    m_end = 0;
+    m_timeSignature = 4;
 }
 
 /**
@@ -22,11 +22,11 @@ LogicalTrack::LogicalTrack() {
  * Constructeur obsolète initialisant de la classe LogicalTrack sans initialiser beginning, bar et mesure.
  */
 LogicalTrack::LogicalTrack(QString newTrackName, QString newArtist, QString newAudoFileName, int newMesure, QList<PartTrack*> newList){
-    trackName = newTrackName;
-    artist = newArtist;
-    audioFileName = newAudoFileName;
-    mesure = newMesure;
-    listPartTrack = newList;
+    m_trackName = newTrackName;
+    m_artist = newArtist;
+    m_audioFileName = newAudoFileName;
+    m_chordsPerBar = newMesure;
+    m_listPartTrack = newList;
 }
 
 /**
@@ -36,14 +36,14 @@ LogicalTrack::LogicalTrack(QString newTrackName, QString newArtist, QString newA
  */
 LogicalTrack::LogicalTrack(QString newTrackName, QString newArtist, QString newAudoFileName, int newMesure, QList<PartTrack*> newList, int newBar, int newEnd, int newBeginning){
     //, int newTimePerMesure){
-    trackName = newTrackName;
-    artist = newArtist;
-    audioFileName = newAudoFileName;
-    mesure = newMesure;
-    listPartTrack = newList;
-    bar = newBar;
-    end = newEnd;
-    beginning = newBeginning;
+    m_trackName = newTrackName;
+    m_artist = newArtist;
+    m_audioFileName = newAudoFileName;
+    m_chordsPerBar = newMesure;
+    m_listPartTrack = newList;
+    m_bar = newBar;
+    m_end = newEnd;
+    m_beginning = newBeginning;
     //    timePerMesure = newTimePerMesure;
 }
 
@@ -53,7 +53,7 @@ LogicalTrack::LogicalTrack(QString newTrackName, QString newArtist, QString newA
  * Destructeur de la classe LogicalTrack
  */
 LogicalTrack::~LogicalTrack() {
-    for(QList<PartTrack*>::Iterator i = listPartTrack.begin(); i != listPartTrack.end() ; i++)
+    for(QList<PartTrack*>::Iterator i = m_listPartTrack.begin(); i != m_listPartTrack.end() ; i++)
         delete (*i);
 }
 
@@ -65,7 +65,7 @@ LogicalTrack::~LogicalTrack() {
  */
 void LogicalTrack::setTrackName(QString newTrackName) {
 
-    trackName = newTrackName;
+    m_trackName = newTrackName;
 
 }
 
@@ -76,7 +76,7 @@ void LogicalTrack::setTrackName(QString newTrackName) {
  */
 QString LogicalTrack::getTrackName() {
 
-    return trackName;
+    return m_trackName;
 
 }
 
@@ -88,7 +88,7 @@ QString LogicalTrack::getTrackName() {
  */
 void LogicalTrack::setArtist(QString newArtist) {
 
-    artist = newArtist;
+    m_artist = newArtist;
 
 }
 
@@ -99,7 +99,7 @@ void LogicalTrack::setArtist(QString newArtist) {
  */
 QString LogicalTrack::getArtist() {
 
-    return artist;
+    return m_artist;
 }
 
 /**
@@ -110,7 +110,7 @@ QString LogicalTrack::getArtist() {
  */
 void LogicalTrack::setAudioFileName(QString newAudioFileName) {
 
-    audioFileName = newAudioFileName;
+    m_audioFileName = newAudioFileName;
 
 }
 
@@ -125,9 +125,9 @@ void LogicalTrack::setAudioFileName(QString newAudioFileName) {
  */
 void LogicalTrack::setBars(int nBar, int nBeginning, int nEnd){
 
-    bar = nBar;
-    beginning = nBeginning;
-    end = nEnd;
+    m_bar = nBar;
+    m_beginning = nBeginning;
+    m_end = nEnd;
 
 }
 
@@ -139,7 +139,7 @@ void LogicalTrack::setBars(int nBar, int nBeginning, int nEnd){
  */
 void LogicalTrack::setTimeSignature(int nTS){
 
-    timeSignature = nTS;
+    m_timeSignature = nTS;
 
 }
 
@@ -150,7 +150,7 @@ void LogicalTrack::setTimeSignature(int nTS){
  */
 QString LogicalTrack::getAudioFileName() {
 
-    return audioFileName;
+    return m_audioFileName;
 
 }
 
@@ -162,7 +162,7 @@ QString LogicalTrack::getAudioFileName() {
  */
 void LogicalTrack::addPartTrackToList(PartTrack* newPartTrack) {
 
-    listPartTrack.append(newPartTrack);
+    m_listPartTrack.append(newPartTrack);
 
 }
 
@@ -173,7 +173,7 @@ void LogicalTrack::addPartTrackToList(PartTrack* newPartTrack) {
  */
 QList<PartTrack*>& LogicalTrack::getPartTrackList()
 {
-    return listPartTrack;
+    return m_listPartTrack;
 }
 
 /**
@@ -182,7 +182,7 @@ QList<PartTrack*>& LogicalTrack::getPartTrackList()
  * Renvoie le temps correspondant à beginning.
  */
 int LogicalTrack::getBeginning(){
-    return beginning;
+    return m_beginning;
 }
 
 /**
@@ -191,7 +191,7 @@ int LogicalTrack::getBeginning(){
  * Renvoie le temps correspondant à bar.
  */
 int LogicalTrack::getBar(){
-    return bar;
+    return m_bar;
 }
 
 /**
@@ -200,7 +200,7 @@ int LogicalTrack::getBar(){
  * Renvoie le temps correspondant à end.
  */
 int LogicalTrack::getEnd(){
-    return end;
+    return m_end;
 }
 
 /**
@@ -209,7 +209,7 @@ int LogicalTrack::getEnd(){
  * Renvoie le temps correspondant à la TimeSignature.
  */
 int LogicalTrack::getTimeSignature(){
-    return timeSignature;
+    return m_timeSignature;
 }
 
 /**
@@ -219,55 +219,55 @@ int LogicalTrack::getTimeSignature(){
  */
 void LogicalTrack::setMesure(int nb){
     if(nb>=0){
-        mesure = nb;
+        m_chordsPerBar = nb;
     }
     else
-        mesure = 1;
+        m_chordsPerBar = 1;
 }
 
-int LogicalTrack::getMesure() {
+int LogicalTrack::getChordsPerBar() {
 
-    return this->mesure;
+    return this->m_chordsPerBar;
 }
 
 void LogicalTrack::setLine(int line)
 {
-    this->line = line;
+    this->m_line = line;
 }
 
 
 void LogicalTrack::setColumn(int col)
 {
-    this->column = col;
+    this->m_column = col;
 }
 
 int LogicalTrack::getLine()
 {
-    return line;
+    return m_line;
 }
 
 
 int LogicalTrack::getColumn()
 {
-    return column;
+    return m_column;
 }
 
 QString LogicalTrack::getPartName(int n)
 {
-    if(n <= listPartTrack.size() && n>0){
-        return listPartTrack[n-1]->getPartName();
+    if(n <= m_listPartTrack.size() && n>0){
+        return m_listPartTrack[n-1]->getPartName();
     }
-    return listPartTrack[listPartTrack.size()-1]->getPartName();
+    return m_listPartTrack[m_listPartTrack.size()-1]->getPartName();
 }
 
 void LogicalTrack::setComment(QString comment)
 {
-    this->comment = comment;
+    this->m_comment = comment;
 }
 
 QString LogicalTrack::getComment()
 {
-    return comment;
+    return m_comment;
 }
 
 int LogicalTrack::getBPM()

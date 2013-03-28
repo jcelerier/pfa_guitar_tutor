@@ -28,6 +28,9 @@ typedef float SAMPLE;
 #define PRINTF_S_FORMAT "%.8f"
 #endif
 
+/**
+ * @brief Gestion d'un fichier audio en mémoire.
+ */
 class Track {
 public:
 	Track();

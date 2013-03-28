@@ -201,6 +201,7 @@ void MusicPlayer::changePosition(unsigned int position)
 
 /**
  * @brief MusicPlayer::initSamples
+ *
  * Charge le tableau représentant les samples en mémoire pour l'affichage
  */
 
@@ -236,6 +237,7 @@ void MusicPlayer::initSamples()
  * @brief MusicPlayer::getFullSpectrum
  * @param tab Tableau ou on copie les données
  * @param size Taille du tableau
+ *
  * Obtient un tableau qui contient les samples nécessaires pour l'affichage graphique
  */
 

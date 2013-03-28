@@ -15,7 +15,6 @@
 #define APIC_HEADER_LENGTH 14
 
 /**
- *
  * @brief Track::Track
  *
  * Constructeur par défaut
@@ -27,9 +26,7 @@ Track::Track()
 
 
 /**
- *
  * @brief Track::Track
- *
  * @param fileName
  *
  * Constructeur de Track: prend en paramètre le nom du fichier, le met à jour dans Track, m_isMute reçoi false. Ensuite, charge le fichier.
@@ -43,10 +40,8 @@ Track::Track(QString fileName) {
 
 
 /**
- *
  * @brief Track::Track
- *
- * @param silenceTrackTimeInMs
+ * @param silenceTrackTimeInMs La durée de la piste durant laquelle il n'y a pas de son.
  *
  * Constructeur de Track.
  */
@@ -63,16 +58,18 @@ Track::Track(unsigned int silenceTrackTimeInMs)
 	}
 }
 
+/**
+ * @brief Track::~Track
+ */
 Track::~Track()
 {
 	//delete[] m_buffer;
 }
 
 /**
+ * @brief Track::getBuffer
  *
- *@brief Track::getBuffer
- *
- *Retourne le buffer de Track
+ * Retourne le buffer de la piste.
  */
 float *Track::getBuffer() const
 {
@@ -80,20 +77,18 @@ float *Track::getBuffer() const
 }
 
 /**
+ * @brief Track::getChannelsCount
  *
- *@brief Track::getChannelsCount
- *
- *Retourne m_channelsCount de Track
+ * Retourne le nombre de cannaux utilisés par la piste.
  */
 int Track::getChannelsCount() const
 {
 	return m_channelsCount;
 }
 /**
+ * @brief Track::getFramesCount
  *
- *@brief Track::getFramesCount
- *
- *Retourne m_framesCount de Track
+ * Retourne le nombre de frames de la piste.
  */
 
 int Track::getFramesCount() const
@@ -102,12 +97,8 @@ int Track::getFramesCount() const
 }
 
 /**
- *
- *@brief Track::setFramesCount
- *
- *@param m_framesCount
- *
- *Met à jour le champ m_framesCount avec la valeur passée en paramètre
+ * @brief Track::setFramesCount
+ * @param m_framesCount Le nombre de frames
  */
 void Track::setFramesCount(int m_framesCount)
 {
@@ -115,11 +106,9 @@ void Track::setFramesCount(int m_framesCount)
 }
 
 /**
+ * @brief Track::load
  *
- *@brief Track::load
- *
- *
- *Charge le fichier
+ * Charge un fichier audio en mémoire.
  */
 int Track::load()
 {
@@ -187,10 +176,9 @@ int Track::load()
 }
 
 /**
- *@brief Track::isMute
+ * @brief Track::isMute
  *
- *
- *Retourne m_isMute de Track
+ * Retourne true sur la piste est actuellement en mode sourdine, false sinon.
  */
 bool Track::isMute()
 {
@@ -198,11 +186,10 @@ bool Track::isMute()
 }
 
 /**
- *@brief Track::setMuteState
+ * @brief Track::setMuteState
+ * @param isMute Vrai si la piste doit etre mise en sourdine, faux sinon
  *
- *@param isMute
- *
- *Met à jour le champ m_isMute avec la valeur passée en paramètre.
+ * Met ou enlève le mode sourdine de la piste courante.
  */
 void Track::setMuteState(bool isMute)
 {

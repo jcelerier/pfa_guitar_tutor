@@ -20,7 +20,7 @@ bool TrackLoader::convertLogicalTrackToXml(LogicalTrack* currentTrack, QString f
 	doc.appendChild(root);
 	root.setAttribute("nom", currentTrack->getTrackName());
 	root.setAttribute("artiste", currentTrack->getArtist());
-	root.setAttribute("chordMesure", currentTrack->getMesure());
+    root.setAttribute("chordMesure", currentTrack->getChordsPerBar());
 	root.setAttribute("fichier", currentTrack->getAudioFileName());
 	root.setAttribute("line", currentTrack->getLine());
 	root.setAttribute("column", currentTrack->getColumn());

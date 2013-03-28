@@ -75,8 +75,6 @@ public:
 
 	void fillBufferWithLastInputValues(double* buffer, unsigned int size);
 
-	void saveRecordedData(QString fileName);
-
 private:
 
 	bool m_isRunning;
