@@ -9,10 +9,11 @@
 
 /**
  * @brief Menu de l'interface
- * Est un objet de scene gerant les signaux et les slots.
+ *
+ * Est un objet de scèene gerant les signaux et les slots.
  * Contient les divers elements de menu
  *
- * Penser a changer la taille de la boite de dialogue lors de l'ajout d'elements
+ * @warning Penser a changer la taille de la boite de dialogue lors de l'ajout d'elements
  */
 class MenuItem : public QGraphicsObject
 {

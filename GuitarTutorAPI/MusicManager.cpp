@@ -31,14 +31,20 @@ static int playCallback( const void *inputBuffer, void *outputBuffer,
 		PaStreamCallbackFlags statusFlags,
 		void *userData );
 
-void* musicManagerMainFunction(void* threadArg);
 /**
- * \fn MusicManager::MusicManager(QMap<QString, QString> & tracks, QVector<QString>& muteTracks)
- * \brief Constructeur de MusicManager
+ * @brief musicManagerMainFunction
+ * @param threadArg Thread
  *
- * \param tracks Liste des pistes qui seront chargées par l'objet (mapping)
- * \param muteTracks Pistes silencieuses ?
- * \return Rien
+ * Controle la lecture audio.
+ */
+void* musicManagerMainFunction(void* threadArg);
+
+/**
+ * @brief MusicManager::MusicManager
+ * @param tracks Liste des pistes qui seront chargées par l'objet (mapping)
+ * @param muteTracks Pistes en mode sourdine
+ *
+ * Constructeur de MusicManager
  */
 MusicManager::MusicManager(QMap<QString, QString> & tracks,
 						   QVector<QString>& muteTracks,
@@ -65,11 +71,10 @@ MusicManager::MusicManager(QMap<QString, QString> & tracks,
 }
 
 /**
- * \fn MusicManager::MusicManager(unsigned int timeToRecordInMs)
- * \brief Constructeur de MusicManager (inutilisé)
+ * @brief MusicManager::MusicManager
+ * @param timeToRecordInMs Temps à enregistrer
  *
- * \param timeToRecordInMs Temps à enregistrer ?
- * \return Rien
+ * Constructeur de MusicManager.
  */
 MusicManager::MusicManager(unsigned int timeToRecordInMs)
 :m_isRunning(false), m_mustStop(false)
@@ -88,7 +93,9 @@ MusicManager::MusicManager(unsigned int timeToRecordInMs)
 	m_recordData.waitStart = true;
 }
 
-
+/**
+ * @brief MusicManager::~MusicManager
+ */
 MusicManager::~MusicManager()
 {
 	stop();
@@ -107,10 +114,9 @@ MusicManager::~MusicManager()
 
 
 /**
- * \fn bool MusicManager::isStarted()
- * \brief Dit si l'enregistrement ou la lecture ont lieu
+ * @brief MusicManager::isStarted
  *
- * \return Booléen
+ * @return True si l'enregistrement ou la lecture ont lieu, false sinon.
  */
 bool MusicManager::isStarted()
 {
@@ -119,10 +125,9 @@ bool MusicManager::isStarted()
 
 
 /**
- * \fn void* MusicManager::initAudioDevice()
- * \brief Initialise portaudio
+ * @brief MusicManager::initAudioDevice
  *
- * \return Rien
+ * Initialise portaudio.
  */
 void* MusicManager::initAudioDevice(PaDeviceIndex inputDevice, PaDeviceIndex outputDevice)
 {
@@ -174,10 +179,10 @@ void* MusicManager::initAudioDevice(PaDeviceIndex inputDevice, PaDeviceIndex out
 }
 
 /**
- * \fn void* MusicManager::initAudioInput()
- * \brief Initialise l'entrée audio
+ * @brief MusicManager::initAudioInput
+ * @return NULL
  *
- * \return NULL
+ * Initialise l'entrée audio
  */
 void* MusicManager::initAudioInput()
 {
@@ -202,10 +207,10 @@ void* MusicManager::initAudioInput()
 }
 
 /**
- * \fn void* MusicManager::initAudioOutput()
- * \brief Initialise la sortie audio
+ * @brief MusicManager::initAudioOutput
+ * @return NULL
  *
- * \return NULL
+ * Initialise la sortie audio
  */
 void* MusicManager::initAudioOutput()
 {
@@ -238,10 +243,10 @@ void* MusicManager::initAudioOutput()
 
 
 /**
- * \fn void* MusicManager::terminateAudioDevice()
- * \brief Met fin au streaming
+ * @brief MusicManager::terminateAudioDevice
+ * @return NULL
  *
- * \return NULL
+ * Met fin au streaming
  */
 void* MusicManager::terminateAudioDevice()
 {
@@ -268,10 +273,10 @@ void* MusicManager::terminateAudioDevice()
 
 
 /**
- * \fn MultiTracks *MusicManager::getMultiTracks() const
- * \brief Getter de m_multiTracks
+ * @brief MusicManager::getMultiTracks
+ * @return Pointeur sur m_multiTracks
  *
- * \return Pointeur sur m_multiTracks
+ * Getter de m_multiTracks
  */
 MultiTracks *MusicManager::getMultiTracks() const
 {
@@ -279,11 +284,11 @@ MultiTracks *MusicManager::getMultiTracks() const
 }
 
 /**
- * \fn void* MusicManager::changeFrameIndex(int newFrameIndex)
- * \brief Positionne la lecture à une nouvelle sample ?
+ * @brief MusicManager::changeFrameIndex
+ * @param newFrameIndex Nouvelle sample sur laquelle se positionner
+ * @return NULL
  *
- * \param newFrameIndex Nouvelle sample ou on est positioné
- * \return Pointeur NULL
+ * Positionne la lecture à une nouvelle sample.
  */
 void* MusicManager::changeFrameIndex(int newFrameIndex)
 {
@@ -295,11 +300,11 @@ void* MusicManager::changeFrameIndex(int newFrameIndex)
 }
 
 /**
- * \fn void* MusicManager::goToInMs(int millisecPos)
- * \brief Se déplace à une position donnée en ms dans le morceau (je pense qu'il serait plus judicieux d'utiliser le déplacement en samples
+ * @brief MusicManager::goToInMs
+ * @param millisecPos Temps en millisecondes ou l'on doit se rendre
+ * @return NULL
  *
- * \param millisecPos Temps en millisecondes ou l'on doit se rendre
- * \return Pointeur NULL
+ * Se déplace à une position donnée en ms dans le morceau.
  */
 void* MusicManager::goToInMs(int millisecPos)
 {
@@ -307,12 +312,11 @@ void* MusicManager::goToInMs(int millisecPos)
 }
 
 /**
- * \fn void MusicManager::fillBufferWithLastInputValues(double* buffer, unsigned int size)
- * \brief D'après le nom, remplit un buffer avec les dernières samples capturées en entrée? (pourquoi ne pas utiliser une classe buffer?)
+ * @brief MusicManager::fillBufferWithLastInputValues
+ * @param buffer Le buffer à remplir
+ * @param size Sa taille
  *
- * \param buffer Le buffer à remplir
- * \param size Sa taille
- * \return Rien
+ * Remplit un buffer avec les dernières samples capturées en entrée.
  */
 void MusicManager::fillBufferWithLastInputValues(double* buffer, unsigned int size)
 {
@@ -341,42 +345,10 @@ void MusicManager::fillBufferWithLastInputValues(double* buffer, unsigned int si
 
 
 /**
- * \fn void MusicManager::saveRecordedData(QString fileName)
- * \brief Méthode qui sauvegarde toutes les données enregistrées
+ * @brief MusicManager::run
  *
- * \param fileName Nom du fichier sauvegardé
- * \return Rien
+ * Lance le thread principal
  */
-/*
-void MusicManager::saveRecordedData(QString fileName)
-{
-	// On renseigne les paramètres du fichier à créer
-	SF_INFO fileInfos;
-	fileInfos.channels   = 2;
-	fileInfos.samplerate = 44100;
-	fileInfos.format     = SF_FORMAT_FLOAT | SF_FORMAT_WAV;
-
-	// On ouvre le fichier en  écriture
-	SNDFILE* file = sf_open(fileName.c_str(), SFM_WRITE, &fileInfos);
-	if (!file)
-		return;
-
-	// Ecriture des échantillons audio
-	sf_write_float(file, &m_recordData.recordedSamples[0], m_recordData.frameIndex * m_recordData.nbChannels);
-
-	// Fermeture du fichier
-	sf_close(file);
-
-}
-*/
-
-/**
- * \fn void MusicManager::run()
- * \brief Lance le thread principal
- *
- * \return Rien
- */
-
 // utilisé pour le premier lancement !
 void MusicManager::run()
 {
@@ -393,10 +365,9 @@ void MusicManager::run()
 }
 
 /**
- * \fn void MusicManager::stop()
- * \brief Arrete le playback
+ * @brief MusicManager::stop
  *
- * \return Rien
+ * Arrete le playback.
  */
 void MusicManager::stop()
 {
@@ -404,10 +375,9 @@ void MusicManager::stop()
 }
 
 /**
- * \fn void MusicManager::start()
- * \brief Démarre le playback
+ * @brief MusicManager::start
  *
- * \return Rien
+ * Démarre le playback.
  */
 void MusicManager::start()
 {
@@ -415,6 +385,12 @@ void MusicManager::start()
 	m_recordData.waitStart = false;
 }
 
+/**
+ * @brief MusicManager::mute
+ * @param b True si le mode sourdine doit etre activé, false sinon
+ *
+ * Enlève ou passe en mode sourdine.
+ */
 void MusicManager::mute(bool b)
 {
 	m_multiTracks->changeTrackMuteState("all", b);
@@ -422,10 +398,8 @@ void MusicManager::mute(bool b)
 
 
 /**
- * \fn bool MusicManager::isRunning() const
- * \brief Dit si la lecture ou l'enregistrement sont en cours
- *
- * \return Un booléen correspondant
+ * @brief MusicManager::isRunning
+ * @return True si la lecture ou l'enregistrement sont en cours, false sinon.
  */
 bool MusicManager::isRunning() const
 {
@@ -433,11 +407,10 @@ bool MusicManager::isRunning() const
 }
 
 /**
- * \fn void MusicManager::setMustStop(bool m_mustStop)
- * \brief Arrete la lecture / enregistrement si nécessaire
+ * @brief MusicManager::setMustStop
+ * @param mustStop True si doit s'arreter, false sinon
  *
- * \param mustStop Booléen, TRUE si doit s'arreteer
- * \return Rien
+ * Arrete la lecture / enregistrement si nécessaire.
  */
 void MusicManager::setMustStop(bool mustStop)
 {
@@ -447,21 +420,16 @@ void MusicManager::setMustStop(bool mustStop)
 //////////////////////// fonctions à déplacer (ce sont des callbacks,
 //////////////////////// ils sont appelés à chaque fois qu'un paquet audio est dispo
 /**
- * \fn static int playCallback( const void *inputBuffer, void *outputBuffer,
-		unsigned long framesPerBuffer,
-		const PaStreamCallbackTimeInfo* timeInfo,
-		PaStreamCallbackFlags statusFlags,
-		void *userData )
- * \brief Fonction appellée pour lire un fichier sur la sortie audio
+ * @brief playCallback
+ * @param inputBuffer Buffer d'entrée (les données du fichier)
+ * @param outputBuffer Buffer de sortie (le tampon de la sortie audio)
+ * @param framesPerBuffer Taille des buffers
+ * @param timeInfo Sample actuelle (inutilisé)
+ * @param statusFlags Paramètres de Portaudio (inutilisé)
+ * @param userData En pratique, un soundData
+ * @return Un entier (finished, dit si on arrive au bout du buffer)
  *
- * \param inputBuffer Buffer d'entrée (les données du fichier)
- * \param outputBuffer Buffer de sortie (le tampon de la sortie audio)
- * \param framesPerBuffer Taille des buffers
- * \param timeInfo Sample actuelle ? (inutilisé)
- * \param statusFlags Paramètres de Portaudio ? (inutilisé)
- * \param userData En pratique, un soundData
- *
- * \return Un entier (finished, dit si on arrive au bout du buffer ?)
+ * Fonction appellée pour lire un fichier sur la sortie audio
  */
 static int playCallback( const void *inputBuffer,
 						 void *outputBuffer,
@@ -554,20 +522,16 @@ static int playCallback( const void *inputBuffer,
 }
 
 /**
-* \fn static int recordCallback( const void *inputBuffer, void *outputBuffer,
-	   unsigned long framesPerBuffer,
-	   const PaStreamCallbackTimeInfo* timeInfo,
-	   PaStreamCallbackFlags statusFlags,
-	   void *userData )
-* \brief Fonction appellée pour lire un fichier sur la sortie audio
+* @brief recordCallback
+* @param inputBuffer Buffer d'entrée (les données du fichier)
+* @param outputBuffer Buffer de sortie (le tampon de la sortie audio)
+* @param framesPerBuffer Taille des buffers
+* @param timeInfo Sample actuelle ? (inutilisé)
+* @param statusFlags Paramètres de Portaudio ? (inutilisé)
+* @param userData En pratique, un soundData
+* @return Un entier qui dit si on arrive à la fin du buffer
 *
-* \param inputBuffer Buffer d'entrée (les données du fichier)
-* \param outputBuffer Buffer de sortie (le tampon de la sortie audio)
-* \param framesPerBuffer Taille des buffers
-* \param timeInfo Sample actuelle ? (inutilisé)
-* \param statusFlags Paramètres de Portaudio ? (inutilisé)
-* \param userData En pratique, un soundData
-* \return Un entier, qui dit si on arrive à la fin du buffer ?
+* Fonction appellée pour lire un fichier sur la sortie audio.
 */
 static int recordCallback( const void *inputBuffer, void *outputBuffer,
 						   unsigned long framesPerBuffer,
@@ -636,11 +600,10 @@ static int recordCallback( const void *inputBuffer, void *outputBuffer,
 
 
 /**
- * \fn void* musicManagerMainFunction(void* threadArg)
- * \brief Thread principal (lancé par run() appelé à la fin du constructeur de MusicManager). Ne fait PAS partie de la classe
+ * @brief musicManagerMainFunction
+ * @param threadArg Instance de MusicManager
  *
- * \param threadArg Instance de MusicManager
- * \return Rien
+ * Thread principal (lancé par run() appelé à la fin du constructeur de MusicManager). Ne fait PAS partie de la classe.
  */
 void* musicManagerMainFunction(void* threadArg)
 {
@@ -676,11 +639,22 @@ void* musicManagerMainFunction(void* threadArg)
 	return NULL;
 }
 
+/**
+ * @brief MusicManager::pause
+ *
+ * Met la piste en pause.
+ */
 void MusicManager::pause()
 {
 	g__output_pause = true;
 	g__output_pause_changed = true;
 }
+
+/**
+ * @brief MusicManager::play
+ *
+ * Démarre la lecture de la piste.
+ */
 void MusicManager::play()
 {
 	g__output_pause = false;

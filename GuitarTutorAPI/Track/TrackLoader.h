@@ -18,10 +18,6 @@
 class TrackLoader {
 
 public:
-
-    TrackLoader();
-    ~TrackLoader();
-
 	static bool convertLogicalTrackToXml(LogicalTrack* currentTrack, QString filename);
     static bool convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* currentTrack);
 

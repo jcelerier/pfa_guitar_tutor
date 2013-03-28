@@ -7,9 +7,7 @@
 class Controler;
 
 /**
- * @brief EntireSong
- *
- * Objet affichant tous les accords de la chanson a droite de l'ecran ainsi que leur evolution
+ * @brief Objet affichant tous les accords de la chanson a droite de l'ecran ainsi que leur evolution
  * Cette classe est rafraichie a chaque changement d'accord
  */
 

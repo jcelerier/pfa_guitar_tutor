@@ -11,10 +11,9 @@
 #include "Configuration.h"
 
 /**
- * @brief The SongManager class
+ * @brief Classe qui gère le transport dans la partition.
  *
- * Classe qui gère le transport dans la partition. Contrôle la lecture audio de manière
- * à ce que l'audio soit synchronisé avec ces informations.
+ * Contrôle la lecture audio de manière à ce que l'audio soit synchronisé avec ces informations.
  */
 class SongManager: public QObject
 

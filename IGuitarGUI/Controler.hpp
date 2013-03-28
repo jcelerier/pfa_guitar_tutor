@@ -14,9 +14,7 @@
 class PlayerScene;
 
 /**
- * @brief The Controler class
- *
- * Classe contrôleur du player.
+ * @brief Classe contrôleur du player
  */
 class Controler : public QObject
 {

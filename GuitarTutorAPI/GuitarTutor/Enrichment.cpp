@@ -52,7 +52,6 @@ void Enrichment::initStringEquivs()
  * @return Vrai si et seulement si l'enrichissement est valide.
  *
  * Indique si un enrichissement est valide.
- * @todo à approfondir. Ex: pas de C#Mmsus2sus4776b5... cf site sur le wiki
  */
 bool Enrichment::isValid() const
 {
@@ -83,8 +82,8 @@ bool Enrichment::isEmpty() const{
  * @return L'enrichissement extrait.
  *
  * Extrait un enrichissement à partir d'une chaîne de caractères. Attention la chaine Bm7sus2 retournera la liste
- * "m" "sus2" "7"(l'ordre a changé). En effet, la liste retourné est toujours classé dans l'ordre :
- * M,m,+,-,sus2,sus4, b5,6,7,9,11,13. Et ceux quelque soit l'ordre de la chaine initial.
+ * "m" "sus2" "7"(l'ordre a changé). En effet, la liste retourné est toujours classée dans l'ordre :
+ * M,m,+,-,sus2,sus4, b5,6,7,9,11,13. Et ce, quel que soit l'ordre de la chaine initiale.
  */
 bool Enrichment::extractEnrichmentsFromStr(QString const &str_enr, Enrichment &e)
 {

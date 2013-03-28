@@ -3,9 +3,11 @@
 
 #include <QString>
 #include "PartTrack.h"
+
 /**
- * @brief Permet de représenter un morceau en mémoire. Ces attributs représentent les différentes
- * informations mémorisé.
+ * @brief Représente un morceau en mémoire
+ *
+ * Ces attributs représentent les différentes informations mémorisées.
  */
 
 class LogicalTrack {
@@ -25,7 +27,7 @@ public:
 	void setArtist(QString newArtist);
 	QString getArtist();
 
-	void setComment(QString comment);
+    void setComment(QString m_comment);
 	QString getComment();
 
 	void setAudioFileName(QString newAudioFileName);
@@ -37,7 +39,7 @@ public:
 	void setBars(int nBar, int nBeginning, int nEnd);
 	void setTimeSignature(int nTS);
 
-	int getMesure();
+    int getChordsPerBar();
 
 	void setLine(int);
 	void setColumn(int);
@@ -60,16 +62,16 @@ public:
 	TrackChord* getFirstChord();
 
 private:
-	QString comment;
-	QString trackName;
-	QString artist;
-	QString audioFileName;
-	int mesure;
-	int line, column;
-	int beginning, bar, end;
-	unsigned int timeSignature;
+    QString m_comment;
+    QString m_trackName;
+    QString m_artist;
+    QString m_audioFileName;
+    int m_chordsPerBar;
+    int m_line, m_column;
+    int m_beginning, m_bar, m_end;
+    unsigned int m_timeSignature;
 
-	QList<PartTrack*> listPartTrack;
+    QList<PartTrack*> m_listPartTrack;
 
 };
 

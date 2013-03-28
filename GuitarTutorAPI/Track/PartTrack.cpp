@@ -17,12 +17,12 @@ PartTrack::PartTrack() {
  */
 PartTrack::PartTrack(QString newPartName) {
 
-	partName = newPartName;
+	m_partName = newPartName;
 }
 
 PartTrack::PartTrack(QString newPartName, QList<TrackChord*> newListChords){
-	partName = newPartName;
-	listTrackChords = newListChords;
+	m_partName = newPartName;
+	m_listTrackChords = newListChords;
 }
 
 /**
@@ -32,7 +32,7 @@ PartTrack::PartTrack(QString newPartName, QList<TrackChord*> newListChords){
  */
 PartTrack::~PartTrack() {
 
-	for(QList<TrackChord*>::Iterator i = listTrackChords.begin(); i != listTrackChords.end() ; i++)
+	for(QList<TrackChord*>::Iterator i = m_listTrackChords.begin(); i != m_listTrackChords.end() ; i++)
 		delete (*i);
 
 }
@@ -44,7 +44,7 @@ PartTrack::~PartTrack() {
  */
 void PartTrack::AddChord(TrackChord * c)
 {
-	listTrackChords.append(c);
+	m_listTrackChords.append(c);
 }
 
 /**
@@ -53,7 +53,7 @@ void PartTrack::AddChord(TrackChord * c)
  * Permet de récupérer le nom d'une partie.
  */
 QString PartTrack::getPartName(){
-	return partName;
+	return m_partName;
 }
 
 /**
@@ -62,7 +62,7 @@ QString PartTrack::getPartName(){
  * Permet de récupérer la liste des accords correspondant à une partie.
  */
 QList<TrackChord*> PartTrack::getTrackChordsList(){
-	return listTrackChords;
+	return m_listTrackChords;
 }
 
 /**
@@ -72,24 +72,48 @@ QList<TrackChord*> PartTrack::getTrackChordsList(){
  */
 void PartTrack::incrementCurrentChordRepetition()
 {
-	listTrackChords.last()->setRepetition(listTrackChords.last()->getRepetition() + 1);
+	m_listTrackChords.last()->setRepetition(m_listTrackChords.last()->getRepetition() + 1);
 }
 
+/**
+ * @brief PartTrack::setNext
+ * @param n Pointeur vers la partie suivante
+ *
+ * Chaine la partie courante avec la partie suivante.
+ */
 void PartTrack::setNext(PartTrack* n)
 {
 	m_next = n;
 }
 
+/**
+ * @brief PartTrack::setPrevious
+ * @param p Pointeur vers la partie suivante
+ *
+ * Chaine la partie courante avec la partie précédente.
+ */
 void PartTrack::setPrevious(PartTrack* p)
 {
 	m_previous = p;
 }
 
+/**
+ * @brief PartTrack::next
+ * @return Un pointeur vers la partie suivante.
+ *
+ * Retourne la partie suivant la partie courante.
+ */
 PartTrack* PartTrack::next()
 {
 	return m_next;
 }
 
+/**
+ * @brief PartTrack::previous
+ * @return Un pointeur vers la partie précédente.
+ *
+ * Retourne la partie précédent la partie courante.
+ */
 PartTrack* PartTrack::previous()
 {
 	return m_previous;

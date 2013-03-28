@@ -15,13 +15,13 @@
  */
 class MusicPlayer
 {
-    bool state;
-    QString song;
-    FMOD_SYSTEM *system;
-    FMOD_SOUND *music;
-    FMOD_CHANNEL *channel;
+    bool m_state;
+    QString m_song;
+    FMOD_SYSTEM *m_system;
+    FMOD_SOUND *m_music;
+    FMOD_CHANNEL *m_channel;
 
-	int *samples;
+    int *m_samples;
 public:
     MusicPlayer();
     MusicPlayer(QString);
