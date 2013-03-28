@@ -179,7 +179,7 @@ void PlayerScene::disposeScene()
     QFont countFont("Roboto", 90);
     m_itemMap["countDown"] = new QGraphicsTextItem("", m_itemMap["backgnd"]);
     ((QGraphicsTextItem*)m_itemMap["countDown"])->setFont(countFont);
-    ((QGraphicsTextItem*)m_itemMap["countDown"])->setPos(300-45, 680-45);
+    ((QGraphicsTextItem*)m_itemMap["countDown"])->setPos(500-45, 680-45);
     ((QGraphicsTextItem*)m_itemMap["countDown"])->setDefaultTextColor(Qt::white);
 
 

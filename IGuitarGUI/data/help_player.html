@@ -35,17 +35,11 @@
 
 	</section>
 
-	<section id="install">
-	  <h1>Installation de GuitarTutor sur votre ordinateur</h1>
-
-	  <p>La suite GuitarTutor est compatible Mac OS X et Windows. Reportez-vous aux différentes sections ci-dessous pour la procédure d'installation relative à votre système d'exploitation.</p>
-
-	  <!-- Ces sections sont à développer en fonction des installateurs que nous ferons -->
-
 	  <section class="subsection" id="install_win">
 		<h2>Installation sur Windows</h2>
 
-		Un installateur prêt à l'emploi vous a été fourni.
+		Un installateur prêt à l'emploi vous a été fourni. Il vous suffit de cliquer successivement sur les boutons "Next" et "Install". Vous pouvez également modifier le répertoire de destination si celui qui vous est proposé par défaut ne vous satisfait pas.
+		
 	  </section>
 
 	  <section class="subsection" id="install_mac">
@@ -58,63 +52,47 @@
 
 	</section>
 
-	<section id="editor">
-	  <h1>Utilisation de l'éditeur de partitions</h1>
+	<section id="player">
+	  <h1>Le lecteur</h1>
+	  
+	  <h3 id="player_interface">Découverte de l'interface de jeu</h3>
 
-	  <p>L'éditeur de partitions vous permet de créer les partitions que vous pourrez ensuite utiliser sur le lecteur. Commencez tout d'abord par lancer le logiciel. Une fenêtre d'accueil apparaît.</p>
-	  <img class="img_tuto" alt="Démarrage de l'éditeur" src="qrc:/help/img/editor_startup" />
-	  <p>Cette fenêtre vous donne le choix entre la création d'une nouvelle grille, ou le chargement d'une grille sauvegardée.</p>
+	  <p>Le lecteur permet la lecture des grilles XML éditées par l'éditeur de GuitarTutor. Son interface est détaillée dans cette partie.</p>
+	  <img class="img_tuto" width="800" alt="Interface du lecteur" src="qrc:/help/img/interface" />
+	  <ul>
+	    <li>(A): Informations sur la grille actuellement jouée</li>
+	    <li>(B): Démarrage de la lecture de la grille</li>
+	    <li>(C): Pause de la lecture de la grille</li>
+	    <li>(D): Arrêt de la lecture</li>
+	    <li>(E): Recommencer la lecture du début</li>
+	    <li>(F): Accords à jouer prochainement</li>
+	    <li>(G): Accord reconnu</li>
+	    <li>(H): Plan du morceau entier</li>
+	    <li>(I): Afficher le dictionnaire des accords du morceau</li>
+	    <li>(J): Activer/Désactiver le mode silencieux</li>
+	    <li>(K): Statistiques sur la grille en cours</li>
+	    <li>(L): Ouverture du menu (chargement de grille, ouvrir l'aide, quitter le programme)</li>
+	  </ul>
 
-	  <h3 id="editor_newgrid">Création d'une grille</h3>
 
-		<p>La création d'une grille nécessite quelques informations à remplir directement depuis l'écran d'accueil.</p>
-		<ul>
-		  <li><span class="underline">Nom de la piste:</span> le nom de l'&oelig;uvre dont vous souhaitez créer la grille.</li>
-		  <li><span class="underline">Artiste:</span> le nom de l'artiste de cette &oelig;uvre.</li>
-		  <li><span class="underline">Accords par mesure:</span> le nombre maximal, dans la grille que vous souhaitez créer, d'accords dans une mesure.</li>
-		  <li><span class="underline">Lignes:</span> le nombre de lignes à mettre dans la grille. Généralement, une ligne correspond à une phrase dans le morceau.</li>
-		  <li><span class="underline">Colonnes:</span> le nombre de colonnes à mettre dans la grille.</li>
-		</ul>
-		<p>Il ne vous reste plus qu'à cliquer sur <span class="action">Créer</span> pour voir s'afficher une grille vierge configurée selon les données que vous venez d'entrer.</p>
+	  <h3 id="player_start">Déroulement d'une partie</h3>
 
-		<img class="img_tuto" alt="Nouvelle grille" src="qrc:/help/img/editor_newgrid" />
+    <p>Pour commencer une partie, ouvrez le menu (champ (L)), puis sélectionnez "Charger". Choisissez la grille à ouvrir au format XML, et cliquez sur "Ouvrir". Quelques secondes peuvent être nécessaires pour lancer la partie.</p>
+    <section class="subsection">
+      Si le chargement ne se déroule pas comme prévu, assurez-vous que le fichier audio indiqué dans le fichier XML est bien présent au bon endroit. Veillez également à ce que le fichier XML ait été correctement édité depuis l'éditeur de GuitarTutor.		
+	  </section>
+    <p>Lorsque la grille est ouverte, vous pouvez cliquer sur le bouton de lecture en bas à gauche (champ (B)). Vous devriez entendre la chanson dès la fin du compte à rebours, et voir les accords défiler. Votre objectif est alors de jouer les bons accords au moment où ceux-ci passent sur la barre rouge (champ (F)). Les accords ayant été validés apparaissent en vert dans la partie Chanson Entière (champ (H)), alors que ceux qui n'ont pas été validés sont colorés en rouge. Les accords non colorés sont ceux qui seront prochainement à jouer.</p>
 
-	  <h3 id="editor_loadgrid">Chargement d'une grille</h3>
-
-	  Pour ouvrir une grille, vous pouvez le faire directement depuis l'onglet adéquat de l'écran d'accueil, ou depuis le bouton Ouvrir (ou Ctrl+O). Vous n'avez plus qu'à indiquer à l'éditeur quel fichier XML charger.
-
-	  <h3 id="editor_editgrid">Editer une grille</h3>
-
-		<p>Vous êtes désormais prêt à éditer les accords du morceau! Sur cette grille, chaque case correspond à un unique accord. Commencez par cliquer sur la première case du morceau. Vous avez alors la possibilité d'entrer votre premier accord, et ce, de deux manières:</p>
-		<ul>
-		  <li>Soit en entrant directement l'accord à l'aide de votre clavier</li>
-		  <li>Soit en double-cliquant sur l'accord voulu dans le panneau de gauche</li>
-		</ul>
-
-		<p>Notez que, pour gagner du temps, vous pouvez sélectionner plusieurs cases à la fois en maintenant la touche Ctrl de votre clavier enfoncée, puis sélectionner l'accord désiré dans le panneau latéral. Vous pouvez également ajouter ou supprimer lignes et colonnes à l'aide des boutons de la barre d'outils.</p>
-
-		<p>L'éditeur vous permet également d'indiquer les différentes parties qui composeront la grille, comme par exemple "Introduction", "Couplet", "Refrain", etc... Pour cela, faites un clic droit sur la case désignant le début de la partie, et cliquez sur Propriétés. Assurez-vous que la "Début d'une nouvelle partie" est coché, et entrez le nom de cette partie avant de valider par Ok. Vous devriez désormais remarquer que la couleur de cette case a changé. Notez que la première case du morceau doit obligatoirement désigner le début d'une partie (quitte à nommer cette partie "Morceau entier" par exemple).</p>
-
-		<img class="img_tuto" alt="Edition de grille" src="qrc:/help/img/editor_edit" />
-
-	  <h3 id="editor_syncaudio">Synchronisation audio</h3>
-
-		<p>Afin que la grille que vous venez de créer soit utilisable dans le lecteur de partition, vous devez la synchroniser avec un fichier audio. Pour cela, accédez à l'onglet "Edition audio" de votre grille. Commencez par cliquer sur <span class="action">Parcourir</span> pour indiquer le fichier audio avec lequel faire la synchronisation. La forme d'onde apparaît est calculée et apparaît en bas de la fenêtre.</p>
-		<p>A présent, observez les trois compteurs sur la gauche. L'objectif de cette étape est de leur indiquer les temps tels que:</p>
-		<ul>
-		  <li>Le temps de début doit être le temps auquel le premier accord de votre grille doit être joué</li>
-		  <li>Le temps de mesure doit être la durée moyenne d'un accord (donc d'une case de votre grille)</li>
-		  <li>Le temps de fin doit être le temps auquel le dernier accord de votre grille doit se terminer</li>
-		</ul>
-		<p>Il y a plusieurs manières de remplir ces durées correctement. La manière la plus simple, mais pas forcément la plus précise, consiste à cliquer sur le bouton <img alt="timer" src="qrc:/help/img/editor_audiosynctimer"/> lors de la lecture du morceau. Vous pouvez ensuite affiner votre mesure à l'aide des flèches ou directement depuis votre clavier. Remarquez qu'une barre est apparue sur la forme d'onde, et correspond au temps qui a été entré, et celle-ci est actualisée dès que vous modifiez ce temps. Pour plus de précision, n'hésitez pas à zoomer sur la forme d'onde en maintenant votre clic gauche enfoncé et en vous déplaçant vers le haut (zoom +) ou vers le bas (zoom -), et vers la gauche ou la droite pour vous déplacer.</p>
-		<p>Pour mieux vous rendre compte de votre travail, lancez la lecture du morceau, et retournez à l'onglet Grille. Vous constaterez que la case correspondant à l'accord courant est alors mise en évidence.</p>
-		<img class="img_tuto" alt="Synchronisation audio" src="qrc:/help/img/editor_syncaudio" />
-
-		<p>Certains morceaux nécessiteront un réglage plus fin, en modifiant par exemple la durée d'un seul ou de quelques accord seulement (par exemple dans le cas d'un ralentis). Pour cela, retournez à l'onglet Grille, et faites un clic-droit sur la case concernée, puis cliquez sur Propriétés. Vous pourrez y définir le temps de début de l'accord sans modifier les temps des autres accords.</p>
-
-	  <h3 id="editor_save">Sauvegarde</h3>
-
-	  Une fois la grille éditée, il est possible de la sauvegarder pour l'<a href="#editor_loadgrid">ouvrir</a> plus tard et continuer l'édition, ou pour l'utiliser dans le <a href="#player">lecteur</a> (à condition que l'édition soit terminée). Il vous suffit pour cela de cliquer sur le bouton Enregistrer (ou Ctrl+S) et d'indiquer le chemin où le fichier sera sauvegardé.
+	  <h3 id="player_settings">Réglages des paramètres</h3>
+	  
+	    <p>Pour ouvrir le panneau de réglage des paramètres du lecteur, ouvrez le menu (champ (L)) puis cliquez sur "Options".</p>
+      <img class="img_tuto" alt="Options" src="qrc:/help/img/options" />
+      <p>Le panneau des options vous permet de régler divers paramètres:</p>
+      <ul>
+        <li>Le niveau de difficulté: plus le niveau est élevé, plus il vous sera difficile de valider un accord.</li>
+        <li>L'activation du bouclage: lorsque le bouclage est actif, vous devrez valider un certain pourcentage des notes d'une partie pour passer à la partie suivante. Si le quota n'est pas atteint, le lecteur bouclera sur cette partie jusqu'à ce que ce soit le cas, et passera alors à la partie suivante. Notez que le niveau de difficulté influence le quota à atteindre.</li>
+        <li>Le type de reprise: lorsque vous cliquez sur "Pause" (champ (C)), le comportement de la reprise est réglable. Soit vous décidez de reprendre au début de l'accord en cours (comportement par défaut), soit de reprendre à l'endroit où vous en étiez, ou encore de reprendre au début de la partie.</li>
+      </ul>
 	</section>
 
 	<section id="about">
