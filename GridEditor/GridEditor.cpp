@@ -76,6 +76,7 @@ GridEditor::~GridEditor() {
 		delete m_helpWindow;
 		m_helpWindow = 0;
 	}
+	delete m_saveQueue;
 }
 
 //---------------------------------------------------
@@ -439,6 +440,8 @@ void GridEditor::toXML(QString filename)
 
 
 	TrackLoader::convertLogicalTrackToXml(track, filename);
+
+	m_filename = filename;
 	delete validator;
 }
 

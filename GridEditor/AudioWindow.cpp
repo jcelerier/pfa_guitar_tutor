@@ -73,6 +73,7 @@ AudioWindow::~AudioWindow()
 /**
  * @brief AudioWindow::setWaveform
  * @param waveform Une forme d'onde
+ * @param timeBar La barre au dessus de la waveform avec les sliders
  */
 void AudioWindow::setWaveformData(Waveform* waveform, WaveformTimeBar* timeBar)
 {

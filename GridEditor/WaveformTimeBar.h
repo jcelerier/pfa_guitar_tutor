@@ -40,9 +40,21 @@ class WaveformTimeBar : public QWidget
 		//int getPixelSpacing();
 
 	signals:
+		/**
+		 * @brief timeChanged est émis lorsqu'on bouge un slider
+		 */
 		void timeChanged(int, QTime);
+
+		/**
+		 * @brief somethingChanged  //TODO est utilisé pour la sauvegarde
+		 */
 		void somethingChanged();
+
+		/**
+		 * @brief playSliderModified est utilisé lorsqu'on bouge le slider de lecture
+		 */
 		void playSliderModified(int position);
+
 	public slots:
 		void update();
 		void setTimer(int type, QTime t);
