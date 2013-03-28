@@ -1,31 +1,16 @@
-/*
-Author: Fabien Fleurey
-Created on 28/02/12
-Last change on 14/04/12
-*/
-
 #ifndef CASEITEM_H
 #define CASEITEM_H
 
-#include <QColor>
-#include <QSize>
 #include <QtWidgets/QTableWidgetItem>
 #include <QTime>
-#include <QString>
 #include <QPoint>
+
 #include "Chord.h"
 /**
  * @brief Case d'une grille d'accords
  */
 class CaseItem : public QTableWidgetItem
 {
-	QBrush* m_brush;
-	QString m_part;
-	QTime m_beginningTimer;
-	bool m_timerManuallySet;
-	bool m_partEditable;
-	bool m_currentlyPlaying;
-
 	public:
 		CaseItem(const bool partEditable = true);
 		CaseItem(const CaseItem &item);
@@ -49,9 +34,39 @@ class CaseItem : public QTableWidgetItem
 		bool isTimerManuallySet();
 		bool isPartEditable();
 
-	public slots:
 		void play(bool value = true);
 		void restoreColor();
+
+	private:
+		/**
+		 * @brief m_brush Brosse qui sert à dessiner la couleur d'arrière-plan
+		 */
+		QBrush* m_brush;
+
+		/**
+		 * @brief m_part La partie de la case
+		 */
+		QString m_part;
+
+		/**
+		 * @brief m_beginningTimer L'instant ou la case commence
+		 */
+		QTime m_beginningTimer;
+
+		/**
+		 * @brief m_timerManuallySet Booléen qui dit si le timer a été changé à la main (pour demander confirmation d'écrasement)
+		 */
+		bool m_timerManuallySet;
+
+		/**
+		 * @brief m_partEditable Booléen vrai si on peut changer la partie
+		 */
+		bool m_partEditable;
+
+		/**
+		 * @brief m_currentlyPlaying Booléen vrai si la partie est en train d'être lue
+		 */
+		bool m_currentlyPlaying;
 };
 
 #endif // CASEITEM_H

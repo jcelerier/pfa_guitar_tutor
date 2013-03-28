@@ -2,7 +2,6 @@
 #define NEWGRIDDIALOG_H
 
 #include <QtWidgets/QDialog>
-#include <QString>
 
 namespace Ui {
 class NewGridDialog;
@@ -29,10 +28,35 @@ class NewGridDialog : public QDialog
 		void accept();
 
 	private:
+		/**
+		 * @brief ui La vue de cette classe
+		 */
 		Ui::NewGridDialog *ui;
+
+		/**
+		 * @brief m_trackname Nom du morceau
+		 */
 		QString m_trackname;
+
+		/**
+		 * @brief m_artist Artiste
+		 */
 		QString m_artist;
-		int m_barsize, m_lines, m_columns;
+
+		/**
+		 * @brief m_barsize Taille de la mesure
+		 */
+		int m_barsize;
+
+		/**
+		 * @brief m_lines Nombre de lignes souhaitées
+		 */
+		int m_lines;
+
+		/**
+		 * @brief m_columns Nombre de colonnes souhaitées
+		 */
+		int m_columns;
 };
 
 #endif // NEWGRIDDIALOG_H

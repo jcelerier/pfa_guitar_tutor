@@ -1,18 +1,11 @@
-/*
-Author: Fabien Fleurey
-Created on 28/02/12
-Last change on 08/05/12
-*/
-
 #ifndef CHORDTABLEWIDGET_H
 #define CHORDTABLEWIDGET_H
 
 #include <QtWidgets/QTreeWidget>
 #include <QtWidgets/QTableWidget>
-#include <QList>
 #include <QtWidgets/QMenu>
-#include <QString>
 #include <QtWidgets/QAction>
+#include <QList>
 #include <QPoint>
 
 #include "CaseItem.h"
@@ -28,74 +21,116 @@ class GridEditor;
  */
 class ChordTableWidget : public QTableWidget
 {
-	Q_OBJECT
+		Q_OBJECT
 
-	friend class PartSetter;
-	friend class CaseItemDelegate;
+		friend class PartSetter;
+		friend class CaseItemDelegate;
 
-	int m_barsize;
+	public:
+		ChordTableWidget(int , int , QWidget *parent);
+		~ChordTableWidget();
 
-	QMenu* m_rightClickMenu;
-	CaseItem* m_savedItem;
-	CaseItem* m_currentItem;
-	CaseItem* m_lastPlayedCase;
-	CaseItemDelegate* m_caseItemDelegate;
+		bool isSelectionEmpty();
+		bool isRowSelected();
+		QList<QList<int>*> rowsSelected();
+		void insertChordRow(int , int number = 1);
 
-	QAction* m_properties, *m_playFromHere;
+		LogicalTrack* getLogicalTrack();
+		void setLogicalTrack(LogicalTrack* );
 
-	PartSetter* m_setPartDialog;
-protected:
-	//virtual void mousePressEvent( QMouseEvent* event );
+		void deepCopy(ChordTableWidget* );
 
-public:
-	ChordTableWidget(int , int , QWidget *parent);
-	~ChordTableWidget();
+	public slots:
+		void ShowContextMenu(const QPoint& );
+		void showProperties();
 
-	bool isSelectionEmpty();
-	bool isRowSelected();
-	QList<QList<int>*> rowsSelected();
-	void insertChordRow(int , int number = 1);
+		void fill_selection(QTreeWidgetItem* , int );
+		void insertChordRow();
+		void insertChordColumn();
+		void deleteSelectedColumn();
+		void deleteSelectedRow();
+		void copyDownRows();
 
-	LogicalTrack* getLogicalTrack();
-	void setLogicalTrack(LogicalTrack* );
+		void setCasePart(QString );
+		void setCaseBeginning(QTime );
+		void setCaseAndFollowersBeginning(QTime );
+		void removeCasePart();
+		bool checkBeginningTimes();
 
-	void deepCopy(ChordTableWidget* );
+		void playFromHere();
 
-private:
-	QList<int> expand_list(QList<QList<int>*> );
+		void setTimeInfo(const QTime, const QTime, const QTime);
+		void isPlayingAt(QTime);
 
-signals:
-	void play(int);
-	void barsizeChanged(int);
-	void somethingChanged();
+		void currentItemChanged_slot(QTableWidgetItem* , QTableWidgetItem*);
+		void itemChanged_slot(QTableWidgetItem* );
 
+		void setBarSize(int);
 
-public slots:
-	void ShowContextMenu(const QPoint& );
-	void showProperties();
+	signals:
+		/**
+		 * @brief play est envoyé quand la lecture commence lorsqu'on veut la faire partir à partir d'une case précise
+		 */
+		void play(int);
 
-	void fill_selection(QTreeWidgetItem* , int );
-	void insertChordRow();
-	void insertChordColumn();
-	void deleteSelectedColumn();
-	void deleteSelectedRow();
-	void copyDownRows();
+		/**
+		 * @brief barsizeChanged est envoyé quand la taille de mesure change, pour répercuter sur CaseItemDelegate
+		 */
+		void barsizeChanged(int);
 
-	void setCasePart(QString );
-	void setCaseBeginning(QTime );
-	void setCaseAndFollowersBeginning(QTime );
-	void removeCasePart();
-	bool checkBeginningTimes();
+		/**
+		 * @brief somethingChanged est envoyé quand une donnée de l'application change : sert à la sauvegarde
+		 */
+		void somethingChanged();
 
-	void playFromHere();
+	private:
+		QList<int> expand_list(QList<QList<int>*> );
 
-	void setTimeInfo(const QTime , const QTime , const QTime );
-	void isPlayingAt(QTime );
+		/**
+		 * @brief m_barsize la taille de mesure
+		 */
+		int m_barsize;
 
-	void currentItemChanged_slot(QTableWidgetItem* , QTableWidgetItem*);
-	void itemChanged_slot(QTableWidgetItem* );
+		/**
+		 * @brief m_rightClickMenu le menu de clic droit sur une case
+		 */
+		QMenu* m_rightClickMenu;
 
-	void setBarSize(int);
+		/**
+		 * @brief m_savedItem est utilisé pour vérifier si on change des données quand on change d'objet (sert à la sauvegarde)
+		 */
+		CaseItem* m_savedItem;
+
+		/**
+		 * @brief m_currentItem pointeur sur l'item actuellement sélectionné (en bleu foncé généralement)
+		 */
+		CaseItem* m_currentItem;
+
+		/**
+		 * @brief m_lastPlayedCase pointeur sur la dernière case à avoir été lue
+		 */
+		CaseItem* m_lastPlayedCase;
+
+		/**
+		 * @brief m_caseItemDelegate sert à changer le style graphique des CaseItem
+		 */
+		CaseItemDelegate* m_caseItemDelegate;
+
+		/**
+		 * @brief m_properties Action déclenchée pour ouvrir le menu de propriétés
+		 */
+		QAction* m_properties;
+
+		/**
+		 * @brief m_playFromHere Action pour lancer la lecture à partir d'une case
+		 */
+		QAction* m_playFromHere;
+
+		/**
+		 * @brief m_setPartDialog Dialogue qui s'ouvre pour modifier les propriétés d'une case
+		 */
+		PartSetter* m_setPartDialog;
+
 };
 
 #endif // CHORDTABLEWIDGET_H

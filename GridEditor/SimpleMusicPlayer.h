@@ -1,88 +1,156 @@
 #ifndef SIMPLEMUSICPLAYER_H
 #define SIMPLEMUSICPLAYER_H
 
-#include <QtWidgets/QWidget>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QToolButton>
 #include <QtWidgets/QSlider>
 #include <QtWidgets/QLabel>
 #include <QTimer>
 #include <QResizeEvent>
-#include <QString>
 #include <QPoint>
 #include <QTime>
+
 #include <MusicPlayer.h>
+
 #include "Waveform.h"
 #include "WaveformTimeBar.h"
+
 #define REFRESH_DELAY 200
 #define PLAYTIMER_DELAY 40
 
 /**
- * @brief Classe générant l'interface graphique d'un lecteur audio simple
+ * @brief Gère l'interface graphique d'un lecteur audio simple
  */
 class SimpleMusicPlayer : public QWidget
 {
-	Q_OBJECT
+		Q_OBJECT
 
-private:
-	QGridLayout* m_layout;
-	QToolButton* m_stopButton;
-	QToolButton* m_playButton, *m_playBarButton;
-	QSlider* m_slideBar;
-	QLabel* m_timerLabel;
-	QTimer* m_timer, *m_playTimer;
+	public:
+		SimpleMusicPlayer(QWidget *parent);
+		~SimpleMusicPlayer();
 
-	Waveform *m_waveform;
-	WaveformTimeBar* m_waveformTimeBar;
+		bool setAudioFile(QString file);
 
-	MusicPlayer* m_player;
+		QTime getCurrentPosition();
+		QString getSong();
+		int getWaveBegin();
+		int getWaveEnd();
 
-	unsigned int m_songLength;
-	unsigned int m_currentPosition;
+		void waveUpdate();
 
-	int m_waveBegin;
-	int m_waveEnd;
+	public slots:
+		void play();
+		void pause();
+		void stop();
+		void refreshTimerLabel();
+		void updateSlideBar();
+		void changePosition(int);
 
-protected:
-	virtual void resizeEvent(QResizeEvent * event);
+		void sendTimeData();
 
-public:
-	SimpleMusicPlayer(QWidget *parent);
-	~SimpleMusicPlayer();
-	QString getSong();
-	bool setAudioFile(QString);
+		void waveFullZoom();
+		void waveSongZoom();
+		void waveBarZoom();
 
-	QTime getCurrentPosition();
+		void zoomIn(QPoint);
+		void zoomOut(QPoint);
+		void moveLeft();
+		void moveRight();
 
-	int getWaveBegin();
-	int getWaveEnd();
+	signals:
+		/**
+		 * @brief sigTimeData envoie la position dans la lecture du morceau
+		 */
+		void sigTimeData(QTime);
 
-	void waveUpdate();
+		/**
+		 * @brief browseAudioFile permet d'ouvrir la fenêtre de choix de fichier audio
+		 */
+		void browseAudioFile();
 
-public slots:
-	void play();
-	void pause();
-	void stop();
-	void refreshTimerLabel();
-	void updateSlideBar();
-	void changePosition(int);
+	protected:
+		virtual void resizeEvent(QResizeEvent * event);
 
-	void sendTimeData();
+	private:
+		/**
+		 * @brief m_parent Parent du widget (ne /!\ PAS /!\ utiliser QObject::parent())
+		 */
+		QWidget* m_parent;
 
-	void waveFullZoom();
-	void waveSongZoom();
-	void waveBarZoom();
+		/**
+		 * @brief m_layout Disposition du widget
+		 */
+		QGridLayout* m_layout;
 
-	void zoomIn(QPoint);
-	void zoomOut(QPoint);
-	void moveLeft();
-	void moveRight();
+		/**
+		 * @brief m_stopButton Bouton stop
+		 */
+		QToolButton* m_stopButton;
 
-signals:
-	void sigTimeData(QTime);
-	void browseAudioFile();
-	void audioFileDeleted();
-	void sendTimers(QTime, QTime, QTime);
+		/**
+		 * @brief m_playButton Bouton lecture
+		 */
+		QToolButton* m_playButton;
+
+		/**
+		 * @brief m_playBarButton TODO bouton lecture à partir du début de la mesure
+		 */
+		QToolButton *m_playBarButton;
+
+		/**
+		 * @brief m_slideBar Barre avec un slider
+		 */
+		QSlider* m_slideBar;
+
+		/**
+		 * @brief m_timerLabel Label qui affiche le temps dans le morceau
+		 */
+		QLabel* m_timerLabel;
+
+		/**
+		 * @brief m_timer Sert à la mise à jour de la slidebar
+		 */
+		QTimer* m_timer;
+
+		/**
+		 * @brief m_playTimer Sert à la mise à jour de la slidebar de la waveform //TODO : unifier avec m_timer
+		 */
+		QTimer *m_playTimer;
+
+		/**
+		 * @brief m_waveform Forme d'onde qui s'affiche.
+		 */
+		Waveform *m_waveform;
+
+		/**
+		 * @brief m_waveformTimeBar Barre ou s'affichent les sliders de temps au dessus de la waveform
+		 */
+		WaveformTimeBar* m_waveformTimeBar;
+
+		/**
+		 * @brief m_player Base du player audio (dans l'API)
+		 */
+		MusicPlayer* m_player;
+
+		/**
+		 * @brief m_songLength Longueur du morceau (en ms)
+		 */
+		unsigned int m_songLength;
+
+		/**
+		 * @brief m_currentPosition Position actuelle dans le morceau (en ms)
+		 */
+		unsigned int m_currentPosition;
+
+		/**
+		 * @brief m_waveBegin Sample de l'extrêmité gauche de la waveform
+		 */
+		int m_waveBegin;
+
+		/**
+		 * @brief m_waveEnd Sample de l'extrêmité droite de la waveform
+		 */
+		int m_waveEnd;
 };
 
 #endif // SIMPLEMUSICPLAYER_H

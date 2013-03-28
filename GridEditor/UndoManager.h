@@ -1,5 +1,5 @@
-#ifndef SAVEQUEUE_H
-#define SAVEQUEUE_H
+#ifndef UNDOMANAGER_H
+#define UNDOMANAGER_H
 
 #include <QStack>
 #include "StatePacket.h"
@@ -42,4 +42,4 @@ class UndoManager: public QObject
 		StatePacket* m_currentState;
 };
 
-#endif // SAVEQUEUE_H
+#endif // UNDOMANAGER_H

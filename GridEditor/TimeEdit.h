@@ -4,7 +4,9 @@
 #include <QtWidgets/QTimeEdit>
 
 /**
- * @brief Sous-classe de QTimeEdit qui permet de changer la couleur
+ * @brief The TimeEdit class
+ *
+ * Héritage de la QTimeEdit pour afficher en rouge si invalide
  */
 class TimeEdit : public QTimeEdit
 {
@@ -17,14 +19,24 @@ class TimeEdit : public QTimeEdit
 		virtual void mousePressEvent ( QMouseEvent * event );
 
 	signals:
+		/**
+		 * @brief hasBeenClicked est émis lorsqu'on clique sur le widget
+		 */
 		void hasBeenClicked();
 
 	public slots:
 		void changed(QTime);
 
 	private:
+		/**
+		 * @brief m_hasChanged vrai si a changé (pour éviter les feedbacks)
+		 */
 		bool m_hasChanged;
-		QString m_badStyle; //mérite de passer en static const
+
+		/**
+		 * @brief m_badStyle CSS qui correspond à un état invalide
+		 */
+		QString m_badStyle; //TODO mérite de passer en static const
 
 
 };

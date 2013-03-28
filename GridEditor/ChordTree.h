@@ -2,21 +2,20 @@
 #define CHORDTREE_H
 
 #include <QtWidgets/QTreeWidget>
-#include <QString>
 #include "Tonality.h"
 #include "Enrichment.h"
+
 
 /**
  * @brief Arbre de sélection d'accords
  */
 class ChordTree : public QTreeWidget
 {
-	Q_OBJECT
+		Q_OBJECT
 
-public:
-	ChordTree();
-	QTreeWidgetItem *buildChordItem(const QString);
-
+	public:
+		ChordTree();
+		QTreeWidgetItem *buildChordItem(const QString);
 };
 
 #endif // CHORDTREE_H

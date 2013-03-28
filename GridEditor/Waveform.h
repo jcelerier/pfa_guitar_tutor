@@ -15,6 +15,7 @@
  */
 class Waveform : public QLabel
 {
+	QWidget* m_parent;
 	Q_OBJECT
 
 	bool m_empty;
@@ -34,9 +35,12 @@ class Waveform : public QLabel
 	unsigned int m_height;
 	int m_reductionFactor;
 
-	QPoint m_oldMousePos, m_clickPos;
+	QPoint m_oldMousePos;
+	QPoint m_clickPos;
 
-	QTime m_beginTime, m_endTime, m_barTime;
+	QTime m_beginTime;
+	QTime m_endTime;
+	QTime m_barTime;
 
 
 	protected:
@@ -50,8 +54,8 @@ class Waveform : public QLabel
 		void display();
 		void initImage();
 
-		void setWidth(unsigned int );
-		void setHeight(int );
+		void setWidth(unsigned int w);
+		void setHeight(int h);
 
 		int getWidth();
 		int* getSpectrum();
@@ -60,8 +64,8 @@ class Waveform : public QLabel
 		int getSampleBar();
 		int getSampleEnd();
 
-		void simpleDrawColumn(int , int , QPen* );
-		void drawColumn(int , int , int , int , int , int , int );
+		void simpleDrawColumn(int col, int value, QPen* pen);
+		void drawColumn(int col, int beg, int end, int smp_begin, int smp_end, int pos_begin, int pos_end);
 	signals:
 
 	public slots:

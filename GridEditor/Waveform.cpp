@@ -16,6 +16,7 @@
  */
 Waveform::Waveform(QWidget *parent, int w, int h):
 	QLabel(parent),
+	m_parent(parent),
 	m_previouslyPlayedPixel(0),
 	m_width(w),
 	m_height(h)
@@ -109,8 +110,8 @@ void Waveform::display()
 {
 	initImage();
 
-	int beg = ((SimpleMusicPlayer*) parent())->getWaveBegin(); //première sample affichée
-	int end = ((SimpleMusicPlayer*) parent())->getWaveEnd();
+	int beg = ((SimpleMusicPlayer*) m_parent)->getWaveBegin(); //première sample affichée
+	int end = ((SimpleMusicPlayer*) m_parent)->getWaveEnd();
 	float size = end - beg; // nb de samples affichées
 
 	int s_beg = QTimeToSample(m_beginTime);
@@ -266,21 +267,21 @@ void Waveform::mouseMoveEvent(QMouseEvent * event)
 	const QPoint pos = event->pos();
 	if(pos.x() < m_oldMousePos.x()) // on va à gauche : mouvement
 	{
-		((SimpleMusicPlayer*) parent())->moveLeft();
+		((SimpleMusicPlayer*) m_parent)->moveLeft();
 	}
 	else if(pos.x() > m_oldMousePos.x()) // on va à droite : mouvement
 	{
-		((SimpleMusicPlayer*) parent())->moveRight();
+		((SimpleMusicPlayer*) m_parent)->moveRight();
 	}
 
 
 	if(pos.y() < m_oldMousePos.y()) // on va en haut : zoom
 	{
-		((SimpleMusicPlayer*) parent())->zoomIn(m_clickPos);
+		((SimpleMusicPlayer*) m_parent)->zoomIn(m_clickPos);
 	}
 	else if(pos.y() > m_oldMousePos.y()) // on va en bas : dézoom
 	{
-		((SimpleMusicPlayer*) parent())->zoomOut(m_clickPos);
+		((SimpleMusicPlayer*) m_parent)->zoomOut(m_clickPos);
 	}
 
 	m_oldMousePos = pos;
@@ -372,8 +373,8 @@ void Waveform::setPlayerTimer(QTime t)
 {
 	int s_pos = QTimeToSample(t);
 
-	int beg = ((SimpleMusicPlayer*) parent())->getWaveBegin();
-	int end = ((SimpleMusicPlayer*) parent())->getWaveEnd();
+	int beg = ((SimpleMusicPlayer*) m_parent)->getWaveBegin();
+	int end = ((SimpleMusicPlayer*) m_parent)->getWaveEnd();
 	float size = end - beg; // nb de samples affichées
 
 	float pos_pixel = (((float) s_pos - (float) beg) / size) * m_width;

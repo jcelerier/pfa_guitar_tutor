@@ -2,9 +2,8 @@
 #define PARTSETTER_H
 
 #include <QtWidgets/QDialog>
-#include <QTime>
 #include <QtWidgets/QMessageBox>
-#include <QString>
+#include <QTime>
 
 namespace Ui {
 class PartSetter;
@@ -25,6 +24,7 @@ class PartSetter : public QDialog
 
 		void showDialogModal();
 		void setPartEditable(bool editable);
+
 	public slots:
 		void accept();
 		void setEnabledPartEdit(int state);
@@ -33,6 +33,9 @@ class PartSetter : public QDialog
 		void on_pushButton_clicked();
 
 	private:
+		/**
+		 * @brief ui Vue de cette classe
+		 */
 		Ui::PartSetter *ui;
 };
 

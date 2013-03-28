@@ -19,6 +19,7 @@
  */
 SimpleMusicPlayer::SimpleMusicPlayer(QWidget* parent) : QWidget(parent)
 {
+	this->m_parent = parent;
 	m_layout = new QGridLayout();
 	m_playButton = new QToolButton();
 	// A FAIRE : playBarButton = new QToolButton();
@@ -33,7 +34,7 @@ SimpleMusicPlayer::SimpleMusicPlayer(QWidget* parent) : QWidget(parent)
 
 	m_waveform = new Waveform(this, ((AudioWindow*) parent)->width()  - WIDTH_ADJUSTMENT, 300);
 	m_waveformTimeBar = new WaveformTimeBar(QTime(0, 0), this);
-	((AudioWindow*) parent)->setWaveformData(m_waveform, m_waveformTimeBar);
+    ((AudioWindow*) parent)->setWaveformData(m_waveform, m_waveformTimeBar);
 
 
 	m_playButton->setIcon(QIcon(":/icons/play.png"));
@@ -58,9 +59,9 @@ SimpleMusicPlayer::SimpleMusicPlayer(QWidget* parent) : QWidget(parent)
 	connect(m_timer, SIGNAL(timeout()), this, SLOT(updateSlideBar()));
 	connect(m_playTimer, SIGNAL(timeout()), this, SLOT(sendTimeData()));
 
-	connect(this, SIGNAL(sigTimeData(QTime)), m_waveform, SLOT(setPlayerTimer(QTime)));
-	connect(this, SIGNAL(sigTimeData(QTime)), m_waveformTimeBar, SLOT(setPlayerTimer(QTime)));
-	connect(m_waveformTimeBar, SIGNAL(playSliderModified(int)), this, SLOT(changePosition(int)));
+    connect(this, SIGNAL(sigTimeData(QTime)), m_waveform, SLOT(setPlayerTimer(QTime)));
+    connect(this, SIGNAL(sigTimeData(QTime)), m_waveformTimeBar, SLOT(setPlayerTimer(QTime)));
+    connect(m_waveformTimeBar, SIGNAL(playSliderModified(int)), this, SLOT(changePosition(int)));
 
 	connect(m_slideBar, SIGNAL(sliderMoved(int)), this, SLOT(changePosition(int)));
 
@@ -125,7 +126,7 @@ bool SimpleMusicPlayer::setAudioFile(QString file)
 	m_waveBegin = 0;
 	m_waveEnd = m_player->getTotalLengthInSamples();
 
-	m_waveform->setWidth(((QWidget*) parent())->width() - WIDTH_ADJUSTMENT);
+	m_waveform->setWidth(m_parent->width() - WIDTH_ADJUSTMENT);
 	m_player->getSpectrum(m_waveBegin, m_waveEnd, m_waveform->getSpectrum(), m_waveform->getWidth());
 	m_waveform->activate();
 	waveUpdate();
@@ -149,14 +150,14 @@ void SimpleMusicPlayer::resizeEvent(QResizeEvent * event)
 	QWidget::resizeEvent(event);
 	if(m_player->getState())
 	{
-		m_waveform->setWidth(((QWidget*) parent())->width() - WIDTH_ADJUSTMENT);
+		m_waveform->setWidth(m_parent->width() - WIDTH_ADJUSTMENT);
 
 		m_player->getSpectrum(m_waveBegin, m_waveEnd, m_waveform->getSpectrum(), m_waveform->getWidth());
 
 	}
 	else
 	{
-		m_waveform->setWidth(((QWidget*) parent())->width() - WIDTH_ADJUSTMENT);
+		m_waveform->setWidth(m_parent->width() - WIDTH_ADJUSTMENT);
 	}
 	waveUpdate();
 }
@@ -238,7 +239,7 @@ void SimpleMusicPlayer::stop()
 		m_playTimer->stop();
 		m_currentPosition = 0;
 		m_slideBar->setSliderPosition(0);
-		this->sendTimeData();
+        this->sendTimeData();
 		refreshTimerLabel();
 		m_playButton->setIcon(QIcon(":/icons/play.png"));
 	}
@@ -287,7 +288,7 @@ void SimpleMusicPlayer::updateSlideBar()
 {
 	m_currentPosition = m_player->getPosition();
 	m_slideBar->setSliderPosition(m_currentPosition);
-	this->sendTimeData();
+    this->sendTimeData();
 	refreshTimerLabel();
 	m_timer->start(REFRESH_DELAY);
 }

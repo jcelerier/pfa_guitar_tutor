@@ -1,7 +1,6 @@
 #ifndef TEMPOEDIT_H
 #define TEMPOEDIT_H
 
-#include <QtGui>
 #include <QtWidgets/QSpinBox>
 
 /**
@@ -21,14 +20,24 @@ class TempoEdit : public QSpinBox
 		virtual void mouseReleaseEvent(QMouseEvent *event);
 
 	signals:
+		/**
+		 * @brief hasBeenClicked est émis lorsqu'on clique sur le widget
+		 */
 		void hasBeenClicked();
 
 	public slots:
 		void changed(int);
 
 	private:
+		/**
+		 * @brief m_hasChanged vrai si a changé (pour éviter les feedbacks)
+		 */
 		bool m_hasChanged;
-		QString m_badStyle; //mérite de passer en static const
+
+		/**
+		 * @brief m_badStyle CSS qui correspond à un état invalide
+		 */
+		QString m_badStyle; //TODO mérite de passer en static const
 
 };
 

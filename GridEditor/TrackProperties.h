@@ -35,13 +35,35 @@ class TrackProperties : public QDialog
 		void accept();
 
 	signals:
+		/**
+		 * @brief barsizeChanged est émis quand le nombre d'accords par mesure change
+		 */
 		void barsizeChanged(int);
+
+		/**
+		 * @brief timeSignatureChanged est émis quand la signature temporelle change
+		 */
 		void timeSignatureChanged(int);
+
+		/**
+		 * @brief trackChanged est émis quand le nom du morceau change
+		 */
 		void trackChanged();
+
+		/**
+		 * @brief artistChanged est émis quand l'artiste change
+		 */
 		void artistChanged();
+
+		/**
+		 * @brief somethingChanged est émis dès que quelquechose change //TODO (pour sauvegarde)
+		 */
 		void somethingChanged();
 
 	private:
+		/**
+		 * @brief ui Vue correspondant à la classe
+		 */
 		Ui::TrackProperties *ui;
 
 };
