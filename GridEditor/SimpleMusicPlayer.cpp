@@ -2,7 +2,7 @@
 #include "AudioWindow.h"
 #include <Util.hpp>
 #include <QtWidgets/QMessageBox>
-#include <QDebug>
+
 
 
 
