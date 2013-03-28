@@ -3,9 +3,7 @@
 
 #include "ChordTableWidget.h"
 /**
- * @brief The StatePacket struct
- *
- * Cette structure représente l'état de l'éditeur à un instant donné.
+ * @brief Représente l'état de l'éditeur à un instant donné.
  */
 struct StatePacket
 {
