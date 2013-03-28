@@ -1,46 +1,45 @@
 <?xml version="1.0"?>
-
-<morceau line="8" end="66869" nom="Let It Be" timeSignature="4" fichier="Tracks/LetItBe/piano.wav" bar="2000" chordMesure="1" beginning="0" artiste="Beatles" column="4">
+<morceau fichier="Tracks/LetItBe/piano.wav" line="8" beginning="0" timeSignature="4" end="66869" artiste="Beatles" nom="Let It Be" chordMesure="1" column="4" comment="" bar="2000">
   <partie nom="Intro">
-    <accord nom="C" temps="0" repetition="1"/>
-    <accord nom="G" temps="2000" repetition="1"/>
-    <accord nom="Am" temps="4000" repetition="1"/>
-    <accord nom="F" temps="6000" repetition="1"/>
-    <accord nom="C" temps="8000" repetition="1"/>
-    <accord nom="G" temps="10000" repetition="1"/>
-    <accord nom="F" temps="12000" repetition="1"/>
+    <accord repetition="1" nom="C" temps="0"/>
+    <accord repetition="1" nom="G" temps="2000"/>
+    <accord repetition="1" nom="Am" temps="4000"/>
+    <accord repetition="1" nom="F" temps="6000"/>
+    <accord repetition="1" nom="C" temps="8000"/>
+    <accord repetition="1" nom="G" temps="10000"/>
+    <accord repetition="1" nom="F" temps="12000"/>
   </partie>
   <partie nom="Refrain">
-    <accord nom="Am" temps="14000" repetition="1"/>
-    <accord nom="G" temps="16000" repetition="1"/>
-    <accord nom="F" temps="18000" repetition="1"/>
-    <accord nom="C" temps="20000" repetition="1"/>
-    <accord nom="G" temps="22000" repetition="1"/>
-    <accord nom="C" temps="24000" repetition="1"/>
-    <accord nom="F" temps="26000" repetition="1"/>
+    <accord repetition="1" nom="Am" temps="14000"/>
+    <accord repetition="1" nom="G" temps="16000"/>
+    <accord repetition="1" nom="F" temps="18000"/>
+    <accord repetition="1" nom="C" temps="20000"/>
+    <accord repetition="1" nom="G" temps="22000"/>
+    <accord repetition="1" nom="C" temps="24000"/>
+    <accord repetition="1" nom="F" temps="26000"/>
   </partie>
   <partie nom="Couplet">
-    <accord nom="C" temps="28000" repetition="1"/>
-    <accord nom="G" temps="30000" repetition="1"/>
-    <accord nom="Am" temps="32000" repetition="1"/>
-    <accord nom="F" temps="34000" repetition="1"/>
-    <accord nom="C" temps="36000" repetition="1"/>
-    <accord nom="G" temps="38000" repetition="1"/>
-    <accord nom="F" temps="40000" repetition="1"/>
+    <accord repetition="1" nom="C" temps="28000"/>
+    <accord repetition="1" nom="G" temps="30000"/>
+    <accord repetition="1" nom="Am" temps="32000"/>
+    <accord repetition="1" nom="F" temps="34000"/>
+    <accord repetition="1" nom="C" temps="36000"/>
+    <accord repetition="1" nom="G" temps="38000"/>
+    <accord repetition="1" nom="F" temps="40000"/>
   </partie>
   <partie nom="Refrain">
-    <accord nom="Am" temps="42000" repetition="1"/>
-    <accord nom="G" temps="44000" repetition="1"/>
-    <accord nom="F" temps="46000" repetition="1"/>
-    <accord nom="C" temps="48000" repetition="1"/>
-    <accord nom="G" temps="50000" repetition="1"/>
-    <accord nom="C" temps="52000" repetition="1"/>
-    <accord nom="F" temps="54000" repetition="1"/>
+    <accord repetition="1" nom="Am" temps="42000"/>
+    <accord repetition="1" nom="G" temps="44000"/>
+    <accord repetition="1" nom="F" temps="46000"/>
+    <accord repetition="1" nom="C" temps="48000"/>
+    <accord repetition="1" nom="G" temps="50000"/>
+    <accord repetition="1" nom="C" temps="52000"/>
+    <accord repetition="1" nom="F" temps="54000"/>
   </partie>
   <partie nom="Final">
-    <accord nom="C" temps="56000" repetition="1"/>
-    <accord nom="G" temps="58000" repetition="1"/>
-    <accord nom="Am" temps="60000" repetition="1"/>
-    <accord nom="nc" temps="62000" repetition="1"/>
+    <accord repetition="1" nom="C" temps="56000"/>
+    <accord repetition="1" nom="G" temps="58000"/>
+    <accord repetition="1" nom="Am" temps="60000"/>
+    <accord repetition="1" nom="n" temps="62000"/>
   </partie>
 </morceau>

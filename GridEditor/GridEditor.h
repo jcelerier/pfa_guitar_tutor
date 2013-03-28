@@ -74,7 +74,7 @@ class GridEditor : public QMainWindow
 		void firstNewGrid();
 		void newGrid();
 		void save();
-		void toXML(QString m_filename = "");
+		void toXML(QString filename = "");
 		void fromXML();
 		void about();
 		void setStatusText();
