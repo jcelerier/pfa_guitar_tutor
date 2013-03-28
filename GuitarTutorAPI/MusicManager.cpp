@@ -31,7 +31,14 @@ static int playCallback( const void *inputBuffer, void *outputBuffer,
 		PaStreamCallbackFlags statusFlags,
 		void *userData );
 
+/**
+ * @brief musicManagerMainFunction
+ * @param threadArg Thread
+ *
+ * Controle la lecture audio.
+ */
 void* musicManagerMainFunction(void* threadArg);
+
 /**
  * @brief MusicManager::MusicManager
  * @param tracks Liste des pistes qui seront chargées par l'objet (mapping)

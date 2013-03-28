@@ -14,9 +14,9 @@
  */
 MusicPlayer::MusicPlayer()
 {
-	FMOD_System_Create(&system);
-	FMOD_System_Init(system, 4, FMOD_INIT_NORMAL, NULL);
-	state = false;
+	FMOD_System_Create(&m_system);
+	FMOD_System_Init(m_system, 4, FMOD_INIT_NORMAL, NULL);
+	m_state = false;
 }
 
 /**
@@ -27,9 +27,9 @@ MusicPlayer::MusicPlayer()
  */
 MusicPlayer::MusicPlayer(QString song)
 {
-	FMOD_System_Create(&system);
-	FMOD_System_Init(system, 1, FMOD_INIT_NORMAL, NULL);
-	state = setSong(song);
+	FMOD_System_Create(&m_system);
+	FMOD_System_Init(m_system, 1, FMOD_INIT_NORMAL, NULL);
+	m_state = setSong(song);
 }
 
 /**
@@ -37,10 +37,10 @@ MusicPlayer::MusicPlayer(QString song)
  */
 MusicPlayer::~MusicPlayer()
 {
-	if(state)
-		FMOD_Sound_Release(music);
-	FMOD_System_Close(system);
-	FMOD_System_Release(system);
+	if(m_state)
+		FMOD_Sound_Release(m_music);
+	FMOD_System_Close(m_system);
+	FMOD_System_Release(m_system);
 }
 
 /**
@@ -50,8 +50,8 @@ MusicPlayer::~MusicPlayer()
  */
 void MusicPlayer::play()
 {
-	if(state) {
-		FMOD_System_PlaySound(system, FMOD_CHANNEL_FREE, music, 0, &channel);
+	if(m_state) {
+		FMOD_System_PlaySound(m_system, FMOD_CHANNEL_FREE, m_music, 0, &m_channel);
 	}
 }
 
@@ -62,16 +62,16 @@ void MusicPlayer::play()
  */
 void MusicPlayer::pause(bool p)
 {
-	if(state) {
-		FMOD_Channel_SetPaused(channel, p);
+	if(m_state) {
+		FMOD_Channel_SetPaused(m_channel, p);
 	}
 }
 
 bool MusicPlayer::isPaused()
 {
-	if(state) {
+	if(m_state) {
 		FMOD_BOOL isPaused;
-		FMOD_Channel_GetPaused(channel, &isPaused);
+		FMOD_Channel_GetPaused(m_channel, &isPaused);
 		return (bool) isPaused;
 	}
 	return false;
@@ -84,9 +84,9 @@ bool MusicPlayer::isPaused()
  */
 void MusicPlayer::stop()
 {
-	if(state) {
-		FMOD_Channel_SetPaused(channel, true);
-		FMOD_Channel_SetPosition(channel, 0, FMOD_TIMEUNIT_MS);
+	if(m_state) {
+		FMOD_Channel_SetPaused(m_channel, true);
+		FMOD_Channel_SetPosition(m_channel, 0, FMOD_TIMEUNIT_MS);
 	}
 }
 
@@ -103,15 +103,15 @@ bool MusicPlayer::setSong(QString song)
 	QByteArray   ar = song.toLatin1();
 	const char * tmp = ar.constData();
 
-	FMOD_RESULT result = FMOD_System_CreateSound(system, tmp, FMOD_SOFTWARE | FMOD_2D |  FMOD_CREATESAMPLE, 0, &music);
+	FMOD_RESULT result = FMOD_System_CreateSound(m_system, tmp, FMOD_SOFTWARE | FMOD_2D |  FMOD_CREATESAMPLE, 0, &m_music);
 
 	if (result != FMOD_OK) {
-		state = false;
+		m_state = false;
 		qDebug() << tmp << FMOD_ErrorString(result);
 		return false;
 	}
-	this->song = song;
-	state = true;
+	this->m_song = song;
+	m_state = true;
 
 	initSamples(); //charge le fichier dans le tableau
 	return true;
@@ -125,7 +125,7 @@ bool MusicPlayer::setSong(QString song)
  */
 QString MusicPlayer::getSong() const
 {
-	return song;
+	return m_song;
 }
 
 /**
@@ -136,7 +136,7 @@ QString MusicPlayer::getSong() const
  */
 bool MusicPlayer::getState() const
 {
-	return state;
+	return m_state;
 }
 
 /**
@@ -147,9 +147,9 @@ bool MusicPlayer::getState() const
  */
 unsigned int MusicPlayer::getPosition() const
 {
-	if(state) {
+	if(m_state) {
 		unsigned int tmp;
-		if(FMOD_Channel_GetPosition(channel, &tmp, FMOD_TIMEUNIT_MS) == FMOD_OK)
+		if(FMOD_Channel_GetPosition(m_channel, &tmp, FMOD_TIMEUNIT_MS) == FMOD_OK)
 			return tmp;
 	}
 	return 0;
@@ -163,9 +163,9 @@ unsigned int MusicPlayer::getPosition() const
  */
 unsigned int MusicPlayer::getTotalLength() const
 {
-	if(state) {
+	if(m_state) {
 		unsigned int tmp = 0;
-		if(FMOD_Sound_GetLength(music, &tmp, FMOD_TIMEUNIT_MS) == FMOD_OK)
+		if(FMOD_Sound_GetLength(m_music, &tmp, FMOD_TIMEUNIT_MS) == FMOD_OK)
 			return tmp;
 	}
 	return 0;
@@ -179,9 +179,9 @@ unsigned int MusicPlayer::getTotalLength() const
  */
 unsigned int MusicPlayer::getTotalLengthInSamples() const
 {
-	if(state) {
+	if(m_state) {
 		unsigned int tmp = 0;
-		if(FMOD_Sound_GetLength(music, &tmp, FMOD_TIMEUNIT_PCM) == FMOD_OK)
+		if(FMOD_Sound_GetLength(m_music, &tmp, FMOD_TIMEUNIT_PCM) == FMOD_OK)
 			return tmp;
 	}
 	return 0;
@@ -195,8 +195,8 @@ unsigned int MusicPlayer::getTotalLengthInSamples() const
  */
 void MusicPlayer::changePosition(unsigned int position)
 {
-	if(state)
-		FMOD_Channel_SetPosition(channel, position, FMOD_TIMEUNIT_MS);
+	if(m_state)
+		FMOD_Channel_SetPosition(m_channel, position, FMOD_TIMEUNIT_MS);
 }
 
 /**
@@ -214,8 +214,8 @@ void MusicPlayer::initSamples()
 	unsigned int length2;
 	const unsigned int size =  getTotalLengthInSamples();
 
-	samples = new int[size];
-	result = FMOD_Sound_Lock(music, 0, size*4, &pointer1, &pointer2, &length1, &length2);
+	m_samples = new int[size];
+	result = FMOD_Sound_Lock(m_music, 0, size*4, &pointer1, &pointer2, &length1, &length2);
 
 	if(result != FMOD_OK)
 	{
@@ -224,10 +224,10 @@ void MusicPlayer::initSamples()
 
 	for(unsigned int i = 0; i < size; i++)
 	{
-		samples[i] = *((int*) pointer1 + i);
+		m_samples[i] = *((int*) pointer1 + i);
 	}
 
-	FMOD_Sound_Unlock(music, pointer1, pointer2, length1, length2);
+	FMOD_Sound_Unlock(m_music, pointer1, pointer2, length1, length2);
 
 }
 
@@ -273,7 +273,7 @@ void MusicPlayer::getFullSpectrum(int * tab, unsigned int size)
 			if(sample < file_size)
 			{
 
-				max = (samples[sample] < max)? max : samples[sample];
+				max = (m_samples[sample] < max)? max : m_samples[sample];
 			}
 		}
 
@@ -303,9 +303,9 @@ void MusicPlayer::getSpectrum(int begin, int end, int* tab, unsigned int pixelSi
 		{
 			sample = (((i * chunk_sep) + begin) + j);
 
-			if(sample < file_size && samples[sample] > max)
+			if(sample < file_size && m_samples[sample] > max)
 			{
-				max = samples[sample];
+				max = m_samples[sample];
 			}
 		}
 

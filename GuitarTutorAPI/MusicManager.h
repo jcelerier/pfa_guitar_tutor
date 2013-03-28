@@ -27,8 +27,11 @@ extern "C" {
 #include "chord/chord_c.h"
 }
 
-
 class MusicManager;
+
+/**
+ * @brief Structure permettant de gérer le traitement de l'audio via Portaudio
+ **/
 typedef struct
 {
 	unsigned short NB_CROSSFADE_FRAMES;
@@ -44,6 +47,9 @@ typedef struct
 }
 soundData;
 
+/**
+ * @brief Gère les entrées et les sorties audio du programme.
+ */
 class MusicManager {
 public:
 	MusicManager(QMap<QString, QString> & tracks,

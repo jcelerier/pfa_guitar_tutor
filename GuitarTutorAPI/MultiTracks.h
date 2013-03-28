@@ -12,7 +12,9 @@
 #include <QMap>
 #include <QString>
 
-
+/**
+ * @brief Classe servant à la gestion de plusieurs pistes à la suite (non utilisée pour plus d'une piste).
+ */
 class MultiTracks
 {
 public:

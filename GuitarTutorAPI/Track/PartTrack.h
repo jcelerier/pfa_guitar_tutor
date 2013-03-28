@@ -30,8 +30,8 @@ class PartTrack
 
 	private:
 
-		QString partName;
-		QList<TrackChord*> listTrackChords;
+        QString m_partName;
+        QList<TrackChord*> m_listTrackChords;
 
 		PartTrack * m_next;
 		PartTrack * m_previous;

@@ -4,18 +4,19 @@
 #include <QString>
 #include "../GuitarTutor/Chord.h"
 
-/**
- * @brief Permet de représenter un accord en mémoire de manière plus haut
- * niveau que BasicChord. Cette sructure cache le système "note+enrichissement".
- */
-
 class PartTrack;
 
+/**
+ * @brief Représente un accord en mémoire.
+ *
+ * Permet de représenter un accord en mémoire de manière plus haut
+ * niveau que BasicChord. Cette sructure cache le système "note+enrichissement".
+ */
 class TrackChord {
 public:
 
 	TrackChord();
-	TrackChord(QString nom, qreal d, int rep, TrackChord* previous = 0, TrackChord* next = 0, PartTrack* part = 0);
+    TrackChord(QString name, qreal d, int rep, TrackChord* previous = 0, TrackChord* next = 0, PartTrack* part = 0);
 	~TrackChord();
 
 	void setRepetition(int newRepetition);
@@ -45,9 +46,9 @@ public:
 
 
 private:
-	BasicChord * currentChord;
-	qreal beginning_in_ms;
-	int repetition;
+    BasicChord * m_currentChord;
+    qreal m_beginningInMs;
+    int m_repetition;
 
 	int m_num;
 	PartTrack* m_part;

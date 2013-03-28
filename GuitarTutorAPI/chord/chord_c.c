@@ -34,12 +34,13 @@ static double hann_window(int i, int N)
 /* ---- */
 
 /**
- * @fn chord_init
- * Initialise les structures chord_ctrl
+ * @brief chord_init
  * @param c Structure d'accord à initialiser
  * @param samplerate Taux d'échantillonage
  * @param hop ?
- * @param frame ?
+ * @param Nombre de frames
+ *
+ * Initialise les structures chord_ctrl.
  */
 void chord_init(chord_ctrl* c, int samplerate, int hop, int frame)
 {
@@ -60,9 +61,10 @@ void chord_init(chord_ctrl* c, int samplerate, int hop, int frame)
 /* ---- */
 
 /**
- * @fn chord_exit
- * Désallocation des structures d'accord
+ * @brief chord_exit
  * @param c Structure à désallouer
+ *
+ * Désallocation des structures d'accord.
  */
 void chord_exit(chord_ctrl *c)
 {
@@ -75,12 +77,13 @@ void chord_exit(chord_ctrl *c)
 /* ----------- */
 
 /**
- * @fn chroma_compute
- * Analyse de ?
- * @param c Accord à analyser
- * @param samples ?
- * @param sample_size ?
- * @return 1 en cas d'erreur, 0 sinon
+ * @brief chroma_compute
+ * @param c Accord à initialiser
+ * @param samples Tableau des samples
+ * @param sample_size Taille du tableau d'échantillonage
+ * @return 1 en cas d'erreur, 0 sinon.
+ *
+ * Analyse de samples.
  */
 int chroma_compute(chord_ctrl *c, double *samples, int sample_size)
 {
@@ -133,10 +136,11 @@ int chroma_compute(chord_ctrl *c, double *samples, int sample_size)
 /* ----------------- */
 
 /**
- * @fn chord_compute
- * Analyse d'un accord
+ * @brief chord_compute
  * @param c Accord à analyser
- * @return "NO_CHORD" en cas d'erreur, le nom de l'accord sinon
+ * @return "NO_CHORD" en cas d'erreur, le nom de l'accord sinon.
+ *
+ * Analyse d'une structure d'accord
  */
 const char *chord_compute(chord_ctrl *c)
 {
@@ -158,10 +162,11 @@ const char *chord_compute(chord_ctrl *c)
 }
 
 /**
- * @fn getChordName
- * Retourne le nom de l'accord correspondant à l'entrée
+ * @brief getChordName
  * @param _chord Accord à nommer
  * @return La chaîne vide en cas d'erreur, le nom de l'accord sinon
+ *
+ * Retourne le nom de l'accord correspondant à l'entrée.
  */
 const char* getChordName(int _chord)
 {

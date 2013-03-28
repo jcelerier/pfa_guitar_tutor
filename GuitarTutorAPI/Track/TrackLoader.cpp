@@ -1,10 +1,13 @@
 #include "TrackLoader.h"
 
-
-TrackLoader::TrackLoader() {
-
-}
-
+/**
+ * @brief TrackLoader::convertLogicalTrackToXml
+ * @param currentTrack Track à convertir
+ * @param fname Fichier de destination
+ * @return True si la conversion s'est bien passée, false sinon.
+ *
+ * Fonction de conversion d'une LogicalTrack vers un fichier XML.
+ */
 bool TrackLoader::convertLogicalTrackToXml(LogicalTrack* currentTrack, QString fname) {
    // QString fname = currentTrack->getTrackName().append(".xml");
 	QFile file(fname);
@@ -74,15 +77,13 @@ bool TrackLoader::convertLogicalTrackToXml(LogicalTrack* currentTrack, QString f
 
 
 /**
- * Fonction de chargement d'un fichier-piste au format XML
- *@params xmlFileName : Chemin vers le fichier xml à parser
- *@params currentTrack : Pointeur vers un LogicalTrack. Les données de celui-ci seront
- *remplacé par les données du XML.
- *@return un booleen true si la fonction s'est correctement executé et false sinon.
- *return false si le fichier spécifié n'existe pas,
- *si le document XML ouvert ne peut être associé au QDomDocument,
- *si le document XML n'est pas un fichier associé au projet
-*/
+ * @brief TrackLoader::convertXmlToLogicalTrack
+ * @param xmlFileName Chemin vers le fichier xml à parser
+ * @param currentTrack Pointeur vers un LogicalTrack. Les données de celui-ci seront remplacées par les données du XML
+ * @return True si la fonction s'est correctement executée, false sinon.
+ *
+ * Fonction de conversion d'un fichier XML vers une instance de LogicalTrack.
+ */
 bool TrackLoader::convertXmlToLogicalTrack(QString xmlFileName, LogicalTrack* currentTrack) {
 
 	TrackChord* previousChord = 0;

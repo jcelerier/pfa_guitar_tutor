@@ -12,8 +12,10 @@
 
 #define CHROMA_SIZE 36
 
-typedef
-struct chord_ctrl
+/**
+ * @brief Structure représentative d'un accord
+ */
+typedef struct chord_ctrl
 {
   float chroma[CHROMA_SIZE];
   int num_frames;

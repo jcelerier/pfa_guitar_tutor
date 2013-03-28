@@ -17,9 +17,7 @@
 #define PERCENT_TO_VALIDATE_HARD 70
 
 /**
- * @brief The Configuration class
- *
- * Classe qui contient la configuration.
+ * @brief Classe gérant la configuration d'une partie (difficulté, reprises,...)
  */
 class Configuration
 {
@@ -33,12 +31,7 @@ class Configuration
 		QString getAudioInput();
 
 		void setAudioOutput(QString audioOutput);
-		QString setAudioOutput();
-
-		void setInputIndex(int);
-		void setOutputIndex(int);
-        int getInputIndex() const;
-        int getOutputIndex() const;
+        QString getAudioOutput();
 
         int getPauseSetting() const;
 		void setPauseSetting(int);
@@ -71,11 +64,11 @@ private:
         static int m_width;
         static float m_quotient;    // Rapport entre taille de la scene et la taille d'affichage (horizontal)
 
-        int m_pause_setting;
-        int m_percent_to_go_to_next_part;   // Difficulté
+        int m_pauseSetting;
+        int m_percentToGoToNextPart;   // Difficulté
 
-		bool loop_on_failure;
-        QString songDirectory;              // Repertoire par defaut ou chercher les chansons
+        bool m_loopOnFailure;
+        QString m_songDirectory;              // Repertoire par defaut ou chercher les chansons
 
 };
 

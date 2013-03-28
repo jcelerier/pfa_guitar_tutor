@@ -9,9 +9,8 @@
 
 class Controler;
 /**
- * @brief ScrollingItem
+ * @brief Contient les accords defilants
  *
- * Contient les accords defilants
  * Cette classe est rafraichie a chaque rafraichissement d'ecran, determine dans la configuration
  */
 class ScrollingItem : public QGraphicsItem
