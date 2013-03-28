@@ -21,6 +21,7 @@ Last change on 08/05/12
  * @brief ChordTableWidget::ChordTableWidget
  * @param column Nombre de colonnes
  * @param row Nombre de lignes
+ * @param parent Parent du widget
  *
  * Initialise la grille d'accords à une taille donnée.
  */
@@ -469,7 +470,6 @@ void ChordTableWidget::setCaseAndFollowersBeginning(QTime t)
 
 /**
  * @brief ChordTableWidget::removeCasePart
- * @param text Texte à mettre.
  *
  * Slot appelé lorsqu'on supprime une partie
  */
@@ -753,7 +753,7 @@ void ChordTableWidget::isPlayingAt(QTime t)
 
 /**
  * @brief ChordTableWidget::itemChanged_slot
- * @param item Case dont on a changé le texte
+ * @param qitem Case dont on a changé le texte
  *
  * Méthode qui met la case dans un état bon ou mauvais.
  */

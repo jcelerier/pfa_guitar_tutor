@@ -5,6 +5,7 @@
  * @brief EditorPanel::EditorPanel
  * @param chordTable Pointeur vers la grille de GridEditor
  * @param audioWindow Pointeur vers l'audioWindow de GridEditor
+ * @param trackProperties Pointeur vers le trackProperties de GridEditor
  * @param parent Parent Qt
  *
  * Cette classe sert à afficher les onglets dans la fenêtre principale.

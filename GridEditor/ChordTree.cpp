@@ -21,7 +21,7 @@ ChordTree::ChordTree() :
 
 /**
  * @brief ChordTree::buildChord
- * @param base_name Tonalité à rajouter à la liste des accords
+ * @param tonality Tonalité à rajouter à la liste des accords
  * @return L'élément à rajouter à la liste des accords.
  *
  * Cette fonction crée un objet contenant les différentes possibilités d'accords à partir d'une tonalité donnée: mineur, majeur,...
