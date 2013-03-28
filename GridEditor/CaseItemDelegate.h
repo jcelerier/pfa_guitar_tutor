@@ -5,7 +5,7 @@
 #include "CaseItem.h"
 
 /**
- * @brief Permet de dessiner ou d'ajouter de la couleur dans les case
+ * @brief Permet de dessiner ou d'ajouter de la couleur dans les cases
  * de l'éditeur.
  */
 
