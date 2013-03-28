@@ -74,7 +74,7 @@ class SimpleMusicPlayer : public QWidget
 
 	private:
 		/**
-		 * @brief m_parent Parent du widget (ne /!\ PAS /!\ utiliser QObject::parent())
+		 * @brief m_parent Parent du widget
 		 */
 		QWidget* m_parent;
 

@@ -5,6 +5,9 @@
 #include "StatePacket.h"
 
 class GridEditor;
+/**
+ * @brief Gestionnaire d'undo / redo
+ */
 class UndoManager: public QObject
 {
 		Q_OBJECT

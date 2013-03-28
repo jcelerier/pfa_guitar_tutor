@@ -4,9 +4,7 @@
 #include <QtWidgets/QSpinBox>
 
 /**
- * @brief The TempoEdit class
- *
- * Héritage de la QSpinBox pour afficher en rouge si invalide
+ * @brief Enfant de la QSpinBox pour afficher en rouge si données invalide
  */
 class TempoEdit : public QSpinBox
 {

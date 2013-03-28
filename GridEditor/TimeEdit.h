@@ -4,9 +4,7 @@
 #include <QtWidgets/QTimeEdit>
 
 /**
- * @brief The TimeEdit class
- *
- * Héritage de la QTimeEdit pour afficher en rouge si invalide
+ * @brief Enfant de la QTimeEdit pour afficher en rouge si données invalide
  */
 class TimeEdit : public QTimeEdit
 {
