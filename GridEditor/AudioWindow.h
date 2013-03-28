@@ -35,7 +35,6 @@ class AudioWindow : public QWidget
 	public slots:
 		void browseAudioFile();
 		void setAudioFile();
-		void resetAudioFile();
 		void playFrom(int);
 
 	private slots:

@@ -1,13 +1,12 @@
 #ifndef WAVEFORMTIMESLIDER_H
 #define WAVEFORMTIMESLIDER_H
 
-#include <QWidget>
+#include <QtWidgets/QWidget>
 #include <QTime>
 
 /**
  * @brief Slider pour la barre de temps du morceau lu.
  */
-
 class WaveformTimeSlider : public QWidget
 {
 		Q_OBJECT
@@ -25,15 +24,30 @@ class WaveformTimeSlider : public QWidget
 		QRect getPixmapSize();
 
 	signals:
-        void timeChanged(int, QTime); //!< Signal émis lorsque le slider a été déplacé
-
-	public slots:
+		/**
+		 * @brief timeChanged est émis lorsque le slider a été déplacé
+		 */
+		void timeChanged(int, QTime);
 
 	private:
+		/**
+		 * @brief m_type Type du slider : début, mesure, fin...
+		 */
 		int m_type;
+
+		/**
+		 * @brief m_time Position du slider en samples
+		 */
 		int m_time;
+
+		/**
+		 * @brief m_pixmap Image du slider
+		 */
 		QPixmap m_pixmap;
 
+		/**
+		 * @brief m_pos Position du slider en pixels
+		 */
 		int m_pos;
 
 };

@@ -35,7 +35,6 @@ AudioWindow::AudioWindow(QWidget * parent)
 
 	connect(m_browseButton, SIGNAL(released()), this, SLOT(browseAudioFile()));
 	connect(m_player, SIGNAL(browseAudioFile()), this, SLOT(browseAudioFile()));
-	connect(m_player, SIGNAL(audioFileDeleted()), this, SLOT(resetAudioFile()));
 
 	connect(m_player, SIGNAL(sigTimeData(QTime)), parent, SIGNAL(sigTimeData(QTime)));
 	connect(m_audioSync, SIGNAL(refreshTimer(int)), this, SLOT(refreshTimerAudioSync(int)));
@@ -104,19 +103,6 @@ void AudioWindow::setAudioFile()
 void AudioWindow::setAudioFileName(QString file)
 {
 	m_player->setAudioFile(file);
-}
-
-/**
- * @brief AudioWindow::resetAudioFile
- *
- * Réinitialise l'affichage du fichier audio associé.
- */
-void AudioWindow::resetAudioFile()
-{
-	m_audioFile->setText("");
-	m_audioFile->setEnabled(false);
-	m_audioSync->activeButtons(false);
-	m_waveformTimeBar->deactivate();
 }
 
 /**
