@@ -88,3 +88,5 @@ RESOURCES += \
 QMAKE_CXXFLAGS = -O3
 #ne sert à rien car de toute façon QtCore.dll a besoin de libstd++6.dll, etc..
 #win32:QMAKE_LFLAGS = -static-libgcc -static-libstdc++ -static -lwinpthread
+
+win32: RC_FILE = GridEditor.rc

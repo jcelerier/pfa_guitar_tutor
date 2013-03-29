@@ -22,6 +22,7 @@
         <file alias="maskscrolling.png">images/maskscrolling.png</file>
         <file alias="mute.png">images/mute.png</file>
         <file alias="unMute.png">images/unMute.png</file>
+        <file alias="dico.png">images/dico.png</file>
     </qresource>
     <qresource prefix="/chordsImg">
         <file alias="A.png">chordsImg/A.png</file>
