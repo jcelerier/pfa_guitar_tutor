@@ -121,7 +121,7 @@ void SongManager::stop()
     m_totalPlayedChords = 0;
     m_totalValidatedChords = 0;
 
-	if(m_track != 0)
+    if(m_track != 0 && !m_track->getPartTrackList().isEmpty())
 	{
 		goToChord(m_track->getPartTrackList()[0]->getTrackChordsList()[0]);
 	}

@@ -177,7 +177,7 @@ void Controler::pauseSong()
 void Controler::stopSong()
 {
 	m_timer->stop();
-	m_songManager->stop();
+    m_songManager->stop();
     m_playing=false;
 }
 

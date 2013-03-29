@@ -224,6 +224,10 @@ void PlayerScene::play()
     if(m_loaded) {
         if(!m_isPlaying) {
             if(!m_cntdownOver) {
+                if(m_controler->getTrack() == 0) {
+                    m_loaded = false;
+                    return;
+                }
                 m_cntdown = 4;
                 playCountdown();
 
@@ -266,6 +270,8 @@ void PlayerScene::pause()
  */
 void PlayerScene::stop()
 {
+    if(!m_loaded)
+        return;
     if(m_itemMap["menu"]->isVisible())
         return;
 
@@ -491,6 +497,7 @@ void PlayerScene::setSceneToChord(TrackChord* tc) {
  * Initialise l'interface avec la LogicalTrack donnée.
  */
 void PlayerScene::loadSong(LogicalTrack* track) {
+    m_loaded = false;
     if(m_itemMap["entireSong"] != 0) {
         delete m_itemMap["entireSong"];
         m_itemMap["entireSong"] = 0;
