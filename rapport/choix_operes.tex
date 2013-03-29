@@ -197,9 +197,9 @@ Finalement, il ne reste aujourd'hui de la première version du lecteur que la ge
 \end{center}
 \end{figure}
 
-Nous avons également fait en sorte que le lecteur utilise par défaut OpenGL, afin que celui-ci soit, au moins partiellement, exécuté sur la carte graphique de l'utilisateur, en vue d'améliorer là encore les performances. En effet, nous n'utilisons pas le système de widgets standard comme sur l'éditeur par exemple: nous avons utilisé le système de scène de Qt, qui permet plus de liberté graphique, ce que nous pensons adapté au monde ludique.
+Nous avons également fait en sorte que le lecteur utilise par défaut OpenGL, afin que celui-ci soit, au moins partiellement, exécuté sur la carte graphique de l'utilisateur, en vue d'améliorer là encore les performances. En effet, nous n'utilisons pas le système de widgets standard comme sur l'éditeur. Par exemple, nous avons utilisé le système de scène de Qt, qui permet plus de liberté graphique, ce que nous pensons adapté au monde ludique.
 Ce système de scène est tout à fait représentatif de la \ac{MVC} : nous plaçons les éléments comme nous le désirons et Qt se charge
-de la logique de mise à jour, de dessin, et de boucle centrale. Il suffit donc simplement de dire à Qt d'utiliser OpenGL via la ligne suivante :
+de la logique de mise à jour, de dessin et de boucle centrale. Il suffit donc simplement de dire à Qt d'utiliser OpenGL via la ligne suivante :
 
 \begin{figure}[H]
 \begin{lstlisting}
@@ -217,9 +217,9 @@ Comme il nous avait été demandé, le programme devait être rendu sous la form
 
 \subsubsection{Sur Windows}
 
-Sur Windows, GuitarTutor se présente sous la forme d'un installateur \textit{msi} créé avec le logiciel Advance Installer. L'apparence de cet installateur est tout à fait semblable aux installateurs de logiciels Windows habituels, et propose les mêmes options; comme par exemple la possibilité de modifier le chemin de l'installation, ou encore celle de créer une icône sur le bureau de l'utilisateur.
+Sur Windows, GuitarTutor se présente sous la forme d'un installateur \textit{msi} créé avec le logiciel Advance Installer. L'apparence de cet installateur est tout à fait semblable aux installateurs de logiciels Windows habituels, et propose les mêmes options; comme par exemple la possibilité de modifier le chemin de l'installation ou encore celle de créer une icône sur le bureau de l'utilisateur.
 
-La seule véritable difficulté sur ce système d'exploitation aura été de définir quelles étaient les librairies dynamiques à inclure dans notre package. Pour cela, nous avons testé sur des machines vierges de tout outil lié à notre environnement de travail (Qt, FMOD,\dots), puis simplement procédé par élimination pour ne retenir que les fichiers dll nécessaires.
+La seule véritable difficulté sur ce système d'exploitation aura été de définir quelles étaient les librairies dynamiques à inclure dans notre package. Pour cela, nous avons testé sur des machines vierges de tout outil liés à notre environnement de travail (Qt, FMOD,\dots), puis simplement procédé par élimination pour ne retenir que les fichiers dll nécessaires.
 
 Un outil qui a aussi été utilisé vers la fin du projet est Dependency Walker : ce programme analyse un fichier exécutable et liste les
 DLL dont il a besoin.
@@ -236,7 +236,7 @@ Nous avions un temps pensé à recompiler Qt de manière statique pour limiter l
 
 \subsubsection{Sur Mac OS X}
 
-Sur Mac OS X, notre programme se présente comme une application \textit{.app}, autrement appelé \textit{bundle}. C'est avec le format \textit{dmg}, sur ce système d'exploitation, une des deux formes les plus usuelles pour distribuer un logiciel. Il s'agit en fait d'un dossier contenant l'exécutable en lui-même, ainsi que tous les éléments tels que les bibliothèques dynamiques nécessaires à son fonctionnement (cf figure \ref{app_mac_os}).
+Sur Mac OS X, notre programme se présente comme une application \textit{.app}, autrement appelée \textit{bundle}. C'est avec le format \textit{dmg}, sur ce système d'exploitation, une des deux formes les plus usuelles pour distribuer un logiciel. Il s'agit en fait d'un dossier contenant l'exécutable en lui-même, ainsi que tous les éléments tels que les bibliothèques dynamiques nécessaires à son fonctionnement (cf figure \ref{app_mac_os}).
 
 \begin{figure}[H]
 \begin{center}
@@ -250,11 +250,11 @@ Plusieurs outils similaires sont mis à la disposition des développeurs Mac OS 
 
 \subsection{Développement Agile}
 
-En accord avec les conseils de notre responsable pédagogique, nous avons r\ac{API}dement opté pour l'utilisation d'une méthode de développement de type agile. Le PFA état en effet une excellente occasion pour s'essayer à ce genre de méthodes qui sont de plus en plus employées dans des cadres professionnels.
+En accord avec les conseils de notre responsable pédagogique, nous avons rapidement opté pour l'utilisation d'une méthode de développement de type agile. Le PFA était en effet une excellente occasion pour s'essayer à ce genre de méthodes qui sont de plus en plus employées dans le cadre professionnel.
 
 \subsubsection{Réunions clients}
 
-Dès le mois de novembre, nous avons mis en place un système de rendez-vous réguliers, généralement toutes les trois semaines avec nos clients. Ces réunions servaient tout d'abord à présenter le travail qui avait été effectué depuis le dernier rendez-vous, au travers d'une démonstration sur le logiciel en cours de développement. S'en suivait une discussion sur les différents points qui méritaient d'être relevés, afin de répartir les tâches en trois catégories: ce qui était fait et qui était validé, ce qui était fait mais restait à améliorer (ou à changer totalement), et enfin, ce qui restait à faire. Il ne restait alors qu'à fixer les objectifs à tenir d'ici le prochain rendez-vous.
+Dès le mois de novembre, nous avons mis en place un système de rendez-vous réguliers, généralement toutes les trois semaines, avec nos clients. Ces réunions servaient tout d'abord à présenter le travail qui avait été effectué depuis le dernier rendez-vous, au travers d'une démonstration sur le logiciel en cours de développement. S'en suivait une discussion sur les différents points qui méritaient d'être relevés, afin de répartir les tâches en trois catégories: ce qui était fait et qui était validé, ce qui était fait mais restait à améliorer (ou à changer totalement), et enfin, ce qui restait à faire. Il ne restait alors qu'à fixer les objectifs à tenir d'ici le prochain rendez-vous.
 
 Les avantages de travailler de la sorte se sont révélés au cours du projet. Tout d'abord, la possibilité de discuter de manière régulière de nos avancées avec nos clients était particulièrement intéressante, car cela permet d'instaurer un dialogue entre demandeurs et réalisateurs. On peut notamment remarquer que le cahier des charges (cf annexes) comporte plusieurs points qui n'ont pas été réalisés, ou qui ont été réalisés différemment de ce qui était initialement prévu, pas à cause d'un manque de temps, mais grâce à ce dialogue qui a permis d'affiner et de changer les besoins exprimés au fur et à mesure du développement du projet.
 
@@ -274,20 +274,20 @@ De manière analogue au \textit{ScrumMaster} de la méthode Scrum, nous avons ch
 
 Les tâches étaient ensuite attribuées selon les demandes du cycle courant et des préférences de chacun, généralement par binômes, binômes qui ont été très variables tout au cours du projet. Des réunions hebdomadaires permettaient de faire le point sur les difficultés rencontrées et l'avancement des différentes tâches, et éventuellement de réorganiser la répartition. En plus de cela, l'équipe était informée par mail des interrogations et des avancées entre deux réunions, ainsi que par l'intermédiaire de notre wiki que nous avons mis en place dès le début du projet.
 
-De manière générale, cette méthode de développement semble avoir bien fonctionné pour notre équipe au cours de ce projet.
+De manière générale, cette méthode de développement semble avoir bien fonctionnée pour notre équipe au cours de ce projet.
 
 \subsubsection{L'agile dans le code}
 Un des autres aspects de l'approche agile au développement de projet est l'impact sur
 la manière de produire du code. Notamment, comme cela a pu être vu au début du rapport dans la
 chronologie du projet, il y a eu énormément de refactorisations et de changements assez profonds,
-qui ont été annulés par la suite, comme pour BOOST, ou maintenus, comme pour FMOD.
+qui ont été annulés par la suite, comme pour BOOST ou maintenus, comme pour FMOD.
 
 \subsubsection{L'agile dans le cadre de l'école}
 La difficulté principale avec le développement agile se situe dans les contraintes de temps
 imposées par l'école et l'emploi du temps, dont les deux défauts sont d'être fixe (on ne peut pas ne pas aller en cours)
 et variable (les horaires d'un même cours peuvent changer d'une semaine à l'autre).
 
-De plus, notre répartition dans des groupes de TD différent a fait que nous n'avons pas toujours pu nous voir
+De plus, notre répartition dans des groupes de TD différents a fait que nous n'avons pas toujours pu nous voir
 comme nous le voulions, et que le gros du travail et des sprints était ainsi effectué généralement chez soi, en
 communiquant par e-mail.
 
