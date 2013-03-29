@@ -260,7 +260,7 @@ passait dans le calcul d'exponentielles complexes dans l'algorithme Butterfly ut
 \end{figure}
 
 Les fonctions sin et cos sont en fait issues du simple calcul $e^{ix} = cos(x) + i*sin(x)$.
-Elles sont disponibles sous plusieurs formes car les optimisations du compilateur (MSVC ici) ont été activées dans leur niveau maximal (O2).
+Elles sont disponibles sous plusieurs formes car les optimisations du compilateur (\ac{MSVC} ici) ont été activées dans leur niveau maximal (O2).
 
 Or, après étude du code, il est apparu que les exponentielles calculées ont toujours des paramètres connus :
 \begin{figure}[H]
@@ -278,7 +278,7 @@ un pré-calcul de ces facteurs, et de les mettre dans un dictionnaire qui serait
 Ceci dit, pour améliorer temporairement les performances, nous avons tenté d'utiliser OpenMP dans la dernière boucle qui calcule
 les coefficients Butterfly, ce qui permet d'utiliser les capacités des processeurs multicoeur si l'ordinateur cible en dispose.
 
-Néanmoins, cela ne fonctionne que sous Linux avec GCC et Windows avec MSVC, mais pas sous Mac OS X avec Clang.
+Néanmoins, cela ne fonctionne que sous Linux avec \ac{GCC} et Windows avec \ac{MSVC}, mais pas sous Mac OS X avec Clang.
 
 \subsection{Chronologie de l'architecture de notre logiciel}
 
@@ -294,7 +294,7 @@ Mi-Février & Compilation native sous Windows.\\
 Fin Février & Suppression de IScoreLight et création d'un nouveau manager pour le lecteur.\\
 Début Mars & Le lecteur utilise entièrement l'API.\\
 Mi-Mars & Suppression de libsndfile, avantageusement remplacé par FMOD dans le player.\\
-Fin Mars & Utilisation de Clang sur Mac OS X, MSVC sur Windows.\\
+Fin Mars & Utilisation de Clang sur Mac OS X, \ac{MSVC} sur Windows.\\
 
 \end{tabular}
 }
