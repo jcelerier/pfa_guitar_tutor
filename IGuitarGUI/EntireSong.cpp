@@ -105,8 +105,8 @@ void EntireSong::load(LogicalTrack * lt)
 {
 	QPen lightPen(Qt::black, 1);
 	QBrush innerCont(Qt::white);
-    QFont chordFont("Roboto", 31);
-    QFont partFont("Roboto", 13);
+    QFont chordFont("Roboto Black", 31);
+    QFont partFont("Roboto Black", 13);
 
 	int line_height = 52;
 	int line_spacing = 25;
