@@ -240,8 +240,8 @@ Enfin, on effectue un lissage par moyennage sur le tableau obtenu.
 Le lecteur est beaucoup plus complexe que l'éditeur. D'une part, l'affichage prend un certain temps (que nous avons réduit grâce à l'utilisation d'OpenGL),
 et d'autre part, le calcul de la transformée de Fourier dans la librairie EHPCP est intense.
 
-Nous avons effectué des mesures sur le logiciel et nous avons trouvé que 60\% environ du temps de calcul
-passait dans le calcul d'exponentielles complexes dans l'algorithme Butterfly utilisé pour la transformée de Fourier :
+Nous avons effectué des mesures sur le logiciel et avons trouvé que 60\% environ du temps de calcul
+passait dans le calcul d'exponentielles complexes dans l'algorithme Butterfly utilisé pour la transformée de Fourier (voir figure \ref{player_performance}).
 
 \begin{figure}[H]
 \begin{center}
@@ -252,7 +252,7 @@ passait dans le calcul d'exponentielles complexes dans l'algorithme Butterfly ut
 \end{figure}
 
 Les fonctions sin et cos sont en fait issues du simple calcul $e^{ix} = cos(x) + i*sin(x)$.
-Elles sont disponibles sous plusieurs formes car les optimisations du compilateur (\ac{MSVC} ici) ont été activées dans leur niveau maximal (O2).
+Elles sont disponibles sous plusieurs formes car les optimisations du compilateur (\ac{MSVC} ici) ont été activées dans leur niveau maximal (avec l'option \texttt{-O2}).
 
 Or, après étude du code, il est apparu que les exponentielles calculées ont toujours des paramètres connus :
 \begin{figure}[H]
@@ -268,9 +268,7 @@ Ici, i, d et n sont des entiers. Une manière possible d'améliorer de manière 
 un pré-calcul de ces facteurs, et de les mettre dans un dictionnaire qui serait appelé par la suite.
 
 Ceci dit, pour améliorer temporairement les performances, nous avons tenté d'utiliser OpenMP dans la dernière boucle qui calcule
-les coefficients Butterfly, ce qui permet d'utiliser les capacités des processeurs multicoeur si l'ordinateur cible en dispose.
-
-Néanmoins, cela ne fonctionne que sous Linux avec \ac{GCC} et Windows avec \ac{MSVC}, mais pas sous Mac OS X avec Clang.
+les coefficients Butterfly, ce qui permet d'utiliser les capacités des processeurs multicoeur si l'ordinateur cible en dispose. Néanmoins, cela ne fonctionne que sous Linux avec \ac{GCC} et Windows avec \ac{MSVC}, mais pas sous Mac OS X avec Clang.
 
 \subsection{Chronologie de l'architecture de notre logiciel}
 
@@ -280,12 +278,12 @@ Néanmoins, cela ne fonctionne que sous Linux avec \ac{GCC} et Windows avec \ac{
 Début du projet & Editeur et lecteur séparés, pas d'\ac{API}, pas multiplateforme.\\
 Fin Novembre & Création de l'\ac{API}, ajout de FMOD dans l'\ac{API} pour l'éditeur. \\
 Mi-Décembre & Portage Windows, ajout de BOOST. L'éditeur utilise l'\ac{API} et exporte en XML.\\
-Début Janvier & Portage Mac OS X. Début de la conception du Player.\\
+Début Janvier & Portage Mac OS X. Début de la conception de l'interface du lecteur.\\
 Début Février & Passage à Qt5, suppression de BOOST.\\
 Mi-Février & Compilation native sous Windows.\\
 Fin Février & Suppression de IScoreLight et création d'un nouveau manager pour le lecteur.\\
 Début Mars & Le lecteur utilise entièrement l'\ac{API}.\\
-Mi-Mars & Suppression de libsndfile, avantageusement remplacé par FMOD dans le player.\\
+Mi-Mars & Suppression de libsndfile, avantageusement remplacé par FMOD dans le lecteur.\\
 Fin Mars & Utilisation de Clang sur Mac OS X, \ac{MSVC} sur Windows.\\
 
 \end{tabular}
