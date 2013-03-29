@@ -22,7 +22,7 @@ SimpleMusicPlayer::SimpleMusicPlayer(QWidget* parent) : QWidget(parent)
 	this->m_parent = parent;
 	m_layout = new QGridLayout();
 	m_playButton = new QToolButton();
-	// A FAIRE : playBarButton = new QToolButton();
+	// TODO : playBarButton = new QToolButton();
 	m_stopButton = new QToolButton();
 	m_slideBar = new QSlider(Qt::Horizontal);
 	m_timerLabel = new QLabel("");
@@ -221,9 +221,9 @@ void SimpleMusicPlayer::pause()
 
 
 		if(m_player->isPaused())
-			m_playButton->setIcon(QIcon(":/icons/pause.png"));
+            m_playButton->setIcon(QIcon(":/icons/play.png"));
 		else
-			m_playButton->setIcon(QIcon(":/icons/play.png"));
+            m_playButton->setIcon(QIcon(":/icons/pause.png"));
 	}
 }
 

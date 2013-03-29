@@ -2,7 +2,7 @@
 #include <Util.hpp>
 #include <QtWidgets/QMessageBox>
 
-
+#include <QDebug>
 /**
  * @brief AudioSync::AudioSync
  * Constructeur des boutons de synchronisation audio
@@ -75,7 +75,8 @@ AudioSync::AudioSync(QWidget* parent) : QWidget(parent), m_timeSignature(4)
 	connect(m_bbar, SIGNAL(pressed()), this, SLOT(emitSignalTimer()));
 
 	connect(m_bpm, SIGNAL(valueChanged(int)), this, SLOT(tempoChanged(int)));
-	connect(m_bpm, SIGNAL(hasBeenClicked()), this, SLOT(tempoClicked()));
+	connect(m_bpm, SIGNAL(hasManuallyChanged()), this, SLOT(tempoClicked()));
+
 
 	connect(m_beginning, SIGNAL(timeChanged(QTime)), this, SLOT(beginningChanged(QTime)));
 	connect(m_bar, SIGNAL(timeChanged(QTime)), this, SLOT(barChanged(QTime)));

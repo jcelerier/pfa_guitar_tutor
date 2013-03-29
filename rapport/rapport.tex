@@ -6,6 +6,7 @@
 \usepackage[francais]{babel}
 \usepackage[T1]{fontenc}
 \usepackage{tikz-uml}
+\usepackage{relsize}
 \usepackage{color}
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -47,11 +48,17 @@ belowskip=2em,
 \usepackage{fancyhdr}
 \usepackage{fancyvrb}
 \usepackage{float}
-\usepackage{acronym}
+\usepackage[footnote,smaller]{acronym}
+
 \pagestyle{fancy}
 \rhead{PFA - GuitarTutor}
 
 \acrodef{LABRI}{Laboratoire Bordelais de Recherche en Informatique}
+\acrodef{DAW}{Digital Audio Workstation, multipiste numérique}
+\acrodef{MSVC}{Microsoft Visual C++ Compiler}
+\acrodef{GCC}{Gnu Compiler Collection}
+\acrodef{MVC}{Modèle, Vue, Contrôleur}
+\acrodef{API}{Application Programmation Interface}
 
 \begin{document}
 
@@ -74,15 +81,15 @@ belowskip=2em,
 
 \end{titlepage}
 
-\begin{figure}[p]
-  \centering
-  \begin{quotation}
-Qu’importe l’issue du chemin quand seul compte le chemin parcouru.\\
-\hfill \em David Le Breton
+\clearpage
+\vspace*{\stretch{1}}
+
+\begin{quotation}
+\hfill \flqq \em{Qu’importe l’issue du chemin quand seul compte le chemin parcouru.}\frqq \\
+
 \end{quotation}
-\end{figure}
-
-
+\hfill David Le Breton
+\vspace*{\stretch{2}}
 
 
 \include{intro}

@@ -10,7 +10,13 @@
 
 /**
  * @brief MultiTracks::MultiTracks
+<<<<<<< Updated upstream
  * @param tracks Liste des tracks
+=======
+ * @param tracks
+ *
+ *  Constructeur de la classe.
+>>>>>>> Stashed changes
  */
 MultiTracks::MultiTracks(QMap<QString, QString>& tracks)
 {
@@ -36,6 +42,7 @@ MultiTracks::MultiTracks(QMap<QString, QString>& tracks)
 /**
  * @brief MultiTracks::MultiTracks
  * @param silenceTimeInMs Temps de silence entre les tracks
+ *  Constructeur de la classe.
  */
 MultiTracks::MultiTracks(unsigned int silenceTimeInMs)
 {
@@ -50,6 +57,8 @@ MultiTracks::MultiTracks(unsigned int silenceTimeInMs)
 
 /**
  * @brief MultiTracks::~MultiTracks
+ *
+ * Destructeur de la classe.
  */
 MultiTracks::~MultiTracks() {
 	//delete [] m_buffer;
@@ -57,8 +66,10 @@ MultiTracks::~MultiTracks() {
 
 /**
  * @brief MultiTracks::changeTrackMuteState
- * @param trackName Nom de la track
+ * @param trackName : Nom morceau dont on souhaite modifier l'état.
  * @param muteState True si le son doit etre coupé, false sinon
+ *
+ * Permet de changer l'état d'un morceau : muet ou pas.
  */
 void MultiTracks::changeTrackMuteState(QString trackName, bool muteState)
 {
@@ -71,8 +82,9 @@ void MultiTracks::changeTrackMuteState(QString trackName, bool muteState)
 
 /**
  * @brief MultiTracks::isTrackMute
- * @param trackName Nom de la track
- * @return True si la track est en mode silence, false sinon.
+ * @param trackName : nom du morceau dont on veut connaitre l'état.
+ * @return Vrai si il est muet, faux sinon.
+>>>>>>> Stashed changes
  */
 bool MultiTracks::isTrackMute(QString trackName)
 {
@@ -119,7 +131,7 @@ void MultiTracks::generateMusic()
 
 /**
  * @brief MultiTracks::getBufferSize
- * @return La taille du buffer
+ * @return La taille du buffer.
  */
 int MultiTracks::getBufferSize() const
 {

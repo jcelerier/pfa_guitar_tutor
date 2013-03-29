@@ -4,7 +4,7 @@ Du début jusqu'à la fin du projet, nous avons dû faire des choix de conduite.
 
 \subsection{Environnement logiciel}
 
-Comme il nous avait été conseillé de faire, nous nous sommes rapidement accordés sur l'environnement logiciel a adopter.
+Comme il nous avait été conseillé de faire, nous nous sommes r\ac{API}dement accordés sur l'environnement logiciel a adopter.
 \begin{itemize}
  \item Utilisation de QtCreator, environnement de développement C++ open-source, multi-OS, et régulièrement mis à jour
  \item Développement sur Linux. Le choix n'était pas évident, étant donné que cet OS n'était pas censé devoir être ciblé. L'intérêt était en fait de ne pas favoriser le développement sur Windows, avant de nous rendre compte que certains de nos choix avaient été faits au détriment de Mac OS, ou inversement.
@@ -20,7 +20,7 @@ Les différents choix énumérés ci-dessus ont été faits au début du projet 
 
 \subsection{Utilisation de Qt}
 
-Le choix d'utiliser la librairie Qt s'est fait très rapidement, tant les avantages étaient évidents:
+Le choix d'utiliser la librairie Qt s'est fait très r\ac{API}dement, tant les avantages étaient évidents:
 \begin{itemize}
  \item Le code source existant utilisait déjà Qt
  \item Qt est utilisable aussi bien sur Mac OS que sur Windows, ainsi que sur Linux
@@ -162,7 +162,7 @@ for (int r = 0 ; r < rmax ; r++) //Parcours des lignes
 \label{editor_time_caseitems}
 \end{figure}
 
-La question était donc de trouver un moyen simple pour pouvoir indiquer de façon précise chacun de ces trois marqueurs temporels. Il nous est tout de suite venu à l'esprit d'utiliser les formes d'ondes du fichier audio désiré pour mieux cibler les débuts des accords. FMOD, pour les données spectrales, et Qt, pour l'interface, ont été très utiles pour l'implémentation. Un zoom et déplacement à la souris, inspiré de l'ergonomie des \ac{DAW} actuels, a également été mis en place sur cette même forme d'onde, ainsi que le positionnement des timers directement \textit{sur} la forme d'onde. Au final, le marquage devient une tâche relativement aisée et rapide (figure \ref{editor_audiosync}).
+La question était donc de trouver un moyen simple pour pouvoir indiquer de façon précise chacun de ces trois marqueurs temporels. Il nous est tout de suite venu à l'esprit d'utiliser les formes d'ondes du fichier audio désiré pour mieux cibler les débuts des accords. FMOD, pour les données spectrales, et Qt, pour l'interface, ont été très utiles pour l'implémentation. Un zoom et déplacement à la souris, inspiré de l'ergonomie des \ac{DAW} actuels, a également été mis en place sur cette même forme d'onde, ainsi que le positionnement des timers directement \textit{sur} la forme d'onde. Au final, le marquage devient une tâche relativement aisée et r\ac{API}de (figure \ref{editor_audiosync}).
 
 Enfin, dans le cas idéal ou le morceau aurait été joué au métronome, on peut directement rentrer le tempo dans l'éditeur.
 \begin{figure}[H]
@@ -177,9 +177,15 @@ Enfin, dans le cas idéal ou le morceau aurait été joué au métronome, on peu
 
 En ce qui concerne le lecteur, nous n'avons dans un premier temps que modifié l'interface. Celle-ci a été refaite intégralement selon la maquette qui avait été présentée en janvier (voir la figure \ref{annexe_proto_player} en annexe). Notre travail a finalement abouti à une interface semblable aux exigences qui avaient été fixées, certains détails ayant été revus en cours de développement en accord avec nos clients. L'objectif principal était de rendre le programme beaucoup plus convivial, mais aussi plus accessible. L'interface actuelle est présentée en figure \ref{interface_player}.
 
-Dans un deuxième temps, nous avons fait le choix de revoir le fonctionnement interne du lecteur. Comme évoqué précédemment, nous avons ainsi commencé par remplacer la librairie \textit{libsndfile} par FMOD en vue de supporter de nouveaux formats audio. FMOD se charge en fait d'ouvrir le fichier audio demandé et de le mettre en mémoire. La gestion à proprement parler du son reste la tâche de PortAudio.
+Dans un deuxième temps, nous avons fait le choix de revoir le fonctionnement interne du lecteur. Comme évoqué précédemment, nous avons ainsi commencé par faire disparaître la librairie \textit{IScoreLight}. En effet, celle-ci comportait plusieurs dizaines de fichiers sources (en pratique, 17000 lignes de code) qui, au final, n'étaient pas exploitées. De plus, le format que nous avons défini dans les classes \texttt{LogicalTrack}, \texttt{PartTrack} et \texttt{TrackChord} remplit exactement le besoin de positionnement dans le morceau que nous avions défini. La gestion de la navigation dans le morceau est donc confiée à la classe \texttt{SongManager} que nous avons créée.
 
-C'est ensuite toute la librairie \textit{IScoreLight} que nous avons faite disparaître. En effet, celle-ci comportait plusieurs dizaines de fichiers sources (en pratique, 17000 lignes de code) qui, au final, n'étaient pas exploitées. En effet, le format que nous avons défini dans les classes \texttt{LogicalTrack}, \texttt{PartTrack} et \texttt{TrackChord} remplit exactement le besoin de positionnement dans le morceau que nous avions défini. La gestion de la navigation dans le morceau est donc confiée à la classe \texttt{SongManager} que nous avons créée.
+Dans un deuxième temps, nous nous sommes attelés à remplacer la librairie \textit{libsndfile} par FMOD en vue de supporter de nouveaux formats audio. FMOD se charge en fait d'ouvrir le fichier audio demandé et de le mettre en mémoire. La gestion à proprement parler du son reste la tâche de PortAudio dans le lecteur.
+
+Nous ne l'avons pas fait par manque de temps, mais l'idéal serait de remplacer aussi PortAudio par FMOD,
+ ce qui peut se faire sans trop de problèmes car FMOD gère aussi les entrées audio.
+ Cela permettrait de partager le code de lecture entre le lecteur et l'éditeur, ce qui n'est pas le cas actuellement.
+ De plus, comme vu précédemment avec PortAudio, FMOD permet aussi de gérer les cartes sons ASIO, ce qui permettrait de basses
+ latences pour l'entrée sous Windows.
 
 Finalement, il ne reste aujourd'hui de la première version du lecteur que la gestion bas niveau du son, notamment l'analyse des accords effectuée par la librairie \textit{EHPCP}. Ce tri nous a permis d'améliorer grandement les performances, notamment lors de la compilation du programme (cf. figure \ref{refonte_code}).
 
@@ -192,7 +198,7 @@ Finalement, il ne reste aujourd'hui de la première version du lecteur que la ge
 \end{figure}
 
 Nous avons également fait en sorte que le lecteur utilise par défaut OpenGL, afin que celui-ci soit, au moins partiellement, exécuté sur la carte graphique de l'utilisateur, en vue d'améliorer là encore les performances. En effet, nous n'utilisons pas le système de widgets standard comme sur l'éditeur par exemple: nous avons utilisé le système de scène de Qt, qui permet plus de liberté graphique, ce que nous pensons adapté au monde ludique.
-Ce système de scène est tout à fait représentatif de la MVC : nous plaçons les éléments comme nous le désirons et Qt se charge
+Ce système de scène est tout à fait représentatif de la \ac{MVC} : nous plaçons les éléments comme nous le désirons et Qt se charge
 de la logique de mise à jour, de dessin, et de boucle centrale. Il suffit donc simplement de dire à Qt d'utiliser OpenGL via la ligne suivante :
 
 \begin{figure}[H]
@@ -244,7 +250,7 @@ Plusieurs outils similaires sont mis à la disposition des développeurs Mac OS 
 
 \subsection{Développement Agile}
 
-En accord avec les conseils de notre responsable pédagogique, nous avons rapidement opté pour l'utilisation d'une méthode de développement de type agile. Le PFA état en effet une excellente occasion pour s'essayer à ce genre de méthodes qui sont de plus en plus employées dans des cadres professionnels.
+En accord avec les conseils de notre responsable pédagogique, nous avons r\ac{API}dement opté pour l'utilisation d'une méthode de développement de type agile. Le PFA état en effet une excellente occasion pour s'essayer à ce genre de méthodes qui sont de plus en plus employées dans des cadres professionnels.
 
 \subsubsection{Réunions clients}
 
@@ -266,6 +272,27 @@ La figure \ref{agile} résume ce processus.
 
 De manière analogue au \textit{ScrumMaster} de la méthode Scrum, nous avons choisi au sein de notre équipe une personne en charge de veiller à la bonne application de notre méthode de développement. Sans se situer à un niveau supérieur aux autres, comme ce serait le cas pour un chef de projet, cette personne devait centraliser les travaux et les impressions de chacun pour aider à la répartition des tâches. Elle servait par ailleurs de \textit{représentant} de notre équipe pour nos clients et notre responsable pédagogique.
 
-Les tâches étaient ensuite attribuées selon les demandes du cycle courant et des préférences de chacun, généralement par binômes. Des réunions hebdomadaires permettaient de faire le point sur les difficultés rencontrées et l'avancement des différentes tâches, et éventuellement de réorganiser la répartition. En plus de cela, l'équipe était informée par mail des interrogations et des avancées entre deux réunions, ainsi que par l'intermédiaire de notre wiki que nous avons mis en place dès le début du projet.
+Les tâches étaient ensuite attribuées selon les demandes du cycle courant et des préférences de chacun, généralement par binômes, binômes qui ont été très variables tout au cours du projet. Des réunions hebdomadaires permettaient de faire le point sur les difficultés rencontrées et l'avancement des différentes tâches, et éventuellement de réorganiser la répartition. En plus de cela, l'équipe était informée par mail des interrogations et des avancées entre deux réunions, ainsi que par l'intermédiaire de notre wiki que nous avons mis en place dès le début du projet.
 
 De manière générale, cette méthode de développement semble avoir bien fonctionné pour notre équipe au cours de ce projet.
+
+\subsubsection{L'agile dans le code}
+Un des autres aspects de l'approche agile au développement de projet est l'impact sur
+la manière de produire du code. Notamment, comme cela a pu être vu au début du rapport dans la
+chronologie du projet, il y a eu énormément de refactorisations et de changements assez profonds,
+qui ont été annulés par la suite, comme pour BOOST, ou maintenus, comme pour FMOD.
+
+\subsubsection{L'agile dans le cadre de l'école}
+La difficulté principale avec le développement agile se situe dans les contraintes de temps
+imposées par l'école et l'emploi du temps, dont les deux défauts sont d'être fixe (on ne peut pas ne pas aller en cours)
+et variable (les horaires d'un même cours peuvent changer d'une semaine à l'autre).
+
+De plus, notre répartition dans des groupes de TD différent a fait que nous n'avons pas toujours pu nous voir
+comme nous le voulions, et que le gros du travail et des sprints était ainsi effectué généralement chez soi, en
+communiquant par e-mail.
+
+Ce qui aurait du être des post-its sur un tableau avec des tâches marquées dessus s'est retrouvé être un wiki
+ou chacun pouvait barrer la tâche qu'il prenait en charge, néanmoins cette méthode est moins conviviale.
+
+Le plus problématique dans cette approche est que la communication est plus difficile avec les autres
+quand un binôme est bloqué, notamment.
