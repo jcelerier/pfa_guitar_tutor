@@ -41,9 +41,6 @@ GridEditor::GridEditor(): m_trackProperties(new TrackProperties(this)), m_saveQu
 
 	m_settings = new QSettings("GuitarTutor", "GridEditor"); //Permet de retenir la configuration du logiciel
 	connect(m_trackProperties, SIGNAL(timeSignatureChanged(int)), m_audioWindow, SIGNAL(timeSignatureChanged(int)));
-
-	connect(qApp, SIGNAL(aboutToQuit(QPrivateSignal)), this, SLOT(saveBeforeQuit()));
-
 }
 
 /**
@@ -346,6 +343,7 @@ void GridEditor::firstNewGrid()
 
 	m_saveQueue->firstSave();
 	connect(m_grid, SIGNAL(somethingChanged()), m_saveQueue, SIGNAL(save()));
+	emit m_trackProperties->barsizeChanged(m_trackProperties->getBarSize());
 }
 
 
@@ -380,6 +378,7 @@ void GridEditor::newGrid()
 		createGrid(m_newGridDialog->getColumns() + 1, m_newGridDialog->getLines());
 		m_saveQueue->firstSave();
 		connect(m_grid, SIGNAL(somethingChanged()), m_saveQueue, SIGNAL(save()));
+		emit m_trackProperties->barsizeChanged(m_trackProperties->getBarSize());
 	}
 	delete m_newGridDialog;
 
