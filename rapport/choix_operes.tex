@@ -4,14 +4,16 @@ Du début jusqu'à la fin du projet, nous avons dû faire des choix de conduite.
 
 \subsection{Environnement logiciel}
 
-Comme il nous avait été conseillé de faire, nous nous sommes rapidement accordés sur l'environnement logiciel a adopter.
+Comme il nous avait été conseillé de faire, nous nous sommes rapidement accordés sur l'environnement logiciel à adopter.
 \begin{itemize}
- \item Utilisation de QtCreator, environnement de développement C++ open-source, multi-OS, et régulièrement mis à jour
- \item Développement sur Linux. Le choix n'était pas évident, étant donné que cet OS n'était pas censé devoir être ciblé. L'intérêt était en fait de ne pas favoriser le développement sur Windows, avant de nous rendre compte que certains de nos choix avaient été faits au détriment de Mac OS, ou inversement.
+ \item Utilisation de QtCreator, environnement de développement C++ open-source, multi-plateformes, et régulièrement mis à jour
+ \item Développement sur Linux. Le choix n'était pas évident, étant donné que ce système d'exploitation ne faisait pas partie des cibles officielles du projet. L'intérêt était en fait de ne pas favoriser le développement sur Windows, avant de nous rendre compte que certains de nos choix avaient été faits au détriment de Mac OS X, ou inversement.
 
  Néanmoins, dès que la compilation a été possible de manière native sur Windows, un des membres du groupe est resté dessus
  pour le développement, ce qui a permis d'empêcher que des problèmes de compatibilité ne se propagent trop longtemps.
- \item Utilisation du gestionnaire de version Git, et non de SVN. La raison est que Git est de plus en plus utilisé, au détriment de SVN, et que le PFA était une excellente occasion pour apprendre à l'utiliser.
+
+ De même, le programme était réguilèrement construit sous Mac OS X pour vérifier que la compatibilité n'était pas brisée par une manipulation malencontreuse.
+ \item Utilisation du gestionnaire de version Git, et non de Subversion. La raison est que Git est de plus en plus utilisé, au détriment de SVN, et que le PFA était une excellente occasion pour apprendre à l'utiliser.
  \item Création du dépôt sur GitHub. Nous avons éliminé le dépôt de l'ENSEIRB-MATMECA en raison d'une coupure qui aura duré plusieurs jours en Octobre (en plus des fréquentes interruptions de ce service dont nous avions pris l'habitude au cours de l'année précédente), ainsi que de nombreux autres services tels que Sourceforge ou Google Code, car ceux-ci imposaient l'utilisation d'une licence libre (ce qui, a priori, n'est pas le cas de GuitarTutor) aux projets hébergés sur leur plate-forme, à moins de payer un abonnement mensuel. GitHub était également dans ce cas, mais une offre réservée aux étudiants nous a permis de bénéficier gratuitement d'un compte premium pour créer librement un dépôt privé, sans contrainte de licence.
 \end{itemize}
 
@@ -22,16 +24,16 @@ Les différents choix énumérés ci-dessus ont été faits au début du projet 
 
 Le choix d'utiliser la librairie Qt s'est fait très rapidement, tant les avantages étaient évidents:
 \begin{itemize}
- \item Le code source existant utilisait déjà Qt
- \item Qt est utilisable aussi bien sur Mac OS que sur Windows, ainsi que sur Linux
+ \item Le code source existant utilisait déjà Qt.
+ \item Qt est utilisable aussi bien sur Mac OS X que sur Windows, ainsi que sur Linux.
  \item Le support officiel d'Android et iOS, les systèmes d'exploitation mobiles dominants sera effectif d'ici deux sous-versions de Qt,
  ce qui fait que le programme pourra être porté sans heurt sur tablette, smartphone... Il sera juste nécessaire d'ajuster les vues pour
  ces nouvelles plateformes.
- \item Le développement avec Qt est facilité par l'IDE que nous avions choisi, à savoir QtCreator
- \item La documentation est très claire et complète
- \item Qt est open-source et bénéficie d'une large communauté d'utilisateurs
+ \item Le développement avec Qt est facilité par l'IDE que nous avons choisi, à savoir QtCreator.
+ \item La documentation est très claire et complète.
+ \item Qt est open-source et bénéficie d'une large communauté d'utilisateurs.
  \item Qt est incroyablement complet: interface graphique, XML, multimédia, socket, affichage de pages web\dots
- \item Plusieurs d'entre-nous avaient déjà des connaissances sur cette librairie
+ \item Plusieurs d'entre-nous avaient déjà des connaissances sur cette librairie.
 \end{itemize}
 
 Nous avons donc choisi d'adopter cette librairie dès les débuts du projet.
@@ -48,7 +50,7 @@ De plus, c'est un standard dans le monde des jeux vidéos, ce qui est une bonne 
 \subsection{Format d'échange en XML}
 \label{xml}
 
-L'échange entre l'éditeur et le lecteur se fait par l'intermédiaire de fichiers. Ces fichiers sont créés et modifiés par l'éditeur, puis lus dans le lecteur. Initialement, le format qui était utilisé listait les différentes parties du morceau, ainsi que les accords devant être joués et le temps en millisecondes correspondant (par rapport au début de la musique). Le fichier audio lu simultanément était, quant à lui, codé en dur dans le code source. Bien qu'il eut été facile de se contenter d'intégrer le chemin du fichier audio en début de fichier, nous avons préféré repenser totalement le format du fichier d'échange en nous basant sur le langage XML.
+L'échange entre l'éditeur et le lecteur se fait par l'intermédiaire de fichiers. Ces fichiers sont créés et modifiés par l'éditeur, puis lus dans le lecteur. Initialement, le format qui était utilisé listait les différentes parties du morceau, ainsi que les accords devant être joués et le temps en millisecondes correspondant (par rapport au début de la musique). Le fichier audio lu simultanément était, quant à lui, codé en dur dans le code source. Bien qu'il eût été facile de se contenter d'intégrer le chemin du fichier audio en début de fichier, nous avons préféré repenser totalement le format du fichier d'échange en nous basant sur le langage XML.
 
 \begin{table}[H]
 \begin{center}
@@ -69,6 +71,8 @@ L'échange entre l'éditeur et le lecteur se fait par l'intermédiaire de fichie
 \label{fichiers_xml}
 \end{center}
 \end{table}
+
+Nous avons demandé à M. Lombard, chargé de TD de XML et consultant pour Sopra Group, de nous conseiller sur la manière dont structurer notre document, et la proposition que nous lui avons faite (le format ci-dessus) lui a semblé cohérente par rapport à notre utilisation.
 
 Comme on peut le voir sur l'exemple du tableau \ref{fichiers_xml}, notre format de fichier nous permet de contenir bien plus d'informations que l'ancien format. C'est un très gros avantage lorsqu'il s'agit notamment de recharger le fichier dans l'éditeur pour le modifier, puisque toutes les données qui ont été entrées lors de la création du fichier y ont été sauvegardées (même si certaines ne sont pas directement utilisées dans le lecteur).
 
