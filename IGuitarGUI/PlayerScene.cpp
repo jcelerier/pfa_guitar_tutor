@@ -120,9 +120,9 @@ void PlayerScene::disposeScene()
     connect((ButtonItem*)m_itemMap["dictionary"], SIGNAL(pushed()), this, SLOT(displayDictionary()));
 
     // Bouton de mute
-    QPixmap muteImage(":/images/unMute.png");
+    QPixmap muteImage(":/images/mute.png");
     m_itemMap["mute"] = new ButtonItem(muteImage, m_itemMap["backgnd"]);
-    m_itemMap["mute"]->setPos(220, 650); // Position absolue par rapport au background
+    m_itemMap["mute"]->setPos(220, 655); // Position absolue par rapport au background
     m_itemMap["mute"]->setToolTip(tr("Mute/Unmute"));
     connect((ButtonItem*)m_itemMap["mute"], SIGNAL(pushed()), this, SLOT(switchMute()));
 
@@ -228,7 +228,7 @@ void PlayerScene::play()
                     m_loaded = false;
                     return;
                 }
-                m_cntdown = 4;
+                m_cntdown = m_controler->getTrack()->getTimeSignature();
                 playCountdown();
 
                 cntTime=1000;
@@ -309,12 +309,12 @@ void PlayerScene::switchMute()
         QPixmap unMuteImage(":/images/unMute.png");
         if(m_controler->muteState())
         {
-            ((ButtonItem *)m_itemMap["mute"])->changeImage(unMuteImage);
+            ((ButtonItem *)m_itemMap["mute"])->changeImage(muteImage);
             m_controler->unmute();
         }
         else
         {
-            ((ButtonItem *)m_itemMap["mute"])->changeImage(muteImage);
+            ((ButtonItem *)m_itemMap["mute"])->changeImage(unMuteImage);
             m_controler->mute();
         }
     }

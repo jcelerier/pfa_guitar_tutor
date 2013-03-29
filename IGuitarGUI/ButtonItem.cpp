@@ -55,6 +55,6 @@ QRectF ButtonItem::boundingRect() const {
  *
  * Change l'image du boutton
  */
-void ButtonItem::changeImage(QPixmap image) {
+void ButtonItem::changeImage(QPixmap& image) {
     m_image->setPixmap(image);
 }
