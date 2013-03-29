@@ -64,7 +64,7 @@ void PlayerScene::disposeScene()
 
     // Couleur de fond
     QColor bgColor(34, 14, 30);
-    //setBackgroundBrush(bgColor);
+    setBackgroundBrush(bgColor);
 
     //Couches de masquage pour les accords defilants
     m_itemMap["maskPlay"] = addPixmap(QPixmap(":/images/maskplaying.png"));
