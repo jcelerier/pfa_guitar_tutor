@@ -20,4 +20,9 @@ Il est préférable d'utiliser QtCreator pour ouvrir les projets.
 L'API est placée dans libiguitar lors de sa compilation.
 Les logiciels sont placés dans app.
 
+
+Pour le déploiement sur Mac OS X, si Qt a été installé dans son répertoire par défaut :
+- $>  ~/Qt5.0.1/5.0.1/clang_64/bin/macdeployqt GridEditor.app/
+- $>  cd GridEditor.app/Contents/MacOS
+- $>  install_name_tool -change ./libfmodex.dylib "@executable_path/../Plugins/libfmodex.dylib" GridEditor
 */
