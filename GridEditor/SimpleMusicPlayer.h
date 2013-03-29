@@ -16,7 +16,7 @@
 #include "WaveformTimeBar.h"
 
 #define REFRESH_DELAY 200
-#define PLAYTIMER_DELAY 400
+#define PLAYTIMER_DELAY 40
 
 /**
  * @brief Gère l'interface graphique d'un lecteur audio simple
