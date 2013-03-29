@@ -86,3 +86,4 @@ RESOURCES +=  \
 QMAKE_CXXFLAGS = -O3
 
 win32: RC_FILE = IGuitarGui.rc
+macx:  ICON = player.icns

@@ -18,6 +18,7 @@
         <file alias="timer.png">icons/timer.png</file>
         <file alias="deletecolumn.png">icons/deletecolumn.png</file>
         <file alias="addcolumn.png">icons/addcolumn.png</file>
+        <file alias="editorIcon.png">icons/editorIcon.png</file>
     </qresource>
     <qresource prefix="/help">
         <file alias="help.html">data/help_editor.html</file>

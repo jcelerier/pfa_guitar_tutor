@@ -64,7 +64,7 @@ void PlayerScene::disposeScene()
 
     // Couleur de fond
     QColor bgColor(34, 14, 30);
-    //setBackgroundBrush(bgColor);
+    setBackgroundBrush(bgColor);
 
     //Couches de masquage pour les accords defilants
     m_itemMap["maskPlay"] = addPixmap(QPixmap(":/images/maskplaying.png"));
@@ -81,7 +81,7 @@ void PlayerScene::disposeScene()
     // Bouton de menu
     QPixmap menuBtnImage(":/images/menu.png");
     m_itemMap["menuBtn"] = new ButtonItem(menuBtnImage, m_itemMap["backgnd"]);
-    m_itemMap["menuBtn"]->setPos(820, 122); // Position absolue par rapport au background
+    m_itemMap["menuBtn"]->setPos(880, 122); // Position absolue par rapport au background
     m_itemMap["menuBtn"]->setToolTip(tr("Menu"));
     connect((ButtonItem*)m_itemMap["menuBtn"], SIGNAL(pushed()), this, SLOT(switchMenu()));
 
@@ -113,16 +113,16 @@ void PlayerScene::disposeScene()
 
 
     // Dictionnaire d'accords
-    QPixmap dictionaryImage(":/images/dictionary.png");
+    QPixmap dictionaryImage(":/images/dico.png");
     m_itemMap["dictionary"] = new ButtonItem(dictionaryImage, m_itemMap["backgnd"]);
-    m_itemMap["dictionary"]->setPos(57, 650); // Position absolue par rapport au background
+    m_itemMap["dictionary"]->setPos(75, 650); // Position absolue par rapport au background
     m_itemMap["dictionary"]->setToolTip(tr("Chord dictionary"));
     connect((ButtonItem*)m_itemMap["dictionary"], SIGNAL(pushed()), this, SLOT(displayDictionary()));
 
     // Bouton de mute
     QPixmap muteImage(":/images/mute.png");
     m_itemMap["mute"] = new ButtonItem(muteImage, m_itemMap["backgnd"]);
-    m_itemMap["mute"]->setPos(220, 655); // Position absolue par rapport au background
+    m_itemMap["mute"]->setPos(230, 655); // Position absolue par rapport au background
     m_itemMap["mute"]->setToolTip(tr("Mute/Unmute"));
     connect((ButtonItem*)m_itemMap["mute"], SIGNAL(pushed()), this, SLOT(switchMute()));
 

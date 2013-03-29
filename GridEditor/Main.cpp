@@ -25,6 +25,9 @@ int main(int argc, char *argv[])
 	app.installTranslator(&translator_our);
 	app.installTranslator(&translator_qt);
 
+    QIcon appIcon(":images/editorIcon.png");
+    QApplication::setWindowIcon(appIcon);
+
 	GridEditor win;
 	win.show();
 	return app.exec();
