@@ -186,6 +186,20 @@ en A* (alors que cette méthode est sensée renvoyer le \texttt{QWidget*} parent
 Au lieu d'utiliser un cast standard, il est nécessaire d'utiliser les méthodes de cast propres au C++ :
 \texttt{static\_cast}, \texttt{dynamic\_cast}, ou encore \texttt{qobject\_cast}, propre à Qt.
 
+\subsubsection{L'apprentissage de Qt}
+Qt est quasiment un langage à proprement parler, et il apport au C++ des fonctionnalités auxquelles nous n'étions pas habitués,
+comme par exemple le mécanisme de signaux et slots.
+
+Ainsi, vu que nous avons appris à nous en servir en cours de route, nous n'avons peut-être pas utilisé ce système au maximum de ses
+capacités. Notamment, beaucoup de méthodes dans l'éditeur auraient pu être rendues superflues par une utilisation appropriée des signaux.
+Un exemple de l'avantage des signaux est la mise à jour dynamique de l'interface, ce qui est très à la mode notamment avec
+les interfaces mobiles. Par exemple, on peut voir qu'il n'y a pas de bouton "Appliquer" dans le panneau de configuration de l'éditeur :
+les changements sont répercutés en temps réel sur le reste du programme.
+
+Le principe de la délégation, notamment pour le dessin des \texttt{CaseItem} à l'aide de \texttt{CaseItemDelegate} a aussi mis un certain temps avant d'être entièrement compris.
+Le lecteur étant plus récent dans sa conception, l'étude de son code permet de voir une meilleure compréhension des mécanismes de Qt,
+bien que nos connaissances en la matière soient encore perfectibles.
+
 \subsubsection{Le fonctionnement du système de ressources}
 Il nous a fallu un certain temps pour comprendre comment fonctionnaient les ressources avec Qt :
 le plus difficile a été d'arriver à inclure les fichiers d'aide directement dans le programme.
