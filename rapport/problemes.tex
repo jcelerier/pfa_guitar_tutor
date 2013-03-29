@@ -94,11 +94,11 @@ Une solution a été développée par Steinberg (l'éditeur du séquenceur Cubas
 Ce protocole permet d'atteindre de très basses latences (parfois jusqu'à moins d'une milliseconde) avec
 du matériel professionnel et de basses latences avec ASIO4ALL, un logiciel qui permet d'utiliser des cartes son standards de PC avec le protocole ASIO.
 
-Le problème pour l'incorporation de cette technologie dans le projet est qu'il est nécessaire de compiler PortAudio avec le SDK ASIO, ce qui
-ne peut se faire qu'avec \ac{MSVC}, le compilateur Microsoft.
-Comme l'algorithme de name-mangling de \ac{MSVC} est incompatible avec celui de MinGW / \ac{GCC}, il est nécessaire de recompiler tout le projet avec \ac{MSVC}, ce qui cause la perte de performance vue plus haut.
-De plus, il faut remplacer la DLL portaudio fournie dans le livrable avec la DLL compilée avec le support ASIO, ce qui fait
-que le logiciel ne pourra pas s'exécuter sur un ordinateur sans ASIO4ALL ou une carte son professionnelle fournissant un pilote ASIO.
+Le problème pour l'incorporation de cette technologie dans le projet est qu'il serait nécessaire de compiler PortAudio avec le SDK ASIO, ce qui
+ne pourrait se faire qu'avec \ac{MSVC}, le compilateur Microsoft.
+Comme l'algorithme de name-mangling de \ac{MSVC} est incompatible avec celui de MinGW / \ac{GCC}, il faudrait recompiler tout le projet avec \ac{MSVC}, ce qui causerait la perte de performance vue plus haut.
+De plus, il faudrait remplacer la DLL portaudio fournie dans le livrable avec la DLL compilée avec le support ASIO, ce qui ferait
+que le logiciel ne pourrait pas s'exécuter sur un ordinateur sans ASIO4ALL ou une carte son professionnelle fournissant un pilote ASIO.
 
 \subsubsection*{Sur GNU/Linux}
 
@@ -106,7 +106,7 @@ Il s'agit du seul des trois systèmes d'exploitation pour lequel nous n'avons pa
 
 \subsubsection*{De l'avantage de l'utilisation de multiples compilateurs}
 
-Bien qu'à priori, on puisse penser que c'est un calvaire de maintenir un même programme fonctionnel sur plusieurs systèmes et plusieurs compilateurs, nous nous sommes rendu comptes que cela avait aussi un avantage majeur : la détection d'erreurs et d'incorrections.
+Bien qu'à priori, on puisse penser que c'est un calvaire de maintenir un même programme fonctionnel sur plusieurs systèmes et plusieurs compilateurs, nous nous sommes rendu compte que cela avait aussi un avantage majeur : la détection d'erreurs et d'incorrections.
 Ainsi, \ac{GCC} est parfois assez laxiste quand à son interprétation des standards du C++ et permet des choses qui ne sont pas toujours acceptées par les autres compilateurs.
 
 L'utilisation de Clang et de \ac{MSVC} a donc permis de soulever des approximations qui étaient passées inaperçues sous \ac{GCC} mais qui contribuaient à avoir un code moins lisible.
@@ -115,16 +115,16 @@ De plus, cela nous a permis de comprendre de quelle manière l'interprétation d
 Enfin, nous avons pu mesurer des différences de performance : par exemple, sous Windows, aussi étrange que cela puisse paraître, l'exécution du lecteur nous a semblé beaucoup plus fluide lorsque compilé avec MinGW plutôt qu'avec \ac{MSVC} qui est pourtant le compilateur Microsoft. Toutes les optimisations possibles étaient activées dans les deux cas.
 
 \subsection{Problèmes directement liés au code}
-Nous parlerons ici de quelques problèmes directement liés à la programmation que nous avons rencontré tout au long du projet.
+Nous parlerons ici de quelques problèmes directement liés à la programmation que nous avons rencontrés tout au long du projet.
 
 \subsubsection{L'apprentissage du C++}
-Un des désavantages de notre emploi du temps est que nous commençons les cours de C++ \textit{après} le début du projet.
+Un des désavantages de notre emploi du temps est que nous commencions les cours de C++ \textit{après} le début du projet.
 
-Ce n'est pas un problème pour ceux de l'équipe qui en ont déjà fait de leur côté mais c'est un désavantage certain pour les autres,
-qui nuit grandement à la dynamique de groupe.
+Ce n'est pas un problème pour ceux de l'équipe qui en avaient déjà fait de leur côté, mais c'était un désavantage certain pour les autres,
+qui a nui grandement à la dynamique de groupe.
 
-Ce serait sans doute moins visible dans un projet PFA standard ou les premiers mois sont entièrement dédiés à la conception
-d'un cahier des charges, mais nous avons du nous plonger dans le code existant dès le début pour comprendre ce qu'il faudrait faire, et cela a parfois pu sembler difficile sans avoir les connaissances théoriques nécessaires à la compréhension de ce code.
+Ce serait sans doute moins visible dans un projet PFA standard où les premiers mois sont entièrement dédiés à la conception
+d'un cahier des charges, mais nous avons dû nous plonger dans le code existant dès le début pour comprendre ce qu'il faudrait faire, et cela a parfois pu sembler difficile sans avoir les connaissances théoriques nécessaires à la compréhension de ce code.
 
 \subsubsection{L'utilisation des cast}
 Nous avons été confronté à un problème sur l'utilisation des cast:
@@ -185,7 +185,7 @@ Au lieu d'utiliser un cast standard, il est nécessaire d'utiliser les méthodes
 \texttt{static\_cast}, \texttt{dynamic\_cast}, ou encore \texttt{qobject\_cast}, propre à Qt.
 
 \subsubsection{L'apprentissage de Qt}
-Qt est quasiment un langage à proprement parler, et il apport au C++ des fonctionnalités auxquelles nous n'étions pas habitués,
+Qt est quasiment un langage à proprement parler, et il apporte au C++ des fonctionnalités auxquelles nous n'étions pas habitués,
 comme par exemple le mécanisme de signaux et slots.
 
 Ainsi, vu que nous avons appris à nous en servir en cours de route, nous n'avons peut-être pas utilisé ce système au maximum de ses
