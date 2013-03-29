@@ -13,7 +13,7 @@ Comme il nous avait été conseillé de faire, nous nous sommes rapidement accor
  pour le développement, ce qui a permis d'empêcher que des problèmes de compatibilité ne se propagent trop longtemps.
 
  De même, le programme était régulièrement construit sous Mac OS X pour vérifier que la compatibilité n'était pas brisée par une manipulation malencontreuse.
- \item Utilisation du gestionnaire de version Git, et non de Subversion. La raison est que Git est de plus en plus utilisé, au détriment de SVN, et que le PFA était une excellente occasion pour apprendre à l'utiliser.
+ \item Utilisation du gestionnaire de version Git, et non de Subversion. La raison est que Git est de plus en plus utilisé, au détriment de SVN, et que le PFA était une excellente occasion pour apprendre à s'en servir.
  \item Création du dépôt sur GitHub. Nous avons éliminé le dépôt de l'ENSEIRB-MATMECA en raison d'une coupure qui aura duré plusieurs jours en Octobre (en plus des fréquentes interruptions de ce service dont nous avions pris l'habitude au cours de l'année précédente), ainsi que de nombreux autres services tels que Sourceforge ou Google Code, car ceux-ci imposaient l'utilisation d'une licence libre (ce qui, a priori, n'est pas le cas de GuitarTutor) aux projets hébergés sur leur plate-forme, à moins de payer un abonnement mensuel. GitHub était également dans ce cas, mais une offre réservée aux étudiants nous a permis de bénéficier gratuitement d'un compte premium pour créer librement un dépôt privé, sans contrainte de licence.
 \end{itemize}
 
@@ -42,7 +42,7 @@ Nous avons donc choisi d'adopter cette librairie dès les débuts du projet.
 
 FMOD est la librairie audio qui est utilisée aujourd'hui dans l'éditeur et dans le lecteur. Là encore, c'était cette même librairie qui servait déjà dans l'ancienne version de l'éditeur, dans la partie qui traitait les fichiers audio. En revanche, dans le lecteur, nous avons substitué la librairie \textit{libsndfile} pour FMOD.
 
-FMOD comporte de nombreux avantages, comme par exemple la lecture de formats compressés tels que le MP3, aujourd'hui incontournable, mais aussi bien d'autres formats propriétaires courants, comme le WMA'.
+FMOD comporte de nombreux avantages, comme par exemple la lecture de formats compressés tels que le MP3, aujourd'hui incontournable, mais aussi bien d'autres formats propriétaires courants, comme le WMA.
 Jusqu'à présent, \textit{libsndfile} limitait l'utilisation de GuitarTutor aux fichiers wav, ce qui contraignait l'utilisateur à manipuler des fichiers de très grande taille dans des formats non-compressés ou bien relevant de l'antiquité informatique comme Amiga, Atari\dots FMOD disposait également des mêmes fonctionnalités que celles qui étaient alors utilisées dans le code avec \textit{libsndfile}, ce qui permettait de ne pas géner la transition. FMOD nous a donc semblé être un bon choix, malgré le fait qu'il s'agisse d'une librairie propriétaire (nous n'avons pas eu de contre-indication de la part des clients à ce propos).
 De plus, c'est un standard dans le monde des jeux vidéos, ce qui est une bonne formation pour ceux d'entre nous souhaitant partir dans ce domaine.
 
@@ -72,7 +72,7 @@ L'échange entre l'éditeur et le lecteur se fait par l'intermédiaire de fichie
 \end{center}
 \end{table}
 
-Nous avons demandé à M. Lombard, chargé de TD de XML et consultant pour Sopra Group, de nous conseiller sur la manière dont structurer notre document, et la proposition que nous lui avons faite (le format ci-dessus) lui a semblé cohérente par rapport à notre utilisation.
+Nous avons demandé à M. Lombard, chargé de TD de XML et consultant pour Sopra Group, de nous conseiller sur la manière de structurer notre document, et la proposition que nous lui avons faite (le format ci-dessus) lui a semblé cohérente par rapport à notre utilisation.
 
 Comme on peut le voir sur l'exemple du tableau \ref{fichiers_xml}, notre format de fichier nous permet de contenir bien plus d'informations que l'ancien format. C'est un très gros avantage lorsqu'il s'agit notamment de recharger le fichier dans l'éditeur pour le modifier, puisque toutes les données qui ont été entrées lors de la création du fichier y ont été sauvegardées (même si certaines ne sont pas directement utilisées dans le lecteur).
 
@@ -124,12 +124,12 @@ Nous avons gardé la base de l'interface de l'éditeur, à savoir le système de
 
 \subsubsection*{Quelques mots sur l'interface}
 
-Un des points importants qui étaient à prendre en compte lors du développement était la nécessité de réaliser un logiciel accessible. L'expérience utilisateur était par conséquent un des facteurs clés. Le problème était que la tâche que l'utilisateur final doit réaliser avec le logiciel demandait un savoir-faire particulier (par exemple, synchroniser un tableau avec un morceau de musique), et il était donc primordial de la rendre le plus accessible possible, sans pour autant limiter les fonctionnalités.
+Un des points importants qui était à prendre en compte lors du développement était la nécessité de réaliser un logiciel accessible. L'expérience utilisateur était par conséquent un des facteurs clés. Le problème était que la tâche que l'utilisateur final doit réaliser avec le logiciel demandait un savoir-faire particulier (par exemple, synchroniser un tableau avec un morceau de musique), et il était donc primordial de la rendre le plus accessible possible, sans pour autant limiter les fonctionnalités.
 
 Nous avons fait le choix de penser en premier lieu à l'expérience utilisateur, en créant une interface qui soit à la fois accessible et esthétique. Nous avons par exemple apporté:
 \begin{itemize}
  \item la traduction en Français de l'interface
- \item la possibilité d'ajouter les accords au clavier, comme il serait tentant de faire, ainsi que le déplacement par tabulations
+ \item la possibilité d'ajouter les accords au clavier, comme il est naturellement tentant de faire, ainsi que le déplacement par tabulations
  \item une meilleure visibilité du découpage en mesures et en parties de la grille, et la possibilité de rentrer plusieurs accords par mesure
  \item une barre d'outils pour les actions les plus fréquentes, ainsi que des raccourcis claviers
  \item le rapprochement implicite entre la grille et le morceau (système d'onglets, et fusion des deux anciens éditeurs en un seul)
@@ -223,7 +223,7 @@ Comme il nous avait été demandé, le programme devait être rendu sous la form
 
 Sur Windows, GuitarTutor se présente sous la forme d'un installateur \textit{msi} créé avec le logiciel Advance Installer. L'apparence de cet installateur est tout à fait semblable aux installateurs de logiciels Windows habituels, et propose les mêmes options; comme par exemple la possibilité de modifier le chemin de l'installation ou encore celle de créer une icône sur le bureau de l'utilisateur.
 
-La seule véritable difficulté sur ce système d'exploitation aura été de définir quelles étaient les librairies dynamiques à inclure dans notre package. Pour cela, nous avons testé sur des machines vierges de tout outil liés à notre environnement de travail (Qt, FMOD,\dots), puis simplement procédé par élimination pour ne retenir que les fichiers dll nécessaires.
+La seule véritable difficulté sur ce système d'exploitation aura été de définir quelles étaient les librairies dynamiques à inclure dans notre package. Pour cela, nous avons testé sur des machines vierges de tout outil lié à notre environnement de travail (Qt, FMOD,\dots), puis simplement procédé par élimination pour ne retenir que les fichiers dll nécessaires.
 
 Un outil qui a aussi été utilisé vers la fin du projet est Dependency Walker : ce programme analyse un fichier exécutable et liste les
 DLL dont il a besoin.
@@ -254,11 +254,7 @@ Plusieurs outils similaires sont mis à la disposition des développeurs Mac OS 
 
 \subsection{Développement Agile}
 
-<<<<<<< HEAD
 En accord avec les conseils de notre responsable pédagogique, nous avons rapidement opté pour l'utilisation d'une méthode de développement de type agile. Le PFA était en effet une excellente occasion pour s'essayer à ce genre de méthodes qui sont de plus en plus employées dans le cadre professionnel.
-=======
-En accord avec les conseils de notre responsable pédagogique, nous avons rapidement opté pour l'utilisation d'une méthode de développement de type agile. Le PFA état en effet une excellente occasion pour s'essayer à ce genre de méthodes qui sont de plus en plus employées dans des cadres professionnels.
->>>>>>> e58652ba77a75c3d6aaa28a423342ba049970eac
 
 \subsubsection{Réunions clients}
 
@@ -292,15 +288,15 @@ qui ont été annulés par la suite, comme pour BOOST ou maintenus, comme pour F
 
 \subsubsection{L'agile dans le cadre de l'école}
 La difficulté principale avec le développement agile se situe dans les contraintes de temps
-imposées par l'école et l'emploi du temps, dont les deux défauts sont d'être fixe (on ne peut pas ne pas aller en cours)
-et variable (les horaires d'un même cours peuvent changer d'une semaine à l'autre).
+imposées par l'école et l'emploi du temps, dont les deux défauts sont d'être fixes (on ne peut pas ne pas aller en cours)
+et variables (les horaires d'un même cours peuvent changer d'une semaine à l'autre).
 
 De plus, notre répartition dans des groupes de TD différents a fait que nous n'avons pas toujours pu nous voir
 comme nous le voulions, et que le gros du travail et des sprints était ainsi effectué généralement chez soi, en
 communiquant par e-mail.
 
 Ce qui aurait du être des post-its sur un tableau avec des tâches marquées dessus s'est retrouvé être un wiki
-ou chacun pouvait barrer la tâche qu'il prenait en charge, néanmoins cette méthode est moins conviviale.
+où chacun pouvait barrer la tâche qu'il prenait en charge, néanmoins cette méthode est moins conviviale.
 
 Le plus problématique dans cette approche est que la communication est plus difficile avec les autres
 quand un binôme est bloqué, notamment.
