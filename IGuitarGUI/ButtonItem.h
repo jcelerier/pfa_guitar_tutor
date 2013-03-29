@@ -1,5 +1,5 @@
-#ifndef MYITEM_H
-#define MYITEM_H
+#ifndef BUTTONITEM_H
+#define BUTTONITEM_H
 
 #include <QGraphicsPixmapItem>
 #include <QtGui>
@@ -19,11 +19,11 @@ public:
     virtual QRectF boundingRect() const;
     virtual void paint(QPainter *, const QStyleOptionGraphicsItem *, QWidget *widget = 0);
 
-    void changeImage(QPixmap);
+    void changeImage(QPixmap&);
 signals:
     void pushed(); //!< Signal émis lors d'un clic sur le bouton
 private:
     QGraphicsPixmapItem* m_image;
 };
 
-#endif // MYITEM_H
+#endif // BUTTONITEM_H

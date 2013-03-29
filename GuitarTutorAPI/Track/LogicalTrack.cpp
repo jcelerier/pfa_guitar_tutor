@@ -130,9 +130,10 @@ void LogicalTrack::setBars(int nBar, int nBeginning, int nEnd){
 
 /**
  * @brief LogicalTrack::SetTimeSignature
- * @param nTS Signature rythmique
+ * @param nTS : nouvelle Signature rythmique
  *
  * Change la valeur de la signature rythmique.
+ *
  */
 void LogicalTrack::setTimeSignature(int nTS){
 

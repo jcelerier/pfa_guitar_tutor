@@ -80,10 +80,9 @@ bool Enrichment::isEmpty() const{
 }
 
 /**
- * @brief Enrichment::extractEnrichmentsFromStr
- * @param str_enr Chaîne de caractères à partir de laquelle faire l'extraction
- * @param e Enrichissement de l'accord
- * @return L'enrichissement extrait.
+ * @param str_enr : Chaîne de caractères à partir de laquelle faire l'extraction
+ * @param e : Un enrichissement qui va etre modifier par effet de bord. Attention à ce qu'il soit vide.
+ * @return Un booléen disant si la fonction a réussi.
  *
  * Extrait un enrichissement à partir d'une chaîne de caractères. Attention la chaine Bm7sus2 retournera la liste
  * "m" "sus2" "7"(l'ordre a changé). En effet, la liste retourné est toujours classée dans l'ordre :

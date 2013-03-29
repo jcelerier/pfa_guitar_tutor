@@ -10,7 +10,7 @@ class PartTrack;
  * @brief Représente un accord en mémoire.
  *
  * Permet de représenter un accord en mémoire de manière plus haut
- * niveau que BasicChord. Cette sructure cache le système "note+enrichissement".
+ * niveau que "BasicChord". Cette sructure cache le système "note+enrichissement".
  */
 class TrackChord {
 public:

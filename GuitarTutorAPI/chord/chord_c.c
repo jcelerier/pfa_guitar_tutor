@@ -39,7 +39,6 @@ static double hann_window(int i, int N)
  * @param samplerate Taux d'échantillonage
  * @param hop Nombre de hops (?)
  * @param frame Nombre de frames
- *
  * Initialise les structures chord_ctrl.
  */
 void chord_init(chord_ctrl* c, int samplerate, int hop, int frame)

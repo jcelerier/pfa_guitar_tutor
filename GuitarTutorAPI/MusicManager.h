@@ -22,7 +22,6 @@
 #include <Windows.h>
 #endif
 
-
 extern "C" {
 #include "chord/chord_c.h"
 }
