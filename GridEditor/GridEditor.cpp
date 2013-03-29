@@ -560,7 +560,7 @@ bool GridEditor::saveBeforeQuit()
 {
 	if (m_isPanelSet)
 	{
-		QMessageBox msgBox;
+        QMessageBox msgBox(this);
 		msgBox.setText(tr("The document has been modified"));
 		msgBox.setInformativeText(tr("Do you want to save your changes?"));
 		msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
