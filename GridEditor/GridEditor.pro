@@ -90,3 +90,4 @@ QMAKE_CXXFLAGS = -O3
 #win32:QMAKE_LFLAGS = -static-libgcc -static-libstdc++ -static -lwinpthread
 
 win32: RC_FILE = GridEditor.rc
+macx:  ICON = editor.icns
