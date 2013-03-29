@@ -12,7 +12,7 @@ Comme il nous avait été conseillé de faire, nous nous sommes rapidement accor
  Néanmoins, dès que la compilation a été possible de manière native sur Windows, un des membres du groupe est resté dessus
  pour le développement, ce qui a permis d'empêcher que des problèmes de compatibilité ne se propagent trop longtemps.
 
- De même, le programme était réguilèrement construit sous Mac OS X pour vérifier que la compatibilité n'était pas brisée par une manipulation malencontreuse.
+ De même, le programme était régulièrement construit sous Mac OS X pour vérifier que la compatibilité n'était pas brisée par une manipulation malencontreuse.
  \item Utilisation du gestionnaire de version Git, et non de Subversion. La raison est que Git est de plus en plus utilisé, au détriment de SVN, et que le PFA était une excellente occasion pour apprendre à l'utiliser.
  \item Création du dépôt sur GitHub. Nous avons éliminé le dépôt de l'ENSEIRB-MATMECA en raison d'une coupure qui aura duré plusieurs jours en Octobre (en plus des fréquentes interruptions de ce service dont nous avions pris l'habitude au cours de l'année précédente), ainsi que de nombreux autres services tels que Sourceforge ou Google Code, car ceux-ci imposaient l'utilisation d'une licence libre (ce qui, a priori, n'est pas le cas de GuitarTutor) aux projets hébergés sur leur plate-forme, à moins de payer un abonnement mensuel. GitHub était également dans ce cas, mais une offre réservée aux étudiants nous a permis de bénéficier gratuitement d'un compte premium pour créer librement un dépôt privé, sans contrainte de licence.
 \end{itemize}
@@ -76,7 +76,7 @@ Nous avons demandé à M. Lombard, chargé de TD de XML et consultant pour Sopra
 
 Comme on peut le voir sur l'exemple du tableau \ref{fichiers_xml}, notre format de fichier nous permet de contenir bien plus d'informations que l'ancien format. C'est un très gros avantage lorsqu'il s'agit notamment de recharger le fichier dans l'éditeur pour le modifier, puisque toutes les données qui ont été entrées lors de la création du fichier y ont été sauvegardées (même si certaines ne sont pas directement utilisées dans le lecteur).
 
-Un second avantage est la facilité d'adaptation du format. En effet, si un jour il est décidé d'ajouter une nouvelle information dans le fichier XML, il n'y aura a priori pas besoin de modifier la façon de récupérer les informations. Cette maléabilité permise par le standard DOM (\textit{Document Object Model}) qui permet de naviguer au sein d'un document XML sans avoir à connaître tout son contenu. C'est justement la technique qui est mise en \oe uvre dans le module QtXML que nous avons utilisé (voir l'exemple de la figure \ref{xml_dom}).
+Un second avantage est la facilité d'adaptation du format. En effet, si un jour il est décidé d'ajouter une nouvelle information dans le fichier XML, il n'y aura a priori pas besoin de modifier la façon de récupérer les informations. Cette malléabilité permise par le standard DOM (\textit{Document Object Model}) qui permet de naviguer au sein d'un document XML sans avoir à connaître tout son contenu. C'est justement la technique qui est mise en \oe uvre dans le module QtXML que nous avons utilisé (voir l'exemple de la figure \ref{xml_dom}).
 
 \begin{figure}[H]
 \begin{lstlisting}
