@@ -4,7 +4,7 @@ Du début jusqu'à la fin du projet, nous avons dû faire des choix de conduite.
 
 \subsection{Environnement logiciel}
 
-Comme il nous avait été conseillé de faire, nous nous sommes rapidement accordés sur l'environnement logiciel a adopter.
+Comme il nous avait été conseillé de faire, nous nous sommes r\ac{API}dement accordés sur l'environnement logiciel a adopter.
 \begin{itemize}
  \item Utilisation de QtCreator, environnement de développement C++ open-source, multi-OS, et régulièrement mis à jour
  \item Développement sur Linux. Le choix n'était pas évident, étant donné que cet OS n'était pas censé devoir être ciblé. L'intérêt était en fait de ne pas favoriser le développement sur Windows, avant de nous rendre compte que certains de nos choix avaient été faits au détriment de Mac OS, ou inversement.
@@ -20,7 +20,7 @@ Les différents choix énumérés ci-dessus ont été faits au début du projet 
 
 \subsection{Utilisation de Qt}
 
-Le choix d'utiliser la librairie Qt s'est fait très rapidement, tant les avantages étaient évidents:
+Le choix d'utiliser la librairie Qt s'est fait très r\ac{API}dement, tant les avantages étaient évidents:
 \begin{itemize}
  \item Le code source existant utilisait déjà Qt
  \item Qt est utilisable aussi bien sur Mac OS que sur Windows, ainsi que sur Linux
@@ -162,7 +162,7 @@ for (int r = 0 ; r < rmax ; r++) //Parcours des lignes
 \label{editor_time_caseitems}
 \end{figure}
 
-La question était donc de trouver un moyen simple pour pouvoir indiquer de façon précise chacun de ces trois marqueurs temporels. Il nous est tout de suite venu à l'esprit d'utiliser les formes d'ondes du fichier audio désiré pour mieux cibler les débuts des accords. FMOD, pour les données spectrales, et Qt, pour l'interface, ont été très utiles pour l'implémentation. Un zoom et déplacement à la souris, inspiré de l'ergonomie des \ac{DAW} actuels, a également été mis en place sur cette même forme d'onde, ainsi que le positionnement des timers directement \textit{sur} la forme d'onde. Au final, le marquage devient une tâche relativement aisée et rapide (figure \ref{editor_audiosync}).
+La question était donc de trouver un moyen simple pour pouvoir indiquer de façon précise chacun de ces trois marqueurs temporels. Il nous est tout de suite venu à l'esprit d'utiliser les formes d'ondes du fichier audio désiré pour mieux cibler les débuts des accords. FMOD, pour les données spectrales, et Qt, pour l'interface, ont été très utiles pour l'implémentation. Un zoom et déplacement à la souris, inspiré de l'ergonomie des \ac{DAW} actuels, a également été mis en place sur cette même forme d'onde, ainsi que le positionnement des timers directement \textit{sur} la forme d'onde. Au final, le marquage devient une tâche relativement aisée et r\ac{API}de (figure \ref{editor_audiosync}).
 
 Enfin, dans le cas idéal ou le morceau aurait été joué au métronome, on peut directement rentrer le tempo dans l'éditeur.
 \begin{figure}[H]
@@ -198,7 +198,7 @@ Finalement, il ne reste aujourd'hui de la première version du lecteur que la ge
 \end{figure}
 
 Nous avons également fait en sorte que le lecteur utilise par défaut OpenGL, afin que celui-ci soit, au moins partiellement, exécuté sur la carte graphique de l'utilisateur, en vue d'améliorer là encore les performances. En effet, nous n'utilisons pas le système de widgets standard comme sur l'éditeur par exemple: nous avons utilisé le système de scène de Qt, qui permet plus de liberté graphique, ce que nous pensons adapté au monde ludique.
-Ce système de scène est tout à fait représentatif de la MVC : nous plaçons les éléments comme nous le désirons et Qt se charge
+Ce système de scène est tout à fait représentatif de la \ac{MVC} : nous plaçons les éléments comme nous le désirons et Qt se charge
 de la logique de mise à jour, de dessin, et de boucle centrale. Il suffit donc simplement de dire à Qt d'utiliser OpenGL via la ligne suivante :
 
 \begin{figure}[H]
@@ -250,7 +250,7 @@ Plusieurs outils similaires sont mis à la disposition des développeurs Mac OS 
 
 \subsection{Développement Agile}
 
-En accord avec les conseils de notre responsable pédagogique, nous avons rapidement opté pour l'utilisation d'une méthode de développement de type agile. Le PFA état en effet une excellente occasion pour s'essayer à ce genre de méthodes qui sont de plus en plus employées dans des cadres professionnels.
+En accord avec les conseils de notre responsable pédagogique, nous avons r\ac{API}dement opté pour l'utilisation d'une méthode de développement de type agile. Le PFA état en effet une excellente occasion pour s'essayer à ce genre de méthodes qui sont de plus en plus employées dans des cadres professionnels.
 
 \subsubsection{Réunions clients}
 
