@@ -218,6 +218,14 @@ La seule véritable difficulté sur ce système d'exploitation aura été de dé
 Un outil qui a aussi été utilisé vers la fin du projet est Dependency Walker : ce programme analyse un fichier exécutable et liste les
 DLL dont il a besoin.
 
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=300px]{depwalker.jpeg}
+\caption{Dependency Walker}
+\label{dep_walker}
+\end{center}
+\end{figure}
+
 Nous avions un temps pensé à recompiler Qt de manière statique pour limiter la taille du programme ainsi que l'installation de DLL mais cela s'est révélé trop complexe à mettre en oeuvre.
 
 \subsubsection{Sur Mac OS X}
@@ -234,7 +242,7 @@ Sur Mac OS X, notre programme se présente comme une application \textit{.app}, 
 
 Plusieurs outils similaires sont mis à la disposition des développeurs Mac OS X pour créer ces bundles. Nous avons, dans un premier temps, choisi d'utiliser l'utilitaire \textit{qtmacdeployment}, fourni avec Qt. Seulement, il s'est avéré que les bundles créés ne fonctionnaient pas sur toutes les machines en raison d'un problème concernant la bibliothèque dynamique de FMOD. Nous avons finalement opté pour un autre outil, du nom de \textit{install\_name\_tools}, fourni cette fois-ci avec l'environnement XCode, et qui a réglé notre problème de déploiement.
 
-\subsection{Développement agile}
+\subsection{Développement Agile}
 
 En accord avec les conseils de notre responsable pédagogique, nous avons rapidement opté pour l'utilisation d'une méthode de développement de type agile. Le PFA état en effet une excellente occasion pour s'essayer à ce genre de méthodes qui sont de plus en plus employées dans des cadres professionnels.
 
