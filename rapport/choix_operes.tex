@@ -4,7 +4,7 @@ Du début jusqu'à la fin du projet, nous avons dû faire des choix de conduite.
 
 \subsection{Environnement logiciel}
 
-Comme il nous avait été conseillé de faire, nous nous sommes r\ac{API}dement accordés sur l'environnement logiciel a adopter.
+Comme il nous avait été conseillé de faire, nous nous sommes rapidement accordés sur l'environnement logiciel a adopter.
 \begin{itemize}
  \item Utilisation de QtCreator, environnement de développement C++ open-source, multi-OS, et régulièrement mis à jour
  \item Développement sur Linux. Le choix n'était pas évident, étant donné que cet OS n'était pas censé devoir être ciblé. L'intérêt était en fait de ne pas favoriser le développement sur Windows, avant de nous rendre compte que certains de nos choix avaient été faits au détriment de Mac OS, ou inversement.
@@ -20,7 +20,7 @@ Les différents choix énumérés ci-dessus ont été faits au début du projet 
 
 \subsection{Utilisation de Qt}
 
-Le choix d'utiliser la librairie Qt s'est fait très r\ac{API}dement, tant les avantages étaient évidents:
+Le choix d'utiliser la librairie Qt s'est fait très rapidement, tant les avantages étaient évidents:
 \begin{itemize}
  \item Le code source existant utilisait déjà Qt
  \item Qt est utilisable aussi bien sur Mac OS que sur Windows, ainsi que sur Linux
@@ -120,7 +120,7 @@ Nous avons gardé la base de l'interface de l'éditeur, à savoir le système de
 
 \subsubsection*{Quelques mots sur l'interface}
 
-Un des points importants qui étaient à prendre en compte lors du développement était le fait qu'il fallait réaliser un logiciel accessible. L'expérience utilisateur était par conséquent un des facteurs clés. Le problème était que la tâche à réaliser demandait un savoir-faire particulier (par exemple, synchroniser un tableau avec un morceau de musique), et il était donc primordial de la rendre le plus accessible possible, sans pour autant limiter les fonctionnalités.
+Un des points importants qui étaient à prendre en compte lors du développement était la nécessité de réaliser un logiciel accessible. L'expérience utilisateur était par conséquent un des facteurs clés. Le problème était que la tâche que l'utilisateur final doit réaliser avec le logiciel demandait un savoir-faire particulier (par exemple, synchroniser un tableau avec un morceau de musique), et il était donc primordial de la rendre le plus accessible possible, sans pour autant limiter les fonctionnalités.
 
 Nous avons fait le choix de penser en premier lieu à l'expérience utilisateur, en créant une interface qui soit à la fois accessible et esthétique. Nous avons par exemple apporté:
 \begin{itemize}
@@ -141,7 +141,7 @@ Le principal défi aura été de faciliter la synchronisation entre le morceau e
 Une fois les temps associés définis précisément, il est facile de définir le temps de début de chaque accord dans le morceau (voir l'algorithme sur la figure \ref{editor_time_caseitems}). Cette méthode nous a semblé particulièrement adaptée à notre situation, puisque les morceaux ciblés par l'application sont des morceaux qui sont rythmiquement très stables (c'est-à-dire que la durée de chaque mesure est supposée constante). De cette façon, l'utilisateur ne doit que très peu intervenir en comparaison avec l'ancienne méthode qui consistait à lui faire taper chaque temps du morceau.
 
 Néanmoins, si nécessaire, l'utilisateur peut ajuster le temps mesure par mesure, et peut propager le changement sur une mesure à toutes
-les mesures suivantes, comme dans le cas ou on rajouterai deux temps de pause entre un refrain et un couplet par exemple.'
+les mesures suivantes, comme dans le cas ou on rajouterai deux temps de pause entre un refrain et un couplet par exemple.
 
 \begin{figure}[H]
 \begin{lstlisting}
@@ -162,7 +162,7 @@ for (int r = 0 ; r < rmax ; r++) //Parcours des lignes
 \label{editor_time_caseitems}
 \end{figure}
 
-La question était donc de trouver un moyen simple pour pouvoir indiquer de façon précise chacun de ces trois marqueurs temporels. Il nous est tout de suite venu à l'esprit d'utiliser les formes d'ondes du fichier audio désiré pour mieux cibler les débuts des accords. FMOD, pour les données spectrales, et Qt, pour l'interface, ont été très utiles pour l'implémentation. Un zoom et déplacement à la souris, inspiré de l'ergonomie des \ac{DAW} actuels, a également été mis en place sur cette même forme d'onde, ainsi que le positionnement des timers directement \textit{sur} la forme d'onde. Au final, le marquage devient une tâche relativement aisée et r\ac{API}de (figure \ref{editor_audiosync}).
+La question était donc de trouver un moyen simple pour pouvoir indiquer de façon précise chacun de ces trois marqueurs temporels. Il nous est tout de suite venu à l'esprit d'utiliser les formes d'ondes du fichier audio désiré pour mieux cibler les débuts des accords. FMOD, pour les données spectrales, et Qt, pour l'interface, ont été très utiles pour l'implémentation. Un zoom et déplacement à la souris, inspiré de l'ergonomie des \ac{DAW} actuels, a également été mis en place sur cette même forme d'onde, ainsi que le positionnement des timers directement \textit{sur} la forme d'onde. Au final, le marquage devient une tâche relativement aisée et rapide (figure \ref{editor_audiosync}).
 
 Enfin, dans le cas idéal ou le morceau aurait été joué au métronome, on peut directement rentrer le tempo dans l'éditeur.
 \begin{figure}[H]
@@ -209,7 +209,7 @@ setViewport(new QGLWidget);
 \label{player_opengl}
 \end{figure}
 
-et le dessin passe, lorsque c'est possible (c'est le cas sur tout ordinateur récent), par la carte graphique.
+et le dessin passe, lorsque c'est possible (c'est le cas sur tout ordinateur récent avec des pilotes graphiques à jour), par la carte graphique.
 
 \subsection{Installateurs sur les différents systèmes d'exploitation}
 
@@ -250,7 +250,7 @@ Plusieurs outils similaires sont mis à la disposition des développeurs Mac OS 
 
 \subsection{Développement Agile}
 
-En accord avec les conseils de notre responsable pédagogique, nous avons r\ac{API}dement opté pour l'utilisation d'une méthode de développement de type agile. Le PFA état en effet une excellente occasion pour s'essayer à ce genre de méthodes qui sont de plus en plus employées dans des cadres professionnels.
+En accord avec les conseils de notre responsable pédagogique, nous avons rapidement opté pour l'utilisation d'une méthode de développement de type agile. Le PFA état en effet une excellente occasion pour s'essayer à ce genre de méthodes qui sont de plus en plus employées dans des cadres professionnels.
 
 \subsubsection{Réunions clients}
 
