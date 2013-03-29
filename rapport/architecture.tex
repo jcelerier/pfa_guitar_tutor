@@ -10,7 +10,7 @@ L'éditeur était divisé en deux sous-programmes : un qui faisait de la lecture
 tableau. Le lecteur, quant à lui, était aussi divisé en deux sous-programmes : un qui permettait de lire les donnés de l'éditeur (ce n'était pas fonctionnel),
 et un qui permettait de produire un nouveau fichier de données à partir d'un enregistrement de guitare.
 
-Une librairie imposante était fournie ave le lecteur : IScoreLight, une version simplifiée d'un séquenceur complet développé au \ac{LABRI}.
+Une librairie imposante était fournie avec le lecteur : IScoreLight, une version simplifiée d'un séquenceur complet développé au \ac{LABRI}.
 
 Le problème principal était le fait que le lecteur et l'éditeur n'étaient pas capables d'échanger leurs données. Le fonctionnement multi-plateformes n'était lui non plus pas assuré.
 
@@ -26,7 +26,7 @@ Le contrôleur se place entre ces deux entités, en agissant comme relais en syn
 
 L'avantage immédiat du modèle \ac{MVC} est l'organisation du code qu'il induit, ainsi que la facilitation de la maintenance de celui-ci.
 
-\subsubsection{Editeur, Lecteur et \ac{API}}
+\subsubsection{Éditeur, Lecteur et \ac{API}}
 
 Il nous a été conseillé dès le début du projet d'adopter le modèle \ac{MVC}. En plus des avantages cités précédemment, cela nous permettait de découvrir le code existant, de mieux le comprendre, et de commencer à le réorganiser correctement. L'architecture qui a été retenue était de découper le projet en trois parties:
 \begin{itemize}
@@ -45,7 +45,7 @@ L'idée était de mettre ce \textit{reste} dans une bibliothèque qui serait app
 \end{figure}
 
 
-A un autre niveau, nous avons, lorsque c'était facilement appliquable, utilisé le paradigme \ac{MVC} de Qt, ce qui est facilité
+A un autre niveau, nous avons, lorsque c'était facilement applicable, utilisé le paradigme \ac{MVC} de Qt, ce qui est facilité
 par l'utilisation de QtCreator, l'IDE fourni avec Qt. En effet, ce dernier permet de concevoir l'interface graphique directement, et de générer automatiquement le code qui y correspond sans que l'on ait à y toucher, ce qui nous permet de nous concentrer uniquement sur la logique sous-jacente.
 
 On peut notamment s'en rendre compte dans les classes \texttt{TrackProperties} ou \texttt{PartSetter} de l'éditeur.
@@ -251,7 +251,7 @@ passait dans le calcul d'exponentielles complexes dans l'algorithme Butterfly ut
 \end{center}
 \end{figure}
 
-Les fonctions sin et cos sont en fait issues du simple calcul $e^{ix} = cos(x) + i*sin(x)$.
+Les fonctions sinus et cosinus sont en fait issues du simple calcul $e^{ix} = cos(x) + i*sin(x)$.
 Elles sont disponibles sous plusieurs formes car les optimisations du compilateur (\ac{MSVC} ici) ont été activées dans leur niveau maximal (avec l'option \texttt{-O2}).
 
 Or, après étude du code, il est apparu que les exponentielles calculées ont toujours des paramètres connus :
@@ -275,15 +275,15 @@ les coefficients de la fonction butterfly, ce qui permet d'utiliser les capacit�
 \scalebox{1}{
 \begin{tabular}{r |@{\hspace{-2.3pt}$\bullet$ \hspace{5pt}} l}
 
-Début du projet & Editeur et lecteur séparés, pas d'\ac{API}, pas multiplateforme.\\
+Début du projet & Éditeur et lecteur séparés, pas d'\ac{API}, pas multi-plateformes.\\
 Fin Novembre & Création de l'\ac{API}, ajout de FMOD dans l'\ac{API} pour l'éditeur. \\
-Mi-Décembre & Portage Windows, ajout de BOOST. L'éditeur utilise l'\ac{API} et exporte en XML.\\
+Mi-décembre & Portage Windows, ajout de BOOST. L'éditeur utilise l'\ac{API} et exporte en XML.\\
 Début Janvier & Portage Mac OS X. Début de la conception de l'interface du lecteur.\\
 Début Février & Passage à Qt5, suppression de BOOST.\\
-Mi-Février & Compilation native sous Windows.\\
+Mi-février & Compilation native sous Windows.\\
 Fin Février & Suppression de IScoreLight et création d'un nouveau manager pour le lecteur.\\
 Début Mars & Le lecteur utilise entièrement l'\ac{API}.\\
-Mi-Mars & Suppression de libsndfile, avantageusement remplacé par FMOD dans le lecteur.\\
+Mi-mars & Suppression de libsndfile, avantageusement remplacé par FMOD dans le lecteur.\\
 Fin Mars & Utilisation de Clang sur Mac OS X, \ac{MSVC} sur Windows.\\
 
 \end{tabular}
