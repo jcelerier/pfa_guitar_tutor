@@ -221,9 +221,9 @@ void SimpleMusicPlayer::pause()
 
 
 		if(m_player->isPaused())
-			m_playButton->setIcon(QIcon(":/icons/pause.png"));
+            m_playButton->setIcon(QIcon(":/icons/play.png"));
 		else
-			m_playButton->setIcon(QIcon(":/icons/play.png"));
+            m_playButton->setIcon(QIcon(":/icons/pause.png"));
 	}
 }
 

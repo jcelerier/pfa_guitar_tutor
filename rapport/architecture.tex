@@ -268,7 +268,7 @@ Ici, i, d et n sont des entiers. Une manière possible d'améliorer de manière 
 un pré-calcul de ces facteurs, et de les mettre dans un dictionnaire qui serait appelé par la suite.
 
 Ceci dit, pour améliorer temporairement les performances, nous avons tenté d'utiliser OpenMP dans la dernière boucle qui calcule
-les coefficients Butterfly, ce qui permet d'utiliser les capacités des processeurs multicoeur si l'ordinateur cible en dispose. Néanmoins, cela ne fonctionne que sous Linux avec \ac{GCC} et Windows avec \ac{MSVC}, mais pas sous Mac OS X avec Clang.
+les coefficients de la fonction butterfly, ce qui permet d'utiliser les capacités des processeurs multicoeurs si l'ordinateur cible en dispose. Néanmoins, cela ne fonctionne que sous Linux avec \ac{GCC} et Windows avec \ac{MSVC}, mais pas sous Mac OS X avec Clang. Nous avons donc commenté la ligne de code qui y correspondait.
 
 \subsection{Chronologie de l'architecture de notre logiciel}
 

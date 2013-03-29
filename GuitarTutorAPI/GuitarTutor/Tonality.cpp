@@ -39,9 +39,9 @@ Tonality::Tonality(const e_Note note, const e_Alteration alteration /*=UNALTERED
 
 /**
  * @brief Tonality::Tonality
- * @param note Note
+ * @param note : String représentant la tonalité.
  *
- * Construit une tonalité à partir d'une note sous forme de chaînes de caractères.
+ * Construit une tonalité à partir d'une chaîne de caractères.
  */
 Tonality::Tonality(const QString note)
 {

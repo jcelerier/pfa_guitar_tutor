@@ -5,7 +5,7 @@
 #include "TrackChord.h"
 
 /**
- * @brief Représente une partie d'un morceau sous forme d'une suite d'accord.
+ * @brief Représente une partie d'un morceau sous forme d'une suite d'accords.
  * (par exemple l'intro ou un couplet).
  */
 
