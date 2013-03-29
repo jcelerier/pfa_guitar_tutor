@@ -16,12 +16,12 @@ class TempoEdit : public QSpinBox
 
 		virtual void mousePressEvent(QMouseEvent * event);
 		virtual void mouseReleaseEvent(QMouseEvent *event);
-
+		virtual void keyPressEvent(QKeyEvent *event);
 	signals:
 		/**
-		 * @brief hasBeenClicked est émis lorsqu'on clique sur le widget
+		 * @brief hasManuallyChanged est émis lorsqu'on clique ou appuie sur le clavier lorsque sur le widget
 		 */
-		void hasBeenClicked();
+		void hasManuallyChanged();
 
 	public slots:
 		void changed(int);

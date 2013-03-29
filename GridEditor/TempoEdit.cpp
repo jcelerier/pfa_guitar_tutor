@@ -53,7 +53,7 @@ void TempoEdit::changed(int)
  * @brief TempoEdit::mousePressEvent
  * @param event évènement souris
  *
- * Réimplémenté depuis QAbstractSpinBox
+ * Réimplémenté depuis QAbstractSpinBox, permet de déclencher le calcul de bar dans AudioSync
  */
 void TempoEdit::mousePressEvent ( QMouseEvent * event )
 {
@@ -61,10 +61,28 @@ void TempoEdit::mousePressEvent ( QMouseEvent * event )
 
 	if(m_hasChanged == true)
 	{
-		emit hasBeenClicked();
+		emit hasManuallyChanged();
 		m_hasChanged = false;
 	}
 }
+
+/**
+ * @brief TempoEdit::keyPressEvent
+ * @param event évènement clavier
+ *
+ * Réimplémenté depuis QAbstractSpinBox, permet de déclencher le calcul de bar dans AudioSync
+ */
+void TempoEdit::keyPressEvent(QKeyEvent *event)
+{
+	QAbstractSpinBox::keyPressEvent(event);
+
+	if(m_hasChanged == true)
+	{
+		emit hasManuallyChanged();
+		m_hasChanged = false;
+	}
+}
+
 
 /**
  * @brief TempoEdit::mouseReleaseEvent
@@ -75,5 +93,5 @@ void TempoEdit::mousePressEvent ( QMouseEvent * event )
 void TempoEdit::mouseReleaseEvent(QMouseEvent *event)
 {
 	QAbstractSpinBox::mouseReleaseEvent(event);
-	emit hasBeenClicked();
+	emit hasManuallyChanged();
 }
