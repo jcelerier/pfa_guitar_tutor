@@ -4,19 +4,15 @@ Nous présenterons dans cette partie la structure du projet actuel, ainsi que ce
 
 \subsection{Architecture du projet d'origine}
 
-Il nous a fallu un certain temps pour comprendre comment était pensé le projet d'origine.
-
-Principalement, il y avait une séparation complète entre le lecteur et l'éditeur, et aucune bibliothèque partagée entre les deux.
+Il nous a fallu un certain temps pour comprendre comment était pensé le projet d'origine. Principalement, il y avait une séparation complète entre le lecteur et l'éditeur, et aucune bibliothèque partagée entre les deux.
 
 L'éditeur était divisé en deux sous-programmes : un qui faisait de la lecture audio, et un qui permettait de rentrer des accords dans un
-tableau.
-
-Le lecteur était aussi divisé en deux sous-programmes : un qui permettait de lire les donnés de l'éditeur (ce n'était pas fonctionnel),
+tableau. Le lecteur, quant à lui, était aussi divisé en deux sous-programmes : un qui permettait de lire les donnés de l'éditeur (ce n'était pas fonctionnel),
 et un qui permettait de produire un nouveau fichier de données à partir d'un enregistrement de guitare.
 
 Une librairie imposante était fournie ave le lecteur : IScoreLight, une version simplifiée d'un séquenceur complet développé au \ac{LABRI}.
 
-Le problème principal est que le lecteur et l'éditeur n'étaient pas capables d'échanger leurs données. Le fonctionnement multi-plateformes n'était lui non plus pas assuré.
+Le problème principal était le fait que le lecteur et l'éditeur n'étaient pas capables d'échanger leurs données. Le fonctionnement multi-plateformes n'était lui non plus pas assuré.
 
 \subsection{Le modèle \ac{MVC}}
 
