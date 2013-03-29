@@ -28,13 +28,13 @@ La nouvelle interface a donc initialement été développée seule, totalement s
 
 \subsection{Portabilité}
 
-La portabilité du logiciel, notamment sur Mac OS et Windows, faisait partie des principales demandes des clients. Les librairies utilisées jusque là était censées fonctionner à la fois sur Mac OS, Windows et GNU/Linux, et c'était une bonne raison pour ne pas en changer.
+La portabilité du logiciel, notamment sur Mac OS et Windows, faisait partie des principales demandes des clients. Les librairies utilisées jusque là était censées fonctionner à la fois sur Mac OS X, Windows et GNU/Linux, et c'était une bonne raison pour ne pas en changer.
 
 Nous nous sommes cependant rapidement rendus à l'évidence: on ne développe pas un logiciel portable simplement en utilisant des librairies portables.
 
-\subsubsection*{Sur Mac OS}
+\subsubsection*{Sur Mac OS X}
 
-Personne, dans notre équipe, n'ayant une machine sous Mac OS, nous avons dû nous contenter d'une version de Mountain Lion en machine virtuelle. Outre un problème d'extrême lenteur lors de la compilation et divers autres soucis liés à la connexion internet et la reconnaissance des ports USB, il était impossible de vérifier le bon fonctionnement du lecteur, puisque l'entrée audio de la VM n'était pas activée. Nous avons donc pendant longtemps développé \textit{``à l'aveugle''} sous Mac OS, où tout ce que nous pouvions faire était de vérifier que la compilation se faisait correctement.
+Personne, dans notre équipe, n'ayant une machine sous Mac OS X, nous avons dû nous contenter d'une version de Mountain Lion en machine virtuelle. Outre un problème d'extrême lenteur lors de la compilation et divers autres soucis liés à la connexion internet et la reconnaissance des ports USB, il était impossible de vérifier le bon fonctionnement du lecteur, puisque l'entrée audio de la VM n'était pas activable. Nous avons donc pendant longtemps développé \textit{``à l'aveugle''} sous Mac OS, où tout ce que nous pouvions faire était de vérifier que la compilation se faisait correctement.
 Un temps d'adaptation a d'ailleurs été nécessaire car bien que la base du système repose sur Unix, l'ergonomie du système est très différente
 de ce dont nous avons l'habitude.
 
@@ -70,17 +70,15 @@ De ce point de vue, l'arrivée de Qt 5 a été salvatrice pour notre projet : en
 avec la dernière version de \ac{GCC}, la 4.7, ce qui a permis une compilation directe depuis Windows, ainsi que la suppression des
 threads BOOST pour un retour aux pthreads.
 
-Nous avons de plus travaillé sur une branche qui permette la compilation avec \ac{MSVC}, le compilateur C++ Microsoft.
-
-Néanmoins, ce compilateur ne supporte pas le standard C99, qui est utilisé dans la librairie EHPCP pour représenter les types complexes.
+Nous avons de plus travaillé sur une branche qui permette la compilation avec \ac{MSVC}, le compilateur C++ Microsoft. Néanmoins, ce compilateur ne supporte pas le standard C99, qui est utilisé dans la librairie EHPCP pour représenter les types complexes.
 
 Nous avons donc fait une tentative de portage en utilisant la classe C++ Complex, mais les performances étaient moindres au final,
-ce qui nous a poussé à rester sous MinGW pour le rendu. Néanmoins, cela a été l'occasion d'apprendre les
+ce qui nous a poussé à rester sous MinGW pour le rendu. Cela a tout de même été l'occasion d'apprendre les
 bases de l'\ac{API} Windows, notamment pour la gestion des threads.
 
 \paragraph{Installation}
 Une des autres particularités de Windows est qu'il n'y a pas de système de gestion de paquetage comme sous la majorité des systèmes Linux et Mac OS X.
-Il est donc nécessaire de créer nous-même un installeur, nous avons pour ce faire utilisé Advance Installer dans sa version gratuite.
+Il a donc été nécessaire de créer nous-même un installateur. Nous avons pour ce faire utilisé Advance Installer dans sa version gratuite.
 
 Ce logiciel permet un déploiement facile : création d'icônes dans le menu démarrer, sur le bureau, gestion des mises à jour...
 
@@ -94,7 +92,7 @@ Et des mesures ont montré que l'oreille humaine arrivait à percevoir un décal
 Une solution a été développée par Steinberg (l'éditeur du séquenceur Cubase) : le protocole ASIO.
 
 Ce protocole permet d'atteindre de très basses latences (parfois jusqu'à moins d'une milliseconde) avec
-du matériel professionnel et de basses latences avec ASIO4ALL, un logiciel qui permet d'utiliser des cartes son standard de PC avec le protocole ASIO.
+du matériel professionnel et de basses latences avec ASIO4ALL, un logiciel qui permet d'utiliser des cartes son standards de PC avec le protocole ASIO.
 
 Le problème pour l'incorporation de cette technologie dans le projet est qu'il est nécessaire de compiler PortAudio avec le SDK ASIO, ce qui
 ne peut se faire qu'avec \ac{MSVC}, le compilateur Microsoft.
