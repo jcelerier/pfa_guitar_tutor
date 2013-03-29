@@ -27,16 +27,18 @@ La nouvelle interface a donc initialement été développée seule, totalement s
 \end{figure}
 
 
-\subsubsection{Librairie utilisée}
+\subsubsection*{Librairie utilisée}
 
-Lors de la refonte de l'interface, il a fallu choisir une librairie pour la rendre a la fois belle et pratique d'utilisation sans toutefois passer de longues heures à construire des fonctionnalités qui sont parfois déjà codées. Le premier choix qui s'offrait à nous etait de reprendre l'ancienne interface et l'ameliorer, avec uniquement des QWidget, mais cette solution ne permet pas de creer des formes complexes, utilisées dans les jeux. Ensuite, il y avait OpenGL, mais qui, bien que très puissant au niveau graphisme, offrait peu de support d'interactions, et il aurait fallu programmer beaucoup de fonctions pour l'interaction utilisateur. Nous avons alors découvert la librairie QGraphicsView, assez récente dans Qt, qui permet de créer des scènes graphiques pouvant contenir beaucoup d'elements et de les manipuler aisément. Cette classe n'est pas basée sur les widgets et peut se baser sur un viewport OpenGL pour rendre l'affichage plus fluide.
-L'interêt de cette librairie est qu'elle gère nativement les formes, les transformations, les animations, et les effets. Cela permet de creer une interface totalement personnalisée, et adaptative à la taille de l'ecran de l'utilisateur.
+Lors de la refonte de l'interface, il a fallu choisir une librairie pour la rendre à la fois belle et pratique d'utilisation sans toutefois passer de longues heures à construire des fonctionnalités qui sont parfois déjà codées. Le premier choix qui s'offrait à nous était de reprendre l'ancienne interface et l'améliorer, avec uniquement des QWidget, mais cette solution ne permet pas de créer des formes complexes, utilisées dans les jeux. Ensuite, il y avait OpenGL, mais qui, bien que très puissant au niveau graphisme, offrait peu de support d'interaction, et il aurait fallu programmer beaucoup de fonctions pour l'interaction utilisateur.
+
+Nous avons alors découvert la librairie QGraphicsView, assez récente dans Qt, qui permet de créer des scènes graphiques pouvant contenir beaucoup d'élements et de les manipuler aisément. Cette classe n'est pas basée sur les widgets et peut se baser sur un viewport OpenGL pour rendre l'affichage plus fluide.
+L'intérêt de cette librairie est qu'elle gère nativement les formes, les transformations, les animations, et les effets. Cela permet de créer une interface totalement personnalisée, et adaptative à la taille de l'écran de l'utilisateur.
 \\
 Voici le fonctionnement de la librairie : 
 \begin{itemize}
- \item Une vue contient une scène, gère sont affichage, son echelle et son rendu. Elle peut également gêrer les entrées souris et clavier. 
- \item La scène contient et gère tous les elements de l'interface. Elle peut envoyer des signaux de rafraichissement à tous les les elements d'un coup. Elle est le lien entre la vue et le controleur.  
- \item Les élements de la scène sont des Items, qui peuvent être des formes géometriques, des images, du texte ou même un widget, et ils sont directements liés a la scène, certains peuvent être liés entre eux pour être manipulés en même temps. On peut également créer un Item a part entière, c'est le cas du menu, des accords défilants et de la liste d'accords, et de lui affecter un comportement special. 
+ \item Une vue contient une scène, gère son affichage, son échelle et son rendu. Elle peut également gêrer les entrées souris et clavier. 
+ \item La scène contient et gère tous les élements de l'interface. Elle peut envoyer des signaux de rafraichissement à tous les les élements d'un coup. Elle est le lien entre la vue et le contrôleur.  
+ \item Les élements de la scène sont des Items, qui peuvent être des formes géometriques, des images, du texte ou même un widget, et ils sont directements liés a la scène, certains peuvent être liés entre eux pour être manipulés en même temps. On peut également créer un Item a part entière, c'est le cas du menu, des accords défilants et de la liste d'accords, et lui affecter un comportement spécial. 
 \end{itemize}
 
 \begin{figure}[H]
