@@ -7,7 +7,6 @@ Last change on 08/05/12
 #include "GridEditor.h"
 #include <QtWidgets/QFileDialog>
 
-
 /**
  * @brief GridEditor::GridEditor
  *
@@ -409,14 +408,16 @@ void GridEditor::toXML(QString filename)
 {
 	// Pour tester qu'on sauve bien un xml
 	int pos = 0;
-	QRegExp xmlExt("\\S+\\.xml");
+	QRegExp xmlExt("[\\s\\S]+\\.xml");
 	QRegExpValidator *validator = new QRegExpValidator(xmlExt, this);
 
 	if(filename == "")
 		filename = QFileDialog::getSaveFileName(this, "Sauvegarde", ".", tr("XML Files (*.xml)"), 0, QFileDialog::HideNameFilterDetails);
 
 	if(validator->validate(filename, pos) != QValidator::Acceptable)
+	{
 		filename.append(".xml");
+	}
 	LogicalTrack* track = 0;
 
 	try
@@ -441,6 +442,7 @@ void GridEditor::toXML(QString filename)
 	TrackLoader::convertLogicalTrackToXml(track, filename);
 
 	m_filename = filename;
+	delete track;
 	delete validator;
 }
 
@@ -479,7 +481,7 @@ void GridEditor::fromXML()
 
 	m_trackProperties->setTrack(track->getTrackName());
 	m_trackProperties->setArtist(track->getArtist());
-    m_trackProperties->setBarSize(track->getChordsPerBar());
+	m_trackProperties->setBarSize(track->getChordsPerBar());
 	m_barsize = m_trackProperties->getBarSize();
 	m_trackProperties->setComment(track->getComment());
 	m_trackProperties->setTimeSignature(track->getTimeSignature());
@@ -498,7 +500,7 @@ void GridEditor::fromXML()
 	m_saveQueue->firstSave();
 	connect(m_grid, SIGNAL(somethingChanged()), m_saveQueue, SIGNAL(save()));
 
-    emit m_trackProperties->barsizeChanged(track->getChordsPerBar());
+	emit m_trackProperties->barsizeChanged(track->getChordsPerBar());
 
 	delete track;
 }
@@ -560,7 +562,7 @@ bool GridEditor::saveBeforeQuit()
 {
 	if (m_isPanelSet)
 	{
-        QMessageBox msgBox(this);
+		QMessageBox msgBox(this);
 		msgBox.setText(tr("The document has been modified"));
 		msgBox.setInformativeText(tr("Do you want to save your changes?"));
 		msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);

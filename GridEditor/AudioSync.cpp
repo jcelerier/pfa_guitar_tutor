@@ -2,7 +2,6 @@
 #include <Util.hpp>
 #include <QtWidgets/QMessageBox>
 
-#include <QDebug>
 /**
  * @brief AudioSync::AudioSync
  * Constructeur des boutons de synchronisation audio

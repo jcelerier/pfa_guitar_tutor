@@ -4,8 +4,6 @@
 #include <QtWidgets/QMessageBox>
 
 
-
-
 //trucs pour le zoom
 #define MOVE_FACTOR 3
 #define ZOOM_FACTOR 20
@@ -20,6 +18,7 @@
 SimpleMusicPlayer::SimpleMusicPlayer(QWidget* parent) : QWidget(parent)
 {
 	this->m_parent = parent;
+	m_firstPlay = false;
 	m_layout = new QGridLayout();
 	m_playButton = new QToolButton();
 	// TODO : playBarButton = new QToolButton();
@@ -34,7 +33,7 @@ SimpleMusicPlayer::SimpleMusicPlayer(QWidget* parent) : QWidget(parent)
 
 	m_waveform = new Waveform(this, ((AudioWindow*) parent)->width()  - WIDTH_ADJUSTMENT, 300);
 	m_waveformTimeBar = new WaveformTimeBar(QTime(0, 0), this);
-    ((AudioWindow*) parent)->setWaveformData(m_waveform, m_waveformTimeBar);
+	((AudioWindow*) parent)->setWaveformData(m_waveform, m_waveformTimeBar);
 
 
 	m_playButton->setIcon(QIcon(":/icons/play.png"));
@@ -59,9 +58,9 @@ SimpleMusicPlayer::SimpleMusicPlayer(QWidget* parent) : QWidget(parent)
 	connect(m_timer, SIGNAL(timeout()), this, SLOT(updateSlideBar()));
 	connect(m_playTimer, SIGNAL(timeout()), this, SLOT(sendTimeData()));
 
-    connect(this, SIGNAL(sigTimeData(QTime)), m_waveform, SLOT(setPlayerTimer(QTime)));
-    connect(this, SIGNAL(sigTimeData(QTime)), m_waveformTimeBar, SLOT(setPlayerTimer(QTime)));
-    connect(m_waveformTimeBar, SIGNAL(playSliderModified(int)), this, SLOT(changePosition(int)));
+	connect(this, SIGNAL(sigTimeData(QTime)), m_waveform, SLOT(setPlayerTimer(QTime)));
+	connect(this, SIGNAL(sigTimeData(QTime)), m_waveformTimeBar, SLOT(setPlayerTimer(QTime)));
+	connect(m_waveformTimeBar, SIGNAL(playSliderModified(int)), this, SLOT(changePosition(int)));
 
 	connect(m_slideBar, SIGNAL(sliderMoved(int)), this, SLOT(changePosition(int)));
 
@@ -182,6 +181,7 @@ void SimpleMusicPlayer::play()
 	if(m_player->getState())
 	{
 		m_player->pause(false);
+		m_player->play();
 		m_playTimer->start(PLAYTIMER_DELAY);
 	}
 	else
@@ -210,8 +210,16 @@ void SimpleMusicPlayer::pause()
 
 		if(m_player->isPaused())
 		{
-			m_player->pause(false);
-			m_playTimer->start(PLAYTIMER_DELAY);
+			if(m_firstPlay)
+			{
+				m_player->pause(false);
+				m_playTimer->start(PLAYTIMER_DELAY);
+			}
+			else
+			{
+				play();
+				m_firstPlay = true;
+			}
 		}
 		else
 		{
@@ -221,9 +229,9 @@ void SimpleMusicPlayer::pause()
 
 
 		if(m_player->isPaused())
-            m_playButton->setIcon(QIcon(":/icons/play.png"));
+			m_playButton->setIcon(QIcon(":/icons/play.png"));
 		else
-            m_playButton->setIcon(QIcon(":/icons/pause.png"));
+			m_playButton->setIcon(QIcon(":/icons/pause.png"));
 	}
 }
 
@@ -235,13 +243,16 @@ void SimpleMusicPlayer::pause()
 void SimpleMusicPlayer::stop()
 {
 	if(m_player->getState()) {
+		m_firstPlay = false;
 		m_player->stop();
 		m_playTimer->stop();
 		m_currentPosition = 0;
 		m_slideBar->setSliderPosition(0);
-        this->sendTimeData();
+		this->sendTimeData();
 		refreshTimerLabel();
 		m_playButton->setIcon(QIcon(":/icons/play.png"));
+
+
 	}
 }
 
@@ -288,7 +299,7 @@ void SimpleMusicPlayer::updateSlideBar()
 {
 	m_currentPosition = m_player->getPosition();
 	m_slideBar->setSliderPosition(m_currentPosition);
-    this->sendTimeData();
+	this->sendTimeData();
 	refreshTimerLabel();
 	m_timer->start(REFRESH_DELAY);
 }

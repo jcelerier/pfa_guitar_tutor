@@ -103,7 +103,7 @@ MusicManager::~MusicManager()
 	stop();
 	terminateAudioDevice();
 
-#if defined(__MINGW32__) || defined(__linux__) || defined(TARGET_OS_MAC)
+#if defined(__MINGW32__) || defined(__linux__) || defined(__APPLE__)
 	pthread_join(m_musicManagerThread, NULL);
 #endif
 #if defined(_WIN32) &&! defined(__MINGW32__)
@@ -227,7 +227,6 @@ void* MusicManager::initAudioOutput()
 	m_playData.crossFadeCurrentValue = 0;
 	m_playData.musicManager = this;
 
-	qDebug() << "\n=== Now playing. ===";
 	m_err = Pa_OpenStream(
 			&m_playStream,
 			NULL, /* no input */
@@ -298,6 +297,8 @@ void* MusicManager::changeFrameIndex(int newFrameIndex)
 	m_playData.frameIndex = newFrameIndex;
 	m_playData.crossFadeCurrentValue = 1;
 
+	m_recordData.frameIndex = newFrameIndex;
+
 	return NULL;
 }
 
@@ -356,7 +357,7 @@ void MusicManager::run()
 {
 	m_isRunning = true;
 
-#if defined(__MINGW32__) || defined(__linux__) || defined(TARGET_OS_MAC)
+#if defined(__MINGW32__) || defined(__linux__) || defined(__APPLE__)
 	pthread_create(&m_musicManagerThread, NULL, &musicManagerMainFunction, this);
 #endif
 #if defined(_WIN32) &&! defined(__MINGW32__)
@@ -627,7 +628,6 @@ void* musicManagerMainFunction(void* threadArg)
 			Pa_StartStream(musicManager->m_playStream);
 			Pa_StartStream(musicManager->m_inputStream);
 		}
-
 	}
 
 

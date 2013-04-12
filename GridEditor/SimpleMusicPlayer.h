@@ -152,6 +152,11 @@ class SimpleMusicPlayer : public QWidget
 		 * @brief m_waveEnd Sample de l'extrêmité droite de la waveform
 		 */
 		int m_waveEnd;
+
+		/**
+		 * @brief firstPlay Indique si c'est la première fois qu'on fait lecture (remis à 0 au stop)
+		 */
+		bool m_firstPlay;
 };
 
 #endif // SIMPLEMUSICPLAYER_H

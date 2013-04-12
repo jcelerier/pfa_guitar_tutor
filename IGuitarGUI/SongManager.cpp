@@ -21,18 +21,18 @@ SongManager::SongManager(QObject* parent): QObject(parent),
 	m_currentInputChord(0),
 	m_chordControl(new chord_ctrl()),
 
-    m_numberOfValidChordChecks(0),
-    m_numberOfChordChecks(0),
-    m_wellPlayedChordsInCurrentPart(0),
-    m_playedChordsInCurrentPart(0),
-    m_totalPlayedChords(0),
-    m_totalValidatedChords(0),
+	m_numberOfValidChordChecks(0),
+	m_numberOfChordChecks(0),
+	m_wellPlayedChordsInCurrentPart(0),
+	m_playedChordsInCurrentPart(0),
+	m_totalPlayedChords(0),
+	m_totalValidatedChords(0),
 
-    m_precisionInMs(100),
-    m_elapsedTime(0),
-    m_partRepeated(false)
+	m_precisionInMs(100),
+	m_elapsedTime(0),
+	m_partRepeated(false)
 {
-    m_configuration =((Controler*)parent)->getConfiguration();
+	m_configuration =((Controler*)parent)->getConfiguration();
 }
 
 SongManager::~SongManager()
@@ -51,7 +51,7 @@ SongManager::~SongManager()
 void SongManager::load(LogicalTrack* track)
 {
 	m_elapsedTime = 0;
-    m_numberOfValidChordChecks = 0;
+	m_numberOfValidChordChecks = 0;
 	m_track = track;
 
 	QMap<QString, QString> multiTracksMap;
@@ -118,10 +118,10 @@ void SongManager::pause()
 void SongManager::stop()
 {
 	m_musicManager->pause();
-    m_totalPlayedChords = 0;
-    m_totalValidatedChords = 0;
+	m_totalPlayedChords = 0;
+	m_totalValidatedChords = 0;
 
-    if(m_track != 0 && !m_track->getPartTrackList().isEmpty())
+	if(m_track != 0 && !m_track->getPartTrackList().isEmpty())
 	{
 		goToChord(m_track->getPartTrackList()[0]->getTrackChordsList()[0]);
 	}
@@ -146,11 +146,11 @@ void SongManager::mute(bool b)
  */
 void SongManager::goToChord(TrackChord* chord)
 {
-    if(chord == 0)
-        return;
-    int msPosition = chord->getBeginningInMs();
-    m_elapsedTime = msPosition;
-    m_time.restart();
+	if(chord == 0)
+		return;
+	int msPosition = chord->getBeginningInMs();
+	m_elapsedTime = msPosition;
+	m_time.restart();
 	m_musicManager->goToInMs(msPosition);
 
 	// on doit trouver la partie de l'accord
@@ -159,12 +159,12 @@ void SongManager::goToChord(TrackChord* chord)
 	m_currentChord = chord;
 
 
-    m_numberOfChordChecks = 0;
-    m_numberOfValidChordChecks = 0;
+	m_numberOfChordChecks = 0;
+	m_numberOfValidChordChecks = 0;
 
-    resetChordsFrom(m_currentChord);
+	resetChordsFrom(m_currentChord);
 
-    emit updateStats(m_totalValidatedChords, m_totalPlayedChords);
+	emit updateStats(m_totalValidatedChords, m_totalPlayedChords);
 
 	emit updateChord(m_currentChord);
 }
@@ -179,7 +179,7 @@ void SongManager::goToBeginning()
 	m_musicManager->goToInMs(0);
 	m_elapsedTime = 0;
 	m_time.restart();
-    resetChordsFrom(m_currentChord);
+	resetChordsFrom(m_currentChord);
 	emit updateChord(m_currentChord);
 }
 
@@ -191,21 +191,21 @@ void SongManager::goToBeginning()
  */
 void SongManager::resetChordsFrom(TrackChord* chord)
 {
-    int validatedToDelete = 0;
-    TrackChord* iChord = chord;
-    do
-    {
-        if(iChord->isValidated())
-            validatedToDelete ++;
+	int validatedToDelete = 0;
+	TrackChord* iChord = chord;
+	do
+	{
+		if(iChord->isValidated())
+			validatedToDelete ++;
 
-        iChord->setPlayed(false);
-        iChord->setPlaying(false);
-        iChord->validate(false);
+		iChord->setPlayed(false);
+		iChord->setPlaying(false);
+		iChord->validate(false);
 
-    } while((iChord = iChord->next()) != 0);
+	} while((iChord = iChord->next()) != 0);
 
-    if(chord->previous() != 0)
-        m_totalValidatedChords -= validatedToDelete;
+	if(chord->previous() != 0)
+		m_totalValidatedChords -= validatedToDelete;
 }
 
 
@@ -219,7 +219,7 @@ void SongManager::resetChordsFrom(TrackChord* chord)
  */
 void SongManager::compareChordWithPlayed()
 {
-    ++m_numberOfChordChecks;
+	++m_numberOfChordChecks;
 	double buffer[INPUT_FRAMES_PER_BUFFER];
 	chord_init(m_chordControl, SAMPLE_RATE, INPUT_FRAMES_PER_BUFFER, INPUT_FRAMES_PER_BUFFER);
 
@@ -229,11 +229,12 @@ void SongManager::compareChordWithPlayed()
 
 	if(m_currentInputChord != 0) delete m_currentInputChord;
 	m_currentInputChord = new BasicChord(chord_compute(m_chordControl));
+
 	emit currentlyPlayedChord(*m_currentInputChord);
 
 	if( m_currentInputChord->toString() == m_currentChord->getChord() )
 	{
-        ++m_numberOfValidChordChecks;
+		++m_numberOfValidChordChecks;
 	}
 }
 
@@ -263,64 +264,64 @@ void SongManager::checkTime()
 		{
 			chordEndInMs = m_track->getEnd();
 		}
-        if(m_elapsedTime < chordStartInMs)
-            m_currentChord = 0;
+		if(m_elapsedTime < chordStartInMs)
+			m_currentChord = 0;
 		// Si le temps écoulé est dans l'accord listé
 		if(chordStartInMs <= m_elapsedTime && m_elapsedTime < chordEndInMs)
 		{
-            if(m_isFirstChord) {
-                m_isFirstChord = false;
-                m_currentPart = iChord->part();
-                m_currentChord = iChord;
-                emit updateChord(iChord);
-                return;
-            }
+			if(m_isFirstChord) {
+				m_isFirstChord = false;
+				m_currentPart = iChord->part();
+				m_currentChord = iChord;
+				emit updateChord(iChord);
+				return;
+			}
 			// Si cet accord est différend de l'accord actuel
-            if(m_currentChord != iChord)
-            {
-                // On verifie si l'accord est un debut de partie,
-                if(iChord == iChord->part()->getTrackChordsList()[0]
-                        && iChord->previous() != 0)
-                {
-                    // si on boucle sur les parties, et s'il est necessaire de boucler
-                    if(m_configuration->getLoopSetting() && !m_partRepeated
-                            && (double) m_wellPlayedChordsInCurrentPart*100 / (double)iChord->part()->getTrackChordsList().count() < m_configuration->getDifficulty())
-                    {
-                        m_wellPlayedChordsInCurrentPart = 0;
-                        m_totalPlayedChords = m_totalPlayedChords - m_playedChordsInCurrentPart;
-                        m_playedChordsInCurrentPart = 0;
-                        goToChord(iChord->part()->previous()->getTrackChordsList()[0]);
-                        m_partRepeated=true;
-                        return;
-                    }
-                    else
-                    {
-                        m_playedChordsInCurrentPart = 0;
-                        m_wellPlayedChordsInCurrentPart = 0;
-                        m_partRepeated=false;
-                    }
-                }
+			if(m_currentChord != iChord)
+			{
+				// On verifie si l'accord est un debut de partie,
+				if(iChord == iChord->part()->getTrackChordsList()[0]
+						&& iChord->previous() != 0)
+				{
+					// si on boucle sur les parties, et s'il est necessaire de boucler
+					if(m_configuration->getLoopSetting() && !m_partRepeated
+							&& (double) m_wellPlayedChordsInCurrentPart*100 / (double)iChord->part()->getTrackChordsList().count() < m_configuration->getDifficulty())
+					{
+						m_wellPlayedChordsInCurrentPart = 0;
+						m_totalPlayedChords = m_totalPlayedChords - m_playedChordsInCurrentPart;
+						m_playedChordsInCurrentPart = 0;
+						goToChord(iChord->part()->previous()->getTrackChordsList()[0]);
+						m_partRepeated=true;
+						return;
+					}
+					else
+					{
+						m_playedChordsInCurrentPart = 0;
+						m_wellPlayedChordsInCurrentPart = 0;
+						m_partRepeated=false;
+					}
+				}
 
-                m_currentChord->setPlaying(false);
-                if((double)m_numberOfValidChordChecks*100/(double)m_numberOfChordChecks > m_configuration->getDifficulty())
-                {
-                    m_currentChord->validate();
-                    m_totalValidatedChords++;
-                    ++m_wellPlayedChordsInCurrentPart;
-                }
-                m_currentChord->setPlayed();
-                m_totalPlayedChords++;
+				m_currentChord->setPlaying(false);
+				if((double)m_numberOfValidChordChecks*100/(double)m_numberOfChordChecks > m_configuration->getDifficulty())
+				{
+					m_currentChord->validate();
+					m_totalValidatedChords++;
+					++m_wellPlayedChordsInCurrentPart;
+				}
+				m_currentChord->setPlayed();
+				m_totalPlayedChords++;
 
-                m_currentPart = iChord->part();
-                m_currentChord = iChord;
-                m_currentChord->setPlaying();
+				m_currentPart = iChord->part();
+				m_currentChord = iChord;
+				m_currentChord->setPlaying();
 
-                m_numberOfChordChecks = 0;
-                m_numberOfValidChordChecks = 0;
+				m_numberOfChordChecks = 0;
+				m_numberOfValidChordChecks = 0;
 
 				// On émet le nouvel accord
 				emit updateChord(iChord);
-                emit updateStats(m_totalValidatedChords, m_totalPlayedChords);
+				emit updateStats(m_totalValidatedChords, m_totalPlayedChords);
 
 			}
 			return;

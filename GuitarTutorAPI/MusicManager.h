@@ -15,7 +15,7 @@
 #include "MultiTracks.h"
 #include <portaudio.h>
 
-#if defined(__MINGW32__) || defined(__linux__) || defined(TARGET_OS_MAC)
+#if defined(__MINGW32__) || defined(__linux__) || defined(__APPLE__)
 #include <pthread.h>
 #endif
 #if defined(_WIN32) &&! defined(__MINGW32__)
@@ -33,16 +33,16 @@ class MusicManager;
  **/
 typedef struct
 {
-    unsigned short NB_CROSSFADE_FRAMES; //!< ?
-    float			  		 	crossFadeCurrentValue; //!< ?
-    unsigned int    	      	frameIndex; //!< ?
-    unsigned int    	      	crossFadeframeIndex; //!< ?
-    unsigned int          		maxFrameIndex; //!< ?
-    unsigned int 		 		nbChannels; //!< Nombre de canaux utilisés par la piste audio
-    SAMPLE      				*recordedSamples; //!< ?
-    bool						waitStart; //!< ?
+	unsigned short NB_CROSSFADE_FRAMES; //!< ?
+	float			  		 	crossFadeCurrentValue; //!< ?
+	unsigned int    	      	frameIndex; //!< ?
+	unsigned int    	      	crossFadeframeIndex; //!< ?
+	unsigned int          		maxFrameIndex; //!< ?
+	unsigned int 		 		nbChannels; //!< Nombre de canaux utilisés par la piste audio
+	SAMPLE      				*recordedSamples; //!< ?
+	bool						waitStart; //!< ?
 
-    MusicManager* musicManager; //!< Pointeur vers une instance de MusicManager
+	MusicManager* musicManager; //!< Pointeur vers une instance de MusicManager
 }
 soundData;
 
@@ -86,7 +86,7 @@ private:
 	QMap<QString,QString> m_tracksName;
 
 
-#if defined(__MINGW32__) || defined(__linux__) || defined(TARGET_OS_MAC)
+#if defined(__MINGW32__) || defined(__linux__) || defined(__APPLE__)
 	pthread_t m_musicManagerThread;
 #endif
 #if defined(_WIN32) &&! defined(__MINGW32__)
