@@ -551,9 +551,12 @@ void ChordTableWidget::setTimeInfo(const QTime beginning, const QTime bar, const
 	}
 
 	int rmax = rowCount(),
-			cmax = columnCount();
+		cmax = columnCount();
 	bool warningShown = false,
-			modifyAllCases = false;
+		 warning2Shown = false,
+		modifyAllCases = false;
+
+	QTime finalCaseTime;
 
 	for (int r = 0 ; r < rmax ; r++)
 	{
@@ -564,11 +567,18 @@ void ChordTableWidget::setTimeInfo(const QTime beginning, const QTime bar, const
 				modifyAllCases = (QMessageBox::question(this, tr("Before doing something wrong"), tr("Some timers have already been set manually. Do you want to reset them too?"), QMessageBox::Yes | QMessageBox::No)) == QMessageBox::Yes;
 				warningShown = true;
 			}
+
 			QTime caseTime = MsecToTime((TimeToMsec(beginning) + ((TimeToMsec(bar) - TimeToMsec(beginning))/m_barsize)* (r * (cmax - 1) + c)));
 
-			if(caseTime>end) {
+			if(!warning2Shown && caseTime>end) {
 				QMessageBox::warning(this, tr("Error with timers"), tr("There are too many cells for the end timer you entered."));
-				return;
+				warning2Shown = true;
+				caseTime.addMSecs(10);
+				finalCaseTime = caseTime;
+			}
+			else if(warning2Shown)
+			{
+				caseTime = finalCaseTime;
 			}
 			if(modifyAllCases || !((CaseItem*) item(r,c))->isTimerManuallySet())
 				((CaseItem*) item(r,c))->setBeginning(caseTime);
